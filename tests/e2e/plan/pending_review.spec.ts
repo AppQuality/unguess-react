@@ -14,33 +14,24 @@ test.describe('A Plan page in pending request', () => {
     await moduleBuilderPage.open();
   });
 
-  test('has the quotation cta and the save button disabled', async () => {
+  test('has only the confirm button visible', async () => {
     await expect(
       moduleBuilderPage.elements().saveConfigurationCTA()
+    ).not.toBeVisible();
+    await expect(
+      moduleBuilderPage.elements().confirmActivityCTA()
     ).toBeVisible();
     await expect(
-      moduleBuilderPage.elements().saveConfigurationCTA()
-    ).toBeDisabled();
-    await expect(
-      moduleBuilderPage.elements().requestQuotationCTA()
-    ).toBeVisible();
-    await expect(
-      moduleBuilderPage.elements().requestQuotationCTA()
+      moduleBuilderPage.elements().confirmActivityCTA()
     ).toBeDisabled();
   });
   test('all inputs should be readonly', async () => {
     await expect(
       moduleBuilderPage.elements().saveConfigurationCTA()
-    ).toBeVisible();
-    await expect(
-      moduleBuilderPage.elements().saveConfigurationCTA()
-    ).toBeDisabled();
+    ).not.toBeVisible();
     await expect(
       moduleBuilderPage.elements().requestQuotationCTA()
-    ).toBeVisible();
-    await expect(
-      moduleBuilderPage.elements().requestQuotationCTA()
-    ).toBeDisabled();
+    ).not.toBeVisible();
   });
 
   // posso tornare indietro dal preventivo?

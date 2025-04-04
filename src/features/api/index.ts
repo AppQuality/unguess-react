@@ -668,39 +668,34 @@ const injectedRtkApi = api.injectEndpoints({
         },
       }),
     }),
-    deleteWorkspacesByWidPlansAndPid: build.mutation<
-      DeleteWorkspacesByWidPlansAndPidApiResponse,
-      DeleteWorkspacesByWidPlansAndPidApiArg
+    deletePlansByPid: build.mutation<
+      DeletePlansByPidApiResponse,
+      DeletePlansByPidApiArg
     >({
       query: (queryArg) => ({
-        url: `/workspaces/${queryArg.wid}/plans/${queryArg.pid}`,
+        url: `/plans/${queryArg.pid}`,
         method: 'DELETE',
       }),
     }),
-    getWorkspacesByWidPlansAndPid: build.query<
-      GetWorkspacesByWidPlansAndPidApiResponse,
-      GetWorkspacesByWidPlansAndPidApiArg
-    >({
-      query: (queryArg) => ({
-        url: `/workspaces/${queryArg.wid}/plans/${queryArg.pid}`,
-      }),
+    getPlansByPid: build.query<GetPlansByPidApiResponse, GetPlansByPidApiArg>({
+      query: (queryArg) => ({ url: `/plans/${queryArg.pid}` }),
     }),
-    patchWorkspacesByWidPlansAndPid: build.mutation<
-      PatchWorkspacesByWidPlansAndPidApiResponse,
-      PatchWorkspacesByWidPlansAndPidApiArg
+    patchPlansByPid: build.mutation<
+      PatchPlansByPidApiResponse,
+      PatchPlansByPidApiArg
     >({
       query: (queryArg) => ({
-        url: `/workspaces/${queryArg.wid}/plans/${queryArg.pid}`,
+        url: `/plans/${queryArg.pid}`,
         method: 'PATCH',
         body: queryArg.body,
       }),
     }),
-    patchWorkspacesByWidPlansAndPidStatus: build.mutation<
-      PatchWorkspacesByWidPlansAndPidStatusApiResponse,
-      PatchWorkspacesByWidPlansAndPidStatusApiArg
+    patchPlansByPidStatus: build.mutation<
+      PatchPlansByPidStatusApiResponse,
+      PatchPlansByPidStatusApiArg
     >({
       query: (queryArg) => ({
-        url: `/workspaces/${queryArg.wid}/plans/${queryArg.pid}/status`,
+        url: `/plans/${queryArg.pid}/status`,
         method: 'PATCH',
         body: queryArg.body,
       }),
@@ -866,6 +861,7 @@ export type PatchCampaignsByCidApiArg = {
 export type GetCampaignsByCidApiResponse =
   /** status 200 OK */ CampaignWithOutput & {
     isArchived?: boolean;
+    plan?: number;
   };
 export type GetCampaignsByCidApiArg = {
   /** Campaign id */
@@ -1764,12 +1760,11 @@ export type GetWorkspacesByWidPlansApiArg = {
   /** Limit pagination parameter */
   limit?: number;
 };
-export type DeleteWorkspacesByWidPlansAndPidApiResponse = unknown;
-export type DeleteWorkspacesByWidPlansAndPidApiArg = {
-  wid: string;
+export type DeletePlansByPidApiResponse = unknown;
+export type DeletePlansByPidApiArg = {
   pid: string;
 };
-export type GetWorkspacesByWidPlansAndPidApiResponse = /** status 200 OK */ {
+export type GetPlansByPidApiResponse = /** status 200 OK */ {
   id: number;
   config: {
     modules: Module[];
@@ -1790,14 +1785,13 @@ export type GetWorkspacesByWidPlansAndPidApiResponse = /** status 200 OK */ {
     title: string;
     startDate: string;
   };
+  workspace_id: number;
 };
-export type GetWorkspacesByWidPlansAndPidApiArg = {
-  wid: string;
+export type GetPlansByPidApiArg = {
   pid: string;
 };
-export type PatchWorkspacesByWidPlansAndPidApiResponse = unknown;
-export type PatchWorkspacesByWidPlansAndPidApiArg = {
-  wid: string;
+export type PatchPlansByPidApiResponse = unknown;
+export type PatchPlansByPidApiArg = {
   pid: string;
   body: {
     config: {
@@ -1805,10 +1799,8 @@ export type PatchWorkspacesByWidPlansAndPidApiArg = {
     };
   };
 };
-export type PatchWorkspacesByWidPlansAndPidStatusApiResponse =
-  /** status 200 OK */ {};
-export type PatchWorkspacesByWidPlansAndPidStatusApiArg = {
-  wid: string;
+export type PatchPlansByPidStatusApiResponse = /** status 200 OK */ {};
+export type PatchPlansByPidStatusApiArg = {
   pid: string;
   body: {
     status: PlanStatus;
@@ -2472,27 +2464,32 @@ export type ModuleDate = {
 export type SubcomponentTaskVideo = {
   kind: 'video';
   title: string;
-  description: string;
+  description?: string;
+  url?: string;
 };
 export type SubcomponentTaskBug = {
   kind: 'bug';
   title: string;
-  description: string;
+  description?: string;
+  url?: string;
 };
 export type SubcomponentTaskSurvey = {
   kind: 'survey';
   title: string;
-  description: string;
+  description?: string;
+  url?: string;
 };
 export type OutputModuleTaskModerateVideo = {
   kind: 'moderate-video';
   title: string;
-  description: string;
+  description?: string;
+  url?: string;
 };
 export type OutputModuleTaskExplorativeBug = {
   kind: 'explorative-bug';
   title: string;
-  description: string;
+  description?: string;
+  url?: string;
 };
 export type SubcomponentTask =
   | SubcomponentTaskVideo
@@ -2577,6 +2574,69 @@ export type ModuleSetupNote = {
   variant: string;
   output: string;
 };
+export type OutputModuleTouchpointsAppDesktop = {
+  kind: 'app';
+  form_factor: 'desktop';
+  os: {
+    linux?: string;
+    macos?: string;
+    windows?: string;
+  };
+};
+export type OutputModuleTouchpointsAppTablet = {
+  kind: 'app';
+  form_factor: 'tablet';
+  os: {
+    linux?: string;
+    macos?: string;
+    windows?: string;
+  };
+};
+export type OutputModuleTouchpointsAppSmartphone = {
+  kind: 'app';
+  form_factor: 'smartphone';
+  os: {
+    android?: string;
+    ios?: string;
+  };
+};
+export type OutputModuleTouchpointsWebDesktop = {
+  kind: 'web';
+  form_factor: 'desktop';
+  os: {
+    linux?: string;
+    macos?: string;
+    windows?: string;
+  };
+};
+export type OutputModuleTouchpointsWebTablet = {
+  kind: 'web';
+  form_factor: 'tablet';
+  os: {
+    android?: string;
+    ios?: string;
+  };
+};
+export type OutputModuleTouchpointsWebSmartphone = {
+  kind: 'web';
+  form_factor: 'smartphone';
+  os: {
+    android?: string;
+    ios?: string;
+  };
+};
+export type SubcomponentTouchpoints =
+  | OutputModuleTouchpointsAppDesktop
+  | OutputModuleTouchpointsAppTablet
+  | OutputModuleTouchpointsAppSmartphone
+  | OutputModuleTouchpointsWebDesktop
+  | OutputModuleTouchpointsWebTablet
+  | OutputModuleTouchpointsWebSmartphone;
+export type ModuleTouchpoints = {
+  type: 'touchpoints';
+  variant: string;
+  output: SubcomponentTouchpoints[];
+};
 export type Module =
   | ModuleTitle
   | ModuleDate
@@ -2591,7 +2651,8 @@ export type Module =
   | ModuleBrowser
   | ModuleTargetNote
   | ModuleInstructionNote
-  | ModuleSetupNote;
+  | ModuleSetupNote
+  | ModuleTouchpoints;
 export type PlanStatus = 'pending_review' | 'draft' | 'approved';
 export type StrapiTemplate = {
   title: string;
@@ -2708,10 +2769,10 @@ export const {
   useGetWorkspacesByWidCoinsQuery,
   usePostWorkspacesByWidPlansMutation,
   useGetWorkspacesByWidPlansQuery,
-  useDeleteWorkspacesByWidPlansAndPidMutation,
-  useGetWorkspacesByWidPlansAndPidQuery,
-  usePatchWorkspacesByWidPlansAndPidMutation,
-  usePatchWorkspacesByWidPlansAndPidStatusMutation,
+  useDeletePlansByPidMutation,
+  useGetPlansByPidQuery,
+  usePatchPlansByPidMutation,
+  usePatchPlansByPidStatusMutation,
   useGetWorkspacesByWidProjectsQuery,
   useGetWorkspacesByWidTemplatesQuery,
   useDeleteWorkspacesByWidTemplatesAndTidMutation,

@@ -1,6 +1,6 @@
-import { test, expect } from '../../../fixtures/app';
+import draft from '../../../api/plans/pid/_get/200_draft_complete.json';
+import { expect, test } from '../../../fixtures/app';
 import { PlanPage } from '../../../fixtures/Plan';
-import draft from '../../../api/workspaces/wid/plans/pid/_get/200_draft_complete.json';
 
 test.describe('The tasks module defines the testers language', () => {
   let planPage: PlanPage;

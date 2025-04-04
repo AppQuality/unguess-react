@@ -1,27 +1,48 @@
-import { useFormikContext } from 'formik';
-import { useValidationContext } from './FormProvider';
-import { FormBody } from './types';
+import { useAppSelector } from 'src/app/hooks';
+import { components } from 'src/common/schema';
+import { usePatchPlansByPidMutation } from 'src/features/api';
+import { useSetStatus } from '../planModules';
+
+export const useSubmit = (planId: string) => {
+  const { records } = useAppSelector((state) => state.planModules);
+  const [patchPlan, { isLoading }] = usePatchPlansByPidMutation({
+    fixedCacheKey: 'shared-update-plan',
+  });
+
+  const handleSubmit = async () => {
+    try {
+      const modules = Object.entries(records).map(
+        ([key, item]) =>
+          ({
+            ...item,
+            type: key,
+          } as components['schemas']['Module'])
+      );
+      return await patchPlan({
+        pid: planId,
+        body: {
+          config: {
+            modules,
+          },
+        },
+      }).unwrap();
+    } catch (e) {
+      console.log(e);
+      return false;
+    }
+  };
+
+  return { handleSubmit, isLoading };
+};
 
 export const useModuleConfiguration = () => {
-  const { submitForm, isSubmitting, values, setFieldValue } =
-    useFormikContext<FormBody>();
-  const { errors } = useValidationContext();
+  const status = useAppSelector((state) => state.planModules.status);
+  const setStatus = useSetStatus();
 
-  const isValid = !errors || Object.keys(errors).length === 0;
-
-  const setPlanStatus = (status: string) => {
-    setFieldValue('status', status);
-  };
-  const getPlanStatus = () => values.status;
-  const getModules = () => values.modules;
+  const getPlanStatus = () => status;
 
   return {
-    isValid,
-    getModules,
-    errors,
-    submitModuleConfiguration: submitForm,
-    isSubmitting,
-    setPlanStatus,
+    setPlanStatus: setStatus,
     getPlanStatus,
   };
 };

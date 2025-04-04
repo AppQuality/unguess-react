@@ -1,5 +1,6 @@
 import {
   Button,
+  FooterItem,
   Label,
   Message,
   Modal,
@@ -13,7 +14,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { useRequestQuotation } from 'src/features/modules/useRequestQuotation';
-import { useValidationContext } from 'src/features/modules/FormProvider';
+import { useValidateForm } from 'src/features/planModules';
 import { Dates } from '../modules/Dates';
 import { Title } from '../modules/Title';
 
@@ -23,7 +24,7 @@ const SendRequestModal = ({ onQuit }: { onQuit: () => void }) => {
     useRequestQuotation();
   const { addToast } = useToast();
 
-  const { validateForm } = useValidationContext();
+  const { validateForm } = useValidateForm();
 
   const handleConfirm = async () => {
     try {
@@ -109,18 +110,21 @@ const SendRequestModal = ({ onQuit }: { onQuit: () => void }) => {
         </div>
       </Modal.Body>
       <Modal.Footer>
-        <Button isLink onClick={onQuit}>
-          {t('__PLAN_PAGE_MODAL_SEND_REQUEST_BUTTON_CANCEL')}
-        </Button>
-        <Button
-          style={{ marginLeft: 20 }}
-          isAccent
-          isPrimary
-          onClick={handleConfirm}
-          data-qa="request-quotation-modal-cta"
-        >
-          {t('__PLAN_PAGE_MODAL_SEND_REQUEST_BUTTON_CONFIRM')}
-        </Button>
+        <FooterItem>
+          <Button isBasic onClick={onQuit}>
+            {t('__PLAN_PAGE_MODAL_SEND_REQUEST_BUTTON_CANCEL')}
+          </Button>
+        </FooterItem>
+        <FooterItem>
+          <Button
+            isAccent
+            isPrimary
+            onClick={handleConfirm}
+            data-qa="request-quotation-modal-cta"
+          >
+            {t('__PLAN_PAGE_MODAL_SEND_REQUEST_BUTTON_CONFIRM')}
+          </Button>
+        </FooterItem>
       </Modal.Footer>
       <ModalClose onClick={onQuit} />
     </Modal>

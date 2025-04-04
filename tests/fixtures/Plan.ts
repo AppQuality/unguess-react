@@ -55,6 +55,8 @@ export class PlanPage extends UnguessPage {
         this.page.getByRole('button', {
           name: this.i18n.t('__PLAN_REQUEST_QUOTATION_CTA'),
         }),
+      confirmActivityCTA: () =>
+        this.elements().pageHeader().getByTestId('confirm-activity-cta'),
       requestQuotationModalCTA: () =>
         this.page.getByTestId('request-quotation-modal-cta'),
       requestQuotationErrorMessage: () =>
@@ -164,63 +166,60 @@ export class PlanPage extends UnguessPage {
   }
 
   async mockGetDraftPlan() {
-    await this.page.route('*/**/api/workspaces/1/plans/1', async (route) => {
+    await this.page.route('*/**/api/plans/1', async (route) => {
       await route.fulfill({
-        path: 'tests/api/workspaces/wid/plans/pid/_get/200_draft_complete.json',
+        path: 'tests/api/plans/pid/_get/200_draft_complete.json',
       });
     });
   }
 
   async mockGetDraftPlanWithDateError() {
-    await this.page.route('*/**/api/workspaces/1/plans/1', async (route) => {
+    await this.page.route('*/**/api/plans/1', async (route) => {
       await route.fulfill({
-        path: 'tests/api/workspaces/wid/plans/pid/_get/200_draft_complete_date_error.json',
+        path: 'tests/api/plans/pid/_get/200_draft_complete_date_error.json',
       });
     });
   }
 
   // some modules are mandatory, in this api call we mock a plan with only mandatory modules
   async mockGetDraftWithOnlyMandatoryModulesPlan() {
-    await this.page.route('*/**/api/workspaces/1/plans/1', async (route) => {
+    await this.page.route('*/**/api/plans/1', async (route) => {
       await route.fulfill({
-        path: 'tests/api/workspaces/wid/plans/pid/_get/200_draft_mandatory_only.json',
+        path: 'tests/api/plans/pid/_get/200_draft_mandatory_only.json',
       });
     });
   }
 
   // some modules are mandatory, in this api call we mock a plan missing some mandatory modules
   async mockGetDraftWithMissingMandatoryModulesPlan() {
-    await this.page.route('*/**/api/workspaces/1/plans/1', async (route) => {
+    await this.page.route('*/**/api/plans/1', async (route) => {
       await route.fulfill({
-        path: 'tests/api/workspaces/wid/plans/pid/_get/200_draft_missing_mandatory.json',
+        path: 'tests/api/plans/pid/_get/200_draft_missing_mandatory.json',
       });
     });
   }
 
   async mockGetPendingReviewPlan() {
-    await this.page.route('*/**/api/workspaces/1/plans/1', async (route) => {
+    await this.page.route('*/**/api/plans/1', async (route) => {
       await route.fulfill({
-        path: 'tests/api/workspaces/wid/plans/pid/_get/200_pending_review.json',
+        path: 'tests/api/plans/pid/_get/200_pending_review.json',
       });
     });
   }
 
   async mockPatchPlan() {
-    await this.page.route('*/**/api/workspaces/1/plans/1', async (route) => {
+    await this.page.route('*/**/api/plans/1', async (route) => {
       await route.fulfill({
-        path: 'tests/api/workspaces/wid/plans/pid/_patch/200_Example_1.json',
+        path: 'tests/api/plans/pid/_patch/200_Example_1.json',
       });
     });
   }
 
   async mockPatchStatus() {
-    await this.page.route(
-      '*/**/api/workspaces/1/plans/1/status',
-      async (route) => {
-        await route.fulfill({
-          path: 'tests/api/workspaces/wid/plans/pid/status/_patch/request_Example_1.json',
-        });
-      }
-    );
+    await this.page.route('*/**/api/plans/1/status', async (route) => {
+      await route.fulfill({
+        path: 'tests/api/plans/pid/status/_patch/request_Example_1.json',
+      });
+    });
   }
 }

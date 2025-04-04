@@ -8,11 +8,13 @@ import {
   MD,
   Message,
   Span,
+  MediaInput,
 } from '@appquality/unguess-design-system';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as TrashIcon } from 'src/assets/icons/trash-stroke.svg';
+import { ReactComponent as LinkIcon } from 'src/assets/icons/link-stroke.svg';
 import { components } from 'src/common/schema';
 import { useModuleConfiguration } from 'src/features/modules/useModuleConfiguration';
 import { useModuleTasks } from '../hooks';
@@ -42,8 +44,12 @@ const TaskItem = ({
     error && typeof error === 'object' && `tasks.${key}.description` in error
       ? error[`tasks.${key}.description`]
       : false;
+  const invalidUrlError =
+    error && typeof error === 'object' && `tasks.${key}.url` in error
+      ? error[`tasks.${key}.url`]
+      : false;
 
-  const hasError = titleError || descriptionError;
+  const hasError = titleError || descriptionError || invalidUrlError;
   const hasPlaceholder = !title;
 
   const handleBlur = () => {
@@ -101,7 +107,7 @@ const TaskItem = ({
                   </MD>
                   <Input
                     type="text"
-                    disabled={getPlanStatus() !== 'draft'}
+                    readOnly={getPlanStatus() !== 'draft'}
                     value={title}
                     onChange={(e) => update(key, { title: e.target.value })}
                     placeholder={t(
@@ -158,18 +164,36 @@ const TaskItem = ({
                 </>
               )}
 
-              {/* TODO: Add missing task.link value */}
-              {/* <FormField style={{ marginTop: appTheme.space.md }}>
+              <FormField style={{ marginTop: appTheme.space.md }}>
                 <Label>
-                  {t('__PLAN_PAGE_MODULE_TASKS_TASK_LINK_LABEL')}{" "}<Span style={{ fontWeight: 400, color: appTheme.palette.grey[600] }}>{t('__PLAN_PAGE_MODULE_TASKS_TASK_OPTIONAL_LABEL')}</Span>
+                  {t('__PLAN_PAGE_MODULE_TASKS_TASK_LINK_LABEL')}{' '}
+                  <Span
+                    style={{
+                      fontWeight: 400,
+                      color: appTheme.palette.grey[600],
+                    }}
+                  >
+                    {t('__PLAN_PAGE_MODULE_TASKS_TASK_OPTIONAL_LABEL')}
+                  </Span>
                 </Label>
                 <MediaInput
                   start={<LinkIcon />}
-                  value={task.link}
-                  onChange={(value) => update(key, { link: value })}
-                  placeholder={t('__PLAN_PAGE_MODULE_TASKS_TASK_LINK_PLACEHOLDER')}
+                  value={task.url}
+                  onBlur={handleBlur}
+                  onChange={(e) => update(key, { url: e.target.value })}
+                  placeholder={t(
+                    '__PLAN_PAGE_MODULE_TASKS_TASK_LINK_PLACEHOLDER'
+                  )}
+                  readOnly={getPlanStatus() !== 'draft'}
+                  {...(invalidUrlError && { validation: 'error' })}
                 />
-              </FormField> */}
+                {invalidUrlError && (
+                  <Message validation="error">{invalidUrlError}</Message>
+                )}
+                <Message>
+                  {t('__PLAN_PAGE_MODULE_TASKS_TASK_LINK_HINT')}
+                </Message>
+              </FormField>
             </div>
           </AccordionNew.Panel>
         </AccordionNew.Section>

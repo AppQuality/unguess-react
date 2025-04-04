@@ -1,4 +1,4 @@
-import { useGetWorkspacesByWidPlansAndPidQuery } from 'src/features/api';
+import { useGetPlansByPidQuery } from 'src/features/api';
 import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
 
 const usePlan = (planId?: string) => {
@@ -7,9 +7,8 @@ const usePlan = (planId?: string) => {
     isLoading,
     isFetching,
     data: plan,
-  } = useGetWorkspacesByWidPlansAndPidQuery(
+  } = useGetPlansByPidQuery(
     {
-      wid: Number(activeWorkspace?.id).toString(),
       pid: planId ?? '',
     },
     {

@@ -1,65 +1,46 @@
-import { useFormikContext } from 'formik';
 import { useCallback, useMemo } from 'react';
+import { useAppDispatch, useAppSelector } from 'src/app/hooks';
 import { components } from 'src/common/schema';
-import { useValidationContext } from './FormProvider';
-import { FormBody } from './types';
+import {
+  removeModule,
+  setModule,
+  setOutput as setOutputAction,
+  setVariant as setVariantAction,
+} from '../planModules';
 
 export const useModule = <T extends components['schemas']['Module']['type']>(
   moduleName: T
 ) => {
   type ModType = components['schemas']['Module'] & { type: T };
-  const { values, setFieldValue } = useFormikContext<FormBody>();
-  const { validateForm } = useValidationContext();
-
-  const module: ModType | undefined = useMemo(
-    () => values.modules.find((m): m is ModType => m.type === moduleName),
-    [values.modules, moduleName] // Dipendenze limitate
+  const dispatch = useAppDispatch();
+  const module = useAppSelector(
+    (state) => state.planModules.records[`${moduleName}`]
   );
+
   const setVariant = useCallback(
     (variant: ModType['variant']) => {
-      setFieldValue(
-        'modules',
-        values.modules.map((m) =>
-          m.type === moduleName ? { ...m, variant } : m
-        )
-      );
+      dispatch(setVariantAction({ type: moduleName, variant }));
     },
-    [moduleName, setFieldValue, values.modules]
+    [moduleName]
   );
 
   const setOutput = useCallback(
     (output: ModType['output']) => {
-      setFieldValue(
-        'modules',
-        values.modules.map((m) =>
-          m.type === moduleName ? { ...m, output } : m
-        )
-      );
+      dispatch(setOutputAction({ type: moduleName, output }));
     },
-    [moduleName, setFieldValue, values.modules]
+    [moduleName]
   );
 
   const set = useCallback(
     (value: ModType) => {
-      setFieldValue(
-        'modules',
-        module
-          ? values.modules.map((m) =>
-              m.type === moduleName ? { ...m, ...value } : m
-            )
-          : [...values.modules, { ...value }]
-      );
+      dispatch(setModule({ type: moduleName, module: value }));
     },
-    [module, moduleName, setFieldValue, values.modules]
+    [module, moduleName]
   );
 
   const remove = useCallback(() => {
-    setFieldValue(
-      'modules',
-      values.modules.filter((m) => m.type !== moduleName)
-    );
-    validateForm();
-  }, [moduleName, setFieldValue, values.modules]);
+    dispatch(removeModule(moduleName));
+  }, [moduleName]);
 
   const getConfig = (
     type: components['schemas']['Module']['type']
@@ -184,15 +165,24 @@ export const useModule = <T extends components['schemas']['Module']['type']>(
           variant: 'default',
           output: '',
         };
+      case 'touchpoints':
+        return {
+          type,
+          variant: 'default',
+          output: [],
+        };
       default:
         return null;
     }
   };
 
-  const add = useCallback(() => {
+  const add = () => {
     if (!getConfig(moduleName)) return;
-    setFieldValue('modules', [...values.modules, getConfig(moduleName)]);
-  }, [setFieldValue, values.modules]);
+
+    const newModule = getConfig(moduleName);
+    if (!newModule) return;
+    dispatch(setModule({ type: moduleName, module: newModule }));
+  };
 
   return useMemo(
     () => ({ value: module, set, remove, setOutput, setVariant, add }),

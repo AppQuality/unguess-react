@@ -1,14 +1,15 @@
 import { GlobalAlert, PageHeader } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
+import { useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
-import styled from 'styled-components';
+import { useGetPlansByPidQuery } from 'src/features/api';
+import { getPlanStatus } from 'src/pages/Dashboard/hooks/getPlanStatus';
 import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
-import { useGetWorkspacesByWidPlansAndPidQuery } from 'src/features/api';
-import { useParams } from 'react-router-dom';
+import styled from 'styled-components';
+import { Controls } from '../../Controls';
 import { BreadCrumbTabs } from './BreadCrumbTabs';
 import { TitleGroup } from './TitleGroup';
-import { Controls } from '../../Controls';
 
 const StyledWrapper = styled.div`
   width: 100%;
@@ -24,13 +25,21 @@ const SectionWrapper = styled.div`
   }
 `;
 
+const StickyLayoutWrapper = styled(LayoutWrapper)`
+  background-color: ${(p) => p.theme.palette.white};
+  @media (min-width: ${(p) => p.theme.breakpoints.md}) {
+    position: sticky;
+    top: 0;
+    z-index: 101;
+  }
+`;
+
 const PlanPageHeader = () => {
   const { t } = useTranslation();
   const { activeWorkspace } = useActiveWorkspace();
   const { planId } = useParams();
-  const { data: plan } = useGetWorkspacesByWidPlansAndPidQuery(
+  const { data: plan } = useGetPlansByPidQuery(
     {
-      wid: Number(activeWorkspace?.id).toString(),
       pid: Number(planId).toString(),
     },
     {
@@ -38,11 +47,11 @@ const PlanPageHeader = () => {
     }
   );
 
-  const planStatus =
-    plan?.status === 'pending_review' ? plan?.quote?.status : plan?.status;
   const getGlobalAlert = () => {
+    if (!plan) return null;
+    const { status: planStatus } = getPlanStatus(plan, t);
     switch (planStatus) {
-      case 'pending':
+      case 'submitted':
         return (
           <GlobalAlert
             message={<>{t('PLAN_GLOBAL_ALERT_SUBMITTED_STATE_MESSAGE')}</>}
@@ -50,7 +59,7 @@ const PlanPageHeader = () => {
             type="info"
           />
         );
-      case 'proposed':
+      case 'pending_quote_review':
         return (
           <GlobalAlert
             message={<>{t('PLAN_GLOBAL_ALERT_AWATING_STATE_MESSAGE')}</>}
@@ -73,7 +82,7 @@ const PlanPageHeader = () => {
 
   return (
     <>
-      <LayoutWrapper isNotBoxed>
+      <StickyLayoutWrapper isNotBoxed id="sticky-plan-page-header">
         <PageHeader
           style={{
             padding: `${appTheme.space.md} 0`,
@@ -95,7 +104,7 @@ const PlanPageHeader = () => {
             </StyledWrapper>
           </PageHeader.Main>
         </PageHeader>
-      </LayoutWrapper>
+      </StickyLayoutWrapper>
       {getGlobalAlert()}
     </>
   );

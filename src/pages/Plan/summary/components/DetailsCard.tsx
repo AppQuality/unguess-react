@@ -8,16 +8,17 @@ import {
   PlanTag,
   SM,
 } from '@appquality/unguess-design-system';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
 import { Divider } from 'src/common/components/divider';
+import { usePatchPlansByPidStatusMutation } from 'src/features/api';
 import { useModule } from 'src/features/modules/useModule';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { WidgetSpecialCard } from 'src/pages/Campaign/widgetCards/common/StyledSpecialCard';
 import { getPlanStatus } from 'src/pages/Dashboard/hooks/getPlanStatus';
 import styled from 'styled-components';
-import { StickyContainer } from '../../common/StickyContainer';
 import { usePlan } from '../../hooks/usePlan';
 
 type IPlanStatus = 'draft' | 'submitted' | 'pending_quote_review' | 'approved';
@@ -102,9 +103,13 @@ const Content = ({
 const Cta = ({
   status,
   campaignId,
+  isSubmitted,
+  onClick,
 }: {
   status: IPlanStatus;
   campaignId: number;
+  isSubmitted: boolean;
+  onClick: () => void;
 }) => {
   const { t } = useTranslation();
   const campaignRoute = useLocalizeRoute(`campaigns/${campaignId}`);
@@ -125,7 +130,8 @@ const Cta = ({
         isPrimary
         isStretched
         type="button"
-        disabled={status === 'submitted'}
+        disabled={status === 'submitted' || isSubmitted}
+        onClick={onClick}
       >
         {t('__PLAN_PAGE_SUMMARY_TAB_CONFIRMATION_CARD_CONFIRM_CTA')}
       </Button>
@@ -148,6 +154,9 @@ export const DetailsCard = () => {
   const { planId } = useParams();
   const { plan } = usePlan(planId);
   const { value } = useModule('dates');
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
+  const [patchStatus] = usePatchPlansByPidStatusMutation();
 
   if (!plan) return null;
 
@@ -162,22 +171,35 @@ export const DetailsCard = () => {
   const { status } = getPlanStatus(plan, t);
 
   return (
-    <StickyContainer>
-      <WidgetSpecialCard style={{ height: 'auto' }}>
-        <WidgetSpecialCard.Meta justifyContent="space-between">
-          <>
-            <MD isBold style={{ color: getColor(appTheme.palette.grey, 800) }}>
-              {t('__PLAN_PAGE_SUMMARY_TAB_ACTIVITY_INFO_TITLE')}
-            </MD>
-            <PlanTag {...getPlanStatus(plan, t)} />
-          </>
-        </WidgetSpecialCard.Meta>
-        <Divider />
-        <Content date={planDate()} quote={plan?.quote?.value} status={status} />
-        <Footer>
-          <Cta status={status} campaignId={plan?.campaign?.id ?? 0} />
-        </Footer>
-      </WidgetSpecialCard>
-    </StickyContainer>
+    <WidgetSpecialCard style={{ height: 'auto' }}>
+      <WidgetSpecialCard.Meta justifyContent="space-between">
+        <>
+          <MD isBold style={{ color: getColor(appTheme.palette.grey, 800) }}>
+            {t('__PLAN_PAGE_SUMMARY_TAB_ACTIVITY_INFO_TITLE')}
+          </MD>
+          <PlanTag {...getPlanStatus(plan, t)} />
+        </>
+      </WidgetSpecialCard.Meta>
+      <Divider />
+      <Content date={planDate()} quote={plan?.quote?.value} status={status} />
+      <Footer>
+        <Cta
+          isSubmitted={isSubmitted}
+          onClick={() => {
+            setIsSubmitted(true);
+            patchStatus({
+              pid: planId?.toString() ?? '',
+              body: { status: 'approved' },
+            })
+              .unwrap()
+              .then(() => {
+                setIsSubmitted(false);
+              });
+          }}
+          status={status}
+          campaignId={plan?.campaign?.id ?? 0}
+        />
+      </Footer>
+    </WidgetSpecialCard>
   );
 };

@@ -525,22 +525,21 @@ export interface paths {
       };
     };
   };
-  '/workspaces/{wid}/plans/{pid}': {
+  '/plans/{pid}': {
     get: operations['get-workspaces-wid-plans-pid'];
     delete: operations['delete-workspaces-wid-plans-pid'];
     patch: operations['patch-workspaces-wid-plans-pid'];
     parameters: {
       path: {
-        wid: string;
         pid: string;
       };
     };
   };
-  '/workspaces/{wid}/plans/{pid}/status': {
+  '/plans/{pid}/status': {
+    /**  */
     patch: operations['patch-workspaces-wid-plans-pid-status'];
     parameters: {
       path: {
-        wid: string;
         pid: string;
       };
     };
@@ -910,7 +909,8 @@ export interface components {
       | components['schemas']['ModuleBrowser']
       | components['schemas']['ModuleTargetNote']
       | components['schemas']['ModuleInstructionNote']
-      | components['schemas']['ModuleSetupNote'];
+      | components['schemas']['ModuleSetupNote']
+      | components['schemas']['ModuleTouchpoints'];
     ModuleDate: {
       /** @enum {string} */
       type: 'dates';
@@ -943,6 +943,13 @@ export interface components {
       type: 'tasks';
       variant: string;
       output: components['schemas']['OutputModuleTask'][];
+    };
+    /** ModuleTouchpoints */
+    ModuleTouchpoints: {
+      /** @enum {string} */
+      type: 'touchpoints';
+      variant: string;
+      output: components['schemas']['OutputModuleTouchpoints'][];
     };
     /** ModuleAge */
     ModuleAge: {
@@ -1467,7 +1474,9 @@ export interface components {
       /** @enum {string} */
       kind: 'bug';
       title: string;
-      description: string;
+      description?: string;
+      /** Format: uri */
+      url?: string;
     };
     /** OutputModuleAge */
     OutputModuleAge: {
@@ -1480,28 +1489,36 @@ export interface components {
       /** @enum {string} */
       kind: 'video';
       title: string;
-      description: string;
+      description?: string;
+      /** Format: uri */
+      url?: string;
     };
     /** SubcomponentTaskSurvey */
     OutputModuleTaskSurvey: {
       /** @enum {string} */
       kind: 'survey';
       title: string;
-      description: string;
+      description?: string;
+      /** Format: uri */
+      url?: string;
     };
     /** OutputModuleTaskModerateVideo */
     OutputModuleTaskModerateVideo: {
       /** @enum {string} */
       kind: 'moderate-video';
       title: string;
-      description: string;
+      description?: string;
+      /** Format: uri */
+      url?: string;
     };
     /** OutputModuleTaskExplorativeBug */
     OutputModuleTaskExplorativeBug: {
       /** @enum {string} */
       kind: 'explorative-bug';
       title: string;
-      description: string;
+      description?: string;
+      /** Format: uri */
+      url?: string;
     };
     /** SubcomponentTask */
     OutputModuleTask:
@@ -1510,6 +1527,83 @@ export interface components {
       | components['schemas']['OutputModuleTaskSurvey']
       | components['schemas']['OutputModuleTaskModerateVideo']
       | components['schemas']['OutputModuleTaskExplorativeBug'];
+    /** SubcomponentTouchpoints */
+    OutputModuleTouchpoints:
+      | components['schemas']['OutputModuleTouchpointsAppDesktop']
+      | components['schemas']['OutputModuleTouchpointsAppTablet']
+      | components['schemas']['OutputModuleTouchpointsAppSmartphone']
+      | components['schemas']['OutputModuleTouchpointsWebDesktop']
+      | components['schemas']['OutputModuleTouchpointsWebTablet']
+      | components['schemas']['OutputModuleTouchpointsWebSmartphone'];
+    /** OutputModuleTouchpointsAppDesktop */
+    OutputModuleTouchpointsAppDesktop: {
+      /** @enum {undefined} */
+      kind: 'app';
+      /** @enum {undefined} */
+      form_factor: 'desktop';
+      os: {
+        linux?: string;
+        macos?: string;
+        windows?: string;
+      };
+    };
+    /** OutputModuleTouchpointsAppTablet */
+    OutputModuleTouchpointsAppTablet: {
+      /** @enum {undefined} */
+      kind: 'app';
+      /** @enum {undefined} */
+      form_factor: 'tablet';
+      os: {
+        linux?: string;
+        macos?: string;
+        windows?: string;
+      };
+    };
+    /** OutputModuleTouchpointsAppSmartphone */
+    OutputModuleTouchpointsAppSmartphone: {
+      /** @enum {undefined} */
+      kind: 'app';
+      /** @enum {undefined} */
+      form_factor: 'smartphone';
+      os: {
+        android?: string;
+        ios?: string;
+      };
+    };
+    /** OutputModuleTouchpointsWebDesktop */
+    OutputModuleTouchpointsWebDesktop: {
+      /** @enum {undefined} */
+      kind: 'web';
+      /** @enum {undefined} */
+      form_factor: 'desktop';
+      os: {
+        linux?: string;
+        macos?: string;
+        windows?: string;
+      };
+    };
+    /** OutputModuleTouchpointsWebTablet */
+    OutputModuleTouchpointsWebTablet: {
+      /** @enum {undefined} */
+      kind: 'web';
+      /** @enum {undefined} */
+      form_factor: 'tablet';
+      os: {
+        android?: string;
+        ios?: string;
+      };
+    };
+    /** OutputModuleTouchpointsWebSmartphone */
+    OutputModuleTouchpointsWebSmartphone: {
+      /** @enum {undefined} */
+      kind: 'web';
+      /** @enum {undefined} */
+      form_factor: 'smartphone';
+      os: {
+        android?: string;
+        ios?: string;
+      };
+    };
     /** OutputModuleLiteracy */
     OutputModuleLiteracy: {
       /** @enum {string} */
@@ -1763,6 +1857,7 @@ export interface operations {
         content: {
           'application/json': components['schemas']['CampaignWithOutput'] & {
             isArchived?: boolean;
+            plan?: number;
           };
         };
       };
@@ -3724,7 +3819,6 @@ export interface operations {
   'get-workspaces-wid-plans-pid': {
     parameters: {
       path: {
-        wid: string;
         pid: string;
       };
     };
@@ -3762,7 +3856,6 @@ export interface operations {
   'delete-workspaces-wid-plans-pid': {
     parameters: {
       path: {
-        wid: string;
         pid: string;
       };
     };
@@ -3774,7 +3867,6 @@ export interface operations {
   'patch-workspaces-wid-plans-pid': {
     parameters: {
       path: {
-        wid: string;
         pid: string;
       };
     };
@@ -3796,10 +3888,10 @@ export interface operations {
       };
     };
   };
+  /**  */
   'patch-workspaces-wid-plans-pid-status': {
     parameters: {
       path: {
-        wid: string;
         pid: string;
       };
     };

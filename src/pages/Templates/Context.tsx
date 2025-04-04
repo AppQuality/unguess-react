@@ -1,48 +1,39 @@
-import { createContext, ReactNode, useContext, useMemo, useState } from 'react';
+import {
+  createContext,
+  Dispatch,
+  ReactNode,
+  SetStateAction,
+  useContext,
+  useMemo,
+  useState,
+} from 'react';
 import {
   CpReqTemplate,
   useGetWorkspacesByWidTemplatesQuery,
 } from 'src/features/api';
 import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
-import { v4 as uuidv4 } from 'uuid'; // Import a UUID generator library like 'uuid'
 
 interface TemplatesContextProps {
-  projectId: number | null;
-  setProjectId: (projectId: number) => void;
-  fieldIsTouched: boolean;
-  setFieldIsTouched: (fieldIsTouched: boolean) => void;
   isDrawerOpen: boolean;
-  setIsDrawerOpen: (isDrawerOpen: boolean) => void;
+  setIsDrawerOpen: Dispatch<SetStateAction<boolean>>;
   templatesByCategory: {
     tailored: CpReqTemplate[];
     unguess: CpReqTemplate[];
   };
-  selectedTemplate?: SelectedTemplate;
-  setSelectedTemplate: (template: CpReqTemplate) => void;
-}
-
-interface SelectedTemplate extends CpReqTemplate {
-  requirementsItems?: { value: string; id: string }[];
-  isTailored: boolean;
+  selectedTemplate?: CpReqTemplate;
+  setSelectedTemplate: Dispatch<SetStateAction<CpReqTemplate | undefined>>;
 }
 
 const TemplatesContext = createContext<TemplatesContextProps | null>(null);
-
-export const isTemplateTailored = (template: CpReqTemplate) =>
-  'workspace_id' in template && typeof template.workspace_id === 'number';
 
 export const TemplatesContextProvider = ({
   children,
 }: {
   children: ReactNode;
 }) => {
-  const [projectId, setProjectId] =
-    useState<TemplatesContextProps['projectId']>(null);
-  const [fieldIsTouched, setFieldIsTouched] =
-    useState<TemplatesContextProps['fieldIsTouched']>(false);
   const [isDrawerOpen, setIsDrawerOpen] =
     useState<TemplatesContextProps['isDrawerOpen']>(false);
-  const [selectedTemplate, setTemplate] =
+  const [selectedTemplate, setSelectedTemplate] =
     useState<TemplatesContextProps['selectedTemplate']>();
 
   const { activeWorkspace } = useActiveWorkspace();
@@ -73,24 +64,8 @@ export const TemplatesContextProvider = ({
     );
   }, [data]);
 
-  // Function to update the selectedTemplate and add UUIDs to the requirements list
-  const setSelectedTemplate = (template: CpReqTemplate) => {
-    const updatedTemplate = {
-      ...template,
-      isTailored: isTemplateTailored(template),
-      requirementsItems: template.strapi?.requirements?.list.map(
-        (requirement) => ({ value: requirement, id: uuidv4() })
-      ),
-    };
-    setTemplate(updatedTemplate);
-  };
-
   const templatesContextValue = useMemo(
     () => ({
-      projectId,
-      setProjectId,
-      fieldIsTouched,
-      setFieldIsTouched,
       isDrawerOpen,
       setIsDrawerOpen,
       templatesByCategory,
@@ -98,14 +73,11 @@ export const TemplatesContextProvider = ({
       setSelectedTemplate,
     }),
     [
-      projectId,
-      setProjectId,
-      fieldIsTouched,
-      setFieldIsTouched,
       isDrawerOpen,
       setIsDrawerOpen,
       templatesByCategory,
       selectedTemplate,
+      setSelectedTemplate,
     ]
   );
 

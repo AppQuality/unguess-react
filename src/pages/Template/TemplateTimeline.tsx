@@ -11,16 +11,14 @@ import {
   XXL,
   retrieveComponentStyles,
 } from '@appquality/unguess-design-system';
+import { useMemo } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { Link } from 'react-scroll';
-import { useParams } from 'react-router-dom';
 import { ReactComponent as CheckIcon } from 'src/assets/icons/check-icon.svg';
 import { StyledDivider } from 'src/common/components/navigation/asideNav';
-import { extractStrapiData } from 'src/common/getStrapiData';
+import { GetWorkspacesByWidTemplatesAndTidApiResponse } from 'src/features/api';
 import styled from 'styled-components';
-import i18n from 'src/i18n';
-import { useCampaignTemplateById } from 'src/hooks/useCampaignTemplateById';
-import { TemplateExpressCta } from './TemplateExpressCta';
+import { LaunchActivityCTA } from './LaunchActivityCTA';
 
 const StickyContainer = styled.div`
   position: sticky;
@@ -99,24 +97,55 @@ const StyledGrid = styled(Grid)`
   }
 `;
 
-const TemplateTimeline = () => {
+const TemplateTimeline = ({
+  template,
+  handleLaunchActivity,
+}: {
+  template: GetWorkspacesByWidTemplatesAndTidApiResponse;
+  handleLaunchActivity: () => void;
+}) => {
   const { t } = useTranslation();
-  const { templateId } = useParams();
-  const STRAPI_URL = process.env.REACT_APP_STRAPI_URL || '';
-  const { data: template } = useCampaignTemplateById(templateId || '');
+
+  const memoizedTemplate = useMemo(
+    () => ({
+      ...template,
+      strapi: {
+        ...template.strapi,
+        why: template.strapi?.why?.map((item, index) => ({
+          ...item,
+          key: `why-${index}`,
+        })),
+        what: template.strapi?.what,
+        how: template.strapi?.how?.map((item, index) => ({
+          ...item,
+          key: `how-${index}`,
+        })),
+        requirements: {
+          ...template.strapi?.requirements,
+          list: template.strapi?.requirements?.list.map((item, index) => ({
+            value: item,
+            key: `requiremens-${index}`,
+          })),
+        },
+      },
+    }),
+    [template]
+  );
 
   return (
     <StyledGrid gutters="lg">
       <Row>
         <Col xs={12} lg={3}>
-          {(template?.why || template?.what || template?.how) && (
+          {(memoizedTemplate.strapi?.why ||
+            memoizedTemplate.strapi?.what ||
+            memoizedTemplate.strapi?.how) && (
             <StickyContainer>
               <StyledCardContainer>
                 <StickyContainerTitle>
                   {t('__CATALOG_DETAIL_STICKY_CONTAINER_ABOUT_TITLE')}
                 </StickyContainerTitle>
                 <StyledOrderedList>
-                  {template?.why && (
+                  {memoizedTemplate.strapi?.why && (
                     <StyledOrderListItem>
                       <Link
                         to="why-card"
@@ -131,7 +160,7 @@ const TemplateTimeline = () => {
                     </StyledOrderListItem>
                   )}
 
-                  {template?.what && (
+                  {memoizedTemplate.strapi?.what && (
                     <StyledOrderListItem>
                       <Link
                         to="what-card"
@@ -146,7 +175,7 @@ const TemplateTimeline = () => {
                     </StyledOrderListItem>
                   )}
 
-                  {template?.how && (
+                  {memoizedTemplate.strapi?.how && (
                     <StyledOrderListItem>
                       <Link
                         to="how-card"
@@ -166,61 +195,56 @@ const TemplateTimeline = () => {
           )}
         </Col>
         <Col xs={12} lg={6}>
-          {template?.why && (
+          {memoizedTemplate.strapi?.why && (
             <TimelineCard id="why-card" className="why-card">
               <StepTitle>
                 <Trans i18nKey="__CATALOG_DETAIL_TIMELINE_WHY_TITLE">
                   <Span isBold>Why</Span> to choose this campaign
                 </Trans>
               </StepTitle>
-              {template?.why.reasons && (
+              {memoizedTemplate.strapi?.why && (
                 <>
                   <StepParagraph>
                     {t('__CATALOG_DETAIL_TIMELINE_WHY_DESCRIPTION')}
                   </StepParagraph>
                   <StyledDivider />
                   <Timeline>
-                    {template?.why.reasons.map((reason: any) => {
-                      const icon = extractStrapiData(reason.icon);
-                      const iconUrl = icon.url;
-
-                      return (
-                        <Timeline.Item
-                          key={`reason_${reason.id}`}
-                          icon={
-                            <TimelineIcon
-                              width={24}
-                              height={24}
-                              src={`${STRAPI_URL}${iconUrl}`}
-                              alt={reason.title}
-                            />
-                          }
-                          hiddenLine
-                        >
-                          <Timeline.Content>
-                            <Paragraph style={{ fontWeight: 500 }}>
-                              {reason.title}
-                            </Paragraph>
-                            {reason.description}
-                          </Timeline.Content>
-                        </Timeline.Item>
-                      );
-                    })}
+                    {memoizedTemplate.strapi?.why.map((reason) => (
+                      <Timeline.Item
+                        key={`reason_${reason.key}`}
+                        icon={
+                          <TimelineIcon
+                            width={24}
+                            height={24}
+                            src={reason.icon}
+                            alt={reason.title}
+                          />
+                        }
+                        hiddenLine
+                      >
+                        <Timeline.Content>
+                          <Paragraph style={{ fontWeight: 500 }}>
+                            {reason.title}
+                          </Paragraph>
+                          {reason.description}
+                        </Timeline.Content>
+                      </Timeline.Item>
+                    ))}
                   </Timeline>
                 </>
               )}
-              {template?.why.advantages && (
+              {memoizedTemplate.strapi?.advantages && (
                 <AdvantagesContainer>
                   <SectionTitle>
                     {t('__CATALOG_DETAIL_TIMELINE_ADVANTAGES_TITLE')}
                   </SectionTitle>
                   <StyledDivider />
                   <Timeline>
-                    {template?.why.advantages.map((advantage: any) => (
+                    {memoizedTemplate.strapi?.advantages.map((advantage) => (
                       <Timeline.Item hiddenLine icon={<CheckIcon />}>
                         <Timeline.Content>
                           <Paragraph style={{ fontWeight: 500 }}>
-                            {advantage.item}
+                            {advantage}
                           </Paragraph>
                         </Timeline.Content>
                       </Timeline.Item>
@@ -231,27 +255,29 @@ const TemplateTimeline = () => {
             </TimelineCard>
           )}
 
-          {template?.what && (
+          {memoizedTemplate.strapi?.what && (
             <TimelineCard id="what-card" className="what-card">
               <StepTitle>
                 <Trans i18nKey="__CATALOG_DETAIL_TIMELINE_WHAT_TITLE">
                   <Span isBold>What</Span> you get
                 </Trans>
               </StepTitle>
-              <StepParagraph>{template?.what?.description}</StepParagraph>
+              <StepParagraph>
+                {memoizedTemplate.strapi?.what?.description}
+              </StepParagraph>
               <>
                 <SectionTitle>
                   {t('__CATALOG_DETAIL_TIMELINE_WHAT_RESULTS_TITLE')}
                 </SectionTitle>
                 <StyledDivider />
-                {template.what?.goalText && (
-                  <Paragraph>{template?.what?.goalText}</Paragraph>
+                {memoizedTemplate.strapi?.what.goal && (
+                  <Paragraph>{memoizedTemplate.strapi?.what.goal}</Paragraph>
                 )}
               </>
             </TimelineCard>
           )}
 
-          {template?.how && (
+          {memoizedTemplate.strapi?.how && (
             <TimelineCard id="how-card" className="how-card">
               <StepTitle>
                 <Trans i18nKey="__CATALOG_DETAIL_TIMELINE_HOW_TITLE">
@@ -262,61 +288,54 @@ const TemplateTimeline = () => {
                 {t('__CATALOG_DETAIL_TIMELINE_HOW_DESCRIPTION')}
               </StepParagraph>
               <Timeline>
-                {template?.how?.timeline?.map((item: any, index: number) => {
-                  const icon = extractStrapiData(item.icon);
-                  const iconUrl = icon.url;
-
-                  return (
-                    <Timeline.Item
-                      id={`${template?.slug}-${i18n.language}-timeline-${
-                        index + 1
-                      }`}
-                      key={`timeline_${item.id}`}
-                      icon={
-                        <TimelineIcon
-                          width={24}
-                          height={24}
-                          src={`${STRAPI_URL}${iconUrl}`}
-                          alt={item.title}
-                        />
-                      }
-                    >
-                      <Timeline.Content>
-                        <Paragraph style={{ fontWeight: 500 }}>
-                          {item.title}
-                        </Paragraph>
-                        {item.description}
-                      </Timeline.Content>
-                    </Timeline.Item>
-                  );
-                })}
+                {memoizedTemplate.strapi?.how.map((item) => (
+                  <Timeline.Item
+                    id={item.key}
+                    key={item.key}
+                    icon={
+                      <TimelineIcon
+                        width={24}
+                        height={24}
+                        src={item.icon}
+                        alt={item.title}
+                      />
+                    }
+                  >
+                    <Timeline.Content>
+                      <Paragraph style={{ fontWeight: 500 }}>
+                        {item.title}
+                      </Paragraph>
+                      {item.description}
+                    </Timeline.Content>
+                  </Timeline.Item>
+                ))}
               </Timeline>
             </TimelineCard>
           )}
         </Col>
         <Col xs={12} lg={3}>
           <StickyContainer>
-            {template?.requirements && (
+            {memoizedTemplate.strapi?.requirements && (
               <StyledCardContainer>
                 <StickyContainerTitle>
                   {t('__CATALOG_DETAIL_STICKY_CONTAINER_REQUIREMENTS_TITLE')}
                 </StickyContainerTitle>
-                {template?.requirements &&
-                  template?.requirements.description && (
+                {memoizedTemplate.strapi?.requirements &&
+                  memoizedTemplate.strapi?.requirements.description && (
                     <StickyContainerParagraph>
-                      {template?.requirements.description}
+                      {memoizedTemplate.strapi?.requirements.description}
                     </StickyContainerParagraph>
                   )}
                 <Timeline>
-                  {template?.requirements?.list?.map((item: any) => (
+                  {memoizedTemplate.strapi?.requirements.list?.map((item) => (
                     <Timeline.Item
-                      key={`requiremens_${item.id}`}
+                      key={item.key}
                       icon={<CheckIcon />}
                       hiddenLine
                     >
                       <Timeline.Content>
                         <Paragraph style={{ fontWeight: 500 }}>
-                          {item.item}
+                          {item.value}
                         </Paragraph>
                       </Timeline.Content>
                     </Timeline.Item>
@@ -324,8 +343,11 @@ const TemplateTimeline = () => {
                 </Timeline>
               </StyledCardContainer>
             )}
-            {(template?.why || template?.what || template?.how) &&
-              (template?.express?.data?.id ? <TemplateExpressCta /> : null)}
+            {(memoizedTemplate.strapi?.why ||
+              memoizedTemplate.strapi?.what ||
+              memoizedTemplate.strapi?.how) && (
+              <LaunchActivityCTA handleLaunchActivity={handleLaunchActivity} />
+            )}
           </StickyContainer>
         </Col>
       </Row>

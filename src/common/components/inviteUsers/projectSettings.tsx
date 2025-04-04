@@ -242,7 +242,7 @@ export const ProjectSettings = () => {
     <>
       <Button onClick={() => setIsModalOpen(true)} isBasic>
         <Button.StartIcon>
-          <UsersIcon style={{ height: appTheme.iconSizes.lg }} />
+          <UsersIcon />
         </Button.StartIcon>
         {t('__PROJECT_SETTINGS_CTA_TEXT')}
         {usersCount > 0 && ` (${usersCount})`}

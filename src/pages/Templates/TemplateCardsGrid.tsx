@@ -1,9 +1,10 @@
 import { Tag, TemplateCard } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
+import { isTemplateTailored } from 'src/common/isTemplateTailored';
 import { CpReqTemplate, Module } from 'src/features/api';
 import styled from 'styled-components';
-import { isTemplateTailored, useTemplatesContext } from './Context';
+import { useTemplatesContext } from './Context';
 
 const CardsGrid = styled.div`
   padding: ${appTheme.space.xl} 0;
