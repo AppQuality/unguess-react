@@ -26,7 +26,7 @@ const ServiceTiles = ({ onClick, promoTemplates }: ServiceTilesProps) => {
       <ScrollingGrid
         id="service-tiles-scrolling-grid"
         role="list"
-        title="dashboard-promo-templates"
+        title="promo-templates"
       >
         {promoTemplates.map((template) => {
           if (!template.strapi) return null;

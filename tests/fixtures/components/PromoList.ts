@@ -14,8 +14,7 @@ export class PromoList {
 
   elements() {
     return {
-      promoList: () =>
-        this.page.getByRole('list', { name: 'dashboard-promo-templates' }),
+      promoList: () => this.page.getByRole('list', { name: 'promo-templates' }),
       promoListItems: () => this.elements().promoList().getByRole('listitem'),
     };
   }
