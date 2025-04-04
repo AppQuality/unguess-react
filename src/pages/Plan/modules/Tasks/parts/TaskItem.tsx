@@ -185,6 +185,7 @@ const TaskItem = ({
                     '__PLAN_PAGE_MODULE_TASKS_TASK_LINK_PLACEHOLDER'
                   )}
                   readOnly={getPlanStatus() !== 'draft'}
+                  {...(invalidUrlError && { validation: 'error' })}
                 />
                 {invalidUrlError && (
                   <Message validation="error">{invalidUrlError}</Message>
