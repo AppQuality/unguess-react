@@ -21,7 +21,10 @@ const useModuleTasks = () => {
 
   const validation = (module: components['schemas']['ModuleTask']) => {
     const { output: o } = module;
-
+    if (!o || o.length === 0)
+      return {
+        empty: t('__PLAN_PAGE_MODULE_TASKS_TASK_ERROR_REQUIRED'),
+      };
     const errors = o.reduce((acc, item, idx) => {
       const titleEmpty = !item.title || item.title.length === 0;
       const titleMaxLength = item.title.length > 64;
@@ -157,7 +160,8 @@ const useModuleTasks = () => {
     if (
       previousValue &&
       value &&
-      previousValue.output.length > value.output.length
+      (previousValue.output.length > value.output.length ||
+        previousValue.output.length === 0)
     ) {
       validate();
     }
