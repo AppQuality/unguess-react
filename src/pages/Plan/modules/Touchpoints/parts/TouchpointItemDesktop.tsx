@@ -131,11 +131,11 @@ const TouchpointItemDesktop = ({
                     '__PLAN_PAGE_MODULE_TOUCHPOINTS_TOUCHPOINT_APP_LINK_LINUX_PLACEHOLDER'
                   )}
                 />
-                <Paragraph style={{ marginTop: appTheme.space.xs }}>
-                  {linuxError && (
+                {linuxError && (
+                  <Paragraph style={{ marginTop: appTheme.space.xs }}>
                     <Message validation="error">{linuxError}</Message>
-                  )}
-                </Paragraph>
+                  </Paragraph>
+                )}
                 <Message>
                   {t(
                     '__PLAN_PAGE_MODULE_TOUCHPOINTS_TOUCHPOINT_APP_LINK_LINUX_HINT'
@@ -207,11 +207,11 @@ const TouchpointItemDesktop = ({
                     '__PLAN_PAGE_MODULE_TOUCHPOINTS_TOUCHPOINT_APP_LINK_MACOS_PLACEHOLDER'
                   )}
                 />
-                <Paragraph style={{ marginTop: appTheme.space.xs }}>
-                  {macosError && (
+                {macosError && (
+                  <Paragraph style={{ marginTop: appTheme.space.xs }}>
                     <Message validation="error">{macosError}</Message>
-                  )}
-                </Paragraph>
+                  </Paragraph>
+                )}
                 <Message>
                   {t(
                     '__PLAN_PAGE_MODULE_TOUCHPOINTS_TOUCHPOINT_APP_LINK_MACOS_HINT'
@@ -285,11 +285,11 @@ const TouchpointItemDesktop = ({
                     '__PLAN_PAGE_MODULE_TOUCHPOINTS_TOUCHPOINT_APP_LINK_WINDOWS_PLACEHOLDER'
                   )}
                 />
-                <Paragraph style={{ marginTop: appTheme.space.xs }}>
-                  {windowsError && (
+                {windowsError && (
+                  <Paragraph style={{ marginTop: appTheme.space.xs }}>
                     <Message validation="error">{windowsError}</Message>
-                  )}
-                </Paragraph>
+                  </Paragraph>
+                )}
                 <Message>
                   {t(
                     '__PLAN_PAGE_MODULE_TOUCHPOINTS_TOUCHPOINT_APP_LINK_WINDOWS_HINT'
