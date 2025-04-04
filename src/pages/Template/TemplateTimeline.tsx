@@ -217,7 +217,7 @@ const TemplateTimeline = ({
                   <Timeline>
                     {memoizedTemplate.strapi?.why.reasons?.map((reason) => (
                       <Timeline.Item
-                        key={`reason_${reason.key}`}
+                        key={`${reason.key}`}
                         icon={
                           <TimelineIcon
                             width={24}
