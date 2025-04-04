@@ -84,7 +84,7 @@ export const ProjectEmptyState = () => {
         backgroundColor: canView ? '#f9feff' : 'transparent',
       }}
     >
-      {canView ? (
+      {canView && promoTemplates.length > 0 ? (
         <>
           <Grid>
             <Paragraph style={{ textAlign: 'center', width: '100%' }}>

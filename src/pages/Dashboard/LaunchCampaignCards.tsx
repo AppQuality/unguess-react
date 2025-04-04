@@ -38,6 +38,7 @@ const LaunchCampaignCards = () => {
 
   if (!data) return null;
   if (!canView) return null;
+  if (!promoTemplates?.length) return null;
 
   return (
     <Wrapper>
