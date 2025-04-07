@@ -29,7 +29,7 @@ const StyledContainer = styled.div`
 const NavItemLink = styled(Link)`
   &.isCurrent {
     ${StyledCard} {
-      &.no-children {
+      &.noChildren {
         background-color: white;
       }
     }
@@ -57,9 +57,8 @@ const NavItem = ({
   return (
     <NavItemLink
       to={`module-${type}`}
-      containerId="main"
+      containerId="modules-list-scrollable"
       duration={500}
-      offset={-200}
       smooth
       spy
       style={{ textDecoration: 'none' }}
@@ -73,7 +72,7 @@ const NavItem = ({
           },
         })}
         {...(!children && {
-          className: 'no-children',
+          className: 'noChildren',
         })}
       >
         <StyledContainer>

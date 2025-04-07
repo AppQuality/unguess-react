@@ -54,9 +54,8 @@ const TouchpointItemNav = ({
   return (
     <TouchpointItemNavLink
       to={`touchpoint-${key + 1}`}
-      containerId="main"
+      containerId="modules-list-scrollable"
       duration={500}
-      offset={-200}
       smooth
       spy
       style={{ textDecoration: 'none' }}

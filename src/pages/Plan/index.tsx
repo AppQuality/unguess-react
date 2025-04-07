@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { useAppDispatch } from 'src/app/hooks';
+import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
 import { PLAN_MINIMUM_DATE } from 'src/constants';
 import {
   GetPlansByPidApiResponse,

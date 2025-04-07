@@ -16,6 +16,7 @@ const BodyContainer = styled.div`
   max-height: calc(100vh - ${({ theme }) => theme.space.xxl});
   overflow-y: auto;
   margin-bottom: ${({ theme }) => theme.space.md};
+  padding: ${({ theme }) => theme.space.lg} 0;
 `;
 
 const NavBody = () => {

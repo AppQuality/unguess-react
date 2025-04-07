@@ -5,7 +5,17 @@ import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { MODULE_TABS_ORDER } from 'src/constants';
 import { useModuleConfiguration } from 'src/features/modules/useModuleConfiguration';
+import styled from 'styled-components';
 import { PlanTab, usePlanTab } from '../context/planContext';
+
+const NavWrapper = styled.div<{
+  isFirstTab: boolean;
+}>`
+  display: flex;
+  flex-direction: ${({ isFirstTab }) =>
+    !isFirstTab ? 'flex-end' : 'space-between'};
+  margin-top: ${({ theme }) => theme.space.xl};
+`;
 
 export const ModulesBottomNavigation = ({ tabId }: { tabId: PlanTab }) => {
   const { setActiveTab } = usePlanTab();
@@ -40,13 +50,7 @@ export const ModulesBottomNavigation = ({ tabId }: { tabId: PlanTab }) => {
   }
 
   return (
-    <div
-      style={{
-        display: 'flex',
-        justifyContent: isFirstTab ? 'flex-end' : 'space-between',
-        marginTop: appTheme.space.xl,
-      }}
-    >
+    <NavWrapper isFirstTab={isFirstTab}>
       {!isFirstTab && (
         <Button
           isBasic
@@ -81,6 +85,6 @@ export const ModulesBottomNavigation = ({ tabId }: { tabId: PlanTab }) => {
           <ChevronRightIcon />
         </Button.EndIcon>
       </Button>
-    </div>
+    </NavWrapper>
   );
 };

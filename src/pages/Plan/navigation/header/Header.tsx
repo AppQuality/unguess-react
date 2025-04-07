@@ -27,11 +27,10 @@ const SectionWrapper = styled.div`
 
 const StickyLayoutWrapper = styled(LayoutWrapper)`
   background-color: ${(p) => p.theme.palette.white};
-  @media (min-width: ${(p) => p.theme.breakpoints.md}) {
-    position: sticky;
-    top: 0;
-    z-index: 101;
-  }
+  position: fixed;
+  top: 0;
+  z-index: ${({ theme }) => theme.levels.front};
+  height: 15vh;
 `;
 
 const PlanPageHeader = () => {
