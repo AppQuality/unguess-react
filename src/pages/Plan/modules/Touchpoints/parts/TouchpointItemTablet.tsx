@@ -127,9 +127,11 @@ const TouchpointItemTablet = ({
                     '__PLAN_PAGE_MODULE_TOUCHPOINTS_TOUCHPOINT_APP_LINK_IOS_PLACEHOLDER'
                   )}
                 />
-                <Paragraph style={{ marginTop: appTheme.space.xs }}>
-                  {iosError && <Message validation="error">{iosError}</Message>}
-                </Paragraph>
+                {iosError && (
+                  <Paragraph style={{ marginTop: appTheme.space.xs }}>
+                    <Message validation="error">{iosError}</Message>
+                  </Paragraph>
+                )}
                 <Message>
                   {t(
                     '__PLAN_PAGE_MODULE_TOUCHPOINTS_TOUCHPOINT_APP_LINK_IOS_HINT'
@@ -203,11 +205,11 @@ const TouchpointItemTablet = ({
                     '__PLAN_PAGE_MODULE_TOUCHPOINTS_TOUCHPOINT_APP_LINK_ANDROID_PLACEHOLDER'
                   )}
                 />
-                <Paragraph style={{ marginTop: appTheme.space.xs }}>
-                  {androidError && (
+                {androidError && (
+                  <Paragraph style={{ marginTop: appTheme.space.xs }}>
                     <Message validation="error">{androidError}</Message>
-                  )}
-                </Paragraph>
+                  </Paragraph>
+                )}
                 <Message>
                   {t(
                     '__PLAN_PAGE_MODULE_TOUCHPOINTS_TOUCHPOINT_APP_LINK_ANDROID_HINT'

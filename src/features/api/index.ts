@@ -2591,7 +2591,7 @@ export type OutputModuleTouchpointsAppTablet = {
   form_factor: 'tablet';
   os: {
     linux?: string;
-    macos?: string;
+    ios?: string;
     windows?: string;
   };
 };
@@ -2640,6 +2640,11 @@ export type ModuleTouchpoints = {
   variant: string;
   output: SubcomponentTouchpoints[];
 };
+export type ModuleAdditionalTarget = {
+  type: 'additional_target';
+  variant: string;
+  output: string;
+};
 export type Module =
   | ModuleTitle
   | ModuleDate
@@ -2655,7 +2660,8 @@ export type Module =
   | ModuleTargetNote
   | ModuleInstructionNote
   | ModuleSetupNote
-  | ModuleTouchpoints;
+  | ModuleTouchpoints
+  | ModuleAdditionalTarget;
 export type PlanStatus = 'pending_review' | 'draft' | 'approved';
 export type StrapiTemplate = {
   title: string;

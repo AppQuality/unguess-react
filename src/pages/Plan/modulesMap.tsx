@@ -13,10 +13,19 @@ import InstructionsNote from './modules/InstructionsNote';
 import OutOfScope from './modules/OutOfScope';
 import Browser from './modules/Browser';
 import { TouchPoints } from './modules/Touchpoints';
+import AdditionalTarget from './modules/AdditionalTarget';
 
 export const MODULES_BY_TAB = {
   setup: ['setup_note', 'goal', 'touchpoints', 'browser'],
-  target: ['target_note', 'target', 'language', 'gender', 'age', 'literacy'],
+  target: [
+    'target_note',
+    'target',
+    'language',
+    'gender',
+    'age',
+    'literacy',
+    'additional_target',
+  ],
   instructions: ['instruction_note', 'tasks', 'out_of_scope'],
 };
 
@@ -36,4 +45,5 @@ export const modulesMap = {
   out_of_scope: OutOfScope,
   browser: Browser,
   touchpoints: TouchPoints,
+  additional_target: AdditionalTarget,
 };
