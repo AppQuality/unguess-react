@@ -37,6 +37,7 @@ export const ModulesList = ({ tabId }: { tabId: PlanTab }) => {
           </div>
         );
       })}
+      <div className="scroll-spacer" style={{ height: '100px' }} />
       {tabId !== 'summary' && <ModulesBottomNavigation tabId={tabId} />}
     </>
   );
