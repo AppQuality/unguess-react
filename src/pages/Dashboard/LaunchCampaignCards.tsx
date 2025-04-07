@@ -11,8 +11,9 @@ import { Trans, useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { ServiceTiles } from 'src/common/components/ServiceTiles';
 import { useActiveWorkspaceProjects } from 'src/hooks/useActiveWorkspaceProjects';
-import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
+import { useCanAccessToActiveWorkspace } from 'src/hooks/useCanAccessToActiveWorkspace';
 import styled, { useTheme } from 'styled-components';
+import { usePromoContext } from './PromoContext';
 
 const Wrapper = styled.div`
   display: flex;
@@ -22,11 +23,22 @@ const Wrapper = styled.div`
 const LaunchCampaignCards = () => {
   const theme = useTheme();
   const { t } = useTranslation();
-  const { hasFeatureFlag } = useFeatureFlag();
+  const canView = useCanAccessToActiveWorkspace();
   const { data } = useActiveWorkspaceProjects();
+  const { promoTemplates, setIsDrawerOpen, setSelectedTemplate } =
+    usePromoContext();
+
+  const handleClick = (tid: number) => {
+    const selectedTemplate = promoTemplates.find(
+      (template) => template.id === tid
+    );
+    setSelectedTemplate(selectedTemplate);
+    setIsDrawerOpen(true);
+  };
 
   if (!data) return null;
-  if (!hasFeatureFlag('express')) return null;
+  if (!canView) return null;
+  if (!promoTemplates?.length) return null;
 
   return (
     <Wrapper>
@@ -51,7 +63,7 @@ const LaunchCampaignCards = () => {
           </Paragraph>
         </Col>
       </Row>
-      <ServiceTiles />
+      <ServiceTiles onClick={handleClick} promoTemplates={promoTemplates} />
     </Wrapper>
   );
 };

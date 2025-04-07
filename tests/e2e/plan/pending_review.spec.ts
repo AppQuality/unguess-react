@@ -1,5 +1,5 @@
 import { test, expect } from '../../fixtures/app';
-import { PlanPage } from '../../fixtures/Plan';
+import { PlanPage } from '../../fixtures/pages/Plan';
 
 test.describe('A Plan page in pending request', () => {
   let moduleBuilderPage: PlanPage;

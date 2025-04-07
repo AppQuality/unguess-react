@@ -1,6 +1,6 @@
 import draftMandatory from '../../../api/plans/pid/_get/200_draft_mandatory_only.json';
 import { expect, test } from '../../../fixtures/app';
-import { PlanPage } from '../../../fixtures/Plan';
+import { PlanPage } from '../../../fixtures/pages/Plan';
 
 test.describe('The title module defines the Plan title.', () => {
   let planPage: PlanPage;

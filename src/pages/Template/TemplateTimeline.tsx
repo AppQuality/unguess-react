@@ -111,10 +111,16 @@ const TemplateTimeline = ({
       ...template,
       strapi: {
         ...template.strapi,
-        why: template.strapi?.why?.map((item, index) => ({
-          ...item,
-          key: `why-${index}`,
-        })),
+        why: {
+          reasons: template.strapi?.why?.reasons.map((item, index) => ({
+            ...item,
+            key: `reason-${index}`,
+          })),
+          advantages: template.strapi?.why?.advantages.map((item, index) => ({
+            item,
+            key: `advantage-${index}`,
+          })),
+        },
         what: template.strapi?.what,
         how: template.strapi?.how?.map((item, index) => ({
           ...item,
@@ -209,9 +215,9 @@ const TemplateTimeline = ({
                   </StepParagraph>
                   <StyledDivider />
                   <Timeline>
-                    {memoizedTemplate.strapi?.why.map((reason) => (
+                    {memoizedTemplate.strapi?.why.reasons?.map((reason) => (
                       <Timeline.Item
-                        key={`reason_${reason.key}`}
+                        key={`${reason.key}`}
                         icon={
                           <TimelineIcon
                             width={24}
@@ -233,22 +239,29 @@ const TemplateTimeline = ({
                   </Timeline>
                 </>
               )}
-              {memoizedTemplate.strapi?.advantages && (
+              {memoizedTemplate.strapi?.why.advantages && (
                 <AdvantagesContainer>
                   <SectionTitle>
                     {t('__CATALOG_DETAIL_TIMELINE_ADVANTAGES_TITLE')}
                   </SectionTitle>
                   <StyledDivider />
                   <Timeline>
-                    {memoizedTemplate.strapi?.advantages.map((advantage) => (
-                      <Timeline.Item hiddenLine icon={<CheckIcon />}>
-                        <Timeline.Content>
-                          <Paragraph style={{ fontWeight: 500 }}>
-                            {advantage}
-                          </Paragraph>
-                        </Timeline.Content>
-                      </Timeline.Item>
-                    ))}
+                    {memoizedTemplate.strapi?.why.advantages.map(
+                      ({ key, item }) => (
+                        <Timeline.Item
+                          hiddenLine
+                          icon={<CheckIcon />}
+                          key={key}
+                        >
+                          \
+                          <Timeline.Content>
+                            <Paragraph style={{ fontWeight: 500 }}>
+                              {item}
+                            </Paragraph>
+                          </Timeline.Content>
+                        </Timeline.Item>
+                      )
+                    )}
                   </Timeline>
                 </AdvantagesContainer>
               )}

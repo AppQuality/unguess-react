@@ -24,14 +24,16 @@
         "text": "From Bug x"
       }
     ],
-    "advantages": ["string"],
-    "why": [
-      {
-        "icon": "https://admin.unguess.io/uploads/Bug_dd1a0eebd1.svg",
-        "title": "You want to understand",
-        "description": "and quickly verify that your digital product is working properly with full validation. You define the timing and duration of the activity to receive the first bugs. "
-      }
-    ],
+    "why": {
+      "reasons": [
+        {
+          "icon": "https://admin.unguess.io/uploads/Bug_dd1a0eebd1.svg",
+          "title": "You want to understand",
+          "description": "and quickly verify that your digital product is working properly with full validation. You define the timing and duration of the activity to receive the first bugs. "
+        }
+      ],
+      "advantages": ["string"]
+    },
     "what": {
       "description": "This activity provides a comprehensive bug report, enabling you to make informed decisions quickly about your product's functionality.",
       "goal": "By accessing your dedicated dashboard, you can immediately start prioritizing fixes based on severity, integrate findings with your tracking systems, and keep your development timeline on track - all for a streamlined investment of €2000."

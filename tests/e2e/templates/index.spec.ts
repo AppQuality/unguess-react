@@ -2,7 +2,7 @@ import mockPostPlans from '../../api/workspaces/wid/plans/_post/201_Example_1.js
 import getProjects from '../../api/workspaces/wid/projects/_get/200_Example_1.json';
 import getTemplates from '../../api/workspaces/wid/templates/_get/200_global_and_private_templates.json';
 import { expect, test } from '../../fixtures/app';
-import { Templates } from '../../fixtures/Templates';
+import { Templates } from '../../fixtures/pages/Templates';
 
 test.describe('Templates page', () => {
   let templates: Templates;
