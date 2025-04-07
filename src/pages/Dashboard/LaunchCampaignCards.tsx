@@ -9,6 +9,7 @@ import {
 } from '@appquality/unguess-design-system';
 import { Trans, useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
+import PlanCreationInterface from 'src/common/components/PlanCreationInterface';
 import { ServiceTiles } from 'src/common/components/ServiceTiles';
 import { useActiveWorkspaceProjects } from 'src/hooks/useActiveWorkspaceProjects';
 import { useCanAccessToActiveWorkspace } from 'src/hooks/useCanAccessToActiveWorkspace';
@@ -25,8 +26,17 @@ const LaunchCampaignCards = () => {
   const { t } = useTranslation();
   const canView = useCanAccessToActiveWorkspace();
   const { data } = useActiveWorkspaceProjects();
-  const { promoTemplates, setIsDrawerOpen, setSelectedTemplate } =
-    usePromoContext();
+  const {
+    promoTemplates,
+    setIsDrawerOpen,
+    setSelectedTemplate,
+    selectedTemplate,
+    isDrawerOpen,
+  } = usePromoContext();
+
+  const handleCloseDrawer = () => {
+    setIsDrawerOpen(false);
+  };
 
   const handleClick = (tid: number) => {
     const selectedTemplate = promoTemplates.find(
@@ -64,6 +74,13 @@ const LaunchCampaignCards = () => {
         </Col>
       </Row>
       <ServiceTiles onClick={handleClick} promoTemplates={promoTemplates} />
+      {selectedTemplate && (
+        <PlanCreationInterface
+          isOpen={isDrawerOpen}
+          onClose={handleCloseDrawer}
+          template={selectedTemplate}
+        />
+      )}
     </Wrapper>
   );
 };

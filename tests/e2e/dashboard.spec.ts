@@ -37,7 +37,7 @@ test.describe('Home page', () => {
     await expect(dashboard.elements().title()).toBeVisible();
     await expect(promoList.elements().promoList()).toBeVisible();
     await expect(promoList.elements().promoListItems()).toHaveCount(
-      dashboard.promoItems.length
+      promoList.promoItems.length
     );
   });
 
@@ -52,7 +52,7 @@ test.describe('Home page', () => {
       planCreationInterface.elements().moreInfoButton()
     ).toBeVisible();
     await planCreationInterface.elements().moreInfoButton().click();
-    await expect(page).toHaveURL(`/templates/${dashboard.promoItems[0].id}`);
+    await expect(page).toHaveURL(`/templates/${promoList.promoItems[0].id}`);
   });
 
   test('Once a project is selected from the drawer is possible to start an activity', async ({
@@ -76,7 +76,7 @@ test.describe('Home page', () => {
     const data = response.request().postDataJSON();
     expect(data).toEqual({
       project_id: planCreationInterface.projectId,
-      template_id: dashboard.promoItems[0].id,
+      template_id: promoList.promoItems[0].id,
     });
     // expect that navigation to the plan page is triggered
     await expect(page).toHaveURL(`/plans/${newPlanId}`);

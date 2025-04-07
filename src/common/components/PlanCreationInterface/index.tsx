@@ -316,7 +316,7 @@ export const NewPlanDrawer = ({
             )}
 
             {selectedTemplate.strapi?.tags.map((tag) => (
-              <Tag>
+              <Tag key={tag.text}>
                 <Tag.Avatar>
                   <img src={tag.icon} alt={tag.text} />
                 </Tag.Avatar>
