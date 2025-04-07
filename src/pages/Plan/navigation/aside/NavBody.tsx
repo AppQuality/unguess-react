@@ -26,9 +26,6 @@ const NavBody = () => {
   const { currentModules } = useAppSelector((state) => state.planModules);
   const { hasFeatureFlag } = useFeatureFlag();
 
-  console.log('currentModules', currentModules);
-  console.log('availableModules', availableModules);
-
   return (
     <NavContainer data-qa="plans-nav">
       <BodyContainer data-qa={`plans-nav-${activeTab}`}>

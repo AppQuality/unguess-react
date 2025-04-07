@@ -40,13 +40,6 @@ const StyledCardHeader = styled.div`
   padding-bottom: ${({ theme }) => theme.space.md};
 `;
 
-const StyledInfoBox = styled.div`
-  display: flex;
-  align-items: center;
-  margin-top: ${({ theme }) => theme.space.sm};
-  gap: ${({ theme }) => theme.space.xxs};
-`;
-
 const AdditionalTarget = () => {
   const { hasFeatureFlag } = useFeatureFlag();
   const { value, setOutput, remove } = useModule('additional_target');
