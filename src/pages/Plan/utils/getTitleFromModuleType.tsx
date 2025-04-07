@@ -37,6 +37,8 @@ const getTitleFromModuleType = (
       return t('__PLAN_PAGE_MODULE_BROWSER_LABEL');
     case 'touchpoints':
       return t('__PLAN_PAGE_MODULE_TOUCHPOINTS_TITLE');
+    case 'additional_target':
+      return t('__PLAN_PAGE_MODULE_ADDITIONAL_TARGET_TITLE');
     default:
       return '';
   }

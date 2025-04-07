@@ -171,6 +171,12 @@ export const useModule = <T extends components['schemas']['Module']['type']>(
           variant: 'default',
           output: [],
         };
+      case 'additional_target':
+        return {
+          type,
+          variant: 'default',
+          output: '',
+        };
       default:
         return null;
     }

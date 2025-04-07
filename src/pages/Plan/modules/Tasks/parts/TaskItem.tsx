@@ -9,6 +9,7 @@ import {
   Message,
   Span,
   MediaInput,
+  Paragraph,
 } from '@appquality/unguess-design-system';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -52,6 +53,8 @@ const TaskItem = ({
   const hasError = titleError || descriptionError || invalidUrlError;
   const hasPlaceholder = !title;
 
+  const formattedKind = kind.replaceAll('-', ' ').toUpperCase();
+
   const handleBlur = () => {
     validate();
   };
@@ -73,6 +76,7 @@ const TaskItem = ({
                   ? t('__PLAN_PAGE_MODULE_TASKS_TASK_TITLE_PLACEHOLDER_EMPTY')
                   : title
               }`}
+              subtitle={formattedKind}
             />
             {getPlanStatus() === 'draft' && (
               <AccordionNew.Meta>
@@ -118,7 +122,9 @@ const TaskItem = ({
                     style={{ marginTop: appTheme.space.xs }}
                   />
                   {titleError && (
-                    <Message validation="error">{titleError}</Message>
+                    <Paragraph style={{ marginTop: appTheme.space.xs }}>
+                      <Message validation="error">{titleError}</Message>
+                    </Paragraph>
                   )}
                 </FormField>
               )}
@@ -159,7 +165,9 @@ const TaskItem = ({
                     {description}
                   </Editor>
                   {descriptionError && (
-                    <Message validation="error">{descriptionError}</Message>
+                    <Paragraph style={{ marginTop: appTheme.space.xs }}>
+                      <Message validation="error">{descriptionError}</Message>
+                    </Paragraph>
                   )}
                 </>
               )}
@@ -188,7 +196,9 @@ const TaskItem = ({
                   {...(invalidUrlError && { validation: 'error' })}
                 />
                 {invalidUrlError && (
-                  <Message validation="error">{invalidUrlError}</Message>
+                  <Paragraph style={{ marginTop: appTheme.space.xs }}>
+                    <Message validation="error">{invalidUrlError}</Message>
+                  </Paragraph>
                 )}
                 <Message>
                   {t('__PLAN_PAGE_MODULE_TASKS_TASK_LINK_HINT')}

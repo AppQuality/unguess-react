@@ -27,7 +27,8 @@ export const useSubmit = (planId: string) => {
         },
       }).unwrap();
     } catch (e) {
-      console.log(e);
+      // eslint-disable-next-line no-console
+      console.error(e);
       return false;
     }
   };

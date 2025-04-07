@@ -13,6 +13,7 @@ import { ReactComponent as TasksIcon } from 'src/assets/icons/tasks-icon.svg';
 import { ReactComponent as TouchpointsIcon } from 'src/assets/icons/touchpoints-icon.svg';
 import { ReactComponent as TargetIcon } from 'src/assets/icons/user-follow.svg';
 import { ReactComponent as OutOfScopeIcon } from 'src/assets/icons/x-circle.svg';
+import { ReactComponent as AdditionalTargetIcon } from 'src/assets/icons/additional-target-icon.svg';
 import { components } from 'src/common/schema';
 
 const getIconColor = (module_type: components['schemas']['Module']['type']) => {
@@ -78,6 +79,8 @@ const getIconFromModuleType = (
       return <NotificationIcon color={color} />;
     case 'touchpoints':
       return <TouchpointsIcon color={color} />;
+    case 'additional_target':
+      return <AdditionalTargetIcon color={color} />;
     case 'title':
     case 'dates':
     default:

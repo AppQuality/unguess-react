@@ -910,7 +910,8 @@ export interface components {
       | components['schemas']['ModuleTargetNote']
       | components['schemas']['ModuleInstructionNote']
       | components['schemas']['ModuleSetupNote']
-      | components['schemas']['ModuleTouchpoints'];
+      | components['schemas']['ModuleTouchpoints']
+      | components['schemas']['ModuleAdditionalTarget'];
     ModuleDate: {
       /** @enum {string} */
       type: 'dates';
@@ -1013,6 +1014,13 @@ export interface components {
       type: 'browser';
       variant: string;
       output: components['schemas']['OutputModuleBrowser'];
+    };
+    /** ModuleAdditionalTarget */
+    ModuleAdditionalTarget: {
+      /** @enum {string} */
+      type: 'additional_target';
+      variant: string;
+      output: string;
     };
     /** Observation */
     Observation: {
@@ -1555,7 +1563,7 @@ export interface components {
       form_factor: 'tablet';
       os: {
         linux?: string;
-        macos?: string;
+        ios?: string;
         windows?: string;
       };
     };

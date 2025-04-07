@@ -75,7 +75,7 @@ const TouchpointsList = () => {
           <TitleContainer>
             <TouchpointsIcon
               color={
-                error ? appTheme.palette.red[600] : appTheme.palette.blue[600]
+                error ? appTheme.palette.red[900] : appTheme.palette.blue[600]
               }
             />
             <MD isBold style={{ color: appTheme.palette.blue[600] }}>
