@@ -39,10 +39,8 @@ const LaunchCampaignCards = () => {
   };
 
   const handleClick = (tid: number) => {
-    const selectedTemplate = promoTemplates.find(
-      (template) => template.id === tid
-    );
-    setSelectedTemplate(selectedTemplate);
+    const selected = promoTemplates.find((template) => template.id === tid);
+    setSelectedTemplate(selected);
     setIsDrawerOpen(true);
   };
 

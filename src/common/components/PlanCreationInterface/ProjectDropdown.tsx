@@ -14,8 +14,8 @@ import {
   usePostProjectsMutation,
 } from 'src/features/api';
 import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
-import { usePlanCreationContext } from './Context';
 import { useCanAccessToActiveWorkspace } from 'src/hooks/useCanAccessToActiveWorkspace';
+import { usePlanCreationContext } from './Context';
 
 export const ProjectDropdown = () => {
   const { t } = useTranslation();
