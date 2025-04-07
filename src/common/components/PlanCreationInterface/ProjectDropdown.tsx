@@ -4,8 +4,9 @@ import {
   Message,
   Skeleton,
 } from '@appquality/unguess-design-system';
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useLocation } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as FolderIcon } from 'src/assets/icons/folder-icon.svg';
 import { useGetWorkspacesByWidProjectsQuery } from 'src/features/api';
@@ -15,25 +16,34 @@ import { usePlanCreationContext } from './Context';
 export const ProjectDropdown = () => {
   const { t } = useTranslation();
   const { activeWorkspace } = useActiveWorkspace();
+  const { state: projectFromNavigation } = useLocation();
   const { projectId, setProjectId, fieldIsTouched, setFieldIsTouched } =
     usePlanCreationContext();
   const { data, isLoading, isFetching } = useGetWorkspacesByWidProjectsQuery({
     wid: activeWorkspace?.id.toString() || '',
   });
+  const projects = data?.items;
   const hasValidationError = useMemo(
     () => fieldIsTouched && typeof projectId !== 'number',
     [fieldIsTouched, projectId]
   );
 
-  const projects = data?.items;
+  useEffect(() => {
+    if (projectFromNavigation) {
+      setProjectId(projectFromNavigation.projectId);
+    } else {
+      setProjectId(null);
+    }
+  }, [projectFromNavigation, setProjectId]);
 
-  if (!projects) return null;
+  if (!projects || isLoading || isFetching) return null;
 
   return isLoading || isFetching ? (
     <Skeleton height="32px" width="100%" />
   ) : (
     <Field>
       <Autocomplete
+        key={`project-dropdown${projectId}`}
         data-qa="project-dropdown"
         listboxAppendToNode={document.body}
         startIcon={<FolderIcon />}
