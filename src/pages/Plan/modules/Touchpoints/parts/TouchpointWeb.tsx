@@ -87,14 +87,15 @@ const TouchpointWeb = ({
           '__PLAN_PAGE_MODULE_TOUCHPOINTS_TOUCHPOINT_WEB_LINK_PLACEHOLDER'
         )}
       />
-      {linkError && (
+      {linkError ? (
         <Paragraph style={{ marginTop: appTheme.space.xs }}>
           <Message validation="error">{linkError}</Message>
         </Paragraph>
+      ) : (
+        <Message>
+          {t('__PLAN_PAGE_MODULE_TOUCHPOINTS_TOUCHPOINT_WEB_LINK_HINT')}
+        </Message>
       )}
-      <Message>
-        {t('__PLAN_PAGE_MODULE_TOUCHPOINTS_TOUCHPOINT_WEB_LINK_HINT')}
-      </Message>
     </FormField>
   );
 };
