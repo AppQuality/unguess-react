@@ -1011,6 +1011,7 @@
   "__PLAN_PAGE_MODAL_SEND_REQUEST_TITLE_HINT": "The activity name will be displayed anonymously to users",
   "__PLAN_PAGE_MODAL_SEND_REQUEST_TITLE_LABEL": "Activity title",
   "__PLAN_PAGE_MODAL_SEND_REQUEST_TOAST_ERROR": "Something went wrong while requesting the activity",
+  "__PLAN_PAGE_MODAL_SEND_REQUEST_WAIT": "<XL>Setting up your request</XL><LG>We're preparing everything for our experts to review. This will take just a few seconds.</LG>",
   "__PLAN_PAGE_MODUL_GENERAL_REMOVE_MODAL_CANCEL": "Cancel",
   "__PLAN_PAGE_MODUL_GENERAL_REMOVE_MODAL_CONFIRM": "Confirm",
   "__PLAN_PAGE_MODUL_GENERAL_REMOVE_MODAL_DESCRIPTION": "If you delete the item, the entered information will no longer be recoverable.",
