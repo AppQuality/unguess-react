@@ -3,6 +3,9 @@ import { FEATURE_FLAG_CHANGE_MODULES_VARIANTS } from 'src/constants';
 import { useModuleConfiguration } from 'src/features/modules/useModuleConfiguration';
 import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
 import styled from 'styled-components';
+import { appTheme } from 'src/app/theme';
+import { MD } from '@appquality/unguess-design-system';
+import { useTranslation } from 'react-i18next';
 import { NavContainer } from '../../common/NavContainer';
 import { usePlanTab } from '../../context/planContext';
 import { MODULES_BY_TAB } from '../../modulesMap';
@@ -25,9 +28,16 @@ const NavBody = () => {
   const { getPlanStatus } = useModuleConfiguration();
   const { currentModules } = useAppSelector((state) => state.planModules);
   const { hasFeatureFlag } = useFeatureFlag();
+  const { t } = useTranslation();
 
   return (
     <NavContainer data-qa="plans-nav">
+      <MD
+        color={appTheme.palette.grey['600']}
+        style={{ marginBottom: appTheme.space.md }}
+      >
+        {t('__PLAN_ASIDE_NAVIGATION_MODULES_TITLE')}
+      </MD>
       <BodyContainer data-qa={`plans-nav-${activeTab}`}>
         {currentModules
           .filter((module) => availableModules.includes(module))

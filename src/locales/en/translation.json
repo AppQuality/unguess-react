@@ -974,6 +974,7 @@
   "__PERMISSION_SETTINGS_WORKSPACE_USERS": "From the workspace",
   "__PERMISSION_SETTINGS_WORKSPACE_USERS_ALL": "All users from the workspace",
   "__PLAN_ADDITIONAL_TARGET_ERROR_TOO_LONG": "This text is a bit long. It is recommended not to exceed 512 characters, including spaces.",
+  "__PLAN_ASIDE_NAVIGATION_MODULES_TITLE": "IN THIS SECTION",
   "__PLAN_CREATION_PROJECT_DROPDOWN_ERROR": "Select a project",
   "__PLAN_CREATION_PROJECT_DROPDOWN_PLACEHOLDER": "Select a project",
   "__PLAN_DATE_ERROR_REQUIRED": "Required field: enter a date to continue",
