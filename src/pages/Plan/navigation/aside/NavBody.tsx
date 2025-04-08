@@ -31,8 +31,8 @@ const NavBody = () => {
       <BodyContainer data-qa={`plans-nav-${activeTab}`}>
         {currentModules
           .filter((module) => availableModules.includes(module))
-          .map((module, index) => (
-            <NavItem index={index} type={module}>
+          .map((module) => (
+            <NavItem type={module}>
               {MODULES_WITH_OUTPUT.includes(module) && (
                 <NavItemChildren key={module} type={module} />
               )}
