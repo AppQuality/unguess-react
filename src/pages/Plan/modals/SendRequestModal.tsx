@@ -22,8 +22,7 @@ import { Title } from '../modules/Title';
 
 const SendRequestModal = ({ onQuit }: { onQuit: () => void }) => {
   const { t } = useTranslation();
-  const { isRequestingQuote, handleQuoteRequest, error } =
-    useRequestQuotation();
+  const { isRequestingQuote, handleQuoteRequest } = useRequestQuotation();
   const { addToast } = useToast();
 
   const { validateForm } = useValidateForm();

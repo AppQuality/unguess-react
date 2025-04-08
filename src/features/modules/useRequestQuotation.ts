@@ -58,9 +58,7 @@ export const useRequestQuotation = () => {
     }
   };
 
-  const isRequestingQuote = () => {
-    return isSubmitting || isLoading;
-  };
+  const isRequestingQuote = () => isSubmitting || isLoading;
 
   const isRequestQuoteCTADisabled = () => {
     // if the plan is already pending review, return true
