@@ -13,14 +13,14 @@ import {
 } from '@appquality/unguess-design-system';
 import { useMemo } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
 import { isTemplateTailored } from 'src/common/isTemplateTailored';
 import {
   CpReqTemplate,
   Module,
-  ModuleTouchpoints,
   ModuleTask,
+  ModuleTouchpoints,
   usePostWorkspacesByWidPlansMutation,
 } from 'src/features/api';
 import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
@@ -83,7 +83,7 @@ const DrawerFooter = ({
   const [createPlan] = usePostWorkspacesByWidPlansMutation();
   const plansRoute = useLocalizeRoute('plans');
   const { t } = useTranslation();
-  const location = useLocation();
+  const { templateId } = useParams();
 
   const handleConfirm = async () => {
     setFieldIsTouched(true);
@@ -107,14 +107,18 @@ const DrawerFooter = ({
       });
   };
 
-  const infoPath = useMemo(
-    () => location.pathname.split('/').slice(0, -1).join('/'),
-    [location.pathname]
-  );
   const shouldSeeInfoButton = useMemo(
-    () => !selectedTemplate.isTailored && location.pathname !== infoPath,
-    [selectedTemplate.isTailored, location.pathname, infoPath]
+    () => selectedTemplate.strapi && !templateId,
+    [selectedTemplate.strapi, templateId]
   );
+
+  const onMoreInfoNavigation = () => {
+    if (projectId) {
+      navigate(`/templates/${selectedTemplate.id}`, { state: { projectId } });
+    } else {
+      navigate(`/templates/${selectedTemplate.id}`);
+    }
+  };
 
   return (
     <Drawer.Footer>
@@ -124,20 +128,12 @@ const DrawerFooter = ({
             style={{ marginRight: `${theme.space.md}` }}
             isPrimary
             isLink
-            onClick={() => {
-              navigate(`/templates/${selectedTemplate.id}`);
-            }}
+            onClick={onMoreInfoNavigation}
           >
             {t('__TEMPLATES_DRAWER_FOOTER_INFO_BUTTON')}
           </Button>
         )}
-        <Button
-          isPrimary
-          isAccent
-          onClick={() => {
-            handleConfirm();
-          }}
-        >
+        <Button isPrimary isAccent onClick={handleConfirm}>
           {t('__TEMPLATES_DRAWER_FOOTER_CONFIRM_BUTTON')}
         </Button>
       </Drawer.FooterItem>
@@ -316,7 +312,7 @@ export const NewPlanDrawer = ({
             )}
 
             {selectedTemplate.strapi?.tags.map((tag) => (
-              <Tag>
+              <Tag key={tag.text}>
                 <Tag.Avatar>
                   <img src={tag.icon} alt={tag.text} />
                 </Tag.Avatar>

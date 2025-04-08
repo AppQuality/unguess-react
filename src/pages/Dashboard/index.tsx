@@ -1,36 +1,17 @@
 import { Grid } from '@appquality/unguess-design-system';
-import { useCallback, useState } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
-import PlanCreationInterface from 'src/common/components/PlanCreationInterface';
 import { resetFilters } from 'src/features/campaignsFilter/campaignsFilterSlice';
 import { Page } from 'src/features/templates/Page';
 import { useSendGTMevent } from 'src/hooks/useGTMevent';
 import { CampaignsList } from './campaigns-list';
-import { PromoContextProvider, usePromoContext } from './PromoContext';
 import { DashboardHeaderContent } from './headerContent';
 import { LaunchCampaignCards } from './LaunchCampaignCards';
 import { CreateProjectModal } from './Modals/CreateProjectModal';
+import { PromoContextProvider } from './PromoContext';
 import { SuggestedCampaigns } from './SuggestedCampaigns';
-
-const PlanCreation = () => {
-  const { setIsDrawerOpen, selectedTemplate, isDrawerOpen } = usePromoContext();
-
-  const handleCloseDrawer = useCallback(() => {
-    setIsDrawerOpen(false);
-  }, [setIsDrawerOpen]);
-
-  if (!selectedTemplate) return null;
-
-  return (
-    <PlanCreationInterface
-      isOpen={isDrawerOpen}
-      onClose={handleCloseDrawer}
-      template={selectedTemplate}
-    />
-  );
-};
 
 const Dashboard = () => {
   const { t } = useTranslation();
@@ -71,7 +52,6 @@ const Dashboard = () => {
               <CreateProjectModal setOpen={setOpenCreateProjectModal} />
             ) : null}
           </Grid>
-          <PlanCreation />
         </LayoutWrapper>
       </Page>
     </PromoContextProvider>

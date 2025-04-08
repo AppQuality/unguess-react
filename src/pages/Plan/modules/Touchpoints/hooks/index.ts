@@ -121,6 +121,13 @@ const useModuleTouchpoints = () => {
                 ),
               }
             : {}),
+          ...(hasOsErrors && item.kind === 'web'
+            ? {
+                link: t(
+                  '__PLAN_PAGE_MODULE_TOUCHPOINTS_TOUCHPOINT_OS_LINK_ERROR_INVALID'
+                ),
+              }
+            : {}),
         },
       };
     }, {});

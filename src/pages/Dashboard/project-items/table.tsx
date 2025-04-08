@@ -32,21 +32,26 @@ export const TableList = ({
   if (!campaigns.length) return null;
 
   return (
-    <Table isReadOnly style={{ backgroundColor: 'white' }}>
+    <Table
+      isReadOnly
+      style={{ backgroundColor: 'white' }}
+      role="table"
+      title="project-campaigns-table"
+    >
       <TableHead>
-        <HeaderRow>
+        <HeaderRow role="row">
           {columns.map((column) => (
             <HeaderCell key={column.field}>{column.name}</HeaderCell>
           ))}
         </HeaderRow>
       </TableHead>
-      <TableBody>
+      <TableBody role="rowgroup" title="project-campaigns-table-body">
         {campaigns.map((cp) => {
           const statusInfo = getStatusInfo(cp.status.name as CampaignStatus, t);
           const cpStartDate = new Date(cp.start_date).toLocaleDateString();
 
           return (
-            <TableRow key={cp.id}>
+            <TableRow key={cp.id} role="row" title={cp.title}>
               <TableCell>
                 <ProjectAnchor campaign={cp} />
               </TableCell>

@@ -34,37 +34,31 @@ export const useRequestQuotation = () => {
         `${t('__PLAN_MISSING_MODULES_ERROR')}: ${missingModules.join(', ')}`
       );
     }
-    // triggerValidationforAllFields()
     // check if the form is valid
     if (!isValid) {
-      // todo error handling
       return;
     }
-    // save an updated version of the plan
     try {
+      // save an updated version of the plan
       await submitModuleConfiguration();
-    } catch (err) {
-      // todo error handling
-      return;
-    }
-
-    // if the save is successful, change the status of the plan
-    patchStatus({
-      pid: planId?.toString() ?? '',
-      body: {
-        status: 'pending_review',
-      },
-    })
-      .unwrap()
-      .then(() => {
-        // update the status in the state
-        setPlanStatus('pending_review');
-      })
-      .catch((err) => {
-        // eslint-disable-next-line no-console
-        console.log(err);
+      // if the save is successful, change the status of the plan
+      await patchStatus({
+        pid: planId?.toString() ?? '',
+        body: {
+          status: 'pending_review',
+        },
       });
+      setPlanStatus('pending_review');
+    } catch (err) {
+      throw new Error(
+        `${t('__PLAN_PAGE_MODAL_SEND_REQUEST_TOAST_ERROR')}: ${
+          err instanceof Error ? err.message : ''
+        }`
+      );
+    }
   };
+
+  const isRequestingQuote = () => isSubmitting || isLoading;
 
   const isRequestQuoteCTADisabled = () => {
     // if the plan is already pending review, return true
@@ -80,6 +74,7 @@ export const useRequestQuotation = () => {
 
   return {
     isRequestQuoteCTADisabled,
+    isRequestingQuote,
     missingModules,
     handleQuoteRequest,
     error,

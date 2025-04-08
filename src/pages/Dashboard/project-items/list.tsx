@@ -8,6 +8,8 @@ const CardGroup = ({ items }: { items: Array<Campaign> }) => (
     {items.map((campaign) => (
       <Col size={3} xs={12} md={6} lg={3}>
         <CampaignItem
+          role="listitem"
+          title={campaign.title}
           key={`campaign_${campaign.id}`}
           campaign={campaign}
           style={{ marginBottom: `${appTheme.space.base * 4}px` }}
@@ -18,7 +20,7 @@ const CardGroup = ({ items }: { items: Array<Campaign> }) => (
 );
 
 export const CardList = ({ campaigns }: { campaigns: Array<Campaign> }) => (
-  <Row>
+  <Row role="list" title="project-campaigns-card-list">
     <CardGroup items={campaigns} />
   </Row>
 );
