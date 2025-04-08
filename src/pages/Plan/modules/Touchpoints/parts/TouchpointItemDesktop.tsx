@@ -131,16 +131,17 @@ const TouchpointItemDesktop = ({
                     '__PLAN_PAGE_MODULE_TOUCHPOINTS_TOUCHPOINT_APP_LINK_LINUX_PLACEHOLDER'
                   )}
                 />
-                {linuxError && (
+                {linuxError ? (
                   <Paragraph style={{ marginTop: appTheme.space.xs }}>
                     <Message validation="error">{linuxError}</Message>
                   </Paragraph>
+                ) : (
+                  <Message>
+                    {t(
+                      '__PLAN_PAGE_MODULE_TOUCHPOINTS_TOUCHPOINT_APP_LINK_LINUX_HINT'
+                    )}
+                  </Message>
                 )}
-                <Message>
-                  {t(
-                    '__PLAN_PAGE_MODULE_TOUCHPOINTS_TOUCHPOINT_APP_LINK_LINUX_HINT'
-                  )}
-                </Message>
               </FormField>
             )}
           </FormField>
@@ -207,16 +208,17 @@ const TouchpointItemDesktop = ({
                     '__PLAN_PAGE_MODULE_TOUCHPOINTS_TOUCHPOINT_APP_LINK_MACOS_PLACEHOLDER'
                   )}
                 />
-                {macosError && (
+                {macosError ? (
                   <Paragraph style={{ marginTop: appTheme.space.xs }}>
                     <Message validation="error">{macosError}</Message>
                   </Paragraph>
+                ) : (
+                  <Message>
+                    {t(
+                      '__PLAN_PAGE_MODULE_TOUCHPOINTS_TOUCHPOINT_APP_LINK_MACOS_HINT'
+                    )}
+                  </Message>
                 )}
-                <Message>
-                  {t(
-                    '__PLAN_PAGE_MODULE_TOUCHPOINTS_TOUCHPOINT_APP_LINK_MACOS_HINT'
-                  )}
-                </Message>
               </FormField>
             )}
           </FormField>
@@ -285,16 +287,17 @@ const TouchpointItemDesktop = ({
                     '__PLAN_PAGE_MODULE_TOUCHPOINTS_TOUCHPOINT_APP_LINK_WINDOWS_PLACEHOLDER'
                   )}
                 />
-                {windowsError && (
+                {windowsError ? (
                   <Paragraph style={{ marginTop: appTheme.space.xs }}>
                     <Message validation="error">{windowsError}</Message>
                   </Paragraph>
+                ) : (
+                  <Message>
+                    {t(
+                      '__PLAN_PAGE_MODULE_TOUCHPOINTS_TOUCHPOINT_APP_LINK_WINDOWS_HINT'
+                    )}
+                  </Message>
                 )}
-                <Message>
-                  {t(
-                    '__PLAN_PAGE_MODULE_TOUCHPOINTS_TOUCHPOINT_APP_LINK_WINDOWS_HINT'
-                  )}
-                </Message>
               </FormField>
             )}
           </FormField>

@@ -195,14 +195,15 @@ const TaskItem = ({
                   readOnly={getPlanStatus() !== 'draft'}
                   {...(invalidUrlError && { validation: 'error' })}
                 />
-                {invalidUrlError && (
+                {invalidUrlError ? (
                   <Paragraph style={{ marginTop: appTheme.space.xs }}>
                     <Message validation="error">{invalidUrlError}</Message>
                   </Paragraph>
+                ) : (
+                  <Message>
+                    {t('__PLAN_PAGE_MODULE_TASKS_TASK_LINK_HINT')}
+                  </Message>
                 )}
-                <Message>
-                  {t('__PLAN_PAGE_MODULE_TASKS_TASK_LINK_HINT')}
-                </Message>
               </FormField>
             </div>
           </AccordionNew.Panel>
