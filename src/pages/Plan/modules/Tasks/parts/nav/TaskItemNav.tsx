@@ -83,7 +83,7 @@ const TaskItemNav = ({
           {getIconFromTaskOutput(task)}
           <Ellipsis style={{ width: '95%' }}>
             <MD>
-              {key + 1}.
+              {key + 1}.{' '}
               <Span isBold>
                 {hasPlaceholder
                   ? t('__PLAN_PAGE_MODULE_TASKS_TASK_TITLE_PLACEHOLDER_EMPTY')

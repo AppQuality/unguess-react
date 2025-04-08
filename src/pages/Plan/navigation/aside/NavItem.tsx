@@ -38,11 +38,9 @@ const NavItemLink = styled(Link)`
 
 const NavItem = ({
   type,
-  index,
   children,
 }: {
   type: components['schemas']['Module']['type'];
-  index: number;
   children?: React.ReactNode;
 }) => {
   const { t } = useTranslation();
@@ -80,7 +78,7 @@ const NavItem = ({
           {getIconFromModuleType(type)}
           <Ellipsis style={{ width: '95%' }}>
             <MD>
-              {index + 1}. <Span isBold>{getTitleFromModuleType(type)}</Span>
+              <Span isBold>{getTitleFromModuleType(type)}</Span>
             </MD>
           </Ellipsis>
         </StyledContainer>
