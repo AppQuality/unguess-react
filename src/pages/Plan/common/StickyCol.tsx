@@ -20,13 +20,12 @@ interface StickyColProps extends React.ComponentProps<typeof Col> {
 }
 
 export const StickyCol = ({ children, ...props }: StickyColProps) => {
-  const stickyHeight = useMemo(
-    () => document.getElementById('sticky-plan-page-header')?.offsetHeight || 0,
-    []
-  );
+  const stickyHeight =
+    document.getElementById('sticky-plan-page-header')?.offsetHeight || 0;
+  const stickyHeightMemo = useMemo(() => stickyHeight, [stickyHeight]);
 
   return (
-    <StyledCol $stickyHeight={stickyHeight} {...props}>
+    <StyledCol $stickyHeight={stickyHeightMemo} {...props}>
       {children}
     </StyledCol>
   );
