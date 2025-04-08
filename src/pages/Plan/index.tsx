@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useAppDispatch } from 'src/app/hooks';
 import { PLAN_MINIMUM_DATE } from 'src/constants';
 import {
@@ -13,6 +13,7 @@ import { FormBody } from 'src/features/modules/types';
 import { setWorkspace } from 'src/features/navigation/navigationSlice';
 import { Page } from 'src/features/templates/Page';
 import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
+import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { PlanProvider, usePlanTab } from './context/planContext';
 import PlanPageHeader from './navigation/header/Header';
 import { PlanBody } from './PlanBody';
@@ -65,8 +66,10 @@ const useSetActiveWorkspace = (workspaceId?: number) => {
 
 const Plan = () => {
   const { activeWorkspace } = useActiveWorkspace();
+  const navigate = useNavigate();
+  const location = useLocation();
   const { planId } = useParams();
-  const { data: plan } = useGetPlansByPidQuery(
+  const { isError, data: plan } = useGetPlansByPidQuery(
     {
       pid: Number(planId).toString(),
     },
@@ -74,6 +77,7 @@ const Plan = () => {
       skip: !activeWorkspace || !planId,
     }
   );
+  const notFoundRoute = useLocalizeRoute('oops');
 
   const [initialValues, setInitialValues] = useState<FormBody>({
     status: 'draft',
@@ -101,6 +105,18 @@ const Plan = () => {
       modules,
     });
   }, [plan]);
+
+  if (!planId || Number.isNaN(Number(planId))) {
+    navigate(notFoundRoute, {
+      state: { from: location.pathname },
+    });
+  }
+
+  if (isError) {
+    navigate(notFoundRoute, {
+      state: { from: location.pathname },
+    });
+  }
 
   return (
     <FormProvider initialValues={initialValues}>
