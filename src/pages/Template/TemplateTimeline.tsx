@@ -253,7 +253,6 @@ const TemplateTimeline = ({
                           icon={<CheckIcon />}
                           key={key}
                         >
-                          \
                           <Timeline.Content>
                             <Paragraph style={{ fontWeight: 500 }}>
                               {item}
