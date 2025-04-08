@@ -41,7 +41,7 @@ const OutOfScope = () => {
     module: components['schemas']['Module'] & { type: 'out_of_scope' }
   ) => {
     let error;
-    if (module.output.length > 256) {
+    if (module.output.length > 512) {
       error = t('__PLAN_OUT_OF_SCOPE_SIZE_ERROR_TOO_LONG');
     }
     return error || true;

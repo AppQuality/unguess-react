@@ -984,7 +984,7 @@
   "__PLAN_INSTRUCTION_NOTE_SIZE_ERROR_EMPTY": "Required field: enter a text to continue",
   "__PLAN_INSTRUCTION_NOTE_SIZE_ERROR_TOO_LONG": "Character limit exceeded: Please reduce your text to 512 characters",
   "__PLAN_MISSING_MODULES_ERROR": "Some items are missing",
-  "__PLAN_OUT_OF_SCOPE_SIZE_ERROR_TOO_LONG": "Character limit exceeded: Please reduce your text to 256 characters",
+  "__PLAN_OUT_OF_SCOPE_SIZE_ERROR_TOO_LONG": "Character limit exceeded: Please reduce your text to 512 characters",
   "__PLAN_PAGE_ADD_MODULE_BLOCK_BUTTON": "Add item",
   "__PLAN_PAGE_ADD_MODULE_BLOCK_MODAL_SUBTITLE": "Provide the necessary details to describe this activity",
   "__PLAN_PAGE_ADD_MODULE_BLOCK_MODAL_TITLE": "Available informations",
