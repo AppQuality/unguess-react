@@ -122,19 +122,20 @@ const InstructionsNote = () => {
           >
             {value?.output}
           </Editor>
-          {hasFeatureFlag(FEATURE_FLAG_CHANGE_MODULES_VARIANTS) && (
-            <StyledInfoBox>
-              {error && typeof error === 'string' ? (
-                <Message validation="error" data-qa="instruction-note-error">
-                  {error}
-                </Message>
-              ) : (
-                <Message>
-                  {t('__PLAN_PAGE_MODULE_INSTRUCTION_NOTE_INFO')}
-                </Message>
-              )}
-            </StyledInfoBox>
-          )}
+          {hasFeatureFlag(FEATURE_FLAG_CHANGE_MODULES_VARIANTS) &&
+            getPlanStatus() === 'draft' && (
+              <StyledInfoBox>
+                {error && typeof error === 'string' ? (
+                  <Message validation="error" data-qa="instruction-note-error">
+                    {error}
+                  </Message>
+                ) : (
+                  <Message>
+                    {t('__PLAN_PAGE_MODULE_INSTRUCTION_NOTE_INFO')}
+                  </Message>
+                )}
+              </StyledInfoBox>
+            )}
         </>
       </StyledCard>
       {isOpenDeleteModal && (
