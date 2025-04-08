@@ -19,8 +19,8 @@ import { isTemplateTailored } from 'src/common/isTemplateTailored';
 import {
   CpReqTemplate,
   Module,
-  ModuleTouchpoints,
   ModuleTask,
+  ModuleTouchpoints,
   usePostWorkspacesByWidPlansMutation,
 } from 'src/features/api';
 import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
@@ -112,6 +112,14 @@ const DrawerFooter = ({
     [selectedTemplate.isTailored, templateId]
   );
 
+  const onMoreInfoNavigation = () => {
+    if (projectId) {
+      navigate(`/templates/${selectedTemplate.id}`, { state: { projectId } });
+    } else {
+      navigate(`/templates/${selectedTemplate.id}`);
+    }
+  };
+
   return (
     <Drawer.Footer>
       <Drawer.FooterItem>
@@ -120,20 +128,12 @@ const DrawerFooter = ({
             style={{ marginRight: `${theme.space.md}` }}
             isPrimary
             isLink
-            onClick={() => {
-              navigate(`/templates/${selectedTemplate.id}`);
-            }}
+            onClick={onMoreInfoNavigation}
           >
             {t('__TEMPLATES_DRAWER_FOOTER_INFO_BUTTON')}
           </Button>
         )}
-        <Button
-          isPrimary
-          isAccent
-          onClick={() => {
-            handleConfirm();
-          }}
-        >
+        <Button isPrimary isAccent onClick={handleConfirm}>
           {t('__TEMPLATES_DRAWER_FOOTER_CONFIRM_BUTTON')}
         </Button>
       </Drawer.FooterItem>
