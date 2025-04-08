@@ -80,7 +80,7 @@ const NavItem = ({
           {getIconFromModuleType(type)}
           <Ellipsis style={{ width: '95%' }}>
             <MD>
-              {index + 1}. <Span isBold>{getTitleFromModuleType(type)}</Span>
+              <Span isBold>{getTitleFromModuleType(type)}</Span>
             </MD>
           </Ellipsis>
         </StyledContainer>
