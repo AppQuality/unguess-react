@@ -171,40 +171,40 @@ const TaskItem = ({
                   )}
                 </>
               )}
-
-              <FormField style={{ marginTop: appTheme.space.md }}>
-                <Label>
-                  {t('__PLAN_PAGE_MODULE_TASKS_TASK_LINK_LABEL')}{' '}
-                  <Span
-                    style={{
-                      fontWeight: 400,
-                      color: appTheme.palette.grey[600],
-                    }}
-                  >
-                    {t('__PLAN_PAGE_MODULE_TASKS_TASK_OPTIONAL_LABEL')}
-                  </Span>
-                </Label>
-                <MediaInput
-                  start={<LinkIcon />}
-                  value={task.url}
-                  onBlur={handleBlur}
-                  onChange={(e) => update(key, { url: e.target.value })}
-                  placeholder={t(
-                    '__PLAN_PAGE_MODULE_TASKS_TASK_LINK_PLACEHOLDER'
+              {task.kind !== 'explorative-bug' && (
+                <FormField style={{ marginTop: appTheme.space.md }}>
+                  <Label>
+                    {t('__PLAN_PAGE_MODULE_TASKS_TASK_LINK_LABEL')}{' '}
+                    <Span
+                      style={{
+                        fontWeight: 400,
+                        color: appTheme.palette.grey[600],
+                      }}
+                    >
+                      {t('__PLAN_PAGE_MODULE_TASKS_TASK_OPTIONAL_LABEL')}
+                    </Span>
+                  </Label>
+                  <MediaInput
+                    start={<LinkIcon />}
+                    value={task.url}
+                    onBlur={handleBlur}
+                    onChange={(e) => update(key, { url: e.target.value })}
+                    placeholder={t(
+                      '__PLAN_PAGE_MODULE_TASKS_TASK_LINK_PLACEHOLDER'
+                    )}
+                    readOnly={getPlanStatus() !== 'draft'}
+                    {...(invalidUrlError && { validation: 'error' })}
+                  />
+                  {invalidUrlError && (
+                    <Paragraph style={{ marginTop: appTheme.space.xs }}>
+                      <Message validation="error">{invalidUrlError}</Message>
+                    </Paragraph>
                   )}
-                  readOnly={getPlanStatus() !== 'draft'}
-                  {...(invalidUrlError && { validation: 'error' })}
-                />
-                {invalidUrlError ? (
-                  <Paragraph style={{ marginTop: appTheme.space.xs }}>
-                    <Message validation="error">{invalidUrlError}</Message>
-                  </Paragraph>
-                ) : (
                   <Message>
                     {t('__PLAN_PAGE_MODULE_TASKS_TASK_LINK_HINT')}
                   </Message>
-                )}
-              </FormField>
+                </FormField>
+              )}
             </div>
           </AccordionNew.Panel>
         </AccordionNew.Section>
