@@ -108,8 +108,8 @@ const DrawerFooter = ({
   };
 
   const shouldSeeInfoButton = useMemo(
-    () => !selectedTemplate.isTailored && !templateId,
-    [selectedTemplate.isTailored, templateId]
+    () => selectedTemplate.strapi && !templateId,
+    [selectedTemplate.strapi, templateId]
   );
 
   const onMoreInfoNavigation = () => {
