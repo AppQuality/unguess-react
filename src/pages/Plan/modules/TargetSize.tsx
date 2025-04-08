@@ -11,7 +11,6 @@ import { ChangeEvent, useEffect, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as AlertIcon } from 'src/assets/icons/alert-icon.svg';
-import { ReactComponent as InfoIcon } from 'src/assets/icons/info-icon.svg';
 import { ReactComponent as TrashIcon } from 'src/assets/icons/trash-stroke.svg';
 import { components } from 'src/common/schema';
 import { FEATURE_FLAG_CHANGE_MODULES_VARIANTS } from 'src/constants';
@@ -97,7 +96,7 @@ const TargetSize = () => {
           </AccordionNew.Header>
           <AccordionNew.Panel>
             <div style={{ padding: appTheme.space.xs }}>
-              <FormField style={{ marginBottom: appTheme.space.md }}>
+              <FormField>
                 <Label>
                   <Trans i18nKey="__PLAN_PAGE_MODULE_TARGET_LABEL">
                     Enter the number of users you want to include
@@ -115,7 +114,7 @@ const TargetSize = () => {
                   placeholder={t('__PLAN_PAGE_MODULE_TARGET_PLACEHOLDER')}
                 />
                 <StyledInfoBox>
-                  {error && typeof error === 'string' ? (
+                  {error && typeof error === 'string' && (
                     <>
                       <AlertIcon />
                       <SM
@@ -123,13 +122,6 @@ const TargetSize = () => {
                         data-qa="target-error"
                       >
                         {error}
-                      </SM>
-                    </>
-                  ) : (
-                    <>
-                      <InfoIcon />
-                      <SM style={{ color: appTheme.palette.grey[600] }}>
-                        {t('__PLAN_PAGE_MODULE_TARGET_INFO')}
                       </SM>
                     </>
                   )}
