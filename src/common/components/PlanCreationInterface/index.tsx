@@ -13,7 +13,7 @@ import {
 } from '@appquality/unguess-design-system';
 import { useMemo } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
 import { isTemplateTailored } from 'src/common/isTemplateTailored';
 import {
@@ -84,6 +84,7 @@ const DrawerFooter = ({
   const plansRoute = useLocalizeRoute('plans');
   const { t } = useTranslation();
   const location = useLocation();
+  const { templateId } = useParams();
 
   const handleConfirm = async () => {
     setFieldIsTouched(true);
@@ -112,8 +113,11 @@ const DrawerFooter = ({
     [location.pathname]
   );
   const shouldSeeInfoButton = useMemo(
-    () => !selectedTemplate.isTailored && location.pathname !== infoPath,
-    [selectedTemplate.isTailored, location.pathname, infoPath]
+    () =>
+      !selectedTemplate.isTailored &&
+      location.pathname !== infoPath &&
+      !templateId,
+    [selectedTemplate.isTailored, location.pathname, infoPath, templateId]
   );
 
   return (
