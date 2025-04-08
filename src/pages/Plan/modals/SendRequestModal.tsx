@@ -2,16 +2,18 @@ import {
   Button,
   FooterItem,
   Label,
+  LG,
   Message,
   Modal,
   ModalClose,
   Notification,
   OrderedList,
+  Skeleton,
   SM,
   useToast,
   XL,
 } from '@appquality/unguess-design-system';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { useRequestQuotation } from 'src/features/modules/useRequestQuotation';
 import { useValidateForm } from 'src/features/planModules';
@@ -20,8 +22,7 @@ import { Title } from '../modules/Title';
 
 const SendRequestModal = ({ onQuit }: { onQuit: () => void }) => {
   const { t } = useTranslation();
-  const { isRequestQuoteCTADisabled, handleQuoteRequest, error } =
-    useRequestQuotation();
+  const { isRequestingQuote, handleQuoteRequest } = useRequestQuotation();
   const { addToast } = useToast();
 
   const { validateForm } = useValidateForm();
@@ -29,6 +30,7 @@ const SendRequestModal = ({ onQuit }: { onQuit: () => void }) => {
   const handleConfirm = async () => {
     try {
       await validateForm();
+      await handleQuoteRequest();
     } catch (e) {
       addToast(
         ({ close }) => (
@@ -36,7 +38,7 @@ const SendRequestModal = ({ onQuit }: { onQuit: () => void }) => {
             onClose={close}
             type="error"
             message={
-              e instanceof Error
+              e instanceof Error && e.message
                 ? e.message
                 : t('__PLAN_PAGE_MODAL_SEND_REQUEST_TOAST_ERROR')
             }
@@ -48,36 +50,47 @@ const SendRequestModal = ({ onQuit }: { onQuit: () => void }) => {
       );
       return;
     }
-    handleQuoteRequest()
-      .then(() => {
-        onQuit();
-      })
-      .catch((e) => {
-        let message = t('__PLAN_PAGE_MODAL_SEND_REQUEST_TOAST_ERROR');
-        if ('message' in e && e.message) {
-          message = e.message;
-        }
-        addToast(
-          ({ close }) => (
-            <Notification
-              onClose={close}
-              type="error"
-              message={message}
-              closeText={t('__TOAST_CLOSE_TEXT')}
-              isPrimary
-            />
-          ),
-          { placement: 'top' }
-        );
-        // eslint-disable-next-line no-console
-        console.error(error);
-      });
+    onQuit();
   };
 
-  if (isRequestQuoteCTADisabled()) return null;
+  if (isRequestingQuote()) {
+    return (
+      <Modal
+        role="dialog"
+        style={{
+          backgroundColor: 'transparent',
+          boxShadow: 'none',
+          marginTop: '-100px',
+        }}
+      >
+        <Trans
+          i18nKey="__PLAN_PAGE_MODAL_SEND_REQUEST_WAIT"
+          components={{
+            LG: <LG color="white" />,
+            XL: (
+              <XL
+                color="white"
+                isBold
+                style={{ marginBottom: appTheme.space.xs }}
+              />
+            ),
+          }}
+        />
+        <Skeleton
+          width="100%"
+          height="8px"
+          style={{
+            marginTop: appTheme.space.lg,
+            backgroundColor: appTheme.palette.teal[500],
+            borderRadius: appTheme.borderRadii.lg,
+          }}
+        />
+      </Modal>
+    );
+  }
 
   return (
-    <Modal onClose={onQuit} data-qa="request-quotation-modal">
+    <Modal onClose={onQuit} role="dialog" data-qa="request-quotation-modal">
       <Modal.Header>{t('__PLAN_PAGE_MODAL_SEND_REQUEST_TITLE')}</Modal.Header>
       <Modal.Body style={{ overflow: 'visible' }}>
         <XL isBold>{t('__PLAN_PAGE_MODAL_SEND_REQUEST_BODY_TITLE')}</XL>
@@ -126,7 +139,7 @@ const SendRequestModal = ({ onQuit }: { onQuit: () => void }) => {
           </Button>
         </FooterItem>
       </Modal.Footer>
-      <ModalClose onClick={onQuit} />
+      <ModalClose />
     </Modal>
   );
 };
