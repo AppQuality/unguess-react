@@ -149,7 +149,7 @@ export const ProjectEmptyState = () => {
           <Illustration />
           <Paragraph style={{ textAlign: 'center', width: '70%' }}>
             <XL color={appTheme.palette.blue[600]}>
-              {t('__EMPTY_SPACE_NO_FEATURE')}
+              {t('__PROJECT_PAGE_EMPTY_STATE_NO_FEATURE')}
             </XL>
           </Paragraph>
         </ImageWrapper>

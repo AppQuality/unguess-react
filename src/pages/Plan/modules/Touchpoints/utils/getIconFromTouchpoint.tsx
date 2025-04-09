@@ -9,18 +9,22 @@ import { ReactComponent as WebSmartphoneIcon } from 'src/assets/icons/touchpoint
 import { components } from 'src/common/schema';
 import { useModuleTouchpoints } from '../hooks';
 
-const getIconColor = () => {
+const getIconColor = (
+  touchpoint: components['schemas']['OutputModuleTouchpoints'] & { key: number }
+) => {
+  const { key, os } = touchpoint;
   const { error } = useModuleTouchpoints();
 
   const hasErrors =
     (error &&
       typeof error === 'object' &&
-      Object.keys(error).some((k) => k.startsWith('touchpoints'))) ??
+      Object.keys(error).some((k) => k.startsWith(`touchpoints.${key}`))) ??
     false;
 
-  // TODO: Handle grey color
+  const hasOs = Object.keys(os).length > 0;
 
   if (hasErrors) return getColor(appTheme.colors.dangerHue, 900);
+  if (!hasErrors && !hasOs) return getColor(appTheme.palette.grey, 600);
   return getColor(appTheme.colors.primaryHue, 600);
 };
 
@@ -28,7 +32,7 @@ const getIconFromTouchpointOutput = (
   touchpoint: components['schemas']['OutputModuleTouchpoints'] & { key: number }
 ) => {
   const { kind, form_factor } = touchpoint;
-  const color = getIconColor();
+  const color = getIconColor(touchpoint);
 
   switch (form_factor) {
     case 'desktop':
