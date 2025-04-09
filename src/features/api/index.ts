@@ -1833,7 +1833,7 @@ export type GetWorkspacesByWidTemplatesApiArg = {
   /** Start pagination parameter */
   start?: number;
   /** Orders results */
-  orderBy?: 'updated_at' | 'id';
+  orderBy?: 'updated_at' | 'id' | 'order';
   /** Order value (ASC, DESC) */
   order?: string;
   /** filterBy[<fieldName>]=<fieldValue> */
