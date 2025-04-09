@@ -33,43 +33,11 @@ const TouchpointItem = ({
     form_factor.charAt(0).toUpperCase() + form_factor.slice(1);
   const formattedKind = kind.toUpperCase();
 
-  const linuxError =
-    error && typeof error === 'object' && `touchpoints.${key}.os.linux` in error
-      ? error[`touchpoints.${key}.os.linux`]
-      : false;
-  const macosError =
-    error && typeof error === 'object' && `touchpoints.${key}.os.macos` in error
-      ? error[`touchpoints.${key}.os.macos`]
-      : false;
-  const windowsError =
-    error &&
-    typeof error === 'object' &&
-    `touchpoints.${key}.os.windows` in error
-      ? error[`touchpoints.${key}.os.windows`]
-      : false;
-  const iosError =
-    error && typeof error === 'object' && `touchpoints.${key}.os.ios` in error
-      ? error[`touchpoints.${key}.os.ios`]
-      : false;
-  const androidError =
-    error &&
-    typeof error === 'object' &&
-    `touchpoints.${key}.os.android` in error
-      ? error[`touchpoints.${key}.os.android`]
-      : false;
-
-  const lengthError =
-    error && typeof error === 'object' && `touchpoints.${key}.length` in error
-      ? error[`touchpoints.${key}.length`]
-      : false;
-
-  const hasError =
-    macosError ||
-    windowsError ||
-    linuxError ||
-    iosError ||
-    androidError ||
-    lengthError;
+  const hasErrors =
+    (error &&
+      typeof error === 'object' &&
+      Object.keys(error).some((k) => k.startsWith(`touchpoints.${key}`))) ??
+    false;
 
   return (
     <>
@@ -78,7 +46,7 @@ const TouchpointItem = ({
         id={`touchpoint-${index}`}
         key={`touchpoint-${index}`}
         hasBorder
-        type={hasError ? 'danger' : 'default'}
+        type={hasErrors ? 'danger' : 'default'}
       >
         <AccordionNew.Section>
           <AccordionNew.Header icon={getIconFromTouchpointOutput(touchpoint)}>

@@ -53,7 +53,7 @@ const Templates = () => {
   const { status } = useAppSelector((state) => state.user);
   const canViewTemplates = useCanAccessToActiveWorkspace();
 
-  const { data, isLoading, isError } = useGetWorkspacesByWidTemplatesQuery(
+  const { isLoading, isError } = useGetWorkspacesByWidTemplatesQuery(
     {
       wid: activeWorkspace?.id.toString() || '',
     },
@@ -62,14 +62,14 @@ const Templates = () => {
     }
   );
 
-  if (!data || isLoading || status === 'loading') {
-    return <PageLoader />;
-  }
-
   if (!canViewTemplates || isError) {
     navigate(notFoundRoute, {
       state: { from: location.pathname },
     });
+  }
+
+  if (isLoading || status === 'loading') {
+    return <PageLoader />;
   }
 
   return (
