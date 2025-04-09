@@ -133,7 +133,7 @@ test.describe("If i don't have workspace access", () => {
     // shared workspaces means no workspace access right now
     await templates.mocksharedWorkspacesList();
 
-    await templates.mockGetTemplates();
+    await templates.mockGetTemplatesWithoutPermissions();
     await templates.mockGetProjects();
     await templates.mockPostPlans();
   });

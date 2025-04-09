@@ -36,6 +36,8 @@ export const PromoContextProvider = ({ children }: { children: ReactNode }) => {
       filterBy: {
         isPromo: 1,
       },
+      orderBy: 'order',
+      order: 'asc',
     },
     {
       skip: !activeWorkspace,

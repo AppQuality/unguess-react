@@ -8,7 +8,6 @@ import PlanCreationInterface from 'src/common/components/PlanCreationInterface';
 import { useGetWorkspacesByWidTemplatesQuery } from 'src/features/api';
 import { Page } from 'src/features/templates/Page';
 import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
-import { useCanAccessToActiveWorkspace } from 'src/hooks/useCanAccessToActiveWorkspace';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import Body from './Body';
 import { CategoriesNav } from './CategoriesNav';
@@ -51,25 +50,26 @@ const Templates = () => {
   const location = useLocation();
   const { activeWorkspace } = useActiveWorkspace();
   const { status } = useAppSelector((state) => state.user);
-  const canViewTemplates = useCanAccessToActiveWorkspace();
 
-  const { data, isLoading, isError } = useGetWorkspacesByWidTemplatesQuery(
+  const { isLoading, isError } = useGetWorkspacesByWidTemplatesQuery(
     {
       wid: activeWorkspace?.id.toString() || '',
+      orderBy: 'order',
+      order: 'asc',
     },
     {
       skip: !activeWorkspace,
     }
   );
 
-  if (!data || isLoading || status === 'loading') {
-    return <PageLoader />;
-  }
-
-  if (!canViewTemplates || isError) {
+  if (isError) {
     navigate(notFoundRoute, {
       state: { from: location.pathname },
     });
+  }
+
+  if (isLoading || status === 'loading') {
+    return <PageLoader />;
   }
 
   return (
