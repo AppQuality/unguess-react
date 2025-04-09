@@ -159,7 +159,17 @@ const useModuleTasks = () => {
   const update = (k: number, v: Partial<(typeof output)[number]>) => {
     setOutput(
       output
-        .map((o) => (o.key === k ? { ...o, ...v } : o))
+        .map((o) => {
+          if (o.key !== k) return o;
+
+          if (v.url !== '') return { ...o, ...v };
+
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+          const { url: __, ...rest } = o;
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+          const { url: _, ...restWithoutUrl } = v;
+          return { ...rest, ...restWithoutUrl };
+        })
         .map((o) => {
           // eslint-disable-next-line @typescript-eslint/no-unused-vars
           const { key, ...rest } = o;
