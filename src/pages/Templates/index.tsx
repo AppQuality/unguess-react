@@ -56,6 +56,8 @@ const Templates = () => {
   const { data, isLoading, isError } = useGetWorkspacesByWidTemplatesQuery(
     {
       wid: activeWorkspace?.id.toString() || '',
+      orderBy: 'order',
+      order: 'asc',
     },
     {
       skip: !activeWorkspace,
