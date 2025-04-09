@@ -7,9 +7,7 @@
       "title": {
         "full": "[Apertura Conto] - Status bar di iOS non visibile nella pagina informativa dei conti",
         "compact": "Status bar di iOS non visibile nella pagina informativa dei conti",
-        "context": [
-          "Apertura Conto"
-        ]
+        "context": ["Apertura Conto"]
       },
       "step_by_step": "1. Aprire l’app\r\n2. Fare tap su “Apri conto”\r\n3. Visualizzare la pagina informativa su i conti",
       "expected_result": "Mi sarei aspettato di visualizzare correttamente tutti gli elementi della status bar di iOS.",
@@ -73,9 +71,7 @@
       "title": {
         "full": "[Apertura Conto] - Impossibile tornare indietro una volta selezionato il pulsante \"?\"",
         "compact": "Impossibile tornare indietro una volta selezionato il pulsante \"?\"",
-        "context": [
-          "Apertura Conto"
-        ]
+        "context": ["Apertura Conto"]
       },
       "step_by_step": "1. Aprire l'app e iniziare flusso di apertura conto\r\n2. Da uno step qualunque del flusso fare tap sul pulsante verde \"?\" in alto a destra\r\n3. Visualizzare la scheda di assistenza",
       "expected_result": "Mi aspettavo di trovare un pulsante che mi rimandasse alla pagina dello step a cui sono arrivato procedendo con la registrazione.",
@@ -139,9 +135,7 @@
       "title": {
         "full": "[Autocertificazione] - Impossibile selezionare il menu a tendina “Regione/Area”",
         "compact": "Impossibile selezionare il menu a tendina “Regione/Area”",
-        "context": [
-          "Autocertificazione"
-        ]
+        "context": ["Autocertificazione"]
       },
       "step_by_step": "1. Aprire il conto e procedere con il flusso\r\n2. Atterrare allo step 5/6e inserire i dati richiesti\r\n3. Fare tap sul menu “Regione/Area”",
       "expected_result": "Mi aspettavo di poter selezionare la regione di residenza.",
@@ -205,9 +199,7 @@
       "title": {
         "full": "[Autocertificazione] - É possibile non selezionare nessun indirizzo di spedizione della carta",
         "compact": "É possibile non selezionare nessun indirizzo di spedizione della carta",
-        "context": [
-          "Autocertificazione"
-        ]
+        "context": ["Autocertificazione"]
       },
       "step_by_step": "1. Aprire il conto Start \r\n2. Anadare allo step \"Autocertificazione\"\r\n3. Inserire i dati della residenza\r\n4. Premere su \"Residenza di versa da domicilio\"\r\n5. Selezionare \"Spedisci la carta al domicilio\"\r\n6. Selezionare la residenza uguale a domicilio\r\n7. Guardare le attuali impostazioni di spedizione (nessuna selezionata)\r\n8. Procedere facendo tap sul pulsante \"Procedi\"",
       "expected_result": "Mi sarei aspettato di non poter proseguire non avendo scelto dove spedire la carta.",
@@ -271,9 +263,7 @@
       "title": {
         "full": "[Autocertificazione] - Impossibile procedere dal punto 5 se si seleziona \"Altro\" come \"Provenienza apporto iniziale\"",
         "compact": "Impossibile procedere dal punto 5 se si seleziona \"Altro\" come \"Provenienza apporto iniziale\"",
-        "context": [
-          "Autocertificazione"
-        ]
+        "context": ["Autocertificazione"]
       },
       "step_by_step": "1. Aprire il conto Start\r\n2. Arrivare alla pagina di \"Autocertificazione\"\r\n3. Selezionare in fondo \"Provenienza apporto iniziale\" come \"Altro\"\r\n4. Fare tap su \"Procedi\"",
       "expected_result": "Mi sarei aspettato di poter procedere oppure che comparisse un messaggio di errore (ad esempio, \"Altro non ammesso\").",
@@ -337,9 +327,7 @@
       "title": {
         "full": "[Identificazione] - Inizialmente viene indicata la tessera sanitaria come secondo documento ma poi non è richiesta",
         "compact": "Inizialmente viene indicata la tessera sanitaria come secondo documento ma poi non è richiesta",
-        "context": [
-          "Identificazione"
-        ]
+        "context": ["Identificazione"]
       },
       "step_by_step": "1. Aprire il conto Start \r\n2. Leggere l'introduzione dello step di \"Identificazione\"\r\n3. Constatare che serve la tessera sanitaria o la patente di giuda come secondo documento\r\n4. Caricare il primo documento\r\n5. Visualizzare i documenti richiesti come secondo documento",
       "expected_result": "Mi sarei aspettato di poter caricare la patente o la tessera sanitaria.",
@@ -403,9 +391,7 @@
       "title": {
         "full": "[I tuoi dati] - App non accetta codice fiscale corretto per la registrazione ",
         "compact": "App non accetta codice fiscale corretto per la registrazione",
-        "context": [
-          "I tuoi dati"
-        ]
+        "context": ["I tuoi dati"]
       },
       "step_by_step": "1. Aprire l'app e fare tap su \"Apri conto\"\r\n2. Selezionare il conto \"Start\" e fare tap su \"Apri conto\"\r\n3. Nella pagina aperta scorrere verso il basso e fare tap su \"Procedi\"\r\n4. Selezionare \"A me\" e inserire le proprie informazioni personali fra cui il codice fiscale ",
       "expected_result": "L'app accetta il codice fiscale e sì può procedere con la registrazione.",
@@ -469,9 +455,7 @@
       "title": {
         "full": "[Identificazione] - Videocamera e microfono non si attivano per effettuare la procedura di identificazione",
         "compact": "Videocamera e microfono non si attivano per effettuare la procedura di identificazione",
-        "context": [
-          "Identificazione"
-        ]
+        "context": ["Identificazione"]
       },
       "step_by_step": "1. Scegliere “Start” e fare tap sul pulsante “Apri Conto”\r\n2. Scegliere se ricevere la carta di debito contestualmente all'apertura del conto\r\n3. Nella pagina dedicata al primo documento effettuare l’upload del Passaporto e controllare i dati rilevati dall’app\r\n4. Nella pagina dedicata al secondo documento effettuare l’upload della patente di guida e controllare i dati rilevati dall’app\r\n5. Al passaggio successivo viene richiesto di confermare l’identità con un selfie\r\n6. Effettuare una registrazione audio/video",
       "expected_result": "Mi aspetterei che, avendo dato i consenti, si attivino videocamera e microfono per poter registrare un video-selfie che sembrerebbe essere obbligatorio per l'identificazione.",
@@ -535,9 +519,7 @@
       "title": {
         "full": "[Apertura Conto] - Compare il messaggio “connessione internet assente”",
         "compact": "Compare il messaggio “connessione internet assente”",
-        "context": [
-          "Apertura Conto"
-        ]
+        "context": ["Apertura Conto"]
       },
       "step_by_step": "1. Aprire l’app\r\n2. Selezionare “conto Premium”\r\n3. Procedere con l’inserimento dei dati",
       "expected_result": "Mi aspettavo di poter normalmente con la registrazione sull'app.",
@@ -601,9 +583,7 @@
       "title": {
         "full": "[Il tuo conto] - Premendo il pulsante \"Procedi\" viene deselezionata la casella di consenso",
         "compact": "Premendo il pulsante \"Procedi\" viene deselezionata la casella di consenso",
-        "context": [
-          "Il tuo conto"
-        ]
+        "context": ["Il tuo conto"]
       },
       "step_by_step": "1. Aprire l'app Sella\r\n2. Premere su \"Apri conto\"\r\n3. Scegliere il conto Start\r\n4. Procedere fino allo step 3 con la lista dei documenti\r\n5. Premere \"Procedi\" dopo aver selezionato la seconda casella per il consenso",
       "expected_result": "Mi sarei aspettato che la seconda casella per il consenso non venisse deselezionata.",
@@ -667,9 +647,7 @@
       "title": {
         "full": "[Identificazione] - La pagina dalla quale caricare il secondo documento non presenta il pulsante per proseguire",
         "compact": "La pagina dalla quale caricare il secondo documento non presenta il pulsante per proseguire",
-        "context": [
-          "Identificazione"
-        ]
+        "context": ["Identificazione"]
       },
       "step_by_step": "1. Aprire l'app Sella\r\n2. Premere \"Apri conto\" e scegliere il conto Start\r\n3. Procedere fino alla pagina di caricamento del secondo documento",
       "expected_result": "Mi sarei aspettata ci fosse unaa CTA per proseguire.",
@@ -733,9 +711,7 @@
       "title": {
         "full": "[Identificazione] - L'app non abilita il microfono dello smartphone per la verifica",
         "compact": "L'app non abilita il microfono dello smartphone per la verifica",
-        "context": [
-          "Identificazione"
-        ]
+        "context": ["Identificazione"]
       },
       "step_by_step": "1. Dalla scheda iniziale dei 3 conti scegliere “Premium” e fare tap sul pulsante “Apri Conto”\r\n2. Scegliere SPID come modalità di autenticazione, cliccando sulla CTA \"Entra con SPID\"\r\n3. Inserire le credenziali SPID e procedere con l'apertura del conto\r\n4. Procedere con tutti i passaggi richiesti relativamente ai dati anagrafici fino alla richiesta di conferma dell’identità con un videoselfie\r\n5. Prestare tutti i consensi richiesti per far accedere l'app a telecamera e microfono, quindi registrare i videoselfie richiesti",
       "expected_result": "Mi aspetterei di registrare dei videoselfie con audio funzionante.",
@@ -799,9 +775,7 @@
       "title": {
         "full": "[Apertura Conto] - Dopo aver iniziato l'apertura di un conto start è impossibile aprire un altro tipo di conto",
         "compact": "Dopo aver iniziato l'apertura di un conto start è impossibile aprire un altro tipo di conto",
-        "context": [
-          "Apertura Conto"
-        ]
+        "context": ["Apertura Conto"]
       },
       "step_by_step": "1. Entrare nel flusso di apertura di un conto start e iniziare a inserire alcuni dati\r\n2. Interrompere la procedura dopo alcuni step, senza concludere la richiesta\r\n3. Chiudere e riaprire l'app\r\n4. Iniziare il flusso di apertura di un conto circle\r\n5. Immettere i propri dati",
       "expected_result": "Il sistema dovrebbe chiedere se si vuole proseguire con la precedente richiesta di pertura di un conto start o se si vuole iniziare una nuova pratica per il conto circle",
@@ -865,9 +839,7 @@
       "title": {
         "full": "[Autenticazione] - Il login con Sielte ID reinvia al login al proprio profilo Sielte non al login con SPID",
         "compact": "Il login con Sielte ID reinvia al login al proprio profilo Sielte non al login con SPID",
-        "context": [
-          "Autenticazione"
-        ]
+        "context": ["Autenticazione"]
       },
       "step_by_step": "1. Aprire l'app Sella\r\n2. Iniziare la procedura di apertura conto\r\n3. Eseguire il login con SPIDusando sielte",
       "expected_result": "Si dovrebbe essere rimandati al login con spid tramite sielte.",
@@ -931,9 +903,7 @@
       "title": {
         "full": "[Stress test] - L'app si riapre ogni volta perdendo i dati già inseriti impostando lo schermo diviso Android",
         "compact": "L'app si riapre ogni volta perdendo i dati già inseriti impostando lo schermo diviso Android",
-        "context": [
-          "Stress test"
-        ]
+        "context": ["Stress test"]
       },
       "step_by_step": "1. Aprire l'app\r\n2. Terminare l'onboarding\r\n3. Iniziare il percorso di apertura conto corrente inserendo i primi dati (es. nome e cognome)\r\n4. Utilizzare la funzionalità popup o schermo diviso",
       "expected_result": "L'app dovrebbe continuare la sua esecuzione o dovrebbe essermi impedito di ridimensionare l'app.",

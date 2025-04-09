@@ -1,15 +1,15 @@
 {
-  "id":38,
-  "company":"Demo Internal",
-  "tokens":-1,
-  "logo":"https://crowd.app-quality.com/wp-content/uploads/2017/06/StdProfileImg.png",
-  "csm":{
-     "id":49138,
-     "name":"Tester T49138",
-     "email":"it+profile49138@unguess.io",
-     "profile_id":49138,
-     "tryber_wp_user_id":49619,
-     "url":"https://tryber.me"
+  "id": 1,
+  "company": "Demo Internal",
+  "tokens": -1,
+  "logo": "https://crowd.app-quality.com/wp-content/uploads/2017/06/StdProfileImg.png",
+  "csm": {
+    "id": 49138,
+    "name": "Tester T49138",
+    "email": "it+profile49138@unguess.io",
+    "profile_id": 49138,
+    "tryber_wp_user_id": 49619,
+    "url": "https://tryber.me"
   },
-  "coins":0
+  "coins": 0
 }

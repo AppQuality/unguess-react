@@ -1,0 +1,61 @@
+{
+  "id": 13,
+  "workspace_id": 1,
+  "project": {
+    "id": 90,
+    "name": "MyProject"
+  },
+  "status": "draft",
+  "config": {
+    "modules": [
+      {
+        "type": "title",
+        "variant": "default",
+        "output": "My Plan"
+      },
+      {
+        "type": "dates",
+        "variant": "default",
+        "output": {
+          "start": "2041-12-17T08:00:00.000Z"
+        }
+      },
+      {
+        "type": "out_of_scope",
+        "variant": "default",
+        "output": "Out of scope"
+      },
+      {
+        "type": "target",
+        "variant": "default",
+        "output": 5
+      },
+      {
+        "type": "language",
+        "variant": "default",
+        "output": "en"
+      },
+      {
+        "type": "goal",
+        "variant": "default",
+        "output": "This is a Goal"
+      },
+      {
+        "type": "tasks",
+        "variant": "default",
+        "output": [
+          {
+            "kind": "bug",
+            "title": "Search for bugs",
+            "description": "description kind bug"
+          },
+          {
+            "kind": "video",
+            "title": "Think aloud",
+            "description": "description kind bug"
+          }
+        ]
+      }
+    ]
+  }
+}

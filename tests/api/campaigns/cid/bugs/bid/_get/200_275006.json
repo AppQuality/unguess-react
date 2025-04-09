@@ -5,9 +5,7 @@
   "title": {
     "full": "[Apertura Conto] - Non si apre la pagina dell'informativa sul \"Trattamento dei dati personali\"",
     "compact": "Non si apre la pagina dell'informativa sul \"Trattamento dei dati personali\"",
-    "context": [
-      "Apertura Conto"
-    ]
+    "context": ["Apertura Conto"]
   },
   "step_by_step": "1. Aprire l'app Sella\r\n2. Selezionare apertura conto \"Start\"\r\n3. Fare tap su \"Prendi visione dell'informativa sul Trattamento...\"",
   "expected_result": "Mi aspetto di poter leggere l'informativa.",
@@ -82,10 +80,7 @@
       "id": 2101,
       "name": "Rete",
       "value": "Wi-Fi",
-      "options": [
-        "Wi-Fi",
-        "Mobile"
-      ],
+      "options": ["Wi-Fi", "Mobile"],
       "kind": "select"
     }
   ],

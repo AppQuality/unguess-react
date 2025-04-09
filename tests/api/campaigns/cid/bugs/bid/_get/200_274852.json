@@ -5,9 +5,7 @@
   "title": {
     "full": "[Apertura Conto] - Status bar di iOS non visibile nella pagina informativa dei conti",
     "compact": "Status bar di iOS non visibile nella pagina informativa dei conti",
-    "context": [
-      "Apertura Conto"
-    ]
+    "context": ["Apertura Conto"]
   },
   "step_by_step": "1. Aprire l’app\r\n2. Fare tap su “Apri conto”\r\n3. Visualizzare la pagina informativa su i conti",
   "expected_result": "Mi sarei aspettato di visualizzare correttamente tutti gli elementi della status bar di iOS.",
@@ -82,10 +80,7 @@
       "id": 2101,
       "name": "Rete",
       "value": "Wi-Fi",
-      "options": [
-        "Wi-Fi",
-        "Mobile"
-      ],
+      "options": ["Wi-Fi", "Mobile"],
       "kind": "select"
     }
   ],

@@ -1,5 +1,4 @@
 {
-  "version": 0,
   "goal": "string",
   "users": 0,
   "findings": [
@@ -7,48 +6,26 @@
       "id": 0,
       "title": "string",
       "description": "string",
+      "comment": "string",
       "severity": {
         "id": 0,
         "name": "string",
         "style": "string"
       },
-      "visible": 0,
-      "comment": "string",
-      "observations": [
-        {
-          "id": 0,
-          "title": "string",
-          "description": "string",
-          "start": 0,
-          "end": 0,
-          "quotes": "string",
-          "uxNote": "string",
-          "tags": [
-            {
-              "group": {
-                "id": 0,
-                "name": "string"
-              },
-              "tag": {
-                "id": 0,
-                "name": "string",
-                "style": "string",
-                "usageNumber": 0
-              }
-            }
-          ],
-          "video": {
-            "id": 0,
-            "poster": "string",
-            "url": "string",
-            "streamUrl": "string"
-          }
-        }
-      ],
-      "usecases": [
+      "cluster": [
         {
           "id": 0,
           "name": "string"
+        }
+      ],
+      "video": [
+        {
+          "url": "string",
+          "streamUrl": "string",
+          "poster": "string",
+          "start": 0,
+          "end": 0,
+          "description": "string"
         }
       ]
     }

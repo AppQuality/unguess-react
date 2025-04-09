@@ -9,10 +9,12 @@ import {
 } from '@appquality/unguess-design-system';
 import { Trans, useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
+import PlanCreationInterface from 'src/common/components/PlanCreationInterface';
 import { ServiceTiles } from 'src/common/components/ServiceTiles';
 import { useActiveWorkspaceProjects } from 'src/hooks/useActiveWorkspaceProjects';
-import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
+import { useCanAccessToActiveWorkspace } from 'src/hooks/useCanAccessToActiveWorkspace';
 import styled, { useTheme } from 'styled-components';
+import { usePromoContext } from './PromoContext';
 
 const Wrapper = styled.div`
   display: flex;
@@ -22,11 +24,29 @@ const Wrapper = styled.div`
 const LaunchCampaignCards = () => {
   const theme = useTheme();
   const { t } = useTranslation();
-  const { hasFeatureFlag } = useFeatureFlag();
+  const canView = useCanAccessToActiveWorkspace();
   const { data } = useActiveWorkspaceProjects();
+  const {
+    promoTemplates,
+    setIsDrawerOpen,
+    setSelectedTemplate,
+    selectedTemplate,
+    isDrawerOpen,
+  } = usePromoContext();
+
+  const handleCloseDrawer = () => {
+    setIsDrawerOpen(false);
+  };
+
+  const handleClick = (tid: number) => {
+    const selected = promoTemplates.find((template) => template.id === tid);
+    setSelectedTemplate(selected);
+    setIsDrawerOpen(true);
+  };
 
   if (!data) return null;
-  if (!hasFeatureFlag('express')) return null;
+  if (!canView) return null;
+  if (!promoTemplates?.length) return null;
 
   return (
     <Wrapper>
@@ -51,7 +71,14 @@ const LaunchCampaignCards = () => {
           </Paragraph>
         </Col>
       </Row>
-      <ServiceTiles />
+      <ServiceTiles onClick={handleClick} promoTemplates={promoTemplates} />
+      {selectedTemplate && (
+        <PlanCreationInterface
+          isOpen={isDrawerOpen}
+          onClose={handleCloseDrawer}
+          template={selectedTemplate}
+        />
+      )}
     </Wrapper>
   );
 };

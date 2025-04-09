@@ -1,4 +1,5 @@
 import {
+  Button,
   LG,
   PageHeader,
   Skeleton,
@@ -8,14 +9,15 @@ import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useAppSelector } from 'src/app/hooks';
 import { appTheme } from 'src/app/theme';
-import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
 import { ProjectSettings } from 'src/common/components/inviteUsers/projectSettings';
+import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
 import { useGetProjectsByPidQuery } from 'src/features/api';
+import { useCanAccessToActiveWorkspace } from 'src/hooks/useCanAccessToActiveWorkspace';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import styled from 'styled-components';
 import { Counters } from './Counters';
-import { EditableTitle } from './EditableTitle';
 import { EditableDescription } from './EditableDescription';
+import { EditableTitle } from './EditableTitle';
 
 const StyledPageHeaderMeta = styled(PageHeader.Meta)`
   justify-content: space-between;
@@ -34,12 +36,17 @@ const StyledPageHeaderMeta = styled(PageHeader.Meta)`
   }
 `;
 
+const StyledDiv = styled.div`
+  display: flex;
+`;
+
 export const ProjectPageHeader = ({ projectId }: { projectId: number }) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const notFoundRoute = useLocalizeRoute('oops');
   const location = useLocation();
   const { status } = useAppSelector((state) => state.user);
+  const templatesRoute = useLocalizeRoute('templates');
 
   const {
     isLoading,
@@ -69,6 +76,7 @@ export const ProjectPageHeader = ({ projectId }: { projectId: number }) => {
   ) : (
     <EditableDescription projectId={projectId} />
   );
+  const hasWorksPacePermission = useCanAccessToActiveWorkspace();
 
   return (
     <LayoutWrapper>
@@ -91,7 +99,20 @@ export const ProjectPageHeader = ({ projectId }: { projectId: number }) => {
           {!project?.is_archive && (
             <StyledPageHeaderMeta>
               <Counters />
-              <ProjectSettings />
+              <StyledDiv>
+                <ProjectSettings />
+                {hasWorksPacePermission && (
+                  <Button
+                    isAccent
+                    isPrimary
+                    onClick={() => {
+                      navigate(templatesRoute, { state: { projectId } });
+                    }}
+                  >
+                    {t('__DASHBOARD_CTA_NEW_ACTIVITY')}
+                  </Button>
+                )}
+              </StyledDiv>
             </StyledPageHeaderMeta>
           )}
         </PageHeader.Main>

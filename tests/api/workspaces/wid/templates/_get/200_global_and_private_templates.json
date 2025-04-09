@@ -1,0 +1,159 @@
+{
+  "items": [
+    {
+      "id": 1,
+      "name": "Detailed feedback in real time under stress conditions and identifies technical problems in the code",
+      "description": "Gain qualitative insights by observing users as they interact. Identifies difficulties in the user experience, improves the interface. Identifies difficulties in the user experience, improves the interface.",
+      "price": "2000€",
+      "workspace_id": 1,
+      "source_plan_id": 1,
+      "config": "{ \"modules\": [{\"type\": \"title\", \"variant\": \"default\", \"output\": \"cp-title\"}, {\"type\": \"target\", \"variant\": \"default\", \"output\": 12}]}"
+    },
+    {
+      "id": 2,
+      "name": "Bug Hunting",
+      "description": "Gain qualitative insights by observing users as they interact. Identifies difficulties in the user experience, improves the interface. Identifies difficulties in the user experience, improves the interface.",
+      "price": "from 1000€",
+      "workspace_id": 1,
+      "source_plan_id": 2,
+      "config": "{ \"modules\": [{\"type\": \"title\", \"variant\": \"default\", \"output\": \"cp-title\"}, {\"type\": \"target\", \"variant\": \"default\", \"output\": 12}]}"
+    },
+    {
+      "id": 3,
+      "name": "Exploratory Testing",
+      "description": "Find unexpected issues with exploratory testing.",
+      "workspace_id": 1,
+      "source_plan_id": 3,
+      "config": "{ \"modules\": [{\"type\": \"title\", \"variant\": \"default\", \"output\": \"cp-title\"}, {\"type\": \"target\", \"variant\": \"default\", \"output\": 12}]}"
+    },
+    {
+      "id": 4,
+      "name": "Usability Testing",
+      "description": "Improve the user experience.",
+      "workspace_id": 1,
+      "source_plan_id": 4,
+      "config": "{ \"modules\": [{\"type\": \"title\", \"variant\": \"default\", \"output\": \"cp-title\"}, {\"type\": \"target\", \"variant\": \"default\", \"output\": 12}]}"
+    },
+    {
+      "id": 5,
+      "name": "Security Testing",
+      "description": "Penetration testing.",
+      "config": "{ \"modules\": [{\"type\": \"title\", \"variant\": \"default\", \"output\": \"cp-title\"}, {\"type\": \"target\", \"variant\": \"default\", \"output\": 12}]}",
+      "strapi": {
+        "title": "Security Testing",
+        "description": "Ensure system security with penetration testing.",
+        "pre_title": "Security",
+        "advantages": [
+          "Get your first bug in a few hours, full results in 2 days",
+          "Get your first bug in a few hours, full results in 2 days"
+        ],
+        "image": "https://admin.unguess.io/uploads/Icona_Usabilita_61067e02ab.svg",
+        "output_image": "http://example.com/output5.jpg",
+        "tags": [
+          {
+            "icon": "https://admin.unguess.io/uploads/Bug_dd1a0eebd1.svg",
+            "text": "Duration: 48h"
+          }
+        ]
+      }
+    },
+    {
+      "id": 6,
+      "name": "Performance Testing",
+      "description": "Test system performance",
+      "price": "From 2800€",
+      "config": "{ \"modules\": [{\"type\": \"title\", \"variant\": \"default\", \"output\": \"cp-title\"}, {\"type\": \"target\", \"variant\": \"default\", \"output\": 12}]}",
+      "strapi": {
+        "title": "Performance Testing",
+        "description": "Test system performance under stress conditions.",
+        "pre_title": "Performance",
+        "advantages": [
+          "Get your first bug in a few hours, full results in 2 days",
+          "Get your first bug in a few hours, full results in 2 days"
+        ],
+        "image": "https://admin.unguess.io/uploads/Icona_severtity_esperienziale_39f5178d1b.svg",
+        "output_image": "http://example.com/output6.jpg",
+        "tags": [
+          {
+            "icon": "https://admin.unguess.io/uploads/Bug_dd1a0eebd1.svg",
+            "text": "Bugs: 40"
+          }
+        ]
+      }
+    },
+    {
+      "id": 7,
+      "name": "Security Testing",
+      "description": "Gain qualitative insights by observing users as they interact. Identifies difficulties in the user experience, improves the interface. Identifies difficulties in the user experience, improves the interface.",
+      "config": "{ \"modules\": [{\"type\": \"title\", \"variant\": \"default\", \"output\": \"cp-title\"}, {\"type\": \"target\", \"variant\": \"default\", \"output\": 12}]}",
+      "strapi": {
+        "title": "Security Testing",
+        "description": "Gain qualitative insights by observing users as they interact. Identifies difficulties in the user experience, improves the interface. Identifies difficulties in the user experience, improves the interface.",
+        "pre_title": "Security",
+        "advantages": [
+          "Get your first bug in a few hours, full results in 2 days",
+          "Get your first bug in a few hours, full results in 2 days"
+        ],
+        "image": "https://admin.unguess.io/uploads/Icona_Usabilita_61067e02ab.svg",
+        "output_image": "http://example.com/output5.jpg",
+        "tags": [
+          {
+            "icon": "https://admin.unguess.io/uploads/Bug_dd1a0eebd1.svg",
+            "text": "Duration: 48h"
+          }
+        ]
+      }
+    },
+    {
+      "id": 8,
+      "name": "Detailed feedback in real time under stress conditions and identifies technical problems in the code",
+      "description": "Test system performance.",
+      "price": "800 Tk",
+      "config": "{ \"modules\": [{\"type\": \"title\", \"variant\": \"default\", \"output\": \"cp-title\"}, {\"type\": \"target\", \"variant\": \"default\", \"output\": 12}]}",
+      "strapi": {
+        "title": "Detailed feedback in real time under stress conditions and identifies technical problems in the code",
+        "description": "Test system performance.",
+        "pre_title": "Performance",
+        "advantages": [
+          "Get your first bug in a few hours, full results in 2 days",
+          "Get your first bug in a few hours, full results in 2 days"
+        ],
+        "image": "https://admin.unguess.io/uploads/Icona_severtity_esperienziale_39f5178d1b.svg",
+        "output_image": "http://example.com/output6.jpg",
+        "tags": [
+          {
+            "icon": "https://admin.unguess.io/uploads/Bug_dd1a0eebd1.svg",
+            "text": "Bugs: 40"
+          }
+        ]
+      }
+    },
+    {
+      "id": 9,
+      "name": "Performance Testing",
+      "description": "Test system performance",
+      "price": "200",
+      "config": "{ \"modules\": [{\"type\": \"title\", \"variant\": \"default\", \"output\": \"cp-title\"}, {\"type\": \"target\", \"variant\": \"default\", \"output\": 12}]}",
+      "strapi": {
+        "title": "Performance Testing",
+        "description": "Test system performance under stress conditions.",
+        "pre_title": "Performance",
+        "advantages": [
+          "Get your first bug in a few hours, full results in 2 days",
+          "Get your first bug in a few hours, full results in 2 days"
+        ],
+        "image": "https://admin.unguess.io/uploads/Icona_severtity_esperienziale_39f5178d1b.svg",
+        "output_image": "http://example.com/output6.jpg",
+        "tags": [
+          {
+            "icon": "https://admin.unguess.io/uploads/Bug_dd1a0eebd1.svg",
+            "text": "Bugs: 40"
+          }
+        ]
+      }
+    }
+  ],
+  "start": 0,
+  "limit": 10,
+  "total": 9
+}

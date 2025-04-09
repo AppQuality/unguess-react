@@ -1,7 +1,17 @@
+import { addBusinessDays } from 'date-fns';
+import { PlanTab } from './pages/Plan/context/planContext';
+
+const today = new Date();
+today.setHours(7);
+today.setMinutes(59);
+today.setSeconds(0);
+
+export const PLAN_MINIMUM_DATE = addBusinessDays(today, 1);
 export const FEATURE_FLAG_EXPRESS = 'exploratory-express';
 export const FEATURE_FLAG_SKY_JOTFORM = 'sky-custom-jotform';
 export const FEATURE_FLAG_CATALOG = 'catalog-pages';
 export const FEATURE_FLAG_TAGGING_TOOL = 'tagging-tool';
+export const FEATURE_FLAG_CHANGE_MODULES_VARIANTS = 'change-modules-variants';
 export const EXPRESS_1_CAMPAIGN_TYPE_ID = 79;
 export const EXPRESS_2_CAMPAIGN_TYPE_ID = 51;
 export const EXPRESS_3_CAMPAIGN_TYPE_ID = 52;
@@ -64,3 +74,10 @@ export const DEFAULT_NOT_A_BUG_CUSTOM_STATUS = {
     name: 'working',
   },
 };
+
+export const MODULE_TABS_ORDER: PlanTab[] = [
+  'setup',
+  'target',
+  'instructions',
+  'summary',
+]; // ordered from left to right, based on current design

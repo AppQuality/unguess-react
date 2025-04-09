@@ -446,6 +446,26 @@ export interface paths {
       };
     };
   };
+  '/videos/{vid}/sentiment': {
+    /**
+     * This endpoint generates a new sentiment for the provided video if it does not already exist.
+     *
+     * **Security**: Requires Bearer Authentication. Provide your bearer token in the Authorization header when making requests to protected resources. Example: Authorization: Bearer 123.
+     *
+     * **Path Parameters**:
+     *
+     * vid (string, required): The ID of the video for which the translation is to be generated.
+     * Request Body (application/json):
+     *
+     * language (string, required): The language code for the desired translation.
+     */
+    post: operations['post-videos-vid-sentiment'];
+    parameters: {
+      path: {
+        vid: string;
+      };
+    };
+  };
   '/workspaces': {
     get: operations['get-workspaces'];
     /** This endpoint is useful to add a new workspace. Only admin can use this. */
@@ -457,6 +477,16 @@ export interface paths {
       path: {
         /** Workspace (company, customer) id */
         wid: components['parameters']['wid'];
+      };
+    };
+  };
+  '/workspaces/{wid}/archive': {
+    /** Return the project Archive of a specific workspace. If not exist, create and return it */
+    get: operations['get-workspaces-wid-archive'];
+    parameters: {
+      path: {
+        /** Workspace (company, customer) id */
+        wid: string;
       };
     };
   };
@@ -478,12 +508,67 @@ export interface paths {
       };
     };
   };
+  '/workspaces/{wid}/plans': {
+    /**
+     * Function: Retrieves all plans within a specified workspace.
+     * Plan Status: Includes plans in a working state, such as those that are in the "draft" or "pending review" stages. Also includes plans that are "approved," provided there is no active campaign currently linked to them.
+     *
+     * Use Cases:
+     * - Reviewing all plans that are still in development or awaiting approval.
+     * - Identifying approved plans that are not yet associated with any running campaigns.
+     */
+    get: operations['get-workspaces-wid-plans'];
+    post: operations['post-workspaces-wid-plans'];
+    parameters: {
+      path: {
+        wid: string;
+      };
+    };
+  };
+  '/plans/{pid}': {
+    get: operations['get-workspaces-wid-plans-pid'];
+    delete: operations['delete-workspaces-wid-plans-pid'];
+    patch: operations['patch-workspaces-wid-plans-pid'];
+    parameters: {
+      path: {
+        pid: string;
+      };
+    };
+  };
+  '/plans/{pid}/status': {
+    /**  */
+    patch: operations['patch-workspaces-wid-plans-pid-status'];
+    parameters: {
+      path: {
+        pid: string;
+      };
+    };
+  };
   '/workspaces/{wid}/projects': {
     get: operations['get-workspace-projects'];
     parameters: {
       path: {
         /** Workspace (company, customer) id */
         wid: components['parameters']['wid'];
+      };
+    };
+  };
+  '/workspaces/{wid}/templates': {
+    get: operations['get-workspaces-templates'];
+    parameters: {
+      path: {
+        /** Workspace (company, customer) id */
+        wid: string;
+      };
+    };
+  };
+  '/workspaces/{wid}/templates/{tid}': {
+    get: operations['get-workspaces-wid-templates-tid'];
+    delete: operations['delete-workspaces-wid-templates-tid'];
+    parameters: {
+      path: {
+        wid: string;
+        tid: string;
       };
     };
   };
@@ -809,6 +894,133 @@ export interface components {
         uploaderId: number;
         usecaseTitle: string;
       })[];
+    };
+    Module:
+      | components['schemas']['ModuleTitle']
+      | components['schemas']['ModuleDate']
+      | components['schemas']['ModuleTask']
+      | components['schemas']['ModuleAge']
+      | components['schemas']['ModuleLanguage']
+      | components['schemas']['ModuleLiteracy']
+      | components['schemas']['ModuleTarget']
+      | components['schemas']['ModuleGoal']
+      | components['schemas']['ModuleGender']
+      | components['schemas']['ModuleOutOfScope']
+      | components['schemas']['ModuleBrowser']
+      | components['schemas']['ModuleTargetNote']
+      | components['schemas']['ModuleInstructionNote']
+      | components['schemas']['ModuleSetupNote']
+      | components['schemas']['ModuleTouchpoints']
+      | components['schemas']['ModuleAdditionalTarget'];
+    ModuleDate: {
+      /** @enum {string} */
+      type: 'dates';
+      variant: string;
+      output: {
+        start: string;
+      };
+    };
+    ModuleGoal: {
+      /** @enum {string} */
+      type: 'goal';
+      variant: string;
+      output: string;
+    };
+    ModuleOutOfScope: {
+      /** @enum {string} */
+      type: 'out_of_scope';
+      variant: string;
+      output: string;
+    };
+    ModuleTitle: {
+      /** @enum {string} */
+      type: 'title';
+      variant: string;
+      output: string;
+    };
+    /** ModuleTask */
+    ModuleTask: {
+      /** @enum {string} */
+      type: 'tasks';
+      variant: string;
+      output: components['schemas']['OutputModuleTask'][];
+    };
+    /** ModuleTouchpoints */
+    ModuleTouchpoints: {
+      /** @enum {string} */
+      type: 'touchpoints';
+      variant: string;
+      output: components['schemas']['OutputModuleTouchpoints'][];
+    };
+    /** ModuleAge */
+    ModuleAge: {
+      /** @enum {string} */
+      type: 'age';
+      variant: string;
+      output: components['schemas']['OutputModuleAge'];
+    };
+    /** ModuleGender */
+    ModuleGender: {
+      /** @enum {string} */
+      type: 'gender';
+      variant: string;
+      output: components['schemas']['OutputModuleGender'];
+    };
+    /** ModuleLiteracy */
+    ModuleLiteracy: {
+      /** @enum {string} */
+      type: 'literacy';
+      variant: string;
+      output: components['schemas']['OutputModuleLiteracy'];
+    };
+    /** ModuleLanguage */
+    ModuleLanguage: {
+      /** @enum {string} */
+      type: 'language';
+      variant: string;
+      output: string;
+    };
+    /** ModuleTarget */
+    ModuleTarget: {
+      /** @enum {string} */
+      type: 'target';
+      variant: string;
+      output: number;
+    };
+    /** ModuleTargetNote */
+    ModuleTargetNote: {
+      /** @enum {string} */
+      type: 'target_note';
+      variant: string;
+      output: string;
+    };
+    /** ModuleSetupNote */
+    ModuleSetupNote: {
+      /** @enum {string} */
+      type: 'setup_note';
+      variant: string;
+      output: string;
+    };
+    /** ModuleInstructionNote */
+    ModuleInstructionNote: {
+      /** @enum {string} */
+      type: 'instruction_note';
+      variant: string;
+      output: string;
+    };
+    /** ModuleBrowser */
+    ModuleBrowser: {
+      /** @enum {string} */
+      type: 'browser';
+      variant: string;
+      output: components['schemas']['OutputModuleBrowser'];
+    };
+    /** ModuleAdditionalTarget */
+    ModuleAdditionalTarget: {
+      /** @enum {string} */
+      type: 'additional_target';
+      variant: string;
+      output: string;
     };
     /** Observation */
     Observation: {
@@ -1255,6 +1467,218 @@ export interface components {
      * @enum {string}
      */
     BannerType: 'banner_testing_automation' | 'banner_user_experience';
+    /** CpReqTemplate */
+    CpReqTemplate: {
+      id: number;
+      name: string;
+      description?: string;
+      config: string;
+      workspace_id?: number;
+      price?: string;
+      strapi?: components['schemas']['StrapiTemplate'];
+    };
+    /** SubcomponentTaskBug */
+    OutputModuleTaskBug: {
+      /** @enum {string} */
+      kind: 'bug';
+      title: string;
+      description?: string;
+      /** Format: uri */
+      url?: string;
+    };
+    /** OutputModuleAge */
+    OutputModuleAge: {
+      min: number;
+      max: number;
+      percentage: number;
+    }[];
+    /** SubcomponentTaskVideo */
+    OutputModuleTaskVideo: {
+      /** @enum {string} */
+      kind: 'video';
+      title: string;
+      description?: string;
+      /** Format: uri */
+      url?: string;
+    };
+    /** SubcomponentTaskSurvey */
+    OutputModuleTaskSurvey: {
+      /** @enum {string} */
+      kind: 'survey';
+      title: string;
+      description?: string;
+      /** Format: uri */
+      url?: string;
+    };
+    /** OutputModuleTaskModerateVideo */
+    OutputModuleTaskModerateVideo: {
+      /** @enum {string} */
+      kind: 'moderate-video';
+      title: string;
+      description?: string;
+      /** Format: uri */
+      url?: string;
+    };
+    /** OutputModuleTaskExplorativeBug */
+    OutputModuleTaskExplorativeBug: {
+      /** @enum {string} */
+      kind: 'explorative-bug';
+      title: string;
+      description?: string;
+      /** Format: uri */
+      url?: string;
+    };
+    /** SubcomponentTask */
+    OutputModuleTask:
+      | components['schemas']['OutputModuleTaskVideo']
+      | components['schemas']['OutputModuleTaskBug']
+      | components['schemas']['OutputModuleTaskSurvey']
+      | components['schemas']['OutputModuleTaskModerateVideo']
+      | components['schemas']['OutputModuleTaskExplorativeBug'];
+    /** SubcomponentTouchpoints */
+    OutputModuleTouchpoints:
+      | components['schemas']['OutputModuleTouchpointsAppDesktop']
+      | components['schemas']['OutputModuleTouchpointsAppTablet']
+      | components['schemas']['OutputModuleTouchpointsAppSmartphone']
+      | components['schemas']['OutputModuleTouchpointsWebDesktop']
+      | components['schemas']['OutputModuleTouchpointsWebTablet']
+      | components['schemas']['OutputModuleTouchpointsWebSmartphone'];
+    /** OutputModuleTouchpointsAppDesktop */
+    OutputModuleTouchpointsAppDesktop: {
+      /** @enum {undefined} */
+      kind: 'app';
+      /** @enum {undefined} */
+      form_factor: 'desktop';
+      os: {
+        linux?: string;
+        macos?: string;
+        windows?: string;
+      };
+    };
+    /** OutputModuleTouchpointsAppTablet */
+    OutputModuleTouchpointsAppTablet: {
+      /** @enum {undefined} */
+      kind: 'app';
+      /** @enum {undefined} */
+      form_factor: 'tablet';
+      os: {
+        linux?: string;
+        ios?: string;
+        windows?: string;
+      };
+    };
+    /** OutputModuleTouchpointsAppSmartphone */
+    OutputModuleTouchpointsAppSmartphone: {
+      /** @enum {undefined} */
+      kind: 'app';
+      /** @enum {undefined} */
+      form_factor: 'smartphone';
+      os: {
+        android?: string;
+        ios?: string;
+      };
+    };
+    /** OutputModuleTouchpointsWebDesktop */
+    OutputModuleTouchpointsWebDesktop: {
+      /** @enum {undefined} */
+      kind: 'web';
+      /** @enum {undefined} */
+      form_factor: 'desktop';
+      os: {
+        linux?: string;
+        macos?: string;
+        windows?: string;
+      };
+    };
+    /** OutputModuleTouchpointsWebTablet */
+    OutputModuleTouchpointsWebTablet: {
+      /** @enum {undefined} */
+      kind: 'web';
+      /** @enum {undefined} */
+      form_factor: 'tablet';
+      os: {
+        android?: string;
+        ios?: string;
+      };
+    };
+    /** OutputModuleTouchpointsWebSmartphone */
+    OutputModuleTouchpointsWebSmartphone: {
+      /** @enum {undefined} */
+      kind: 'web';
+      /** @enum {undefined} */
+      form_factor: 'smartphone';
+      os: {
+        android?: string;
+        ios?: string;
+      };
+    };
+    /** OutputModuleLiteracy */
+    OutputModuleLiteracy: {
+      /** @enum {string} */
+      level: 'beginner' | 'intermediate' | 'expert';
+      percentage: number;
+    }[];
+    /** OutputModuleGender */
+    OutputModuleGender: {
+      /** @enum {string} */
+      gender: 'male' | 'female';
+      percentage: number;
+    }[];
+    /** OutputModuleBrowser */
+    OutputModuleBrowser: {
+      /** @enum {string} */
+      name: 'firefox' | 'edge' | 'chrome' | 'safari';
+      percentage: number;
+    }[];
+    /**
+     * PlanStatus
+     * @enum {string}
+     */
+    PlanStatus: 'pending_review' | 'draft' | 'approved';
+    StrapiTemplate: {
+      title: string;
+      description: string;
+      pre_title: string;
+      /** Format: uri */
+      image?: string;
+      /** Format: uri */
+      output_image?: string;
+      requirements?: {
+        description: string;
+        list: string[];
+      };
+      tags: {
+        /** Format: uri */
+        icon: string;
+        text: string;
+      }[];
+      why?: {
+        reasons: {
+          /** Format: uri */
+          icon: string;
+          title: string;
+          description: string;
+        }[];
+        advantages: string[];
+      };
+      what?: {
+        description: string;
+        goal: string;
+      };
+      how?: {
+        /** Format: uri */
+        icon: string;
+        title: string;
+        description: string;
+      }[];
+      price?: {
+        price: string;
+        previous_price?: string;
+        /** @default 0 */
+        is_strikethrough?: number;
+      };
+      background?: string;
+    };
   };
   responses: {
     /** Shared error response */
@@ -1448,7 +1872,10 @@ export interface operations {
       /** OK */
       200: {
         content: {
-          'application/json': components['schemas']['CampaignWithOutput'];
+          'application/json': components['schemas']['CampaignWithOutput'] & {
+            isArchived?: boolean;
+            plan?: number;
+          };
         };
       };
     };
@@ -3120,6 +3547,41 @@ export interface operations {
       };
     };
   };
+  /**
+   * This endpoint generates a new sentiment for the provided video if it does not already exist.
+   *
+   * **Security**: Requires Bearer Authentication. Provide your bearer token in the Authorization header when making requests to protected resources. Example: Authorization: Bearer 123.
+   *
+   * **Path Parameters**:
+   *
+   * vid (string, required): The ID of the video for which the translation is to be generated.
+   * Request Body (application/json):
+   *
+   * language (string, required): The language code for the desired translation.
+   */
+  'post-videos-vid-sentiment': {
+    parameters: {
+      path: {
+        vid: string;
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          'application/json': { [key: string]: unknown };
+        };
+      };
+      400: components['responses']['Error'];
+      403: components['responses']['Error'];
+      500: components['responses']['Error'];
+    };
+    requestBody: {
+      content: {
+        'application/json': { [key: string]: unknown };
+      };
+    };
+  };
   'get-workspaces': {
     parameters: {
       query: {
@@ -3197,6 +3659,31 @@ export interface operations {
       500: components['responses']['Error'];
     };
   };
+  /** Return the project Archive of a specific workspace. If not exist, create and return it */
+  'get-workspaces-wid-archive': {
+    parameters: {
+      path: {
+        /** Workspace (company, customer) id */
+        wid: string;
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          'application/json': {
+            id: number;
+            name: string;
+            description: string;
+            campaignsCounter: number;
+          };
+        };
+      };
+      400: components['responses']['Error'];
+      403: components['responses']['Error'];
+      500: components['responses']['Error'];
+    };
+  };
   'get-workspace-campaigns': {
     parameters: {
       path: {
@@ -3221,9 +3708,7 @@ export interface operations {
       200: {
         content: {
           'application/json': {
-            items?: (components['schemas']['CampaignWithOutput'] & {
-              is_archived: number;
-            })[];
+            items?: components['schemas']['CampaignWithOutput'][];
             start?: number;
             limit?: number;
             size?: number;
@@ -3272,6 +3757,178 @@ export interface operations {
       500: components['responses']['Error'];
     };
   };
+  /**
+   * Function: Retrieves all plans within a specified workspace.
+   * Plan Status: Includes plans in a working state, such as those that are in the "draft" or "pending review" stages. Also includes plans that are "approved," provided there is no active campaign currently linked to them.
+   *
+   * Use Cases:
+   * - Reviewing all plans that are still in development or awaiting approval.
+   * - Identifying approved plans that are not yet associated with any running campaigns.
+   */
+  'get-workspaces-wid-plans': {
+    parameters: {
+      path: {
+        wid: string;
+      };
+      query: {
+        /** Order by accepted field */
+        orderBy?: components['parameters']['orderBy'];
+        /** Order value (ASC, DESC) */
+        order?: components['parameters']['order'];
+        /** filterBy[<fieldName>]=<fieldValue> */
+        filterBy?: components['parameters']['filterBy'];
+        /** Limit pagination parameter */
+        limit?: components['parameters']['limit'];
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          'application/json': {
+            id: number;
+            title: string;
+            /** @enum {string} */
+            status: 'draft' | 'pending_review' | 'approved';
+            project: {
+              id: number;
+              title: string;
+            };
+            quote?: {
+              id: number;
+              /** @enum {string} */
+              status: 'pending' | 'proposed' | 'approved' | 'rejected';
+            };
+          }[];
+        };
+      };
+      /** Unauthorized */
+      401: unknown;
+      /** Forbidden */
+      403: unknown;
+    };
+  };
+  'post-workspaces-wid-plans': {
+    parameters: {
+      path: {
+        wid: string;
+      };
+    };
+    responses: {
+      /** Created */
+      201: {
+        content: {
+          'application/json': {
+            id: number;
+          };
+        };
+      };
+    };
+    requestBody: {
+      content: {
+        'application/json': {
+          template_id: number;
+          project_id: number;
+        };
+      };
+    };
+  };
+  'get-workspaces-wid-plans-pid': {
+    parameters: {
+      path: {
+        pid: string;
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          'application/json': {
+            id: number;
+            config: {
+              modules: components['schemas']['Module'][];
+            };
+            status: components['schemas']['PlanStatus'];
+            project: {
+              id: number;
+              name: string;
+            };
+            quote?: {
+              id: number;
+              /** @enum {string} */
+              status: 'pending' | 'proposed' | 'approved' | 'rejected';
+              value: string;
+            };
+            campaign?: {
+              id: number;
+              /** @description CustomerTitle ?? Title */
+              title: string;
+              startDate: string;
+            };
+            workspace_id: number;
+          };
+        };
+      };
+    };
+  };
+  'delete-workspaces-wid-plans-pid': {
+    parameters: {
+      path: {
+        pid: string;
+      };
+    };
+    responses: {
+      /** OK */
+      200: unknown;
+    };
+  };
+  'patch-workspaces-wid-plans-pid': {
+    parameters: {
+      path: {
+        pid: string;
+      };
+    };
+    responses: {
+      /** OK */
+      200: unknown;
+      /** Forbidden */
+      403: unknown;
+      /** Not Found */
+      404: unknown;
+    };
+    requestBody: {
+      content: {
+        'application/json': {
+          config: {
+            modules: components['schemas']['Module'][];
+          };
+        };
+      };
+    };
+  };
+  /**  */
+  'patch-workspaces-wid-plans-pid-status': {
+    parameters: {
+      path: {
+        pid: string;
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          'application/json': { [key: string]: unknown };
+        };
+      };
+    };
+    requestBody: {
+      content: {
+        'application/json': {
+          status: components['schemas']['PlanStatus'];
+        };
+      };
+    };
+  };
   'get-workspace-projects': {
     parameters: {
       path: {
@@ -3302,6 +3959,86 @@ export interface operations {
       403: components['responses']['Error'];
       404: components['responses']['Error'];
       500: components['responses']['Error'];
+    };
+  };
+  'get-workspaces-templates': {
+    parameters: {
+      path: {
+        /** Workspace (company, customer) id */
+        wid: string;
+      };
+      query: {
+        /** Limit pagination parameter */
+        limit?: components['parameters']['limit'];
+        /** Start pagination parameter */
+        start?: components['parameters']['start'];
+        /** Orders results */
+        orderBy?: 'updated_at' | 'id';
+        /** Order value (ASC, DESC) */
+        order?: components['parameters']['order'];
+        /** filterBy[<fieldName>]=<fieldValue> */
+        filterBy?: components['parameters']['filterBy'];
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          'application/json': {
+            items: components['schemas']['CpReqTemplate'][];
+          } & components['schemas']['PaginationData'];
+        };
+      };
+      400: components['responses']['Error'];
+      403: components['responses']['Error'];
+      404: components['responses']['Error'];
+      500: components['responses']['Error'];
+    };
+  };
+  'get-workspaces-wid-templates-tid': {
+    parameters: {
+      path: {
+        wid: string;
+        tid: string;
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          'application/json': {
+            id: number;
+            name: string;
+            description?: string;
+            config: string;
+            workspace_id?: number;
+            price?: string;
+            strapi?: components['schemas']['StrapiTemplate'];
+          };
+        };
+      };
+      /** Forbidden */
+      403: unknown;
+      /** Not Found */
+      404: unknown;
+    };
+  };
+  'delete-workspaces-wid-templates-tid': {
+    parameters: {
+      path: {
+        wid: string;
+        tid: string;
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          'application/json': { [key: string]: unknown };
+        };
+      };
+      /** Not Found */
+      404: unknown;
     };
   };
   'get-workspace-project': {

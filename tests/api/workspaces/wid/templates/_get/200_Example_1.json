@@ -1,0 +1,33 @@
+{
+  "items": [
+    {
+      "id": 0,
+      "name": "string",
+      "description": "string",
+      "config": "{ \"modules\": [{\"type\": \"title\", \"variant\": \"default\", \"output\": \"cp-title\"}]}",
+      "workspace_id": 0,
+      "price": "string",
+      "strapi": {
+        "title": "string",
+        "advantages": [
+          "Get your first bug in a few hours, full results in 2 days",
+          "Get your first bug in a few hours, full results in 2 days"
+        ],
+        "description": "string",
+        "pre_title": "string",
+        "image": "http://example.com",
+        "output_image": "http://example.com",
+        "tags": [
+          {
+            "icon": "http://example.com",
+            "text": "string"
+          }
+        ]
+      }
+    }
+  ],
+  "start": 0,
+  "size": 0,
+  "limit": 0,
+  "total": 0
+}

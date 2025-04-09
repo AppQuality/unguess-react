@@ -1,5 +1,5 @@
 import { test, expect } from '../fixtures/app';
-import { Insights } from '../fixtures/Insights';
+import { Insights } from '../fixtures/pages/Insights';
 import insightsData from '../api/campaigns/cid/insights/_get/200_Example_1.json';
 
 test.describe('Insights page', () => {
