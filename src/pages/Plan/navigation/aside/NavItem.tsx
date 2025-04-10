@@ -67,7 +67,7 @@ const NavItem = ({
         data-qa="task-item-nav"
         {...(hasErrors && {
           style: {
-            borderColor: appTheme.palette.red[600],
+            borderColor: appTheme.palette.red[900],
           },
         })}
         {...(!children && {
