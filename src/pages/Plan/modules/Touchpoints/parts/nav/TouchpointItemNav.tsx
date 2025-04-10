@@ -67,7 +67,7 @@ const TouchpointItemNav = ({
         data-qa="touchpoint-item-nav"
         {...(hasErrors && {
           style: {
-            borderColor: appTheme.palette.red[600],
+            borderColor: appTheme.palette.red[900],
           },
         })}
       >
