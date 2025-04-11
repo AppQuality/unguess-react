@@ -22,6 +22,7 @@ export const Reccomendation = ({
   const [sendMail, { isLoading }] = usePostCampaignsByCidSuggestionsMutation();
   const { addToast } = useToast();
   const { campaignId } = useParams();
+  const templatesRoute = useLocalizeRoute('/templates');
 
   const sendGTMEvent = useSendGTMevent();
   useEffect(() => {
@@ -120,7 +121,7 @@ export const Reccomendation = ({
             : t('__BANNER_CROSS_FUNCTIONAL_MESSAGE_EXPERIENCE')}{' '}
           {suggestion.serviceId && (
             <Anchor
-              href={useLocalizeRoute('/templates')}
+              href={templatesRoute}
               onClick={() => {
                 sendGTMEvent({
                   event: 'reccomendation',

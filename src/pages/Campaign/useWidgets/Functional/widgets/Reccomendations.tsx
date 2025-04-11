@@ -38,6 +38,8 @@ export const Suggestions = ({ campaignId }: { campaignId: string }) => {
   const [sendMail, { isLoading }] = usePostCampaignsByCidSuggestionsMutation();
   const { addToast } = useToast();
 
+  const templatesRoute = useLocalizeRoute('/templates');
+
   const sendGTMEvent = useSendGTMevent();
 
   useEffect(() => {
@@ -137,7 +139,7 @@ export const Suggestions = ({ campaignId }: { campaignId: string }) => {
         <BasicWidget.Footer noDivider>
           {suggestions.suggestion.serviceId && (
             <Link
-              to={useLocalizeRoute('/templates')}
+              to={templatesRoute}
               onClick={() => {
                 sendGTMEvent({
                   event: 'reccomendation',
