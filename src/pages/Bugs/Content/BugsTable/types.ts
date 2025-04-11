@@ -27,4 +27,4 @@ export type BugByStateType = {
   bugs: TableBugType[];
 };
 
-export type UseCaseType = ItemOfArray<GetCampaignsByCidUsecasesApiResponse>;
+type UseCaseType = ItemOfArray<GetCampaignsByCidUsecasesApiResponse>;
