@@ -3,7 +3,7 @@ import { appTheme } from 'src/app/theme';
 import { HTMLAttributes } from 'react';
 import styled from 'styled-components';
 
-export const NotesTitle = styled(MD)`
+const NotesTitle = styled(MD)`
   color: ${({ theme }) => theme.palette.teal[600]};
   font-weight: ${({ theme }) => theme.fontWeights.medium};
   display: flex;

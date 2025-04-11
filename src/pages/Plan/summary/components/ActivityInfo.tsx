@@ -13,7 +13,7 @@ import { appTheme } from 'src/app/theme';
 import { Divider } from 'src/common/components/divider';
 import { GetPlansByPidApiResponse } from 'src/features/api';
 import { useModule } from 'src/features/modules/useModule';
-import { Notes } from 'src/pages/ExpressWizard/notesCard';
+import { Notes } from 'src/common/components/NotesCard';
 import styled from 'styled-components';
 import { usePlan } from '../../hooks/usePlan';
 import { Description } from './typography/Description';

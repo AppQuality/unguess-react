@@ -22,8 +22,6 @@ import Manual from 'src/pages/Manual';
 import MediaNotFound from 'src/pages/NotFound/MediaNotFound';
 import NotFound from 'src/pages/NotFound/NotFound';
 import Plan from 'src/pages/Plan';
-import Service from 'src/pages/Service';
-import Catalog from 'src/pages/Services';
 import Template from 'src/pages/Template';
 import Templates from 'src/pages/Templates';
 import Video from 'src/pages/Video';
@@ -79,14 +77,6 @@ const Pages = () => {
                   <Route
                     path={`/${langPrefix}/campaigns/:campaignId/bugs/:bugId`}
                     element={<Bug />}
-                  />
-                  <Route
-                    path={`/${langPrefix}/services`}
-                    element={<Catalog />}
-                  />
-                  <Route
-                    path={`/${langPrefix}/services/:templateId`}
-                    element={<Service />}
                   />
                   <Route
                     path={`/${langPrefix}/templates`}

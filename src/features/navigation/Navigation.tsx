@@ -95,7 +95,6 @@ export const Navigation = ({
 
   useEffect(() => {
     switch (route) {
-      case 'service':
       case 'campaigns':
       case 'bugs':
       case 'bug':

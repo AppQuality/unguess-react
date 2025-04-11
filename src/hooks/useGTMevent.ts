@@ -3,7 +3,7 @@ import TagManager from 'react-gtm-module';
 import { useAppSelector } from 'src/app/hooks';
 import { useActiveWorkspace } from './useActiveWorkspace';
 
-export interface GTMEventData {
+interface GTMEventData {
   event: string;
   category?: string;
   content?: string;

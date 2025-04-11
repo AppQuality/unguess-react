@@ -58,7 +58,7 @@ const RequirementsContainer = styled.div`
   }
 `;
 
-export interface PlanCreationProps {
+interface PlanCreationProps {
   isOpen: boolean;
   onClose: () => void;
   template: CpReqTemplate;
@@ -242,11 +242,7 @@ const TemplateContent = ({ data }: { data: CpReqTemplate }) => {
   );
 };
 
-export const NewPlanDrawer = ({
-  onClose,
-  isOpen,
-  template,
-}: PlanCreationProps) => {
+const NewPlanDrawer = ({ onClose, isOpen, template }: PlanCreationProps) => {
   const { t } = useTranslation();
 
   const handleClose = () => {

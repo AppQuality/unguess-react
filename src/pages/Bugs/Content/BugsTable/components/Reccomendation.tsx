@@ -1,19 +1,20 @@
 import {
-  GlobalAlert,
   Anchor,
-  useToast,
+  GlobalAlert,
   Notification,
+  useToast,
 } from '@appquality/unguess-design-system';
+import { ReactComponent as IconMail } from '@zendeskgarden/svg-icons/src/16/email-stroke.svg';
 import { t } from 'i18next';
 import { useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
-import { ReactComponent as IconMail } from '@zendeskgarden/svg-icons/src/16/email-stroke.svg';
 import {
   GetCampaignsByCidSuggestionsApiResponse,
   usePostCampaignsByCidSuggestionsMutation,
 } from 'src/features/api';
 import { useSendGTMevent } from 'src/hooks/useGTMevent';
-import { useParams } from 'react-router-dom';
+import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 
 export const Reccomendation = ({
   suggestion,
@@ -119,7 +120,7 @@ export const Reccomendation = ({
             : t('__BANNER_CROSS_FUNCTIONAL_MESSAGE_EXPERIENCE')}{' '}
           {suggestion.serviceId && (
             <Anchor
-              href={`/services/${suggestion.serviceId}`}
+              href={useLocalizeRoute('/templates')}
               onClick={() => {
                 sendGTMEvent({
                   event: 'reccomendation',
