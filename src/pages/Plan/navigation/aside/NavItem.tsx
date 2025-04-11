@@ -3,6 +3,7 @@ import {
   Ellipsis,
   MD,
   Message,
+  SM,
   Span,
 } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
@@ -12,6 +13,7 @@ import { appTheme } from 'src/app/theme';
 import { components } from 'src/common/schema';
 import styled from 'styled-components';
 import { getIconFromModuleType, getTitleFromModuleType } from '../../utils';
+import { getSubtitleFromModuleType } from '../../utils/getSubtitleFromModuleType';
 
 const StyledCard = styled(Card)`
   padding: ${({ theme }) => theme.space.md};
@@ -80,6 +82,9 @@ const NavItem = ({
             <MD>
               <Span isBold>{getTitleFromModuleType(type)}</Span>
             </MD>
+            <SM style={{ color: appTheme.palette.grey[600] }}>
+              <Span>{getSubtitleFromModuleType(type)}</Span>
+            </SM>
           </Ellipsis>
         </StyledContainer>
         {children && children}
