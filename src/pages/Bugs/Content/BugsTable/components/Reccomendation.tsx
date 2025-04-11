@@ -22,7 +22,7 @@ export const Reccomendation = ({
   const [sendMail, { isLoading }] = usePostCampaignsByCidSuggestionsMutation();
   const { addToast } = useToast();
   const { campaignId } = useParams();
-  const templatesRoute = useLocalizeRoute('/templates');
+  const templatesRoute = useLocalizeRoute('templates');
 
   const sendGTMEvent = useSendGTMevent();
   useEffect(() => {

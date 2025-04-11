@@ -38,7 +38,7 @@ export const Suggestions = ({ campaignId }: { campaignId: string }) => {
   const [sendMail, { isLoading }] = usePostCampaignsByCidSuggestionsMutation();
   const { addToast } = useToast();
 
-  const templatesRoute = useLocalizeRoute('/templates');
+  const templatesRoute = useLocalizeRoute('templates');
 
   const sendGTMEvent = useSendGTMevent();
 
