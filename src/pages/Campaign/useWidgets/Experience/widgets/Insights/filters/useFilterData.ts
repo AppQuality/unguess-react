@@ -4,7 +4,7 @@ import { useGetCampaignsByCidUxQuery } from 'src/features/api';
 import { getSelectedUxFiltersIds } from 'src/features/uxFilters';
 
 type Filter = 'clusters' | 'severities';
-export interface CounterItems {
+interface CounterItems {
   [key: string | number]: number;
 }
 

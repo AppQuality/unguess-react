@@ -10,19 +10,6 @@ import { ReactComponent as MenuIcon } from 'src/assets/icons/menu-stroke.svg';
 import { toggleSidebar } from 'src/features/navigation/navigationSlice';
 import styled from 'styled-components';
 
-export const LogoIconContainer = styled(HeaderItem)`
-  margin-right: 2px;
-  border-right: none;
-  cursor: pointer;
-  @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
-    right: 0;
-    left: 0;
-    margin-right: auto;
-    margin-left: auto;
-    position: absolute;
-  }
-`;
-
 const MenuItem = styled(HeaderItem)`
   ${(props) => retrieveComponentStyles('text.primary', props)};
   @media (min-width: ${({ theme }) => theme.breakpoints.md}) {
