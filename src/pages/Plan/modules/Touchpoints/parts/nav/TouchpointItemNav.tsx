@@ -14,8 +14,8 @@ import { useModuleTouchpoints } from '../../hooks';
 import { getIconFromTouchpointOutput } from '../../utils';
 
 const StyledCard = styled(Card)`
-  padding: ${({ theme }) => theme.space.md};
-  margin: ${({ theme }) => theme.space.sm} 0;
+  padding: ${({ theme }) => `${theme.space.sm} ${theme.space.md}`};
+  margin: ${({ theme }) => theme.space.xs} 0;
   background-color: transparent;
 `;
 
@@ -74,7 +74,7 @@ const TouchpointItemNav = ({
         <StyledContainer>
           {getIconFromTouchpointOutput(touchpoint)}
           <Ellipsis style={{ width: '95%' }}>
-            <MD>
+            <MD color={appTheme.palette.blue[600]}>
               {key + 1}.{' '}
               <Span isBold>
                 {form_factor} {kind}

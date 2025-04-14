@@ -14,8 +14,8 @@ import { useModuleTasks } from '../../hooks';
 import { getIconFromTaskOutput } from '../../utils';
 
 const StyledCard = styled(Card)`
-  padding: ${({ theme }) => theme.space.md};
-  margin: ${({ theme }) => theme.space.sm} 0;
+  padding: ${({ theme }) => `${theme.space.sm} ${theme.space.md}`};
+  margin: ${({ theme }) => theme.space.xs} 0;
   background-color: transparent;
 `;
 
@@ -82,7 +82,7 @@ const TaskItemNav = ({
         <StyledContainer>
           {getIconFromTaskOutput(task)}
           <Ellipsis style={{ width: '95%' }}>
-            <MD>
+            <MD color={appTheme.palette.blue[600]}>
               {key + 1}.{' '}
               <Span isBold>
                 {hasPlaceholder

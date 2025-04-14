@@ -20,7 +20,7 @@ export const PlanBody = () => {
         <SummaryBody />
       ) : (
         <Row>
-          <StickyCol sm="3">
+          <StickyCol style={{ padding: 0 }} sm="3">
             <Nav />
           </StickyCol>
           <Col sm="6">
