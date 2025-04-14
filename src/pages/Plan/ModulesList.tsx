@@ -30,6 +30,10 @@ export const ModulesList = ({ tabId }: { tabId: PlanTab }) => {
             id={`module-${type}`}
             style={{
               marginBottom: appTheme.space.lg,
+              paddingLeft:
+                type === 'tasks' || type === 'target' ? 0 : appTheme.space.xs,
+              paddingRight:
+                type === 'tasks' || type === 'target' ? 0 : appTheme.space.xs,
               display: isVisible ? 'block' : 'none',
             }}
           >
