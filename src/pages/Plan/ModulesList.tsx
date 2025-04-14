@@ -40,7 +40,9 @@ export const ModulesList = ({ tabId }: { tabId: PlanTab }) => {
       {tabId !== 'summary' && <ModulesBottomNavigation tabId={tabId} />}
       <div
         className="scroll-spacer"
-        style={{ height: 'calc(100vh - 550px)' }}
+        style={{
+          height: `calc(100vh - 500px)`,
+        }}
       />
     </>
   );
