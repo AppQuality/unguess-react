@@ -41,7 +41,7 @@ export const ModulesList = ({ tabId }: { tabId: PlanTab }) => {
       <div
         className="scroll-spacer"
         style={{
-          height: `calc(100vh - 500px)`,
+          height: `calc(100vh - 510px)`,
         }}
       />
     </>
