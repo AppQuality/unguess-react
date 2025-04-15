@@ -17,12 +17,12 @@ export const PlanBody = () => {
 
   return (
     <LayoutWrapper>
-      <Grid style={{ padding: `${appTheme.space.lg} ${appTheme.space.xl}` }}>
+      <Grid style={{ padding: appTheme.space.md }}>
         {activeTab === 'summary' ? (
           <SummaryBody />
         ) : (
           <Row>
-            <StickyCol sm="3">
+            <StickyCol style={{ padding: 0 }} sm="3">
               <Nav />
             </StickyCol>
             <Col sm="6">

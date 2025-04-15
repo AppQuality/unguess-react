@@ -4,9 +4,17 @@ import { useTranslation } from 'react-i18next';
 import { useAppSelector } from 'src/app/hooks';
 import { ReactComponent as PlusIcon } from 'src/assets/icons/plus-icon.svg';
 import { useModuleConfiguration } from 'src/features/modules/useModuleConfiguration';
+import styled from 'styled-components';
 import { usePlanTab } from '../../context/planContext';
 import { MODULES_BY_TAB } from '../../modulesMap';
 import { usePlanNavContext } from './context';
+
+const ButtonContainer = styled.div`
+  padding-top: ${({ theme }) => theme.space.sm};
+  padding-bottom: ${({ theme }) => theme.space.sm};
+  padding-left: ${({ theme }) => theme.space.xxs};
+  padding-right: ${({ theme }) => theme.space.xxs};
+`;
 
 const AddBlockButton = () => {
   const { t } = useTranslation();
@@ -24,19 +32,21 @@ const AddBlockButton = () => {
   });
 
   return (
-    <Button
-      isPrimary
-      isPill={false}
-      ref={triggerRef}
-      onClick={() => setModalRef(triggerRef.current)}
-      isStretched
-      disabled={items.length === 0 || getPlanStatus() !== 'draft'}
-    >
-      <Button.StartIcon>
-        <PlusIcon />
-      </Button.StartIcon>
-      {t('__PLAN_PAGE_ADD_MODULE_BLOCK_BUTTON')}
-    </Button>
+    <ButtonContainer>
+      <Button
+        isPrimary
+        isPill={false}
+        ref={triggerRef}
+        onClick={() => setModalRef(triggerRef.current)}
+        isStretched
+        disabled={items.length === 0 || getPlanStatus() !== 'draft'}
+      >
+        <Button.StartIcon>
+          <PlusIcon />
+        </Button.StartIcon>
+        {t('__PLAN_PAGE_ADD_MODULE_BLOCK_BUTTON')}
+      </Button>
+    </ButtonContainer>
   );
 };
 
