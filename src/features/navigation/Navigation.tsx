@@ -105,8 +105,6 @@ export const Navigation = ({
         dispatch(setSidebarOpen(false));
         break;
       case 'templates':
-        dispatch(setSidebarOpen(false));
-        break;
       case 'template':
         dispatch(setSidebarOpen(false));
         break;
