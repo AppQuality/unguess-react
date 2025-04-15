@@ -59,12 +59,13 @@ const TouchpointItem = ({
                 <Button
                   isBasic
                   isDanger
-                  onClick={() =>
+                  onClick={(e) => {
                     confirmationState[1]({
                       isOpen: true,
                       touchpointKey: key,
-                    })
-                  }
+                    });
+                    e.stopPropagation();
+                  }}
                 >
                   <Button.StartIcon>
                     <TrashIcon />
