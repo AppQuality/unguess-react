@@ -67,6 +67,7 @@ const TaskItemNav = ({
       offset={-200}
       smooth
       spy
+      isDynamic
       style={{ textDecoration: 'none' }}
       activeClass="isCurrent"
     >
