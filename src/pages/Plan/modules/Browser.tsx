@@ -92,7 +92,14 @@ const Browser = () => {
             {hasFeatureFlag(FEATURE_FLAG_CHANGE_MODULES_VARIANTS) &&
               getPlanStatus() === 'draft' && (
                 <AccordionNew.Meta>
-                  <Button isBasic isDanger onClick={handleDelete}>
+                  <Button
+                    isBasic
+                    isDanger
+                    onClick={(e) => {
+                      handleDelete();
+                      e.stopPropagation();
+                    }}
+                  >
                     <Button.StartIcon>
                       <DeleteIcon />
                     </Button.StartIcon>
