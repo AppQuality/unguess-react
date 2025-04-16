@@ -23,7 +23,13 @@ const FloatRight = styled.div`
   margin-bottom: ${theme.space.xs};
 `;
 
-export const ProjectItems = ({ projectId }: { projectId: number }) => {
+export const ProjectItems = ({
+  isArchive,
+  projectId,
+}: {
+  isArchive: boolean;
+  projectId: number;
+}) => {
   const { t } = useTranslation();
   const { width } = useWindowSize();
   const breakpointMd = parseInt(theme.breakpoints.md, 10);
@@ -75,8 +81,16 @@ export const ProjectItems = ({ projectId }: { projectId: number }) => {
       >
         <Col xs={12} md={8} style={{ marginBottom: 0 }}>
           <SectionTitle
-            title={t('_PROJECT_PAGE_TOTAL_CAMPAIGN_TITLE')}
-            subtitle={t('_PROJECT_PAGE_TOTAL_CAMPAIGN_SUBTITLE')}
+            title={
+              isArchive
+                ? `${t('__ARCHIVE_PAGE_TOTAL_CAMPAIGN_TITLE')} (${
+                    campaigns?.total
+                  })`
+                : t('_PROJECT_PAGE_TOTAL_CAMPAIGN_TITLE')
+            }
+            subtitle={
+              !isArchive ? t('_PROJECT_PAGE_TOTAL_CAMPAIGN_SUBTITLE') : ' '
+            }
           />
         </Col>
         {width >= breakpointMd && (

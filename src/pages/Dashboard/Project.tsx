@@ -48,14 +48,19 @@ const Items = ({
     );
   }
 
+  const isArchiveProject = project.is_archive === 1;
+
   if (project.campaigns_count > 0 || items.length > 0) {
     return (
       <LayoutWrapper style={{ paddingBottom: appTheme.space.xxl }}>
         <Grid style={{ padding: 0, marginBottom: appTheme.space.xxl }}>
           <Plans projectId={project.id} />
-          <ProjectItems projectId={Number(project.id) || 0} />
+          <ProjectItems
+            isArchive={isArchiveProject}
+            projectId={Number(project.id) || 0}
+          />
         </Grid>
-        <LaunchCampaignCards />
+        {!isArchiveProject && <LaunchCampaignCards />}
       </LayoutWrapper>
     );
   }
