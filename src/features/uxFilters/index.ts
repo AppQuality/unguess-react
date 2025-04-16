@@ -4,7 +4,7 @@ import { ClusterFilter, ClusterFilterType } from './clusterFilter';
 import { SeverityFilter, SeverityFilterType } from './severityFilter';
 import { InsightState, InsightStateType } from './insights';
 
-export interface FilterState {
+interface FilterState {
   currentCampaign?: number;
   campaigns: {
     [campaign_id: string]: ClusterFilterType &

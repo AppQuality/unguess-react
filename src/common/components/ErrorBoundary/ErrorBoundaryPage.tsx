@@ -1,18 +1,26 @@
 import {
+  Button,
   Col,
   Grid,
+  MD,
+  Paragraph,
   Row,
   theme,
   XXL,
-  MD,
-  Paragraph,
-  Button,
 } from '@appquality/unguess-design-system';
-import { ReactComponent as Illustration } from 'src/assets/errorBoundaryPage.svg';
 import { useTranslation } from 'react-i18next';
-import { Logged } from 'src/features/templates/Logged';
-import { Container } from 'src/pages/ExpressWizard/wizardHeader';
+import { ReactComponent as Illustration } from 'src/assets/errorBoundaryPage.svg';
 import { GoogleTagManager } from 'src/common/GoogleTagManager';
+import { Logged } from 'src/features/templates/Logged';
+import styled from 'styled-components';
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+`;
 
 const ErrorBoundaryPage = () => {
   const { t } = useTranslation();

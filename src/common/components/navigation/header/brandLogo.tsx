@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { ReactComponent as LogoFull } from 'src/assets/icons/logo.svg';
 import styled from 'styled-components';
 
-export const LogoIconContainer = styled(HeaderItem)`
+const LogoIconContainer = styled(HeaderItem)`
   margin-right: 2px;
   border-right: none;
   cursor: pointer;

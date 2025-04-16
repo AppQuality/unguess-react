@@ -3,7 +3,7 @@ import { Span } from '@appquality/unguess-design-system';
 export interface DropdownItems {
   [key: string]: DropdownItem;
 }
-export interface DropdownItem {
+interface DropdownItem {
   label: string;
   value: string;
   icon?: React.ReactElement;

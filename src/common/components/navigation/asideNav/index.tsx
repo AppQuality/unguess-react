@@ -1,7 +1,4 @@
-// TODO: Structure the menu in this components instead of using the children
-
 import {
-  Anchor,
   ContainerCard,
   MD,
   Skeleton,
@@ -11,7 +8,7 @@ import { Link } from 'react-scroll';
 import { Divider } from 'src/common/components/divider';
 import styled from 'styled-components';
 
-export const StickyNavContainer = styled(ContainerCard)`
+const StickyNavContainer = styled(ContainerCard)`
   position: sticky;
   top: ${({ theme }) => theme.space.md};
   z-index: 1;
@@ -64,12 +61,6 @@ StickyNavItem.defaultProps = {
 export const StickyNavItemLabel = styled(MD)`
   padding-top: ${({ theme }) => theme.space.sm};
   margin-bottom: ${({ theme }) => theme.space.xs};
-`;
-
-export const StickyNavItemExternal = styled(Anchor)`
-  display: block;
-  padding: ${({ theme }) => theme.space.sm} ${({ theme }) => theme.space.xs}
-    ${({ theme }) => theme.space.sm} ${({ theme }) => theme.space.md};
 `;
 
 interface IAsideNav {

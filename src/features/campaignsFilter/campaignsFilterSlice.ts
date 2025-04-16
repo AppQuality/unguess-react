@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-export const StatusFilters = {
+const StatusFilters = {
   All: 'all',
   Running: 'running',
   Completed: 'completed',

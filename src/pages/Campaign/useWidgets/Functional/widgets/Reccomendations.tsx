@@ -1,27 +1,28 @@
 import {
   Button,
   IconButton,
+  Notification,
   SpecialCard,
   Tag,
   useToast,
-  Notification,
   XL,
 } from '@appquality/unguess-design-system';
-import styled from 'styled-components';
-import { useTranslation } from 'react-i18next';
-import { BasicWidget } from 'src/pages/Campaign/widgetCards/BasicWidget';
-import { ReactComponent as ImgExperience } from 'src/assets/banner_suggestions/experience.svg';
-import { ReactComponent as ImgAutomation } from 'src/assets/banner_suggestions/testing_automation.svg';
 import { ReactComponent as IconService } from '@zendeskgarden/svg-icons/src/16/book-open-stroke.svg';
 import { ReactComponent as IconMail } from '@zendeskgarden/svg-icons/src/16/email-stroke.svg';
+import { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
+import { appTheme } from 'src/app/theme';
+import { ReactComponent as ImgExperience } from 'src/assets/banner_suggestions/experience.svg';
+import { ReactComponent as ImgAutomation } from 'src/assets/banner_suggestions/testing_automation.svg';
 import {
   useGetCampaignsByCidSuggestionsQuery,
   usePostCampaignsByCidSuggestionsMutation,
 } from 'src/features/api';
-import { Link } from 'react-router-dom';
-import { appTheme } from 'src/app/theme';
-import { useEffect } from 'react';
 import { useSendGTMevent } from 'src/hooks/useGTMevent';
+import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
+import { BasicWidget } from 'src/pages/Campaign/widgetCards/BasicWidget';
+import styled from 'styled-components';
 
 const StyledTagNew = styled(Tag)`
   height: ${({ theme }) => theme.space.base * 6}px;
@@ -36,6 +37,8 @@ export const Suggestions = ({ campaignId }: { campaignId: string }) => {
   });
   const [sendMail, { isLoading }] = usePostCampaignsByCidSuggestionsMutation();
   const { addToast } = useToast();
+
+  const templatesRoute = useLocalizeRoute('templates');
 
   const sendGTMEvent = useSendGTMevent();
 
@@ -136,7 +139,7 @@ export const Suggestions = ({ campaignId }: { campaignId: string }) => {
         <BasicWidget.Footer noDivider>
           {suggestions.suggestion.serviceId && (
             <Link
-              to={`/services/${suggestions.suggestion.serviceId}`}
+              to={templatesRoute}
               onClick={() => {
                 sendGTMEvent({
                   event: 'reccomendation',
