@@ -28,7 +28,7 @@ export class Archive extends UnguessPage {
         this.page.getByText(this.i18n.t('__DASHBOARD_EMPTY_ARCHIVE_TITLE')),
       campaignTable: () =>
         this.page.getByRole('table', { name: 'project-campaigns-table' }),
-      campaignRow: () => this.page.getByRole('row'),
+      campaignRow: () => this.elements().campaignTable().getByRole('row'),
     };
   }
 
