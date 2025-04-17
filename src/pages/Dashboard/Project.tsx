@@ -135,7 +135,11 @@ const Project = () => {
 
   return (
     <Page
-      title={t('__PAGE_TITLE_PRIMARY_DASHBOARD_SINGLE_PROJECT')}
+      title={
+        !project?.is_archive
+          ? t('__PAGE_TITLE_PRIMARY_DASHBOARD_SINGLE_PROJECT')
+          : t('__PAGE_TITLE_PRIMARY_DASHBOARD_ARCHIVE')
+      }
       route="projects"
       pageHeader={<ProjectPageHeader projectId={Number(projectId) || 0} />}
       excludeMarginBottom={isEmpty}
