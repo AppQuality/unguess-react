@@ -12,6 +12,8 @@ export class Archive extends UnguessPage {
 
   readonly emptyArchive = emptyArchive;
 
+  readonly campaignCount = this.projectCampaigns.length;
+
   constructor(page: Page) {
     super(page);
     this.page = page;
@@ -24,6 +26,9 @@ export class Archive extends UnguessPage {
         this.page.getByText(this.i18n.t('__DASHBOARD_EMPTY_ARCHIVE_TITLE')),
       emptyState2: () =>
         this.page.getByText(this.i18n.t('__DASHBOARD_EMPTY_ARCHIVE_TITLE')),
+      campaignTable: () =>
+        this.page.getByRole('table', { name: 'project-campaigns-table' }),
+      campaignRow: () => this.page.getByRole('row'),
     };
   }
 

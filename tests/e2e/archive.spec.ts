@@ -16,7 +16,14 @@ test.describe('Archive page with some campaigns', () => {
     await archive.open();
   });
 
-  test('Should only display the campaigns table', async () => {});
+  test('Should only display the campaigns table', async () => {
+    await expect(archive.elements().emptyState1()).not.toBeVisible();
+    await expect(archive.elements().emptyState2()).not.toBeVisible();
+    await expect(archive.elements().campaignTable()).toBeVisible();
+    await expect(archive.elements().campaignRow()).toHaveCount(
+      archive.campaignCount + 1 // +1 for the header row
+    );
+  });
 });
 
 test.describe('Archive page without campaigns', () => {
