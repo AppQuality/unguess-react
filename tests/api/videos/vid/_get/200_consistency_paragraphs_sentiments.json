@@ -1,0 +1,131 @@
+{
+  "id": 0,
+  "url": "string",
+  "streamUrl": "string",
+  "poster": "string",
+  "duration": 0,
+  "tester": {
+    "id": 0,
+    "name": "string",
+    "surname": "string",
+    "device": {
+      "type": "smartphone"
+    }
+  },
+  "transcript": {
+    "speakers": 0,
+    "paragraphs": [
+      {
+        "text": "ciao",
+        "start": 1,
+        "end": 2.01,
+        "speaker": 0,
+        "words": [
+          {
+            "start": 1,
+            "end": 2.01,
+            "speaker": 0,
+            "word": "ciao"
+          }
+        ]
+      },
+      {
+        "text": "ciao2",
+        "start": 2.01,
+        "end": 10,
+        "speaker": 0,
+        "words": [
+          {
+            "start": 2.01,
+            "end": 10,
+            "speaker": 0,
+            "word": "ciao2"
+          }
+        ]
+      },
+      {
+        "text": "ciao3",
+        "start": 10.01,
+        "end": 20,
+        "speaker": 0,
+        "words": [
+          {
+            "start": 10.01,
+            "end": 20,
+            "speaker": 0,
+            "word": "ciao3"
+          }
+        ]
+      },
+      {
+        "text": "ciao4",
+        "start": 20.01,
+        "end": 30,
+        "speaker": 0,
+        "words": [
+          {
+            "start": 20.01,
+            "end": 30,
+            "speaker": 0,
+            "word": "ciao4"
+          }
+        ]
+      },
+      {
+        "text": "ciao5",
+        "start": 30.01,
+        "end": 40,
+        "speaker": 0,
+        "words": [
+          {
+            "start": 30.01,
+            "end": 40,
+            "speaker": 0,
+            "word": "ciao5"
+          }
+        ]
+      }
+    ]
+  },
+  "sentiment": {
+    "value": 2,
+    "reason": "string",
+    "paragraphs": [
+      {
+        "start": 1,
+        "end": 2.01,
+        "value": 1,
+        "reason": "very negative"
+      },
+      {
+        "start": 2.01,
+        "end": 10,
+        "value": 2,
+        "reason": "negative"
+      },
+      {
+        "start": 10.01,
+        "end": 20,
+        "value": 3,
+        "reason": "neutral"
+      },
+      {
+        "start": 20.01,
+        "end": 30,
+        "value": 4,
+        "reason": "positive"
+      },
+      {
+        "start": 30.01,
+        "end": 40,
+        "value": 5,
+        "reason": "very positive"
+      }
+    ]
+  },
+  "usecase": {
+    "id": 0,
+    "name": "string"
+  },
+  "language": "string"
+}

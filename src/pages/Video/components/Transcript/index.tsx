@@ -54,7 +54,7 @@ export const Transcript = ({
   setCurrentTime: (time: number) => void;
 }) => {
   const handleAddObservation = useAddObservation({ videoId: videoId || '' });
-  const { data: content, speakers } = useContent(videoId || '');
+  const { data: content, speakers, sentiments } = useContent(videoId || '');
   const { data: observations } = useObservations(videoId || '');
   const { data: translationData } = useTranslationTools();
 
@@ -66,8 +66,8 @@ export const Transcript = ({
       translations: translationData.translation?.sentences,
       themeExtension: TranscriptTheme,
       observations,
-      // @ts-ignore
-      numberOfSpeakers: speakers,
+      sentiments,
+      numberOfSpeakers: speakers || undefined,
     },
     [observations, translationData.translation?.sentences]
   );

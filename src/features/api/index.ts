@@ -2280,6 +2280,16 @@ export type Transcript = {
   speakers: number;
   paragraphs: Paragraph[];
 };
+export type MediaSentiment = {
+  value: number;
+  reason: string;
+  paragraphs: {
+    start: number;
+    end: number;
+    value: number;
+    reason: string;
+  }[];
+};
 export type Video = {
   id: number;
   url: string;
@@ -2295,6 +2305,7 @@ export type Video = {
     };
   };
   transcript?: Transcript;
+  sentiment?: MediaSentiment;
 };
 export type PaginationData = {
   start?: number;
