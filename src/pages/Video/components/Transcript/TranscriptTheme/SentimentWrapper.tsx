@@ -127,7 +127,7 @@ const Component = ({ value, text }: { value: number; text: string }) => {
         </TooltipModal.Body>
         <TooltipModal.Footer>
           <div style={{ width: '100%' }}>
-            <Button size="small" onClick={() => copy()}>
+            <Button size="small" onClick={() => copy()} isBasic>
               <Button.StartIcon>
                 <CopyIcon color={theme.palette.blue[600]} />
               </Button.StartIcon>
