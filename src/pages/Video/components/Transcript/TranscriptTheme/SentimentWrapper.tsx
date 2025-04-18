@@ -96,7 +96,7 @@ const Component = ({ value, text }: { value: number; text: string }) => {
   const { Icon } = tagData;
   const ref = useRef<HTMLButtonElement>(null);
   const [referenceElement, setReferenceElement] =
-    useState<HTMLButtonElement | null>();
+    useState<HTMLButtonElement | null>(null);
 
   return (
     <>
