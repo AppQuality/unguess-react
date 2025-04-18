@@ -101,7 +101,7 @@ const Component = ({ value, text }: { value: number; text: string }) => {
 
   return (
     <>
-      <TagWrapper>
+      <TagWrapper data-qa="transcript-sentiment">
         <Tag hue={tagData.color} color={tagData.textColor} title={text}>
           <Tag.Avatar>
             <Icon style={{ color: tagData.textColor }} />
