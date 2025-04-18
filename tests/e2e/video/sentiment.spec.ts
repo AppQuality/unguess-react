@@ -16,8 +16,11 @@ test.describe('Video page', () => {
   });
 
   test('Should have one paragraph component per paragraph', async () => {
-    const paragraphs = await videopage.elements().paragraphContent().all();
-    expect(paragraphs.length).toBe(5);
+    const paragraphCount = await videopage
+      .elements()
+      .paragraphContent()
+      .count();
+    expect(paragraphCount).toBe(5);
   });
   test('Should print the content of the paragraphs', async () => {
     const paragraphs = await videopage.elements().paragraphContent().all();
@@ -35,8 +38,11 @@ test.describe('Video page', () => {
     ]);
   });
   test('Should print the sentiment items', async () => {
-    const sentiments = await videopage.elements().sentimentWrapper().all();
-    expect(sentiments.length).toBe(5);
+    const sentimentCount = await videopage
+      .elements()
+      .sentimentWrapper()
+      .count();
+    expect(sentimentCount).toBe(5);
   });
 
   test('Should print the sentiment values', async ({ i18n }) => {

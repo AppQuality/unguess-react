@@ -14,13 +14,12 @@ export class VideoPage extends UnguessPage {
     return {
       ...super.elements(),
       paragraphContent: () =>
-        this.page.locator('[data-qa="transcript-paragraph"] .content'),
-      sentimentWrapper: () =>
-        this.page.locator('[data-qa="transcript-sentiment"]'),
+        this.page.getByTestId('transcript-paragraph').locator('.content'),
+      sentimentWrapper: () => this.page.getByTestId('transcript-sentiment'),
       sentimentItem: () =>
-        this.page.locator(
-          '[data-qa="transcript-sentiment"] [data-garden-id="tags.tag_view"]'
-        ),
+        this.page
+          .getByTestId('transcript-sentiment')
+          .locator('[data-garden-id="tags.tag_view"]'),
     };
   }
 
