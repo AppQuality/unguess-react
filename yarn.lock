@@ -59,10 +59,10 @@
   dependencies:
     hls.js "^1.4.8"
 
-"@appquality/unguess-design-system@4.0.35":
-  version "4.0.35"
-  resolved "https://registry.yarnpkg.com/@appquality/unguess-design-system/-/unguess-design-system-4.0.35.tgz#d4cad0a997bad011367b136b137f477f0beb713e"
-  integrity sha512-epNYyNjpWTktYZ/TQsgHC6px8Ip1PpFpxk1lD4gux8A/F+Z2yyKoXcHEFhMo6pR8TAyc7igW1TPaDjnlVKuP6Q==
+"@appquality/unguess-design-system@4.0.36":
+  version "4.0.36"
+  resolved "https://registry.yarnpkg.com/@appquality/unguess-design-system/-/unguess-design-system-4.0.36.tgz#c773cf1777e04850b2ba5209106e7c10ae7cc686"
+  integrity sha512-BEBK4eO2s2KzEmq6ZaiiF0CWLhNuyA6X0q3Zz6ZzuSc+Q0kTw0DWDHQPlngFE66vBnG26U3unUH9UiagVW1l9Q==
   dependencies:
     "@appquality/stream-player" "1.0.6"
     "@nivo/bar" "^0.87.0"
@@ -2494,6 +2494,15 @@
     polished "^4.3.1"
     prop-types "^15.5.7"
 
+"@zendeskgarden/react-loaders@^9.5.4":
+  version "9.5.4"
+  resolved "https://registry.yarnpkg.com/@zendeskgarden/react-loaders/-/react-loaders-9.5.4.tgz#ed13db49012ce83f10cdce4e3ea5a07715c47d2b"
+  integrity sha512-qC7gtL/723OhYxxGFvZy8NjaF9pYFA5JJoXE2fTSU0o7lBelm5WaAM4LThaj8CgTATiXJkSLnFJovYkhVTPncA==
+  dependencies:
+    "@zendeskgarden/container-schedule" "^2.0.9"
+    polished "^4.3.1"
+    prop-types "^15.5.7"
+
 "@zendeskgarden/react-modals@8.76.8", "@zendeskgarden/react-modals@^8.76.8":
   version "8.76.8"
   resolved "https://registry.yarnpkg.com/@zendeskgarden/react-modals/-/react-modals-8.76.8.tgz#b21ceff1cfce4595675ef602b6c1934ca8b2d3c5"
@@ -2567,6 +2576,18 @@
   dependencies:
     "@zendeskgarden/container-focusvisible" "^2.0.3"
     "@zendeskgarden/container-utilities" "^2.0.0"
+    lodash.memoize "^4.1.2"
+    polished "^4.3.1"
+    prop-types "^15.5.7"
+
+"@zendeskgarden/react-theming@^9.5.4":
+  version "9.5.4"
+  resolved "https://registry.yarnpkg.com/@zendeskgarden/react-theming/-/react-theming-9.5.4.tgz#98e07fdce4d277685f1a15327de8a515e0713159"
+  integrity sha512-quBx2LfHjuPrOSTEK3oC3FG7UY4rYjAYoSw3D4+kpQOxBJI7AsQiZyh+0N69nXoyEhtz8U7twsfnCpvlHXz2tw==
+  dependencies:
+    "@floating-ui/react-dom" "^2.0.0"
+    color2k "^2.0.3"
+    lodash.get "^4.4.2"
     lodash.memoize "^4.1.2"
     polished "^4.3.1"
     prop-types "^15.5.7"
@@ -3269,6 +3290,11 @@ color-name@~1.1.4:
   version "1.1.4"
   resolved "https://registry.yarnpkg.com/color-name/-/color-name-1.1.4.tgz#c2a09a87acbde69543de6f63fa3995c826c536a2"
   integrity sha512-dOy+3AuW3a2wNbZHIuMZpTcgjGuLU/uBL/ubcZF9OXbDo8ff4O8yVp5Bf0efS8uEoYo5q4Fx7dY9OgQGXgAsQA==
+
+color2k@^2.0.3:
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/color2k/-/color2k-2.0.3.tgz#a771244f6b6285541c82aa65ff0a0c624046e533"
+  integrity sha512-zW190nQTIoXcGCaU08DvVNFTmQhUpnJfVuAKfWqUQkflXKpaDdpaYoM0iluLS9lgJNHyBF58KKA2FBEwkD7wog==
 
 colorette@^2.0.20:
   version "2.0.20"
@@ -5811,6 +5837,11 @@ lodash.debounce@^4.0.8:
   version "4.0.8"
   resolved "https://registry.yarnpkg.com/lodash.debounce/-/lodash.debounce-4.0.8.tgz#82d79bff30a67c4005ffd5e2515300ad9ca4d7af"
   integrity sha512-FT1yDzDYEoYWhnSGnpE/4Kj1fLZkDFyqRb7fNt6FdYOSxlUWAtp42Eh6Wb0rGIv/m9Bgo7x4GhQbm5Ys4SG5ow==
+
+lodash.get@^4.4.2:
+  version "4.4.2"
+  resolved "https://registry.yarnpkg.com/lodash.get/-/lodash.get-4.4.2.tgz#2d177f652fa31e939b4438d5341499dfa3825e99"
+  integrity sha512-z+Uw/vLuy6gQe8cfaFWD7p0wVv8fJl3mbzXh33RS+0oW2wvUqiRXiQ69gLWSLpgB5/6sU+r6BlQR0MBILadqTQ==
 
 lodash.isequal@^4.5.0:
   version "4.5.0"
