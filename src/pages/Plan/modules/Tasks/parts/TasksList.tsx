@@ -83,7 +83,15 @@ const TasksList = () => {
           </TitleContainer>
           {hasFeatureFlag(FEATURE_FLAG_CHANGE_MODULES_VARIANTS) &&
             getPlanStatus() === 'draft' && (
-              <Button isBasic isDanger size="small" onClick={handleDelete}>
+              <Button
+                isBasic
+                isDanger
+                size="small"
+                onClick={(e) => {
+                  handleDelete();
+                  e.stopPropagation();
+                }}
+              >
                 {t('__PLAN_PAGE_MODULE_TASKS_REMOVE_BUTTON')}
               </Button>
             )}

@@ -83,12 +83,13 @@ const TaskItem = ({
                 <Button
                   isBasic
                   isDanger
-                  onClick={() =>
+                  onClick={(e) => {
                     confirmationState[1]({
                       isOpen: true,
                       taskKey: key,
-                    })
-                  }
+                    });
+                    e.stopPropagation();
+                  }}
                 >
                   <Button.StartIcon>
                     <TrashIcon />
