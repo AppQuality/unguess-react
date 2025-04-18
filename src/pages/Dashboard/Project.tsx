@@ -48,14 +48,19 @@ const Items = ({
     );
   }
 
+  const isArchiveProject = project.is_archive === 1;
+
   if (project.campaigns_count > 0 || items.length > 0) {
     return (
       <LayoutWrapper style={{ paddingBottom: appTheme.space.xxl }}>
         <Grid style={{ padding: 0, marginBottom: appTheme.space.xxl }}>
           <Plans projectId={project.id} />
-          <ProjectItems projectId={Number(project.id) || 0} />
+          <ProjectItems
+            isArchive={isArchiveProject}
+            projectId={Number(project.id) || 0}
+          />
         </Grid>
-        <LaunchCampaignCards />
+        {!isArchiveProject && <LaunchCampaignCards />}
       </LayoutWrapper>
     );
   }
@@ -130,7 +135,11 @@ const Project = () => {
 
   return (
     <Page
-      title={t('__PAGE_TITLE_PRIMARY_DASHBOARD_SINGLE_PROJECT')}
+      title={
+        !project?.is_archive
+          ? t('__PAGE_TITLE_PRIMARY_DASHBOARD_SINGLE_PROJECT')
+          : t('__PAGE_TITLE_PRIMARY_DASHBOARD_ARCHIVE')
+      }
       route="projects"
       pageHeader={<ProjectPageHeader projectId={Number(projectId) || 0} />}
       excludeMarginBottom={isEmpty}
