@@ -1,26 +1,19 @@
 import {
   Button,
   FooterItem,
-  Label,
-  LG,
   MD,
   Message,
   Modal,
   ModalClose,
   Notification,
-  OrderedList,
-  Skeleton,
-  SM,
   Span,
   useToast,
-  XL,
 } from '@appquality/unguess-design-system';
 import { Trans, useTranslation } from 'react-i18next';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
 import { Dots } from '@zendeskgarden/react-loaders';
 import { useDeletePlansByPidMutation } from 'src/features/api';
-import { usePlan } from '../hooks/usePlan';
 
 const DeletePlanModal = ({
   onQuit,
