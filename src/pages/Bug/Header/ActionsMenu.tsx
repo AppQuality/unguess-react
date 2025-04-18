@@ -2,12 +2,12 @@ import { DotsMenu } from '@appquality/unguess-design-system';
 import { t } from 'i18next';
 import { useState } from 'react';
 import { appTheme } from 'src/app/theme';
+import { ReactComponent as CopyIcon } from 'src/assets/icons/copy-icon.svg';
 import { ReactComponent as KeyboardIcon } from 'src/assets/icons/keyboard.svg';
 import { ReactComponent as ShareIcon } from 'src/assets/icons/share-stroke.svg';
-import { ReactComponent as CopyIcon } from 'src/assets/icons/copy-icon.svg';
-import { useCopyLink } from 'src/common/components/utils/useCopyLink';
 import { ShareModal } from 'src/common/components/BugDetail/ShareModal';
 import { GetCampaignsByCidBugsAndBidApiResponse } from 'src/features/api';
+import { useCopyLink } from 'src/hooks/useCopyLink';
 import { useSendGTMevent } from 'src/hooks/useGTMevent';
 import { BugShortcutHelper } from '../BugShortcutHelper';
 
