@@ -28,7 +28,7 @@ const StyledCard = styled(ContainerCard)`
 `;
 
 const TouchpointsContainer = styled.div`
-  padding: 0 ${({ theme }) => theme.space.md};
+  padding: 0 ${({ theme }) => theme.space.xs};
 `;
 
 const HeaderContainer = styled.div<{
