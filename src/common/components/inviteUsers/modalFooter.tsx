@@ -1,8 +1,8 @@
-import { Modal, Button } from '@appquality/unguess-design-system';
-import { ReactComponent as LinkIcon } from 'src/assets/icons/link-stroke.svg';
-import styled from 'styled-components';
+import { Button, Modal } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
-import { useCopyLink } from '../utils/useCopyLink';
+import { ReactComponent as LinkIcon } from 'src/assets/icons/link-stroke.svg';
+import { useCopyLink } from 'src/hooks/useCopyLink';
+import styled from 'styled-components';
 
 const FooterWithBorder = styled(Modal.Footer)`
   padding: ${({ theme }) =>
