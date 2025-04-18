@@ -11,20 +11,35 @@ export const useCopy = ({
   const { t } = useTranslation();
   const { addToast } = useToast();
 
-  const copyToClipboard = () => {
-    navigator.clipboard.writeText(text);
-    addToast(
-      ({ close }) => (
-        <Notification
-          onClose={close}
-          type="success"
-          message={notification}
-          closeText={t('__TOAST_CLOSE_TEXT')}
-          isPrimary
-        />
-      ),
-      { placement: 'top' }
-    );
+  const copyToClipboard = async () => {
+    try {
+      await navigator.clipboard.writeText(text);
+      addToast(
+        ({ close }) => (
+          <Notification
+            onClose={close}
+            type="success"
+            message={notification}
+            closeText={t('__TOAST_CLOSE_TEXT')}
+            isPrimary
+          />
+        ),
+        { placement: 'top' }
+      );
+    } catch (error) {
+      addToast(
+        ({ close }) => (
+          <Notification
+            onClose={close}
+            type="error"
+            message={t('__COPY_ERROR')}
+            closeText={t('__TOAST_CLOSE_TEXT')}
+            isPrimary
+          />
+        ),
+        { placement: 'top' }
+      );
+    }
   };
 
   return copyToClipboard;
