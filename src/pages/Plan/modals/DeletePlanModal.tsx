@@ -59,7 +59,7 @@ const DeletePlanModal = ({
         ),
         { placement: 'top' }
       );
-
+      onQuit();
       return;
     }
     onQuit();
