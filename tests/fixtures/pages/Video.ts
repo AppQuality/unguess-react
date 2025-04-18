@@ -31,6 +31,7 @@ export class VideoPage extends UnguessPage {
       });
     });
   }
+
   async mockGetVideo() {
     await this.page.route('*/**/api/videos/1', async (route) => {
       await route.fulfill({
@@ -38,6 +39,7 @@ export class VideoPage extends UnguessPage {
       });
     });
   }
+
   async mockGetVideoObservations() {
     await this.page.route('*/**/api/videos/1/observations', async (route) => {
       await route.fulfill({
