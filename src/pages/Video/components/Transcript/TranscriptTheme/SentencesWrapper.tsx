@@ -2,8 +2,7 @@ import { ReactNode } from 'react';
 import styled from 'styled-components';
 
 const Wrapper = styled.div`
-  margin: ${({ theme }) => theme.space.sm} 0;
-  padding-top: ${({ theme }) => theme.space.lg};
+  margin-bottom: ${({ theme }) => theme.space.sm};
   font-size: ${({ theme }) => theme.fontSizes.md};
   position: relative;
   color: ${({ theme }) => theme.palette.blue[600]};
