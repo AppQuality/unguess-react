@@ -1,24 +1,24 @@
+import { useNavigate } from 'react-router-dom';
+import { useTranslation, Trans } from 'react-i18next';
 import {
-  Button,
-  FooterItem,
-  MD,
-  Message,
   Modal,
   ModalClose,
+  Button,
+  FooterItem,
+  Message,
   Notification,
+  MD,
   Span,
   useToast,
 } from '@appquality/unguess-design-system';
-import { Trans, useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
-import { appTheme } from 'src/app/theme';
 import { Dots } from '@zendeskgarden/react-loaders';
+import { appTheme } from 'src/app/theme';
 import { useDeletePlansByPidMutation } from 'src/features/api';
 
 const DeletePlanModal = ({
-  onQuit,
   planId,
   planTitle,
+  onQuit,
 }: {
   planId: string;
   planTitle: string;
@@ -30,35 +30,36 @@ const DeletePlanModal = ({
 
   const [deletePlan, { isLoading }] = useDeletePlansByPidMutation();
 
-  const deletePlanId = async (plan: string) => {
-    if (!plan) return;
-    await deletePlan({ pid: plan })
-      .unwrap()
-      .then(() => {
-        navigate(`/`);
-      });
+  const deletePlanById = async (id: string) => {
+    if (!id) return;
+    await deletePlan({ pid: id }).unwrap();
+    navigate(`/`);
+  };
+
+  const showDeleteErrorToast = (error: Error) => {
+    addToast(
+      ({ close }) => (
+        <Notification
+          onClose={close}
+          type="error"
+          message={
+            error instanceof Error && error.message
+              ? error.message
+              : t('__PLAN_PAGE_DELETE_PLAN_MODAL_ERROR')
+          }
+          closeText={t('__TOAST_CLOSE_TEXT')}
+          isPrimary
+        />
+      ),
+      { placement: 'top' }
+    );
   };
 
   const handleConfirm = async () => {
     try {
-      await deletePlanId(planId);
+      await deletePlanById(planId);
     } catch (e) {
-      addToast(
-        ({ close }) => (
-          <Notification
-            onClose={close}
-            type="error"
-            message={
-              e instanceof Error && e.message
-                ? e.message
-                : t('__PLAN_PAGE_DELETE_PLAN_MODAL_ERROR')
-            }
-            closeText={t('__TOAST_CLOSE_TEXT')}
-            isPrimary
-          />
-        ),
-        { placement: 'top' }
-      );
+      showDeleteErrorToast(e as unknown as Error);
       onQuit();
       return;
     }
@@ -75,13 +76,8 @@ const DeletePlanModal = ({
       <Modal.Body style={{ overflow: 'visible' }}>
         <Trans
           i18nKey="__PLAN_PAGE_DELETE_PLAN_MODAL_BODY"
-          components={{
-            md: <MD />,
-            boldSpan: <Span isBold />,
-          }}
-          values={{
-            planTitle,
-          }}
+          components={{ md: <MD />, boldSpan: <Span isBold /> }}
+          values={{ planTitle }}
           defaults=""
         />
       </Modal.Body>
