@@ -83,6 +83,7 @@ const StyledSM = styled(SM)`
 const TagWrapper = styled.div`
   display: flex;
   align-items: center;
+  gap: ${({ theme }) => theme.space.xxs};
 `;
 
 const Component = ({ value, text }: { value: number; text: string }) => {
