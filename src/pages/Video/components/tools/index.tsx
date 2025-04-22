@@ -10,6 +10,9 @@ import { ReactComponent as TranslateIcon } from '@zendeskgarden/svg-icons/src/16
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
+import { styled } from 'styled-components';
+import { useContent } from '../Transcript/useContent';
+import { ReactComponent as ShowSentimentIcon } from './assets/showSentimentIcon.svg';
 import { useToolsContext } from './context/ToolsContext';
 import { useRequestTranslation } from './hooks/useRequestTranslation';
 import { useTranslationTools } from './hooks/useTranslationTools';
@@ -83,16 +86,39 @@ const OpenModalButton = () => {
       size="medium"
       onClick={(e) => e.stopPropagation()}
     >
-      <IconButton
-        disabled={isProcessing}
-        style={{ marginLeft: appTheme.space.sm }}
-        onClick={() => setIsOpen(!isOpen)}
-      >
+      <IconButton disabled={isProcessing} onClick={() => setIsOpen(!isOpen)}>
         <SettingsIcon color={appTheme.palette.blue[600]} />
       </IconButton>
     </Tooltip>
   );
 };
+
+const ShowHideSentiment = () => {
+  const { videoId } = useParams();
+  const { t } = useTranslation();
+  const { sentiments } = useContent(videoId || '');
+  const { showSentiment, setShowSentiment } = useToolsContext();
+
+  if (!sentiments) return null;
+
+  return (
+    <Button isBasic onClick={() => setShowSentiment(!showSentiment)}>
+      <Button.StartIcon>
+        <ShowSentimentIcon />
+      </Button.StartIcon>
+      <Span>
+        {showSentiment
+          ? t('__TOOLS_MENU_ITEM_HIDE_SENTIMENT_LABEL')
+          : t('__TOOLS_MENU_ITEM_SHOW_SENTIMENT_LABEL')}
+      </Span>
+    </Button>
+  );
+};
+
+const ToolsWrapper = styled.div`
+  display: flex;
+  gap: ${({ theme }) => theme.space.xs};
+`;
 
 export const Tools = () => {
   const { isError } = useTranslationTools();
@@ -100,10 +126,11 @@ export const Tools = () => {
   if (isError) return null;
 
   return (
-    <div>
+    <ToolsWrapper>
       <TranslateButton />
       <TranslateModal />
       <OpenModalButton />
-    </div>
+      <ShowHideSentiment />
+    </ToolsWrapper>
   );
 };

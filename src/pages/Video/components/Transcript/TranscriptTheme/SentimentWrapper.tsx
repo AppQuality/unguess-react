@@ -14,6 +14,7 @@ import { ReactComponent as CopyIcon } from 'src/assets/icons/copy-icon.svg';
 import { ReactComponent as InfoIcon } from 'src/assets/icons/info.svg';
 import { useCopy } from 'src/hooks/useCopy';
 import { styled, useTheme } from 'styled-components';
+import { useToolsContext } from '../../tools/context/ToolsContext';
 import { ReactComponent as NegativeIcon } from '../assets/negative.svg';
 import { ReactComponent as NeutralIcon } from '../assets/neutral.svg';
 import { ReactComponent as PositiveIcon } from '../assets/positive.svg';
@@ -89,6 +90,8 @@ const TagWrapper = styled.div`
 const Component = ({ value, text }: { value: number; text: string }) => {
   const tagData = useTagData(value);
   const { t } = useTranslation();
+  const { showSentiment } = useToolsContext();
+
   const copy = useCopy({
     text,
     notification: t('__SENTIMENT_TOAST_COPY_MESSAGE'),
@@ -98,6 +101,8 @@ const Component = ({ value, text }: { value: number; text: string }) => {
   const ref = useRef<HTMLButtonElement>(null);
   const [referenceElement, setReferenceElement] =
     useState<HTMLButtonElement | null>(null);
+
+  if (!showSentiment) return null;
 
   return (
     <>
