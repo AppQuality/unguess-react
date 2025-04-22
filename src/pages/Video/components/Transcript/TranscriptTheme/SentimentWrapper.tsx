@@ -102,7 +102,7 @@ const Component = ({ value, text }: { value: number; text: string }) => {
   const [referenceElement, setReferenceElement] =
     useState<HTMLButtonElement | null>(null);
 
-  if (!showSentiment) return null;
+  if (!showSentiment) return <span />;
 
   return (
     <>

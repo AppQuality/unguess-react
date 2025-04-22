@@ -1,9 +1,7 @@
 import {
   AccordionNew,
   Button,
-  ContainerCard,
   GlobalAlert,
-  MD,
   SM,
   Tag,
 } from '@appquality/unguess-design-system';
@@ -24,10 +22,18 @@ const CopyButton = styled(Button)`
   margin-top: ${({ theme }) => theme.space.lg};
 `;
 
+const StyledHeader = styled(AccordionNew.Header)`
+  .accordion-header-inner-wrapper {
+    grid-template-areas:
+      'supertitle supertitle'
+      'label label'
+      'meta meta';
+  }
+`;
+
 export const SentimentOverview = () => {
   const { videoId } = useParams();
   const theme = useTheme();
-  const [showHelp, setShowHelp] = useState(true);
   const [isOpen, setIsOpen] = useState(true);
   const { t } = useTranslation();
   const { generalSentiment } = useContent(videoId || '');
@@ -46,39 +52,31 @@ export const SentimentOverview = () => {
         onChange={handleAccordionChange}
       >
         <AccordionNew.Section>
-          <AccordionNew.Header icon={<AiIcon />}>
+          <StyledHeader icon={<AiIcon />}>
             <AccordionNew.Label
               label={t('__SENTIMENT_OVERVIEW_TITLE')}
               subtitle={t('__SENTIMENT_OVERVIEW_SUBTITLE')}
             />
             <AccordionNew.Meta>
-              <Tag>Beta</Tag>
+              <Tag style={{ marginTop: theme.space.xs }}>Beta</Tag>
             </AccordionNew.Meta>
-          </AccordionNew.Header>
+          </StyledHeader>
           <AccordionNew.Panel>
-            <ContainerCard style={{ margin: `${theme.space.xs} 0` }}>
+            <div style={{ margin: `${theme.space.xs} 0 ${theme.space.lg} 0` }}>
               <div>{generalSentiment}</div>
-              <CopyButton onClick={copy}>
+              <CopyButton size="small" onClick={copy}>
                 <Button.StartIcon>
                   <CopyIcon />
                 </Button.StartIcon>
                 {t('__SENTIMENT_COPY_BUTTON_LABEL')}
               </CopyButton>
-            </ContainerCard>
-            {showHelp && (
-              <GlobalAlert
-                style={{ margin: `${theme.space.sm} 0 ${theme.space.md} 0` }}
-                type="accent"
-                dismissable
-                onClose={() => setShowHelp(false)}
-                message={
-                  <>
-                    <MD isBold>{t('__SENTIMENT_OVERVIEW_ALERT_TITLE')}</MD>
-                    <MD>{t('__SENTIMENT_OVERVIEW_ALERT_SUBTITLE')}</MD>
-                  </>
-                }
-              />
-            )}
+            </div>
+            <GlobalAlert
+              style={{ margin: `${theme.space.sm} 0 ${theme.space.md} 0` }}
+              type="accent"
+              title={t('__SENTIMENT_OVERVIEW_ALERT_TITLE')}
+              message={t('__SENTIMENT_OVERVIEW_ALERT_SUBTITLE')}
+            />
             <SM>
               <i>{t('__SENTIMENT_OVERVIEW_ALERT_DISCLAIMER')}</i>
             </SM>
