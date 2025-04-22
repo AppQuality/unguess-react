@@ -69,6 +69,26 @@ export class PlanPage extends UnguessPage {
         this.page.getByTestId('digital-literacy-module'),
       digitalLiteracyModuleErrorMessage: () =>
         this.page.getByTestId('literacy-error'),
+      extraActionsMenu: () => this.page.getByTestId('extra-actions-menu'),
+      deletePlanActionItem: () => this.page.getByTestId('delete-action-item'),
+      deletePlanModal: () => this.page.getByTestId('delete-plan-modal'),
+      deletePlanModalTitle: () =>
+        this.elements()
+          .deletePlanModal()
+          .getByText(this.i18n.t('__PLAN_PAGE_DELETE_PLAN_MODAL_TITLE')),
+      deletePlanModalConfirmCTA: () =>
+        this.elements()
+          .deletePlanModal()
+          .getByTestId('delete-plan-modal-cta')
+          .getByText(
+            this.i18n.t('__PLAN_PAGE_DELETE_PLAN_MODAL_BUTTON_CONFIRM')
+          ),
+      deletePlanModalCancelCTA: () =>
+        this.elements()
+          .deletePlanModal()
+          .getByText(
+            this.i18n.t('__PLAN_PAGE_DELETE_PLAN_MODAL_BUTTON_CANCEL')
+          ),
     };
   }
 
