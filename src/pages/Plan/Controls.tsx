@@ -136,12 +136,16 @@ export const Controls = () => {
           handleMenuClick(value ?? '');
         }}
         label={(props) => (
-          <IconButton {...props}>
+          <IconButton data-qa="extra-actions-menu" {...props}>
             <DotsIcon />
           </IconButton>
         )}
       >
-        <ButtonMenu.Item type="danger" value="delete">
+        <ButtonMenu.Item
+          data-qa="delete-action-item"
+          type="danger"
+          value="delete"
+        >
           {t('__PLAN_DELETE_PLAN_CTA')}
         </ButtonMenu.Item>
       </ButtonMenu>
