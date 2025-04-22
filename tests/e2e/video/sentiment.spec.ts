@@ -16,14 +16,13 @@ test.describe('Video page', () => {
     await expect(videopage.elements().paragraphContent().first()).toBeVisible();
   });
 
-  test('Should have one paragraph component per paragraph', async () => {
+  test('Should print the content of the paragraphs', async () => {
     const paragraphCount = await videopage
       .elements()
       .paragraphContent()
       .count();
     expect(paragraphCount).toBe(5);
-  });
-  test('Should print the content of the paragraphs', async () => {
+
     const paragraphs = await videopage.elements().paragraphContent().all();
 
     const contents = await Promise.all(
@@ -38,15 +37,14 @@ test.describe('Video page', () => {
       'ciao5 \n',
     ]);
   });
-  test('Should print the sentiment items', async () => {
+
+  test('Should print the sentiment values', async ({ i18n }) => {
     const sentimentCount = await videopage
       .elements()
       .sentimentWrapper()
       .count();
     expect(sentimentCount).toBe(5);
-  });
 
-  test('Should print the sentiment values', async ({ i18n }) => {
     const sentiments = await videopage.elements().sentimentItem().all();
 
     const contents = await Promise.all(
