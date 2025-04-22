@@ -4,6 +4,11 @@ import { useActiveWorkspace } from './useActiveWorkspace';
 const useActiveWorkspaceProjects = () => {
   const { activeWorkspace } = useActiveWorkspace();
 
+  const { data, isLoading, isFetching, isError } =
+    useGetWorkspacesByWidProjectsQuery({
+      wid: activeWorkspace?.id.toString() || '',
+    });
+  // If there is no active workspace, we return an empty object
   if (!activeWorkspace)
     return {
       data: undefined,
@@ -11,11 +16,6 @@ const useActiveWorkspaceProjects = () => {
       isFetching: false,
       isError: false,
     };
-
-  const { data, isLoading, isFetching, isError } =
-    useGetWorkspacesByWidProjectsQuery({
-      wid: activeWorkspace?.id.toString() || '',
-    });
 
   return {
     data,
