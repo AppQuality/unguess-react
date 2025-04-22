@@ -13,6 +13,7 @@ test.describe('Video page', () => {
     await videopage.mockGetVideo();
     await videopage.mockGetVideoObservations();
     await videopage.open();
+    await expect(videopage.elements().paragraphContent().first()).toBeVisible();
   });
 
   test('Should have one paragraph component per paragraph', async () => {
@@ -23,7 +24,6 @@ test.describe('Video page', () => {
     expect(paragraphCount).toBe(5);
   });
   test('Should print the content of the paragraphs', async () => {
-    await expect(videopage.elements().paragraphContent().first()).toBeVisible();
     const paragraphs = await videopage.elements().paragraphContent().all();
 
     const contents = await Promise.all(
