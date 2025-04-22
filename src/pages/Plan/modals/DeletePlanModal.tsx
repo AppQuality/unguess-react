@@ -86,8 +86,7 @@ const DeletePlanModal = ({
           <Button
             isBasic
             isDanger
-            disabled={isLoading}
-            onClick={handleConfirm}
+            onClick={!isLoading ? handleConfirm : undefined}
             data-qa="delete-plan-modal-cta"
           >
             {!isLoading ? (
