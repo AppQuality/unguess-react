@@ -23,8 +23,8 @@ test.describe('Video page', () => {
     expect(paragraphCount).toBe(5);
   });
   test('Should print the content of the paragraphs', async () => {
-    const paragraphs = await videopage.elements().paragraphContent().all();
     await expect(videopage.elements().paragraphContent().first()).toBeVisible();
+    const paragraphs = await videopage.elements().paragraphContent().all();
 
     const contents = await Promise.all(
       paragraphs.map(async (paragraph) => paragraph.innerText())
