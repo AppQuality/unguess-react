@@ -6,7 +6,7 @@ export const useCopy = ({
   notification,
 }: {
   text: string;
-  notification: string;
+  notification?: string;
 }) => {
   const { t } = useTranslation();
   const { addToast } = useToast();
@@ -19,7 +19,7 @@ export const useCopy = ({
           <Notification
             onClose={close}
             type="success"
-            message={notification}
+            message={notification || t('__COPY_SUCCESS')}
             closeText={t('__TOAST_CLOSE_TEXT')}
             isPrimary
           />

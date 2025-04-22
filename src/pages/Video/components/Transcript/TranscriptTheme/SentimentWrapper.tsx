@@ -137,7 +137,7 @@ const Component = ({ value, text }: { value: number; text: string }) => {
               <Button.StartIcon>
                 <CopyIcon color={theme.palette.blue[600]} />
               </Button.StartIcon>
-              Copy
+              {t('__SENTIMENT_COPY_BUTTON_LABEL')}
             </Button>
           </div>
         </TooltipModal.Footer>

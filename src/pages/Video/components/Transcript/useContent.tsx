@@ -38,6 +38,7 @@ export const useContent = (videoId: string) => {
   return {
     data: content,
     sentiments,
+    generalSentiment: video?.sentiment?.reason,
     speakers,
     isError: isErrorVideo,
     isFetching: isFetchingVideo,
