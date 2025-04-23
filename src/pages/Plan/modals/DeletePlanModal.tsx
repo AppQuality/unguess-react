@@ -30,12 +30,6 @@ const DeletePlanModal = ({
 
   const [deletePlan, { isLoading }] = useDeletePlansByPidMutation();
 
-  const deletePlanById = async (id: string) => {
-    if (!id) return;
-    await deletePlan({ pid: id }).unwrap();
-    navigate(`/`);
-  };
-
   const showDeleteErrorToast = (error: Error) => {
     addToast(
       ({ close }) => (
@@ -57,7 +51,8 @@ const DeletePlanModal = ({
 
   const handleConfirm = async () => {
     try {
-      await deletePlanById(planId);
+      await deletePlan({ pid: planId }).unwrap();
+      navigate(`/`);
     } catch (e) {
       showDeleteErrorToast(e as unknown as Error);
       onQuit();
