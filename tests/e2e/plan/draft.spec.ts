@@ -146,7 +146,7 @@ test.describe('When the user clicks on the dots menu', () => {
     await planPage.mockWorkspace();
     await planPage.mockWorkspacesList();
     await planPage.mockGetDraftWithOnlyMandatoryModulesPlan();
-
+    await planPage.mockDeletePlan();
     await planPage.open();
   });
 
@@ -167,12 +167,20 @@ test.describe('When the user clicks on the dots menu', () => {
     await expect(planPage.elements().deletePlanModalCancelCTA()).toBeEnabled();
   });
 
-  test("When the user clicks on the 'Delete permanently' CTA, he is redirected to the home page", async ({
+  test("When the user clicks on the 'Delete permanently' CTA, a call to the DELETE endpoint is made and if ok he is redirected to the home page", async ({
     page,
   }) => {
+    const deletePromise = page.waitForResponse(
+      (response) =>
+        /\/api\/plans\/1/.test(response.url()) &&
+        response.status() === 200 &&
+        response.request().method() === 'DELETE'
+    );
     await planPage.elements().extraActionsMenu().click();
     await planPage.elements().deletePlanActionItem().click();
     await planPage.elements().deletePlanModalConfirmCTA().click();
+
+    await deletePromise; // wait for the DELETE request to be made
 
     await expect(planPage.elements().deletePlanModal()).not.toBeVisible();
     await expect(page).toHaveURL('/');
