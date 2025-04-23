@@ -82,7 +82,6 @@ const DeletePlanModal = ({
             isBasic
             isDanger
             onClick={!isLoading ? handleConfirm : undefined}
-            data-qa="delete-plan-modal-cta"
           >
             {isLoading ? (
               <Dots color={appTheme.palette.red[600]} />
