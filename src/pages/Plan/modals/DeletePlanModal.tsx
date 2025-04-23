@@ -68,7 +68,7 @@ const DeletePlanModal = ({
           {t('__PLAN_PAGE_DELETE_PLAN_MODAL_TITLE')}
         </Message>
       </Modal.Header>
-      <Modal.Body style={{ overflow: 'visible' }}>
+      <Modal.Body>
         <Trans
           i18nKey="__PLAN_PAGE_DELETE_PLAN_MODAL_BODY"
           components={{ md: <MD />, boldSpan: <Span isBold /> }}
