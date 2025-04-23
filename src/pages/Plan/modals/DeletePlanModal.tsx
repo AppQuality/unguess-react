@@ -51,12 +51,10 @@ const DeletePlanModal = ({
 
   const handleConfirm = async () => {
     try {
-      await deletePlan({ pid: planId }).unwrap();
+      await deletePlan({ pid: planId });
       navigate(`/`);
     } catch (e) {
       showDeleteErrorToast(e as unknown as Error);
-      onQuit();
-      return;
     }
     onQuit();
   };
