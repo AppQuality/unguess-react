@@ -131,7 +131,9 @@ const TaskItem = ({
               )}
               <Label>
                 {t('__PLAN_PAGE_MODULE_TASKS_TASK_DESCRIPTION_LABEL')}
-                <Span style={{ color: appTheme.palette.red[600] }}>*</Span>
+                {kind !== 'explorative-bug' && (
+                  <Span style={{ color: appTheme.palette.red[600] }}>*</Span>
+                )}
               </Label>
               {kind === 'explorative-bug' ? (
                 <MD
