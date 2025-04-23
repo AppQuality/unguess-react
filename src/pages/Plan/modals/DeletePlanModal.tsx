@@ -78,11 +78,7 @@ const DeletePlanModal = ({
       </Modal.Body>
       <Modal.Footer>
         <FooterItem>
-          <Button
-            isBasic
-            isDanger
-            onClick={!isLoading ? handleConfirm : undefined}
-          >
+          <Button isBasic isDanger disabled={isLoading} onClick={handleConfirm}>
             {isLoading ? (
               <Dots color={appTheme.palette.red[600]} />
             ) : (
