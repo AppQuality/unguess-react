@@ -71,7 +71,10 @@ export class PlanPage extends UnguessPage {
         this.page.getByTestId('literacy-error'),
       extraActionsMenu: () => this.page.getByTestId('extra-actions-menu'),
       deletePlanActionItem: () => this.page.getByTestId('delete-action-item'),
-      deletePlanModal: () => this.page.getByTestId('delete-plan-modal'),
+      deletePlanModal: () =>
+        this.page.getByRole('dialog', {
+          name: this.i18n.t('__PLAN_PAGE_DELETE_PLAN_MODAL_TITLE'),
+        }),
       deletePlanModalTitle: () =>
         this.elements()
           .deletePlanModal()
@@ -79,10 +82,9 @@ export class PlanPage extends UnguessPage {
       deletePlanModalConfirmCTA: () =>
         this.elements()
           .deletePlanModal()
-          .getByTestId('delete-plan-modal-cta')
-          .getByText(
-            this.i18n.t('__PLAN_PAGE_DELETE_PLAN_MODAL_BUTTON_CONFIRM')
-          ),
+          .getByRole('button', {
+            name: this.i18n.t('__PLAN_PAGE_DELETE_PLAN_MODAL_BUTTON_CONFIRM'),
+          }),
       deletePlanModalCancelCTA: () =>
         this.elements()
           .deletePlanModal()

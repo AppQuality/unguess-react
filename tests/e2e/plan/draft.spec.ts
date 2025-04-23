@@ -159,9 +159,7 @@ test.describe('When the user clicks on the dots menu', () => {
   test("When the user clicks on the 'Delete' option, the delete modal opens with its title, confirm and abort deletion CTA", async () => {
     await planPage.elements().extraActionsMenu().click();
     await planPage.elements().deletePlanActionItem().click();
-    await expect(planPage.elements().deletePlanModal()).toBeVisible({
-      timeout: 3000,
-    });
+    await expect(planPage.elements().deletePlanModal()).toBeVisible();
     await expect(planPage.elements().deletePlanModalTitle()).toBeVisible();
     await expect(planPage.elements().deletePlanModalConfirmCTA()).toBeVisible();
     await expect(planPage.elements().deletePlanModalConfirmCTA()).toBeEnabled();
