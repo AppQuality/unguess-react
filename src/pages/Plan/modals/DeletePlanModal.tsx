@@ -10,8 +10,8 @@ import {
   MD,
   Span,
   useToast,
+  Dots,
 } from '@appquality/unguess-design-system';
-import { Dots } from '@zendeskgarden/react-loaders';
 import { appTheme } from 'src/app/theme';
 import { useDeletePlansByPidMutation } from 'src/features/api';
 
