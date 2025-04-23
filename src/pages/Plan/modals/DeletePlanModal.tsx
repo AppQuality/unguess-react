@@ -84,10 +84,10 @@ const DeletePlanModal = ({
             onClick={!isLoading ? handleConfirm : undefined}
             data-qa="delete-plan-modal-cta"
           >
-            {!isLoading ? (
-              t('__PLAN_PAGE_DELETE_PLAN_MODAL_BUTTON_CONFIRM')
-            ) : (
+            {isLoading ? (
               <Dots color={appTheme.palette.red[600]} />
+            ) : (
+              t('__PLAN_PAGE_DELETE_PLAN_MODAL_BUTTON_CONFIRM')
             )}
           </Button>
         </FooterItem>
