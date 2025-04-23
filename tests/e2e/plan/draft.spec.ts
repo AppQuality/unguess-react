@@ -14,10 +14,11 @@ test.describe('The module builder', () => {
     await planPage.mockWorkspacesList();
     await planPage.mockGetDraftWithOnlyMandatoryModulesPlan();
     await planPage.mockPatchStatus();
+
     await planPage.open();
   });
 
-  test('has a list of saved modules and not the others, a save button and a request quote cta', async () => {
+  test('has a list of saved modules and not the others, a save button, a request quote cta and a dots menu cta', async () => {
     // Click the "Setup" tab
     await planPage.elements().setupTab().click();
 
@@ -28,11 +29,13 @@ test.describe('The module builder', () => {
     // Check if other modules are not visible
     await expect(planPage.elements().tasksModule()).not.toBeVisible();
 
-    // Check if the save button and request quote CTA are visible and enabled
+    // Check if the save button, request quote CTA and dots menu are visible and enabled
     await expect(planPage.elements().saveConfigurationCTA()).toBeVisible();
     await expect(planPage.elements().saveConfigurationCTA()).not.toBeDisabled();
     await expect(planPage.elements().requestQuotationCTA()).toBeVisible();
     await expect(planPage.elements().requestQuotationCTA()).not.toBeDisabled();
+    await expect(planPage.elements().extraActionsMenu()).toBeVisible();
+    await expect(planPage.elements().extraActionsMenu()).not.toBeDisabled();
   });
 
   test('The task module is visible if instructionTab is clicked', async () => {
@@ -120,6 +123,7 @@ test.describe('When there is an error in the module configuration (e.g. a date i
     await planPage.mockWorkspace();
     await planPage.mockWorkspacesList();
     await planPage.mockGetDraftPlanWithDateError();
+
     await planPage.open();
   });
 
@@ -129,4 +133,48 @@ test.describe('When there is an error in the module configuration (e.g. a date i
     // await expect(planPage.elements().datesModuleError()).toBeVisible();
   });
   test('when a user click Request Quotation we trigger all fields validation, display error messages and trigger PATCH plan but not the PATCH status', async () => {});
+});
+
+test.describe('When the user clicks on the dots menu', () => {
+  let planPage: PlanPage;
+
+  test.beforeEach(async ({ page }, testinfo) => {
+    testinfo.setTimeout(60000);
+    planPage = new PlanPage(page);
+    await planPage.loggedIn();
+    await planPage.mockPreferences();
+    await planPage.mockWorkspace();
+    await planPage.mockWorkspacesList();
+    await planPage.mockGetDraftWithOnlyMandatoryModulesPlan();
+
+    await planPage.open();
+  });
+
+  test("The menu opens and the user can see the 'Delete' option", async () => {
+    await planPage.elements().extraActionsMenu().click();
+    await expect(planPage.elements().deletePlanActionItem()).toBeVisible();
+    await expect(planPage.elements().deletePlanActionItem()).toBeEnabled();
+  });
+
+  test("When the user clicks on the 'Delete' option, the delete modal opens with its title, confirm and abort deletion CTA", async () => {
+    await planPage.elements().extraActionsMenu().click();
+    await planPage.elements().deletePlanActionItem().click();
+    await expect(planPage.elements().deletePlanModal()).toBeVisible();
+    await expect(planPage.elements().deletePlanModalTitle()).toBeVisible();
+    await expect(planPage.elements().deletePlanModalConfirmCTA()).toBeVisible();
+    await expect(planPage.elements().deletePlanModalConfirmCTA()).toBeEnabled();
+    await expect(planPage.elements().deletePlanModalCancelCTA()).toBeVisible();
+    await expect(planPage.elements().deletePlanModalCancelCTA()).toBeEnabled();
+  });
+
+  test("When the user clicks on the 'Delete permanently' CTA, he is redirected to the home page", async ({
+    page,
+  }) => {
+    await planPage.elements().extraActionsMenu().click();
+    await planPage.elements().deletePlanActionItem().click();
+    await planPage.elements().deletePlanModalConfirmCTA().click();
+
+    await expect(planPage.elements().deletePlanModal()).not.toBeVisible();
+    await expect(page).toHaveURL('/');
+  });
 });
