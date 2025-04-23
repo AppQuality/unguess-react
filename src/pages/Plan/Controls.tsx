@@ -54,6 +54,10 @@ export const Controls = () => {
     setIsModalOpen(true);
   };
 
+  const handleQuitDeletePlanModal = () => {
+    setIsDeleteModalOpen(false);
+  };
+
   const handleMenuClick = (value?: string) => {
     if (value === 'delete') {
       setIsDeleteModalOpen(true);
@@ -154,7 +158,7 @@ export const Controls = () => {
         <DeletePlanModal
           planId={planId}
           planTitle={titleValue?.output ?? ''}
-          onQuit={() => setIsDeleteModalOpen(false)}
+          onQuit={handleQuitDeletePlanModal}
         />
       )}
 
