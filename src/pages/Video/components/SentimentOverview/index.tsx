@@ -31,6 +31,10 @@ const StyledHeader = styled(AccordionNew.Header)`
   }
 `;
 
+const StyledSM = styled(SM)`
+  font-style: italic;
+`;
+
 export const SentimentOverview = () => {
   const { videoId } = useParams();
   const theme = useTheme();
@@ -77,9 +81,7 @@ export const SentimentOverview = () => {
               title={t('__SENTIMENT_OVERVIEW_ALERT_TITLE')}
               message={t('__SENTIMENT_OVERVIEW_ALERT_SUBTITLE')}
             />
-            <SM>
-              <i>{t('__SENTIMENT_OVERVIEW_ALERT_DISCLAIMER')}</i>
-            </SM>
+            <StyledSM>{t('__SENTIMENT_OVERVIEW_ALERT_DISCLAIMER')}</StyledSM>
           </AccordionNew.Panel>
         </AccordionNew.Section>
       </AccordionNew>
