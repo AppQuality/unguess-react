@@ -28,7 +28,7 @@ const StyledCard = styled(ContainerCard)`
 `;
 
 const TouchpointsContainer = styled.div`
-  padding: 0 ${({ theme }) => theme.space.md};
+  padding: 0 ${({ theme }) => theme.space.xs};
 `;
 
 const HeaderContainer = styled.div<{
@@ -84,7 +84,15 @@ const TouchpointsList = () => {
           </TitleContainer>
           {hasFeatureFlag(FEATURE_FLAG_CHANGE_MODULES_VARIANTS) &&
             getPlanStatus() === 'draft' && (
-              <Button isBasic isDanger size="small" onClick={handleDelete}>
+              <Button
+                isBasic
+                isDanger
+                size="small"
+                onClick={(e) => {
+                  handleDelete();
+                  e.stopPropagation();
+                }}
+              >
                 {t('__PLAN_PAGE_MODULE_TOUCHPOINTS_REMOVE_BUTTON')}
               </Button>
             )}

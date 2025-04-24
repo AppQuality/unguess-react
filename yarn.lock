@@ -61,7 +61,7 @@
 
 "@appquality/unguess-design-system@4.0.36":
   version "4.0.36"
-  resolved "https://registry.npmjs.org/@appquality/unguess-design-system/-/unguess-design-system-4.0.36.tgz#c773cf1777e04850b2ba5209106e7c10ae7cc686"
+  resolved "https://registry.yarnpkg.com/@appquality/unguess-design-system/-/unguess-design-system-4.0.36.tgz#c773cf1777e04850b2ba5209106e7c10ae7cc686"
   integrity sha512-BEBK4eO2s2KzEmq6ZaiiF0CWLhNuyA6X0q3Zz6ZzuSc+Q0kTw0DWDHQPlngFE66vBnG26U3unUH9UiagVW1l9Q==
   dependencies:
     "@appquality/stream-player" "1.0.6"
