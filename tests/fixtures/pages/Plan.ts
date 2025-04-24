@@ -253,7 +253,7 @@ export class PlanPage extends UnguessPage {
     await this.page.route('*/**/api/plans/1', async (route) => {
       if (route.request().method() === 'PATCH') {
         await route.fulfill({
-          path: 'tests/api/plans/pid/_patch/200_Example_1.json',
+          path: 'tests/api/plans/pid/_patch/200_draft_mandatory_only.json',
         });
       } else {
         await route.fallback();

@@ -14,6 +14,7 @@ test.describe('The module builder', () => {
     await planPage.mockWorkspacesList();
     await planPage.mockGetDraftWithOnlyMandatoryModulesPlan();
     await planPage.mockPatchStatus();
+    await planPage.mockPatchPlan();
 
     await planPage.open();
   });
@@ -65,7 +66,7 @@ test.describe('The module builder', () => {
   }) => {
     const patchPromise = page.waitForResponse(
       (response) =>
-        /\/api\/plans\/1(?!\/status)/.test(response.url()) &&
+        /\/api\/plans\/1/.test(response.url()) &&
         response.status() === 200 &&
         response.request().method() === 'PATCH'
     );
@@ -85,7 +86,7 @@ test.describe('The module builder', () => {
   test('if confirmation calls the PATCH Plan', async ({ page }) => {
     const patchPromise = page.waitForResponse(
       (response) =>
-        /\/api\/plans\/1(?!\/status)/.test(response.url()) &&
+        /\/api\/plans\/1/.test(response.url()) &&
         response.status() === 200 &&
         response.request().method() === 'PATCH'
     );
