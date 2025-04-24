@@ -14,6 +14,7 @@ import { ReactComponent as CopyIcon } from 'src/assets/icons/copy-icon.svg';
 import { ReactComponent as InfoIcon } from 'src/assets/icons/info.svg';
 import { useCopy } from 'src/hooks/useCopy';
 import { styled, useTheme } from 'styled-components';
+import { useToolsContext } from '../../tools/context/ToolsContext';
 import { ReactComponent as NegativeIcon } from '../assets/negative.svg';
 import { ReactComponent as NeutralIcon } from '../assets/neutral.svg';
 import { ReactComponent as PositiveIcon } from '../assets/positive.svg';
@@ -89,6 +90,8 @@ const TagWrapper = styled.div`
 const Component = ({ value, text }: { value: number; text: string }) => {
   const tagData = useTagData(value);
   const { t } = useTranslation();
+  const { showSentiment } = useToolsContext();
+
   const copy = useCopy({
     text,
     notification: t('__SENTIMENT_TOAST_COPY_MESSAGE'),
@@ -99,9 +102,11 @@ const Component = ({ value, text }: { value: number; text: string }) => {
   const [referenceElement, setReferenceElement] =
     useState<HTMLButtonElement | null>(null);
 
+  if (!showSentiment) return <span />;
+
   return (
     <>
-      <TagWrapper>
+      <TagWrapper data-qa="transcript-sentiment">
         <Tag hue={tagData.color} color={tagData.textColor} title={text}>
           <Tag.Avatar>
             <Icon style={{ color: tagData.textColor }} />
@@ -132,7 +137,7 @@ const Component = ({ value, text }: { value: number; text: string }) => {
               <Button.StartIcon>
                 <CopyIcon color={theme.palette.blue[600]} />
               </Button.StartIcon>
-              Copy
+              {t('__SENTIMENT_COPY_BUTTON_LABEL')}
             </Button>
           </div>
         </TooltipModal.Footer>
