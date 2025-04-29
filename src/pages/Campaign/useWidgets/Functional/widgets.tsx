@@ -4,10 +4,17 @@ import {
   getLocalizedFunctionalDashboardUrl,
   getLocalizedPlanUrl,
 } from 'src/hooks/useLocalizeDashboardUrl';
+import styled from 'styled-components';
 import { ExternalLink } from '../../ExternalLink';
 import { CampaignOverview } from './CampaignOverview';
 import { DevicesAndTypes } from './DevicesAndTypes';
 import { UniqueBugsSection } from './UniqueBugsSection';
+
+const NavFooterCTAContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: ${({ theme }) => theme.space.sm};
+`;
 
 export const widgets = ({ campaignId }: { campaignId: number }) => {
   const { t, i18n } = useTranslation();
@@ -47,7 +54,7 @@ export const widgets = ({ campaignId }: { campaignId: number }) => {
     },
     {
       content: (
-        <>
+        <NavFooterCTAContainer>
           {campaign.plan && (
             <ExternalLink
               id="anchor-plan-navigation"
@@ -65,7 +72,7 @@ export const widgets = ({ campaignId }: { campaignId: number }) => {
           >
             {t('__CAMPAIGN_PAGE_NAVIGATION_BUG_EXTERNAL_LINK_LABEL')}
           </ExternalLink>
-        </>
+        </NavFooterCTAContainer>
       ),
       type: 'footer' as const,
     },
