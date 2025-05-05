@@ -61,10 +61,8 @@ const DeletePlanModal = ({
 
   return (
     <Modal onClose={onQuit} role="dialog" data-qa="delete-plan-modal">
-      <Modal.Header>
-        <Message validation="error" style={{ fontSize: appTheme.fontSizes.md }}>
-          {t('__PLAN_PAGE_DELETE_PLAN_MODAL_TITLE')}
-        </Message>
+      <Modal.Header isDanger>
+        {t('__PLAN_PAGE_DELETE_PLAN_MODAL_TITLE')}
       </Modal.Header>
       <Modal.Body>
         <Trans
