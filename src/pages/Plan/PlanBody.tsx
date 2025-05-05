@@ -1,5 +1,6 @@
 import { Col, Grid, Row } from '@appquality/unguess-design-system';
 import { appTheme } from 'src/app/theme';
+import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
 import { StickyCol } from './common/StickyCol';
 import { usePlanTab } from './context/planContext';
 import { ModulesList } from './ModulesList';
@@ -15,20 +16,22 @@ export const PlanBody = () => {
   const debug = params.get('debug');
 
   return (
-    <Grid style={{ padding: appTheme.space.md }}>
-      {activeTab === 'summary' ? (
-        <SummaryBody />
-      ) : (
-        <Row>
-          <StickyCol sm="3">
-            <Nav />
-          </StickyCol>
-          <Col sm="6">
-            <ModulesList tabId={activeTab} />
-          </Col>
-          <Col sm="3">{debug && <PlanDetails />}</Col>
-        </Row>
-      )}
-    </Grid>
+    <LayoutWrapper>
+      <Grid style={{ padding: appTheme.space.md }}>
+        {activeTab === 'summary' ? (
+          <SummaryBody />
+        ) : (
+          <Row>
+            <StickyCol style={{ padding: 0 }} sm="3">
+              <Nav />
+            </StickyCol>
+            <Col sm="6">
+              <ModulesList tabId={activeTab} />
+            </Col>
+            <Col sm="3">{debug && <PlanDetails />}</Col>
+          </Row>
+        )}
+      </Grid>
+    </LayoutWrapper>
   );
 };

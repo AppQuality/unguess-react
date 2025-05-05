@@ -7,6 +7,7 @@ import { PageLoader } from 'src/common/components/PageLoader';
 import PlanCreationInterface from 'src/common/components/PlanCreationInterface';
 import { useGetWorkspacesByWidTemplatesQuery } from 'src/features/api';
 import { Page } from 'src/features/templates/Page';
+import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
 import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import Body from './Body';
@@ -21,7 +22,7 @@ const PageInner = () => {
     setIsDrawerOpen(false);
   }, [setIsDrawerOpen]);
   return (
-    <>
+    <LayoutWrapper>
       <Grid>
         <Row>
           <Col xs={12} lg={2} style={{ margin: 0 }}>
@@ -39,7 +40,7 @@ const PageInner = () => {
           template={selectedTemplate}
         />
       )}
-    </>
+    </LayoutWrapper>
   );
 };
 

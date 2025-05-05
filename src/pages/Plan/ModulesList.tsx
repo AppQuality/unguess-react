@@ -30,6 +30,10 @@ export const ModulesList = ({ tabId }: { tabId: PlanTab }) => {
             id={`module-${type}`}
             style={{
               marginBottom: appTheme.space.lg,
+              paddingLeft:
+                type === 'tasks' || type === 'target' ? 0 : appTheme.space.xs,
+              paddingRight:
+                type === 'tasks' || type === 'target' ? 0 : appTheme.space.xs,
               display: isVisible ? 'block' : 'none',
             }}
           >
@@ -37,8 +41,13 @@ export const ModulesList = ({ tabId }: { tabId: PlanTab }) => {
           </div>
         );
       })}
-      <div className="scroll-spacer" style={{ height: '100px' }} />
       {tabId !== 'summary' && <ModulesBottomNavigation tabId={tabId} />}
+      <div
+        className="scroll-spacer"
+        style={{
+          height: `calc(100vh - 510px)`,
+        }}
+      />
     </>
   );
 };

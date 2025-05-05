@@ -1,6 +1,6 @@
 import {
   Button,
-  Card,
+  ContainerCard,
   Editor,
   Label,
   Message,
@@ -8,25 +8,24 @@ import {
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
+import { ReactComponent as TrashIcon } from 'src/assets/icons/trash-stroke.svg';
 import { components } from 'src/common/schema';
+import { FEATURE_FLAG_CHANGE_MODULES_VARIANTS } from 'src/constants';
 import { useModule } from 'src/features/modules/useModule';
 import { useModuleConfiguration } from 'src/features/modules/useModuleConfiguration';
 import { useValidation } from 'src/features/modules/useModuleValidation';
 import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
 import styled from 'styled-components';
-import { FEATURE_FLAG_CHANGE_MODULES_VARIANTS } from 'src/constants';
-import { ReactComponent as TrashIcon } from 'src/assets/icons/trash-stroke.svg';
-import { DeleteModuleConfirmationModal } from './modal/DeleteModuleConfirmationModal';
 import { getIconFromModuleType } from '../utils';
+import { DeleteModuleConfirmationModal } from './modal/DeleteModuleConfirmationModal';
 
-const StyledCard = styled(Card)`
+const StyledCard = styled(ContainerCard)`
   display: flex;
   flex-direction: column;
   padding-top: ${({ theme }) => theme.space.md};
   padding-left: ${({ theme }) => theme.space.md};
   padding-right: ${({ theme }) => theme.space.md};
   padding-bottom: ${({ theme }) => theme.space.lg};
-  box-shadow: ${({ theme }) => theme.shadows.boxShadow(theme)};
 `;
 
 const StyledCardHeader = styled.div`
@@ -92,7 +91,14 @@ const TargetNote = () => {
           </div>
           {hasFeatureFlag(FEATURE_FLAG_CHANGE_MODULES_VARIANTS) &&
             getPlanStatus() === 'draft' && (
-              <Button isBasic isDanger onClick={handleDelete}>
+              <Button
+                isBasic
+                isDanger
+                onClick={(e) => {
+                  handleDelete();
+                  e.stopPropagation();
+                }}
+              >
                 <Button.StartIcon>
                   <TrashIcon />
                 </Button.StartIcon>

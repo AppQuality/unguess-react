@@ -3,6 +3,7 @@ import {
   Ellipsis,
   MD,
   Message,
+  SM,
   Span,
 } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
@@ -12,17 +13,24 @@ import { appTheme } from 'src/app/theme';
 import { components } from 'src/common/schema';
 import styled from 'styled-components';
 import { getIconFromModuleType, getTitleFromModuleType } from '../../utils';
+import { getSubtitleFromModuleType } from '../../utils/getSubtitleFromModuleType';
 
 const StyledCard = styled(Card)`
-  padding: ${({ theme }) => theme.space.md};
-  margin-bottom: ${({ theme }) => theme.space.xs};
   background-color: transparent;
+  padding: 0;
+  margin-top: ${({ theme }) => theme.space.xs};
+  margin-bottom: ${({ theme }) => theme.space.xs};
 `;
 
 const StyledContainer = styled.div`
   display: flex;
   justify-content: flex-start;
   align-items: center;
+  padding-left: ${({ theme }) => theme.space.md};
+  padding-right: ${({ theme }) => theme.space.md};
+  padding-top: ${({ theme }) => theme.space.sm};
+  padding-bottom: ${({ theme }) => theme.space.sm};
+
   gap: ${({ theme }) => theme.space.sm};
 `;
 
@@ -67,19 +75,24 @@ const NavItem = ({
         data-qa="task-item-nav"
         {...(hasErrors && {
           style: {
-            borderColor: appTheme.palette.red[600],
+            borderColor: appTheme.palette.red[900],
           },
         })}
         {...(!children && {
           className: 'no-children',
         })}
       >
-        <StyledContainer>
+        <StyledContainer
+          style={{ marginBottom: children ? appTheme.space.xxs : 0 }}
+        >
           {getIconFromModuleType(type)}
           <Ellipsis style={{ width: '95%' }}>
-            <MD>
+            <MD color={appTheme.palette.blue[600]}>
               <Span isBold>{getTitleFromModuleType(type)}</Span>
             </MD>
+            <SM style={{ color: appTheme.palette.grey[600] }}>
+              <Span>{getSubtitleFromModuleType(type)}</Span>
+            </SM>
           </Ellipsis>
         </StyledContainer>
         {children && children}

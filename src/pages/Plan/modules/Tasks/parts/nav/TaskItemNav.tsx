@@ -14,8 +14,8 @@ import { useModuleTasks } from '../../hooks';
 import { getIconFromTaskOutput } from '../../utils';
 
 const StyledCard = styled(Card)`
-  padding: ${({ theme }) => theme.space.md};
-  margin: ${({ theme }) => theme.space.sm} 0;
+  padding: ${({ theme }) => `${theme.space.sm} ${theme.space.md}`};
+  margin: ${({ theme }) => theme.space.xs} 0;
   background-color: transparent;
 `;
 
@@ -67,6 +67,7 @@ const TaskItemNav = ({
       offset={-200}
       smooth
       spy
+      isDynamic
       style={{ textDecoration: 'none' }}
       activeClass="isCurrent"
     >
@@ -75,14 +76,14 @@ const TaskItemNav = ({
         data-qa="task-item-nav"
         {...(hasErrors && {
           style: {
-            borderColor: appTheme.palette.red[600],
+            borderColor: appTheme.palette.red[900],
           },
         })}
       >
         <StyledContainer>
           {getIconFromTaskOutput(task)}
           <Ellipsis style={{ width: '95%' }}>
-            <MD>
+            <MD color={appTheme.palette.blue[600]}>
               {key + 1}.{' '}
               <Span isBold>
                 {hasPlaceholder

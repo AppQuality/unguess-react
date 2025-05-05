@@ -104,9 +104,6 @@ export const Navigation = ({
       case 'insights':
         dispatch(setSidebarOpen(false));
         break;
-      case 'templates':
-        dispatch(setSidebarOpen(false));
-        break;
       case 'template':
         dispatch(setSidebarOpen(false));
         break;

@@ -1,6 +1,5 @@
 import { MD, Separator, XXL } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
-import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
 import styled from 'styled-components';
 import { useTemplatesContext } from './Context';
 import { TemplateCardsGrid } from './TemplateCardsGrid';
@@ -21,7 +20,7 @@ const Body = () => {
   const { t } = useTranslation();
   const { templatesByCategory } = useTemplatesContext();
   return (
-    <LayoutWrapper>
+    <>
       {templatesByCategory.tailored.length > 0 && (
         <StyledSection
           id={t('__TEMPLATES_PAGE_TAILORED_LIST_TITLE')}
@@ -44,7 +43,7 @@ const Body = () => {
           <TemplateCardsGrid templates={templatesByCategory.unguess} />
         </StyledSection>
       )}
-    </LayoutWrapper>
+    </>
   );
 };
 

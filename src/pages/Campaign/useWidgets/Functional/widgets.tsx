@@ -1,10 +1,20 @@
 import { useTranslation } from 'react-i18next';
 import { useGetCampaignsByCidQuery } from 'src/features/api';
-import { getLocalizedFunctionalDashboardUrl } from 'src/hooks/useLocalizeDashboardUrl';
+import {
+  getLocalizedFunctionalDashboardUrl,
+  getLocalizedPlanUrl,
+} from 'src/hooks/useLocalizeDashboardUrl';
+import styled from 'styled-components';
 import { ExternalLink } from '../../ExternalLink';
 import { CampaignOverview } from './CampaignOverview';
 import { DevicesAndTypes } from './DevicesAndTypes';
 import { UniqueBugsSection } from './UniqueBugsSection';
+
+const NavFooterCTAContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: ${({ theme }) => theme.space.sm};
+`;
 
 export const widgets = ({ campaignId }: { campaignId: number }) => {
   const { t, i18n } = useTranslation();
@@ -44,15 +54,25 @@ export const widgets = ({ campaignId }: { campaignId: number }) => {
     },
     {
       content: (
-        <ExternalLink
-          id="anchor-bugs-list-navigation"
-          url={getLocalizedFunctionalDashboardUrl(
-            campaign.id ?? 0,
-            i18n.language
+        <NavFooterCTAContainer>
+          {campaign.plan && (
+            <ExternalLink
+              id="anchor-plan-navigation"
+              url={getLocalizedPlanUrl(campaign.plan, i18n.language)}
+            >
+              {t('__CAMPAIGN_PAGE_NAVIGATION_PLAN_EXTERNAL_LINK_LABEL')}
+            </ExternalLink>
           )}
-        >
-          {t('__CAMPAIGN_PAGE_NAVIGATION_BUG_EXTERNAL_LINK_LABEL')}
-        </ExternalLink>
+          <ExternalLink
+            id="anchor-bugs-list-navigation"
+            url={getLocalizedFunctionalDashboardUrl(
+              campaign.id ?? 0,
+              i18n.language
+            )}
+          >
+            {t('__CAMPAIGN_PAGE_NAVIGATION_BUG_EXTERNAL_LINK_LABEL')}
+          </ExternalLink>
+        </NavFooterCTAContainer>
       ),
       type: 'footer' as const,
     },

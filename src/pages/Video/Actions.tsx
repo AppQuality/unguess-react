@@ -1,23 +1,24 @@
 import { LG, Skeleton, Tag, XL } from '@appquality/unguess-design-system';
+import { useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
+import { ReactComponent as ClockIcon } from 'src/assets/icons/time-icon.svg';
+import { capitalizeFirstLetter } from 'src/common/capitalizeFirstLetter';
+import { getDeviceIcon } from 'src/common/components/BugDetail/Meta';
+import { Divider } from 'src/common/components/divider';
 import { Meta } from 'src/common/components/Meta';
 import { Pipe } from 'src/common/components/Pipe';
-import { getDeviceIcon } from 'src/common/components/BugDetail/Meta';
-import { ReactComponent as ClockIcon } from 'src/assets/icons/time-icon.svg';
-import { Divider } from 'src/common/components/divider';
-import { useTranslation } from 'react-i18next';
-import { capitalizeFirstLetter } from 'src/common/capitalizeFirstLetter';
 import {
   useGetVideosByVidObservationsQuery,
   useGetVideosByVidQuery,
 } from 'src/features/api';
 import styled from 'styled-components';
-import { useRef } from 'react';
-import { getSeverityTagsByVideoCount } from '../Videos/utils/getSeverityTagsWithCount';
 import { formatDuration } from '../Videos/utils/formatDuration';
+import { getSeverityTagsByVideoCount } from '../Videos/utils/getSeverityTagsWithCount';
 import { NoObservations } from './components/NoObservations';
 import { Observation } from './components/Observation';
+import { SentimentOverview } from './components/SentimentOverview';
 
 const Container = styled.div`
   display: flex;
@@ -103,6 +104,7 @@ const Actions = () => {
         )}
       </MetaContainer>
       <Divider />
+      <SentimentOverview />
       <div style={{ padding: `${appTheme.space.md} 0` }}>
         <LG isBold>
           {t('__OBSERVATIONS_DRAWER_TOTAL')}: {observations.length}
