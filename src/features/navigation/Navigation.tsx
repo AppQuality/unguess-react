@@ -170,6 +170,7 @@ export const Navigation = ({
       settingsTitle: t('__PROFILE_MODAL_NOTIFICATIONS_TITLE'),
       settingsIntroText: t('__PROFILE_MODAL_NOTIFICATIONS_INTRO'),
       settingsOutroText: {
+        paragraph_1: t('__PROFILE_MODAL_NOTIFICATIONS_OUTRO_P_1'),
         paragraph_2: t('__PROFILE_MODAL_NOTIFICATIONS_OUTRO_P_2'),
         paragraph_3: t('__PROFILE_MODAL_NOTIFICATIONS_OUTRO_P_3'),
       },

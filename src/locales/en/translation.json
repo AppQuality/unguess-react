@@ -1272,6 +1272,7 @@
   "__PROFILE_MODAL_LANGUAGES_TITLE": "Change Language",
   "__PROFILE_MODAL_LOGOUT_TITLE": "Log Out",
   "__PROFILE_MODAL_NOTIFICATIONS_INTRO": "Manage the notifications we send you by email.",
+  "__PROFILE_MODAL_NOTIFICATIONS_OUTRO_P_1": " ",
   "__PROFILE_MODAL_NOTIFICATIONS_OUTRO_P_2": "Enable to receive all updates: comments, mentions, quotes on the platform, confirmations, activity timelines, and invitations.",
   "__PROFILE_MODAL_NOTIFICATIONS_OUTRO_P_3": "Disable to receive only essentials: mentions, quotes on the platform, activity confirmations, and invitations.",
   "__PROFILE_MODAL_NOTIFICATIONS_TITLE": "Notifications settings",
