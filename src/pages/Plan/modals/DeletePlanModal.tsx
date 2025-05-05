@@ -5,7 +5,6 @@ import {
   ModalClose,
   Button,
   FooterItem,
-  Message,
   Notification,
   MD,
   Span,
