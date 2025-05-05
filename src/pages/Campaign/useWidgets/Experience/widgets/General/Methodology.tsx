@@ -58,8 +58,6 @@ export const Methodology = ({
     ...(!isPreview && { showAsCustomer: true }),
   });
 
-  const servicesRoute = useLocalizeRoute(`services/#experience-optimization`);
-
   if (
     isLoading ||
     cpIsLoading ||
@@ -143,7 +141,7 @@ export const Methodology = ({
         </Summary>
       </Grid>
       <WidgetSpecialCard.Footer>
-        <Link to={servicesRoute.slice(0, -1)} target="_blank">
+        <Link to={useLocalizeRoute(`templates`)} target="_blank">
           <Anchor isExternal>
             {t('__CAMPAIGN_PAGE_METHODOLOGY_SERVICES_LINK')}
           </Anchor>

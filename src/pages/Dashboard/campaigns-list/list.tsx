@@ -47,7 +47,6 @@ const CardGroup = ({ items }: { items: Array<Campaign> }) => {
         </Span>
       </Col>
 
-      {/* <CardsContainer> */}
       {campaigns.map((campaign) => (
         <Col xs={12} md={6} lg={3} key={`campaign_col_${campaign.id}`}>
           <CampaignItem
@@ -57,7 +56,6 @@ const CardGroup = ({ items }: { items: Array<Campaign> }) => {
           />
         </Col>
       ))}
-      {/* </CardsContainer> */}
 
       {items.length > 4 && (
         <Col size={12} key={`campaign_project_cta_${campaigns[0].project.id}`}>
