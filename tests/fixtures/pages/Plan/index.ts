@@ -1,5 +1,5 @@
 import { type Page } from '@playwright/test';
-import { UnguessPage } from '../UnguessPage';
+import { UnguessPage } from '../../UnguessPage';
 
 export class PlanPage extends UnguessPage {
   readonly page: Page;
@@ -13,84 +13,77 @@ export class PlanPage extends UnguessPage {
   elements() {
     return {
       ...super.elements(),
-      pageHeader: () => this.page.getByTestId('plan-page-header'),
-      requestQuotationModal: () =>
-        this.page.getByTestId('request-quotation-modal'),
-      goalModule: () => this.page.getByTestId('goal-module'),
-      goalModuleInput: () => this.page.getByRole('textbox'),
-      goalModuleError: () => this.page.getByTestId('goal-error'),
-      titleModule: () =>
-        this.elements().pageHeader().getByTestId('title-module'),
-      titleModuleInput: () =>
-        this.elements().titleModule().getByTestId('title-input'),
-      titleModuleOutput: () =>
-        this.elements().titleModule().getByTestId('title-output'),
-      titleModuleError: () =>
-        this.elements().titleModule().getByTestId('title-error'),
-      tasksModule: () => this.page.getByTestId('tasks-module'),
+      confirmActivityCTA: () =>
+        this.elements().pageHeader().getByTestId('confirm-activity-cta'),
       datesModule: () => this.page.getByTestId('dates-module'),
       datesModuleDatepicker: () =>
         this.elements().datesModule().getByTestId('dates-datepicker'),
       datesModuleError: () =>
         this.elements().datesModule().getByTestId('dates-error'),
-      languageModule: () => this.page.getByTestId('language-module'),
-      languageRadioInput: () =>
-        this.elements().languageModule().getByRole('radio'),
-      outOfScopeModule: () => this.page.getByTestId('out-of-scope-module'),
-      outOfScopeModuleInput: () =>
-        this.elements().outOfScopeModule().getByRole('textbox'),
-      outOfScopeModuleError: () => this.page.getByTestId('out-of-scope-error'),
-      targetModule: () => this.page.getByTestId('target-module'),
-      targetModuleInput: () => this.page.getByTestId('target-input'),
-      targetModuleError: () =>
-        this.elements().targetModule().getByTestId('target-error'),
-      descriptionModule: () => this.page.getByTestId('description-module'),
-      saveConfigurationCTA: () =>
-        this.elements()
-          .pageHeader()
-          .getByRole('button', {
-            name: this.i18n.t('__PLAN_SAVE_CONFIGURATION_CTA'),
-          }),
-      requestQuotationCTA: () =>
-        this.page.getByRole('button', {
-          name: this.i18n.t('__PLAN_REQUEST_QUOTATION_CTA'),
-        }),
-      confirmActivityCTA: () =>
-        this.elements().pageHeader().getByTestId('confirm-activity-cta'),
-      requestQuotationModalCTA: () =>
-        this.page.getByTestId('request-quotation-modal-cta'),
-      requestQuotationErrorMessage: () =>
-        this.page.getByTestId('request-quotation-error-message'),
-      setupTab: () => this.page.getByTestId('setup-tab'),
-      targetTab: () => this.page.getByTestId('target-tab'),
-      instructionsTab: () => this.page.getByTestId('instructions-tab'),
-      summaryTab: () => this.page.getByTestId('summary-tab'),
-      digitalLiteracyModule: () =>
-        this.page.getByTestId('digital-literacy-module'),
-      digitalLiteracyModuleErrorMessage: () =>
-        this.page.getByTestId('literacy-error'),
-      extraActionsMenu: () => this.page.getByTestId('extra-actions-menu'),
       deletePlanActionItem: () => this.page.getByTestId('delete-action-item'),
       deletePlanModal: () =>
         this.page.getByRole('dialog', {
           name: this.i18n.t('__PLAN_PAGE_DELETE_PLAN_MODAL_TITLE'),
         }),
-      deletePlanModalTitle: () =>
-        this.elements()
-          .deletePlanModal()
-          .getByText(this.i18n.t('__PLAN_PAGE_DELETE_PLAN_MODAL_TITLE')),
-      deletePlanModalConfirmCTA: () =>
-        this.elements()
-          .deletePlanModal()
-          .getByRole('button', {
-            name: this.i18n.t('__PLAN_PAGE_DELETE_PLAN_MODAL_BUTTON_CONFIRM'),
-          }),
       deletePlanModalCancelCTA: () =>
         this.elements()
           .deletePlanModal()
           .getByText(
             this.i18n.t('__PLAN_PAGE_DELETE_PLAN_MODAL_BUTTON_CANCEL')
           ),
+      deletePlanModalConfirmCTA: () =>
+        this.elements()
+          .deletePlanModal()
+          .getByRole('button', {
+            name: this.i18n.t('__PLAN_PAGE_DELETE_PLAN_MODAL_BUTTON_CONFIRM'),
+          }),
+      deletePlanModalTitle: () =>
+        this.elements()
+          .deletePlanModal()
+          .getByText(this.i18n.t('__PLAN_PAGE_DELETE_PLAN_MODAL_TITLE')),
+      descriptionModule: () => this.page.getByTestId('description-module'),
+      digitalLiteracyModule: () =>
+        this.page.getByTestId('digital-literacy-module'),
+      digitalLiteracyModuleErrorMessage: () =>
+        this.page.getByTestId('literacy-error'),
+      extraActionsMenu: () => this.page.getByTestId('extra-actions-menu'),
+      goalModule: () => this.page.getByTestId('goal-module'),
+      goalModuleError: () => this.page.getByTestId('goal-error'),
+      goalModuleInput: () => this.page.getByRole('textbox'),
+      instructionsTab: () => this.page.getByTestId('instructions-tab'),
+      languageModule: () => this.page.getByTestId('language-module'),
+      languageRadioInput: () =>
+        this.elements().languageModule().getByRole('radio'),
+      outOfScopeModule: () => this.page.getByTestId('out-of-scope-module'),
+      outOfScopeModuleError: () => this.page.getByTestId('out-of-scope-error'),
+      outOfScopeModuleInput: () =>
+        this.elements().outOfScopeModule().getByRole('textbox'),
+      pageHeader: () => this.page.getByTestId('plan-page-header'),
+      requestQuotationCTA: () =>
+        this.page.getByRole('button', {
+          name: this.i18n.t('__PLAN_REQUEST_QUOTATION_CTA'),
+        }),
+      saveConfigurationCTA: () =>
+        this.elements()
+          .pageHeader()
+          .getByRole('button', {
+            name: this.i18n.t('__PLAN_SAVE_CONFIGURATION_CTA'),
+          }),
+      setupTab: () => this.page.getByTestId('setup-tab'),
+      summaryTab: () => this.page.getByTestId('summary-tab'),
+      targetModule: () => this.page.getByTestId('target-module'),
+      targetModuleError: () =>
+        this.elements().targetModule().getByTestId('target-error'),
+      targetModuleInput: () => this.page.getByTestId('target-input'),
+      targetTab: () => this.page.getByTestId('target-tab'),
+      titleModule: () =>
+        this.elements().pageHeader().getByTestId('title-module'),
+      titleModuleError: () =>
+        this.elements().titleModule().getByTestId('title-error'),
+      titleModuleInput: () =>
+        this.elements().titleModule().getByTestId('title-input'),
+      titleModuleOutput: () =>
+        this.elements().titleModule().getByTestId('title-output'),
     };
   }
 
@@ -187,6 +180,17 @@ export class PlanPage extends UnguessPage {
     await this.elements().targetModuleInput().blur();
   }
 
+  async saveConfiguration() {
+    const patchPromise = this.page.waitForResponse(
+      (response) =>
+        /\/api\/plans\/1/.test(response.url()) &&
+        response.status() === 200 &&
+        response.request().method() === 'PATCH'
+    );
+    await this.elements().saveConfigurationCTA().click();
+    return patchPromise;
+  }
+
   async mockGetDraftPlan() {
     await this.page.route('*/**/api/plans/1', async (route) => {
       if (route.request().method() === 'GET') {
@@ -254,18 +258,6 @@ export class PlanPage extends UnguessPage {
       if (route.request().method() === 'PATCH') {
         await route.fulfill({
           path: 'tests/api/plans/pid/_patch/200_draft_mandatory_only.json',
-        });
-      } else {
-        await route.fallback();
-      }
-    });
-  }
-
-  async mockPatchStatus() {
-    await this.page.route('*/**/api/plans/1/status', async (route) => {
-      if (route.request().method() === 'PATCH') {
-        await route.fulfill({
-          path: 'tests/api/plans/pid/status/_patch/request_Example_1.json',
         });
       } else {
         await route.fallback();

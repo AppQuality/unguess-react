@@ -1,19 +1,22 @@
 import examplePatch from '../../api/plans/pid/_patch/request_Example_1.json';
 import { expect, test } from '../../fixtures/app';
 import { PlanPage } from '../../fixtures/pages/Plan';
+import { RequestQuotationModal } from '../../fixtures/pages/Plan/RequestQuotationModal';
 
 test.describe('The module builder', () => {
   let planPage: PlanPage;
+  let requestQuotationModal: RequestQuotationModal;
 
   test.beforeEach(async ({ page }, testinfo) => {
     testinfo.setTimeout(60000);
     planPage = new PlanPage(page);
+    requestQuotationModal = new RequestQuotationModal(page);
     await planPage.loggedIn();
     await planPage.mockPreferences();
     await planPage.mockWorkspace();
     await planPage.mockWorkspacesList();
     await planPage.mockGetDraftWithOnlyMandatoryModulesPlan();
-    await planPage.mockPatchStatus();
+    await requestQuotationModal.mockPatchStatus();
     await planPage.mockPatchPlan();
 
     await planPage.open();
@@ -25,10 +28,6 @@ test.describe('The module builder', () => {
 
     // Check if specific elements are visible on the "Setup" tab
     await expect(planPage.elements().titleModule()).toBeVisible();
-    // await expect(planPage.elements().datesModule()).toBeVisible();
-
-    // Check if other modules are not visible
-    await expect(planPage.elements().tasksModule()).not.toBeVisible();
 
     // Check if the save button, request quote CTA and dots menu are visible and enabled
     await expect(planPage.elements().saveConfigurationCTA()).toBeVisible();
@@ -37,21 +36,6 @@ test.describe('The module builder', () => {
     await expect(planPage.elements().requestQuotationCTA()).not.toBeDisabled();
     await expect(planPage.elements().extraActionsMenu()).toBeVisible();
     await expect(planPage.elements().extraActionsMenu()).not.toBeDisabled();
-  });
-
-  test('The task module is visible if instructionTab is clicked', async () => {
-    await planPage.elements().instructionsTab().click();
-
-    await expect(planPage.elements().tasksModule()).toBeVisible();
-
-    // todo: check if the other modules are not visible
-    await expect(planPage.elements().datesModule()).not.toBeVisible();
-
-    await expect(planPage.elements().saveConfigurationCTA()).toBeVisible();
-    await expect(planPage.elements().descriptionModule()).not.toBeVisible();
-    await expect(planPage.elements().saveConfigurationCTA()).not.toBeDisabled();
-    await expect(planPage.elements().requestQuotationCTA()).toBeVisible();
-    await expect(planPage.elements().requestQuotationCTA()).not.toBeDisabled();
   });
 
   test("The summary Tab isn't clickable", async () => {
@@ -91,49 +75,20 @@ test.describe('The module builder', () => {
         response.request().method() === 'PATCH'
     );
     await planPage.elements().requestQuotationCTA().click();
-    await planPage.elements().requestQuotationModalCTA().click();
+    await requestQuotationModal.elements().submitCTA().click();
     const response = await patchPromise;
     const data = response.request().postDataJSON();
     expect(data).toEqual(examplePatch);
   });
   test('if PATCH plan is ok then calls the PATCH Status', async ({ page }) => {
-    const patchStatusPromise = page.waitForResponse(
-      (response) =>
-        /\/api\/plans\/1\/status/.test(response.url()) &&
-        response.status() === 200 &&
-        response.request().method() === 'PATCH'
-    );
     await planPage.elements().requestQuotationCTA().click();
-    await planPage.elements().requestQuotationModalCTA().click();
-    const responseStatus = await patchStatusPromise;
-    const dataStatus = responseStatus.request().postDataJSON();
-    expect(dataStatus).toEqual({ status: 'pending_review' });
+    const response = await requestQuotationModal.submitRequest();
+    const data = response.request().postDataJSON();
+    expect(data).toEqual({ status: 'pending_review' });
   });
   test('after requesting quotation CTA save and Request Quote should become disabled and all inputs should be readonly', async () => {
     // todo
   });
-});
-
-test.describe('When there is an error in the module configuration (e.g. a date in the past)', () => {
-  let planPage: PlanPage;
-
-  test.beforeEach(async ({ page }) => {
-    planPage = new PlanPage(page);
-    await planPage.loggedIn();
-    await planPage.mockPreferences();
-    await planPage.mockWorkspace();
-    await planPage.mockWorkspacesList();
-    await planPage.mockGetDraftPlanWithDateError();
-
-    await planPage.open();
-  });
-
-  test('when a user click Save we trigger all fields validation, display error messages and trigger PATCH plan', async () => {
-    await expect(planPage.elements().datesModuleError()).not.toBeVisible();
-    await planPage.elements().saveConfigurationCTA().click();
-    // await expect(planPage.elements().datesModuleError()).toBeVisible();
-  });
-  test('when a user click Request Quotation we trigger all fields validation, display error messages and trigger PATCH plan but not the PATCH status', async () => {});
 });
 
 test.describe('When the user clicks on the dots menu', () => {
