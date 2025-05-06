@@ -1,12 +1,13 @@
 import {
+  AccordionNew,
   Button,
+  getColor,
   Label,
   MD,
   Modal,
   ModalClose,
   Notification,
   Span,
-  getColor,
   useToast,
 } from '@appquality/unguess-design-system';
 import { FormikHelpers } from 'formik';
@@ -35,8 +36,6 @@ import {
   FixedBody,
   FlexContainer,
   SettingsDivider,
-  StyledAccordion,
-  StyledAccordionPanel,
   UsersContainer,
   UsersLabel,
 } from './styled';
@@ -361,42 +360,36 @@ export const CampaignSettings = () => {
                 </UsersLabel>
               )}
               {projectCount > 0 && (
-                <StyledAccordion
+                <AccordionNew
+                  isCompact
                   level={3}
                   key="project_users_accordion"
-                  isAnimated
-                  isExpandable
                   defaultExpandedSections={[]}
                 >
-                  <StyledAccordion.Section>
-                    <StyledAccordion.Header>
-                      <StyledAccordion.Label style={{ padding: 0 }}>
-                        <UsersLabel>
-                          <ProjectsIcon
-                            style={{
-                              color: appTheme.palette.grey[600],
-                              marginRight: appTheme.space.xs,
-                            }}
-                          />
-                          <MD isBold>
-                            {t('__PERMISSION_SETTINGS_PROJECT_USERS')}{' '}
-                            <Span
-                              isBold={false}
-                              style={{ color: appTheme.palette.grey[600] }}
-                            >
-                              ({projectCount})
-                            </Span>
-                          </MD>
-                        </UsersLabel>
-                      </StyledAccordion.Label>
-                    </StyledAccordion.Header>
-                    <StyledAccordionPanel>
+                  <AccordionNew.Section>
+                    <AccordionNew.Header
+                      icon={
+                        <ProjectsIcon
+                          style={{
+                            color: appTheme.palette.grey[600],
+                            marginRight: appTheme.space.xs,
+                          }}
+                        />
+                      }
+                    >
+                      <AccordionNew.Label
+                        label={`${t(
+                          '__PERMISSION_SETTINGS_PROJECT_USERS'
+                        )} (${projectCount})`}
+                      />
+                    </AccordionNew.Header>
+                    <AccordionNew.Panel>
                       {projectUsers?.items.map((user) => (
                         <UserItem key={user.id} user={user} />
                       ))}
-                    </StyledAccordionPanel>
-                  </StyledAccordion.Section>
-                </StyledAccordion>
+                    </AccordionNew.Panel>
+                  </AccordionNew.Section>
+                </AccordionNew>
               )}
               {workspaceUsersError && (
                 <UsersLabel>
@@ -412,42 +405,36 @@ export const CampaignSettings = () => {
                 </UsersLabel>
               )}
               {workspaceCount > 0 && (
-                <StyledAccordion
+                <AccordionNew
+                  isCompact
                   level={3}
                   key="workspace_users_accordion"
-                  isAnimated
-                  isExpandable
                   defaultExpandedSections={[]}
                 >
-                  <StyledAccordion.Section>
-                    <StyledAccordion.Header>
-                      <StyledAccordion.Label style={{ padding: 0 }}>
-                        <UsersLabel>
-                          <WorkspacesIcon
-                            style={{
-                              color: appTheme.palette.grey[600],
-                              marginRight: appTheme.space.xs,
-                            }}
-                          />
-                          <MD isBold>
-                            {t('__PERMISSION_SETTINGS_WORKSPACE_USERS')}{' '}
-                            <Span
-                              isBold={false}
-                              style={{ color: appTheme.palette.grey[600] }}
-                            >
-                              ({workspaceCount})
-                            </Span>
-                          </MD>
-                        </UsersLabel>
-                      </StyledAccordion.Label>
-                    </StyledAccordion.Header>
-                    <StyledAccordionPanel>
+                  <AccordionNew.Section>
+                    <AccordionNew.Header
+                      icon={
+                        <ProjectsIcon
+                          style={{
+                            color: appTheme.palette.grey[600],
+                            marginRight: appTheme.space.xs,
+                          }}
+                        />
+                      }
+                    >
+                      <AccordionNew.Label
+                        label={`${t(
+                          '__PERMISSION_SETTINGS_WORKSPACE_USERS'
+                        )} (${workspaceCount})`}
+                      />
+                    </AccordionNew.Header>
+                    <AccordionNew.Panel>
                       {workspaceUsers?.items.map((user) => (
                         <UserItem key={user.id} user={user} />
                       ))}
-                    </StyledAccordionPanel>
-                  </StyledAccordion.Section>
-                </StyledAccordion>
+                    </AccordionNew.Panel>
+                  </AccordionNew.Section>
+                </AccordionNew>
               )}
             </FlexContainer>
           </Modal.Body>
