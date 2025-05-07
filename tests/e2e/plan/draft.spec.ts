@@ -24,7 +24,7 @@ test.describe('The module builder', () => {
 
   test('has a list of saved modules and not the others, a save button, a request quote cta and a dots menu cta', async () => {
     // Click the "Setup" tab
-    await planPage.elements().setupTab().click();
+    await planPage.elements().tabSetup().click();
 
     // Check if specific elements are visible on the "Setup" tab
     await expect(planPage.elements().titleModule()).toBeVisible();
@@ -39,10 +39,8 @@ test.describe('The module builder', () => {
   });
 
   test("The summary Tab isn't clickable", async () => {
-    await expect(planPage.elements().summaryTab()).toBeVisible();
-    await expect(planPage.elements().summaryTab()).toBeDisabled();
-
-    // TODO: add a test to check when the tab must be enabled
+    await expect(planPage.elements().tabSummary()).toBeVisible();
+    await expect(planPage.elements().tabSummary()).toBeDisabled();
   });
 
   test('Clicking save button validate the current modules configurations and calls the PATCH Plan', async ({

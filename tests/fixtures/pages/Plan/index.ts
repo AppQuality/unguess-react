@@ -14,12 +14,31 @@ export class PlanPage extends UnguessPage {
     return {
       ...super.elements(),
       confirmActivityCTA: () =>
-        this.elements().pageHeader().getByTestId('confirm-activity-cta'),
-      datesModule: () => this.page.getByTestId('dates-module'),
-      datesModuleDatepicker: () =>
-        this.elements().datesModule().getByTestId('dates-datepicker'),
-      datesModuleError: () =>
-        this.elements().datesModule().getByTestId('dates-error'),
+        this.elements()
+          .pageHeader()
+          .getByRole('button', {
+            name: this.i18n.t(
+              '__PLAN_PAGE_SUMMARY_TAB_CONFIRMATION_CARD_CONFIRM_CTA'
+            ),
+          }),
+      requestQuotationCTA: () =>
+        this.page.getByRole('button', {
+          name: this.i18n.t('__PLAN_REQUEST_QUOTATION_CTA'),
+        }),
+      saveConfigurationCTA: () =>
+        this.elements()
+          .pageHeader()
+          .getByRole('button', {
+            name: this.i18n.t('__PLAN_SAVE_CONFIGURATION_CTA'),
+          }),
+      goToDashboardCTA: () =>
+        this.elements()
+          .pageHeader()
+          .getByRole('button', {
+            name: this.i18n.t(
+              '__PLAN_PAGE_SUMMARY_TAB_CONFIRMATION_CARD_GO_TO_CAMPAIGN_CTA'
+            ),
+          }),
       deletePlanActionItem: () => this.page.getByTestId('delete-action-item'),
       deletePlanModal: () =>
         this.page.getByRole('dialog', {
@@ -42,40 +61,12 @@ export class PlanPage extends UnguessPage {
           .deletePlanModal()
           .getByText(this.i18n.t('__PLAN_PAGE_DELETE_PLAN_MODAL_TITLE')),
       descriptionModule: () => this.page.getByTestId('description-module'),
-      digitalLiteracyModule: () =>
-        this.page.getByTestId('digital-literacy-module'),
-      digitalLiteracyModuleErrorMessage: () =>
-        this.page.getByTestId('literacy-error'),
       extraActionsMenu: () => this.page.getByTestId('extra-actions-menu'),
-      goalModule: () => this.page.getByTestId('goal-module'),
-      goalModuleError: () => this.page.getByTestId('goal-error'),
-      goalModuleInput: () => this.page.getByRole('textbox'),
-      instructionsTab: () => this.page.getByTestId('instructions-tab'),
-      languageModule: () => this.page.getByTestId('language-module'),
-      languageRadioInput: () =>
-        this.elements().languageModule().getByRole('radio'),
-      outOfScopeModule: () => this.page.getByTestId('out-of-scope-module'),
-      outOfScopeModuleError: () => this.page.getByTestId('out-of-scope-error'),
-      outOfScopeModuleInput: () =>
-        this.elements().outOfScopeModule().getByRole('textbox'),
       pageHeader: () => this.page.getByTestId('plan-page-header'),
-      requestQuotationCTA: () =>
-        this.page.getByRole('button', {
-          name: this.i18n.t('__PLAN_REQUEST_QUOTATION_CTA'),
-        }),
-      saveConfigurationCTA: () =>
-        this.elements()
-          .pageHeader()
-          .getByRole('button', {
-            name: this.i18n.t('__PLAN_SAVE_CONFIGURATION_CTA'),
-          }),
-      setupTab: () => this.page.getByTestId('setup-tab'),
-      summaryTab: () => this.page.getByTestId('summary-tab'),
-      targetModule: () => this.page.getByTestId('target-module'),
-      targetModuleError: () =>
-        this.elements().targetModule().getByTestId('target-error'),
-      targetModuleInput: () => this.page.getByTestId('target-input'),
-      targetTab: () => this.page.getByTestId('target-tab'),
+      tabInstructions: () => this.page.getByTestId('instructions-tab'),
+      tabSetup: () => this.page.getByTestId('setup-tab'),
+      tabSummary: () => this.page.getByTestId('summary-tab'),
+      tabTarget: () => this.page.getByTestId('target-tab'),
       titleModule: () =>
         this.elements().pageHeader().getByTestId('title-module'),
       titleModuleError: () =>
@@ -85,61 +76,6 @@ export class PlanPage extends UnguessPage {
       titleModuleOutput: () =>
         this.elements().titleModule().getByTestId('title-output'),
     };
-  }
-
-  static getDateFromPlan(plan: any) {
-    const dateModule = plan.config.modules.find(
-      (module) => module.type === 'dates'
-    );
-    if (!dateModule) {
-      throw new Error('No date module found in plan');
-    }
-    if (
-      !(typeof dateModule.output === 'object' && 'start' in dateModule.output)
-    ) {
-      throw new Error('Invalid date module output');
-    }
-    const dateValue = new Date(dateModule.output.start);
-    return dateValue;
-  }
-
-  static getOutOfScopeFromPlan(plan: any) {
-    const outOfScopeModule = plan.config.modules.find(
-      (module) => module.type === 'out_of_scope'
-    );
-    if (!outOfScopeModule) {
-      throw new Error('No outOfScope found in plan');
-    }
-    const outOfScopeValue = outOfScopeModule.output;
-    return outOfScopeValue;
-  }
-
-  static getGoalFromPlan(plan: any) {
-    const goalModule = plan.config.modules.find(
-      (module) => module.type === 'goal'
-    );
-    if (!goalModule) {
-      throw new Error('No goal found in plan');
-    }
-    if (!(typeof goalModule.output === 'string')) {
-      throw new Error('Invalid goal module output');
-    }
-    const goalValue = goalModule.output;
-    return goalValue;
-  }
-
-  static getLanguageFromPlan(plan: any) {
-    const languageModule = plan.config.modules.find(
-      (module) => module.type === 'language'
-    );
-    if (!languageModule) {
-      throw new Error('No language module found in plan');
-    }
-    if (!(typeof languageModule.output === 'string')) {
-      throw new Error('Invalid language module output');
-    }
-    const language = languageModule.output;
-    return language;
   }
 
   static getTitleFromPlan(plan: any) {
@@ -159,25 +95,6 @@ export class PlanPage extends UnguessPage {
     await this.elements().titleModule().click();
     await this.elements().titleModuleInput().fill(value);
     await this.elements().titleModuleInput().blur();
-  }
-
-  static getTargetFromPlan(plan: any): number {
-    const targetModule = plan.config.modules.find(
-      (module) => module.type === 'target'
-    );
-    if (!targetModule) {
-      throw new Error('No target module found in plan');
-    }
-    if (typeof targetModule.output !== 'number') {
-      throw new Error('Invalid target module output');
-    }
-    return targetModule.output;
-  }
-
-  async fillInputTarget(value: string) {
-    await this.elements().targetModuleInput().click();
-    await this.elements().targetModuleInput().fill(value);
-    await this.elements().targetModuleInput().blur();
   }
 
   async saveConfiguration() {
@@ -246,6 +163,18 @@ export class PlanPage extends UnguessPage {
       if (route.request().method() === 'GET') {
         await route.fulfill({
           path: 'tests/api/plans/pid/_get/200_pending_review.json',
+        });
+      } else {
+        await route.fallback();
+      }
+    });
+  }
+
+  async mockGetApprovedPlan() {
+    await this.page.route('*/**/api/plans/1', async (route) => {
+      if (route.request().method() === 'GET') {
+        await route.fulfill({
+          path: 'tests/api/plans/pid/_get/200_approved.json',
         });
       } else {
         await route.fallback();

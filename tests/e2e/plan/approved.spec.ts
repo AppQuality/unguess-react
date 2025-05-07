@@ -7,7 +7,7 @@ import { DigitalLiteracyModule } from '../../fixtures/pages/Plan/Module_digital_
 import { TasksModule } from '../../fixtures/pages/Plan/Module_tasks';
 import { OutOfScopeModule } from '../../fixtures/pages/Plan/Module_out_of_scope';
 
-test.describe('A Plan page in pending request', () => {
+test.describe('A Plan page in accepted state', () => {
   let moduleBuilderPage: PlanPage;
   let goalModule: GoalModule;
   let targetModule: TargetModule;
@@ -29,7 +29,7 @@ test.describe('A Plan page in pending request', () => {
     await moduleBuilderPage.mockPreferences();
     await moduleBuilderPage.mockWorkspace();
     await moduleBuilderPage.mockWorkspacesList();
-    await moduleBuilderPage.mockGetPendingReviewPlan();
+    await moduleBuilderPage.mockGetApprovedPlan();
     await moduleBuilderPage.open();
   });
 
@@ -45,17 +45,15 @@ test.describe('A Plan page in pending request', () => {
     ).not.toBeVisible();
     await expect(
       moduleBuilderPage.elements().confirmActivityCTA()
-    ).toBeVisible();
-    await expect(
-      moduleBuilderPage.elements().confirmActivityCTA()
-    ).toBeDisabled();
+    ).not.toBeVisible();
+    await expect(moduleBuilderPage.elements().goToDashboardCTA()).toBeEnabled();
     await expect(
       page
         .getByRole('status')
-        .filter({ hasText: i18n.t('PLAN_GLOBAL_ALERT_SUBMITTED_STATE_TITLE') })
+        .filter({ hasText: i18n.t('PLAN_GLOBAL_ALERT_APPROVED_STATE_TITLE') })
     ).toBeVisible();
     await expect(
-      page.getByText(i18n.t('__PLAN_PAGE_INTRODUCTION_CARD_SUBMITTED_TITLE'))
+      page.getByText(i18n.t('__PLAN_PAGE_INTRODUCTION_CARD_APPROVED_TITLE'))
     ).toBeVisible();
   });
   test('all inputs should be readonly', async () => {

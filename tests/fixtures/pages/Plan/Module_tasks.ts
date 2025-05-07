@@ -1,4 +1,4 @@
-import { type Page } from '@playwright/test';
+import { Locator, type Page } from '@playwright/test';
 import { i18n } from 'i18next';
 import { getI18nInstance } from 'playwright-i18next-fixture';
 
@@ -17,6 +17,10 @@ export class TasksModule {
       module: () => this.page.getByTestId('tasks-module'),
       taskList: () => this.elements().module().getByRole('list'),
       taskListItem: () => this.elements().taskList().getByRole('listitem'),
+      taskTitleInput: (element: Locator) =>
+        element.getByRole('textbox', {
+          name: this.i18n.t('__PLAN_PAGE_MODULE_TASKS_TASK_TITLE_LABEL'),
+        }),
       taskListErrorRequired: () =>
         this.elements()
           .module()
@@ -59,8 +63,6 @@ export class TasksModule {
           }),
     };
   }
-
-  async fillInputTItle(value: string) {}
 
   static getTasksFromPlan(plan: any) {
     const tasksModule = plan.config.modules.find(

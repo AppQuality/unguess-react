@@ -1,6 +1,6 @@
 import { test, expect } from '../../../fixtures/app';
 import { PlanPage } from '../../../fixtures/pages/Plan';
-import { TasksModule } from '../../../fixtures/pages/Plan/TasksModule';
+import { TasksModule } from '../../../fixtures/pages/Plan/Module_tasks';
 import apiGetDraftMandatoryPlan from '../../../api/plans/pid/_get/200_draft_mandatory_only.json';
 import { RequestQuotationModal } from '../../../fixtures/pages/Plan/RequestQuotationModal';
 
@@ -19,7 +19,7 @@ test.describe('The tasks module defines a list of activities.', () => {
     await moduleBuilderPage.mockWorkspacesList();
     await moduleBuilderPage.mockGetDraftWithOnlyMandatoryModulesPlan();
     await moduleBuilderPage.open();
-    await moduleBuilderPage.elements().instructionsTab().click();
+    await moduleBuilderPage.elements().tabInstructions().click();
   });
 
   test('Tasks can be deleted, but it is required to have at least 1 item to Request a Quote', async ({
@@ -62,9 +62,7 @@ test.describe('The tasks module defines a list of activities.', () => {
     const tasks = TasksModule.getTasksFromPlan(apiGetDraftMandatoryPlan);
 
     const element = tasksModule.elements().taskListItem().nth(0);
-    const elementTitle = element.getByRole('textbox', {
-      name: i18n.t('__PLAN_PAGE_MODULE_TASKS_TASK_TITLE_LABEL'),
-    });
+    const elementTitle = tasksModule.elements().taskTitleInput(element);
     await expect(elementTitle).toHaveValue(tasks[0].title);
     await elementTitle.fill('');
     await elementTitle.blur();

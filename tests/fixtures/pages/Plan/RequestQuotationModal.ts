@@ -20,6 +20,10 @@ export class RequestQuotationModal {
         this.page.getByRole('dialog', {
           name: this.i18n.t('__PLAN_PAGE_MODAL_SEND_REQUEST_TITLE'),
         }),
+      datesModule: () => this.elements().modal().getByTestId('dates-module'),
+      datesModuleInput: () =>
+        this.elements().datesModule().getByRole('textbox'),
+      datesModuleError: () => this.elements().datesModule().getByRole('status'),
       titleModule: () => this.elements().modal().getByTestId('title-module'),
       titleModuleInput: () =>
         this.elements().modal().getByTestId('title-input'),
@@ -38,6 +42,28 @@ export class RequestQuotationModal {
     await this.elements().titleModule().click();
     await this.elements().titleModuleInput().fill(value);
     await this.elements().titleModuleInput().blur();
+  }
+
+  async fillInputDate(value: string) {
+    await this.elements().datesModule().click();
+    await this.elements().datesModuleInput().fill(value);
+    await this.elements().datesModuleInput().blur();
+  }
+
+  static getDateFromPlan(plan: any) {
+    const dateModule = plan.config.modules.find(
+      (module) => module.type === 'dates'
+    );
+    if (!dateModule) {
+      throw new Error('No date module found in plan');
+    }
+    if (
+      !(typeof dateModule.output === 'object' && 'start' in dateModule.output)
+    ) {
+      throw new Error('Invalid date module output');
+    }
+    const dateValue = new Date(dateModule.output.start);
+    return dateValue;
   }
 
   async submitRequest() {
