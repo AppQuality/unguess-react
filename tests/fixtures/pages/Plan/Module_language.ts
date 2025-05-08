@@ -1,5 +1,4 @@
 import { expect, type Page } from '@playwright/test';
-import { table } from 'console';
 import { i18n } from 'i18next';
 import { getI18nInstance } from 'playwright-i18next-fixture';
 
