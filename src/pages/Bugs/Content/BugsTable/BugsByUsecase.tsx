@@ -2,14 +2,13 @@ import { AccordionNew, MD } from '@appquality/unguess-design-system';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { styled } from 'styled-components';
-import { useGetCampaignsByCidSuggestionsQuery } from 'src/features/api';
-import { EmptyState } from './components/EmptyState';
 import { CompletionTooltip } from './components/CompletionTooltip';
 import { EmptyGroup } from './components/EmptyGroup';
+import { EmptyState } from './components/EmptyState';
 import { LoadingState } from './components/LoadingState';
-import { useBugsByUseCase } from './hooks/useBugsByUseCase';
-import BugsByUseCaseAccordion from './components/SingleGroupAccordion';
 import { Reccomendation } from './components/Reccomendation';
+import BugsByUseCaseAccordion from './components/SingleGroupAccordion';
+import { useBugsByUseCase } from './hooks/useBugsByUseCase';
 
 const Wrapper = styled.div<{
   isFetching?: boolean;
@@ -33,9 +32,6 @@ export const BugsByUsecase = ({
 }) => {
   const { t } = useTranslation();
   const { data, isError, isFetching, isLoading } = useBugsByUseCase(campaignId);
-  const { data: suggestions } = useGetCampaignsByCidSuggestionsQuery({
-    cid: campaignId.toString(),
-  });
   const { bugsByUseCases } = data;
 
   const emptyUseCases = useMemo(
@@ -80,11 +76,8 @@ export const BugsByUsecase = ({
                 )
               }
             />
-            {i === 0 && suggestions && (
-              <Reccomendation
-                key="suggestion"
-                suggestion={suggestions.suggestion}
-              />
+            {i === 0 && (
+              <Reccomendation key="suggestion" campaignId={campaignId} />
             )}
           </>
         ))}
