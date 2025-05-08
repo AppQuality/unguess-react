@@ -45,7 +45,7 @@ const DeleteTaskConfirmationModal = ({
   if (!state[0].isOpen) return null;
 
   return (
-    <Modal onClose={onQuit}>
+    <Modal onClose={onQuit} role="dialog">
       <Modal.Header isDanger>
         {t('__PLAN_PAGE_MODULE_TASKS_MODAL_CONFIRMATION_REMOVE_TASK_TITLE')}
       </Modal.Header>

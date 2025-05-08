@@ -79,7 +79,7 @@ export const Dates = () => {
       {datesError && (
         <Message
           validation="error"
-          data-qa="dates-error"
+          role="status"
           style={{ marginTop: appTheme.space.sm }}
         >
           {datesError}

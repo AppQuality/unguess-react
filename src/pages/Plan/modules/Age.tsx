@@ -211,7 +211,7 @@ const Age = () => {
                       key={`range-${ar.min}`}
                       value={`${ar.min}-${ar.max}`}
                       name={`range-${ar.min}-${ar.max}`}
-                      disabled={getPlanStatus() === 'pending_review'}
+                      disabled={getPlanStatus() !== 'draft'}
                       checked={value?.output.some(
                         (item) => item.min === ar.min && item.max === ar.max
                       )}

@@ -1,58 +1,54 @@
 import draft from '../../../api/plans/pid/_get/200_draft_complete.json';
 import { expect, test } from '../../../fixtures/app';
 import { PlanPage } from '../../../fixtures/pages/Plan';
+import { OutOfScopeModule } from '../../../fixtures/pages/Plan/Module_out_of_scope';
 
 test.describe('The title module defines the Plan title.', () => {
   let planPage: PlanPage;
+  let module: OutOfScopeModule;
 
   test.beforeEach(async ({ page }) => {
     planPage = new PlanPage(page);
+    module = new OutOfScopeModule(page);
     await planPage.loggedIn();
     await planPage.mockPreferences();
     await planPage.mockWorkspace();
     await planPage.mockWorkspacesList();
     await planPage.mockGetDraftPlan();
     await planPage.open();
+    await planPage.elements().tabInstructions().click();
   });
 
   test('It should have a text area that show the value of the module', async () => {
-    const outOfScope = PlanPage.getOutOfScopeFromPlan(draft);
-    await planPage.elements().instructionsTab().click();
-    await expect(planPage.elements().outOfScopeModule()).toBeVisible();
-    await expect(planPage.elements().outOfScopeModuleInput()).toHaveValue(
-      outOfScope
-    );
+    const outOfScope = OutOfScopeModule.getOutOfScopeFromPlan(draft);
+    await expect(module.elements().module()).toBeVisible();
+    await expect(module.elements().moduleInput()).toHaveValue(outOfScope);
   });
 
   test('It should have a text area that show the value of the module and a way to change it', async () => {
-    const outOfScope = PlanPage.getOutOfScopeFromPlan(draft);
-    await planPage.elements().instructionsTab().click();
-    await expect(planPage.elements().outOfScopeModule()).toBeVisible();
-    await expect(planPage.elements().outOfScopeModuleInput()).toHaveValue(
-      outOfScope
-    );
-    await planPage.elements().outOfScopeModuleInput().click();
-    await planPage.elements().outOfScopeModuleInput().fill('New out of scope');
-    await expect(planPage.elements().outOfScopeModuleInput()).toHaveValue(
+    const outOfScope = OutOfScopeModule.getOutOfScopeFromPlan(draft);
+    await expect(module.elements().module()).toBeVisible();
+    await expect(module.elements().moduleInput()).toHaveValue(outOfScope);
+    await module.elements().moduleInput().click();
+    await module.elements().moduleInput().fill('New out of scope');
+    await expect(module.elements().moduleInput()).toHaveValue(
       'New out of scope'
     );
   });
 
   test('It should not show an error if the textArea is empty', async () => {
-    await planPage.elements().instructionsTab().click();
-    await planPage.elements().outOfScopeModuleInput().click();
-    await planPage.elements().outOfScopeModuleInput().fill('');
-    await planPage.elements().outOfScopeModuleInput().blur();
-    await expect(planPage.elements().outOfScopeModuleError()).not.toBeVisible();
+    await module.elements().moduleInput().click();
+    await module.elements().moduleInput().fill('');
+    await module.elements().moduleInput().blur();
+    await expect(module.elements().moduleError()).not.toBeVisible();
   });
 
   test('It should show an error if the textArea is too long', async () => {
-    await planPage.elements().instructionsTab().click();
-    await planPage.elements().outOfScopeModuleInput().click();
-    await planPage.elements().outOfScopeModuleInput().fill('a'.repeat(517));
-    await planPage.elements().outOfScopeModuleInput().blur();
-    await expect(planPage.elements().outOfScopeModuleError()).toBeVisible();
-    await expect(planPage.elements().outOfScopeModuleError()).toHaveText(
+    await module.elements().moduleInput().click();
+    await module.elements().moduleInput().fill('a'.repeat(517));
+    await module.elements().moduleInput().blur();
+    await expect(module.elements().moduleError()).toBeVisible();
+    await expect(module.elements().moduleError()).toHaveText(
       planPage.i18n.t('__PLAN_OUT_OF_SCOPE_SIZE_ERROR_TOO_LONG')
     );
   });

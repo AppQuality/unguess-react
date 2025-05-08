@@ -57,6 +57,7 @@ const TasksModal = () => {
       onClose={() => setModalRef(null)}
       placement="auto"
       hasArrow={false}
+      role="dialog"
     >
       <TooltipModal.Title>
         <MD isBold>{t('__PLAN_PAGE_MODULE_TASKS_ADD_TASK_MODAL_TITLE')}</MD>
