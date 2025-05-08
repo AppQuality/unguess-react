@@ -75,7 +75,7 @@ export const ProjectItems = ({
       <Row
         alignItems="center"
         style={{
-          marginTop: `${theme.space.base * 8}px`,
+          marginTop: `${appTheme.space.xxl}`,
           marginBottom: theme.space.xxs,
         }}
       >

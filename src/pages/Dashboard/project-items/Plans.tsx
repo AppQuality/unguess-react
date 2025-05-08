@@ -89,9 +89,10 @@ export const Plans = ({ projectId }: { projectId: number }) => {
               {isPreview ? <ChevronDownStroke /> : <ChevronUpStroke />}
             </Button.StartIcon>
             {isPreview
-              ? t('_PROJECT_PAGE_PLANS_GROUP_SEE_ALL')
+              ? `${t('_PROJECT_PAGE_PLANS_GROUP_SEE_ALL')} (${
+                  items.length - PREVIEW_ITEMS_MAX_SIZE
+                })`
               : t('_PROJECT_PAGE_PLANS_GROUP_SEE_LESS')}
-            {` (${items.length})`}
           </Button>
         </ButtonContainer>
       )}
