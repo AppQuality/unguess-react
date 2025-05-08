@@ -16,7 +16,7 @@ import { SuggestedCampaigns } from './SuggestedCampaigns';
 const Dashboard = () => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
-  const { status } = useAppSelector((state) => state.user);
+  const status = useAppSelector((state) => state.user.status);
   const sendGTMEvent = useSendGTMevent();
 
   if (status === 'logged') dispatch(resetFilters()); // Reset filters

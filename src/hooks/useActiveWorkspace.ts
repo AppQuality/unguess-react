@@ -1,65 +1,41 @@
-import { useEffect, useState } from 'react';
+import { useMemo } from 'react';
 import { useAppSelector } from 'src/app/hooks';
-import { Workspace, useGetWorkspacesQuery } from 'src/features/api';
+import { useGetWorkspacesQuery } from 'src/features/api';
 import {
   getWorkspaceFromLS,
   saveWorkspaceToLs,
 } from 'src/features/navigation/cachedStorage';
 
 export const useActiveWorkspace = () => {
-  const cachedWorkspace = getWorkspaceFromLS();
   const { data: workspaces, isLoading } = useGetWorkspacesQuery({
     orderBy: 'company',
   });
-  const [result, setResult] = useState<Workspace | undefined>(() => {
-    if (
-      cachedWorkspace &&
-      workspaces &&
-      workspaces.items &&
-      workspaces.items.map((w) => w.id).includes(cachedWorkspace.id)
-    ) {
-      return cachedWorkspace;
-    }
-    return undefined;
-  });
-  const activeWorkspace = useAppSelector(
+
+  const activeWorkspaceFromRedux = useAppSelector(
     (state) => state.navigation.activeWorkspace
   );
 
-  useEffect(() => {
-    if (activeWorkspace) {
-      setResult(activeWorkspace);
-      return;
+  const workspace = useMemo(() => {
+    if (activeWorkspaceFromRedux) {
+      return activeWorkspaceFromRedux;
     }
 
-    if (result) return;
+    if (!isLoading && workspaces?.items?.length) {
+      const cached = getWorkspaceFromLS();
 
-    if (
-      isLoading ||
-      !workspaces ||
-      !workspaces?.items ||
-      workspaces.items.length === 0
-    )
-      return;
+      const found = cached && workspaces.items.find((w) => w.id === cached.id);
+      if (found) {
+        return found;
+      }
 
-    if (
-      cachedWorkspace &&
-      workspaces.items.map((w) => w.id).includes(cachedWorkspace.id)
-    ) {
-      setResult(cachedWorkspace);
-      return;
+      // default fallback
+      const first = workspaces.items[0];
+      saveWorkspaceToLs(first);
+      return first;
     }
 
-    if (
-      !isLoading &&
-      workspaces &&
-      workspaces.items &&
-      workspaces.items.length > 0
-    ) {
-      saveWorkspaceToLs(workspaces.items[0]);
-      setResult(workspaces.items[0]);
-    }
-  }, [activeWorkspace, workspaces, isLoading]);
+    return undefined;
+  }, [activeWorkspaceFromRedux, workspaces, isLoading]);
 
-  return { activeWorkspace: result };
+  return { activeWorkspace: workspace, isLoading };
 };

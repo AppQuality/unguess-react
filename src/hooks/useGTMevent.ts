@@ -1,5 +1,6 @@
 import { useCallback } from 'react';
 import TagManager from 'react-gtm-module';
+import { shallowEqual } from 'react-redux';
 import { useAppSelector } from 'src/app/hooks';
 import { useActiveWorkspace } from './useActiveWorkspace';
 
@@ -12,7 +13,16 @@ export interface GTMEventData {
 }
 
 export const useSendGTMevent = () => {
-  const { userData: user } = useAppSelector((state) => state.user);
+  const user = useAppSelector(
+    (state) => ({
+      role: state.user.userData.role,
+      tryber_wp_user_id: state.user.userData.tryber_wp_user_id,
+      id: state.user.userData.id,
+      name: state.user.userData.name,
+      email: state.user.userData.email,
+    }),
+    shallowEqual
+  );
   const { activeWorkspace } = useActiveWorkspace();
 
   const callback = useCallback(

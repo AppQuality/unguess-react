@@ -1,75 +1,44 @@
 import {
-  Content,
   Notification,
   ProfileModal,
-  Skeleton,
   useToast,
 } from '@appquality/unguess-design-system';
-import { ComponentProps, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
-import { AppSidebar } from 'src/common/components/navigation/sidebar';
 import { isDev } from 'src/common/isDevEnvironment';
 import { prepareGravatar } from 'src/common/utils';
 import WPAPI from 'src/common/wpapi';
 import {
-  setProfileModalOpen,
-  setSidebarOpen,
-  toggleSidebar,
-} from 'src/features/navigation/navigationSlice';
-import { NoActiveWorkSpaceState } from 'src/features/templates/NoActiveWorkspaceState';
-import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
-import i18n from 'src/i18n';
-import { styled } from 'styled-components';
-import { Header } from '../../common/components/navigation/header/header';
-import { usePathWithoutLocale } from './usePathWithoutLocale';
-import {
   useGetUsersMePreferencesQuery,
   usePutUsersMePreferencesBySlugMutation,
-} from '../api';
+} from 'src/features/api';
+import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
+import { setProfileModalOpen } from '../navigationSlice';
+import { usePathWithoutLocale } from '../usePathWithoutLocale';
 
-const StyledContent = styled(Content)<
-  ComponentProps<typeof Content> & {
-    isMinimal?: boolean;
-    children?: React.ReactNode;
-  }
->`
-  height: ${({ isMinimal, theme }) =>
-    isMinimal
-      ? '100%'
-      : `calc(100% - ${theme.components.chrome.header.height})`};
-`;
-
-export const Navigation = ({
-  children,
-  route,
-  isMinimal = false,
-}: {
-  children: React.ReactNode;
-  route: string;
-  isMinimal?: boolean;
-}) => {
-  const { t } = useTranslation();
-  const dispatch = useAppDispatch();
-  const pathWithoutLocale = usePathWithoutLocale();
+export const NavigationProfileModal = () => {
+  const isProfileModalOpen = useAppSelector(
+    (state) => state.navigation.isProfileModalOpen
+  );
   const { userData: user } = useAppSelector((state) => state.user);
-  const { isProfileModalOpen } = useAppSelector((state) => state.navigation);
   const { activeWorkspace } = useActiveWorkspace();
-  const { addToast } = useToast();
 
-  const {
-    data: preferences,
-    isLoading: isLoadingPrefs,
-    isFetching: isFetchingPrefs,
-    isError,
-  } = useGetUsersMePreferencesQuery();
+  const { addToast } = useToast();
+  const { t, i18n } = useTranslation();
+  const dispatch = useAppDispatch();
+
+  const { data: preferences } = useGetUsersMePreferencesQuery();
 
   const notificationsPreference = preferences?.items?.find(
     (preference) => preference?.name === 'notifications_enabled'
   );
+  const pathWithoutLocale = usePathWithoutLocale();
 
   const [updatePreference] = usePutUsersMePreferencesBySlugMutation();
+
+  const onProfileModalClose = () => {
+    dispatch(setProfileModalOpen(false));
+  };
 
   const onSetSettings = async (value: string) => {
     await updatePreference({
@@ -92,39 +61,6 @@ export const Navigation = ({
         );
       });
   };
-
-  useEffect(() => {
-    switch (route) {
-      case 'service':
-      case 'campaigns':
-      case 'bugs':
-      case 'bug':
-      case 'video':
-      case 'videos':
-      case 'insights':
-        dispatch(setSidebarOpen(false));
-        break;
-      case 'template':
-        dispatch(setSidebarOpen(false));
-        break;
-      default:
-        dispatch(setSidebarOpen(true));
-        break;
-    }
-  }, [route]);
-
-  // Set current params
-  const params = useParams();
-
-  let parameter = '';
-
-  if (params) {
-    Object.keys(params).forEach((key) => {
-      if (key !== 'language') {
-        parameter = params[`${key}`] ?? '';
-      }
-    });
-  }
 
   const profileModal = {
     user: {
@@ -219,43 +155,7 @@ export const Navigation = ({
     disableMenuLanguageSettings: true,
   };
 
-  const toggleSidebarState = () => {
-    dispatch(toggleSidebar());
-  };
+  if (!isProfileModalOpen) return null;
 
-  const onProfileModalClose = () => {
-    dispatch(setProfileModalOpen(false));
-  };
-
-  if (isLoadingPrefs) {
-    return <Skeleton />;
-  }
-  if (isError || !preferences) {
-    return null;
-  }
-  if (!activeWorkspace) return <NoActiveWorkSpaceState />;
-  return (
-    <>
-      <Header
-        {...(isMinimal && {
-          style: { display: 'none', opacity: isFetchingPrefs ? 0.5 : 1 },
-        })}
-      />
-      {isProfileModalOpen && (
-        <ProfileModal onClose={onProfileModalClose} menuArgs={profileModal} />
-      )}
-      <StyledContent isMinimal={isMinimal}>
-        <AppSidebar
-          route={
-            route === 'projects' && parameter !== ''
-              ? `${route}/${parameter}`
-              : route
-          }
-          onSidebarToggle={toggleSidebarState}
-          {...(isMinimal && { style: { display: 'none' } })}
-        />
-        {children}
-      </StyledContent>
-    </>
-  );
+  return <ProfileModal onClose={onProfileModalClose} menuArgs={profileModal} />;
 };
