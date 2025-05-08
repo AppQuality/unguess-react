@@ -1,35 +1,35 @@
 import { type Page } from '@playwright/test';
 import { UnguessPage } from '../../UnguessPage';
 import { AgeModule } from './Module_age';
+import { DigitalLiteracyModule } from './Module_digital_literacy';
 import { GenderModule } from './Module_gender';
 import { GoalModule } from './Module_goal';
-import { OutOfScopeModule } from './Module_out_of_scope';
-import { DigitalLiteracyModule } from './Module_digital_literacy';
 import { LanguageModule } from './Module_language';
+import { OutOfScopeModule } from './Module_out_of_scope';
 import { TargetModule } from './Module_target';
 import { TasksModule } from './Module_tasks';
 
-export interface PlanModule {
+interface TabModule {
   expectToBeReadonly(): Promise<void>;
   goToTab(): Promise<void>;
 }
-
 export class PlanPage extends UnguessPage {
   readonly page: Page;
-  readonly modules: PlanModule[];
+
+  readonly modules: { [index: string]: TabModule };
 
   constructor(page: Page) {
     super(page);
-    this.modules = [
-      new AgeModule(page),
-      new GenderModule(page),
-      new OutOfScopeModule(page),
-      new GoalModule(page),
-      new DigitalLiteracyModule(page),
-      new LanguageModule(page),
-      new TargetModule(page),
-      new TasksModule(page),
-    ];
+    this.modules = {
+      age: new AgeModule(page),
+      gender: new GenderModule(page),
+      outOfScope: new OutOfScopeModule(page),
+      goal: new GoalModule(page),
+      digitalLiteracy: new DigitalLiteracyModule(page),
+      language: new LanguageModule(page),
+      target: new TargetModule(page),
+      tasks: new TasksModule(page),
+    };
     this.page = page;
     this.url = `plans/1`;
   }
@@ -133,10 +133,26 @@ export class PlanPage extends UnguessPage {
   }
 
   async expectAllModulesToBeReadonly() {
-    for (const module of this.modules) {
-      await module.goToTab();
-      await module.expectToBeReadonly();
-    }
+    // tab setup
+    this.elements().tabSetup().click();
+    await Promise.all([this.modules.goal.expectToBeReadonly()]);
+
+    // tab target
+    this.elements().tabTarget().click();
+    await Promise.all([
+      this.modules.target.expectToBeReadonly(),
+      this.modules.age.expectToBeReadonly(),
+      this.modules.gender.expectToBeReadonly(),
+      this.modules.digitalLiteracy.expectToBeReadonly(),
+      this.modules.language.expectToBeReadonly(),
+    ]);
+
+    // tab instructions
+    this.elements().tabInstructions().click();
+    await Promise.all([
+      this.modules.outOfScope.expectToBeReadonly(),
+      this.modules.tasks.expectToBeReadonly(),
+    ]);
   }
 
   async mockGetDraftPlan() {

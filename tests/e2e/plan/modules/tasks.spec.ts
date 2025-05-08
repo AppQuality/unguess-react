@@ -23,7 +23,6 @@ test.describe('The tasks module defines a list of activities.', () => {
   });
 
   test('Tasks can be deleted, but it is required to have at least 1 item to Request a Quote', async ({
-    page,
     i18n,
   }) => {
     await expect(tasksModule.elements().module()).toBeVisible();
@@ -33,20 +32,22 @@ test.describe('The tasks module defines a list of activities.', () => {
     );
 
     // delete each item
-    for (const task of tasks) {
-      await tasksModule
-        .elements()
-        .taskListItem()
-        .getByRole('heading', { name: task.title })
-        .getByRole('button', {
-          name: i18n.t('__PLAN_PAGE_MODULE_TASKS_REMOVE_TASK_BUTTON'),
-        })
-        .click();
-      await tasksModule
-        .elements()
-        .removeTaskConfirmationModalConfirmCTA()
-        .click();
-    }
+    await Promise.all(
+      tasks.map(async (task) => {
+        await tasksModule
+          .elements()
+          .taskListItem()
+          .getByRole('heading', { name: task.title })
+          .getByRole('button', {
+            name: i18n.t('__PLAN_PAGE_MODULE_TASKS_REMOVE_TASK_BUTTON'),
+          })
+          .click();
+        await tasksModule
+          .elements()
+          .removeTaskConfirmationModalConfirmCTA()
+          .click();
+      })
+    );
     await expect(tasksModule.elements().taskListItem()).toHaveCount(0);
     await expect(tasksModule.elements().taskListErrorRequired()).toBeVisible();
     await moduleBuilderPage.elements().requestQuotationCTA().click();

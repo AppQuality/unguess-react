@@ -40,8 +40,13 @@ export class LanguageModule {
 
   async expectToBeReadonly() {
     const languageRadioInputs = this.elements().languageRadioInput();
-    for (let i = 0; i < (await languageRadioInputs.count()); i++) {
-      await expect(languageRadioInputs.nth(i)).toHaveAttribute('disabled', '');
+    const count = await languageRadioInputs.count();
+    const checks: Promise<void>[] = [];
+    for (let i = 0; i < count; i += 1) {
+      checks.push(
+        expect(languageRadioInputs.nth(i)).toHaveAttribute('disabled', '')
+      );
     }
+    await Promise.all(checks);
   }
 }

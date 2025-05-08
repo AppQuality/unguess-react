@@ -42,11 +42,13 @@ export class DigitalLiteracyModule {
 
   async expectToBeReadonly() {
     const digitalLiteracyCheckbox = this.elements().moduleInput();
-    for (let i = 0; i < (await digitalLiteracyCheckbox.count()); i++) {
-      await expect(digitalLiteracyCheckbox.nth(i)).toHaveAttribute(
-        'disabled',
-        ''
+    const count = await digitalLiteracyCheckbox.count();
+    const checks: Promise<void>[] = [];
+    for (let i = 0; i < count; i += 1) {
+      checks.push(
+        expect(digitalLiteracyCheckbox.nth(i)).toHaveAttribute('disabled', '')
       );
     }
+    await Promise.all(checks);
   }
 }

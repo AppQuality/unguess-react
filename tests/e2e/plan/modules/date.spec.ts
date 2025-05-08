@@ -1,4 +1,3 @@
-import draftMandatory from '../../../api/plans/pid/_get/200_draft_mandatory_only.json';
 import { expect, test } from '../../../fixtures/app';
 import { PlanPage } from '../../../fixtures/pages/Plan';
 import { RequestQuotationModal } from '../../../fixtures/pages/Plan/RequestQuotationModal';

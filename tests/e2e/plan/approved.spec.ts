@@ -1,29 +1,11 @@
 import { test, expect } from '../../fixtures/app';
 import { PlanPage } from '../../fixtures/pages/Plan';
-import { GoalModule } from '../../fixtures/pages/Plan/Module_goal';
-import { TargetModule } from '../../fixtures/pages/Plan/Module_target';
-import { LanguageModule } from '../../fixtures/pages/Plan/Module_language';
-import { DigitalLiteracyModule } from '../../fixtures/pages/Plan/Module_digital_literacy';
-import { TasksModule } from '../../fixtures/pages/Plan/Module_tasks';
-import { OutOfScopeModule } from '../../fixtures/pages/Plan/Module_out_of_scope';
 
-test.describe('A Plan page in accepted state', () => {
+test.describe('A Plan page in approved state', () => {
   let moduleBuilderPage: PlanPage;
-  let goalModule: GoalModule;
-  let targetModule: TargetModule;
-  let languageModule: LanguageModule;
-  let digitalLiteracyModule: DigitalLiteracyModule;
-  let outOfScopeModule: OutOfScopeModule;
-  let tasksModule: TasksModule;
 
   test.beforeEach(async ({ page }) => {
     moduleBuilderPage = new PlanPage(page);
-    goalModule = new GoalModule(page);
-    targetModule = new TargetModule(page);
-    languageModule = new LanguageModule(page);
-    digitalLiteracyModule = new DigitalLiteracyModule(page);
-    outOfScopeModule = new OutOfScopeModule(page);
-    tasksModule = new TasksModule(page);
 
     await moduleBuilderPage.loggedIn();
     await moduleBuilderPage.mockPreferences();
@@ -47,6 +29,9 @@ test.describe('A Plan page in accepted state', () => {
       moduleBuilderPage.elements().confirmActivityCTA()
     ).not.toBeVisible();
     await expect(moduleBuilderPage.elements().goToDashboardCTA()).toBeEnabled();
+    await expect(
+      moduleBuilderPage.elements().extraActionsMenu()
+    ).not.toBeVisible();
     await expect(
       page
         .getByRole('status')

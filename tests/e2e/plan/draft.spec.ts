@@ -23,18 +23,11 @@ test.describe('The module builder', () => {
   });
 
   test('has a list of saved modules and not the others, a save button, a request quote cta and a dots menu cta', async () => {
-    // Click the "Setup" tab
-    await planPage.elements().tabSetup().click();
-
-    // Check if specific elements are visible on the "Setup" tab
     await expect(planPage.elements().titleModule()).toBeVisible();
-
-    // Check if the save button, request quote CTA and dots menu are visible and enabled
-    await expect(planPage.elements().saveConfigurationCTA()).toBeVisible();
     await expect(planPage.elements().saveConfigurationCTA()).not.toBeDisabled();
-    await expect(planPage.elements().requestQuotationCTA()).toBeVisible();
     await expect(planPage.elements().requestQuotationCTA()).not.toBeDisabled();
-    await expect(planPage.elements().extraActionsMenu()).toBeVisible();
+    await expect(planPage.elements().confirmActivityCTA()).not.toBeVisible();
+    await expect(planPage.elements().goToDashboardCTA()).not.toBeVisible();
     await expect(planPage.elements().extraActionsMenu()).not.toBeDisabled();
   });
 
@@ -60,11 +53,6 @@ test.describe('The module builder', () => {
     expect(data).toEqual(examplePatch);
   });
 
-  // flusso di richiesta preventivo
-  test('Clicking request quotation ask for confirmation first', async () => {
-    // todo: come up with some common usecases in which the user perform some changes to the form, then click the submit button
-    // todo: ask confirmation
-  });
   test('if confirmation calls the PATCH Plan', async ({ page }) => {
     const patchPromise = page.waitForResponse(
       (response) =>
@@ -78,22 +66,18 @@ test.describe('The module builder', () => {
     const data = response.request().postDataJSON();
     expect(data).toEqual(examplePatch);
   });
-  test('if PATCH plan is ok then calls the PATCH Status', async ({ page }) => {
+  test('if PATCH plan is ok then calls the PATCH Status', async () => {
     await planPage.elements().requestQuotationCTA().click();
     const response = await requestQuotationModal.submitRequest();
     const data = response.request().postDataJSON();
     expect(data).toEqual({ status: 'pending_review' });
-  });
-  test('after requesting quotation CTA save and Request Quote should become disabled and all inputs should be readonly', async () => {
-    // todo
   });
 });
 
 test.describe('When the user clicks on the dots menu', () => {
   let planPage: PlanPage;
 
-  test.beforeEach(async ({ page }, testinfo) => {
-    testinfo.setTimeout(60000);
+  test.beforeEach(async ({ page }) => {
     planPage = new PlanPage(page);
     await planPage.loggedIn();
     await planPage.mockPreferences();

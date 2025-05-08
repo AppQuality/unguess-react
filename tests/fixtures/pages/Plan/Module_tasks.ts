@@ -83,11 +83,16 @@ export class TasksModule {
   }
 
   async expectToBeReadonly() {
-    const taskselements = this.elements().taskListItem();
-    for (let i = 0; i < (await taskselements.count()); i++) {
-      await expect(
-        this.elements().taskTitleInput(taskselements.nth(i))
-      ).toHaveAttribute('readonly', '');
+    const taskElements = this.elements().taskListItem();
+    const count = await taskElements.count();
+    const checks: Promise<void>[] = [];
+    for (let i = 0; i < count; i += 1) {
+      checks.push(
+        expect(
+          this.elements().taskTitleInput(taskElements.nth(i))
+        ).toHaveAttribute('readonly', '')
+      );
     }
+    await Promise.all(checks);
   }
 }

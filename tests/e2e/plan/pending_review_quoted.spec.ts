@@ -28,6 +28,12 @@ test.describe('A Plan page in pending request with a quote from us', () => {
       moduleBuilderPage.elements().confirmActivityCTA()
     ).toBeEnabled();
     await expect(
+      moduleBuilderPage.elements().goToDashboardCTA()
+    ).not.toBeVisible();
+    await expect(
+      moduleBuilderPage.elements().extraActionsMenu()
+    ).not.toBeVisible();
+    await expect(
       page
         .getByRole('status')
         .filter({ hasText: i18n.t('PLAN_GLOBAL_ALERT_AWATING_STATE_TITLE') })

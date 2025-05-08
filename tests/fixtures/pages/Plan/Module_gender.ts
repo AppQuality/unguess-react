@@ -26,8 +26,13 @@ export class GenderModule {
 
   async expectToBeReadonly() {
     const genderCheckbox = this.elements().moduleInput();
-    for (let i = 0; i < (await genderCheckbox.count()); i++) {
-      await expect(genderCheckbox.nth(i)).toHaveAttribute('disabled', '');
+    const count = await genderCheckbox.count();
+    const checks: Promise<void>[] = [];
+    for (let i = 0; i < count; i += 1) {
+      checks.push(
+        expect(genderCheckbox.nth(i)).toHaveAttribute('disabled', '')
+      );
     }
+    await Promise.all(checks);
   }
 }

@@ -1,7 +1,6 @@
 import { expect, type Page } from '@playwright/test';
-import { PlanModule } from '.';
 
-export class AgeModule implements PlanModule {
+export class AgeModule {
   readonly page: Page;
 
   constructor(page: Page) {
@@ -22,8 +21,11 @@ export class AgeModule implements PlanModule {
 
   async expectToBeReadonly() {
     const ageCheckbox = this.elements().moduleInput();
-    for (let i = 0; i < (await ageCheckbox.count()); i++) {
-      await expect(ageCheckbox.nth(i)).toHaveAttribute('disabled', '');
+    const count = await ageCheckbox.count();
+    const checks: Promise<void>[] = [];
+    for (let i = 0; i < count; i += 1) {
+      checks.push(expect(ageCheckbox.nth(i)).toHaveAttribute('disabled', ''));
     }
+    await Promise.all(checks);
   }
 }
