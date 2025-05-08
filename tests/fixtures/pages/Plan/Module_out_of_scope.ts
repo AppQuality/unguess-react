@@ -1,4 +1,4 @@
-import { type Page } from '@playwright/test';
+import { expect, type Page } from '@playwright/test';
 import { i18n } from 'i18next';
 import { getI18nInstance } from 'playwright-i18next-fixture';
 
@@ -14,6 +14,7 @@ export class OutOfScopeModule {
 
   elements() {
     return {
+      tab: () => this.page.getByTestId('instructions-tab'),
       module: () => this.page.getByTestId('out-of-scope-module'),
       moduleError: () =>
         this.elements().module().getByTestId('out-of-scope-error'),
@@ -30,5 +31,13 @@ export class OutOfScopeModule {
     }
     const outOfScopeValue = outOfScopeModule.output;
     return outOfScopeValue;
+  }
+
+  async goToTab() {
+    await this.elements().tab().click();
+  }
+
+  async expectToBeReadonly() {
+    await expect(this.elements().moduleInput()).toHaveAttribute('readonly', '');
   }
 }

@@ -1,4 +1,5 @@
-import { type Page } from '@playwright/test';
+import { expect, type Page } from '@playwright/test';
+import { table } from 'console';
 import { i18n } from 'i18next';
 import { getI18nInstance } from 'playwright-i18next-fixture';
 
@@ -14,6 +15,7 @@ export class LanguageModule {
 
   elements() {
     return {
+      tab: () => this.page.getByTestId('target-tab'),
       module: () => this.page.getByTestId('language-module'),
       languageRadioInput: () => this.elements().module().getByRole('radio'),
     };
@@ -31,5 +33,16 @@ export class LanguageModule {
     }
     const language = languageModule.output;
     return language;
+  }
+
+  async goToTab() {
+    await this.elements().tab().click();
+  }
+
+  async expectToBeReadonly() {
+    const languageRadioInputs = this.elements().languageRadioInput();
+    for (let i = 0; i < (await languageRadioInputs.count()); i++) {
+      await expect(languageRadioInputs.nth(i)).toHaveAttribute('disabled', '');
+    }
   }
 }

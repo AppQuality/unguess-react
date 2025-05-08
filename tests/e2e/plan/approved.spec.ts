@@ -56,40 +56,8 @@ test.describe('A Plan page in accepted state', () => {
       page.getByText(i18n.t('__PLAN_PAGE_INTRODUCTION_CARD_APPROVED_TITLE'))
     ).toBeVisible();
   });
+
   test('all inputs should be readonly', async () => {
-    await moduleBuilderPage.elements().tabSetup().click();
-    await expect(goalModule.elements().moduleInput()).toHaveAttribute(
-      'readonly',
-      ''
-    );
-    await moduleBuilderPage.elements().tabTarget().click();
-    await expect(targetModule.elements().moduleInput()).toHaveAttribute(
-      'readonly',
-      ''
-    );
-    const languageRadioInputs = languageModule.elements().languageRadioInput();
-    for (let i = 0; i < (await languageRadioInputs.count()); i++) {
-      await expect(languageRadioInputs.nth(i)).toHaveAttribute('disabled', '');
-    }
-    const digitalLiteracyCheckbox = digitalLiteracyModule
-      .elements()
-      .moduleInput();
-    for (let i = 0; i < (await digitalLiteracyCheckbox.count()); i++) {
-      await expect(digitalLiteracyCheckbox.nth(i)).toHaveAttribute(
-        'disabled',
-        ''
-      );
-    }
-    await moduleBuilderPage.elements().tabInstructions().click();
-    await expect(outOfScopeModule.elements().moduleInput()).toHaveAttribute(
-      'readonly',
-      ''
-    );
-    const taskselements = tasksModule.elements().taskListItem();
-    for (let i = 0; i < (await taskselements.count()); i++) {
-      await expect(
-        tasksModule.elements().taskTitleInput(taskselements.nth(i))
-      ).toHaveAttribute('readonly', '');
-    }
+    await moduleBuilderPage.expectAllModulesToBeReadonly();
   });
 });

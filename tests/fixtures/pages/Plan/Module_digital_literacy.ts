@@ -1,4 +1,4 @@
-import { type Page } from '@playwright/test';
+import { expect, type Page } from '@playwright/test';
 import { i18n } from 'i18next';
 import { getI18nInstance } from 'playwright-i18next-fixture';
 
@@ -14,6 +14,7 @@ export class DigitalLiteracyModule {
 
   elements() {
     return {
+      tab: () => this.page.getByTestId('target-tab'),
       module: () => this.page.getByTestId('digital-literacy-module'),
       moduleInput: () => this.elements().module().getByRole('checkbox'),
       digitalLiteracyModuleErrorMessage: () =>
@@ -33,5 +34,19 @@ export class DigitalLiteracyModule {
     }
     const language = languageModule.output;
     return language;
+  }
+
+  async goToTab() {
+    await this.elements().tab().click();
+  }
+
+  async expectToBeReadonly() {
+    const digitalLiteracyCheckbox = this.elements().moduleInput();
+    for (let i = 0; i < (await digitalLiteracyCheckbox.count()); i++) {
+      await expect(digitalLiteracyCheckbox.nth(i)).toHaveAttribute(
+        'disabled',
+        ''
+      );
+    }
   }
 }

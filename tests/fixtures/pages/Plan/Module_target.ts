@@ -1,4 +1,4 @@
-import { type Page } from '@playwright/test';
+import { expect, type Page } from '@playwright/test';
 import { i18n } from 'i18next';
 import { getI18nInstance } from 'playwright-i18next-fixture';
 
@@ -14,6 +14,7 @@ export class TargetModule {
 
   elements() {
     return {
+      tab: () => this.page.getByTestId('target-tab'),
       module: () => this.page.getByTestId('target-module'),
       moduleError: () => this.elements().module().getByTestId('target-error'),
       moduleInput: () => this.page.getByTestId('target-input'),
@@ -37,5 +38,13 @@ export class TargetModule {
       throw new Error('Invalid target module output');
     }
     return targetModule.output;
+  }
+
+  async goToTab() {
+    await this.elements().tab().click();
+  }
+
+  async expectToBeReadonly() {
+    await expect(this.elements().moduleInput()).toHaveAttribute('readonly', '');
   }
 }

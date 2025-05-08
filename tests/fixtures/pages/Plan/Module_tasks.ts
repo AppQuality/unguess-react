@@ -1,4 +1,4 @@
-import { Locator, type Page } from '@playwright/test';
+import { expect, Locator, type Page } from '@playwright/test';
 import { i18n } from 'i18next';
 import { getI18nInstance } from 'playwright-i18next-fixture';
 
@@ -14,6 +14,7 @@ export class TasksModule {
 
   elements() {
     return {
+      tab: () => this.page.getByTestId('instructions-tab'),
       module: () => this.page.getByTestId('tasks-module'),
       taskList: () => this.elements().module().getByRole('list'),
       taskListItem: () => this.elements().taskList().getByRole('listitem'),
@@ -75,5 +76,18 @@ export class TasksModule {
       throw new Error('Invalid tasks module output');
     }
     return tasksModule.output;
+  }
+
+  async goToTab() {
+    await this.elements().tab().click();
+  }
+
+  async expectToBeReadonly() {
+    const taskselements = this.elements().taskListItem();
+    for (let i = 0; i < (await taskselements.count()); i++) {
+      await expect(
+        this.elements().taskTitleInput(taskselements.nth(i))
+      ).toHaveAttribute('readonly', '');
+    }
   }
 }

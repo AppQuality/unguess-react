@@ -1,11 +1,35 @@
 import { type Page } from '@playwright/test';
 import { UnguessPage } from '../../UnguessPage';
+import { AgeModule } from './Module_age';
+import { GenderModule } from './Module_gender';
+import { GoalModule } from './Module_goal';
+import { OutOfScopeModule } from './Module_out_of_scope';
+import { DigitalLiteracyModule } from './Module_digital_literacy';
+import { LanguageModule } from './Module_language';
+import { TargetModule } from './Module_target';
+import { TasksModule } from './Module_tasks';
+
+export interface PlanModule {
+  expectToBeReadonly(): Promise<void>;
+  goToTab(): Promise<void>;
+}
 
 export class PlanPage extends UnguessPage {
   readonly page: Page;
+  readonly modules: PlanModule[];
 
   constructor(page: Page) {
     super(page);
+    this.modules = [
+      new AgeModule(page),
+      new GenderModule(page),
+      new OutOfScopeModule(page),
+      new GoalModule(page),
+      new DigitalLiteracyModule(page),
+      new LanguageModule(page),
+      new TargetModule(page),
+      new TasksModule(page),
+    ];
     this.page = page;
     this.url = `plans/1`;
   }
@@ -108,6 +132,13 @@ export class PlanPage extends UnguessPage {
     return patchPromise;
   }
 
+  async expectAllModulesToBeReadonly() {
+    for (const module of this.modules) {
+      await module.goToTab();
+      await module.expectToBeReadonly();
+    }
+  }
+
   async mockGetDraftPlan() {
     await this.page.route('*/**/api/plans/1', async (route) => {
       if (route.request().method() === 'GET') {
@@ -158,11 +189,23 @@ export class PlanPage extends UnguessPage {
     });
   }
 
-  async mockGetPendingReviewPlan() {
+  async mockGetPendingReviewPlan_WithoutQuote() {
     await this.page.route('*/**/api/plans/1', async (route) => {
       if (route.request().method() === 'GET') {
         await route.fulfill({
-          path: 'tests/api/plans/pid/_get/200_pending_review.json',
+          path: 'tests/api/plans/pid/_get/200_pending_review_unquoted.json',
+        });
+      } else {
+        await route.fallback();
+      }
+    });
+  }
+
+  async mockGetPendingReviewPlan_WithQuote() {
+    await this.page.route('*/**/api/plans/1', async (route) => {
+      if (route.request().method() === 'GET') {
+        await route.fulfill({
+          path: 'tests/api/plans/pid/_get/200_pending_review_quoted.json',
         });
       } else {
         await route.fallback();
