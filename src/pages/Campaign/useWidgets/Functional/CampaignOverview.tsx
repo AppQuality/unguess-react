@@ -5,7 +5,7 @@ import { Progress } from './widgets/Progress';
 import { UniqueBugs } from './widgets/UniqueBugs';
 import { Suggestions } from './widgets/Reccomendations';
 import { WidgetSectionNew } from '../../WidgetSection';
-import { NotUniqueBugs } from './widgets/NotUniqueBugs';
+import { OnlyUniqueBugs } from './widgets/OnlyUniqueBugs';
 
 export const CampaignOverview = ({
   id,
@@ -42,9 +42,9 @@ export const CampaignOverview = ({
     >
       <Progress campaign={campaign} />
       {hasOnlyUniqueBugs ? (
-        <UniqueBugs campaignId={campaign ? campaign.id : 0} />
+        <OnlyUniqueBugs campaignId={campaign ? campaign.id : 0} />
       ) : (
-        <NotUniqueBugs campaignId={campaign ? campaign.id : 0} />
+        <UniqueBugs campaignId={campaign ? campaign.id : 0} />
       )}
       <BugDistributionCard campaignId={campaign ? campaign.id : 0} />
       <Suggestions campaignId={campaign.id.toString()} />

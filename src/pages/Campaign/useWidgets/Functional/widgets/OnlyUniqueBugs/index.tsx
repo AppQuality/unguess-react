@@ -8,7 +8,7 @@ const primaryTextColor = {
   color: appTheme.components.text.primaryColor,
 };
 
-export const NotUniqueBugs = ({ campaignId }: { campaignId: number }) => {
+export const OnlyUniqueBugs = ({ campaignId }: { campaignId: number }) => {
   const { t } = useTranslation();
   const isLoading = true; // Simulating loading state
 
