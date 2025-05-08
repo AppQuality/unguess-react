@@ -2,10 +2,10 @@ import {
   Avatar,
   ButtonMenu,
   Ellipsis,
+  getColor,
   MD,
   SM,
   Span,
-  getColor,
 } from '@appquality/unguess-design-system';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -56,27 +56,25 @@ export const UserItem = ({
           {getInitials(user.name.length ? user.name : user.email)}
         </Avatar>
         <div>
-          <StyledEllipsis>
-            <MD
-              isBold
-              style={{
-                color: getColor(appTheme.colors.primaryHue, 600),
-              }}
-            >
+          <MD
+            isBold
+            style={{
+              color: getColor(appTheme.colors.primaryHue, 600),
+            }}
+          >
+            <StyledEllipsis>
               {user.name.length ? user.name : user.email}{' '}
               {isMe && t('__WORKSPACE_SETTINGS_CURRENT_MEMBER_YOU_LABEL')}
-            </MD>
-          </StyledEllipsis>
-          {user.name.length > 0 && (
-            <StyledEllipsis>
-              <SM
-                style={{
-                  color: appTheme.palette.grey[700],
-                }}
-              >
-                {user.email}
-              </SM>
             </StyledEllipsis>
+          </MD>
+          {user.name.length > 0 && (
+            <SM
+              style={{
+                color: appTheme.palette.grey[700],
+              }}
+            >
+              <StyledEllipsis>{user.email}</StyledEllipsis>
+            </SM>
           )}
         </div>
         {onResendInvite && onRemoveUser ? (
