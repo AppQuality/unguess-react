@@ -3140,9 +3140,7 @@ export interface operations {
       405: components['responses']['Error'];
       500: components['responses']['Error'];
     };
-    requestBody: {
-      unknown;
-    };
+    requestBody: {};
   };
   /** Update fields of a specific project. Currently only the project name is editable. */
   'patch-projects-pid': {
