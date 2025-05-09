@@ -1,7 +1,8 @@
 import { type Page } from '@playwright/test';
 import { UnguessPage } from '../UnguessPage';
+import { DashboardBase } from '../DashboardsBase';
 
-export class Insights extends UnguessPage {
+export class Insights extends DashboardBase {
   readonly page: Page;
 
   constructor(page: Page) {

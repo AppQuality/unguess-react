@@ -100,7 +100,7 @@ export const ProjectPageHeader = ({ projectId }: { projectId: number }) => {
             <StyledPageHeaderMeta>
               <Counters />
               <StyledDiv>
-                <ProjectSettings />
+                {hasWorksPacePermission && <ProjectSettings />}
                 {hasWorksPacePermission && (
                   <Button
                     isAccent

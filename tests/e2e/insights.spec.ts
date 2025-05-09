@@ -24,4 +24,26 @@ test.describe('Insights page', () => {
       insightsData.length
     );
   });
+
+  test('should display a invite users btn', async () => {
+    await expect(insightsPage.elements().inviteUsersButton()).toBeVisible();
+  });
+});
+
+test.describe('Insights page on a shared workspace', () => {
+  let insightsPage: Insights;
+
+  test.beforeEach(async ({ page }) => {
+    insightsPage = new Insights(page);
+    await insightsPage.loggedIn();
+    await insightsPage.mockPreferences();
+    await insightsPage.mockWorkspace();
+    await insightsPage.mockExperientialCampaign();
+    await insightsPage.mocksharedWorkspacesList();
+    await insightsPage.open();
+  });
+
+  test('should hide the invite users button', async () => {
+    await expect(insightsPage.elements().inviteUsersButton()).not.toBeVisible();
+  });
 });

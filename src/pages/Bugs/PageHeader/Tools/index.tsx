@@ -14,6 +14,7 @@ import { CampaignSettings } from 'src/common/components/inviteUsers/campaignSett
 import { useGetCampaignsByCidQuery } from 'src/features/api';
 import { UniqueBugsCounter } from './UniqueBugsCounter';
 import { useCampaignBugs } from './useCampaignBugs';
+import { useCanAccessToActiveWorkspace } from 'src/hooks/useCanAccessToActiveWorkspace';
 
 const ButtonsWrapper = styled.div`
   display: flex;
@@ -51,6 +52,7 @@ export const Tools = ({
   customerTitle: string;
 }) => {
   const { t } = useTranslation();
+  const hasWorksPacePermission = useCanAccessToActiveWorkspace();
   const integrationCenterUrl = getLocalizeIntegrationCenterRoute(campaignId);
   const {
     isCampaignLoading,
@@ -90,9 +92,9 @@ export const Tools = ({
         {status && <StatusMeta status={status.name as CampaignStatus} />}
       </PageMeta>
       <ButtonsWrapper>
-        {campaignData && campaignData.isArchived !== true && (
-          <CampaignSettings />
-        )}
+        {campaignData &&
+          campaignData.isArchived !== true &&
+          hasWorksPacePermission && <CampaignSettings />}
         <Button
           isBasic
           className="header-dowlnoad-report"

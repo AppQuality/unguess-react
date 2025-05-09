@@ -27,6 +27,10 @@ export class Project extends UnguessPage {
         this.page.getByRole('list', { name: 'project-campaigns-card-list' }),
       projectCardListItems: () =>
         this.elements().projectsCardList().getByRole('listitem'),
+      inviteUsersButton: () =>
+        this.page
+          .getByRole('button')
+          .filter({ hasText: this.i18n.t('__PROJECT_SETTINGS_CTA_TEXT') }),
     };
   }
 
