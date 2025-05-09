@@ -280,6 +280,9 @@ unguessApi.enhanceEndpoints({
     patchPlansByPidStatus: {
       invalidatesTags: ['Plans', 'Projects'],
     },
+    deleteProjectsByPid: {
+      invalidatesTags: ['Projects'],
+    },
   },
 });
 

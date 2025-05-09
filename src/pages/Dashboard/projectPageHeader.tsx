@@ -22,6 +22,7 @@ import { Counters } from './Counters';
 import { EditableDescription } from './EditableDescription';
 import { EditableTitle } from './EditableTitle';
 import { DeleteProjectModal } from './Modals/DeleteProjectModal';
+import { useProjectPlans } from './hooks/useProjectPlans';
 
 const StyledPageHeaderMeta = styled(PageHeader.Meta)`
   justify-content: space-between;
@@ -52,6 +53,10 @@ export const ProjectPageHeader = ({ projectId }: { projectId: number }) => {
   const { status } = useAppSelector((state) => state.user);
   const templatesRoute = useLocalizeRoute('templates');
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+
+  const { items: plans, isLoading: isLoadingPlans } = useProjectPlans({
+    projectId: projectId || 0,
+  });
 
   const {
     isLoading,
@@ -88,14 +93,20 @@ export const ProjectPageHeader = ({ projectId }: { projectId: number }) => {
       <PageHeader>
         <PageHeader.Main mainTitle={project?.name || ''}>
           <PageHeader.Title style={{ minHeight: '62px' }}>
-            {isLoading || isFetching || status === 'loading' ? (
+            {isLoading ||
+            isLoadingPlans ||
+            isFetching ||
+            status === 'loading' ? (
               <Skeleton width="60%" height="44px" />
             ) : (
               titleContent
             )}
           </PageHeader.Title>
           <PageHeader.Description style={{ width: '100%' }}>
-            {isLoading || isFetching || status === 'loading' ? (
+            {isLoading ||
+            isLoadingPlans ||
+            isFetching ||
+            status === 'loading' ? (
               <Skeleton width="60%" height="44px" />
             ) : (
               descriptionContent
@@ -117,7 +128,7 @@ export const ProjectPageHeader = ({ projectId }: { projectId: number }) => {
                     {t('__DASHBOARD_CTA_NEW_ACTIVITY')}
                   </Button>
                 )}
-                {project?.campaigns_count === 0 && (
+                {project?.campaigns_count === 0 && plans.length === 0 && (
                   <IconButton onClick={() => setDeleteModalOpen(true)}>
                     <DeleteIcon color={appTheme.palette.blue[600]} />
                   </IconButton>
@@ -127,7 +138,7 @@ export const ProjectPageHeader = ({ projectId }: { projectId: number }) => {
           )}
           {deleteModalOpen && (
             <DeleteProjectModal
-              projectId={projectId.toString()}
+              projectId={projectId}
               onQuit={() => setDeleteModalOpen(false)}
             />
           )}

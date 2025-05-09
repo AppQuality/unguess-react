@@ -343,6 +343,7 @@ export interface paths {
   '/projects/{pid}': {
     /** Retrieve projects details from an ID. */
     get: operations['get-projects-projectId'];
+    delete: operations['delete-projects-projectId'];
     /** Update fields of a specific project. Currently only the project name is editable. */
     patch: operations['patch-projects-pid'];
     parameters: {
@@ -440,26 +441,6 @@ export interface paths {
      * language (string, required): The language code for the desired translation.
      */
     post: operations['post-videos-vid-translation'];
-    parameters: {
-      path: {
-        vid: string;
-      };
-    };
-  };
-  '/videos/{vid}/sentiment': {
-    /**
-     * This endpoint generates a new sentiment for the provided video if it does not already exist.
-     *
-     * **Security**: Requires Bearer Authentication. Provide your bearer token in the Authorization header when making requests to protected resources. Example: Authorization: Bearer 123.
-     *
-     * **Path Parameters**:
-     *
-     * vid (string, required): The ID of the video for which the translation is to be generated.
-     * Request Body (application/json):
-     *
-     * language (string, required): The language code for the desired translation.
-     */
-    post: operations['post-videos-vid-sentiment'];
     parameters: {
       path: {
         vid: string;
@@ -895,6 +876,16 @@ export interface components {
         usecaseTitle: string;
       })[];
     };
+    MediaSentiment: {
+      value: number;
+      reason: string;
+      paragraphs: {
+        start: number;
+        end: number;
+        value: number;
+        reason: string;
+      }[];
+    };
     Module:
       | components['schemas']['ModuleTitle']
       | components['schemas']['ModuleDate']
@@ -1236,6 +1227,7 @@ export interface components {
         };
       };
       transcript?: components['schemas']['Transcript'];
+      sentiment?: components['schemas']['MediaSentiment'];
     };
     /** VideoTag */
     VideoTag: {
@@ -3132,6 +3124,26 @@ export interface operations {
       500: components['responses']['Error'];
     };
   };
+  'delete-projects-projectId': {
+    parameters: {
+      path: {
+        /** Project id */
+        pid: components['parameters']['pid'];
+      };
+    };
+    responses: {
+      /** OK */
+      200: unknown;
+      400: components['responses']['Error'];
+      401: components['responses']['Error'];
+      403: components['responses']['Error'];
+      405: components['responses']['Error'];
+      500: components['responses']['Error'];
+    };
+    requestBody: {
+      unknown;
+    };
+  };
   /** Update fields of a specific project. Currently only the project name is editable. */
   'patch-projects-pid': {
     parameters: {
@@ -3547,41 +3559,6 @@ export interface operations {
       };
     };
   };
-  /**
-   * This endpoint generates a new sentiment for the provided video if it does not already exist.
-   *
-   * **Security**: Requires Bearer Authentication. Provide your bearer token in the Authorization header when making requests to protected resources. Example: Authorization: Bearer 123.
-   *
-   * **Path Parameters**:
-   *
-   * vid (string, required): The ID of the video for which the translation is to be generated.
-   * Request Body (application/json):
-   *
-   * language (string, required): The language code for the desired translation.
-   */
-  'post-videos-vid-sentiment': {
-    parameters: {
-      path: {
-        vid: string;
-      };
-    };
-    responses: {
-      /** OK */
-      200: {
-        content: {
-          'application/json': { [key: string]: unknown };
-        };
-      };
-      400: components['responses']['Error'];
-      403: components['responses']['Error'];
-      500: components['responses']['Error'];
-    };
-    requestBody: {
-      content: {
-        'application/json': { [key: string]: unknown };
-      };
-    };
-  };
   'get-workspaces': {
     parameters: {
       query: {
@@ -3973,7 +3950,7 @@ export interface operations {
         /** Start pagination parameter */
         start?: components['parameters']['start'];
         /** Orders results */
-        orderBy?: 'updated_at' | 'id';
+        orderBy?: 'updated_at' | 'id' | 'order';
         /** Order value (ASC, DESC) */
         order?: components['parameters']['order'];
         /** filterBy[<fieldName>]=<fieldValue> */

@@ -12,17 +12,19 @@ import {
   Dots,
 } from '@appquality/unguess-design-system';
 import { appTheme } from 'src/app/theme';
+import { useDeleteProjectsByPidMutation } from 'src/features/api';
 
 const DeleteProjectModal = ({
   projectId,
   onQuit,
 }: {
-  projectId: string;
+  projectId: number;
   onQuit: () => void;
 }) => {
   const { t } = useTranslation();
   const { addToast } = useToast();
   const navigate = useNavigate();
+  const [deleteProject, { isLoading }] = useDeleteProjectsByPidMutation();
 
   const showDeleteErrorToast = (error: Error) => {
     addToast(
@@ -45,7 +47,7 @@ const DeleteProjectModal = ({
 
   const handleConfirm = async () => {
     try {
-      await deleteProject({ pid: projectId });
+      await deleteProject({ pid: projectId.toString(), body: '' }).unwrap();
       navigate(`/`);
     } catch (e) {
       showDeleteErrorToast(e as unknown as Error);
