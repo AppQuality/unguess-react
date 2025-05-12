@@ -9,7 +9,7 @@ interface Datum {
 
 export const useMaxItems = (items: WidgetItem[], maxItems = 6): Datum[] => {
   const { t } = useTranslation();
-  items.sort((x, y) => {
+  const sortedItems = [...items].sort((x, y) => {
     if (x.value < y.value) {
       return 1;
     }
