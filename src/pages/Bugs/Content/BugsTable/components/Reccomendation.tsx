@@ -1,5 +1,4 @@
 import { GlobalAlert } from '@appquality/unguess-design-system';
-import { ReactComponent as IconMail } from '@zendeskgarden/svg-icons/src/16/email-stroke.svg';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
@@ -64,12 +63,7 @@ export const Reccomendation = ({ campaignId }: { campaignId: number }) => {
       title={title}
       message={message}
       cta={{
-        label: (
-          <>
-            {t('__BANNER_CROSS_CTA')}{' '}
-            <IconMail style={{ marginLeft: appTheme.space.xxs }} />
-          </>
-        ),
+        label: <>{t('__BANNER_CROSS_CTA')}</>,
         onClick: () => navigate(`/templates/${suggestion.serviceId}`),
       }}
       style={{ marginBottom: appTheme.space.lg }}

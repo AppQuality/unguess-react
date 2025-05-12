@@ -4,13 +4,11 @@ import {
   Tag,
   XL,
 } from '@appquality/unguess-design-system';
-import { ReactComponent as IconMail } from '@zendeskgarden/svg-icons/src/16/email-stroke.svg';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { appTheme } from 'src/app/theme';
+import { ReactComponent as ImgCyber } from 'src/assets/banner_suggestions/cyber.svg';
 import { ReactComponent as ImgExperience } from 'src/assets/banner_suggestions/experience.svg';
-import { ReactComponent as ImgCyber } from 'src/assets/banner_suggestions/testing_automation.svg';
 import { useGetCampaignsByCidSuggestionsQuery } from 'src/features/api';
 import { useSendGTMevent } from 'src/hooks/useGTMevent';
 import { BasicWidget } from 'src/pages/Campaign/widgetCards/BasicWidget';
@@ -53,6 +51,11 @@ const useBannerData = (banner_type: string) => {
   }
 };
 
+const StyledBasicWidgetDescription = styled(BasicWidget.Description)`
+  padding: 0 ${({ theme }) => theme.space.xxs}px;
+  margin-top: ${({ theme }) => theme.space.xs}px;
+`;
+
 export const Suggestions = ({ campaignId }: { campaignId: string }) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
@@ -90,7 +93,7 @@ export const Suggestions = ({ campaignId }: { campaignId: string }) => {
         </StyledTagNew>
       </SpecialCard.Meta>
       {Image && <Image style={{ width: '100%', height: 'auto' }} />}
-      <BasicWidget.Description
+      <StyledBasicWidgetDescription
         header={<div style={{ textAlign: 'center' }}>{header}</div>}
         content={
           <XL isBold style={{ textAlign: 'center' }}>
@@ -108,7 +111,6 @@ export const Suggestions = ({ campaignId }: { campaignId: string }) => {
             }
           >
             {t('__CAMPAIGN_PAGE_SUGGESTIONS_CTA')}
-            <IconMail style={{ marginLeft: appTheme.space.xxs }} />
           </Button>
         </BasicWidgetFooter>
       ) : null}
