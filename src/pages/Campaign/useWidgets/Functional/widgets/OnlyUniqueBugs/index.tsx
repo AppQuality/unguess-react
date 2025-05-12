@@ -1,13 +1,9 @@
 import { XL } from '@appquality/unguess-design-system';
 import { Trans, useTranslation } from 'react-i18next';
-import { appTheme } from 'src/app/theme';
 import { useGetCampaignsByCidBugsQuery } from 'src/features/api';
 import { BasicWidget } from 'src/pages/Campaign/widgetCards/BasicWidget';
 import { WidgetLoader } from '../widgetLoader';
-
-const primaryTextColor = {
-  color: appTheme.components.text.primaryColor,
-};
+import { ReactComponent as WidgetImage } from './image.svg';
 
 export const OnlyUniqueBugs = ({ campaignId }: { campaignId: number }) => {
   const { t } = useTranslation();
@@ -26,7 +22,7 @@ export const OnlyUniqueBugs = ({ campaignId }: { campaignId: number }) => {
         <WidgetLoader />
       ) : (
         <>
-          IMAGE HERE
+          <WidgetImage />
           <BasicWidget.Description
             header={t('__CAMPAIGN_PAGE_WIDGET_UNIQUE_BUGS_REPORTED_BY')}
             content={

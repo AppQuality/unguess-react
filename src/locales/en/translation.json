@@ -499,7 +499,7 @@
   "__CAMPAIGN_PAGE_WIDGET_UNIQUE_BUGS_ONLY_COUNT_LABEL_one": "total bug",
   "__CAMPAIGN_PAGE_WIDGET_UNIQUE_BUGS_ONLY_COUNT_LABEL_other": "total bugs",
   "__CAMPAIGN_PAGE_WIDGET_UNIQUE_BUGS_ONLY_HEADER": "Total bugs",
-  "__CAMPAIGN_PAGE_WIDGET_UNIQUE_BUGS_ONLY_TOOLTIP": "",
+  "__CAMPAIGN_PAGE_WIDGET_UNIQUE_BUGS_ONLY_TOOLTIP": "Monitor the total number of unique bugs identified during the testers' activity, that is, individual issues that were reported as separate problems during the test sessions.",
   "__CAMPAIGN_PAGE_WIDGET_UNIQUE_BUGS_REPORTED_BY": "Reported by testers",
   "__CAMPAIGN_PAGE_WIDGET_UNIQUE_BUGS_TOOLTIP": "Monitor unique bugs reported only once by a single tester or a series of bugs reported by different testers, which we organize into duplicate bug groups",
   "__CAMPAIGN_PAGE_WIDGET_UNIQUE_BUGS_TOTAL_LABEL": "out of <bold>{{ total }}</bold> total",
