@@ -19,8 +19,10 @@ const Tooltip = styled.div`
 
 export const Chart = ({
   slug,
+  name,
   campaignId,
 }: {
+  name: string;
   slug: string;
   campaignId: string;
 }) => {
@@ -45,7 +47,7 @@ export const Chart = ({
         height="270px"
         centerItem={{
           label: t(
-            '__CAMPAIGN_PAGE_WIDGET_BUGS_BY_USECASE_CHART_HEADER',
+            '__CAMPAIGN_PAGE_WIDGET_BUGS_BY_ADDITIONAL_CHART_HEADER',
             'Tot. bugs'
           ),
           value: total.toString(),
@@ -61,14 +63,11 @@ export const Chart = ({
         tooltip={({ label, value }) => (
           <Tooltip>
             <TooltipSM>
-              {t(
-                '__CAMPAIGN_PAGE_WIDGET_BUGS_BY_USECASE_TOOLTIP_USECASE_LABEL'
-              )}
-              <Span isBold>{label}</Span>
+              {name}: <Span isBold>{label}</Span>
             </TooltipSM>
             <TooltipSM>
               {t(
-                '__CAMPAIGN_PAGE_WIDGET_BUGS_BY_USECASE_TOOLTIP_UNIQUE_BUGS_LABEL'
+                '__CAMPAIGN_PAGE_WIDGET_BUGS_BY_ADDITIONAL_TOOLTIP_UNIQUE_BUGS_LABEL'
               )}
               <Span isBold style={{ marginLeft: appTheme.space.xxs }}>
                 {value}

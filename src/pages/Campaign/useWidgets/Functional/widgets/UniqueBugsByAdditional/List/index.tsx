@@ -8,9 +8,11 @@ import { useBugsByAdditional } from '../useBugsByAdditional';
 
 export const List = ({
   slug,
+  name,
   campaignId,
 }: {
   slug: string;
+  name: string;
   campaignId: string;
 }) => {
   const { t } = useTranslation();
@@ -49,7 +51,7 @@ export const List = ({
       }
     >
       <CampaignList.Columns>
-        <CampaignList.Columns.Label isBold>{slug}</CampaignList.Columns.Label>
+        <CampaignList.Columns.Label isBold>{name}</CampaignList.Columns.Label>
         <CampaignList.Columns.Label isBold>
           {t('__CAMPAIGN_PAGE_WIDGET_BUGS_BY_USECASE_COLUMN_RIGHT')}
         </CampaignList.Columns.Label>

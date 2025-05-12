@@ -5,9 +5,11 @@ import { List } from './List';
 
 const UniqueBugsByAdditional = ({
   name,
+  slug,
   height,
 }: {
   name: string;
+  slug: string;
   height: string;
 }) => {
   const { campaignId } = useParams();
@@ -18,8 +20,8 @@ const UniqueBugsByAdditional = ({
     <FlipCard className="flip-card-unique-bugs-by-additionals" height={height}>
       <FlipCard.Header>{name}</FlipCard.Header>
       <FlipCard.Body
-        front={<Chart slug={name} campaignId={campaignId} />}
-        back={<List slug={name} campaignId={campaignId} />}
+        front={<Chart name={name} slug={slug} campaignId={campaignId} />}
+        back={<List slug={slug} name={name} campaignId={campaignId} />}
       />
     </FlipCard>
   );

@@ -1,16 +1,6 @@
 import { useGetCampaignsByCidBugsQuery } from 'src/features/api';
 import { WidgetItem } from './types';
 
-// export interface WidgetItem extends PieDatum {
-//   id: string;
-//   label: string;
-//   value: number;
-//   key: number;
-//   children: string;
-//   numerator: number;
-//   denominator: number;
-// }
-
 export const useBugsByAdditional = ({
   campaignId,
   slug,

@@ -13,11 +13,20 @@ const useAdditionalFieldsWidgets = ({ campaignId }: { campaignId: number }) => {
 
   const additionalFields = data?.items?.flatMap((bug) =>
     bug.additional_fields
-      ? bug.additional_fields.map((field) => field.slug)
+      ? bug.additional_fields.map((field) => ({
+          slug: field.slug,
+          name: field.name,
+        }))
       : []
   );
 
-  return [...new Set(additionalFields)];
+  function notUndefined<T>(value: T | undefined): value is T {
+    return value !== undefined;
+  }
+
+  return Array.from(new Set(additionalFields?.map((field) => field.slug)))
+    .map((slug) => additionalFields?.find((field) => field.slug === slug))
+    .filter(notUndefined);
 };
 
 export const Additionals = ({
@@ -39,8 +48,12 @@ export const Additionals = ({
         />
       </Col>
       {additionalFields.map((field) => (
-        <Col xs={12} xl={6} key={field}>
-          <UniqueBugsByAdditional name={field} height="400px" />
+        <Col xs={12} xl={6} key={field.slug}>
+          <UniqueBugsByAdditional
+            name={field.name}
+            slug={field.slug}
+            height="400px"
+          />
         </Col>
       ))}
     </WidgetSection>

@@ -884,6 +884,7 @@ export type GetCampaignsByCidBugsApiResponse = /** status 200 OK */ {
     additional_fields?: {
       slug: string;
       value: string;
+      name: string;
     }[];
   })[];
   start?: number;
@@ -2250,7 +2251,10 @@ export type Report = {
   creation_date?: string;
   update_date?: string;
 };
-export type BannerType = 'banner_testing_automation' | 'banner_user_experience';
+export type BannerType =
+  | 'banner_testing_automation'
+  | 'banner_user_experience'
+  | 'banner_cyber_security';
 export type Tenant = {
   /** tryber wp_user_id */
   id: number;
