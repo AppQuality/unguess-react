@@ -1,11 +1,12 @@
 import { useTranslation } from 'react-i18next';
-import { Campaign, useGetCampaignsByCidBugsQuery } from 'src/features/api';
-import BugDistributionCard from './widgets/BugDistributionCard';
-import { Progress } from './widgets/Progress';
-import { UniqueBugs } from './widgets/UniqueBugs';
-import { Suggestions } from './widgets/Reccomendations';
+import { Campaign } from 'src/features/api';
+import { useHasOnlyUniqueBugs } from '../../useHasOnlyUniqueBugs';
 import { WidgetSectionNew } from '../../WidgetSection';
+import BugDistributionCard from './widgets/BugDistributionCard';
 import { OnlyUniqueBugs } from './widgets/OnlyUniqueBugs';
+import { Progress } from './widgets/Progress';
+import { Suggestions } from './widgets/Reccomendations';
+import { UniqueBugs } from './widgets/UniqueBugs';
 
 export const CampaignOverview = ({
   id,
@@ -15,25 +16,7 @@ export const CampaignOverview = ({
   campaign: Campaign;
 }) => {
   const { t } = useTranslation();
-  let hasOnlyUniqueBugs = false;
-
-  // Check if all the bugs in the campaign are unique
-  const { data: dataFilter } = useGetCampaignsByCidBugsQuery({
-    cid: campaign.id?.toString() ?? '0',
-    filterBy: { is_duplicated: 0 },
-  });
-
-  const { data: dataNoFilter } = useGetCampaignsByCidBugsQuery({
-    cid: campaign.id?.toString() ?? '0',
-  });
-
-  if (dataFilter && dataNoFilter) {
-    const filterCount = dataFilter.items?.length;
-    const noFilterCount = dataNoFilter.items?.length;
-    if (filterCount === noFilterCount) {
-      hasOnlyUniqueBugs = true;
-    }
-  }
+  const hasOnlyUniqueBugs = useHasOnlyUniqueBugs(campaign.id);
 
   return (
     <WidgetSectionNew
