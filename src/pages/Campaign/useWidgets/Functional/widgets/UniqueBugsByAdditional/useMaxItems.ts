@@ -18,9 +18,9 @@ export const useMaxItems = (items: WidgetItem[], maxItems = 6): Datum[] => {
     }
     return 0;
   });
-  const exceding = items.slice(maxItems - 1, items.length);
+  const exceding = sortedItems.slice(maxItems - 1, sortedItems.length);
   if (exceding.length === 0) {
-    return items;
+    return sortedItems;
   }
   const excedingValue = exceding.reduce((acc, curr) => acc + curr.value, 0);
   const excedingLabel = t('__CAMPAIGN_PAGE_WIDGET_BUGS_BY_USECASE', 'others');
@@ -29,7 +29,7 @@ export const useMaxItems = (items: WidgetItem[], maxItems = 6): Datum[] => {
     label: excedingLabel,
     value: excedingValue,
   };
-  const newItems: Datum[] = items.slice(0, maxItems - 1);
+  const newItems: Datum[] = sortedItems.slice(0, maxItems - 1);
   newItems.push(excedingData);
   return newItems;
 };
