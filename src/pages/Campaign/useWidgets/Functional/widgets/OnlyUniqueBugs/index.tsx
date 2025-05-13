@@ -2,6 +2,7 @@ import { XL } from '@appquality/unguess-design-system';
 import { Trans, useTranslation } from 'react-i18next';
 import { useGetCampaignsByCidBugsQuery } from 'src/features/api';
 import { BasicWidget } from 'src/pages/Campaign/widgetCards/BasicWidget';
+import { TrendPill } from '../Trend';
 import { WidgetLoader } from '../widgetLoader';
 import { ReactComponent as WidgetImage } from './image.svg';
 
@@ -43,7 +44,9 @@ export const OnlyUniqueBugs = ({ campaignId }: { campaignId: number }) => {
         </>
       )}
 
-      <BasicWidget.Footer>Footer</BasicWidget.Footer>
+      <BasicWidget.Footer>
+        <TrendPill campaignId={campaignId} />
+      </BasicWidget.Footer>
     </BasicWidget>
   );
 };
