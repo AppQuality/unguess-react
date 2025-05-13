@@ -7,14 +7,13 @@ import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
 import styled from 'styled-components';
 import { useModuleTasksContext } from '../../context';
 import { useModuleTasks } from '../../hooks';
+import { AccessibilityTasks } from './AccessibilityTasks';
 import { ExperientialTasks } from './ExperientialTasks';
 import { FunctionalTasks } from './FunctionalTasks';
 import { SurveyTasks } from './SurveyTasks';
 
 const StyledTabs = styled(Tabs)`
-  > button {
-    width: 33.33%;
-  }
+  display: flex;
 `;
 
 const TasksModal = () => {
@@ -22,33 +21,23 @@ const TasksModal = () => {
   const { variant, setVariant } = useModuleTasks();
   const { modalRef, setModalRef } = useModuleTasksContext();
   const { hasFeatureFlag } = useFeatureFlag();
+  const variants = [
+    'default',
+    'functional',
+    'experiential',
+    'accessibility',
+  ] as const;
 
-  const selectActiveVariant = (index: number) => {
-    switch (index) {
-      case 0:
-        return 'default';
-      case 1:
-        return 'functional';
-      case 2:
-        return 'experiential';
-      default:
-        return 'default';
-    }
-  };
+  const selectActiveVariant = (index: number) => variants[`${index}`];
 
   const getActiveVariantIndex = (
     v: components['schemas']['Module']['variant']
   ) => {
-    switch (v) {
-      case 'default':
-        return 0;
-      case 'functional':
-        return 1;
-      case 'experiential':
-        return 2;
-      default:
-        return 0;
+    const index = variants.findIndex((item) => item === v);
+    if (index === -1) {
+      return 0;
     }
+    return index;
   };
 
   return (
@@ -77,6 +66,8 @@ const TasksModal = () => {
             <ExperientialTasks />
             <Divider />
             <SurveyTasks />
+            <Divider />
+            <AccessibilityTasks />
           </Tabs.Panel>
           <Tabs.Panel
             key="functional"
@@ -95,6 +86,14 @@ const TasksModal = () => {
             <ExperientialTasks />
             <Divider />
             <SurveyTasks />
+          </Tabs.Panel>
+          <Tabs.Panel
+            key="accessibility"
+            title={t(
+              '__PLAN_PAGE_MODULE_TASKS_ADD_TASK_MODAL_ACCESSIBILITY_TAB'
+            )}
+          >
+            <AccessibilityTasks />
           </Tabs.Panel>
         </StyledTabs>
       </TooltipModal.Body>

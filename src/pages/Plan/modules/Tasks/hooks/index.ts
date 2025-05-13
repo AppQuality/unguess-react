@@ -108,6 +108,11 @@ const useModuleTasks = () => {
         return t(
           '__PLAN_PAGE_MODULE_TASKS_FUNCTIONAL_TASK_EXPLORATORY_TITLE_DEFAULT'
         );
+
+      if (kind === 'accessibility')
+        return t(
+          '__PLAN_PAGE_MODULE_TASKS_ACCESSIBILITY_TASK_ACCESSIBILITY_TITLE_DEFAULT'
+        );
       if (kind === 'moderate-video' && fill)
         return t(
           '__PLAN_PAGE_MODULE_TASKS_EXPERIENTIAL_TASK_MODERATE_TITLE_DEFAULT'
@@ -118,6 +123,7 @@ const useModuleTasks = () => {
         );
       if (kind === 'survey' && fill)
         return t('__PLAN_PAGE_MODULE_TASKS_SURVEY_TASK_SURVEY_TITLE_DEFAULT');
+
       return '';
     }
 
@@ -142,6 +148,10 @@ const useModuleTasks = () => {
       if (kind === 'survey' && fill)
         return t(
           '__PLAN_PAGE_MODULE_TASKS_SURVEY_TASK_SURVEY_DESCRIPTION_DEFAULT'
+        );
+      if (kind === 'accessibility' && fill)
+        return t(
+          '__PLAN_PAGE_MODULE_TASKS_ACCESSIBILITY_TASK_ACCESSIBILITY_DESCRIPTION_DEFAULT'
         );
       return '';
     }

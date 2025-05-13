@@ -6,16 +6,16 @@ import {
   Input,
   Label,
   MD,
-  Message,
-  Span,
   MediaInput,
+  Message,
   Paragraph,
+  Span,
 } from '@appquality/unguess-design-system';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
-import { ReactComponent as TrashIcon } from 'src/assets/icons/trash-stroke.svg';
 import { ReactComponent as LinkIcon } from 'src/assets/icons/link-stroke.svg';
+import { ReactComponent as TrashIcon } from 'src/assets/icons/trash-stroke.svg';
 import { components } from 'src/common/schema';
 import { useModuleConfiguration } from 'src/features/modules/useModuleConfiguration';
 import { useModuleTasks } from '../hooks';
@@ -59,6 +59,8 @@ const TaskItem = ({
     validate();
   };
 
+  const isSimpleInterface = ['explorative-bug', 'accessibility'].includes(kind);
+
   return (
     <>
       <AccordionNew
@@ -101,7 +103,7 @@ const TaskItem = ({
           </AccordionNew.Header>
           <AccordionNew.Panel>
             <div style={{ padding: appTheme.space.xs }}>
-              {kind !== 'explorative-bug' && (
+              {!isSimpleInterface && (
                 <FormField style={{ marginBottom: appTheme.space.md }}>
                   <Label>
                     {t('__PLAN_PAGE_MODULE_TASKS_TASK_TITLE_LABEL')}
@@ -131,11 +133,11 @@ const TaskItem = ({
               )}
               <Label>
                 {t('__PLAN_PAGE_MODULE_TASKS_TASK_DESCRIPTION_LABEL')}
-                {kind !== 'explorative-bug' && (
+                {!isSimpleInterface && (
                   <Span style={{ color: appTheme.palette.red[600] }}>*</Span>
                 )}
               </Label>
-              {kind === 'explorative-bug' ? (
+              {isSimpleInterface ? (
                 <MD
                   style={{
                     color: appTheme.palette.grey[800],
@@ -174,7 +176,7 @@ const TaskItem = ({
                   )}
                 </>
               )}
-              {task.kind !== 'explorative-bug' && (
+              {!isSimpleInterface && (
                 <FormField style={{ marginTop: appTheme.space.md }}>
                   <Label>
                     {t('__PLAN_PAGE_MODULE_TASKS_TASK_LINK_LABEL')}{' '}
