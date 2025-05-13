@@ -107,7 +107,7 @@ export const UserItem = ({
                 }}
               >
                 {user.invitationPending && (
-                  <ButtonMenu.Item value="invite" onClick={onResendInvite}>
+                  <ButtonMenu.Item value="invite">
                     {t('__WORKSPACE_SETTINGS_MEMBER_RESEND_INVITE_ACTION')}
                   </ButtonMenu.Item>
                 )}
