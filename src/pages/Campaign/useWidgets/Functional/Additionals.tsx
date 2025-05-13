@@ -52,7 +52,7 @@ export const Additionals = ({
           <UniqueBugsByAdditional
             name={field.name}
             slug={field.slug}
-            height="400px"
+            height="465px"
           />
         </Col>
       ))}
