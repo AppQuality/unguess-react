@@ -34,7 +34,7 @@ export const useBugsByAdditional = ({
               label: value,
               value: 0,
               key: 0,
-              children: '',
+              children: value,
               numerator: 0,
               denominator: data?.total || 0,
             };
