@@ -1,11 +1,21 @@
 {
   "id": 13,
   "workspace_id": 1,
+  "status": "pending_review",
   "project": {
     "id": 90,
     "name": "MyProject"
   },
-  "status": "draft",
+  "quote": {
+    "id": 98,
+    "status": "proposed",
+    "value": "3600 €"
+  },
+  "campaign": {
+    "id": 6856,
+    "title": "Meet Accessibility Compliance 123",
+    "startDate": "Thu Apr 03 2025 06:00:00 GMT+0000 (Coordinated Universal Time)"
+  },
   "config": {
     "modules": [
       {
@@ -50,6 +60,7 @@
         ],
         "variant": "default"
       },
+
       {
         "type": "age",
         "output": [

@@ -37,6 +37,8 @@ const SendRequestModal = ({ onQuit }: { onQuit: () => void }) => {
           <Notification
             onClose={close}
             type="error"
+            role="alert"
+            title={t('__PLAN_PAGE_MODAL_SEND_REQUEST_TOAST_ERROR')}
             message={
               e instanceof Error && e.message
                 ? e.message
@@ -90,7 +92,7 @@ const SendRequestModal = ({ onQuit }: { onQuit: () => void }) => {
   }
 
   return (
-    <Modal onClose={onQuit} role="dialog" data-qa="request-quotation-modal">
+    <Modal onClose={onQuit} role="dialog">
       <Modal.Header>{t('__PLAN_PAGE_MODAL_SEND_REQUEST_TITLE')}</Modal.Header>
       <Modal.Body style={{ overflow: 'visible' }}>
         <XL isBold>{t('__PLAN_PAGE_MODAL_SEND_REQUEST_BODY_TITLE')}</XL>

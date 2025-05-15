@@ -69,6 +69,7 @@ const TaskItem = ({
         key={`task-${index}`}
         hasBorder
         type={hasError ? 'danger' : 'default'}
+        role="listitem"
       >
         <AccordionNew.Section>
           <AccordionNew.Header icon={getIconFromTaskOutput(task)}>
@@ -102,7 +103,7 @@ const TaskItem = ({
             )}
           </AccordionNew.Header>
           <AccordionNew.Panel>
-            <div style={{ padding: appTheme.space.xs }}>
+            <div style={{ padding: appTheme.space.xs }} role="form">
               {!isSimpleInterface && (
                 <FormField style={{ marginBottom: appTheme.space.md }}>
                   <Label>

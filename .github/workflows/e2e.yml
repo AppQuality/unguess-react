@@ -16,8 +16,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        # run 3 copies of the job in parallel
-        shard: [1, 2, 3]
+        # run 4 copies of the job in parallel
+        shard: [1, 2, 3, 4]
 
     name: "Playwright Tests - pwc"
     timeout-minutes: 20
