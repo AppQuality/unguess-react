@@ -3,13 +3,12 @@ import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { getCustomStatusInfo } from 'src/common/components/utils/getCustomStatusInfo';
 import { styled } from 'styled-components';
-import { useGetCampaignsByCidSuggestionsQuery } from 'src/features/api';
-import { EmptyState } from './components/EmptyState';
 import { EmptyGroup } from './components/EmptyGroup';
-import { useBugsByState } from './hooks/useBugsByState';
+import { EmptyState } from './components/EmptyState';
 import { LoadingState } from './components/LoadingState';
-import BugStateAccordion from './components/SingleGroupAccordion';
 import { Reccomendation } from './components/Reccomendation';
+import BugStateAccordion from './components/SingleGroupAccordion';
+import { useBugsByState } from './hooks/useBugsByState';
 
 const Wrapper = styled.div<{
   isFetching?: boolean;
@@ -34,9 +33,6 @@ export const BugsByState = ({
   const { t } = useTranslation();
   const { data, isError, isFetching, isLoading } = useBugsByState(campaignId);
   const { bugsByStates } = data;
-  const { data: suggestions } = useGetCampaignsByCidSuggestionsQuery({
-    cid: campaignId.toString(),
-  });
 
   const emptyBugStates = useMemo(
     () => bugsByStates.filter((item) => item.bugs.length === 0),
@@ -73,11 +69,8 @@ export const BugsByState = ({
               } ${`(${item.bugs.length})`}`}
               item={item}
             />
-            {i === 0 && suggestions && (
-              <Reccomendation
-                key="suggestion"
-                suggestion={suggestions.suggestion}
-              />
+            {i === 0 && (
+              <Reccomendation key="suggestion" campaignId={campaignId} />
             )}
           </>
         ))}
