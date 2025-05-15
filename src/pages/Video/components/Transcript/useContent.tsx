@@ -22,10 +22,23 @@ export const useContent = (videoId: string) => {
     [video]
   );
 
+  const sentiments = useMemo(
+    () =>
+      video && video?.sentiment
+        ? video.sentiment.paragraphs.map((s) => ({
+            ...s,
+            text: s.reason,
+          }))
+        : undefined,
+    [video]
+  );
+
   const speakers = useMemo(() => video?.transcript?.speakers || null, [video]);
 
   return {
     data: content,
+    sentiments,
+    generalSentiment: video?.sentiment?.reason,
     speakers,
     isError: isErrorVideo,
     isFetching: isFetchingVideo,

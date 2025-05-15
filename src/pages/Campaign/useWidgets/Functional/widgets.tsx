@@ -1,15 +1,57 @@
 import { useTranslation } from 'react-i18next';
-import { useGetCampaignsByCidQuery } from 'src/features/api';
-import { getLocalizedFunctionalDashboardUrl } from 'src/hooks/useLocalizeDashboardUrl';
+import {
+  useGetCampaignsByCidBugsQuery,
+  useGetCampaignsByCidQuery,
+} from 'src/features/api';
+import {
+  getLocalizedFunctionalDashboardUrl,
+  getLocalizedPlanUrl,
+} from 'src/hooks/useLocalizeDashboardUrl';
+import styled from 'styled-components';
 import { ExternalLink } from '../../ExternalLink';
+import { Additionals } from './Additionals';
 import { CampaignOverview } from './CampaignOverview';
 import { DevicesAndTypes } from './DevicesAndTypes';
 import { UniqueBugsSection } from './UniqueBugsSection';
+
+const NavFooterCTAContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: ${({ theme }) => theme.space.sm};
+`;
+
+const useAdditionalFieldsWidget = ({ campaignId }: { campaignId: number }) => {
+  const { t } = useTranslation();
+  const { data, isLoading } = useGetCampaignsByCidBugsQuery({
+    cid: campaignId.toString(),
+    filterBy: { is_duplicated: 0 },
+  });
+
+  if (isLoading) return [];
+
+  const hasAdditionalFields = data?.items?.some(
+    (bug) => bug.additional_fields?.length
+  );
+
+  if (!hasAdditionalFields) return [];
+
+  return [
+    {
+      id: 'additional-fields',
+      content: <Additionals id="additional-fields" campaignId={campaignId} />,
+      type: 'item' as const,
+      title: t('__CAMPAIGN_PAGE_NAVIGATION_BUG_ITEM_ADDITIONALS_LABEL'),
+    },
+  ];
+};
 
 export const widgets = ({ campaignId }: { campaignId: number }) => {
   const { t, i18n } = useTranslation();
   const { data: campaign } = useGetCampaignsByCidQuery({
     cid: campaignId.toString(),
+  });
+  const additionalFieldsWidget = useAdditionalFieldsWidget({
+    campaignId,
   });
 
   const showFunctional = !!campaign?.outputs?.includes('bugs');
@@ -42,17 +84,28 @@ export const widgets = ({ campaignId }: { campaignId: number }) => {
       type: 'item' as const,
       title: t('__CAMPAIGN_PAGE_NAVIGATION_BUG_ITEM_DETAILS_DEVICES_LABEL'),
     },
+    ...additionalFieldsWidget,
     {
       content: (
-        <ExternalLink
-          id="anchor-bugs-list-navigation"
-          url={getLocalizedFunctionalDashboardUrl(
-            campaign.id ?? 0,
-            i18n.language
+        <NavFooterCTAContainer>
+          {campaign.plan && (
+            <ExternalLink
+              id="anchor-plan-navigation"
+              url={getLocalizedPlanUrl(campaign.plan, i18n.language)}
+            >
+              {t('__CAMPAIGN_PAGE_NAVIGATION_PLAN_EXTERNAL_LINK_LABEL')}
+            </ExternalLink>
           )}
-        >
-          {t('__CAMPAIGN_PAGE_NAVIGATION_BUG_EXTERNAL_LINK_LABEL')}
-        </ExternalLink>
+          <ExternalLink
+            id="anchor-bugs-list-navigation"
+            url={getLocalizedFunctionalDashboardUrl(
+              campaign.id ?? 0,
+              i18n.language
+            )}
+          >
+            {t('__CAMPAIGN_PAGE_NAVIGATION_BUG_EXTERNAL_LINK_LABEL')}
+          </ExternalLink>
+        </NavFooterCTAContainer>
       ),
       type: 'footer' as const,
     },

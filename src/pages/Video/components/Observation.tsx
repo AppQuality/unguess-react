@@ -1,30 +1,27 @@
 import {
-  Accordion,
+  AccordionNew,
   IconButton,
-  LG,
   Notification,
-  SM,
-  Title,
   Tooltip,
   useToast,
 } from '@appquality/unguess-design-system';
+import { useCallback, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useParams } from 'react-router-dom';
+import { appTheme } from 'src/app/theme';
+import { ReactComponent as LinkIcon } from 'src/assets/icons/link-stroke.svg';
+import { ReactComponent as TagIcon } from 'src/assets/icons/tag-icon.svg';
+import { Divider } from 'src/common/components/divider';
+import { getColorWithAlpha } from 'src/common/utils';
 import {
   GetVideosByVidApiResponse,
   GetVideosByVidObservationsApiResponse,
 } from 'src/features/api';
-import { ReactComponent as TagIcon } from 'src/assets/icons/tag-icon.svg';
-import { ReactComponent as LinkIcon } from 'src/assets/icons/link-stroke.svg';
-import { useTranslation } from 'react-i18next';
-import { useParams } from 'react-router-dom';
-import { useCallback, useEffect, useState } from 'react';
-import { appTheme } from 'src/app/theme';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
-import { styled } from 'styled-components';
-import { getColorWithAlpha } from 'src/common/utils';
 import { formatDuration } from 'src/pages/Videos/utils/formatDuration';
-import { Divider } from 'src/common/components/divider';
-import { ObservationForm } from './ObservationForm';
+import { styled } from 'styled-components';
 import { useVideoContext } from '../context/VideoContext';
+import { ObservationForm } from './ObservationForm';
 
 const Circle = styled.div<{
   color: string;
@@ -36,12 +33,6 @@ const Circle = styled.div<{
   justify-content: center;
   align-items: center;
   border-radius: 50%;
-`;
-
-const Container = styled.div`
-  display: flex;
-  align-items: center;
-  width: 100%;
 `;
 
 const Observation = ({
@@ -150,81 +141,76 @@ const Observation = ({
   return (
     <>
       <Divider style={{ margin: `${appTheme.space.sm} auto` }} />
-      <Accordion
+      <AccordionNew
         level={3}
-        style={{ padding: `${appTheme.space.md} 0` }}
-        key={`observation_accordion_${observation.id}_${isOpen}`}
-        defaultExpandedSections={isOpen ? [0, 1] : []}
+        expandedSections={isOpen ? [0, 1] : []}
         onChange={handleAccordionChange}
+        key={`observation_accordion_${observation.id}_${isOpen}`}
         id={`video-observation-accordion-${observation.id}`}
       >
-        <Accordion.Section>
-          <Accordion.Header>
-            <Accordion.Label style={{ padding: 0 }}>
-              <Container>
-                <Circle
-                  color={
+        <AccordionNew.Section>
+          <AccordionNew.Header
+            icon={
+              <Circle
+                color={
+                  observation.tags.find(
+                    (tag) => tag.group.name.toLowerCase() === 'severity'
+                  )?.tag.style || appTheme.palette.grey[600]
+                }
+                style={{
+                  backgroundColor: getColorWithAlpha(
                     observation.tags.find(
                       (tag) => tag.group.name.toLowerCase() === 'severity'
-                    )?.tag.style || appTheme.palette.grey[600]
-                  }
+                    )?.tag.style || appTheme.palette.grey[600],
+                    0.1
+                  ),
+                }}
+              >
+                <TagIcon
                   style={{
-                    backgroundColor: getColorWithAlpha(
+                    color:
                       observation.tags.find(
                         (tag) => tag.group.name.toLowerCase() === 'severity'
                       )?.tag.style || appTheme.palette.grey[600],
-                      0.1
-                    ),
                   }}
+                />
+              </Circle>
+            }
+          >
+            <AccordionNew.Label
+              label={title}
+              subtitle={`${formatDuration(start)} - ${formatDuration(end)}`}
+            />
+            <AccordionNew.Meta
+              style={{ display: 'flex', alignItems: 'center' }}
+            >
+              <Tooltip
+                content={t('__VIDEO_PAGE_OBSERVATION_LINK_TOOLTIP')}
+                size="large"
+                type="light"
+                placement="bottom-start"
+                hasArrow={false}
+              >
+                <IconButton
+                  size="small"
+                  onClick={(event) =>
+                    copyLink(`observation-${observation.id}`, event)
+                  }
                 >
-                  <TagIcon
-                    style={{
-                      color:
-                        observation.tags.find(
-                          (tag) => tag.group.name.toLowerCase() === 'severity'
-                        )?.tag.style || appTheme.palette.grey[600],
-                    }}
-                  />
-                </Circle>
-                <Title style={{ flexGrow: 1 }}>
-                  <LG isBold>{title}</LG>
-                  <SM
-                    style={{
-                      color: appTheme.palette.grey[600],
-                      marginTop: appTheme.space.xs,
-                    }}
-                  >
-                    {formatDuration(start)} - {formatDuration(end)}
-                  </SM>
-                </Title>
-                <Tooltip
-                  content={t('__VIDEO_PAGE_OBSERVATION_LINK_TOOLTIP')}
-                  size="large"
-                  type="light"
-                  placement="bottom-start"
-                  hasArrow={false}
-                >
-                  <IconButton
-                    size="small"
-                    onClick={(event) =>
-                      copyLink(`observation-${observation.id}`, event)
-                    }
-                  >
-                    <LinkIcon />
-                  </IconButton>
-                </Tooltip>
-              </Container>
-            </Accordion.Label>
-          </Accordion.Header>
-          <Accordion.Panel style={{ padding: 0 }}>
+                  <LinkIcon />
+                </IconButton>
+              </Tooltip>
+            </AccordionNew.Meta>
+          </AccordionNew.Header>
+          <AccordionNew.Panel>
             <ObservationForm
               observation={observation}
               onSubmit={handleSubmit}
               paragraphs={transcript?.paragraphs}
             />
-          </Accordion.Panel>
-        </Accordion.Section>
-      </Accordion>
+          </AccordionNew.Panel>
+        </AccordionNew.Section>
+      </AccordionNew>
     </>
   );
 };

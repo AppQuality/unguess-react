@@ -1,11 +1,11 @@
-import { WaffleChart, XL, Span } from '@appquality/unguess-design-system';
-import { appTheme } from 'src/app/theme';
+import { Span, WaffleChart, XL } from '@appquality/unguess-design-system';
 import { Trans, useTranslation } from 'react-i18next';
+import { appTheme } from 'src/app/theme';
 import { BasicWidget } from 'src/pages/Campaign/widgetCards/BasicWidget';
+import { TrendPill } from '../Trend';
+import { WidgetLoader } from '../widgetLoader';
 import { useUniqueBugs } from './useUniqueBugs';
 import WaffleTooltip from './WaffleTooltip';
-import { TrendPill } from './Trend';
-import { WidgetLoader } from '../widgetLoader';
 
 const primaryTextColor = {
   color: appTheme.components.text.primaryColor,
@@ -16,7 +16,6 @@ export const UniqueBugs = ({ campaignId }: { campaignId: number }) => {
   const {
     totalBugs,
     uniqueBugs,
-    trendBugs,
     uniquePercentage,
     isLoading,
     isFetching,
@@ -74,7 +73,7 @@ export const UniqueBugs = ({ campaignId }: { campaignId: number }) => {
       )}
 
       <BasicWidget.Footer>
-        <TrendPill trend={trendBugs} />
+        <TrendPill campaignId={campaignId} />
       </BasicWidget.Footer>
     </BasicWidget>
   );

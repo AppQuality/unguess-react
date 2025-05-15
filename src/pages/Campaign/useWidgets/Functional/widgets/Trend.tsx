@@ -1,7 +1,8 @@
 import { Span, Tag } from '@appquality/unguess-design-system';
-import { appTheme } from 'src/app/theme';
 import { useTranslation } from 'react-i18next';
+import { appTheme } from 'src/app/theme';
 import { ReactComponent as TrendIcon } from 'src/assets/icons/trend-icon.svg';
+import { useGetCampaignsByCidWidgetsQuery } from 'src/features/api';
 
 const BasicTrendPill = ({ color, text }: { color: string; text: string }) => (
   <Tag id="pill-trend-unique-bugs-widget">
@@ -46,7 +47,20 @@ const NegativeTrendPill = ({ trend }: { trend: number }) => {
   );
 };
 
-const TrendPill = ({ trend }: { trend: number }) => {
+const TrendPill = ({ campaignId }: { campaignId: number }) => {
+  const { data, isLoading, isFetching, isError } =
+    useGetCampaignsByCidWidgetsQuery({
+      cid: campaignId.toString(),
+      s: 'unique-bugs',
+      updateTrend: true,
+    });
+  if (isLoading || isFetching || isError || !data) {
+    return null;
+  }
+  if (data.kind !== 'campaignUniqueBugs') {
+    return null;
+  }
+  const { trend } = data.data;
   if (trend > 0) {
     return <PositiveTrendPill trend={trend} />;
   }

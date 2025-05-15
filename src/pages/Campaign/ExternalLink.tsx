@@ -3,7 +3,6 @@ import styled from 'styled-components';
 
 const StyledAnchor = styled(Anchor)`
   display: block;
-  margin-bottom: ${({ theme }) => theme.space.sm};
 `;
 
 export const ExternalLink = ({

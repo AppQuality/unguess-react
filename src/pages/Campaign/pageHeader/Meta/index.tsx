@@ -163,7 +163,7 @@ export const Metas = ({
           ) : null}
         </PageMeta>
         <ButtonWrapper>
-          {!isArchived && <CampaignSettings />}
+          {!isArchived && hasWorkspaceAccess && <CampaignSettings />}
           {outputs?.includes('bugs') && (
             <Link to={functionalDashboardRoute}>
               <Button id="button-bugs-list-header" isPrimary isAccent>

@@ -27,8 +27,8 @@ export const StickyNavContainer = styled(ContainerCard)`
 `;
 
 export const StyledDivider = styled(Divider)`
-  margin-top: ${({ theme }) => theme.space.base * 6}px;
-  margin-bottom: ${({ theme }) => theme.space.base * 6}px;
+  margin-top: ${({ theme }) => theme.space.base * 4}px;
+  margin-bottom: ${({ theme }) => theme.space.base * 4}px;
 `;
 
 export const StickyNavItem = styled(Link)`

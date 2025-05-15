@@ -435,6 +435,15 @@ const injectedRtkApi = api.injectEndpoints({
         body: queryArg.body,
       }),
     }),
+    deleteProjectsByPid: build.mutation<
+      DeleteProjectsByPidApiResponse,
+      DeleteProjectsByPidApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/projects/${queryArg.pid}`,
+        method: 'DELETE',
+      }),
+    }),
     getProjectsByPidCampaigns: build.query<
       GetProjectsByPidCampaignsApiResponse,
       GetProjectsByPidCampaignsApiArg
@@ -568,16 +577,6 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({
         url: `/videos/${queryArg.vid}/translation`,
-        method: 'POST',
-        body: queryArg.body,
-      }),
-    }),
-    postVideosByVidSentiment: build.mutation<
-      PostVideosByVidSentimentApiResponse,
-      PostVideosByVidSentimentApiArg
-    >({
-      query: (queryArg) => ({
-        url: `/videos/${queryArg.vid}/sentiment`,
         method: 'POST',
         body: queryArg.body,
       }),
@@ -882,6 +881,11 @@ export type GetCampaignsByCidBugsApiResponse = /** status 200 OK */ {
     }[];
     siblings: number;
     comments: number;
+    additional_fields?: {
+      slug: string;
+      value: string;
+      name: string;
+    }[];
   })[];
   start?: number;
   limit?: number;
@@ -1482,6 +1486,11 @@ export type PatchProjectsByPidApiArg = {
         description: string;
       };
 };
+export type DeleteProjectsByPidApiResponse = /** status 200 OK */ void;
+export type DeleteProjectsByPidApiArg = {
+  /** Project id */
+  pid: string;
+};
 export type GetProjectsByPidCampaignsApiResponse = /** status 200 OK */ {
   items?: CampaignWithOutput[];
   start?: number;
@@ -1639,11 +1648,6 @@ export type PostVideosByVidTranslationApiArg = {
   body: {
     language: string;
   };
-};
-export type PostVideosByVidSentimentApiResponse = /** status 200 OK */ object;
-export type PostVideosByVidSentimentApiArg = {
-  vid: string;
-  body: object;
 };
 export type GetWorkspacesApiResponse = /** status 200 OK */ {
   items?: Workspace[];
@@ -2247,7 +2251,10 @@ export type Report = {
   creation_date?: string;
   update_date?: string;
 };
-export type BannerType = 'banner_testing_automation' | 'banner_user_experience';
+export type BannerType =
+  | 'banner_testing_automation'
+  | 'banner_user_experience'
+  | 'banner_cyber_security';
 export type Tenant = {
   /** tryber wp_user_id */
   id: number;
@@ -2280,6 +2287,16 @@ export type Transcript = {
   speakers: number;
   paragraphs: Paragraph[];
 };
+export type MediaSentiment = {
+  value: number;
+  reason: string;
+  paragraphs: {
+    start: number;
+    end: number;
+    value: number;
+    reason: string;
+  }[];
+};
 export type Video = {
   id: number;
   url: string;
@@ -2295,6 +2312,7 @@ export type Video = {
     };
   };
   transcript?: Transcript;
+  sentiment?: MediaSentiment;
 };
 export type PaginationData = {
   start?: number;
@@ -2494,12 +2512,19 @@ export type OutputModuleTaskExplorativeBug = {
   description?: string;
   url?: string;
 };
+export type OutputModuleTaskAccessibility = {
+  kind: 'accessibility';
+  title: string;
+  description?: string;
+  url?: string;
+};
 export type SubcomponentTask =
   | SubcomponentTaskVideo
   | SubcomponentTaskBug
   | SubcomponentTaskSurvey
   | OutputModuleTaskModerateVideo
-  | OutputModuleTaskExplorativeBug;
+  | OutputModuleTaskExplorativeBug
+  | OutputModuleTaskAccessibility;
 export type ModuleTask = {
   type: 'tasks';
   variant: string;
@@ -2762,6 +2787,7 @@ export const {
   usePostProjectsMutation,
   useGetProjectsByPidQuery,
   usePatchProjectsByPidMutation,
+  useDeleteProjectsByPidMutation,
   useGetProjectsByPidCampaignsQuery,
   useGetProjectsByPidUsersQuery,
   usePostProjectsByPidUsersMutation,
@@ -2777,7 +2803,6 @@ export const {
   useDeleteVideosByVidObservationsAndOidMutation,
   useGetVideosByVidTranslationQuery,
   usePostVideosByVidTranslationMutation,
-  usePostVideosByVidSentimentMutation,
   useGetWorkspacesQuery,
   usePostWorkspacesMutation,
   useGetWorkspacesByWidQuery,
