@@ -105,6 +105,7 @@ const TasksList = () => {
           {error &&
             (errorEmpty ? (
               <Message
+                role="status"
                 validation="error"
                 style={{ marginTop: appTheme.space.md }}
               >
@@ -112,6 +113,7 @@ const TasksList = () => {
               </Message>
             ) : (
               <Message
+                role="status"
                 validation="error"
                 style={{ marginTop: appTheme.space.md }}
               >
@@ -119,7 +121,7 @@ const TasksList = () => {
               </Message>
             ))}
         </div>
-        <TasksContainer>
+        <TasksContainer role="list">
           {value.map((task) => (
             <TaskItem key={task.key} task={task} />
           ))}
