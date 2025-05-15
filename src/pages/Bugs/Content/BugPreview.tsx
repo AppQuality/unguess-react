@@ -24,7 +24,7 @@ import { BugCommentsDetail } from './components/BugCommentsDetails';
 import BugHeader from './components/BugHeader';
 import { BugPreviewContextProvider } from './context/BugPreviewContext';
 
-export const filtersHeight = 56;
+const filtersHeight = 56;
 
 const DetailContainer = styled.div<{
   isFetching?: boolean;

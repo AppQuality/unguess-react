@@ -48,13 +48,6 @@ export const selectFilteredCampaigns = (
     return true;
   });
 
-export const selectGroupedCampaigns = (campaigns: Campaign[]) =>
-  campaigns.reduce((acc: Array<Campaign[]>, campaign) => {
-    acc[campaign.project.id] = acc[campaign.project.id] || [];
-    acc[campaign.project.id].push(campaign);
-    return acc;
-  }, []);
-
 export const selectStatuses = (campaigns: Campaign[]): Array<string> => {
   const statuses = ['all'];
 
