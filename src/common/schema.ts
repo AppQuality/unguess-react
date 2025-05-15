@@ -1520,13 +1520,23 @@ export interface components {
       /** Format: uri */
       url?: string;
     };
+    /** OutputModuleTaskAccessibility */
+    OutputModuleTaskAccessibility: {
+      /** @enum {string} */
+      kind: 'accessibility';
+      title: string;
+      description?: string;
+      /** Format: uri */
+      url?: string;
+    };
     /** SubcomponentTask */
     OutputModuleTask:
       | components['schemas']['OutputModuleTaskVideo']
       | components['schemas']['OutputModuleTaskBug']
       | components['schemas']['OutputModuleTaskSurvey']
       | components['schemas']['OutputModuleTaskModerateVideo']
-      | components['schemas']['OutputModuleTaskExplorativeBug'];
+      | components['schemas']['OutputModuleTaskExplorativeBug']
+      | components['schemas']['OutputModuleTaskAccessibility'];
     /** SubcomponentTouchpoints */
     OutputModuleTouchpoints:
       | components['schemas']['OutputModuleTouchpointsAppDesktop']
@@ -1948,6 +1958,11 @@ export interface operations {
               }[];
               siblings: number;
               comments: number;
+              additional_fields?: {
+                slug: string;
+                value: string;
+                name: string;
+              }[];
             })[];
             start?: number;
             limit?: number;
@@ -3140,7 +3155,6 @@ export interface operations {
       405: components['responses']['Error'];
       500: components['responses']['Error'];
     };
-    requestBody: {};
   };
   /** Update fields of a specific project. Currently only the project name is editable. */
   'patch-projects-pid': {

@@ -442,7 +442,6 @@ const injectedRtkApi = api.injectEndpoints({
       query: (queryArg) => ({
         url: `/projects/${queryArg.pid}`,
         method: 'DELETE',
-        body: queryArg.body,
       }),
     }),
     getProjectsByPidCampaigns: build.query<
@@ -882,6 +881,11 @@ export type GetCampaignsByCidBugsApiResponse = /** status 200 OK */ {
     }[];
     siblings: number;
     comments: number;
+    additional_fields?: {
+      slug: string;
+      value: string;
+      name: string;
+    }[];
   })[];
   start?: number;
   limit?: number;
@@ -1486,7 +1490,6 @@ export type DeleteProjectsByPidApiResponse = /** status 200 OK */ void;
 export type DeleteProjectsByPidApiArg = {
   /** Project id */
   pid: string;
-  body: string;
 };
 export type GetProjectsByPidCampaignsApiResponse = /** status 200 OK */ {
   items?: CampaignWithOutput[];
@@ -2506,12 +2509,19 @@ export type OutputModuleTaskExplorativeBug = {
   description?: string;
   url?: string;
 };
+export type OutputModuleTaskAccessibility = {
+  kind: 'accessibility';
+  title: string;
+  description?: string;
+  url?: string;
+};
 export type SubcomponentTask =
   | SubcomponentTaskVideo
   | SubcomponentTaskBug
   | SubcomponentTaskSurvey
   | OutputModuleTaskModerateVideo
-  | OutputModuleTaskExplorativeBug;
+  | OutputModuleTaskExplorativeBug
+  | OutputModuleTaskAccessibility;
 export type ModuleTask = {
   type: 'tasks';
   variant: string;
