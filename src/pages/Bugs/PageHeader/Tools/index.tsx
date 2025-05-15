@@ -12,6 +12,7 @@ import { CampaignStatus } from 'src/types';
 import { PageMeta } from 'src/common/components/PageMeta';
 import { CampaignSettings } from 'src/common/components/inviteUsers/campaignSettings';
 import { useGetCampaignsByCidQuery } from 'src/features/api';
+import { useCanAccessToActiveWorkspace } from 'src/hooks/useCanAccessToActiveWorkspace';
 import { UniqueBugsCounter } from './UniqueBugsCounter';
 import { useCampaignBugs } from './useCampaignBugs';
 
@@ -51,6 +52,7 @@ export const Tools = ({
   customerTitle: string;
 }) => {
   const { t } = useTranslation();
+  const hasWorksPacePermission = useCanAccessToActiveWorkspace();
   const integrationCenterUrl = getLocalizeIntegrationCenterRoute(campaignId);
   const {
     isCampaignLoading,
@@ -90,9 +92,9 @@ export const Tools = ({
         {status && <StatusMeta status={status.name as CampaignStatus} />}
       </PageMeta>
       <ButtonsWrapper>
-        {campaignData && campaignData.isArchived !== true && (
-          <CampaignSettings />
-        )}
+        {campaignData &&
+          campaignData.isArchived !== true &&
+          hasWorksPacePermission && <CampaignSettings />}
         <Button
           isBasic
           className="header-dowlnoad-report"

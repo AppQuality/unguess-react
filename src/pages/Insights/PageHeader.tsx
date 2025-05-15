@@ -17,6 +17,7 @@ import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { styled } from 'styled-components';
 import { ReactComponent as VideoListIcon } from '@zendeskgarden/svg-icons/src/16/play-circle-stroke.svg';
 import { ReactComponent as DashboardIcon } from 'src/assets/icons/dashboard-icon.svg';
+import { useCanAccessToActiveWorkspace } from 'src/hooks/useCanAccessToActiveWorkspace';
 import { useCampaign } from '../Campaign/pageHeader/useCampaign';
 
 const Wrapper = styled.div`
@@ -50,7 +51,7 @@ const InsightsPageHeader = () => {
   const videosRoute = useLocalizeRoute(`campaigns/${campaignId}/videos`);
   const campaignRoute = useLocalizeRoute(`campaigns/${campaignId}`);
   const { hasFeatureFlag } = useFeatureFlag();
-
+  const hasWorkspaceAccess = useCanAccessToActiveWorkspace();
   const hasTaggingToolFeature = hasFeatureFlag(FEATURE_FLAG_TAGGING_TOOL);
 
   const { isUserLoading, isLoading, isError, campaign, project } = useCampaign(
@@ -83,7 +84,9 @@ const InsightsPageHeader = () => {
           <Wrapper>
             <PageHeader.Title>{t('__INSIGHTS_PAGE_TITLE')}</PageHeader.Title>
             <ButtonWrapper>
-              {!campaign.isArchived && <CampaignSettings />}
+              {!campaign.isArchived && hasWorkspaceAccess && (
+                <CampaignSettings />
+              )}
               <MD color={appTheme.palette.blue[600]}>
                 {' '}
                 {t('__INSIGHTS_PAGE_NAVIGATION_LABEL')}
