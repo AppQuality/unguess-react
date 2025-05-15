@@ -47,7 +47,7 @@ const DeleteProjectModal = ({
 
   const handleConfirm = async () => {
     try {
-      await deleteProject({ pid: projectId.toString(), body: '' }).unwrap();
+      await deleteProject({ pid: projectId.toString() }).unwrap();
       navigate(`/`);
     } catch (e) {
       showDeleteErrorToast(e as unknown as Error);
