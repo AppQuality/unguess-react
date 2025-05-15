@@ -1,5 +1,5 @@
 import { Content } from '@appquality/unguess-design-system';
-import { ComponentProps, useEffect } from 'react';
+import { ComponentProps, useEffect, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import { useAppDispatch } from 'src/app/hooks';
 import { AppSidebar } from 'src/common/components/navigation/sidebar';
@@ -15,12 +15,12 @@ import { NavigationProfileModal } from './NavigationProfileModal';
 
 const StyledContent = styled(Content)<
   ComponentProps<typeof Content> & {
-    isMinimal?: boolean;
+    $isMinimal?: boolean;
     children?: React.ReactNode;
   }
 >`
-  height: ${({ isMinimal, theme }) =>
-    isMinimal
+  height: ${({ $isMinimal, theme }) =>
+    $isMinimal
       ? '100%'
       : `calc(100% - ${theme.components.chrome.header.height})`};
 `;
@@ -60,15 +60,13 @@ export const Navigation = ({
   // Set current params
   const params = useParams();
 
-  let parameter = '';
-
-  if (params) {
-    Object.keys(params).forEach((key) => {
-      if (key !== 'language') {
-        parameter = params[`${key}`] ?? '';
-      }
-    });
-  }
+  const parameter = useMemo(() => {
+    if (!params) return '';
+    return Object.keys(params)
+      .filter((key) => key !== 'language')
+      .map((key) => params[`${key}`] ?? '')
+      .join('');
+  }, [params]);
 
   const toggleSidebarState = () => {
     dispatch(toggleSidebar());
@@ -80,7 +78,7 @@ export const Navigation = ({
     <>
       <NavigationHeader isMinimal={isMinimal} />
       <NavigationProfileModal />
-      <StyledContent isMinimal={isMinimal}>
+      <StyledContent $isMinimal={isMinimal}>
         <AppSidebar
           route={
             route === 'projects' && parameter !== ''
