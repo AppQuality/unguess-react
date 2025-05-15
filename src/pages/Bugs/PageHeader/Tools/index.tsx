@@ -12,9 +12,9 @@ import { CampaignStatus } from 'src/types';
 import { PageMeta } from 'src/common/components/PageMeta';
 import { CampaignSettings } from 'src/common/components/inviteUsers/campaignSettings';
 import { useGetCampaignsByCidQuery } from 'src/features/api';
+import { useCanAccessToActiveWorkspace } from 'src/hooks/useCanAccessToActiveWorkspace';
 import { UniqueBugsCounter } from './UniqueBugsCounter';
 import { useCampaignBugs } from './useCampaignBugs';
-import { useCanAccessToActiveWorkspace } from 'src/hooks/useCanAccessToActiveWorkspace';
 
 const ButtonsWrapper = styled.div`
   display: flex;
