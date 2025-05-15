@@ -31,8 +31,8 @@ import { appTheme } from 'src/app/theme';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { FEATURE_FLAG_TAGGING_TOOL } from 'src/constants';
 import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
-import { getAllSeverityTags } from './utils/getSeverityTagsWithCount';
 import { useCanAccessToActiveWorkspace } from 'src/hooks/useCanAccessToActiveWorkspace';
+import { getAllSeverityTags } from './utils/getSeverityTagsWithCount';
 
 const ButtonWrapper = styled.div`
   display: flex;

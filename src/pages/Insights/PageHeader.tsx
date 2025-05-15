@@ -17,8 +17,8 @@ import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { styled } from 'styled-components';
 import { ReactComponent as VideoListIcon } from '@zendeskgarden/svg-icons/src/16/play-circle-stroke.svg';
 import { ReactComponent as DashboardIcon } from 'src/assets/icons/dashboard-icon.svg';
-import { useCampaign } from '../Campaign/pageHeader/useCampaign';
 import { useCanAccessToActiveWorkspace } from 'src/hooks/useCanAccessToActiveWorkspace';
+import { useCampaign } from '../Campaign/pageHeader/useCampaign';
 
 const Wrapper = styled.div`
   display: flex;
