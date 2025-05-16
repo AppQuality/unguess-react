@@ -320,6 +320,15 @@ export interface paths {
       };
     };
   };
+  '/invites/{profile}/{token}': {
+    get: operations['get-invites-profile-token'];
+    parameters: {
+      path: {
+        profile: string;
+        token: string;
+      };
+    };
+  };
   '/media/{id}': {
     get: operations['get-media-id'];
     parameters: {
@@ -380,6 +389,14 @@ export interface paths {
     /** Retrieve all available use case templates */
     get: operations['get-templates'];
   };
+  '/users/by-email/{email}': {
+    head: operations['head-users-by-email-email'];
+    parameters: {
+      path: {
+        email: string;
+      };
+    };
+  };
   '/users/me': {
     get: operations['get-users-me'];
   };
@@ -393,6 +410,10 @@ export interface paths {
         slug: string;
       };
     };
+  };
+  '/users/roles': {
+    get: operations['get-users-roles'];
+    parameters: {};
   };
   '/videos/{vid}': {
     /** Retrive single video data */
@@ -492,7 +513,7 @@ export interface paths {
   '/workspaces/{wid}/plans': {
     /**
      * Function: Retrieves all plans within a specified workspace.
-     * Plan Status: Includes plans in a working state, such as those that are in the "draft" or "pending review" stages. Also includes plans that are "approved," provided there is no active campaign currently linked to them.
+     * Plan Status: Includes plans in a working state, such as those that are in the 'draft' or 'pending review' stages. Also includes plans that are 'approved,' provided there is no active campaign currently linked to them.
      *
      * Use Cases:
      * - Reviewing all plans that are still in development or awaiting approval.
@@ -3075,6 +3096,29 @@ export interface operations {
       };
     };
   };
+  'get-invites-profile-token': {
+    parameters: {
+      path: {
+        profile: string;
+        token: string;
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          'application/json': {
+            name: string;
+            surname: string;
+            email: string;
+            workspace: string;
+          };
+        };
+      };
+      /** Bad Request */
+      400: unknown;
+    };
+  };
   'get-media-id': {
     parameters: {
       path: {
@@ -3346,6 +3390,21 @@ export interface operations {
       500: components['responses']['Error'];
     };
   };
+  'head-users-by-email-email': {
+    parameters: {
+      path: {
+        email: string;
+      };
+    };
+    responses: {
+      /** OK */
+      200: unknown;
+      /** Bad Request */
+      400: unknown;
+      /** Not Found */
+      404: unknown;
+    };
+  };
   'get-users-me': {
     responses: {
       200: {
@@ -3393,6 +3452,20 @@ export interface operations {
       content: {
         'application/json': {
           value: string;
+        };
+      };
+    };
+  };
+  'get-users-roles': {
+    parameters: {};
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          'application/json': {
+            id: number;
+            name: string;
+          }[];
         };
       };
     };
@@ -3751,7 +3824,7 @@ export interface operations {
   };
   /**
    * Function: Retrieves all plans within a specified workspace.
-   * Plan Status: Includes plans in a working state, such as those that are in the "draft" or "pending review" stages. Also includes plans that are "approved," provided there is no active campaign currently linked to them.
+   * Plan Status: Includes plans in a working state, such as those that are in the 'draft' or 'pending review' stages. Also includes plans that are 'approved,' provided there is no active campaign currently linked to them.
    *
    * Use Cases:
    * - Reviewing all plans that are still in development or awaiting approval.
