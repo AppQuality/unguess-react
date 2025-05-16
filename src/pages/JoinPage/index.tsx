@@ -2,7 +2,12 @@ import { useEffect } from 'react';
 import { Button, Logo } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
-import { useLocation, useNavigate } from 'react-router-dom';
+import {
+  useLocation,
+  useNavigate,
+  useParams,
+  useSearchParams,
+} from 'react-router-dom';
 import { useAppSelector } from 'src/app/hooks';
 import { GoogleTagManager } from 'src/common/GoogleTagManager';
 import { appTheme } from 'src/app/theme';
@@ -33,17 +38,15 @@ interface NavigationState {
 
 const JoinPage = () => {
   const { t } = useTranslation();
+  const [searchParams] = useSearchParams();
   const { status } = useAppSelector((state) => state.user);
   const navigate = useNavigate();
-  const { state: locationState } = useLocation();
-
-  const from = (locationState as NavigationState)?.from || '/';
 
   useEffect(() => {
     if (status === 'logged') {
-      navigate(from || '/');
+      navigate(searchParams.get('redirectTo') || '/');
     }
-  }, [navigate, status]);
+  }, [navigate, status, searchParams]);
 
   return (
     <GoogleTagManager title={t('__PAGE_TITLE_JOIN')}>
