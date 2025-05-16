@@ -30,11 +30,7 @@ const CenteredXYContainer = styled.div`
 interface NavigationState {
   from: string;
 }
-const ButtonWrapper = styled.div`
-  display: flex;
-  gap: ${appTheme.space.sm};
-  margin-top: ${appTheme.space.md};
-`;
+
 const JoinPage = () => {
   const { t } = useTranslation();
   const { status } = useAppSelector((state) => state.user);
@@ -53,28 +49,6 @@ const JoinPage = () => {
     <GoogleTagManager title={t('__PAGE_TITLE_JOIN')}>
       <CenteredXYContainer>
         <StyledLogo type="vertical" size={200} />
-        <ButtonWrapper>
-          <Button
-            isAccent
-            isPrimary
-            size="medium"
-            onClick={() => {
-              navigate('/login');
-            }}
-          >
-            Go to Login
-          </Button>
-          <Button
-            isAccent
-            isPrimary
-            size="medium"
-            onClick={() => {
-              alert('Register');
-            }}
-          >
-            Register
-          </Button>
-        </ButtonWrapper>
       </CenteredXYContainer>
     </GoogleTagManager>
   );
