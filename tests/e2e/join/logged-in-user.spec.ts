@@ -11,12 +11,18 @@ test.describe('The Join page - already logged in user:', () => {
     await join.mockPreferences();
     await join.mockWorkspace();
     await join.mockWorkspacesList();
-    await join.open();
+    await join.mockExperientialCampaign();
   });
   test('If there is not a query parameter redirectTo the user is redirected to home', async ({
     page,
   }) => {
-    await expect(page).toHaveURL('');
+    await join.open();
+    await expect(page).toHaveURL('/');
   });
-  test('If there is a query parameter redirectTo, the user is redirected to a specific page', async () => {});
+  test('If there is a query parameter redirectTo, the user is redirected to a specific page', async ({
+    page,
+  }) => {
+    await page.goto('/join?redirectTo=/campaigns/1');
+    await expect(page).toHaveURL('/campaigns/1');
+  });
 });
