@@ -16,6 +16,15 @@ export class Join extends UnguessPage {
   elements() {
     return {
       ...super.elements(),
+      loader: () => this.page.getByTestId('join-page-loader'),
     };
+  }
+
+  async mockGetInvitedUser() {
+    await this.page.route('*/**/api/invites/1/token123', async (route) => {
+      await route.fulfill({
+        path: 'tests/api/invites/profile/token/_get/200_Example_1.json',
+      });
+    });
   }
 }
