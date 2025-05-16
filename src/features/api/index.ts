@@ -400,6 +400,14 @@ const injectedRtkApi = api.injectEndpoints({
         body: queryArg.body,
       }),
     }),
+    getInvitesByProfileAndToken: build.query<
+      GetInvitesByProfileAndTokenApiResponse,
+      GetInvitesByProfileAndTokenApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/invites/${queryArg.profile}/${queryArg.token}`,
+      }),
+    }),
     getMediaById: build.query<GetMediaByIdApiResponse, GetMediaByIdApiArg>({
       query: (queryArg) => ({ url: `/media/${queryArg.id}` }),
     }),
@@ -502,6 +510,15 @@ const injectedRtkApi = api.injectEndpoints({
         },
       }),
     }),
+    headUsersByEmailByEmail: build.mutation<
+      HeadUsersByEmailByEmailApiResponse,
+      HeadUsersByEmailByEmailApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/users/by-email/${queryArg.email}`,
+        method: 'HEAD',
+      }),
+    }),
     getUsersMe: build.query<GetUsersMeApiResponse, GetUsersMeApiArg>({
       query: () => ({ url: `/users/me` }),
     }),
@@ -520,6 +537,9 @@ const injectedRtkApi = api.injectEndpoints({
         method: 'PUT',
         body: queryArg.body,
       }),
+    }),
+    getUsersRoles: build.query<GetUsersRolesApiResponse, GetUsersRolesApiArg>({
+      query: () => ({ url: `/users/roles` }),
     }),
     getVideosByVid: build.query<
       GetVideosByVidApiResponse,
@@ -1453,6 +1473,16 @@ export type PatchInsightsByIidApiArg = {
     visible?: number;
   };
 };
+export type GetInvitesByProfileAndTokenApiResponse = /** status 200 OK */ {
+  name: string;
+  surname: string;
+  email: string;
+  workspace: string;
+};
+export type GetInvitesByProfileAndTokenApiArg = {
+  profile: string;
+  token: string;
+};
 export type GetMediaByIdApiResponse = unknown;
 export type GetMediaByIdApiArg = {
   id: string;
@@ -1570,6 +1600,10 @@ export type GetTemplatesApiArg = {
   /** Order by accepted field */
   orderBy?: string;
 };
+export type HeadUsersByEmailByEmailApiResponse = unknown;
+export type HeadUsersByEmailByEmailApiArg = {
+  email: string;
+};
 export type GetUsersMeApiResponse = /** status 200  */ User;
 export type GetUsersMeApiArg = void;
 export type GetUsersMePreferencesApiResponse = /** status 200 OK */ {
@@ -1584,6 +1618,11 @@ export type PutUsersMePreferencesBySlugApiArg = {
     value: string;
   };
 };
+export type GetUsersRolesApiResponse = /** status 200 OK */ {
+  id: number;
+  name: string;
+}[];
+export type GetUsersRolesApiArg = void;
 export type GetVideosByVidApiResponse = /** status 200 OK */ Video & {
   usecase: {
     id: number;
@@ -2782,6 +2821,7 @@ export const {
   useGetInsightsByIidQuery,
   useDeleteInsightsByIidMutation,
   usePatchInsightsByIidMutation,
+  useGetInvitesByProfileAndTokenQuery,
   useGetMediaByIdQuery,
   useDeleteMediaCommentByMcidMutation,
   usePostProjectsMutation,
@@ -2793,9 +2833,11 @@ export const {
   usePostProjectsByPidUsersMutation,
   useDeleteProjectsByPidUsersMutation,
   useGetTemplatesQuery,
+  useHeadUsersByEmailByEmailMutation,
   useGetUsersMeQuery,
   useGetUsersMePreferencesQuery,
   usePutUsersMePreferencesBySlugMutation,
+  useGetUsersRolesQuery,
   useGetVideosByVidQuery,
   useGetVideosByVidObservationsQuery,
   usePostVideosByVidObservationsMutation,
