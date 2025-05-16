@@ -400,6 +400,14 @@ const injectedRtkApi = api.injectEndpoints({
         body: queryArg.body,
       }),
     }),
+    getInvitesByProfileAndToken: build.query<
+      GetInvitesByProfileAndTokenApiResponse,
+      GetInvitesByProfileAndTokenApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/invites/${queryArg.profile}/${queryArg.token}`,
+      }),
+    }),
     getMediaById: build.query<GetMediaByIdApiResponse, GetMediaByIdApiArg>({
       query: (queryArg) => ({ url: `/media/${queryArg.id}` }),
     }),
@@ -433,6 +441,15 @@ const injectedRtkApi = api.injectEndpoints({
         url: `/projects/${queryArg.pid}`,
         method: 'PATCH',
         body: queryArg.body,
+      }),
+    }),
+    deleteProjectsByPid: build.mutation<
+      DeleteProjectsByPidApiResponse,
+      DeleteProjectsByPidApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/projects/${queryArg.pid}`,
+        method: 'DELETE',
       }),
     }),
     getProjectsByPidCampaigns: build.query<
@@ -493,6 +510,15 @@ const injectedRtkApi = api.injectEndpoints({
         },
       }),
     }),
+    headUsersByEmailByEmail: build.mutation<
+      HeadUsersByEmailByEmailApiResponse,
+      HeadUsersByEmailByEmailApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/users/by-email/${queryArg.email}`,
+        method: 'HEAD',
+      }),
+    }),
     getUsersMe: build.query<GetUsersMeApiResponse, GetUsersMeApiArg>({
       query: () => ({ url: `/users/me` }),
     }),
@@ -511,6 +537,9 @@ const injectedRtkApi = api.injectEndpoints({
         method: 'PUT',
         body: queryArg.body,
       }),
+    }),
+    getUsersRoles: build.query<GetUsersRolesApiResponse, GetUsersRolesApiArg>({
+      query: () => ({ url: `/users/roles` }),
     }),
     getVideosByVid: build.query<
       GetVideosByVidApiResponse,
@@ -568,16 +597,6 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({
         url: `/videos/${queryArg.vid}/translation`,
-        method: 'POST',
-        body: queryArg.body,
-      }),
-    }),
-    postVideosByVidSentiment: build.mutation<
-      PostVideosByVidSentimentApiResponse,
-      PostVideosByVidSentimentApiArg
-    >({
-      query: (queryArg) => ({
-        url: `/videos/${queryArg.vid}/sentiment`,
         method: 'POST',
         body: queryArg.body,
       }),
@@ -882,6 +901,11 @@ export type GetCampaignsByCidBugsApiResponse = /** status 200 OK */ {
     }[];
     siblings: number;
     comments: number;
+    additional_fields?: {
+      slug: string;
+      value: string;
+      name: string;
+    }[];
   })[];
   start?: number;
   limit?: number;
@@ -1449,6 +1473,16 @@ export type PatchInsightsByIidApiArg = {
     visible?: number;
   };
 };
+export type GetInvitesByProfileAndTokenApiResponse = /** status 200 OK */ {
+  name: string;
+  surname: string;
+  email: string;
+  workspace: string;
+};
+export type GetInvitesByProfileAndTokenApiArg = {
+  profile: string;
+  token: string;
+};
 export type GetMediaByIdApiResponse = unknown;
 export type GetMediaByIdApiArg = {
   id: string;
@@ -1481,6 +1515,11 @@ export type PatchProjectsByPidApiArg = {
     | {
         description: string;
       };
+};
+export type DeleteProjectsByPidApiResponse = /** status 200 OK */ void;
+export type DeleteProjectsByPidApiArg = {
+  /** Project id */
+  pid: string;
 };
 export type GetProjectsByPidCampaignsApiResponse = /** status 200 OK */ {
   items?: CampaignWithOutput[];
@@ -1561,6 +1600,10 @@ export type GetTemplatesApiArg = {
   /** Order by accepted field */
   orderBy?: string;
 };
+export type HeadUsersByEmailByEmailApiResponse = unknown;
+export type HeadUsersByEmailByEmailApiArg = {
+  email: string;
+};
 export type GetUsersMeApiResponse = /** status 200  */ User;
 export type GetUsersMeApiArg = void;
 export type GetUsersMePreferencesApiResponse = /** status 200 OK */ {
@@ -1575,6 +1618,11 @@ export type PutUsersMePreferencesBySlugApiArg = {
     value: string;
   };
 };
+export type GetUsersRolesApiResponse = /** status 200 OK */ {
+  id: number;
+  name: string;
+}[];
+export type GetUsersRolesApiArg = void;
 export type GetVideosByVidApiResponse = /** status 200 OK */ Video & {
   usecase: {
     id: number;
@@ -1639,11 +1687,6 @@ export type PostVideosByVidTranslationApiArg = {
   body: {
     language: string;
   };
-};
-export type PostVideosByVidSentimentApiResponse = /** status 200 OK */ object;
-export type PostVideosByVidSentimentApiArg = {
-  vid: string;
-  body: object;
 };
 export type GetWorkspacesApiResponse = /** status 200 OK */ {
   items?: Workspace[];
@@ -2247,7 +2290,10 @@ export type Report = {
   creation_date?: string;
   update_date?: string;
 };
-export type BannerType = 'banner_testing_automation' | 'banner_user_experience';
+export type BannerType =
+  | 'banner_testing_automation'
+  | 'banner_user_experience'
+  | 'banner_cyber_security';
 export type Tenant = {
   /** tryber wp_user_id */
   id: number;
@@ -2505,12 +2551,19 @@ export type OutputModuleTaskExplorativeBug = {
   description?: string;
   url?: string;
 };
+export type OutputModuleTaskAccessibility = {
+  kind: 'accessibility';
+  title: string;
+  description?: string;
+  url?: string;
+};
 export type SubcomponentTask =
   | SubcomponentTaskVideo
   | SubcomponentTaskBug
   | SubcomponentTaskSurvey
   | OutputModuleTaskModerateVideo
-  | OutputModuleTaskExplorativeBug;
+  | OutputModuleTaskExplorativeBug
+  | OutputModuleTaskAccessibility;
 export type ModuleTask = {
   type: 'tasks';
   variant: string;
@@ -2768,19 +2821,23 @@ export const {
   useGetInsightsByIidQuery,
   useDeleteInsightsByIidMutation,
   usePatchInsightsByIidMutation,
+  useGetInvitesByProfileAndTokenQuery,
   useGetMediaByIdQuery,
   useDeleteMediaCommentByMcidMutation,
   usePostProjectsMutation,
   useGetProjectsByPidQuery,
   usePatchProjectsByPidMutation,
+  useDeleteProjectsByPidMutation,
   useGetProjectsByPidCampaignsQuery,
   useGetProjectsByPidUsersQuery,
   usePostProjectsByPidUsersMutation,
   useDeleteProjectsByPidUsersMutation,
   useGetTemplatesQuery,
+  useHeadUsersByEmailByEmailMutation,
   useGetUsersMeQuery,
   useGetUsersMePreferencesQuery,
   usePutUsersMePreferencesBySlugMutation,
+  useGetUsersRolesQuery,
   useGetVideosByVidQuery,
   useGetVideosByVidObservationsQuery,
   usePostVideosByVidObservationsMutation,
@@ -2788,7 +2845,6 @@ export const {
   useDeleteVideosByVidObservationsAndOidMutation,
   useGetVideosByVidTranslationQuery,
   usePostVideosByVidTranslationMutation,
-  usePostVideosByVidSentimentMutation,
   useGetWorkspacesQuery,
   usePostWorkspacesMutation,
   useGetWorkspacesByWidQuery,

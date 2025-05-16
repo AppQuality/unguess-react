@@ -320,6 +320,15 @@ export interface paths {
       };
     };
   };
+  '/invites/{profile}/{token}': {
+    get: operations['get-invites-profile-token'];
+    parameters: {
+      path: {
+        profile: string;
+        token: string;
+      };
+    };
+  };
   '/media/{id}': {
     get: operations['get-media-id'];
     parameters: {
@@ -343,6 +352,7 @@ export interface paths {
   '/projects/{pid}': {
     /** Retrieve projects details from an ID. */
     get: operations['get-projects-projectId'];
+    delete: operations['delete-projects-projectId'];
     /** Update fields of a specific project. Currently only the project name is editable. */
     patch: operations['patch-projects-pid'];
     parameters: {
@@ -379,6 +389,14 @@ export interface paths {
     /** Retrieve all available use case templates */
     get: operations['get-templates'];
   };
+  '/users/by-email/{email}': {
+    head: operations['head-users-by-email-email'];
+    parameters: {
+      path: {
+        email: string;
+      };
+    };
+  };
   '/users/me': {
     get: operations['get-users-me'];
   };
@@ -392,6 +410,10 @@ export interface paths {
         slug: string;
       };
     };
+  };
+  '/users/roles': {
+    get: operations['get-users-roles'];
+    parameters: {};
   };
   '/videos/{vid}': {
     /** Retrive single video data */
@@ -446,26 +468,6 @@ export interface paths {
       };
     };
   };
-  '/videos/{vid}/sentiment': {
-    /**
-     * This endpoint generates a new sentiment for the provided video if it does not already exist.
-     *
-     * **Security**: Requires Bearer Authentication. Provide your bearer token in the Authorization header when making requests to protected resources. Example: Authorization: Bearer 123.
-     *
-     * **Path Parameters**:
-     *
-     * vid (string, required): The ID of the video for which the translation is to be generated.
-     * Request Body (application/json):
-     *
-     * language (string, required): The language code for the desired translation.
-     */
-    post: operations['post-videos-vid-sentiment'];
-    parameters: {
-      path: {
-        vid: string;
-      };
-    };
-  };
   '/workspaces': {
     get: operations['get-workspaces'];
     /** This endpoint is useful to add a new workspace. Only admin can use this. */
@@ -511,7 +513,7 @@ export interface paths {
   '/workspaces/{wid}/plans': {
     /**
      * Function: Retrieves all plans within a specified workspace.
-     * Plan Status: Includes plans in a working state, such as those that are in the "draft" or "pending review" stages. Also includes plans that are "approved," provided there is no active campaign currently linked to them.
+     * Plan Status: Includes plans in a working state, such as those that are in the 'draft' or 'pending review' stages. Also includes plans that are 'approved,' provided there is no active campaign currently linked to them.
      *
      * Use Cases:
      * - Reviewing all plans that are still in development or awaiting approval.
@@ -895,6 +897,16 @@ export interface components {
         usecaseTitle: string;
       })[];
     };
+    MediaSentiment: {
+      value: number;
+      reason: string;
+      paragraphs: {
+        start: number;
+        end: number;
+        value: number;
+        reason: string;
+      }[];
+    };
     Module:
       | components['schemas']['ModuleTitle']
       | components['schemas']['ModuleDate']
@@ -1236,6 +1248,7 @@ export interface components {
         };
       };
       transcript?: components['schemas']['Transcript'];
+      sentiment?: components['schemas']['MediaSentiment'];
     };
     /** VideoTag */
     VideoTag: {
@@ -1466,7 +1479,10 @@ export interface components {
      * BannerType
      * @enum {string}
      */
-    BannerType: 'banner_testing_automation' | 'banner_user_experience';
+    BannerType:
+      | 'banner_testing_automation'
+      | 'banner_user_experience'
+      | 'banner_cyber_security';
     /** CpReqTemplate */
     CpReqTemplate: {
       id: number;
@@ -1528,13 +1544,23 @@ export interface components {
       /** Format: uri */
       url?: string;
     };
+    /** OutputModuleTaskAccessibility */
+    OutputModuleTaskAccessibility: {
+      /** @enum {string} */
+      kind: 'accessibility';
+      title: string;
+      description?: string;
+      /** Format: uri */
+      url?: string;
+    };
     /** SubcomponentTask */
     OutputModuleTask:
       | components['schemas']['OutputModuleTaskVideo']
       | components['schemas']['OutputModuleTaskBug']
       | components['schemas']['OutputModuleTaskSurvey']
       | components['schemas']['OutputModuleTaskModerateVideo']
-      | components['schemas']['OutputModuleTaskExplorativeBug'];
+      | components['schemas']['OutputModuleTaskExplorativeBug']
+      | components['schemas']['OutputModuleTaskAccessibility'];
     /** SubcomponentTouchpoints */
     OutputModuleTouchpoints:
       | components['schemas']['OutputModuleTouchpointsAppDesktop']
@@ -1956,6 +1982,11 @@ export interface operations {
               }[];
               siblings: number;
               comments: number;
+              additional_fields?: {
+                slug: string;
+                value: string;
+                name: string;
+              }[];
             })[];
             start?: number;
             limit?: number;
@@ -3065,6 +3096,29 @@ export interface operations {
       };
     };
   };
+  'get-invites-profile-token': {
+    parameters: {
+      path: {
+        profile: string;
+        token: string;
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          'application/json': {
+            name: string;
+            surname: string;
+            email: string;
+            workspace: string;
+          };
+        };
+      };
+      /** Bad Request */
+      400: unknown;
+    };
+  };
   'get-media-id': {
     parameters: {
       path: {
@@ -3129,6 +3183,23 @@ export interface operations {
       400: components['responses']['Error'];
       401: components['responses']['Error'];
       403: components['responses']['Error'];
+      500: components['responses']['Error'];
+    };
+  };
+  'delete-projects-projectId': {
+    parameters: {
+      path: {
+        /** Project id */
+        pid: components['parameters']['pid'];
+      };
+    };
+    responses: {
+      /** OK */
+      200: unknown;
+      400: components['responses']['Error'];
+      401: components['responses']['Error'];
+      403: components['responses']['Error'];
+      405: components['responses']['Error'];
       500: components['responses']['Error'];
     };
   };
@@ -3319,6 +3390,21 @@ export interface operations {
       500: components['responses']['Error'];
     };
   };
+  'head-users-by-email-email': {
+    parameters: {
+      path: {
+        email: string;
+      };
+    };
+    responses: {
+      /** OK */
+      200: unknown;
+      /** Bad Request */
+      400: unknown;
+      /** Not Found */
+      404: unknown;
+    };
+  };
   'get-users-me': {
     responses: {
       200: {
@@ -3366,6 +3452,20 @@ export interface operations {
       content: {
         'application/json': {
           value: string;
+        };
+      };
+    };
+  };
+  'get-users-roles': {
+    parameters: {};
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          'application/json': {
+            id: number;
+            name: string;
+          }[];
         };
       };
     };
@@ -3547,41 +3647,6 @@ export interface operations {
       };
     };
   };
-  /**
-   * This endpoint generates a new sentiment for the provided video if it does not already exist.
-   *
-   * **Security**: Requires Bearer Authentication. Provide your bearer token in the Authorization header when making requests to protected resources. Example: Authorization: Bearer 123.
-   *
-   * **Path Parameters**:
-   *
-   * vid (string, required): The ID of the video for which the translation is to be generated.
-   * Request Body (application/json):
-   *
-   * language (string, required): The language code for the desired translation.
-   */
-  'post-videos-vid-sentiment': {
-    parameters: {
-      path: {
-        vid: string;
-      };
-    };
-    responses: {
-      /** OK */
-      200: {
-        content: {
-          'application/json': { [key: string]: unknown };
-        };
-      };
-      400: components['responses']['Error'];
-      403: components['responses']['Error'];
-      500: components['responses']['Error'];
-    };
-    requestBody: {
-      content: {
-        'application/json': { [key: string]: unknown };
-      };
-    };
-  };
   'get-workspaces': {
     parameters: {
       query: {
@@ -3759,7 +3824,7 @@ export interface operations {
   };
   /**
    * Function: Retrieves all plans within a specified workspace.
-   * Plan Status: Includes plans in a working state, such as those that are in the "draft" or "pending review" stages. Also includes plans that are "approved," provided there is no active campaign currently linked to them.
+   * Plan Status: Includes plans in a working state, such as those that are in the 'draft' or 'pending review' stages. Also includes plans that are 'approved,' provided there is no active campaign currently linked to them.
    *
    * Use Cases:
    * - Reviewing all plans that are still in development or awaiting approval.
@@ -3973,7 +4038,7 @@ export interface operations {
         /** Start pagination parameter */
         start?: components['parameters']['start'];
         /** Orders results */
-        orderBy?: 'updated_at' | 'id';
+        orderBy?: 'updated_at' | 'id' | 'order';
         /** Order value (ASC, DESC) */
         order?: components['parameters']['order'];
         /** filterBy[<fieldName>]=<fieldValue> */
