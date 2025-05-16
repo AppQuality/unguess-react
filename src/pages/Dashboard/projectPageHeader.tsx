@@ -43,6 +43,7 @@ const StyledPageHeaderMeta = styled(PageHeader.Meta)`
 
 const StyledDiv = styled.div`
   display: flex;
+  gap: ${({ theme }) => theme.space.xs};
 `;
 
 export const ProjectPageHeader = ({ projectId }: { projectId: number }) => {
