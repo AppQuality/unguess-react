@@ -71,6 +71,11 @@ const Pages = () => {
                   />
                   <Route path={`/${langPrefix}/join`} element={<JoinPage />} />
                   <Route
+                    path={`/${langPrefix}/join/invites/:profile/:token`}
+                    element={<JoinPage />}
+                  />
+
+                  <Route
                     path={`/${langPrefix}/projects/:projectId`}
                     element={<Project />}
                   />
