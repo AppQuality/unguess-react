@@ -1119,8 +1119,7 @@ export type GetCampaignsByCidMetaApiArg = {
   /** Campaign id */
   cid: string;
 };
-export type GetCampaignsByCidObservationsApiResponse =
-  /** status 200 OK */
+export type GetCampaignsByCidObservationsApiResponse = /** status 200 OK */
   | {
       kind: 'usecase-grapes';
       results: {
@@ -1209,6 +1208,7 @@ export type GetCampaignsByCidTagsApiArg = {
 };
 export type GetCampaignsByCidUsecasesApiResponse = /** status 200 OK */ {
   completion: number;
+  content?: string;
   id: number;
   title: {
     full: string;
@@ -1371,8 +1371,7 @@ export type GetCampaignsByCidVideosApiArg = {
   /** filterBy[<fieldName>]=<fieldValue> */
   filterBy?: any;
 };
-export type GetCampaignsByCidWidgetsApiResponse =
-  /** status 200 OK */
+export type GetCampaignsByCidWidgetsApiResponse = /** status 200 OK */
   | WidgetBugsByUseCase
   | WidgetBugsByDevice
   | WidgetCampaignProgress
@@ -2601,6 +2600,7 @@ export type Feature = {
   slug?: string;
 };
 export type User = {
+  customer_role: string;
   email: string;
   features?: Feature[];
   /** This is the main id of the user. Currently is equal to tryber_wp_user_id */
@@ -2611,7 +2611,6 @@ export type User = {
   role: string;
   tryber_wp_user_id: number;
   unguess_wp_user_id: number;
-  customer_role: string;
 };
 export type UserPreference = {
   name: string;

@@ -1,81 +1,144 @@
+import { Col, Grid, Logo, Row } from '@appquality/unguess-design-system';
 import { useEffect } from 'react';
-import { Button, Logo } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
-import styled from 'styled-components';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { useAppSelector } from 'src/app/hooks';
+import joinBg from 'src/assets/join-bg-1.png';
+import joingBgwebp from 'src/assets/join-bg-1.webp';
+import joinBg2 from 'src/assets/join-bg-2.png';
+import joinBg2webp from 'src/assets/join-bg-2.webp';
+import joinBg3 from 'src/assets/join-bg-3.png';
+import joinBg3webp from 'src/assets/join-bg-3.webp';
 import { GoogleTagManager } from 'src/common/GoogleTagManager';
-import { appTheme } from 'src/app/theme';
-
-const StyledLogo = styled(Logo)`
-  margin-top: ${({ theme }) => theme.space.xs};
-  margin-bottom: ${({ theme }) => theme.space.md};
-
-  @media screen and (max-width: ${({ theme }) => theme.breakpoints.md}) {
-    max-width: 70%;
-  }
-`;
+import { useGetInvitesByProfileAndTokenQuery } from 'src/features/api';
+import styled from 'styled-components';
+import { FormProvider } from './FormProvider';
+import { JoinForm } from './JoinForm';
+import { JoinPageError } from './JoinPageError';
+import { JoinPageLoading } from './JoinPageLoading';
+import { WaitModal } from './WaitModal';
+import { ImagesColumn } from './ImagesColumn';
+import { useSendGTMevent } from 'src/hooks/useGTMevent';
 
 const CenteredXYContainer = styled.div`
   display: flex;
   align-items: center;
-  flex-direction: column;
-  height: 100vh;
-
-  @media (min-width: ${({ theme }) => theme.breakpoints.sm}) {
-    justify-content: center;
+  justify-content: center;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 ${({ theme }) => theme.space.md};
+  max-width: ${({ theme }) => theme.breakpoints.md};
+  @media (min-width: ${({ theme }) => theme.breakpoints.xl}) {
+    padding: 0 ${({ theme }) => theme.space.xl};
+    max-width: ${({ theme }) => theme.breakpoints.xxl};
   }
 `;
 
-interface NavigationState {
-  from: string;
-}
-const ButtonWrapper = styled.div`
-  display: flex;
-  gap: ${appTheme.space.sm};
-  margin-top: ${appTheme.space.md};
+const Background = styled.div<{ step: string }>`
+  // Default background
+  @media (min-width: ${({ theme }) => theme.breakpoints.xl}) {
+    ${({ step }) =>
+      step === '1' &&
+      `
+      background-image: url(${joinBg});
+      @supports (background-image: url(${joingBgwebp})) {
+        background-image: url(${joingBgwebp});
+      }
+    `}
+    ${({ step }) =>
+      step === '2' &&
+      `
+      background-image: url(${joinBg2});
+      @supports (background-image: url(${joinBg2webp})) {
+        background-image: url(${joinBg2webp});
+      }
+    `}
+    ${({ step }) =>
+      step === '3' &&
+      `
+      background-image: url(${joinBg3});
+      @supports (background-image: url(${joinBg3webp})) {
+        background-image: url(${joinBg3webp});
+      }
+    `}
+    background-repeat: no-repeat;
+    background-position: right top;
+    background-size: 61%;
+  }
+  position: relative;
+  width: 100%;
+  min-height: calc(100vh - ${({ theme }) => theme.space.xl} * 2);
+  padding: ${({ theme }) => theme.space.xl} 0 ${({ theme }) => theme.space.md};
 `;
+
+const StyledCol = styled(Col)`
+  margin-bottom: 0;
+`;
+
+const LogoWrapper = styled.div`
+  text-align: center;
+  margin-bottom: ${(p) => p.theme.space.lg};
+`;
+
 const JoinPage = () => {
   const { t } = useTranslation();
+  const [searchParams] = useSearchParams();
   const { status } = useAppSelector((state) => state.user);
   const navigate = useNavigate();
-  const { state: locationState } = useLocation();
+  const { profile, token } = useParams();
+  const sendGTMevent = useSendGTMevent();
+  const shouldSkipQuery =
+    status === 'logged' || status === 'loading' || !(profile && token);
 
-  const from = (locationState as NavigationState)?.from || '/';
+  const { isLoading, data, error } = useGetInvitesByProfileAndTokenQuery(
+    {
+      profile: profile || '',
+      token: token || '',
+    },
+    {
+      skip: shouldSkipQuery,
+    }
+  );
 
   useEffect(() => {
     if (status === 'logged') {
-      navigate(from || '/');
+      navigate(searchParams.get('redirectTo') || '/');
     }
-  }, [navigate, status]);
+  }, [navigate, status, searchParams]);
+
+  if (isLoading || (shouldSkipQuery && profile && token)) {
+    return <JoinPageLoading />;
+  }
+
+  if (error) return <JoinPageError />;
 
   return (
     <GoogleTagManager title={t('__PAGE_TITLE_JOIN')}>
-      <CenteredXYContainer>
-        <StyledLogo type="vertical" size={200} />
-        <ButtonWrapper>
-          <Button
-            isAccent
-            isPrimary
-            size="medium"
-            onClick={() => {
-              navigate('/login');
-            }}
-          >
-            Go to Login
-          </Button>
-          <Button
-            isAccent
-            isPrimary
-            size="medium"
-            onClick={() => {
-              alert('Register');
-            }}
-          >
-            Register
-          </Button>
-        </ButtonWrapper>
-      </CenteredXYContainer>
+      <FormProvider {...data}>
+        {({ isSubmitting, values: { step } }) => (
+          <Background step={step.toString()}>
+            <CenteredXYContainer>
+              {isSubmitting ? (
+                <WaitModal />
+              ) : (
+                <Grid gutters="lg">
+                  <Row>
+                    <StyledCol xs={12} xl={5}>
+                      <LogoWrapper>
+                        <Logo type="vertical" size={100} />
+                      </LogoWrapper>
+                      <JoinForm />
+                    </StyledCol>
+                    <StyledCol xs={0} xl={7}>
+                      <ImagesColumn />
+                    </StyledCol>
+                  </Row>
+                </Grid>
+              )}
+            </CenteredXYContainer>
+          </Background>
+        )}
+      </FormProvider>
     </GoogleTagManager>
   );
 };
