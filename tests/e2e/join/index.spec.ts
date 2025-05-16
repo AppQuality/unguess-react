@@ -1,7 +1,15 @@
 import { test } from '../../fixtures/app';
+import { Join } from '../../fixtures/pages/Join';
 
 test.describe('The Join page first step - case new user', () => {
-  test('before rendering there is a loader while evaluating invited or new user parameters from the url', async () => {});
+  let join: Join;
+
+  test.beforeEach(async ({ page }) => {
+    join = new Join(page);
+
+    await join.open();
+  });
+
   test('display a form with user and password input, a CTA to go to the next step', async () => {});
   test('the password input check if the password is strong enough', async () => {});
   test('when the user click the next step cta we validate current inputs and if ok goes to the next step', async () => {});
