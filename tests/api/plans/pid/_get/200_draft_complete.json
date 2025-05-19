@@ -41,6 +41,42 @@
         "output": "This is a Goal"
       },
       {
+        "type": "literacy",
+        "output": [
+          {
+            "level": "intermediate",
+            "percentage": 100
+          }
+        ],
+        "variant": "default"
+      },
+      {
+        "type": "age",
+        "output": [
+          {
+            "max": 24,
+            "min": 16,
+            "percentage": 50
+          },
+          {
+            "max": 70,
+            "min": 55,
+            "percentage": 50
+          }
+        ],
+        "variant": "default"
+      },
+      {
+        "type": "gender",
+        "output": [
+          {
+            "gender": "female",
+            "percentage": 100
+          }
+        ],
+        "variant": "default"
+      },
+      {
         "type": "tasks",
         "variant": "default",
         "output": [

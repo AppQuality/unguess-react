@@ -1,5 +1,5 @@
 import {
-  AccordionNew as Accordion,
+  AccordionNew,
   IconButton,
   Notification,
   Tooltip,
@@ -17,7 +17,6 @@ import {
   GetVideosByVidApiResponse,
   GetVideosByVidObservationsApiResponse,
 } from 'src/features/api';
-
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { formatDuration } from 'src/pages/Videos/utils/formatDuration';
 import { styled } from 'styled-components';
@@ -142,16 +141,15 @@ const Observation = ({
   return (
     <>
       <Divider style={{ margin: `${appTheme.space.sm} auto` }} />
-      <Accordion
+      <AccordionNew
         level={3}
-        style={{ padding: `${appTheme.space.md} 0` }}
-        key={`observation_accordion_${observation.id}_${isOpen}`}
-        defaultExpandedSections={isOpen ? [0, 1] : []}
+        expandedSections={isOpen ? [0, 1] : []}
         onChange={handleAccordionChange}
+        key={`observation_accordion_${observation.id}_${isOpen}`}
         id={`video-observation-accordion-${observation.id}`}
       >
-        <Accordion.Section>
-          <Accordion.Header
+        <AccordionNew.Section>
+          <AccordionNew.Header
             icon={
               <Circle
                 color={
@@ -179,12 +177,13 @@ const Observation = ({
               </Circle>
             }
           >
-            <Accordion.Label
-              style={{ padding: 0 }}
+            <AccordionNew.Label
               label={title}
               subtitle={`${formatDuration(start)} - ${formatDuration(end)}`}
             />
-            <Accordion.Meta>
+            <AccordionNew.Meta
+              style={{ display: 'flex', alignItems: 'center' }}
+            >
               <Tooltip
                 content={t('__VIDEO_PAGE_OBSERVATION_LINK_TOOLTIP')}
                 size="large"
@@ -201,17 +200,17 @@ const Observation = ({
                   <LinkIcon />
                 </IconButton>
               </Tooltip>
-            </Accordion.Meta>
-          </Accordion.Header>
-          <Accordion.Panel style={{ padding: 0 }}>
+            </AccordionNew.Meta>
+          </AccordionNew.Header>
+          <AccordionNew.Panel>
             <ObservationForm
               observation={observation}
               onSubmit={handleSubmit}
               paragraphs={transcript?.paragraphs}
             />
-          </Accordion.Panel>
-        </Accordion.Section>
-      </Accordion>
+          </AccordionNew.Panel>
+        </AccordionNew.Section>
+      </AccordionNew>
     </>
   );
 };

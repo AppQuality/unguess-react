@@ -180,7 +180,7 @@ const Gender = () => {
                     key={gender}
                     value={gender.toLowerCase()}
                     name={`gender-${gender}`}
-                    disabled={getPlanStatus() === 'pending_review'}
+                    disabled={getPlanStatus() !== 'draft'}
                     checked={value?.output.some(
                       (item) => item.gender === gender.toLowerCase()
                     )}

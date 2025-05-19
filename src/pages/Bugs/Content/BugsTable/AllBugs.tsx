@@ -1,17 +1,16 @@
+import { AccordionNew } from '@appquality/unguess-design-system';
+import { t } from 'i18next';
 import { appTheme } from 'src/app/theme';
+import { getSelectedFiltersIds } from 'src/features/bugsPage/bugsPageSlice';
 import useWindowSize from 'src/hooks/useWindowSize';
 import { styled } from 'styled-components';
-import { useGetCampaignsByCidSuggestionsQuery } from 'src/features/api';
-import { AccordionNew } from '@appquality/unguess-design-system';
-import { getSelectedFiltersIds } from 'src/features/bugsPage/bugsPageSlice';
-import { t } from 'i18next';
-import { InfoRowMeta } from './components/InfoRowMeta';
-import AllBugsTable from './components/SingleGroupTable';
 import BugCards from './components/BugCards';
-import { useBugs } from './hooks/useBugs';
-import { LoadingState } from './components/LoadingState';
 import { EmptyState } from './components/EmptyState';
+import { InfoRowMeta } from './components/InfoRowMeta';
+import { LoadingState } from './components/LoadingState';
 import { Reccomendation } from './components/Reccomendation';
+import AllBugsTable from './components/SingleGroupTable';
+import { useBugs } from './hooks/useBugs';
 
 const Wrapper = styled.div<{
   isFetching?: boolean;
@@ -31,9 +30,6 @@ export const AllBugs = ({ campaignId }: { campaignId: number }) => {
   const breakpointMd = parseInt(appTheme.breakpoints.md, 10);
   const isMdBreakpoint = width < breakpointMd;
   const { data, isLoading, isFetching, isError } = useBugs(campaignId);
-  const { data: suggestions } = useGetCampaignsByCidSuggestionsQuery({
-    cid: campaignId.toString(),
-  });
   const { allBugs: bugs } = data;
 
   const filterBy = getSelectedFiltersIds();
@@ -49,7 +45,7 @@ export const AllBugs = ({ campaignId }: { campaignId: number }) => {
 
   return (
     <Wrapper isFetching={isFetching}>
-      <Reccomendation suggestion={suggestions?.suggestion} />
+      <Reccomendation campaignId={campaignId} />
       <AccordionNew level={2}>
         <AccordionNew.Section>
           <AccordionNew.Header>

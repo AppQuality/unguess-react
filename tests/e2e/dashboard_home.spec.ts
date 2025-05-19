@@ -1,5 +1,5 @@
 import { test, expect } from '../fixtures/app';
-import { Dashboard } from '../fixtures/pages/Dashboard';
+import { Dashboard } from '../fixtures/pages/DashboardHome';
 import { PlanCreationInterface } from '../fixtures/components/PlanCreationInterface';
 import { PromoList } from '../fixtures/components/PromoList';
 

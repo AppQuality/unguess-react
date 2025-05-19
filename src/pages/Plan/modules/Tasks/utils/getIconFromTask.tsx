@@ -1,5 +1,6 @@
 import { getColor } from '@appquality/unguess-design-system';
 import { appTheme } from 'src/app/theme';
+import { ReactComponent as AccessibilityTaskIcon } from 'src/assets/icons/accessibility-task-icon.svg';
 import { ReactComponent as ExploratoryTaskIcon } from 'src/assets/icons/exploratory-task-icon.svg';
 import { ReactComponent as FunctionalTaskIcon } from 'src/assets/icons/functional-task-icon.svg';
 import { ReactComponent as SurveyTaskIcon } from 'src/assets/icons/survey-task-icon.svg';
@@ -50,6 +51,8 @@ const getIconFromTaskOutput = (
       return <ThinkingAloudTaskIcon color={color} />;
     case 'survey':
       return <SurveyTaskIcon color={color} />;
+    case 'accessibility':
+      return <AccessibilityTaskIcon color={color} />;
     default:
       return null;
   }
