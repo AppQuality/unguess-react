@@ -61,10 +61,7 @@ const DeleteProjectModal = ({
         {t('__PROJECT_PAGE_DELETE_PROJECT_MODAL_TITLE')}
       </Modal.Header>
       <Modal.Body>
-        <Trans
-          i18nKey="__PROJECT_PAGE_DELETE_PROJECT_MODAL_BODY"
-          components={{ md: <MD />, boldSpan: <Span isBold /> }}
-        />
+        <Trans i18nKey="__PROJECT_PAGE_DELETE_PROJECT_MODAL_BODY" />
       </Modal.Body>
       <Modal.Footer>
         <FooterItem>
