@@ -1,16 +1,25 @@
-import { test } from '../../fixtures/app';
+import { test, expect } from '../../fixtures/app';
 import { Join } from '../../fixtures/pages/Join';
 
 test.describe('The Join page first step - case new user', () => {
   let join: Join;
-
   test.beforeEach(async ({ page }) => {
     join = new Join(page);
+    // step1 = new Step1(page);
 
     await join.open();
   });
 
-  test('display a form with user email and password input, a CTA to go to the next step', async () => {});
+  test('display a form with user email and password input, a CTA to go to the next step', async () => {
+    const tab = join.steps.step1.elements().container();
+    expect(tab).toBeVisible();
+    const emailInput = join.steps.step1.elements().emailInput();
+    expect(emailInput).toBeVisible();
+    const passwordInput = join.steps.step1.elements().passwordInput();
+    expect(passwordInput).toBeVisible();
+    // const goToStep2 = join.steps.step1.elements().goToStep2();
+    // expect(goToStep2).toBeVisible();
+  });
   test('the password input check if the password is strong enough', async () => {});
   test('when the user click the next step cta we validate current inputs and if ok goes to the next step', async () => {});
   test('display two links to go to app.unguess and a link to terms and conditions', async () => {});
