@@ -6,6 +6,8 @@ import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { useAppSelector } from 'src/app/hooks';
 import { GoogleTagManager } from 'src/common/GoogleTagManager';
 import { useGetInvitesByProfileAndTokenQuery } from 'src/features/api';
+import { FormProvider } from './FormProvider';
+import { JoinForm } from './JoinForm';
 
 const StyledLogo = styled(Logo)`
   margin-top: ${({ theme }) => theme.space.xs};
@@ -63,7 +65,10 @@ const JoinPage = () => {
   return (
     <GoogleTagManager title={t('__PAGE_TITLE_JOIN')}>
       <CenteredXYContainer>
-        <StyledLogo type="vertical" size={200} />
+        <FormProvider>
+          <StyledLogo type="vertical" size={200} />
+          <JoinForm />
+        </FormProvider>
       </CenteredXYContainer>
     </GoogleTagManager>
   );
