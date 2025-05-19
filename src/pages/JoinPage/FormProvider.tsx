@@ -1,4 +1,5 @@
 import { Form, Formik, FormikHelpers } from 'formik';
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 
@@ -27,7 +28,7 @@ export const FormProvider = ({
   workspace,
 }: FormProviderProps) => {
   const initialValues: JoinFormValues = {
-    step: 1,
+    step: 2,
     mail: mail || '',
     password: '',
     name: name || '',
@@ -70,15 +71,20 @@ export const FormProvider = ({
     roleId: yup.number().when('step', {
       is: 2,
       then: yup
-        .boolean()
-        .required(t('SIGNUP_FORM_YOU_MUST_ACCEPT_TO_RECEIVE_EMAILS'))
-        .oneOf([true], t('SIGNUP_FORM_YOU_MUST_ACCEPT_TO_RECEIVE_EMAILS')),
+        .number()
+        .required(t('SIGNUP_FORM_YOU_MUST_ACCEPT_TO_RECEIVE_EMAILS')),
     }),
     workspace: yup.string().when('step', {
       is: 3,
       then: yup.string().required(t('SIGNUP_FORM_COUNTRY_IS_REQUIRED')),
     }),
   };
+
+  // logic to check if the user is invited
+  // for the time being we are checking if the mail is not empty
+  const isInvited = useMemo(() => {
+    return !!mail;
+  }, [mail]);
 
   return (
     <Formik
@@ -87,6 +93,9 @@ export const FormProvider = ({
       validateOnBlur={false}
       validationSchema={validationSchema}
       enableReinitialize={false}
+      initialStatus={{
+        isInvited,
+      }}
       onSubmit={(
         values: JoinFormValues,
         { setSubmitting, resetForm }: FormikHelpers<JoinFormValues>
