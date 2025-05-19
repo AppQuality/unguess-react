@@ -1,9 +1,18 @@
-import { Button } from '@appquality/unguess-design-system';
-import { useFormikContext } from 'formik';
+import {
+  Button,
+  FormField,
+  Input,
+  Label,
+  Message,
+  Span,
+} from '@appquality/unguess-design-system';
+import { Field, FieldProps, useFormikContext } from 'formik';
 import { useTranslation } from 'react-i18next';
+import { appTheme } from 'src/app/theme';
+import { JoinFormValues } from '../FormProvider';
 
 export const Step2 = () => {
-  const { setFieldValue } = useFormikContext();
+  const { setFieldValue, values, status } = useFormikContext<JoinFormValues>();
   const { t } = useTranslation();
   const goToNextStep = () => {
     setFieldValue('step', 3);
@@ -13,8 +22,27 @@ export const Step2 = () => {
   };
   return (
     <div>
-      <h2>Step 2</h2>
-      <p>This is the second step of the join process.</p>
+      <Field name="name">
+        {({ field, form, meta }: FieldProps) => {
+          const hasError = meta.touched && Boolean(meta.error);
+          return (
+            <FormField>
+              <Label>
+                {t('SIGNUP_FORM_NAME_LABEL')}
+                <Span style={{ color: appTheme.palette.red[600] }}>*</Span>
+              </Label>
+              <Input
+                type="text"
+                disabled={status?.isInvited}
+                {...field}
+                placeholder={t('SIGNUP_FORM_NAME_PLACEHOLDER')}
+                {...(hasError && { validation: 'error' })}
+              />
+              {hasError && <Message validation="error">{meta.error}</Message>}
+            </FormField>
+          );
+        }}
+      </Field>
       <Button onClick={goToPreviousStep}>
         {t('SIGNUP_FORM_RETURN_TO_STEP_1')}
       </Button>
