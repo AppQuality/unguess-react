@@ -6,10 +6,11 @@ import {
   Skeleton,
   XXXL,
 } from '@appquality/unguess-design-system';
+import { ReactComponent as DeleteIcon } from '@zendeskgarden/svg-icons/src/16/trash-stroke.svg';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useAppSelector } from 'src/app/hooks';
-import { useState } from 'react';
 import { appTheme } from 'src/app/theme';
 import { ProjectSettings } from 'src/common/components/inviteUsers/projectSettings';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
@@ -17,12 +18,11 @@ import { useGetProjectsByPidQuery } from 'src/features/api';
 import { useCanAccessToActiveWorkspace } from 'src/hooks/useCanAccessToActiveWorkspace';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import styled from 'styled-components';
-import { ReactComponent as DeleteIcon } from '@zendeskgarden/svg-icons/src/16/trash-stroke.svg';
 import { Counters } from './Counters';
 import { EditableDescription } from './EditableDescription';
 import { EditableTitle } from './EditableTitle';
-import { DeleteProjectModal } from './Modals/DeleteProjectModal';
 import { useProjectPlans } from './hooks/useProjectPlans';
+import { DeleteProjectModal } from './Modals/DeleteProjectModal';
 
 const StyledPageHeaderMeta = styled(PageHeader.Meta)`
   justify-content: space-between;
@@ -129,11 +129,13 @@ export const ProjectPageHeader = ({ projectId }: { projectId: number }) => {
                     {t('__DASHBOARD_CTA_NEW_ACTIVITY')}
                   </Button>
                 )}
-                {project?.campaigns_count === 0 && plans.length === 0 && (
-                  <IconButton onClick={() => setDeleteModalOpen(true)}>
-                    <DeleteIcon color={appTheme.palette.blue[600]} />
-                  </IconButton>
-                )}
+                {hasWorksPacePermission &&
+                  project?.campaigns_count === 0 &&
+                  plans.length === 0 && (
+                    <IconButton onClick={() => setDeleteModalOpen(true)}>
+                      <DeleteIcon color={appTheme.palette.blue[600]} />
+                    </IconButton>
+                  )}
               </StyledDiv>
             </StyledPageHeaderMeta>
           )}
