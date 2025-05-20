@@ -40,21 +40,47 @@ export class Step1 {
     await passwordInput.blur();
   }
 
-  async mockMailExist({ email }: { email: string }) {
-    await this.page.route(`*/**/api/users/by-email/${email}`, async (route) => {
-      await route.fulfill({
-        body: '{}',
-        status: 200,
-      });
-    });
+  async fillEmail(email: string) {
+    const emailInput = this.elements().emailInput();
+    await emailInput.fill(email);
+    await emailInput.blur();
   }
 
-  async mockMailDoesNotExist({ email }: { email: string }) {
-    await this.page.route(`*/**/api/users/by-email/${email}`, async (route) => {
-      await route.fulfill({
-        body: '{}',
-        status: 404,
-      });
-    });
+  async fillRegisteredEmail() {
+    await this.mockMailExist();
+    const emailInput = this.elements().emailInput();
+    await emailInput.fill('user.registerd@example.com');
+    await emailInput.blur();
+  }
+
+  async fillValidEmail() {
+    await this.mockMailDoesNotExist();
+    const emailInput = this.elements().emailInput();
+    await emailInput.fill('new.user@example.com');
+    await emailInput.blur();
+  }
+
+  async mockMailExist() {
+    await this.page.route(
+      `*/**/api/users/by-email/user.registerd@example.com`,
+      async (route) => {
+        await route.fulfill({
+          body: '{}',
+          status: 200,
+        });
+      }
+    );
+  }
+
+  async mockMailDoesNotExist() {
+    await this.page.route(
+      `*/**/api/users/by-email/new.user@example.com`,
+      async (route) => {
+        await route.fulfill({
+          body: '{}',
+          status: 404,
+        });
+      }
+    );
   }
 }

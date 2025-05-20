@@ -94,6 +94,7 @@ export const FormProvider = ({
     <Formik
       initialValues={initialValues}
       validationSchema={yup.object(validationSchema)}
+      validateOnChange={false}
       initialStatus={{
         isInvited,
       }}

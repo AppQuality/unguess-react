@@ -24,13 +24,29 @@ export const Step1 = () => {
     }
     setFieldValue('step', 2);
   };
+
+  const validateEmail = async (value: string) => {
+    let error;
+    const res = await fetch(
+      `${process.env.REACT_APP_API_URL}/users/by-email/${value}`
+    );
+
+    if (res.status === 200) error = t('SIGNUP_FORM_EMAIL_ALREADY_TAKEN');
+    // If the request fails (404), the email is not taken
+    else if (res.status === 404) error = undefined;
+    else error = t('SIGNUP_FORM_EMAIL_ERROR_SERVER_MAIL_CHECK');
+
+    return error;
+  };
+
   return (
     <div role="tabpanel" title="Step 1" data-qa="step-1">
       <h2>Step 1</h2>
       <p>This is the first step of the join process.</p>
-      <Field name="email">
+      <Field name="email" validate={validateEmail}>
         {({ field, meta }: FieldProps) => {
           const hasError = meta.touched && Boolean(meta.error);
+          console.log('meta', meta);
           return (
             <FormField>
               <Label>
