@@ -28,7 +28,7 @@ export const FormProvider = ({
   workspace,
 }: FormProviderProps) => {
   const initialValues: JoinFormValues = {
-    step: 2,
+    step: 1,
     mail: mail || '',
     password: '',
     name: name || '',
