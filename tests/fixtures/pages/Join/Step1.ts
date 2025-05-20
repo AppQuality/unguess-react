@@ -14,7 +14,7 @@ export class Step1 {
       container: () => this.page.getByRole('tabpanel'),
       emailInput: () => this.page.getByRole('textbox', { name: 'Email' }),
       passwordInput: () => this.page.getByRole('textbox', { name: 'Password' }),
-      goToStep2: () =>
+      buttonGoToStep2: () =>
         this.page.getByRole('tab', { name: 'SIGNUP_FORM_GO_TO_STEP_2' }),
       firstStepContainer: () => this.page.getByTestId('signup-fisrt-step'),
       passwordRequirements: () =>
@@ -26,6 +26,12 @@ export class Step1 {
   expectToBeVisible() {
     const tab = this.elements().container();
     return tab.isVisible();
+  }
+
+  async goToNextStep() {
+    await this.fillValidEmail();
+    await this.fillValidPassword();
+    await this.elements().buttonGoToStep2().click();
   }
 
   async fillPassword(pass: string) {
