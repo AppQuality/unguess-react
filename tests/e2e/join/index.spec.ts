@@ -26,38 +26,56 @@ test.describe('The Join page first step - case new user', () => {
     page,
     i18n,
   }) => {
-    expect(step1.elements().passwordRequirements()).toBeVisible();
+    await expect(step1.elements().passwordRequirements()).toBeVisible();
 
     await step1.fillPassword('weak');
-    expect(
+    await expect(
       page.getByText(
         i18n.t('SIGNUP_FORM_PASSWORD_MUST_BE_AT_LEAST_6_CHARACTER_LONG')
       )
     ).toBeVisible();
 
     await step1.fillPassword('weakpassword');
-    expect(
+    await expect(
       page.getByText(
         i18n.t('SIGNUP_FORM_PASSWORD_MUST_CONTAIN_AT_LEAST_A_NUMBER')
       )
     ).toBeVisible();
 
     await step1.fillPassword('weakpassword123');
-    expect(
+    await expect(
       page.getByText(
         i18n.t('SIGNUP_FORM_PASSWORD_MUST_CONTAIN_AT_LEAST_AN_UPPERCASE_LETTER')
       )
     ).toBeVisible();
 
     await step1.fillPassword('WEAKPASSWORD123');
-    expect(
+    await expect(
       page.getByText(
         i18n.t('SIGNUP_FORM_PASSWORD_MUST_CONTAIN_AT_LEAST_A_LOWERCASE_LETTER')
       )
     ).toBeVisible();
 
     await step1.fillValidPassword();
-    expect(page.getByTestId('message-error-password')).not.toBeVisible();
+    await expect(page.getByTestId('message-error-password')).not.toBeVisible();
+  });
+
+  test('the email input check if the email is valid', async ({
+    page,
+    i18n,
+  }) => {
+    await step1.fillEmail('invalid-email');
+    await expect(
+      page.getByText(i18n.t('SIGNUP_FORM_EMAIL_MUST_BE_A_VALID_EMAIL'))
+    ).toBeVisible();
+
+    await step1.fillRegisteredEmail();
+    await expect(
+      page.getByText(i18n.t('SIGNUP_FORM_EMAIL_ALREADY_TAKEN'))
+    ).toBeVisible();
+
+    await step1.fillValidEmail();
+    await expect(page.getByTestId('message-error-email')).not.toBeVisible();
   });
 
   test('when the user click the next step cta we validate current inputs and if ok goes to the next step', async () => {});
