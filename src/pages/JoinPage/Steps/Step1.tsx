@@ -14,8 +14,6 @@ export const Step1 = () => {
   const { setFieldValue, validateForm } = useFormikContext();
   const { t } = useTranslation();
   const goToNextStep = async () => {
-    // eslint-disable-next-line no-debugger
-    debugger;
     const errors = await validateForm();
     if (Object.keys(errors).length > 0) {
       console.log(errors);
@@ -40,13 +38,12 @@ export const Step1 = () => {
   };
 
   return (
-    <div role="tabpanel" title="Step 1" data-qa="step-1">
+    <div role="tabpanel" title="Step 1">
       <h2>Step 1</h2>
       <p>This is the first step of the join process.</p>
       <Field name="email" validate={validateEmail}>
         {({ field, meta }: FieldProps) => {
           const hasError = meta.touched && Boolean(meta.error);
-          console.log('meta', meta);
           return (
             <FormField>
               <Label>

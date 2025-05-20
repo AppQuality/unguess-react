@@ -11,12 +11,11 @@ export class Step1 {
 
   elements() {
     return {
-      container: () => this.page.getByRole('tabpanel'),
+      container: () => this.page.getByRole('tabpanel', { name: 'Step 1' }),
       emailInput: () => this.page.getByRole('textbox', { name: 'Email' }),
       passwordInput: () => this.page.getByRole('textbox', { name: 'Password' }),
       buttonGoToStep2: () =>
         this.page.getByRole('tab', { name: 'SIGNUP_FORM_GO_TO_STEP_2' }),
-      firstStepContainer: () => this.page.getByTestId('signup-fisrt-step'),
       passwordRequirements: () =>
         this.page.getByTestId('password-requirements'),
       termsLink: () => this.page.getByTestId('terms-and-conditions'),

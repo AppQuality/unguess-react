@@ -1,26 +1,26 @@
 import { test, expect } from '../../fixtures/app';
 import { Join } from '../../fixtures/pages/Join';
 import { Step1 } from '../../fixtures/pages/Join/Step1';
+import { Step2 } from '../../fixtures/pages/Join/Step2';
+import { Step3 } from '../../fixtures/pages/Join/Step3';
 
 test.describe('The Join page first step - case new user', () => {
   let join: Join;
   let step1: Step1;
+  let step2: Step2;
+
   test.beforeEach(async ({ page }) => {
     join = new Join(page);
     step1 = new Step1(page);
-
+    step2 = new Step2(page);
     await join.open();
   });
 
   test('display a form with user email and password input, a CTA to go to the next step', async () => {
-    const tab = step1.elements().container();
-    expect(tab).toBeVisible();
-    const emailInput = step1.elements().emailInput();
-    expect(emailInput).toBeVisible();
-    const passwordInput = step1.elements().passwordInput();
-    expect(passwordInput).toBeVisible();
-    const goToStep2 = step1.elements().goToStep2();
-    expect(goToStep2).toBeVisible();
+    await expect(step1.elements().container()).toBeVisible();
+    await expect(step1.elements().emailInput()).toBeVisible();
+    await expect(step1.elements().passwordInput()).toBeVisible();
+    await expect(step1.elements().buttonGoToStep2()).toBeVisible();
   });
   test('the password input check if the password is strong enough', async ({
     page,
@@ -78,15 +78,58 @@ test.describe('The Join page first step - case new user', () => {
     await expect(page.getByTestId('message-error-email')).not.toBeVisible();
   });
 
-  test('when the user click the next step cta we validate current inputs and if ok goes to the next step', async () => {});
+  test('when the user click the next step cta we validate current inputs and if ok goes to the next step', async () => {
+    await step1.goToNextStep();
+    await expect(step1.elements().container()).not.toBeVisible();
+    await expect(step2.elements().container()).toBeVisible();
+  });
   test('display two links to go to app.unguess and a link to terms and conditions', async () => {});
-  test('the email input, once blurred check if email is already existing and if is valid', async () => {});
 });
 
 test.describe('The Join page second step', () => {
-  test('display a job role dropdown populated from api options', async () => {});
-  test('display back and next navigation, clicking on next validate this step', async () => {});
-  test('display two require inputs for name and surname', async () => {});
+  let join: Join;
+  let step1: Step1;
+  let step2: Step2;
+  let step3: Step3;
+
+  test.beforeEach(async ({ page }) => {
+    join = new Join(page);
+    step1 = new Step1(page);
+    step2 = new Step2(page);
+    step3 = new Step3(page);
+
+    await step2.mockGetRoles();
+    await join.open();
+    await step1.goToNextStep();
+  });
+  test('display required inputs for name, surname and a job role dropdown populated from api userRole', async () => {
+    await expect(step2.elements().nameInput()).toBeVisible();
+    await expect(step2.elements().surnameInput()).toBeVisible();
+    await expect(step2.elements().roleSelect()).toBeVisible();
+    await step2.elements().roleSelect().click();
+    await expect(step2.elements().roleSelectOptions()).toHaveCount(3);
+    await step2.elements().buttonGoToStep3().click();
+    await expect(step2.elements().nameError()).toHaveText(
+      'SIGNUP_FORM_NAME_IS_REQUIRED'
+    );
+    await expect(step2.elements().surnameError()).toHaveText(
+      'SIGNUP_FORM_SURNAME_IS_REQUIRED'
+    );
+    await expect(step2.elements().roleSelectError()).toHaveText(
+      'SIGNUP_FORM_ROLE_IS_REQUIRED'
+    );
+    await step2.fillValidFields();
+    await expect(step2.elements().nameError()).not.toBeVisible();
+    await expect(step2.elements().surnameError()).not.toBeVisible();
+    await expect(step2.elements().roleSelectError()).not.toBeVisible();
+  });
+  test('display back and next navigation, clicking on next validate this step and goes to step 3', async () => {
+    await expect(step2.elements().buttonBackToStep1()).toBeVisible();
+    await expect(step2.elements().buttonGoToStep3()).toBeVisible();
+    await step2.goToNextStep();
+    await expect(step2.elements().container()).not.toBeVisible();
+    await expect(step3.elements().container()).toBeVisible();
+  });
 });
 
 test.describe('The Join page third step', () => {
