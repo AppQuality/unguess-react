@@ -11,10 +11,8 @@ export class Step3 {
 
   elements() {
     return {
-      container: () => this.page.getByRole('tabpanel', { name: 'Step 1' }),
-      emailInput: () => this.page.getByRole('textbox', { name: 'Email' }),
-      passwordInput: () => this.page.getByLabel('Password'),
-      goToStep2: () =>
+      container: () => this.page.getByRole('tabpanel', { name: 'Step 3' }),
+      buttonBackToStep2: () =>
         this.page.getByRole('tab', { name: 'SIGNUP_FORM_GO_TO_STEP_2' }),
     };
   }

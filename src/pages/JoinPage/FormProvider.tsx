@@ -76,9 +76,7 @@ export const FormProvider = ({
     }),
     roleId: yup.number().when('step', {
       is: 2,
-      then: yup
-        .number()
-        .required(t('SIGNUP_FORM_YOU_MUST_ACCEPT_TO_RECEIVE_EMAILS')),
+      then: yup.number().min(1, t('SIGNUP_FORM_ROLE_IS_REQUIRED')),
     }),
     workspace: yup.string().when('step', {
       is: 3,
