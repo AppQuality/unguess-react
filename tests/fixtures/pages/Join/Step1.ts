@@ -17,8 +17,8 @@ export class Step1 {
       goToStep2: () =>
         this.page.getByRole('tab', { name: 'SIGNUP_FORM_GO_TO_STEP_2' }),
       firstStepContainer: () => this.page.getByTestId('signup-fisrt-step'),
-      // passwordRequirements: () =>
-      //   this.page.getByTestId('password-requirements'),
+      passwordRequirements: () =>
+        this.page.getByTestId('password-requirements'),
       termsLink: () => this.page.getByTestId('terms-and-conditions'),
     };
   }
@@ -26,6 +26,18 @@ export class Step1 {
   expectToBeVisible() {
     const tab = this.elements().container();
     return tab.isVisible();
+  }
+
+  async fillPassword(pass: string) {
+    const passwordInput = this.elements().passwordInput();
+    await passwordInput.fill(pass);
+    await passwordInput.blur();
+  }
+
+  async fillValidPassword() {
+    const passwordInput = this.elements().passwordInput();
+    await passwordInput.fill('ValidPassword123');
+    await passwordInput.blur();
   }
 
   async mockMailExist({ email }: { email: string }) {

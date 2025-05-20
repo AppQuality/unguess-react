@@ -11,9 +11,17 @@ import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 
 export const Step1 = () => {
-  const { setFieldValue } = useFormikContext();
+  const { setFieldValue, validateForm } = useFormikContext();
   const { t } = useTranslation();
-  const goToNextStep = () => {
+  const goToNextStep = async () => {
+    // eslint-disable-next-line no-debugger
+    debugger;
+    const errors = await validateForm();
+    if (Object.keys(errors).length > 0) {
+      console.log(errors);
+
+      return;
+    }
     setFieldValue('step', 2);
   };
   return (
@@ -37,7 +45,11 @@ export const Step1 = () => {
                 placeholder={t('SIGNUP_FORM_EMAIL_PLACEHOLDER')}
                 {...(hasError && { validation: 'error' })}
               />
-              {hasError && <Message validation="error">{meta.error}</Message>}
+              {hasError && (
+                <Message data-qa="message-error-email" validation="error">
+                  {meta.error}
+                </Message>
+              )}
             </FormField>
           );
         }}
@@ -60,11 +72,24 @@ export const Step1 = () => {
                 placeholder={t('SIGNUP_FORM_PASSWORD_PLACEHOLDER')}
                 {...(hasError && { validation: 'error' })}
               />
-              {hasError && <Message validation="error">{meta.error}</Message>}
+              {hasError && (
+                <Message data-qa="message-error-password" validation="error">
+                  {meta.error}
+                </Message>
+              )}
             </FormField>
           );
         }}
       </Field>
+      <div data-qa="password-requirements">
+        You password must:
+        <ul>
+          <li>• Constain 6 characters minimum</li>
+          <li>• One numeric digit</li>
+          <li>• One upper case character</li>
+          <li>• One lower case character</li>
+        </ul>
+      </div>
       <Button role="tab" onClick={goToNextStep}>
         {t('SIGNUP_FORM_GO_TO_STEP_2')}
       </Button>
