@@ -3,10 +3,8 @@ import {
   FormField,
   Input,
   Label,
-  MD,
   Message,
   Span,
-  theme,
 } from '@appquality/unguess-design-system';
 import { Field, FieldProps, useFormikContext } from 'formik';
 import { useTranslation } from 'react-i18next';

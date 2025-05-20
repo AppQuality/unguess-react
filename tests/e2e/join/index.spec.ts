@@ -17,8 +17,8 @@ test.describe('The Join page first step - case new user', () => {
     expect(emailInput).toBeVisible();
     const passwordInput = join.steps.step1.elements().passwordInput();
     expect(passwordInput).toBeVisible();
-    // const goToStep2 = join.steps.step1.elements().goToStep2();
-    // expect(goToStep2).toBeVisible();
+    const goToStep2 = join.steps.step1.elements().goToStep2();
+    expect(goToStep2).toBeVisible();
   });
   test('the password input check if the password is strong enough', async () => {});
   test('when the user click the next step cta we validate current inputs and if ok goes to the next step', async () => {});
