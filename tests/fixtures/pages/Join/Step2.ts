@@ -39,10 +39,11 @@ export class Step2 {
   }
 
   async fillValidFields() {
-    await this.elements().nameInput().fill(this.name);
-    await this.elements().surnameInput().fill(this.surname);
     await this.elements().roleSelect().click();
     await this.elements().roleSelectOptions().first().click();
+    await this.elements().surnameInput().fill(this.surname);
+    await this.elements().nameInput().fill(this.name);
+    await this.elements().nameInput().blur();
   }
 
   async goToNextStep() {

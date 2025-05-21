@@ -199,6 +199,4 @@ test.describe('The Join page third step', () => {
     await expect(step3.elements().container()).not.toBeVisible();
     await expect(page).toHaveURL(/.*\/projects\/\d+/);
   });
-  test('if the POST answer with a projectId then redirect to /projects/{projectId}', async () => {});
-  test('if the POST does NOT answer with a projectId then go to the homepage', async () => {});
 });
