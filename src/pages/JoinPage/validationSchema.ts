@@ -41,7 +41,7 @@ export const useValidationSchema = () => {
     }),
     roleId: yup.number().when('step', {
       is: 2,
-      then: yup.number().min(1, t('SIGNUP_FORM_ROLE_IS_REQUIRED')),
+      then: yup.number().positive(t('SIGNUP_FORM_ROLE_IS_REQUIRED')),
     }),
     workspace: yup.string().when('step', {
       is: 3,

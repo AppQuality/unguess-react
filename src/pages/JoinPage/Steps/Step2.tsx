@@ -11,14 +11,21 @@ import { Field, FieldProps, useFormikContext } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { useGetUsersRolesQuery } from 'src/features/api';
-import { useMemo } from 'react';
+import { useMemo, useRef } from 'react';
 import { JoinFormValues } from '../valuesType';
 
 export const Step2 = () => {
-  const { setFieldValue, values, status, validateForm, setTouched } =
-    useFormikContext<JoinFormValues>();
+  const {
+    setFieldValue,
+    values,
+    status,
+    validateForm,
+    setTouched,
+    validateField,
+  } = useFormikContext<JoinFormValues>();
   const { t } = useTranslation();
   const { data, isLoading } = useGetUsersRolesQuery();
+  const selectRef = useRef<HTMLDivElement>(null);
   const renderOptions = useMemo(
     () =>
       data?.map((role) => (
@@ -97,14 +104,13 @@ export const Step2 = () => {
       <Field name="roleId">
         {({ field, form, meta }: FieldProps) => {
           const hasError = meta.touched && Boolean(meta.error);
+          console.log('roleId field', field);
+          console.log('roleId meta', meta);
           return (
-            <>
-              <Label>
-                {t('SIGNUP_FORM_ROLE_LABEL')}
-                <Span style={{ color: appTheme.palette.red[600] }}>*</Span>
-              </Label>
+            <div ref={selectRef}>
               <Select
                 data-qa="roleId-select"
+                {...field}
                 renderValue={(value) =>
                   data?.find((role) => role.id === Number(value.inputValue))
                     ?.name
@@ -112,8 +118,19 @@ export const Step2 = () => {
                 isCompact
                 inputValue={field.value}
                 selectionValue={field.value}
-                onSelect={async (roleId) => {
+                label={
+                  <>
+                    {t('SIGNUP_FORM_ROLE_LABEL')}
+                    <Span style={{ color: appTheme.palette.red[600] }}>*</Span>
+                  </>
+                }
+                onSelect={(roleId) => {
                   setFieldValue('roleId', Number(roleId));
+                  (
+                    selectRef.current?.querySelector(
+                      '[role="combobox"]'
+                    ) as HTMLElement | null
+                  )?.blur();
                 }}
               >
                 {renderOptions}
@@ -123,7 +140,7 @@ export const Step2 = () => {
                   {meta.error}
                 </Message>
               )}
-            </>
+            </div>
           );
         }}
       </Field>

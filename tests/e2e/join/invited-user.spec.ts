@@ -91,4 +91,5 @@ test.describe('The Join page third step - case invited user only', () => {
       join.validInvitedUser.workspace
     );
   });
+  test('the POST should NOT answer with a projectId therefore submitting the form redirect to the homepage', async () => {});
 });
