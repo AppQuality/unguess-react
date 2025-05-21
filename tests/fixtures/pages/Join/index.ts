@@ -26,18 +26,9 @@ export class Join extends UnguessPage {
 
   readonly validInvitedUser = validInvitedUser;
 
-  readonly steps: {
-    [index: string]: Step;
-  };
-
   constructor(page: Page) {
     super(page);
     this.page = page;
-    this.steps = {
-      step1: new Step1(page),
-      step2: new Step2(page),
-      step3: new Step3(page),
-    };
   }
 
   elements() {

@@ -65,7 +65,7 @@ const JoinPage = () => {
   return (
     <GoogleTagManager title={t('__PAGE_TITLE_JOIN')}>
       <CenteredXYContainer>
-        <FormProvider {...data} profile={profile} token={token}>
+        <FormProvider {...data}>
           <StyledLogo type="vertical" size={200} />
           <Grid>
             <Row>

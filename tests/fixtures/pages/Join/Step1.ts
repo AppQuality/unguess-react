@@ -3,8 +3,6 @@ import { Page } from '@playwright/test';
 export class Step1 {
   readonly page: Page;
 
-  readonly stepNumber = 1;
-
   constructor(page: Page) {
     this.page = page;
   }
