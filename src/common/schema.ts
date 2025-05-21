@@ -22,10 +22,6 @@ export interface paths {
       };
     };
   };
-  '/campaigns': {
-    post: operations['post-campaigns'];
-    parameters: {};
-  };
   '/campaigns/{cid}': {
     get: operations['get-campaign'];
     patch: operations['patch-campaigns'];
@@ -385,9 +381,9 @@ export interface paths {
       };
     };
   };
-  '/templates': {
-    /** Retrieve all available use case templates */
-    get: operations['get-templates'];
+  '/users': {
+    post: operations['post-users'];
+    parameters: {};
   };
   '/users/by-email/{email}': {
     head: operations['head-users-by-email-email'];
@@ -1144,40 +1140,6 @@ export interface components {
       /** @enum {string} */
       type: 'tablet';
     };
-    /**
-     * Template
-     * @description Template of a usecase object
-     */
-    Template: {
-      title: string;
-      /** @description Short description used as preview of template or in templates dropdown */
-      description?: string;
-      /** @description HTML content used to pre-fill the use case editor */
-      content?: string;
-      category?: components['schemas']['TemplateCategory'];
-      /** @enum {string} */
-      device_type?: 'webapp' | 'mobileapp';
-      /**
-       * @default en
-       * @enum {string}
-       */
-      locale?: 'en' | 'it';
-      /** Format: uri */
-      image?: string;
-      /**
-       * @description The use case created by this template needs a login or not?
-       * @default false
-       */
-      requiresLogin?: boolean;
-    };
-    /**
-     * TemplateCategory
-     * @description Group different templates
-     */
-    TemplateCategory: {
-      id?: number;
-      name: string;
-    };
     /** Tenant */
     Tenant: {
       /** @description tryber wp_user_id */
@@ -1201,10 +1163,6 @@ export interface components {
     UseCase: {
       title: string;
       description: string;
-      /** @description Optional in experiential campaigns */
-      functionality?: {
-        id?: number;
-      } & components['schemas']['Template'];
       logged?: boolean;
       link?: string;
     };
@@ -1705,6 +1663,20 @@ export interface components {
       };
       background?: string;
     };
+    /** Data for post-users request for invited user */
+    PostUserInviteData: {
+      profileId: number;
+      token: string;
+      /** @enum {string} */
+      type: 'invite';
+    };
+    /** Data for post-users request for new user */
+    PostUserNewData: {
+      workspace: string;
+      email: string;
+      /** @enum {string} */
+      type: 'new';
+    };
   };
   responses: {
     /** Shared error response */
@@ -1785,7 +1757,6 @@ export interface components {
           has_bug_parade?: number;
           description?: string;
           base_bug_internal_id?: string;
-          express_slug: string;
           use_cases?: components['schemas']['UseCase'][];
           productType?: number;
           productLink?: string;
@@ -1870,22 +1841,6 @@ export interface operations {
       };
       500: components['responses']['Error'];
     };
-  };
-  'post-campaigns': {
-    parameters: {};
-    responses: {
-      /** OK */
-      200: {
-        content: {
-          'application/json': components['schemas']['Campaign'];
-        };
-      };
-      400: components['responses']['Error'];
-      403: components['responses']['Error'];
-      404: components['responses']['Error'];
-      500: components['responses']['Error'];
-    };
-    requestBody: components['requestBodies']['Campaign'];
   };
   'get-campaign': {
     parameters: {
@@ -3364,30 +3319,32 @@ export interface operations {
       };
     };
   };
-  /** Retrieve all available use case templates */
-  'get-templates': {
-    parameters: {
-      query: {
-        /** filterBy[<fieldName>]=<fieldValue> */
-        filterBy?: components['parameters']['filterBy'];
-        /** Order value (ASC, DESC) */
-        order?: components['parameters']['order'];
-        /** Order by accepted field */
-        orderBy?: components['parameters']['orderBy'];
-      };
-    };
+  'post-users': {
+    parameters: {};
     responses: {
-      /** OK */
-      200: {
+      /** Created */
+      201: {
         content: {
-          'application/json': ({
-            id?: number;
-          } & components['schemas']['Template'])[];
+          'application/json': {
+            workspaceId: number;
+            projectId?: number;
+          };
         };
       };
       400: components['responses']['Error'];
-      403: components['responses']['Error'];
-      500: components['responses']['Error'];
+    };
+    requestBody: {
+      content: {
+        'application/json': {
+          name: string;
+          surname: string;
+          password: string;
+          roleId: number;
+        } & (
+          | components['schemas']['PostUserInviteData']
+          | components['schemas']['PostUserNewData']
+        );
+      };
     };
   };
   'head-users-by-email-email': {
