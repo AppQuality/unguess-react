@@ -10,10 +10,9 @@ import {
 import { Field, FieldProps, useFormikContext } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
-import { JoinFormValues } from '../FormProvider';
 import { useGetUsersRolesQuery } from 'src/features/api';
 import { useMemo } from 'react';
-import { validate } from 'uuid';
+import { JoinFormValues } from '../FormProvider';
 
 export const Step2 = () => {
   const { setFieldValue, values, status, validateForm, setTouched } =

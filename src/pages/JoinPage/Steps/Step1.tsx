@@ -11,13 +11,16 @@ import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 
 export const Step1 = () => {
-  const { setFieldValue, validateForm } = useFormikContext();
+  const { setFieldValue, validateForm, setTouched } = useFormikContext();
   const { t } = useTranslation();
   const goToNextStep = async () => {
+    await setTouched({
+      email: true,
+      password: true,
+    });
     const errors = await validateForm();
     if (Object.keys(errors).length > 0) {
       console.log(errors);
-
       return;
     }
     setFieldValue('step', 2);
@@ -26,7 +29,10 @@ export const Step1 = () => {
   const validateEmail = async (value: string) => {
     let error;
     const res = await fetch(
-      `${process.env.REACT_APP_API_URL}/users/by-email/${value}`
+      `${process.env.REACT_APP_API_URL}/users/by-email/${value}`,
+      {
+        method: 'HEAD',
+      }
     );
 
     if (res.status === 200) error = t('SIGNUP_FORM_EMAIL_ALREADY_TAKEN');
