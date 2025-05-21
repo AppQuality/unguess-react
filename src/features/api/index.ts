@@ -23,16 +23,6 @@ const injectedRtkApi = api.injectEndpoints({
         method: 'POST',
       }),
     }),
-    postCampaigns: build.mutation<
-      PostCampaignsApiResponse,
-      PostCampaignsApiArg
-    >({
-      query: (queryArg) => ({
-        url: `/campaigns`,
-        method: 'POST',
-        body: queryArg.body,
-      }),
-    }),
     patchCampaignsByCid: build.mutation<
       PatchCampaignsByCidApiResponse,
       PatchCampaignsByCidApiArg
@@ -500,14 +490,11 @@ const injectedRtkApi = api.injectEndpoints({
         body: queryArg.body,
       }),
     }),
-    getTemplates: build.query<GetTemplatesApiResponse, GetTemplatesApiArg>({
+    postUsers: build.mutation<PostUsersApiResponse, PostUsersApiArg>({
       query: (queryArg) => ({
-        url: `/templates`,
-        params: {
-          filterBy: queryArg.filterBy,
-          order: queryArg.order,
-          orderBy: queryArg.orderBy,
-        },
+        url: `/users`,
+        method: 'POST',
+        body: queryArg.body,
       }),
     }),
     headUsersByEmailByEmail: build.mutation<
@@ -830,44 +817,6 @@ export type PostAnalyticsViewsCampaignsByCidApiResponse = /** status 200 OK */ {
 export type PostAnalyticsViewsCampaignsByCidApiArg = {
   /** Campaign id */
   cid: string;
-};
-export type PostCampaignsApiResponse = /** status 200 OK */ Campaign;
-export type PostCampaignsApiArg = {
-  body: {
-    title: string;
-    start_date: string;
-    end_date: string;
-    close_date: string;
-    customer_title?: string;
-    status_id?: number;
-    is_public?: number;
-    campaign_type_id: number;
-    project_id: number;
-    pm_id: number;
-    platforms: PlatformObject[];
-    /** Da togliere */
-    page_preview_id?: number;
-    /** Da togliere */
-    page_manual_id?: number;
-    /** Used to check available coins */
-    customer_id: number;
-    has_bug_form?: number;
-    /** if has_bug_form is 0 this has to be 0 */
-    has_bug_parade?: number;
-    description?: string;
-    base_bug_internal_id?: string;
-    express_slug: string;
-    use_cases?: UseCase[];
-    productType?: number;
-    productLink?: string;
-    browsers?: number[];
-    languages?: string[];
-    outOfScope?: string;
-    testerRequirements?: string;
-    targetSize?: number;
-    goal?: string;
-    testDescription?: string;
-  };
 };
 export type PatchCampaignsByCidApiResponse = /** status 200 OK */ Campaign;
 export type PatchCampaignsByCidApiArg = {
@@ -1589,16 +1538,20 @@ export type DeleteProjectsByPidUsersApiArg = {
     include_shared?: boolean;
   };
 };
-export type GetTemplatesApiResponse = /** status 200 OK */ ({
-  id?: number;
-} & Template)[];
-export type GetTemplatesApiArg = {
-  /** filterBy[<fieldName>]=<fieldValue> */
-  filterBy?: any;
-  /** Order value (ASC, DESC) */
-  order?: string;
-  /** Order by accepted field */
-  orderBy?: string;
+export type PostUsersApiResponse = /** status 201 Created */ {
+  workspaceId: number;
+  projectId?: number;
+};
+export type PostUsersApiArg = {
+  body: {
+    name: string;
+    surname: string;
+    password: string;
+    roleId: number;
+  } & (
+    | DataForPostUsersRequestForInvitedUser
+    | DataForPostUsersRequestForNewUser
+  );
 };
 export type HeadUsersByEmailByEmailApiResponse = unknown;
 export type HeadUsersByEmailByEmailApiArg = {
@@ -2027,46 +1980,6 @@ export type Campaign = {
   description?: string;
   base_bug_internal_id?: string;
 };
-export type PlatformObject = {
-  /** os */
-  id: number;
-  /** form_factor
-    
-    0 => smartphone,
-    1 => tablet
-    2 => pc
-    3 => smartwatch
-    4 => console
-    5 => tv */
-  deviceType: number;
-};
-export type TemplateCategory = {
-  id?: number;
-  name: string;
-};
-export type Template = {
-  title: string;
-  /** Short description used as preview of template or in templates dropdown */
-  description?: string;
-  /** HTML content used to pre-fill the use case editor */
-  content?: string;
-  category?: TemplateCategory;
-  device_type?: 'webapp' | 'mobileapp';
-  locale?: 'en' | 'it';
-  image?: string;
-  /** The use case created by this template needs a login or not? */
-  requiresLogin?: boolean;
-};
-export type UseCase = {
-  title: string;
-  description: string;
-  /** Optional in experiential campaigns */
-  functionality?: {
-    id?: number;
-  } & Template;
-  logged?: boolean;
-  link?: string;
-};
 export type Output = 'bugs' | 'media' | 'insights';
 export type CampaignWithOutput = Campaign & {
   outputs?: Output[];
@@ -2455,6 +2368,16 @@ export type Project = {
   description?: string;
   is_archive?: number;
 };
+export type DataForPostUsersRequestForInvitedUser = {
+  profileId: number;
+  token: string;
+  type: 'invite';
+};
+export type DataForPostUsersRequestForNewUser = {
+  workspace: string;
+  email: string;
+  type: 'new';
+};
 export type Feature = {
   slug?: string;
   name?: string;
@@ -2778,7 +2701,6 @@ export const {
   use$getQuery,
   usePostAuthenticateMutation,
   usePostAnalyticsViewsCampaignsByCidMutation,
-  usePostCampaignsMutation,
   usePatchCampaignsByCidMutation,
   useGetCampaignsByCidQuery,
   useGetCampaignsByCidBugTypesQuery,
@@ -2832,7 +2754,7 @@ export const {
   useGetProjectsByPidUsersQuery,
   usePostProjectsByPidUsersMutation,
   useDeleteProjectsByPidUsersMutation,
-  useGetTemplatesQuery,
+  usePostUsersMutation,
   useHeadUsersByEmailByEmailMutation,
   useGetUsersMeQuery,
   useGetUsersMePreferencesQuery,
