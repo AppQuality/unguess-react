@@ -1,12 +1,9 @@
 import { Page } from '@playwright/test';
-import validInvitedUser from '../../../api/invites/profile/token/_get/200_Example_1.json';
 
 export class Step1 {
   readonly page: Page;
 
   readonly stepNumber = 1;
-
-  readonly validInvitedUser = validInvitedUser;
 
   constructor(page: Page) {
     this.page = page;
@@ -40,6 +37,11 @@ export class Step1 {
     const passwordInput = this.elements().passwordInput();
     await passwordInput.fill(pass);
     await passwordInput.blur();
+  }
+
+  async goToNextStepAsInvitedUser() {
+    await this.fillValidPassword();
+    await this.elements().buttonGoToStep2().click();
   }
 
   async fillValidPassword() {

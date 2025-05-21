@@ -57,7 +57,6 @@ export const Step2 = () => {
               </Label>
               <Input
                 type="text"
-                disabled={status?.isInvited && values.name !== ''}
                 {...field}
                 placeholder={t('SIGNUP_FORM_NAME_PLACEHOLDER')}
                 {...(hasError && { validation: 'error' })}
@@ -82,7 +81,6 @@ export const Step2 = () => {
               </Label>
               <Input
                 type="text"
-                disabled={status?.isInvited && values.name !== ''}
                 {...field}
                 placeholder={t('SIGNUP_FORM_SURNAME_PLACEHOLDER')}
                 {...(hasError && { validation: 'error' })}
