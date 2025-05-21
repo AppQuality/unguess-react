@@ -5,7 +5,7 @@ import * as yup from 'yup';
 
 export interface JoinFormValues {
   step: number;
-  mail: string;
+  email: string;
   password: string;
   name: string;
   surname: string;
@@ -15,21 +15,21 @@ export interface JoinFormValues {
 
 interface FormProviderProps {
   children: React.ReactNode;
-  mail?: string;
+  email?: string;
   name?: string;
   surname?: string;
   workspace?: string;
 }
 export const FormProvider = ({
   children,
-  mail,
+  email,
   name,
   surname,
   workspace,
 }: FormProviderProps) => {
   const initialValues: JoinFormValues = {
     step: 1,
-    mail: mail || '',
+    email: email || '',
     password: '',
     name: name || '',
     surname: surname || '',
@@ -86,7 +86,7 @@ export const FormProvider = ({
 
   // logic to check if the user is invited
   // for the time being we are checking if the mail is not empty
-  const isInvited = useMemo(() => !!mail, [mail]);
+  const isInvited = useMemo(() => !!email, [email]);
 
   return (
     <Formik

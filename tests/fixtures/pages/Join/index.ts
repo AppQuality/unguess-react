@@ -16,9 +16,15 @@ export class Join extends UnguessPage {
 
   readonly url = '/join';
 
-  readonly urlInvitedUser = '/join/invites/1/token123';
+  readonly profileId = '1';
 
-  readonly steps: { [index: string]: Step };
+  readonly token = 'token123';
+
+  readonly urlInvitedUser = `${this.url}/invites/${this.profileId}/${this.token}`;
+
+  readonly steps: {
+    [index: string]: Step;
+  };
 
   constructor(page: Page) {
     super(page);
@@ -38,10 +44,17 @@ export class Join extends UnguessPage {
   }
 
   async mockGetInvitedUser() {
-    await this.page.route('*/**/api/invites/1/token123', async (route) => {
-      await route.fulfill({
-        path: 'tests/api/invites/profile/token/_get/200_Example_1.json',
-      });
-    });
+    await this.page.route(
+      `*/**/api/invites/${this.profileId}/${this.token}`,
+      async (route) => {
+        if (route.request().method() === 'GET') {
+          await route.fulfill({
+            path: 'tests/api/invites/profile/token/_get/200_Example_1.json',
+          });
+        } else {
+          await route.fallback();
+        }
+      }
+    );
   }
 }
