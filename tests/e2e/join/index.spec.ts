@@ -64,6 +64,10 @@ test.describe('The Join page first step - case new user', () => {
     page,
     i18n,
   }) => {
+    await step1.elements().buttonGoToStep2().click();
+    await expect(
+      page.getByText(i18n.t('SIGNUP_FORM_EMAIL_IS_REQUIRED'))
+    ).toBeVisible();
     await step1.fillEmail('invalid-email');
     await expect(
       page.getByText(i18n.t('SIGNUP_FORM_EMAIL_MUST_BE_A_VALID_EMAIL'))
