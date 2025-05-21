@@ -45,21 +45,21 @@ const FlipCardFaceContainer = styled.div<{ breakpoint: number }>`
   @keyframes hide {
     0% {
       opacity: 1;
-      display: block;
+      height: auto;
     }
     100% {
-      display: none;
       opacity: 0;
+      height: 0;
     }
   }
   @keyframes show {
     0% {
       opacity: 0;
-      display: none;
+      height: 0;
     }
     100% {
-      display: block;
       opacity: 1;
+      height: auto;
     }
   }
 `;
