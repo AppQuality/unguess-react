@@ -1,7 +1,6 @@
 import { Page } from '@playwright/test';
 import { i18n } from 'i18next';
 import { getI18nInstance } from 'playwright-i18next-fixture';
-//import tests/api/users/roles/_get/200_Example_1.json
 import roles from '../../../api/users/roles/_get/200_Example_1.json';
 
 export class Step2 {

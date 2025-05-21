@@ -1,4 +1,4 @@
-import { Formik, FormikHelpers, Form } from 'formik';
+import { Formik, Form } from 'formik';
 import { useMemo } from 'react';
 import { useValidationSchema } from './validationSchema';
 import { useJoinSubmit } from './useJoinSubmit';
@@ -10,8 +10,6 @@ interface FormProviderProps {
   name?: string;
   surname?: string;
   workspace?: string;
-  profile?: string;
-  token?: string;
 }
 
 export const FormProvider = ({
@@ -20,8 +18,6 @@ export const FormProvider = ({
   name,
   surname,
   workspace,
-  profile,
-  token,
 }: FormProviderProps) => {
   const initialValues: JoinFormValues = {
     step: 1,
@@ -37,7 +33,7 @@ export const FormProvider = ({
   // for the time being we are checking if the mail is not empty
   const isInvited = useMemo(() => !!email, [email]);
   const validationSchema = useValidationSchema();
-  const { onSubmit } = useJoinSubmit();
+  const { onSubmit } = useJoinSubmit(isInvited);
 
   return (
     <Formik

@@ -1,13 +1,12 @@
 import { useCallback } from 'react';
-import { FormikHelpers, useFormikContext } from 'formik';
-import { PostUsersApiResponse, usePostUsersMutation } from 'src/features/api';
-import { JoinFormValues } from './valuesType';
+import { FormikHelpers } from 'formik';
+import { usePostUsersMutation } from 'src/features/api';
 import { useParams } from 'react-router-dom';
+import { JoinFormValues } from './valuesType';
 
-export function useJoinSubmit() {
+export function useJoinSubmit(isInvited: boolean) {
   const [postFormValues] = usePostUsersMutation();
   const { token, profile } = useParams();
-  const { status } = useFormikContext<PostUsersApiResponse>();
 
   const onSubmit = useCallback(
     async (
@@ -23,7 +22,7 @@ export function useJoinSubmit() {
         roleId: values.roleId,
       };
       try {
-        if (status.isInvited) {
+        if (isInvited) {
           if (!token || !profile)
             throw new Error('Token or profile is missing');
           await postFormValues({
@@ -31,7 +30,7 @@ export function useJoinSubmit() {
               type: 'invite',
               ...basicInfo,
               profileId: Number(profile),
-              token: token,
+              token,
             },
           }).unwrap();
         } else {
@@ -49,7 +48,7 @@ export function useJoinSubmit() {
       }
       setSubmitting(false);
     },
-    [postFormValues, token, profile, status.isInvited]
+    [postFormValues, token, profile, isInvited]
   );
 
   return { onSubmit };
