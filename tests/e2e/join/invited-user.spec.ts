@@ -1,10 +1,14 @@
 import { test, expect } from '../../fixtures/app';
 import { Join } from '../../fixtures/pages/Join';
+import { Step1 } from '../../fixtures/pages/Join/Step1';
 
 test.describe('The Join page first step - case valid invited user only', () => {
   let join: Join;
+  let step1: Step1;
+
   test.beforeEach(async ({ page }) => {
     join = new Join(page);
+    step1 = new Step1(page);
 
     await join.mockGetInvitedUser();
     await page.goto(join.urlInvitedUser);
@@ -27,7 +31,12 @@ test.describe('The Join page first step - case valid invited user only', () => {
     expect(response).toBeDefined();
   });
 
-  test('the email input, is precompiled (with invited user email from api) and disabled', async () => {});
+  test('the email input, is precompiled (with invited user email from api) and disabled', async () => {
+    await expect(step1.elements().emailInput()).toBeDisabled();
+    await expect(step1.elements().emailInput()).toHaveValue(
+      step1.validInvitedUser.email
+    );
+  });
 });
 
 test.describe('The Join page second step - case invited user only', () => {

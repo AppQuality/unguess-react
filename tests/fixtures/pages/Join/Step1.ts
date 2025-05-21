@@ -1,9 +1,12 @@
 import { Page } from '@playwright/test';
+import validInvitedUser from '../../../api/invites/profile/token/_get/200_Example_1.json';
 
 export class Step1 {
   readonly page: Page;
 
   readonly stepNumber = 1;
+
+  readonly validInvitedUser = validInvitedUser;
 
   constructor(page: Page) {
     this.page = page;
