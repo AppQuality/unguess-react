@@ -143,8 +143,62 @@ test.describe('The Join page second step', () => {
 });
 
 test.describe('The Join page third step', () => {
-  test('display a required text input for the workspace name', async () => {});
-  test('display back and submit-button, clicking on submit-button validate the whole form and calls the api post', async () => {});
+  let join: Join;
+  let step1: Step1;
+  let step2: Step2;
+  let step3: Step3;
+
+  test.beforeEach(async ({ page }) => {
+    join = new Join(page);
+    step1 = new Step1(page);
+    step2 = new Step2(page);
+    step3 = new Step3(page);
+
+    await join.open();
+    await join.mockPostNewUser();
+    await step1.goToNextStep();
+    await step2.goToNextStep();
+  });
+  test('display a required text input for the workspace name and a back button to return to step 2', async () => {
+    await expect(step3.elements().workspaceInput()).toBeVisible();
+    await expect(step3.elements().buttonBackToStep2()).toBeVisible();
+    await step3.elements().buttonBackToStep2().click();
+    await expect(step3.elements().container()).not.toBeVisible();
+    await expect(step2.elements().container()).toBeVisible();
+  });
+  test('display a submit-button, clicking on submit-button validate the whole form and calls the api post', async ({
+    page,
+    i18n,
+  }) => {
+    const postPromise = page.waitForResponse(
+      (response) =>
+        /\/api\/users/.test(response.url()) &&
+        response.status() === 200 &&
+        response.request().method() === 'POST'
+    );
+    await step3.elements().buttonSubmit().click();
+    await expect(step3.elements().workspaceError()).toHaveText(
+      i18n.t('SIGNUP_FORM_WORKSPACE_IS_REQUIRED')
+    );
+    await step3.fillValidWorkspace();
+    await expect(step3.elements().workspaceError()).not.toBeVisible();
+    await step3.elements().buttonSubmit().click();
+    const response = await postPromise;
+    const data = response.request().postDataJSON();
+    expect(data).toEqual(
+      expect.objectContaining({
+        type: 'new',
+        email: 'new.user@example.com',
+        password: 'ValidPassword123',
+        name: step2.name,
+        surname: step2.surname,
+        roleId: step2.roleId,
+        workspace: step3.workspace,
+      })
+    );
+    await expect(step3.elements().container()).not.toBeVisible();
+    await expect(page).toHaveURL(/.*\/projects\/\d+/);
+  });
   test('if the POST answer with a projectId then redirect to /projects/{projectId}', async () => {});
   test('if the POST does NOT answer with a projectId then go to the homepage', async () => {});
 });

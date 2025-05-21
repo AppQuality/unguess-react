@@ -1,17 +1,8 @@
-import { Form, Formik, FormikHelpers } from 'formik';
+import { Formik, FormikHelpers, Form } from 'formik';
 import { useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
-import * as yup from 'yup';
-
-export interface JoinFormValues {
-  step: number;
-  email: string;
-  password: string;
-  name: string;
-  surname: string;
-  workspace: string;
-  roleId: number;
-}
+import { useValidationSchema } from './validationSchema';
+import { useJoinSubmit } from './useJoinSubmit';
+import { JoinFormValues } from './valuesType';
 
 interface FormProviderProps {
   children: React.ReactNode;
@@ -19,13 +10,18 @@ interface FormProviderProps {
   name?: string;
   surname?: string;
   workspace?: string;
+  profile?: string;
+  token?: string;
 }
+
 export const FormProvider = ({
   children,
   email,
   name,
   surname,
   workspace,
+  profile,
+  token,
 }: FormProviderProps) => {
   const initialValues: JoinFormValues = {
     step: 1,
@@ -37,73 +33,21 @@ export const FormProvider = ({
     workspace: workspace || '',
   };
 
-  const { t } = useTranslation();
-
-  const validationSchema = {
-    email: yup.string().when('step', {
-      is: 1,
-      then: yup
-        .string()
-        .required(t('SIGNUP_FORM_EMAIL_IS_REQUIRED'))
-        .email(t('SIGNUP_FORM_EMAIL_MUST_BE_A_VALID_EMAIL')),
-    }),
-    password: yup.string().when('step', {
-      is: 1,
-      then: yup
-        .string()
-        .min(6, t('SIGNUP_FORM_PASSWORD_MUST_BE_AT_LEAST_6_CHARACTER_LONG'))
-        .matches(
-          /[0-9]/,
-          t('SIGNUP_FORM_PASSWORD_MUST_CONTAIN_AT_LEAST_A_NUMBER')
-        )
-        .matches(
-          /[A-Z]/,
-          t('SIGNUP_FORM_PASSWORD_MUST_CONTAIN_AT_LEAST_AN_UPPERCASE_LETTER')
-        )
-        .matches(
-          /[a-z]/,
-          t('SIGNUP_FORM_PASSWORD_MUST_CONTAIN_AT_LEAST_A_LOWERCASE_LETTER')
-        )
-        .required(t('SIGNUP_FORM_PASSWORD_IS_A_REQUIRED_FIELD')),
-    }),
-    name: yup.string().when('step', {
-      is: 2,
-      then: yup.string().required(t('SIGNUP_FORM_NAME_IS_REQUIRED')),
-    }),
-    surname: yup.string().when('step', {
-      is: 2,
-      then: yup.string().required(t('SIGNUP_FORM_SURNAME_IS_REQUIRED')),
-    }),
-    roleId: yup.number().when('step', {
-      is: 2,
-      then: yup.number().min(1, t('SIGNUP_FORM_ROLE_IS_REQUIRED')),
-    }),
-    workspace: yup.string().when('step', {
-      is: 3,
-      then: yup.string().required(t('SIGNUP_FORM_COUNTRY_IS_REQUIRED')),
-    }),
-  };
-
   // logic to check if the user is invited
   // for the time being we are checking if the mail is not empty
   const isInvited = useMemo(() => !!email, [email]);
+  const validationSchema = useValidationSchema();
+  const { onSubmit } = useJoinSubmit();
 
   return (
     <Formik
       initialValues={initialValues}
-      validationSchema={yup.object(validationSchema)}
+      validationSchema={validationSchema}
       validateOnChange={false}
       initialStatus={{
         isInvited,
       }}
-      onSubmit={(
-        values: JoinFormValues,
-        { setSubmitting, resetForm }: FormikHelpers<JoinFormValues>
-      ) => {
-        setSubmitting(true);
-        // todo api call
-        setSubmitting(false);
-      }}
+      onSubmit={onSubmit}
     >
       <Form>{children}</Form>
     </Formik>

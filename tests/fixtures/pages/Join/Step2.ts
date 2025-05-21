@@ -1,13 +1,19 @@
 import { Page } from '@playwright/test';
 import { i18n } from 'i18next';
 import { getI18nInstance } from 'playwright-i18next-fixture';
+//import tests/api/users/roles/_get/200_Example_1.json
+import roles from '../../../api/users/roles/_get/200_Example_1.json';
 
 export class Step2 {
   readonly page: Page;
 
   readonly i18n: i18n;
 
-  readonly stepNumber = 2;
+  readonly name = 'John';
+
+  readonly surname = 'Doe';
+
+  readonly roleId = roles[0].id;
 
   constructor(page: Page) {
     this.page = page;
@@ -34,8 +40,8 @@ export class Step2 {
   }
 
   async fillValidFields() {
-    await this.elements().nameInput().fill('John');
-    await this.elements().surnameInput().fill('Doe');
+    await this.elements().nameInput().fill(this.name);
+    await this.elements().surnameInput().fill(this.surname);
     await this.elements().roleSelect().click();
     await this.elements().roleSelectOptions().first().click();
   }

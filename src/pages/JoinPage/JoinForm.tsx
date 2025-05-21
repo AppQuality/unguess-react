@@ -1,5 +1,5 @@
 import { useFormikContext } from 'formik';
-import { JoinFormValues } from './FormProvider';
+import { JoinFormValues } from './valuesType';
 import { Step1 } from './Steps/Step1';
 import { Step2 } from './Steps/Step2';
 import { Step3 } from './Steps/Step3';

@@ -9,7 +9,7 @@ import {
 import { Field, FieldProps, useFormikContext } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
-import { JoinFormValues } from '../FormProvider';
+import { JoinFormValues } from '../valuesType';
 
 export const Step1 = () => {
   const { setFieldValue, validateForm, setTouched, status, values } =
