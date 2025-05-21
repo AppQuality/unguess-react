@@ -9,10 +9,11 @@ import {
 import { Field, FieldProps, useFormikContext } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
+import { JoinFormValues } from '../FormProvider';
 
 export const Step1 = () => {
   const { setFieldValue, validateForm, setTouched, status, values } =
-    useFormikContext();
+    useFormikContext<JoinFormValues>();
   const { t } = useTranslation();
   const goToNextStep = async () => {
     await setTouched({

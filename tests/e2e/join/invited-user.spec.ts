@@ -1,6 +1,7 @@
 import { test, expect } from '../../fixtures/app';
 import { Join } from '../../fixtures/pages/Join';
 import { Step1 } from '../../fixtures/pages/Join/Step1';
+import { Step2 } from '../../fixtures/pages/Join/Step2';
 
 test.describe('The Join page first step - case valid invited user only', () => {
   let join: Join;
@@ -34,13 +35,35 @@ test.describe('The Join page first step - case valid invited user only', () => {
   test('the email input, is precompiled (with invited user email from api) and disabled', async () => {
     await expect(step1.elements().emailInput()).toBeDisabled();
     await expect(step1.elements().emailInput()).toHaveValue(
-      step1.validInvitedUser.email
+      join.validInvitedUser.email
     );
   });
 });
 
 test.describe('The Join page second step - case invited user only', () => {
-  test('display two inputs for name and surname precopiled if present in api response', async () => {});
+  let join: Join;
+  let step2: Step2;
+  let step1: Step1;
+  test.beforeEach(async ({ page }) => {
+    join = new Join(page);
+    step2 = new Step2(page);
+    step1 = new Step1(page);
+
+    await join.mockGetInvitedUser();
+    await step2.mockGetRoles();
+    await page.goto(join.urlInvitedUser);
+    await step1.goToNextStepAsInvitedUser();
+  });
+  test('display two inputs for name and surname precopiled if present in api response', async () => {
+    await expect(step2.elements().nameInput()).toBeEnabled();
+    await expect(step2.elements().nameInput()).toHaveValue(
+      join.validInvitedUser.name
+    );
+    await expect(step2.elements().surnameInput()).toBeEnabled();
+    await expect(step2.elements().surnameInput()).toHaveValue(
+      join.validInvitedUser.surname
+    );
+  });
 });
 
 test.describe('The Join page third step - case invited user only', () => {
