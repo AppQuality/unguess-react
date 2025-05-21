@@ -11,7 +11,8 @@ import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 
 export const Step1 = () => {
-  const { setFieldValue, validateForm, setTouched } = useFormikContext();
+  const { setFieldValue, validateForm, setTouched, status, values } =
+    useFormikContext();
   const { t } = useTranslation();
   const goToNextStep = async () => {
     await setTouched({
@@ -57,6 +58,7 @@ export const Step1 = () => {
                 <Span style={{ color: appTheme.palette.red[600] }}> *</Span>
               </Label>
               <Input
+                disabled={status?.isInvited && values.email !== ''}
                 type="email"
                 role="textbox"
                 title="Email"
