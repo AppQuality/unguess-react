@@ -3,22 +3,12 @@ import {
   useGetCampaignsByCidBugsQuery,
   useGetCampaignsByCidQuery,
 } from 'src/features/api';
-import {
-  getLocalizedFunctionalDashboardUrl,
-  getLocalizedPlanUrl,
-} from 'src/hooks/useLocalizeDashboardUrl';
-import styled from 'styled-components';
+import { getLocalizedFunctionalDashboardUrl } from 'src/hooks/useLocalizeDashboardUrl';
 import { ExternalLink } from '../../ExternalLink';
 import { Additionals } from './Additionals';
 import { CampaignOverview } from './CampaignOverview';
 import { DevicesAndTypes } from './DevicesAndTypes';
 import { UniqueBugsSection } from './UniqueBugsSection';
-
-const NavFooterCTAContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: ${({ theme }) => theme.space.sm};
-`;
 
 const useAdditionalFieldsWidget = ({ campaignId }: { campaignId: number }) => {
   const { t } = useTranslation();
@@ -87,25 +77,15 @@ export const widgets = ({ campaignId }: { campaignId: number }) => {
     ...additionalFieldsWidget,
     {
       content: (
-        <NavFooterCTAContainer>
-          {campaign.plan && (
-            <ExternalLink
-              id="anchor-plan-navigation"
-              url={getLocalizedPlanUrl(campaign.plan, i18n.language)}
-            >
-              {t('__CAMPAIGN_PAGE_NAVIGATION_PLAN_EXTERNAL_LINK_LABEL')}
-            </ExternalLink>
+        <ExternalLink
+          id="anchor-bugs-list-navigation"
+          url={getLocalizedFunctionalDashboardUrl(
+            campaign.id ?? 0,
+            i18n.language
           )}
-          <ExternalLink
-            id="anchor-bugs-list-navigation"
-            url={getLocalizedFunctionalDashboardUrl(
-              campaign.id ?? 0,
-              i18n.language
-            )}
-          >
-            {t('__CAMPAIGN_PAGE_NAVIGATION_BUG_EXTERNAL_LINK_LABEL')}
-          </ExternalLink>
-        </NavFooterCTAContainer>
+        >
+          {t('__CAMPAIGN_PAGE_NAVIGATION_BUG_EXTERNAL_LINK_LABEL')}
+        </ExternalLink>
       ),
       type: 'footer' as const,
     },
