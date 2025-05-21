@@ -1,8 +1,54 @@
+import {
+  FormField,
+  Label,
+  Span,
+  Input,
+  Message,
+  Button,
+  Select,
+} from '@appquality/unguess-design-system';
+import { Field, FieldProps, useFormikContext } from 'formik';
+import { useTranslation } from 'react-i18next';
+import { appTheme } from 'src/app/theme';
+import { JoinFormValues } from '../valuesType';
+
 export const Step3 = () => {
+  const { setFieldValue, values, status } = useFormikContext<JoinFormValues>();
+  const { t } = useTranslation();
+  const goToPreviousStep = () => {
+    setFieldValue('step', 1);
+  };
   return (
     <div role="tabpanel" title="Step 3">
-      <h2>Step 3</h2>
-      <p>This is the third step of the join process.</p>
+      <Field name="workspace">
+        {({ field, form, meta }: FieldProps) => {
+          const hasError = meta.touched && Boolean(meta.error);
+          return (
+            <FormField>
+              <Label>
+                {t('SIGNUP_FORM_WORKSPACE_LABEL')}
+                <Span style={{ color: appTheme.palette.red[600] }}>*</Span>
+              </Label>
+              <Input
+                type="text"
+                disabled={status?.isInvited && values.workspace !== ''}
+                {...field}
+                placeholder={t('SIGNUP_FORM_WORKSPACE_PLACEHOLDER')}
+                {...(hasError && { validation: 'error' })}
+              />
+              {hasError && (
+                <Message data-qa="signup-workspace-error" validation="error">
+                  {meta.error}
+                </Message>
+              )}
+            </FormField>
+          );
+        }}
+      </Field>
+      <Button onClick={goToPreviousStep}>
+        {t('SIGNUP_FORM_RETURN_TO_STEP_2')}
+      </Button>
+      <Button type="submit">{t('SIGNUP_FORM_SUBMIT')}</Button>
     </div>
   );
 };

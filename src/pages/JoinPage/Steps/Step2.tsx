@@ -12,7 +12,7 @@ import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { useGetUsersRolesQuery } from 'src/features/api';
 import { useMemo } from 'react';
-import { JoinFormValues } from '../FormProvider';
+import { JoinFormValues } from '../valuesType';
 
 export const Step2 = () => {
   const { setFieldValue, values, status, validateForm, setTouched } =
@@ -113,7 +113,7 @@ export const Step2 = () => {
                 inputValue={field.value}
                 selectionValue={field.value}
                 onSelect={async (roleId) => {
-                  setFieldValue('roleId', roleId);
+                  setFieldValue('roleId', Number(roleId));
                 }}
               >
                 {renderOptions}

@@ -61,4 +61,30 @@ export class Join extends UnguessPage {
       }
     );
   }
+
+  // new user response has a welcome project id for the redirect
+  async mockPostNewUser() {
+    await this.page.route(`*/**/api/users`, async (route) => {
+      if (route.request().method() === 'POST') {
+        await route.fulfill({
+          path: 'tests/api/users/_post/200_ProjectId.json',
+        });
+      } else {
+        await route.fallback();
+      }
+    });
+  }
+
+  // existing user response has no project id
+  async mockPostExistingUser() {
+    await this.page.route(`*/**/api/users`, async (route) => {
+      if (route.request().method() === 'POST') {
+        await route.fulfill({
+          path: 'tests/api/users/_post/200_Example_1.json',
+        });
+      } else {
+        await route.fallback();
+      }
+    });
+  }
 }
