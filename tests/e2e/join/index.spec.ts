@@ -22,10 +22,16 @@ test.describe('The Join page first step - case new user', () => {
     await expect(step1.elements().passwordInput()).toBeVisible();
     await expect(step1.elements().buttonGoToStep2()).toBeVisible();
   });
+
   test('the password input check if the password is strong enough', async ({
     page,
     i18n,
   }) => {
+    await step1.elements().buttonGoToStep2().click();
+    await expect(
+      page.getByText(i18n.t('SIGNUP_FORM_PASSWORD_IS_A_REQUIRED_FIELD'))
+    ).toBeVisible();
+
     await expect(step1.elements().passwordRequirements()).toBeVisible();
 
     await step1.fillPassword('weak');
