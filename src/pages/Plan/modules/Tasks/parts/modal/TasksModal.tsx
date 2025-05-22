@@ -1,5 +1,6 @@
 import { MD, Tabs, TooltipModal } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
+import { appTheme } from 'src/app/theme';
 import { Divider } from 'src/common/components/divider';
 import { components } from 'src/common/schema';
 import { FEATURE_FLAG_CHANGE_MODULES_VARIANTS } from 'src/constants';
@@ -49,8 +50,11 @@ const TasksModal = () => {
       role="dialog"
     >
       <TooltipModal.Title>
-        <MD isBold>{t('__PLAN_PAGE_MODULE_TASKS_ADD_TASK_MODAL_TITLE')}</MD>
+        <MD isBold style={{ marginBottom: appTheme.space.sm }}>
+          {t('__PLAN_PAGE_MODULE_TASKS_ADD_TASK_MODAL_TITLE')}
+        </MD>
       </TooltipModal.Title>
+      <Divider />
       <TooltipModal.Body>
         <StyledTabs
           {...(hasFeatureFlag(FEATURE_FLAG_CHANGE_MODULES_VARIANTS)
@@ -63,11 +67,11 @@ const TasksModal = () => {
             title={t('__PLAN_PAGE_MODULE_TASKS_ADD_TASK_MODAL_DEFAULT_TAB')}
           >
             <FunctionalTasks />
-            <Divider />
+
             <ExperientialTasks />
-            <Divider />
+
             <SurveyTasks />
-            <Divider />
+
             <AccessibilityTasks />
           </Tabs.Panel>
           <Tabs.Panel
@@ -75,7 +79,7 @@ const TasksModal = () => {
             title={t('__PLAN_PAGE_MODULE_TASKS_ADD_TASK_MODAL_FUNCTIONAL_TAB')}
           >
             <FunctionalTasks />
-            <Divider />
+
             <SurveyTasks />
           </Tabs.Panel>
           <Tabs.Panel
