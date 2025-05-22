@@ -1,9 +1,9 @@
-import { Button, SM } from '@appquality/unguess-design-system';
+import { Button } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
-import { appTheme } from 'src/app/theme';
 import { ReactComponent as AccessibilityTaskIcon } from 'src/assets/icons/accessibility-task-icon.svg';
 import { useHandleModalItemClick } from '../../utils';
 import { ButtonsContainer } from './ButtonsContainer';
+import { TaskTypeTitle } from './TaskTypeTitle';
 
 const AccessibilityTasks = () => {
   const { t } = useTranslation();
@@ -11,11 +11,12 @@ const AccessibilityTasks = () => {
 
   return (
     <>
-      <SM isBold color={appTheme.palette.grey[600]}>
+      <TaskTypeTitle isBold>
+        {' '}
         {t(
           '__PLAN_PAGE_MODULE_TASKS_ADD_TASK_MODAL_ACCESSIBILITY_TASKS_LABEL'
         ).toUpperCase()}
-      </SM>
+      </TaskTypeTitle>
       <ButtonsContainer>
         <Button
           isBasic
