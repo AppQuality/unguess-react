@@ -21,28 +21,22 @@ const CenteredXYContainer = styled.div`
   height: 100vh;
 
   @media (min-width: ${({ theme }) => theme.breakpoints.xs}) {
-    background-color: ${({ theme }) => theme.palette.green[500]};
     max-width: 100%;
   }
 
   @media (min-width: ${({ theme }) => theme.breakpoints.sm}) {
-    background-color: ${({ theme }) => theme.palette.yellow[500]};
   }
 
   @media screen and (min-width: ${({ theme }) => theme.breakpoints.md}) {
-    background-color: ${({ theme }) => theme.palette.red[600]};
   }
 
   @media screen and (min-width: ${({ theme }) => theme.breakpoints.lg}) {
-    background-color: ${({ theme }) => theme.palette.blue[600]};
   }
 
   @media screen and (min-width: ${({ theme }) => theme.breakpoints.xl}) {
-    background-color: ${({ theme }) => theme.palette.grey[600]};
   }
 
   @media screen and (min-width: ${({ theme }) => theme.breakpoints.xxl}) {
-    background-color: ${({ theme }) => theme.palette.pink[600]};
     max-width: 1440px;
     margin: 0 auto;
   }
