@@ -14,15 +14,13 @@ const PasswordRequirement = ({
 }) => (
   <li style={{ display: 'flex', alignItems: 'center' }}>
     {check() ? (
-      <Check aria-hidden="true" fontSize={16} />
+      <Check aria-hidden="true" fontSize={16} color={theme.palette.grey[500]} />
     ) : (
       <X aria-hidden="true" fontSize={16} />
     )}
     <MD
       style={{
-        color: `${
-          check() ? theme.palette.grey[100] : theme.palette.grey[700]
-        } }`,
+        color: `${check() ? theme.palette.grey[500] : theme.palette.grey[700]}`,
       }}
     >
       {children}
