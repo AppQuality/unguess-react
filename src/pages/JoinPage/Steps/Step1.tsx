@@ -1,6 +1,7 @@
 import {
   Button,
   FormField,
+  IconButton,
   Input,
   Label,
   Message,
@@ -10,11 +11,18 @@ import { Field, FieldProps, useFormikContext } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { JoinFormValues } from '../valuesType';
+import { ReactComponent as Eye } from '@zendeskgarden/svg-icons/src/16/eye-fill.svg';
+import { ReactComponent as EyeHide } from '@zendeskgarden/svg-icons/src/16/eye-hide-fill.svg';
+import { useState } from 'react';
 
 export const Step1 = () => {
   const { setFieldValue, validateForm, setTouched, status, values } =
     useFormikContext<JoinFormValues>();
   const { t } = useTranslation();
+  const [inputType, setInputType] = useState('password');
+  const handleChangeInputType = () => {
+    setInputType((prev) => (prev === 'password' ? 'text' : 'password'));
+  };
   const goToNextStep = async () => {
     await setTouched({
       email: true,
@@ -87,13 +95,20 @@ export const Step1 = () => {
                 <Span style={{ color: appTheme.palette.red[600] }}> *</Span>
               </Label>
               <Input
-                type="password"
+                type={inputType}
                 role="textbox"
                 title="Password"
                 {...field}
                 placeholder={t('SIGNUP_FORM_PASSWORD_PLACEHOLDER')}
                 {...(hasError && { validation: 'error' })}
               />
+              <IconButton onClick={handleChangeInputType}>
+                {inputType === 'password' ? (
+                  <EyeHide title={t('SIGNUP_FORM_PASSWORD_HIDE')} />
+                ) : (
+                  <Eye title={t('SIGNUP_FORM_PASSWORD_SHOW')} />
+                )}
+              </IconButton>
               {hasError && (
                 <Message data-qa="message-error-password" validation="error">
                   {meta.error}
