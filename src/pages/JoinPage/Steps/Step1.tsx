@@ -10,10 +10,11 @@ import {
 import { Field, FieldProps, useFormikContext } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
-import { JoinFormValues } from '../valuesType';
 import { ReactComponent as Eye } from '@zendeskgarden/svg-icons/src/16/eye-fill.svg';
 import { ReactComponent as EyeHide } from '@zendeskgarden/svg-icons/src/16/eye-hide-fill.svg';
 import { useState } from 'react';
+import { JoinFormValues } from '../valuesType';
+import { PasswordRequirements } from './PasswordRequirements';
 
 export const Step1 = () => {
   const { setFieldValue, validateForm, setTouched, status, values } =
@@ -118,15 +119,7 @@ export const Step1 = () => {
           );
         }}
       </Field>
-      <div data-qa="password-requirements">
-        You password must:
-        <ul>
-          <li>• Constain 6 characters minimum</li>
-          <li>• One numeric digit</li>
-          <li>• One upper case character</li>
-          <li>• One lower case character</li>
-        </ul>
-      </div>
+      <PasswordRequirements />
       <Button role="tab" onClick={goToNextStep}>
         {t('SIGNUP_FORM_GO_TO_STEP_2')}
       </Button>
