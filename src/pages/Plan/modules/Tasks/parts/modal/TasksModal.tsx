@@ -67,11 +67,8 @@ const TasksModal = () => {
             title={t('__PLAN_PAGE_MODULE_TASKS_ADD_TASK_MODAL_DEFAULT_TAB')}
           >
             <FunctionalTasks />
-
             <ExperientialTasks />
-
             <SurveyTasks />
-
             <AccessibilityTasks />
           </Tabs.Panel>
           <Tabs.Panel
