@@ -108,12 +108,7 @@ const NavItem = ({
             </Ellipsis>
             {children && children}
             {hasErrors && (
-              <Message
-                validation="error"
-                style={{
-                  marginTop: appTheme.space.sm,
-                }}
-              >
+              <Message validation="error">
                 {t('__PLAN_PAGE_NAV_GENERIC_MODULE_ERROR')}
               </Message>
             )}
