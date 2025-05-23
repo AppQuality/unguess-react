@@ -11,6 +11,7 @@ import { Field, FieldProps, useFormikContext } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { JoinFormValues } from '../valuesType';
+import { ButtonContainer } from './ButtonContainer';
 
 export const Step3 = () => {
   const { setFieldValue, values, status } = useFormikContext<JoinFormValues>();
@@ -19,7 +20,7 @@ export const Step3 = () => {
     setFieldValue('step', 1);
   };
   return (
-    <div role="tabpanel" title="Step 3">
+    <>
       <Field name="workspace">
         {({ field, form, meta }: FieldProps) => {
           const hasError = meta.touched && Boolean(meta.error);
@@ -45,10 +46,14 @@ export const Step3 = () => {
           );
         }}
       </Field>
-      <Button onClick={goToPreviousStep}>
-        {t('SIGNUP_FORM_RETURN_TO_STEP_2')}
-      </Button>
-      <Button type="submit">{t('SIGNUP_FORM_SUBMIT')}</Button>
-    </div>
+      <ButtonContainer>
+        <Button onClick={goToPreviousStep} isBasic>
+          {t('SIGNUP_FORM_RETURN_TO_STEP_2')}
+        </Button>
+        <Button type="submit" isPrimary isAccent>
+          {t('SIGNUP_FORM_SUBMIT')}
+        </Button>
+      </ButtonContainer>
+    </>
   );
 };

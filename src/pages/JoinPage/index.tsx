@@ -1,50 +1,28 @@
-import { useEffect } from 'react';
 import { Col, Grid, Logo, Row } from '@appquality/unguess-design-system';
+import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import styled from 'styled-components';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { useAppSelector } from 'src/app/hooks';
 import { GoogleTagManager } from 'src/common/GoogleTagManager';
 import { useGetInvitesByProfileAndTokenQuery } from 'src/features/api';
+import styled from 'styled-components';
 import { FormProvider } from './FormProvider';
 import { JoinForm } from './JoinForm';
-
-const StyledLogo = styled(Logo)`
-  margin-top: ${({ theme }) => theme.space.xs};
-  margin-bottom: ${({ theme }) => theme.space.md};
-`;
 
 const CenteredXYContainer = styled.div`
   display: flex;
   align-items: center;
-  flex-direction: column;
   height: 100vh;
-
-  @media (min-width: ${({ theme }) => theme.breakpoints.xs}) {
-    max-width: 100%;
-  }
-
-  @media (min-width: ${({ theme }) => theme.breakpoints.sm}) {
-  }
-
-  @media screen and (min-width: ${({ theme }) => theme.breakpoints.md}) {
-  }
-
-  @media screen and (min-width: ${({ theme }) => theme.breakpoints.lg}) {
-  }
-
-  @media screen and (min-width: ${({ theme }) => theme.breakpoints.xl}) {
-  }
-
-  @media screen and (min-width: ${({ theme }) => theme.breakpoints.xxl}) {
-    max-width: 1440px;
-    margin: 0 auto;
-  }
+  width: 100%;
+  padding: 0 ${({ theme }) => theme.space.xl};
+  max-width: ${({ theme }) => theme.breakpoints.xxl};
+  margin: 0 auto;
 `;
 
-interface NavigationState {
-  from: string;
-}
+const LogoWrapper = styled.div`
+  text-align: center;
+  margin-bottom: appTheme.space.md;
+`;
 
 const JoinPage = () => {
   const { t } = useTranslation();
@@ -79,10 +57,12 @@ const JoinPage = () => {
     <GoogleTagManager title={t('__PAGE_TITLE_JOIN')}>
       <CenteredXYContainer>
         <FormProvider {...data}>
-          <StyledLogo type="vertical" size={200} />
           <Grid gutters="lg">
             <Row>
               <Col md={6}>
+                <LogoWrapper>
+                  <Logo type="vertical" size={100} />
+                </LogoWrapper>
                 <JoinForm />
               </Col>
               <Col md={6}>

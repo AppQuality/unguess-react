@@ -1,8 +1,8 @@
 import {
   Button,
   FormField,
-  IconButton,
   Input,
+  MediaInput,
   Label,
   Message,
   Span,
@@ -15,6 +15,7 @@ import { ReactComponent as EyeHide } from '@zendeskgarden/svg-icons/src/16/eye-h
 import { useState } from 'react';
 import { JoinFormValues } from '../valuesType';
 import { PasswordRequirements } from './PasswordRequirements';
+import { ButtonContainer } from './ButtonContainer';
 
 export const Step1 = () => {
   const { setFieldValue, validateForm, setTouched, status, values } =
@@ -55,9 +56,7 @@ export const Step1 = () => {
   };
 
   return (
-    <div role="tabpanel" title="Step 1">
-      <h2>Step 1</h2>
-      <p>This is the first step of the join process.</p>
+    <>
       <Field name="email" validate={validateEmail}>
         {({ field, meta }: FieldProps) => {
           const hasError = meta.touched && Boolean(meta.error);
@@ -95,21 +94,29 @@ export const Step1 = () => {
                 {t('SIGNUP_FORM_PASSWORD_LABEL')}
                 <Span style={{ color: appTheme.palette.red[600] }}> *</Span>
               </Label>
-              <Input
+              <MediaInput
                 type={inputType}
                 role="textbox"
                 title="Password"
+                end={
+                  inputType === 'password' ? (
+                    <Eye
+                      style={{ cursor: 'pointer' }}
+                      onClick={handleChangeInputType}
+                      title={t('SIGNUP_FORM_PASSWORD_SHOW')}
+                    />
+                  ) : (
+                    <EyeHide
+                      style={{ cursor: 'pointer' }}
+                      onClick={handleChangeInputType}
+                      title={t('SIGNUP_FORM_PASSWORD_HIDE')}
+                    />
+                  )
+                }
                 {...field}
                 placeholder={t('SIGNUP_FORM_PASSWORD_PLACEHOLDER')}
                 {...(hasError && { validation: 'error' })}
               />
-              <IconButton onClick={handleChangeInputType}>
-                {inputType === 'password' ? (
-                  <EyeHide title={t('SIGNUP_FORM_PASSWORD_HIDE')} />
-                ) : (
-                  <Eye title={t('SIGNUP_FORM_PASSWORD_SHOW')} />
-                )}
-              </IconButton>
               {hasError && (
                 <Message data-qa="message-error-password" validation="error">
                   {meta.error}
@@ -120,9 +127,17 @@ export const Step1 = () => {
         }}
       </Field>
       <PasswordRequirements />
-      <Button role="tab" onClick={goToNextStep}>
-        {t('SIGNUP_FORM_GO_TO_STEP_2')}
-      </Button>
-    </div>
+      <ButtonContainer>
+        <Button
+          role="tab"
+          onClick={goToNextStep}
+          isAccent
+          isPrimary
+          isStretched
+        >
+          {t('SIGNUP_FORM_GO_TO_STEP_2')}
+        </Button>
+      </ButtonContainer>
+    </>
   );
 };
