@@ -21,6 +21,8 @@ const StyledLogo = styled(Logo)`
 const CenteredXYContainer = styled.div`
   display: flex;
   align-items: center;
+  justify-content: center;
+  text-align: center;
   flex-direction: column;
   height: 100vh;
 

@@ -8,11 +8,12 @@ import {
   Span,
 } from '@appquality/unguess-design-system';
 import { Field, FieldProps, useFormikContext } from 'formik';
+import { useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { useGetUsersRolesQuery } from 'src/features/api';
-import { useMemo, useRef } from 'react';
 import { JoinFormValues } from '../valuesType';
+import { ButtonContainer } from './ButtonContainer';
 
 export const Step2 = () => {
   const {
@@ -52,7 +53,7 @@ export const Step2 = () => {
     setFieldValue('step', 1);
   };
   return (
-    <div role="tabpanel" title="Step 2">
+    <>
       <Field name="name">
         {({ field, form, meta }: FieldProps) => {
           const hasError = meta.touched && Boolean(meta.error);
@@ -144,10 +145,14 @@ export const Step2 = () => {
           );
         }}
       </Field>
-      <Button onClick={goToPreviousStep}>
-        {t('SIGNUP_FORM_RETURN_TO_STEP_1')}
-      </Button>
-      <Button onClick={goToNextStep}>{t('SIGNUP_FORM_GO_TO_STEP_3')}</Button>
-    </div>
+      <ButtonContainer>
+        <Button onClick={goToPreviousStep} isBasic>
+          {t('SIGNUP_FORM_RETURN_TO_STEP_1')}
+        </Button>
+        <Button onClick={goToNextStep} isPrimary isAccent>
+          {t('SIGNUP_FORM_GO_TO_STEP_3')}
+        </Button>
+      </ButtonContainer>
+    </>
   );
 };
