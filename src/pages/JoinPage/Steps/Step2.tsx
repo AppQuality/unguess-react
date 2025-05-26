@@ -50,7 +50,7 @@ export const Step2 = () => {
     setFieldValue('step', 1);
   };
   return (
-    <div data-qa="step-2">
+    <>
       <Field name="name">
         {({ field, meta }: FieldProps) => {
           const hasError = meta.touched && Boolean(meta.error);
@@ -148,6 +148,6 @@ export const Step2 = () => {
           {t('SIGNUP_FORM_GO_TO_STEP_3')}
         </Button>
       </ButtonContainer>
-    </div>
+    </>
   );
 };
