@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import { FormikHelpers } from 'formik';
 import { usePostUsersMutation } from 'src/features/api';
-import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
+import { useParams, useSearchParams } from 'react-router-dom';
 import WPAPI from 'src/common/wpapi';
 import { useToast, Notification } from '@appquality/unguess-design-system';
 import { JoinFormValues } from './valuesType';
@@ -10,8 +10,7 @@ export function useJoinSubmit(isInvited: boolean) {
   const [postFormValues] = usePostUsersMutation();
   const { addToast } = useToast();
   const [searchParams] = useSearchParams();
-  const navigate = useNavigate();
-  const redirectTo = searchParams.get('redirectTo');
+  const redirectTo = searchParams.get('redirect');
   const { token, profile } = useParams();
 
   const onSubmit = useCallback(
@@ -71,7 +70,7 @@ export function useJoinSubmit(isInvited: boolean) {
             console.log('usejoinsubmit - navigating to home');
             document.location.href = '/';
           }
-        }
+        } else document.location.href = '/oops';
       } catch (err) {
         addToast(
           ({ close }) => (
