@@ -55,19 +55,13 @@ export function useJoinSubmit(isInvited: boolean) {
           password: values.password,
           security: nonce,
         });
-        console.log('usejoinsubmit - res', res);
-        console.log('usejoinsubmit - redirectTo', redirectTo);
-        console.log('usejoinsubmit - profile', profile);
-        console.log('usejoinsubmit - token', token);
+
         if (login) {
           if (redirectTo) {
-            console.log('usejoinsubmit - redirecting to', redirectTo);
             window.location.href = redirectTo;
           } else if (res.projectId) {
-            console.log('usejoinsubmit - navigating to project', res.projectId);
             document.location.href = `/projects/${res.projectId}`;
           } else {
-            console.log('usejoinsubmit - navigating to home');
             document.location.href = '/';
           }
         } else document.location.href = '/oops';
