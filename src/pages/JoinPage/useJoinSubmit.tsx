@@ -51,7 +51,7 @@ export function useJoinSubmit(isInvited: boolean) {
           }).unwrap();
         }
         const nonce = await WPAPI.getNonce();
-        await WPAPI.login({
+        const login = await WPAPI.login({
           username: values.email,
           password: values.password,
           security: nonce,
@@ -60,16 +60,17 @@ export function useJoinSubmit(isInvited: boolean) {
         console.log('usejoinsubmit - redirectTo', redirectTo);
         console.log('usejoinsubmit - profile', profile);
         console.log('usejoinsubmit - token', token);
-
-        if (redirectTo) {
-          console.log('usejoinsubmit - redirecting to', redirectTo);
-          window.location.href = redirectTo;
-        } else if (res.projectId) {
-          console.log('usejoinsubmit - navigating to project', res.projectId);
-          navigate(`/projects/${res.projectId}`);
-        } else {
-          console.log('usejoinsubmit - navigating to home');
-          navigate('/');
+        if (login) {
+          if (redirectTo) {
+            console.log('usejoinsubmit - redirecting to', redirectTo);
+            window.location.href = redirectTo;
+          } else if (res.projectId) {
+            console.log('usejoinsubmit - navigating to project', res.projectId);
+            navigate(`/projects/${res.projectId}`);
+          } else {
+            console.log('usejoinsubmit - navigating to home');
+            navigate('/');
+          }
         }
       } catch (err) {
         addToast(
