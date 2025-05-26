@@ -1,21 +1,24 @@
 import {
+  Anchor,
   Button,
   FormField,
   Input,
-  MediaInput,
   Label,
+  MediaInput,
   Message,
+  Paragraph,
   Span,
 } from '@appquality/unguess-design-system';
-import { Field, FieldProps, useFormikContext } from 'formik';
-import { useTranslation } from 'react-i18next';
-import { appTheme } from 'src/app/theme';
+import { ReactComponent as LinkIcon } from '@zendeskgarden/svg-icons/src/16/chevron-left-stroke.svg';
 import { ReactComponent as Eye } from '@zendeskgarden/svg-icons/src/16/eye-fill.svg';
 import { ReactComponent as EyeHide } from '@zendeskgarden/svg-icons/src/16/eye-hide-fill.svg';
+import { Field, FieldProps, useFormikContext } from 'formik';
 import { useState } from 'react';
+import { Trans, useTranslation } from 'react-i18next';
+import { appTheme } from 'src/app/theme';
 import { JoinFormValues } from '../valuesType';
-import { PasswordRequirements } from './PasswordRequirements';
 import { ButtonContainer } from './ButtonContainer';
+import { PasswordRequirements } from './PasswordRequirements';
 
 export const Step1 = () => {
   const { setFieldValue, validateForm, setTouched, status, values } =
@@ -32,7 +35,6 @@ export const Step1 = () => {
     });
     const errors = await validateForm();
     if (Object.keys(errors).length > 0) {
-      console.log(errors);
       return;
     }
     setFieldValue('step', 2);
@@ -56,7 +58,7 @@ export const Step1 = () => {
   };
 
   return (
-    <>
+    <div data-qa="step-1">
       <Field name="email" validate={validateEmail}>
         {({ field, meta }: FieldProps) => {
           const hasError = meta.touched && Boolean(meta.error);
@@ -127,7 +129,7 @@ export const Step1 = () => {
         }}
       </Field>
       <PasswordRequirements />
-      <ButtonContainer>
+      <ButtonContainer style={{ marginBottom: appTheme.space.xl }}>
         <Button
           role="tab"
           onClick={goToNextStep}
@@ -138,6 +140,41 @@ export const Step1 = () => {
           {t('SIGNUP_FORM_GO_TO_STEP_2')}
         </Button>
       </ButtonContainer>
-    </>
+      <Paragraph>
+        <Trans
+          i18nKey="SIGNUP_FORM_TERMS_AND_CONDITIONS"
+          components={{
+            'terms-link': (
+              <Anchor
+                style={{
+                  fontStyle: 'italic',
+                  color: appTheme.palette.azure[600],
+                }}
+                href="https://unguess.io/terms-and-conditions/"
+                target="_blank"
+                title="Terms and Conditions"
+              />
+            ),
+          }}
+        />
+      </Paragraph>
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: appTheme.space.xs,
+        }}
+      >
+        <LinkIcon color={appTheme.palette.grey[600]} />
+        <Anchor
+          style={{ color: appTheme.palette.blue[600] }}
+          target="_blank"
+          title="UNGUESS Home Page"
+          href="https://www.unguess.io"
+        >
+          {t('SIGNUP_FORM_CTA_RETURN_TO_UNGUESS_LANDING')}
+        </Anchor>
+      </div>
+    </div>
   );
 };

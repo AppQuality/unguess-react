@@ -11,7 +11,7 @@ export class Step3 {
 
   elements() {
     return {
-      container: () => this.page.getByRole('tabpanel', { name: 'Step 3' }),
+      container: () => this.page.getByTestId('step-3'),
       workspaceInput: () => this.page.getByLabel('SIGNUP_FORM_WORKSPACE_LABEL'),
       workspaceError: () => this.page.getByTestId('signup-workspace-error'),
       buttonBackToStep2: () =>

@@ -5,7 +5,6 @@ import {
   Input,
   Message,
   Button,
-  Select,
 } from '@appquality/unguess-design-system';
 import { Field, FieldProps, useFormikContext } from 'formik';
 import { useTranslation } from 'react-i18next';
@@ -20,9 +19,9 @@ export const Step3 = () => {
     setFieldValue('step', 2);
   };
   return (
-    <>
+    <div data-qa="step-3">
       <Field name="workspace">
-        {({ field, form, meta }: FieldProps) => {
+        {({ field, meta }: FieldProps) => {
           const hasError = meta.touched && Boolean(meta.error);
           return (
             <FormField>
@@ -54,6 +53,6 @@ export const Step3 = () => {
           {t('SIGNUP_FORM_SUBMIT')}
         </Button>
       </ButtonContainer>
-    </>
+    </div>
   );
 };

@@ -12,13 +12,12 @@ import { useEffect } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { useAppSelector } from 'src/app/hooks';
+import { appTheme } from 'src/app/theme';
 import { GoogleTagManager } from 'src/common/GoogleTagManager';
 import { useGetInvitesByProfileAndTokenQuery } from 'src/features/api';
 import styled from 'styled-components';
 import { FormProvider } from './FormProvider';
 import { JoinForm } from './JoinForm';
-import { is } from 'date-fns/locale';
-import { appTheme } from 'src/app/theme';
 
 const CenteredXYContainer = styled.div`
   display: flex;
@@ -34,6 +33,40 @@ const LogoWrapper = styled.div`
   text-align: center;
   margin-bottom: appTheme.space.md;
 `;
+
+const WaitModal = () => (
+  <Modal
+    role="dialog"
+    style={{
+      backgroundColor: 'transparent',
+      boxShadow: 'none',
+      marginTop: '-100px',
+    }}
+  >
+    <Trans
+      i18nKey="SIGNUP_FORM_WAITING_FOR_SIGNUP"
+      components={{
+        LG: <LG color="white" />,
+        XL: (
+          <XL
+            color="white"
+            isBold
+            style={{ marginBottom: appTheme.space.xs }}
+          />
+        ),
+      }}
+    />
+    <Skeleton
+      width="100%"
+      height="8px"
+      style={{
+        marginTop: appTheme.space.lg,
+        backgroundColor: appTheme.palette.teal[500],
+        borderRadius: appTheme.borderRadii.lg,
+      }}
+    />
+  </Modal>
+);
 
 const JoinPage = () => {
   const { t } = useTranslation();
@@ -64,46 +97,12 @@ const JoinPage = () => {
     return <div data-qa="join-page-loader">Loading...</div>;
   }
 
-  const WaitModal = (
-    <Modal
-      role="dialog"
-      style={{
-        backgroundColor: 'transparent',
-        boxShadow: 'none',
-        marginTop: '-100px',
-      }}
-    >
-      <Trans
-        i18nKey="SIGNUP_FORM_WAITING_FOR_SIGNUP"
-        components={{
-          LG: <LG color="white" />,
-          XL: (
-            <XL
-              color="white"
-              isBold
-              style={{ marginBottom: appTheme.space.xs }}
-            />
-          ),
-        }}
-      />
-      <Skeleton
-        width="100%"
-        height="8px"
-        style={{
-          marginTop: appTheme.space.lg,
-          backgroundColor: appTheme.palette.teal[500],
-          borderRadius: appTheme.borderRadii.lg,
-        }}
-      />
-    </Modal>
-  );
-
   return (
     <GoogleTagManager title={t('__PAGE_TITLE_JOIN')}>
       <CenteredXYContainer>
         <FormProvider {...data}>
           {({ isSubmitting }) => {
-            if (isSubmitting) return <div>Submitting...</div>;
+            if (isSubmitting) return <WaitModal />;
             return (
               <Grid gutters="lg">
                 <Row>

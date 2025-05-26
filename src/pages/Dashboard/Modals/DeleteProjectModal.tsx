@@ -6,8 +6,6 @@ import {
   Button,
   FooterItem,
   Notification,
-  MD,
-  Span,
   useToast,
   Dots,
 } from '@appquality/unguess-design-system';
