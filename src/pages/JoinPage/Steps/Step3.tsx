@@ -19,7 +19,7 @@ export const Step3 = () => {
     setFieldValue('step', 2);
   };
   return (
-    <div data-qa="step-3">
+    <>
       <Field name="workspace">
         {({ field, meta }: FieldProps) => {
           const hasError = meta.touched && Boolean(meta.error);
@@ -53,6 +53,6 @@ export const Step3 = () => {
           {t('SIGNUP_FORM_SUBMIT')}
         </Button>
       </ButtonContainer>
-    </div>
+    </>
   );
 };

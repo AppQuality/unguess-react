@@ -58,7 +58,7 @@ export const Step1 = () => {
   };
 
   return (
-    <div data-qa="step-1">
+    <>
       <Field name="email" validate={validateEmail}>
         {({ field, meta }: FieldProps) => {
           const hasError = meta.touched && Boolean(meta.error);
@@ -175,6 +175,6 @@ export const Step1 = () => {
           {t('SIGNUP_FORM_CTA_RETURN_TO_UNGUESS_LANDING')}
         </Anchor>
       </div>
-    </div>
+    </>
   );
 };

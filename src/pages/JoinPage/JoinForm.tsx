@@ -38,7 +38,7 @@ export const JoinForm = () => {
           {step === 3 && t('SIGNUP_FORM_STEP_3_DESCRIPTION')}
         </Paragraph>
       </div>
-      <FieldContainer role="tabpanel">
+      <FieldContainer role="tabpanel" data-qa={`step-${step}`}>
         {step === 1 && <Step1 />}
         {step === 2 && <Step2 />}
         {step === 3 && <Step3 />}
