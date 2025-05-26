@@ -21,9 +21,9 @@ test.describe('The Join page first step - case valid invited user only', () => {
   }) => {
     const getPromise = page.waitForResponse(
       (response) =>
-        new RegExp(`api/invites/${join.profileId}/${join.token}`).test(
-          response.url()
-        ) &&
+        response
+          .url()
+          .includes(`api/invites/${join.profileId}/${join.token}`) &&
         response.status() === 200 &&
         response.request().method() === 'GET'
     );

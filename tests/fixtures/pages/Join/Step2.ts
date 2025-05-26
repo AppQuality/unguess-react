@@ -21,7 +21,7 @@ export class Step2 {
 
   elements() {
     return {
-      container: () => this.page.getByRole('tabpanel', { name: 'Step 2' }),
+      container: () => this.page.getByTestId('step-2'),
       nameInput: () =>
         this.page.getByLabel(this.i18n.t('SIGNUP_FORM_NAME_LABEL')),
       nameError: () => this.page.getByTestId('signup-name-error'),

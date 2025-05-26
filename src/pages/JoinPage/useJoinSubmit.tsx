@@ -64,8 +64,6 @@ export function useJoinSubmit(isInvited: boolean) {
           navigate('/');
         }
       } catch (err) {
-        // handle error if needed
-        console.error('Error creating user:', err);
         addToast(
           ({ close }) => (
             <Notification

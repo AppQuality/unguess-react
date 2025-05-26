@@ -1,12 +1,12 @@
-import { useFormikContext } from 'formik';
-import { JoinFormValues } from './valuesType';
-import { Step1 } from './Steps/Step1';
-import { Step2 } from './Steps/Step2';
-import { Step3 } from './Steps/Step3';
 import { Paragraph, XL } from '@appquality/unguess-design-system';
+import { useFormikContext } from 'formik';
 import { Trans, useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import styled from 'styled-components';
+import { Step1 } from './Steps/Step1';
+import { Step2 } from './Steps/Step2';
+import { Step3 } from './Steps/Step3';
+import { JoinFormValues } from './valuesType';
 
 const FieldContainer = styled.div`
   display: flex;
@@ -38,7 +38,7 @@ export const JoinForm = () => {
           {step === 3 && t('SIGNUP_FORM_STEP_3_DESCRIPTION')}
         </Paragraph>
       </div>
-      <FieldContainer role="tabpanel" title={`step ${step}`}>
+      <FieldContainer role="tabpanel">
         {step === 1 && <Step1 />}
         {step === 2 && <Step2 />}
         {step === 3 && <Step3 />}

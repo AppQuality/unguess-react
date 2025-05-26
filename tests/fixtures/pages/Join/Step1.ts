@@ -9,7 +9,7 @@ export class Step1 {
 
   elements() {
     return {
-      container: () => this.page.getByRole('tabpanel', { name: 'Step 1' }),
+      container: () => this.page.getByTestId('step-1'),
       emailInput: () => this.page.getByRole('textbox', { name: 'Email' }),
       passwordInput: () => this.page.getByRole('textbox', { name: 'Password' }),
       buttonGoToStep2: () =>

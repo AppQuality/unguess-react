@@ -16,24 +16,22 @@ import { JoinFormValues } from '../valuesType';
 import { ButtonContainer } from './ButtonContainer';
 
 export const Step2 = () => {
-  const {
-    setFieldValue,
-    values,
-    status,
-    validateForm,
-    setTouched,
-    validateField,
-  } = useFormikContext<JoinFormValues>();
+  const { setFieldValue, validateForm, setTouched } =
+    useFormikContext<JoinFormValues>();
   const { t } = useTranslation();
   const { data, isLoading } = useGetUsersRolesQuery();
   const selectRef = useRef<HTMLDivElement>(null);
   const renderOptions = useMemo(
     () =>
-      data?.map((role) => (
-        <Select.Option key={role.id} value={role.id.toString()}>
-          {role.name}
-        </Select.Option>
-      )),
+      isLoading || !data ? (
+        <Select.Option value="loading">loading...</Select.Option>
+      ) : (
+        data?.map((role) => (
+          <Select.Option key={role.id} value={role.id.toString()}>
+            {role.name}
+          </Select.Option>
+        ))
+      ),
     [data]
   );
   const goToNextStep = async () => {
@@ -44,7 +42,6 @@ export const Step2 = () => {
     });
     const errors = await validateForm();
     if (Object.keys(errors).length > 0) {
-      console.log(errors);
       return;
     }
     setFieldValue('step', 3);
@@ -53,9 +50,9 @@ export const Step2 = () => {
     setFieldValue('step', 1);
   };
   return (
-    <>
+    <div data-qa="step-2">
       <Field name="name">
-        {({ field, form, meta }: FieldProps) => {
+        {({ field, meta }: FieldProps) => {
           const hasError = meta.touched && Boolean(meta.error);
           return (
             <FormField>
@@ -79,7 +76,7 @@ export const Step2 = () => {
         }}
       </Field>
       <Field name="surname">
-        {({ field, form, meta }: FieldProps) => {
+        {({ field, meta }: FieldProps) => {
           const hasError = meta.touched && Boolean(meta.error);
           return (
             <FormField>
@@ -103,10 +100,8 @@ export const Step2 = () => {
         }}
       </Field>
       <Field name="roleId">
-        {({ field, form, meta }: FieldProps) => {
+        {({ field, meta }: FieldProps) => {
           const hasError = meta.touched && Boolean(meta.error);
-          console.log('roleId field', field);
-          console.log('roleId meta', meta);
           return (
             <div ref={selectRef}>
               <Select
@@ -153,6 +148,6 @@ export const Step2 = () => {
           {t('SIGNUP_FORM_GO_TO_STEP_3')}
         </Button>
       </ButtonContainer>
-    </>
+    </div>
   );
 };

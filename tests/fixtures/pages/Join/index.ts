@@ -1,17 +1,6 @@
-import { Locator, type Page } from '@playwright/test';
+import { type Page } from '@playwright/test';
 import { UnguessPage } from '../../UnguessPage';
 import validInvitedUser from '../../../api/invites/profile/token/_get/200_Example_1.json';
-
-import { Step1 } from './Step1';
-import { Step2 } from './Step2';
-import { Step3 } from './Step3';
-
-interface Step {
-  stepNumber: number;
-  elements(): {
-    [index: string]: () => Locator;
-  };
-}
 
 export class Join extends UnguessPage {
   readonly page: Page;
