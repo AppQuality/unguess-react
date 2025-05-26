@@ -1,11 +1,17 @@
 import { useCallback } from 'react';
 import { FormikHelpers } from 'formik';
 import { usePostUsersMutation } from 'src/features/api';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { JoinFormValues } from './valuesType';
+import WPAPI from 'src/common/wpapi';
+import { useToast, Notification } from '@appquality/unguess-design-system';
 
 export function useJoinSubmit(isInvited: boolean) {
   const [postFormValues] = usePostUsersMutation();
+  const { addToast } = useToast();
+  const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
+  const redirectTo = searchParams.get('redirectTo');
   const { token, profile } = useParams();
 
   const onSubmit = useCallback(
@@ -22,10 +28,11 @@ export function useJoinSubmit(isInvited: boolean) {
         roleId: values.roleId,
       };
       try {
+        let res;
         if (isInvited) {
           if (!token || !profile)
             throw new Error('Token or profile is missing');
-          await postFormValues({
+          res = await postFormValues({
             body: {
               type: 'invite',
               ...basicInfo,
@@ -34,7 +41,7 @@ export function useJoinSubmit(isInvited: boolean) {
             },
           }).unwrap();
         } else {
-          await postFormValues({
+          res = await postFormValues({
             body: {
               type: 'new',
               ...basicInfo,
@@ -43,8 +50,32 @@ export function useJoinSubmit(isInvited: boolean) {
             },
           }).unwrap();
         }
+        const nonce = await WPAPI.getNonce()
+        await WPAPI.login({
+          username: values.email,
+          password: values.password,
+          security: nonce,
+        });
+        if (redirectTo) {
+          window.location.href = redirectTo;
+        } else if (res.projectId) {
+          navigate(`/projects/${res.projectId}`);
+        } else {
+          navigate('/');
+        }
+        
       } catch (err) {
         // handle error if needed
+        console.error('Error creating user:', err);
+        addToast(({ close }) => (
+                    <Notification
+                      onClose={close}
+                      type="error"
+                      message={'Error creating user:' + err}
+                      isPrimary
+                    />
+                  ),
+                  { placement: 'top' });
       }
       setSubmitting(false);
     },

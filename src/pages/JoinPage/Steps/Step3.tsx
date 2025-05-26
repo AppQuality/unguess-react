@@ -17,7 +17,7 @@ export const Step3 = () => {
   const { setFieldValue, values, status } = useFormikContext<JoinFormValues>();
   const { t } = useTranslation();
   const goToPreviousStep = () => {
-    setFieldValue('step', 1);
+    setFieldValue('step', 2);
   };
   return (
     <>
