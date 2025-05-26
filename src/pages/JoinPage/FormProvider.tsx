@@ -1,11 +1,11 @@
-import { Formik, Form } from 'formik';
+import { Formik, Form, FormikProps } from 'formik';
 import { useMemo } from 'react';
 import { useValidationSchema } from './validationSchema';
 import { useJoinSubmit } from './useJoinSubmit';
 import { JoinFormValues } from './valuesType';
 
 interface FormProviderProps {
-  children: React.ReactNode;
+  children: (props: FormikProps<JoinFormValues>) => React.ReactNode;
   email?: string;
   name?: string;
   surname?: string;
@@ -45,7 +45,7 @@ export const FormProvider = ({
       }}
       onSubmit={onSubmit}
     >
-      <Form>{children}</Form>
+      {(props) => <Form>{children(props)}</Form>}
     </Formik>
   );
 };
