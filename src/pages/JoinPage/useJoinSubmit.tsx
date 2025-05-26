@@ -54,7 +54,7 @@ export function useJoinSubmit(isInvited: boolean) {
         await WPAPI.login({
           username: values.email,
           password: values.password,
-          security: nonce.data,
+          security: nonce,
         });
         console.log('usejoinsubmit - res', res);
         console.log('usejoinsubmit - redirectTo', redirectTo);
