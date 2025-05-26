@@ -66,10 +66,10 @@ export function useJoinSubmit(isInvited: boolean) {
             window.location.href = redirectTo;
           } else if (res.projectId) {
             console.log('usejoinsubmit - navigating to project', res.projectId);
-            navigate(`/projects/${res.projectId}`);
+            document.location.href = `/projects/${res.projectId}`;
           } else {
             console.log('usejoinsubmit - navigating to home');
-            navigate('/');
+            document.location.href = '/';
           }
         }
       } catch (err) {
