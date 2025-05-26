@@ -42,6 +42,7 @@ export const Step1 = () => {
 
   const validateEmail = async (value: string) => {
     let error;
+    if (status?.isInvited) return error;
     const res = await fetch(
       `${process.env.REACT_APP_API_URL}/users/by-email/${value}`,
       {
