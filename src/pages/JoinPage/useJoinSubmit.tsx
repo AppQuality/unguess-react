@@ -2,9 +2,9 @@ import { useCallback } from 'react';
 import { FormikHelpers } from 'formik';
 import { usePostUsersMutation } from 'src/features/api';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
-import { JoinFormValues } from './valuesType';
 import WPAPI from 'src/common/wpapi';
 import { useToast, Notification } from '@appquality/unguess-design-system';
+import { JoinFormValues } from './valuesType';
 
 export function useJoinSubmit(isInvited: boolean) {
   const [postFormValues] = usePostUsersMutation();
@@ -50,7 +50,7 @@ export function useJoinSubmit(isInvited: boolean) {
             },
           }).unwrap();
         }
-        const nonce = await WPAPI.getNonce()
+        const nonce = await WPAPI.getNonce();
         await WPAPI.login({
           username: values.email,
           password: values.password,
@@ -63,19 +63,20 @@ export function useJoinSubmit(isInvited: boolean) {
         } else {
           navigate('/');
         }
-        
       } catch (err) {
         // handle error if needed
         console.error('Error creating user:', err);
-        addToast(({ close }) => (
-                    <Notification
-                      onClose={close}
-                      type="error"
-                      message={'Error creating user:' + err}
-                      isPrimary
-                    />
-                  ),
-                  { placement: 'top' });
+        addToast(
+          ({ close }) => (
+            <Notification
+              onClose={close}
+              type="error"
+              message={`Error creating user:${err}`}
+              isPrimary
+            />
+          ),
+          { placement: 'top' }
+        );
       }
       setSubmitting(false);
     },
