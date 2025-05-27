@@ -1,7 +1,6 @@
 import { type Page } from '@playwright/test';
 import { UnguessPage } from '../../UnguessPage';
 import validInvitedUser from '../../../api/invites/profile/token/_get/200_Example_1.json';
-import { error } from 'console';
 
 export class Join extends UnguessPage {
   readonly page: Page;

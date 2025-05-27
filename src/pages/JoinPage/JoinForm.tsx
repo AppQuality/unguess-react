@@ -22,7 +22,10 @@ export const JoinForm = () => {
   return (
     <>
       <div style={{ marginBottom: appTheme.space.lg }}>
-        <XL isBold style={{ marginBottom: appTheme.space.xs }}>
+        <XL
+          isBold
+          style={{ marginBottom: appTheme.space.xs, textAlign: 'center' }}
+        >
           {step === 1 && (
             <Trans
               i18nKey="SIGNUP_FORM_STEP_1_TITLE"
