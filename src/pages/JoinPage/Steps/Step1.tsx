@@ -131,13 +131,7 @@ export const Step1 = () => {
       </Field>
       <PasswordRequirements />
       <ButtonContainer style={{ marginBottom: appTheme.space.xl }}>
-        <Button
-          role="tab"
-          onClick={goToNextStep}
-          isAccent
-          isPrimary
-          isStretched
-        >
+        <Button onClick={goToNextStep} isAccent isPrimary isStretched>
           {t('SIGNUP_FORM_GO_TO_STEP_2')}
         </Button>
       </ButtonContainer>

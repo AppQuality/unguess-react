@@ -32,9 +32,13 @@ export class Step2 {
       roleSelectOptions: () => this.elements().roleSelect().getByRole('option'),
       roleSelectError: () => this.page.getByTestId('signup-role-error'),
       buttonBackToStep1: () =>
-        this.page.getByRole('button', { name: 'SIGNUP_FORM_RETURN_TO_STEP_1' }),
+        this.page.getByRole('button', {
+          name: this.i18n.t('SIGNUP_FORM_RETURN_TO_STEP_1'),
+        }),
       buttonGoToStep3: () =>
-        this.page.getByRole('button', { name: 'SIGNUP_FORM_GO_TO_STEP_3' }),
+        this.page.getByRole('button', {
+          name: this.i18n.t('SIGNUP_FORM_GO_TO_STEP_3'),
+        }),
     };
   }
 
