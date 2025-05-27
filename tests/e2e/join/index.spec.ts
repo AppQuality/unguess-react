@@ -28,9 +28,9 @@ test.describe('The Join page first step - case new user', () => {
     i18n,
   }) => {
     await step1.elements().buttonGoToStep2().click();
-    await expect(
-      page.getByText(i18n.t('SIGNUP_FORM_PASSWORD_IS_A_REQUIRED_FIELD'))
-    ).toBeVisible();
+    await expect(step1.elements().passwordError()).toHaveText(
+      i18n.t('SIGNUP_FORM_PASSWORD_IS_A_REQUIRED_FIELD')
+    );
 
     await expect(step1.elements().passwordRequirements()).toBeVisible();
 
@@ -71,9 +71,9 @@ test.describe('The Join page first step - case new user', () => {
     i18n,
   }) => {
     await step1.elements().buttonGoToStep2().click();
-    await expect(
-      page.getByText(i18n.t('SIGNUP_FORM_EMAIL_IS_REQUIRED'))
-    ).toBeVisible();
+    await expect(step1.elements().emailError()).toHaveText(
+      i18n.t('SIGNUP_FORM_EMAIL_IS_REQUIRED')
+    );
     await step1.fillEmail('invalid-email');
     await expect(
       page.getByText(i18n.t('SIGNUP_FORM_EMAIL_MUST_BE_A_VALID_EMAIL'))
@@ -112,7 +112,9 @@ test.describe('The Join page second step', () => {
     await join.open();
     await step1.goToNextStep();
   });
-  test('display required inputs for name, surname and a job role dropdown populated from api userRole', async () => {
+  test('display required inputs for name, surname and a job role dropdown populated from api userRole', async ({
+    i18n,
+  }) => {
     await expect(step2.elements().nameInput()).toBeVisible();
     await expect(step2.elements().surnameInput()).toBeVisible();
     await expect(step2.elements().roleSelect()).toBeVisible();
@@ -120,13 +122,13 @@ test.describe('The Join page second step', () => {
     await expect(step2.elements().roleSelectOptions()).toHaveCount(3);
     await step2.elements().buttonGoToStep3().click();
     await expect(step2.elements().nameError()).toHaveText(
-      'SIGNUP_FORM_NAME_IS_REQUIRED'
+      i18n.t('SIGNUP_FORM_NAME_IS_REQUIRED')
     );
     await expect(step2.elements().surnameError()).toHaveText(
-      'SIGNUP_FORM_SURNAME_IS_REQUIRED'
+      i18n.t('SIGNUP_FORM_SURNAME_IS_REQUIRED')
     );
     await expect(step2.elements().roleSelectError()).toHaveText(
-      'SIGNUP_FORM_ROLE_IS_REQUIRED'
+      i18n.t('SIGNUP_FORM_ROLE_IS_REQUIRED')
     );
     await step2.fillValidFields();
     await expect(step2.elements().nameError()).not.toBeVisible();

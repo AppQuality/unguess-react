@@ -1,19 +1,28 @@
 import { Page } from '@playwright/test';
+import { i18n } from 'i18next';
+import { getI18nInstance } from 'playwright-i18next-fixture';
 
 export class Step1 {
   readonly page: Page;
 
+  readonly i18n: i18n;
+
   constructor(page: Page) {
     this.page = page;
+    this.i18n = getI18nInstance() as unknown as i18n;
   }
 
   elements() {
     return {
       container: () => this.page.getByTestId('step-1'),
       emailInput: () => this.page.getByRole('textbox', { name: 'Email' }),
+      emailError: () => this.page.getByTestId('message-error-email'),
       passwordInput: () => this.page.getByRole('textbox', { name: 'Password' }),
+      passwordError: () => this.page.getByTestId('message-error-password'),
       buttonGoToStep2: () =>
-        this.page.getByRole('tab', { name: 'SIGNUP_FORM_GO_TO_STEP_2' }),
+        this.page.getByRole('button', {
+          name: this.i18n.t('SIGNUP_FORM_GO_TO_STEP_2'),
+        }),
       passwordRequirements: () =>
         this.page.getByTestId('password-requirements'),
       termsLink: () => this.page.getByTestId('terms-and-conditions'),

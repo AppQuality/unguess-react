@@ -95,6 +95,8 @@ test.describe('The Join page third step - case invited user only', () => {
     await step2.mockGetRoles();
     await page.goto(join.urlInvitedUser);
     await step1.goToNextStepAsInvitedUser();
+    await step2.elements().roleSelect().click();
+    await step2.elements().roleSelectOptions().first().click();
     await step2.elements().buttonGoToStep3().click();
   });
 
