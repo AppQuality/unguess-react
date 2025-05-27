@@ -19,6 +19,7 @@ const PasswordRequirement = ({
       <X aria-hidden="true" fontSize={16} />
     )}
     <MD
+      isBold={!check()}
       style={{
         color: `${check() ? theme.palette.grey[500] : theme.palette.grey[700]}`,
       }}
