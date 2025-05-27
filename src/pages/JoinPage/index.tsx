@@ -3,10 +3,11 @@ import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { useAppSelector } from 'src/app/hooks';
-import joinImg1 from 'src/assets/unguess-join-steps.svg';
+import joinImg1 from 'src/assets/join-step-1.svg';
 import joinImg2 from 'src/assets/unguess-join-steps.svg';
 import joinImg3 from 'src/assets/unguess-join-steps.svg';
 import joinBg from 'src/assets/join-bg.png';
+import logoImgs from 'src/assets/join-loghi.png';
 import { GoogleTagManager } from 'src/common/GoogleTagManager';
 import { useGetInvitesByProfileAndTokenQuery } from 'src/features/api';
 import styled from 'styled-components';
@@ -29,13 +30,23 @@ const CenteredXYContainer = styled.div`
   background-size: cover;
 `;
 
-const ImagesWrapper = styled.div`
+const StyledCol = styled(Col)`
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  .step-img {
+    flex: 1 0 auto;
+  }
+  .partners-img {
+    flex: 0 0 auto;
+  }
 `;
 
 const LogoWrapper = styled.div`
   text-align: center;
-  margin-bottom: appTheme.space.md;
+  margin-bottom: ${(p) => p.theme.space.lg};
 `;
 
 const JoinPage = () => {
@@ -85,19 +96,34 @@ const JoinPage = () => {
                     </LogoWrapper>
                     <JoinForm />
                   </Col>
-                  <Col md={7}>
-                    <ImagesWrapper>
-                      {values.step === 1 && (
-                        <img src={joinImg1} alt="Unguess Join Step 1" />
-                      )}
-                      {values.step === 2 && (
-                        <img src={joinImg2} alt="Unguess Join Step 2" />
-                      )}
-                      {values.step === 3 && (
-                        <img src={joinImg3} alt="Unguess Join Step 3" />
-                      )}
-                    </ImagesWrapper>
-                  </Col>
+                  <StyledCol md={7}>
+                    {values.step === 1 && (
+                      <img
+                        className="step-img"
+                        src={joinImg1}
+                        alt="Unguess Join Step 1"
+                      />
+                    )}
+                    {values.step === 2 && (
+                      <img
+                        className="step-img"
+                        src={joinImg2}
+                        alt="Unguess Join Step 2"
+                      />
+                    )}
+                    {values.step === 3 && (
+                      <img
+                        className="step-img"
+                        src={joinImg3}
+                        alt="Unguess Join Step 3"
+                      />
+                    )}
+                    <img
+                      className="partners-img"
+                      src={logoImgs}
+                      alt="Unguess partners"
+                    />
+                  </StyledCol>
                 </Row>
               </Grid>
             )}
