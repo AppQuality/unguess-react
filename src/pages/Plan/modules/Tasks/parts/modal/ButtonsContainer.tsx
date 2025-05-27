@@ -5,10 +5,7 @@ export const ButtonsContainer = styled.div`
   flex-direction: column;
   gap: ${({ theme }) => theme.space.xs};
   align-items: flex-start;
-  padding-top: ${({ theme }) => theme.space.sm};
-  padding-bottom: ${({ theme }) => theme.space.sm};
-  padding-right: 0;
-  padding-left: 0;
+  padding: ${({ theme }) => `${theme.space.sm} 0`};
 
   > button {
     width: auto;
