@@ -4,6 +4,19 @@ import { Step1 } from '../../fixtures/pages/Join/Step1';
 import { Step2 } from '../../fixtures/pages/Join/Step2';
 import { Step3 } from '../../fixtures/pages/Join/Step3';
 
+test.describe('The Join page if the get invites respond 400', () => {
+  let join: Join;
+
+  test.beforeEach(async ({ page }) => {
+    join = new Join(page);
+    await join.mockGetInvitedUserError();
+    await page.goto(join.urlInvitedUser);
+  });
+  test('should render an error state', async () => {
+    await expect(join.elements().errorState()).toBeVisible();
+  });
+});
+
 test.describe('The Join page first step - case valid invited user only', () => {
   let join: Join;
   let step1: Step1;

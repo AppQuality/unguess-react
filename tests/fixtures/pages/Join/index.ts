@@ -1,6 +1,7 @@
 import { type Page } from '@playwright/test';
 import { UnguessPage } from '../../UnguessPage';
 import validInvitedUser from '../../../api/invites/profile/token/_get/200_Example_1.json';
+import { error } from 'console';
 
 export class Join extends UnguessPage {
   readonly page: Page;
@@ -24,6 +25,7 @@ export class Join extends UnguessPage {
     return {
       ...super.elements(),
       loader: () => this.page.getByTestId('join-page-loader'),
+      errorState: () => this.page.getByTestId('join-page-error'),
     };
   }
 
@@ -34,6 +36,21 @@ export class Join extends UnguessPage {
         if (route.request().method() === 'GET') {
           await route.fulfill({
             path: 'tests/api/invites/profile/token/_get/200_Example_1.json',
+          });
+        } else {
+          await route.fallback();
+        }
+      }
+    );
+  }
+
+  async mockGetInvitedUserError() {
+    await this.page.route(
+      `*/**/api/invites/${this.profileId}/${this.token}`,
+      async (route) => {
+        if (route.request().method() === 'GET') {
+          await route.fulfill({
+            status: 400,
           });
         } else {
           await route.fallback();

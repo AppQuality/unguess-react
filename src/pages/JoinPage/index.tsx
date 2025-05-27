@@ -18,6 +18,8 @@ import { useGetInvitesByProfileAndTokenQuery } from 'src/features/api';
 import styled from 'styled-components';
 import { FormProvider } from './FormProvider';
 import { JoinForm } from './JoinForm';
+import { JoinPageError } from './JoinPageError';
+import { JoinPageLoading } from './JoinPageLoading';
 
 const CenteredXYContainer = styled.div`
   display: flex;
@@ -77,7 +79,7 @@ const JoinPage = () => {
   const shouldSkipQuery =
     status === 'logged' || status === 'loading' || !(profile && token);
 
-  const { isLoading, data } = useGetInvitesByProfileAndTokenQuery(
+  const { isLoading, data, error } = useGetInvitesByProfileAndTokenQuery(
     {
       profile: profile || '',
       token: token || '',
@@ -93,9 +95,11 @@ const JoinPage = () => {
     }
   }, [navigate, status, searchParams]);
 
-  if (isLoading) {
-    return <div data-qa="join-page-loader">Loading...</div>;
+  if (isLoading || shouldSkipQuery) {
+    return <JoinPageLoading />;
   }
+
+  if (error) return <JoinPageError />;
 
   return (
     <GoogleTagManager title={t('__PAGE_TITLE_JOIN')}>
