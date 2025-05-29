@@ -1,16 +1,15 @@
 import { useFormikContext } from 'formik';
 import { AnimatePresence } from 'motion/react';
 import * as motion from 'motion/react-client';
+import { useEffect, useMemo, useState } from 'react';
 import logoImgs from 'src/assets/join-loghi.png';
 import joinImg1 from 'src/assets/join-step-1.svg';
-import joinImg1webp from 'src/assets/join-step-1.webp';
 import joinImg2 from 'src/assets/join-step-2.png';
 import joinImg2webp from 'src/assets/join-step-2.webp';
 import joinImg3 from 'src/assets/join-step-3.png';
 import joinImg3webp from 'src/assets/join-step-3.webp';
 import styled from 'styled-components';
 import { JoinFormValues } from './valuesType';
-import { useEffect, useMemo, useState } from 'react';
 
 const ImagesWrapper = styled.div`
   display: flex;
@@ -26,9 +25,10 @@ const ImagesWrapper = styled.div`
 export const ImagesColumn = () => {
   const { values } = useFormikContext<JoinFormValues>();
   const [step, setStep] = useState(values.step);
-  const isForward = useMemo(() => {
-    return values.step - step;
-  }, [values.step, step]);
+  const forwardAnimation = useMemo(
+    () => values.step - step * 10,
+    [values.step, step]
+  );
   useEffect(() => {
     setStep(values.step);
   }, [values.step]);
@@ -37,18 +37,16 @@ export const ImagesColumn = () => {
       <AnimatePresence mode="wait">
         <motion.div
           key={step}
-          initial={{ x: isForward * 10, opacity: 0 }}
+          initial={{ x: forwardAnimation, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
-          exit={{ x: isForward * -10, opacity: 0 }}
+          exit={{ x: -forwardAnimation, opacity: 0 }}
           transition={{ duration: 0.2 }}
         >
           {step === 1 && (
-            <>
-              <picture>
-                <source srcSet={joinImg1} type="image/webp" />
-                <img src={joinImg1} alt="Unguess Join Step 1" />
-              </picture>
-            </>
+            <picture>
+              <source srcSet={joinImg1} type="image/webp" />
+              <img src={joinImg1} alt="Unguess Join Step 1" />
+            </picture>
           )}
           {step === 2 && (
             <picture>
