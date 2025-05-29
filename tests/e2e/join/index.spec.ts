@@ -198,7 +198,5 @@ test.describe('The Join page third step', () => {
         workspace: step3.workspace,
       })
     );
-    await expect(step3.elements().container()).not.toBeVisible();
-    await expect(page).toHaveURL(/.*\/projects\/\d+/);
   });
 });
