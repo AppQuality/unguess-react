@@ -101,7 +101,7 @@ test.describe('The Join page third step - case invited user only', () => {
   });
 
   test('display the workspace name input precompiled from api and disabled', async () => {
-    await expect(step3.elements().workspaceInput()).toBeEnabled();
+    await expect(step3.elements().workspaceInput()).not.toBeEnabled();
     await expect(step3.elements().workspaceInput()).toHaveValue(
       join.validInvitedUser.workspace
     );

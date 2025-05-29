@@ -36,7 +36,6 @@ export const JoinForm = () => {
           {step === 3 && t('SIGNUP_FORM_STEP_3_TITLE')}
         </XL>
         <Paragraph>
-          {step === 1 && t('SIGNUP_FORM_STEP_1_DESCRIPTION')}
           {step === 2 && t('SIGNUP_FORM_STEP_2_DESCRIPTION')}
           {step === 3 && t('SIGNUP_FORM_STEP_3_DESCRIPTION')}
         </Paragraph>
