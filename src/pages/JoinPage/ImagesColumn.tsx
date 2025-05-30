@@ -3,7 +3,9 @@ import { AnimatePresence } from 'motion/react';
 import * as motion from 'motion/react-client';
 import { useEffect, useMemo, useState } from 'react';
 import logoImgs from 'src/assets/join-loghi.png';
+import logoImgsWebp from 'src/assets/join-loghi.webp';
 import joinImg1 from 'src/assets/join-step-1.svg';
+import joinImg1webp from 'src/assets/join-step-1.webp';
 import joinImg2 from 'src/assets/join-step-2.png';
 import joinImg2webp from 'src/assets/join-step-2.webp';
 import joinImg3 from 'src/assets/join-step-3.png';
@@ -20,6 +22,13 @@ const ImagesWrapper = styled.div`
   width: 100%;
   height: calc(100vh - ${({ theme }) => theme.space.xl} * 2);
   overflow: hidden;
+`;
+
+const LogoPicture = styled.picture`
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
 `;
 
 export const ImagesColumn = () => {
@@ -44,7 +53,7 @@ export const ImagesColumn = () => {
         >
           {step === 1 && (
             <picture>
-              <source srcSet={joinImg1} type="image/webp" />
+              <source srcSet={joinImg1webp} type="image/webp" />
               <img src={joinImg1} alt="Unguess Join Step 1" />
             </picture>
           )}
@@ -63,12 +72,10 @@ export const ImagesColumn = () => {
         </motion.div>
       </AnimatePresence>
       {step === 1 && (
-        <img
-          style={{ position: 'absolute', bottom: 0, left: 0, width: '100%' }}
-          className="partners-img"
-          src={logoImgs}
-          alt="Unguess partners"
-        />
+        <LogoPicture>
+          <source srcSet={logoImgsWebp} type="image/webp" />
+          <img src={logoImgs} alt="Unguess partners" />
+        </LogoPicture>
       )}
     </ImagesWrapper>
   );

@@ -1,5 +1,5 @@
 import { Paragraph, XL } from '@appquality/unguess-design-system';
-import { useFormikContext } from 'formik';
+import { Form, useFormikContext } from 'formik';
 import { Trans, useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import styled from 'styled-components';
@@ -7,11 +7,18 @@ import { Step1 } from './Steps/Step1';
 import { Step2 } from './Steps/Step2';
 import { Step3 } from './Steps/Step3';
 import { JoinFormValues } from './valuesType';
+import { style } from 'motion/dist/react-client';
 
 const FieldContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: ${appTheme.space.md};
+  gap: ${(p) => p.theme.space.md};
+`;
+
+const FormContainer = styled.div`
+  @media (min-width: ${(p) => p.theme.breakpoints.md}) {
+    padding: 0 ${(p) => p.theme.space.xxl};
+  }
 `;
 
 export const JoinForm = () => {
@@ -20,12 +27,9 @@ export const JoinForm = () => {
   } = useFormikContext<JoinFormValues>();
   const { t } = useTranslation();
   return (
-    <>
-      <div style={{ marginBottom: appTheme.space.lg }}>
-        <XL
-          isBold
-          style={{ marginBottom: appTheme.space.xs, textAlign: 'center' }}
-        >
+    <FormContainer>
+      <div style={{ marginBottom: appTheme.space.lg, textAlign: 'center' }}>
+        <XL isBold style={{ marginBottom: appTheme.space.xs }}>
           {step === 1 && (
             <Trans
               i18nKey="SIGNUP_FORM_STEP_1_TITLE"
@@ -45,6 +49,6 @@ export const JoinForm = () => {
         {step === 2 && <Step2 />}
         {step === 3 && <Step3 />}
       </FieldContainer>
-    </>
+    </FormContainer>
   );
 };
