@@ -63,7 +63,7 @@ export class Join extends UnguessPage {
     await this.page.route(`*/**/api/users`, async (route) => {
       if (route.request().method() === 'POST') {
         await route.fulfill({
-          path: 'tests/api/users/_post/200_ProjectId.json',
+          path: 'tests/api/users/_post/200_projectId.json',
         });
       } else {
         await route.fallback();
