@@ -4,8 +4,11 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { useAppSelector } from 'src/app/hooks';
 import joinBg from 'src/assets/join-bg-1.png';
+import joingBgwebp from 'src/assets/join-bg-1.webp';
 import joinBg2 from 'src/assets/join-bg-2.png';
+import joinBg2webp from 'src/assets/join-bg-2.webp';
 import joinBg3 from 'src/assets/join-bg-3.png';
+import joinBg3webp from 'src/assets/join-bg-3.webp';
 import { GoogleTagManager } from 'src/common/GoogleTagManager';
 import { useGetInvitesByProfileAndTokenQuery } from 'src/features/api';
 import styled from 'styled-components';
@@ -33,16 +36,29 @@ const CenteredXYContainer = styled.div`
 const Background = styled.div<{ step: string }>`
   // Default background
   @media (min-width: ${({ theme }) => theme.breakpoints.xl}) {
-    background-image: url(${joinBg});
+    ${({ step }) =>
+      step === '1' &&
+      `
+      background-image: url(${joinBg});
+      @supports (background-image: url(${joingBgwebp})) {
+        background-image: url(${joingBgwebp});
+      }
+    `}
     ${({ step }) =>
       step === '2' &&
       `
       background-image: url(${joinBg2});
+      @supports (background-image: url(${joinBg2webp})) {
+        background-image: url(${joinBg2webp});
+      }
     `}
     ${({ step }) =>
       step === '3' &&
       `
       background-image: url(${joinBg3});
+      @supports (background-image: url(${joinBg3webp})) {
+        background-image: url(${joinBg3webp});
+      }
     `}
     background-repeat: no-repeat;
     background-position: right top;
@@ -51,7 +67,7 @@ const Background = styled.div<{ step: string }>`
   position: relative;
   width: 100%;
   min-height: calc(100vh - ${({ theme }) => theme.space.xl} * 2);
-  padding: ${({ theme }) => theme.space.xl} 0;
+  padding: ${({ theme }) => theme.space.xl} 0 ${({ theme }) => theme.space.md};
 `;
 
 const StyledCol = styled(Col)`
