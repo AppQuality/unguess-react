@@ -42,7 +42,7 @@ export const GoogleTagManager = ({
       const tagManagerDataLayer = {
         role: userData.role,
         wp_user_id: userData.tryber_wp_user_id,
-        tester_id: userData.id,
+        tester_id: userData.profile_id,
         name: userData.name,
         email: userData.email,
         company: activeWorkspace.company,
