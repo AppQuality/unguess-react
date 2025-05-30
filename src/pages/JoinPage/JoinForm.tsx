@@ -1,5 +1,5 @@
 import { Paragraph, XL } from '@appquality/unguess-design-system';
-import { Form, useFormikContext } from 'formik';
+import { useFormikContext } from 'formik';
 import { Trans, useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import styled from 'styled-components';
@@ -7,7 +7,6 @@ import { Step1 } from './Steps/Step1';
 import { Step2 } from './Steps/Step2';
 import { Step3 } from './Steps/Step3';
 import { JoinFormValues } from './valuesType';
-import { style } from 'motion/dist/react-client';
 
 const FieldContainer = styled.div`
   display: flex;
