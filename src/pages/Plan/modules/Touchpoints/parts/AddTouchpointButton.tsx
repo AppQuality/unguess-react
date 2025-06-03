@@ -10,7 +10,8 @@ const ButtonContainer = styled.div`
   justify-content: flex-start;
   margin: ${({ theme }) => theme.space.lg} ${({ theme }) => theme.space.xxl};
   padding: ${({ theme }) => theme.space.xs};
-  border-left: 4px solid ${({ theme }) => getColor(theme.colors.accentHue, 600)};
+  border-left: 4px solid
+    ${({ theme }) => getColor(theme.colors.neutralHue, 300)};
 `;
 
 const AddTouchpointButton = () => {
