@@ -16,6 +16,7 @@ import { Field, FieldProps, useFormikContext } from 'formik';
 import { useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
+import { useSendGTMevent } from 'src/hooks/useGTMevent';
 import { JoinFormValues } from '../valuesType';
 import { ButtonContainer } from './ButtonContainer';
 import { PasswordRequirements } from './PasswordRequirements';
@@ -23,6 +24,7 @@ import { PasswordRequirements } from './PasswordRequirements';
 export const Step1 = () => {
   const { setFieldValue, validateForm, setTouched, status, values } =
     useFormikContext<JoinFormValues>();
+  const sendGTMevent = useSendGTMevent();
   const { t } = useTranslation();
   const [inputType, setInputType] = useState('password');
   const handleChangeInputType = () => {
@@ -37,11 +39,19 @@ export const Step1 = () => {
     if (Object.keys(errors).length > 0) {
       return;
     }
+    sendGTMevent({
+      event: 'sign-up-flow',
+      category: 'not set',
+      action: 'click: go to step 2',
+      content: `error count: ${Object.keys(errors).length}`,
+      target: `is invited: ${status?.isInvited}`,
+    });
     setFieldValue('step', 2);
   };
 
   const validateEmail = async (value: string) => {
     let error;
+    let error_event;
     if (status?.isInvited) return error;
     const res = await fetch(
       `${process.env.REACT_APP_API_URL}/users/by-email/${value}`,
@@ -50,11 +60,23 @@ export const Step1 = () => {
       }
     );
 
-    if (res.status === 200) error = t('SIGNUP_FORM_EMAIL_ALREADY_TAKEN');
-    // If the request fails (404), the email is not taken
-    else if (res.status === 404) error = undefined;
-    else error = t('SIGNUP_FORM_EMAIL_ERROR_SERVER_MAIL_CHECK');
-
+    if (res.status === 200) {
+      error = t('SIGNUP_FORM_EMAIL_ALREADY_TAKEN');
+      error_event = 'SIGNUP_FORM_EMAIL_ALREADY_TAKEN';
+    } else if (res.status === 404) {
+      error = undefined;
+      error_event = 'no error';
+    } else {
+      error = t('SIGNUP_FORM_EMAIL_ERROR_SERVER_MAIL_CHECK');
+      error_event = 'SIGNUP_FORM_EMAIL_ERROR_SERVER_MAIL_CHECK';
+    }
+    sendGTMevent({
+      event: 'sign-up-flow',
+      category: 'not set',
+      action: 'validate email',
+      content: `error: ${error_event}`,
+      target: `is invited: ${status?.isInvited}`,
+    });
     return error;
   };
 
