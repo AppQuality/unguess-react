@@ -1,9 +1,10 @@
-import { useCallback } from 'react';
+import { Notification, useToast } from '@appquality/unguess-design-system';
 import { FormikHelpers } from 'formik';
-import { usePostUsersMutation } from 'src/features/api';
+import { useCallback } from 'react';
 import { useParams, useSearchParams } from 'react-router-dom';
 import WPAPI from 'src/common/wpapi';
-import { useToast, Notification } from '@appquality/unguess-design-system';
+import { usePostUsersMutation } from 'src/features/api';
+import { useSendGTMevent } from 'src/hooks/useGTMevent';
 import { JoinFormValues } from './valuesType';
 
 export function useJoinSubmit(isInvited: boolean) {
@@ -12,6 +13,7 @@ export function useJoinSubmit(isInvited: boolean) {
   const [searchParams] = useSearchParams();
   const redirectTo = searchParams.get('redirect');
   const { token, profile } = useParams();
+  const sendGTMevent = useSendGTMevent();
 
   const onSubmit = useCallback(
     async (
@@ -26,6 +28,13 @@ export function useJoinSubmit(isInvited: boolean) {
         surname: values.surname,
         roleId: values.roleId,
       };
+      sendGTMevent({
+        event: 'sign-up-flow',
+        category: 'not set',
+        action: 'start submit',
+        content: `role: ${values.roleId}`,
+        target: `is invited: ${isInvited}`,
+      });
       try {
         let res;
         if (isInvited) {
@@ -58,20 +67,51 @@ export function useJoinSubmit(isInvited: boolean) {
 
         if (login) {
           if (redirectTo) {
+            sendGTMevent({
+              event: 'sign-up-flow',
+              category: 'not set',
+              action: 'submit success',
+              content: 'redirect',
+              target: `is invited: ${isInvited}`,
+            });
             window.location.href = redirectTo;
           } else if (res.projectId) {
             document.location.href = `/projects/${res.projectId}`;
+            sendGTMevent({
+              event: 'sign-up-flow',
+              category: 'not set',
+              action: 'submit success',
+              content: 'project',
+              target: `is invited: ${isInvited}`,
+            });
           } else {
             document.location.href = '/';
+            sendGTMevent({
+              event: 'sign-up-flow',
+              category: 'not set',
+              action: 'submit success',
+              content: 'home',
+              target: `is invited: ${isInvited}`,
+            });
           }
         } else document.location.href = '/oops';
       } catch (err) {
+        const message = `Error creating user: ${
+          err instanceof Error && err.message ? err.message : 'Unknown error'
+        }`;
+        sendGTMevent({
+          event: 'sign-up-flow',
+          category: 'not set',
+          action: 'submit error',
+          content: message,
+          target: `is invited: ${isInvited}`,
+        });
         addToast(
           ({ close }) => (
             <Notification
               onClose={close}
               type="error"
-              message={`Error creating user:${err}`}
+              message={message}
               isPrimary
             />
           ),
