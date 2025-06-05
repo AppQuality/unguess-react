@@ -9,10 +9,6 @@ export interface paths {
     get: operations['get-root'];
     parameters: {};
   };
-  '/authenticate': {
-    /** A request to login with your username and password */
-    post: operations['post-authenticate'];
-  };
   '/analytics/views/campaigns/{cid}': {
     post: operations['post-analytics-views-campaigns-cid'];
     parameters: {
@@ -21,6 +17,10 @@ export interface paths {
         cid: components['parameters']['cid'];
       };
     };
+  };
+  '/authenticate': {
+    /** A request to login with your username and password */
+    post: operations['post-authenticate'];
   };
   '/campaigns/{cid}': {
     get: operations['get-campaign'];
@@ -74,17 +74,6 @@ export interface paths {
       };
     };
   };
-  '/campaigns/{cid}/bugs/{bid}/media': {
-    post: operations['post-campaigns-cid-bugs-bid-media'];
-    parameters: {
-      path: {
-        /** Campaign id */
-        cid: string;
-        /** Defines an identifier for the bug object (BUG ID) */
-        bid: string;
-      };
-    };
-  };
   '/campaigns/{cid}/bugs/{bid}/comments/{cmid}': {
     post: operations['post-campaigns-cid-bugs-bid-comments-cmid-media'];
     delete: operations['delete-campaigns-cid-bugs-bid-comments-cmid'];
@@ -93,6 +82,17 @@ export interface paths {
         cid: string;
         bid: string;
         cmid: string;
+      };
+    };
+  };
+  '/campaigns/{cid}/bugs/{bid}/media': {
+    post: operations['post-campaigns-cid-bugs-bid-media'];
+    parameters: {
+      path: {
+        /** Campaign id */
+        cid: string;
+        /** Defines an identifier for the bug object (BUG ID) */
+        bid: string;
       };
     };
   };
@@ -325,6 +325,15 @@ export interface paths {
       };
     };
   };
+  '/media-comment/{mcid}': {
+    /** Delete a media-comment */
+    delete: operations['delete-media-comment-mcid'];
+    parameters: {
+      path: {
+        mcid: string;
+      };
+    };
+  };
   '/media/{id}': {
     get: operations['get-media-id'];
     parameters: {
@@ -333,12 +342,22 @@ export interface paths {
       };
     };
   };
-  '/media-comment/{mcid}': {
-    /** Delete a media-comment */
-    delete: operations['delete-media-comment-mcid'];
+  '/plans/{pid}': {
+    get: operations['get-workspaces-wid-plans-pid'];
+    delete: operations['delete-workspaces-wid-plans-pid'];
+    patch: operations['patch-workspaces-wid-plans-pid'];
     parameters: {
       path: {
-        mcid: string;
+        pid: string;
+      };
+    };
+  };
+  '/plans/{pid}/status': {
+    /**  */
+    patch: operations['patch-workspaces-wid-plans-pid-status'];
+    parameters: {
+      path: {
+        pid: string;
       };
     };
   };
@@ -509,7 +528,7 @@ export interface paths {
   '/workspaces/{wid}/plans': {
     /**
      * Function: Retrieves all plans within a specified workspace.
-     * Plan Status: Includes plans in a working state, such as those that are in the 'draft' or 'pending review' stages. Also includes plans that are 'approved,' provided there is no active campaign currently linked to them.
+     * Plan Status: Includes plans in a working state, such as those that are in the "draft" or "pending review" stages. Also includes plans that are "approved," provided there is no active campaign currently linked to them.
      *
      * Use Cases:
      * - Reviewing all plans that are still in development or awaiting approval.
@@ -523,50 +542,12 @@ export interface paths {
       };
     };
   };
-  '/plans/{pid}': {
-    get: operations['get-workspaces-wid-plans-pid'];
-    delete: operations['delete-workspaces-wid-plans-pid'];
-    patch: operations['patch-workspaces-wid-plans-pid'];
-    parameters: {
-      path: {
-        pid: string;
-      };
-    };
-  };
-  '/plans/{pid}/status': {
-    /**  */
-    patch: operations['patch-workspaces-wid-plans-pid-status'];
-    parameters: {
-      path: {
-        pid: string;
-      };
-    };
-  };
   '/workspaces/{wid}/projects': {
     get: operations['get-workspace-projects'];
     parameters: {
       path: {
         /** Workspace (company, customer) id */
         wid: components['parameters']['wid'];
-      };
-    };
-  };
-  '/workspaces/{wid}/templates': {
-    get: operations['get-workspaces-templates'];
-    parameters: {
-      path: {
-        /** Workspace (company, customer) id */
-        wid: string;
-      };
-    };
-  };
-  '/workspaces/{wid}/templates/{tid}': {
-    get: operations['get-workspaces-wid-templates-tid'];
-    delete: operations['delete-workspaces-wid-templates-tid'];
-    parameters: {
-      path: {
-        wid: string;
-        tid: string;
       };
     };
   };
@@ -592,6 +573,25 @@ export interface paths {
       };
     };
   };
+  '/workspaces/{wid}/templates': {
+    get: operations['get-workspaces-templates'];
+    parameters: {
+      path: {
+        /** Workspace (company, customer) id */
+        wid: string;
+      };
+    };
+  };
+  '/workspaces/{wid}/templates/{tid}': {
+    get: operations['get-workspaces-wid-templates-tid'];
+    delete: operations['delete-workspaces-wid-templates-tid'];
+    parameters: {
+      path: {
+        wid: string;
+        tid: string;
+      };
+    };
+  };
   '/workspaces/{wid}/users': {
     /** Return a list of users from a specific workspace */
     get: operations['get-workspaces-users'];
@@ -612,48 +612,56 @@ export interface components {
   schemas: {
     /** Authentication */
     Authentication: {
-      id: number;
       /** Format: email */
       email: string;
-      role: string;
+      exp?: number;
+      iat?: number;
+      id: number;
       name: string;
       picture?: string;
+      role: string;
       token: string;
-      iat?: number;
-      exp?: number;
     };
+    /**
+     * BannerType
+     * @enum {string}
+     */
+    BannerType:
+      | 'banner_testing_automation'
+      | 'banner_user_experience'
+      | 'banner_cyber_security';
     /** Bug */
     Bug: {
-      id: number;
-      internal_id: string;
+      application_section: {
+        id?: number;
+        prefix_title?: string;
+        simple_title?: string;
+        title?: string;
+      };
       campaign_id: number;
-      title: components['schemas']['BugTitle'];
-      step_by_step: string;
-      expected_result: string;
-      current_result: string;
-      status: components['schemas']['BugStatus'];
-      severity: components['schemas']['BugSeverity'];
-      type: components['schemas']['BugType'];
-      replicability: components['schemas']['BugReplicability'];
-      priority: components['schemas']['BugPriority'];
-      custom_status: components['schemas']['BugCustomStatus'];
       created: string;
-      occurred_date: string;
-      updated?: string;
-      note?: string;
+      current_result: string;
+      custom_status: components['schemas']['BugCustomStatus'];
       device:
         | components['schemas']['Smartphone']
         | components['schemas']['Tablet']
         | components['schemas']['Desktop'];
-      application_section: {
-        id?: number;
-        prefix_title?: string;
-        title?: string;
-        simple_title?: string;
-      };
       duplicated_of_id?: number;
+      expected_result: string;
+      id: number;
+      internal_id: string;
       is_favorite?: number;
+      note?: string;
+      occurred_date: string;
+      priority: components['schemas']['BugPriority'];
       read?: boolean;
+      replicability: components['schemas']['BugReplicability'];
+      severity: components['schemas']['BugSeverity'];
+      status: components['schemas']['BugStatus'];
+      step_by_step: string;
+      title: components['schemas']['BugTitle'];
+      type: components['schemas']['BugType'];
+      updated?: string;
     };
     /**
      * BugAdditionalField
@@ -669,39 +677,39 @@ export interface components {
     );
     /** BugAdditionalFieldRegex */
     BugAdditionalFieldRegex: {
-      validation: string;
       /** @enum {string} */
       kind: 'regex';
+      validation: string;
     };
     /** BugAdditionalFieldSelect */
     BugAdditionalFieldSelect: {
-      options: string[];
       /** @enum {string} */
       kind: 'select';
+      options: string[];
     };
     /** BugComment */
     BugComment: {
-      id: number;
-      text: string;
       creation_date: string;
       creator: {
         id: number;
-        name: string;
         isInternal: boolean;
+        name: string;
       };
+      id: number;
       media?: {
-        url: string;
         id: number;
         type: string;
+        url: string;
       }[];
+      text: string;
     };
     /** BugCustomStatus */
     BugCustomStatus: {
-      id: number;
-      name: string;
       color: string;
-      phase: components['schemas']['BugCustomStatusPhase'];
+      id: number;
       is_default: number;
+      name: string;
+      phase: components['schemas']['BugCustomStatusPhase'];
     };
     /** BugCustomStatusPhase */
     BugCustomStatusPhase: {
@@ -710,14 +718,14 @@ export interface components {
     };
     /** BugMedia */
     BugMedia: {
+      creation_date: string;
       mime_type: {
+        extension: string;
         /** @enum {string} */
         type: 'video' | 'image' | 'other';
-        extension: string;
       };
       /** Format: uri */
       url: string;
-      creation_date: string;
     };
     /** BugPriority */
     BugPriority: {
@@ -741,23 +749,23 @@ export interface components {
     };
     /** BugTag */
     BugTag: {
-      id: number;
-      tag_id: number;
-      name: string;
-      slug: string;
+      author_tid?: number;
+      author_wp_id?: number;
       bug_id: number;
       campaign_id: number;
-      author_wp_id?: number;
-      author_tid?: number;
       creation_date: string;
+      id: number;
       is_visible_to_customer?: number;
+      name: string;
+      slug: string;
+      tag_id: number;
     };
     /** BugTitle */
     BugTitle: {
-      full: string;
       /** @description Bug title without context. */
       compact: string;
       context?: string[];
+      full: string;
     };
     /** BugType */
     BugType: {
@@ -766,32 +774,34 @@ export interface components {
     };
     /** Campaign */
     Campaign: {
-      id: number;
-      start_date: string;
-      end_date: string;
-      close_date: string;
-      title: string;
-      customer_title: string;
-      is_public: number;
+      base_bug_internal_id?: string;
       /**
        * @description -1: no bug form;
        * 0: only bug form;
        * 1: bug form with bug parade;
        */
       bug_form?: number;
-      type: {
-        id: number;
-        name: string;
-      };
+      close_date: string;
+      customer_title: string;
+      description?: string;
+      end_date: string;
       family: {
         id: number;
         name: string;
       };
+      id: number;
+      is_public: number;
+      project: {
+        id: number;
+        name: string;
+      };
+      start_date: string;
       status: {
         id: number;
         name: string;
       };
-      project: {
+      title: string;
+      type: {
         id: number;
         name: string;
       };
@@ -799,8 +809,6 @@ export interface components {
         id: number;
         name: string;
       };
-      description?: string;
-      base_bug_internal_id?: string;
     };
     /** CampaignWithOutput */
     CampaignWithOutput: components['schemas']['Campaign'] & {
@@ -817,20 +825,30 @@ export interface components {
      * The coin only valid currency in order to run an express campaign (no matter what type of express)
      */
     Coin: {
-      id: number;
-      customer_id: number;
+      agreement_id?: number;
       /** @description Number of available coin */
       amount: number;
-      agreement_id?: number;
+      created_on?: string;
+      customer_id: number;
+      id: number;
       /**
        * Format: float
        * @description This is the single coin price
        * @default 0
        */
       price?: number;
-      created_on?: string;
       /** @description On each coin use, the related package will be updated */
       updated_on?: string;
+    };
+    /** CpReqTemplate */
+    CpReqTemplate: {
+      config: string;
+      description?: string;
+      id: number;
+      name: string;
+      price?: string;
+      strapi?: components['schemas']['StrapiTemplate'];
+      workspace_id?: number;
     };
     /** Desktop */
     Desktop: {
@@ -842,17 +860,17 @@ export interface components {
     };
     /** Error */
     Error: {
-      message: string;
       code: number;
       error: boolean;
+      message: string;
     };
     /**
      * Feature
      * @description Flags used to enable functionality to some users
      */
     Feature: {
-      slug?: string;
       name?: string;
+      slug?: string;
     };
     /** Generic Device */
     GenericDevice: {
@@ -862,46 +880,46 @@ export interface components {
     };
     /** Grape */
     Grapes: {
-      title: string;
-      severity: string;
-      usersNumber: number;
       observations: (components['schemas']['Observation'] & {
-        uploaderId: number;
-        mediaId: number;
         deviceType: string;
+        mediaId: number;
+        uploaderId: number;
         usecaseTitle: string;
       })[];
+      severity: string;
+      title: string;
+      usersNumber: number;
     };
     /** Insight */
     Insight: {
-      id: number;
-      title: string;
+      comment?: string;
       description: string;
+      id: number;
+      observations: (components['schemas']['Observation'] & {
+        uploaderId: number;
+        usecaseTitle: string;
+        video: {
+          deviceType: string;
+          id: number;
+        };
+      })[];
       severity: {
         id: number;
         name: string;
         style: string;
       };
+      title: string;
       visible?: number;
-      comment?: string;
-      observations: (components['schemas']['Observation'] & {
-        video: {
-          id: number;
-          deviceType: string;
-        };
-        uploaderId: number;
-        usecaseTitle: string;
-      })[];
     };
     MediaSentiment: {
-      value: number;
-      reason: string;
       paragraphs: {
-        start: number;
         end: number;
-        value: number;
         reason: string;
+        start: number;
+        value: number;
       }[];
+      reason: string;
+      value: number;
     };
     Module:
       | components['schemas']['ModuleTitle']
@@ -920,128 +938,128 @@ export interface components {
       | components['schemas']['ModuleSetupNote']
       | components['schemas']['ModuleTouchpoints']
       | components['schemas']['ModuleAdditionalTarget'];
-    ModuleDate: {
-      /** @enum {string} */
-      type: 'dates';
-      variant: string;
-      output: {
-        start: string;
-      };
-    };
-    ModuleGoal: {
-      /** @enum {string} */
-      type: 'goal';
-      variant: string;
-      output: string;
-    };
-    ModuleOutOfScope: {
-      /** @enum {string} */
-      type: 'out_of_scope';
-      variant: string;
-      output: string;
-    };
-    ModuleTitle: {
-      /** @enum {string} */
-      type: 'title';
-      variant: string;
-      output: string;
-    };
-    /** ModuleTask */
-    ModuleTask: {
-      /** @enum {string} */
-      type: 'tasks';
-      variant: string;
-      output: components['schemas']['OutputModuleTask'][];
-    };
-    /** ModuleTouchpoints */
-    ModuleTouchpoints: {
-      /** @enum {string} */
-      type: 'touchpoints';
-      variant: string;
-      output: components['schemas']['OutputModuleTouchpoints'][];
-    };
-    /** ModuleAge */
-    ModuleAge: {
-      /** @enum {string} */
-      type: 'age';
-      variant: string;
-      output: components['schemas']['OutputModuleAge'];
-    };
-    /** ModuleGender */
-    ModuleGender: {
-      /** @enum {string} */
-      type: 'gender';
-      variant: string;
-      output: components['schemas']['OutputModuleGender'];
-    };
-    /** ModuleLiteracy */
-    ModuleLiteracy: {
-      /** @enum {string} */
-      type: 'literacy';
-      variant: string;
-      output: components['schemas']['OutputModuleLiteracy'];
-    };
-    /** ModuleLanguage */
-    ModuleLanguage: {
-      /** @enum {string} */
-      type: 'language';
-      variant: string;
-      output: string;
-    };
-    /** ModuleTarget */
-    ModuleTarget: {
-      /** @enum {string} */
-      type: 'target';
-      variant: string;
-      output: number;
-    };
-    /** ModuleTargetNote */
-    ModuleTargetNote: {
-      /** @enum {string} */
-      type: 'target_note';
-      variant: string;
-      output: string;
-    };
-    /** ModuleSetupNote */
-    ModuleSetupNote: {
-      /** @enum {string} */
-      type: 'setup_note';
-      variant: string;
-      output: string;
-    };
-    /** ModuleInstructionNote */
-    ModuleInstructionNote: {
-      /** @enum {string} */
-      type: 'instruction_note';
-      variant: string;
-      output: string;
-    };
-    /** ModuleBrowser */
-    ModuleBrowser: {
-      /** @enum {string} */
-      type: 'browser';
-      variant: string;
-      output: components['schemas']['OutputModuleBrowser'];
-    };
     /** ModuleAdditionalTarget */
     ModuleAdditionalTarget: {
+      output: string;
       /** @enum {string} */
       type: 'additional_target';
       variant: string;
+    };
+    /** ModuleAge */
+    ModuleAge: {
+      output: components['schemas']['OutputModuleAge'];
+      /** @enum {string} */
+      type: 'age';
+      variant: string;
+    };
+    /** ModuleBrowser */
+    ModuleBrowser: {
+      output: components['schemas']['OutputModuleBrowser'];
+      /** @enum {string} */
+      type: 'browser';
+      variant: string;
+    };
+    ModuleDate: {
+      output: {
+        start: string;
+      };
+      /** @enum {string} */
+      type: 'dates';
+      variant: string;
+    };
+    /** ModuleGender */
+    ModuleGender: {
+      output: components['schemas']['OutputModuleGender'];
+      /** @enum {string} */
+      type: 'gender';
+      variant: string;
+    };
+    ModuleGoal: {
       output: string;
+      /** @enum {string} */
+      type: 'goal';
+      variant: string;
+    };
+    /** ModuleInstructionNote */
+    ModuleInstructionNote: {
+      output: string;
+      /** @enum {string} */
+      type: 'instruction_note';
+      variant: string;
+    };
+    /** ModuleLanguage */
+    ModuleLanguage: {
+      output: string;
+      /** @enum {string} */
+      type: 'language';
+      variant: string;
+    };
+    /** ModuleLiteracy */
+    ModuleLiteracy: {
+      output: components['schemas']['OutputModuleLiteracy'];
+      /** @enum {string} */
+      type: 'literacy';
+      variant: string;
+    };
+    ModuleOutOfScope: {
+      output: string;
+      /** @enum {string} */
+      type: 'out_of_scope';
+      variant: string;
+    };
+    /** ModuleSetupNote */
+    ModuleSetupNote: {
+      output: string;
+      /** @enum {string} */
+      type: 'setup_note';
+      variant: string;
+    };
+    /** ModuleTarget */
+    ModuleTarget: {
+      output: number;
+      /** @enum {string} */
+      type: 'target';
+      variant: string;
+    };
+    /** ModuleTargetNote */
+    ModuleTargetNote: {
+      output: string;
+      /** @enum {string} */
+      type: 'target_note';
+      variant: string;
+    };
+    /** ModuleTask */
+    ModuleTask: {
+      output: components['schemas']['OutputModuleTask'][];
+      /** @enum {string} */
+      type: 'tasks';
+      variant: string;
+    };
+    ModuleTitle: {
+      output: string;
+      /** @enum {string} */
+      type: 'title';
+      variant: string;
+    };
+    /** ModuleTouchpoints */
+    ModuleTouchpoints: {
+      output: components['schemas']['OutputModuleTouchpoints'][];
+      /** @enum {string} */
+      type: 'touchpoints';
+      variant: string;
     };
     /** Observation */
     Observation: {
-      id: number;
-      title: string;
       description: string;
       /** Format: float */
-      start: number;
-      /** Format: float */
       end: number;
+      id: number;
       quotes: string;
-      uxNote?: string;
+      /** Format: float */
+      start: number;
       tags: components['schemas']['VideoTag'][];
+      title: string;
+      uxNote?: string;
     };
     /**
      * Output
@@ -1049,25 +1067,191 @@ export interface components {
      * @enum {string}
      */
     Output: 'bugs' | 'media' | 'insights';
+    /** OutputModuleAge */
+    OutputModuleAge: {
+      max: number;
+      min: number;
+      percentage: number;
+    }[];
+    /** OutputModuleBrowser */
+    OutputModuleBrowser: {
+      /** @enum {string} */
+      name: 'firefox' | 'edge' | 'chrome' | 'safari';
+      percentage: number;
+    }[];
+    /** OutputModuleGender */
+    OutputModuleGender: {
+      /** @enum {string} */
+      gender: 'male' | 'female';
+      percentage: number;
+    }[];
+    /** OutputModuleLiteracy */
+    OutputModuleLiteracy: {
+      /** @enum {string} */
+      level: 'beginner' | 'intermediate' | 'expert';
+      percentage: number;
+    }[];
+    /** SubcomponentTask */
+    OutputModuleTask:
+      | components['schemas']['OutputModuleTaskVideo']
+      | components['schemas']['OutputModuleTaskBug']
+      | components['schemas']['OutputModuleTaskSurvey']
+      | components['schemas']['OutputModuleTaskModerateVideo']
+      | components['schemas']['OutputModuleTaskExplorativeBug']
+      | components['schemas']['OutputModuleTaskAccessibility'];
+    /** OutputModuleTaskAccessibility */
+    OutputModuleTaskAccessibility: {
+      description?: string;
+      /** @enum {string} */
+      kind: 'accessibility';
+      title: string;
+      /** Format: uri */
+      url?: string;
+    };
+    /** SubcomponentTaskBug */
+    OutputModuleTaskBug: {
+      description?: string;
+      /** @enum {string} */
+      kind: 'bug';
+      title: string;
+      /** Format: uri */
+      url?: string;
+    };
+    /** OutputModuleTaskExplorativeBug */
+    OutputModuleTaskExplorativeBug: {
+      description?: string;
+      /** @enum {string} */
+      kind: 'explorative-bug';
+      title: string;
+      /** Format: uri */
+      url?: string;
+    };
+    /** OutputModuleTaskModerateVideo */
+    OutputModuleTaskModerateVideo: {
+      description?: string;
+      /** @enum {string} */
+      kind: 'moderate-video';
+      title: string;
+      /** Format: uri */
+      url?: string;
+    };
+    /** SubcomponentTaskSurvey */
+    OutputModuleTaskSurvey: {
+      description?: string;
+      /** @enum {string} */
+      kind: 'survey';
+      title: string;
+      /** Format: uri */
+      url?: string;
+    };
+    /** SubcomponentTaskVideo */
+    OutputModuleTaskVideo: {
+      description?: string;
+      /** @enum {string} */
+      kind: 'video';
+      title: string;
+      /** Format: uri */
+      url?: string;
+    };
+    /** SubcomponentTouchpoints */
+    OutputModuleTouchpoints:
+      | components['schemas']['OutputModuleTouchpointsAppDesktop']
+      | components['schemas']['OutputModuleTouchpointsAppTablet']
+      | components['schemas']['OutputModuleTouchpointsAppSmartphone']
+      | components['schemas']['OutputModuleTouchpointsWebDesktop']
+      | components['schemas']['OutputModuleTouchpointsWebTablet']
+      | components['schemas']['OutputModuleTouchpointsWebSmartphone'];
+    /** OutputModuleTouchpointsAppDesktop */
+    OutputModuleTouchpointsAppDesktop: {
+      /** @enum {undefined} */
+      form_factor: 'desktop';
+      /** @enum {undefined} */
+      kind: 'app';
+      os: {
+        linux?: string;
+        macos?: string;
+        windows?: string;
+      };
+    };
+    /** OutputModuleTouchpointsAppSmartphone */
+    OutputModuleTouchpointsAppSmartphone: {
+      /** @enum {undefined} */
+      form_factor: 'smartphone';
+      /** @enum {undefined} */
+      kind: 'app';
+      os: {
+        android?: string;
+        ios?: string;
+      };
+    };
+    /** OutputModuleTouchpointsAppTablet */
+    OutputModuleTouchpointsAppTablet: {
+      /** @enum {undefined} */
+      form_factor: 'tablet';
+      /** @enum {undefined} */
+      kind: 'app';
+      os: {
+        ios?: string;
+        linux?: string;
+        windows?: string;
+      };
+    };
+    /** OutputModuleTouchpointsWebDesktop */
+    OutputModuleTouchpointsWebDesktop: {
+      /** @enum {undefined} */
+      form_factor: 'desktop';
+      /** @enum {undefined} */
+      kind: 'web';
+      os: {
+        linux?: string;
+        macos?: string;
+        windows?: string;
+      };
+    };
+    /** OutputModuleTouchpointsWebSmartphone */
+    OutputModuleTouchpointsWebSmartphone: {
+      /** @enum {undefined} */
+      form_factor: 'smartphone';
+      /** @enum {undefined} */
+      kind: 'web';
+      os: {
+        android?: string;
+        ios?: string;
+      };
+    };
+    /** OutputModuleTouchpointsWebTablet */
+    OutputModuleTouchpointsWebTablet: {
+      /** @enum {undefined} */
+      form_factor: 'tablet';
+      /** @enum {undefined} */
+      kind: 'web';
+      os: {
+        android?: string;
+        ios?: string;
+      };
+    };
     /** PaginationData */
     PaginationData: {
-      start?: number;
-      size?: number;
       limit?: number;
+      size?: number;
+      start?: number;
       total?: number;
     };
     Paragraph: {
-      text: string;
-      start: number;
       end: number;
       /** @description Id Of speaker */
       speaker?: number;
+      start: number;
+      text: string;
       words: components['schemas']['Word'][];
     };
+    /**
+     * PlanStatus
+     * @enum {string}
+     */
+    PlanStatus: 'pending_review' | 'draft' | 'approved';
     /** Platform Object */
     Platform: {
-      /** @description os */
-      id: number;
       /**
        * @description form_factor
        *
@@ -1079,29 +1263,45 @@ export interface components {
        * 5 => tv
        */
       deviceType: number;
+      /** @description os */
+      id: number;
+    };
+    /** Data for post-users request for invited user */
+    PostUserInviteData: {
+      profileId: number;
+      token: string;
+      /** @enum {string} */
+      type: 'invite';
+    };
+    /** Data for post-users request for new user */
+    PostUserNewData: {
+      email: string;
+      /** @enum {string} */
+      type: 'new';
+      workspace: string;
     };
     /** Project */
     Project: {
-      id: number;
-      name: string;
       campaigns_count: number;
-      workspaceId: number;
       description?: string;
+      id: number;
       is_archive?: number;
+      name: string;
+      workspaceId: number;
     };
     /** Report */
     Report: {
-      id?: number;
-      title?: string;
+      creation_date?: string;
       description?: string;
-      url: string;
       file_type?: {
+        domain_name?: string;
         extension?: components['schemas']['ReportExtensions'];
         type: string;
-        domain_name?: string;
       };
-      creation_date?: string;
+      id?: number;
+      title?: string;
       update_date?: string;
+      url: string;
     };
     /**
      * ReportExtensions
@@ -1131,6 +1331,50 @@ export interface components {
       /** @enum {string} */
       type: 'smartphone';
     };
+    StrapiTemplate: {
+      background?: string;
+      description: string;
+      how?: {
+        description: string;
+        /** Format: uri */
+        icon: string;
+        title: string;
+      }[];
+      /** Format: uri */
+      image?: string;
+      /** Format: uri */
+      output_image?: string;
+      pre_title: string;
+      price?: {
+        /** @default 0 */
+        is_strikethrough?: number;
+        previous_price?: string;
+        price: string;
+      };
+      requirements?: {
+        description: string;
+        list: string[];
+      };
+      tags: {
+        /** Format: uri */
+        icon: string;
+        text: string;
+      }[];
+      title: string;
+      what?: {
+        description: string;
+        goal: string;
+      };
+      why?: {
+        advantages: string[];
+        reasons: {
+          description: string;
+          /** Format: uri */
+          icon: string;
+          title: string;
+        }[];
+      };
+    };
     /** Tablet */
     Tablet: {
       manufacturer: string;
@@ -1142,71 +1386,72 @@ export interface components {
     };
     /** Tenant */
     Tenant: {
+      email: string;
       /** @description tryber wp_user_id */
       id: number;
-      profile_id: number;
-      name: string;
-      email: string;
       invitationPending: boolean;
+      name: string;
       permissionFrom?: {
+        id?: number;
         /** @enum {string} */
         type?: 'workspace' | 'project';
-        id?: number;
       };
+      profile_id: number;
     };
     Transcript: {
+      paragraphs: components['schemas']['Paragraph'][];
       /** @description Number of spekers */
       speakers: number;
-      paragraphs: components['schemas']['Paragraph'][];
     };
     /** UseCase */
     UseCase: {
-      title: string;
       description: string;
-      logged?: boolean;
       link?: string;
+      logged?: boolean;
+      title: string;
     };
     /** User */
     User: {
-      /** @description This is the main id of the user. Currently is equal to tryber_wp_user_id */
-      id: number;
       /** Format: email */
       email: string;
-      role: string;
+      features?: components['schemas']['Feature'][];
+      /** @description This is the main id of the user. Currently is equal to tryber_wp_user_id */
+      id: number;
       name: string;
+      picture?: string;
       profile_id: number;
+      role: string;
       tryber_wp_user_id: number;
       unguess_wp_user_id: number;
-      picture?: string;
-      features?: components['schemas']['Feature'][];
+      customer_role: string;
     };
     /** UserPreference */
     UserPreference: {
+      name: string;
       preference_id: number;
       value: string;
-      name: string;
     };
     /**
      * Video
      * @description Video uploaded from a user
      */
     Video: {
-      id: number;
-      url: string;
-      streamUrl?: string;
-      poster?: string;
       duration?: number;
+      id: number;
+      poster?: string;
+      sentiment?: components['schemas']['MediaSentiment'];
+      streamUrl?: string;
       tester: {
-        id: number;
-        name: string;
-        surname: string;
         device: {
           /** @enum {string} */
           type: 'smartphone' | 'tablet' | 'desktop' | 'other';
         };
+        id: number;
+        name: string;
+        surname: string;
       };
       transcript?: components['schemas']['Transcript'];
-      sentiment?: components['schemas']['MediaSentiment'];
+      url: string;
     };
     /** VideoTag */
     VideoTag: {
@@ -1231,9 +1476,9 @@ export interface components {
         | components['schemas']['Desktop']
         | components['schemas']['Tablet']
       ) & {
-        unique_bugs: number;
         /** @description Unique bugs */
         bugs: number;
+        unique_bugs: number;
       })[];
       /**
        * @default bugsByDevice
@@ -1259,15 +1504,15 @@ export interface components {
      */
     WidgetBugsByUseCase: {
       data: {
+        bugs: number;
+        description: string;
         title: {
           full: string;
-          simple?: string;
-          prefix?: string;
           info?: string;
+          prefix?: string;
+          simple?: string;
         };
-        description: string;
         uniqueBugs?: number;
-        bugs: number;
         usecase_completion?: number;
         usecase_id: number;
       }[];
@@ -1284,18 +1529,18 @@ export interface components {
      */
     WidgetCampaignProgress: {
       data: {
-        start_date: string;
         end_date: string;
+        /** @description Expected amount of hours required to complete the campaign */
+        expected_duration: number;
+        start_date: string;
+        /** @description Number of hours from start_date */
+        time_elapsed: number;
         /**
          * Format: float
          * @description Percentage fixed rate of completion
          * @enum {number}
          */
         usecase_completion: 12.5 | 37.5 | 62.5 | 87.5 | 100;
-        /** @description Number of hours from start_date */
-        time_elapsed: number;
-        /** @description Expected amount of hours required to complete the campaign */
-        expected_duration: number;
       };
       /**
        * @default campaignProgress
@@ -1310,9 +1555,9 @@ export interface components {
      */
     WidgetCampaignUniqueBugs: {
       data: {
-        unique: number;
         total: number;
         trend: number;
+        unique: number;
       };
       /**
        * @default campaignUniqueBugs
@@ -1321,29 +1566,41 @@ export interface components {
        */
       kind: 'campaignUniqueBugs';
     };
+    /** WidgetCampaignUxMostUsedTitles */
+    WidgetCampaignUxMostUsedTitles: {
+      data: {
+        mostUsedTitles: {
+          mainSeverityAssignment: string;
+          title: string;
+          usage: number;
+        }[];
+      };
+      /** @enum {undefined} */
+      kind: 'uxMostUsedTitles';
+    };
     /**
      * WidgetCampaignUxProgress
      * @description Used to show an overview of Ux progress
      */
     WidgetCampaignUxProgress: {
       data: {
-        countMediaWithObservation?: number;
         countMedia?: number;
-        countTitleTag?: number;
+        countMediaWithObservation?: number;
         countObservation?: number;
         countObservationNoTitle?: number;
         countRecurrentTitles?: number;
-        severitiesDistribution?: {
-          countPositiveFindings: number;
-          countMinorIssue: number;
-          countMajorIssue: number;
-          countObservations: number;
-        };
+        countTitleTag?: number;
         mostUsedTitles?: {
+          mainSeverityAssignment: string;
           title: string;
           usage: number;
-          mainSeverityAssignment: string;
         }[];
+        severitiesDistribution?: {
+          countMajorIssue: number;
+          countMinorIssue: number;
+          countObservations: number;
+          countPositiveFindings: number;
+        };
       };
       /**
        * @default uxTaggingVideoCompletion
@@ -1356,43 +1613,25 @@ export interface components {
         | 'uxSeveritiesDistribution'
         | 'uxMostUsedTitles';
     };
-    Word: {
-      start: number;
-      end: number;
-      /** @description Id of Speaker */
-      speaker?: number;
-      word: string;
-    };
-    /**
-     * Workspace
-     * @description A workspace is the company area with projects and campaigns
-     */
-    Workspace: {
-      id: number;
-      company: string;
-      tokens: number;
-      logo?: string;
-      csm: {
-        id: number;
-        email: string;
-        name: string;
-        profile_id: number;
-        tryber_wp_user_id: number;
-        picture?: string;
-        url?: string;
+    /** WidgetCampaignUxSeveritiesDistribution */
+    WidgetCampaignUxSeveritiesDistribution: {
+      data: {
+        countObservations: number;
+        severitiesDistribution: {
+          countMajorIssue: number;
+          countMinorIssue: number;
+          countObservationSeverity: number;
+          countPositiveFindings: number;
+        };
       };
-      /** @description express coins */
-      coins?: number;
-      /** @description Do this workspace have shared items? */
-      isShared?: boolean;
-      /** @description Number of shared items */
-      sharedItems?: number;
+      /** @enum {undefined} */
+      kind: 'uxSeveritiesDistribution';
     };
     /** WidgetCampaignUxTaggingVideoCompletionData */
     WidgetCampaignUxTaggingVideoCompletionData: {
       data: {
-        countMediaWithObservation: number;
         countMedia: number;
+        countMediaWithObservation: number;
       };
       /** @enum {undefined} */
       kind: 'uxTaggingVideoCompletion';
@@ -1400,282 +1639,44 @@ export interface components {
     /** WidgetCampaignUxTotalTitlesVsRecurrentTitles */
     WidgetCampaignUxTotalTitlesVsRecurrentTitles: {
       data: {
-        countTitleTag: number;
         countObservationNoTitle: number;
         countRecurrentTitles: number;
+        countTitleTag: number;
       };
       /** @enum {undefined} */
       kind: 'uxTotalTitlesVsRecurrentTitles';
     };
-    /** WidgetCampaignUxSeveritiesDistribution */
-    WidgetCampaignUxSeveritiesDistribution: {
-      data: {
-        countObservations: number;
-        severitiesDistribution: {
-          countPositiveFindings: number;
-          countMinorIssue: number;
-          countMajorIssue: number;
-          countObservationSeverity: number;
-        };
-      };
-      /** @enum {undefined} */
-      kind: 'uxSeveritiesDistribution';
-    };
-    /** WidgetCampaignUxMostUsedTitles */
-    WidgetCampaignUxMostUsedTitles: {
-      data: {
-        mostUsedTitles: {
-          title: string;
-          usage: number;
-          mainSeverityAssignment: string;
-        }[];
-      };
-      /** @enum {undefined} */
-      kind: 'uxMostUsedTitles';
+    Word: {
+      end: number;
+      /** @description Id of Speaker */
+      speaker?: number;
+      start: number;
+      word: string;
     };
     /**
-     * BannerType
-     * @enum {string}
+     * Workspace
+     * @description A workspace is the company area with projects and campaigns
      */
-    BannerType:
-      | 'banner_testing_automation'
-      | 'banner_user_experience'
-      | 'banner_cyber_security';
-    /** CpReqTemplate */
-    CpReqTemplate: {
+    Workspace: {
+      /** @description express coins */
+      coins?: number;
+      company: string;
+      csm: {
+        email: string;
+        id: number;
+        name: string;
+        picture?: string;
+        profile_id: number;
+        tryber_wp_user_id: number;
+        url?: string;
+      };
       id: number;
-      name: string;
-      description?: string;
-      config: string;
-      workspace_id?: number;
-      price?: string;
-      strapi?: components['schemas']['StrapiTemplate'];
-    };
-    /** SubcomponentTaskBug */
-    OutputModuleTaskBug: {
-      /** @enum {string} */
-      kind: 'bug';
-      title: string;
-      description?: string;
-      /** Format: uri */
-      url?: string;
-    };
-    /** OutputModuleAge */
-    OutputModuleAge: {
-      min: number;
-      max: number;
-      percentage: number;
-    }[];
-    /** SubcomponentTaskVideo */
-    OutputModuleTaskVideo: {
-      /** @enum {string} */
-      kind: 'video';
-      title: string;
-      description?: string;
-      /** Format: uri */
-      url?: string;
-    };
-    /** SubcomponentTaskSurvey */
-    OutputModuleTaskSurvey: {
-      /** @enum {string} */
-      kind: 'survey';
-      title: string;
-      description?: string;
-      /** Format: uri */
-      url?: string;
-    };
-    /** OutputModuleTaskModerateVideo */
-    OutputModuleTaskModerateVideo: {
-      /** @enum {string} */
-      kind: 'moderate-video';
-      title: string;
-      description?: string;
-      /** Format: uri */
-      url?: string;
-    };
-    /** OutputModuleTaskExplorativeBug */
-    OutputModuleTaskExplorativeBug: {
-      /** @enum {string} */
-      kind: 'explorative-bug';
-      title: string;
-      description?: string;
-      /** Format: uri */
-      url?: string;
-    };
-    /** OutputModuleTaskAccessibility */
-    OutputModuleTaskAccessibility: {
-      /** @enum {string} */
-      kind: 'accessibility';
-      title: string;
-      description?: string;
-      /** Format: uri */
-      url?: string;
-    };
-    /** SubcomponentTask */
-    OutputModuleTask:
-      | components['schemas']['OutputModuleTaskVideo']
-      | components['schemas']['OutputModuleTaskBug']
-      | components['schemas']['OutputModuleTaskSurvey']
-      | components['schemas']['OutputModuleTaskModerateVideo']
-      | components['schemas']['OutputModuleTaskExplorativeBug']
-      | components['schemas']['OutputModuleTaskAccessibility'];
-    /** SubcomponentTouchpoints */
-    OutputModuleTouchpoints:
-      | components['schemas']['OutputModuleTouchpointsAppDesktop']
-      | components['schemas']['OutputModuleTouchpointsAppTablet']
-      | components['schemas']['OutputModuleTouchpointsAppSmartphone']
-      | components['schemas']['OutputModuleTouchpointsWebDesktop']
-      | components['schemas']['OutputModuleTouchpointsWebTablet']
-      | components['schemas']['OutputModuleTouchpointsWebSmartphone'];
-    /** OutputModuleTouchpointsAppDesktop */
-    OutputModuleTouchpointsAppDesktop: {
-      /** @enum {undefined} */
-      kind: 'app';
-      /** @enum {undefined} */
-      form_factor: 'desktop';
-      os: {
-        linux?: string;
-        macos?: string;
-        windows?: string;
-      };
-    };
-    /** OutputModuleTouchpointsAppTablet */
-    OutputModuleTouchpointsAppTablet: {
-      /** @enum {undefined} */
-      kind: 'app';
-      /** @enum {undefined} */
-      form_factor: 'tablet';
-      os: {
-        linux?: string;
-        ios?: string;
-        windows?: string;
-      };
-    };
-    /** OutputModuleTouchpointsAppSmartphone */
-    OutputModuleTouchpointsAppSmartphone: {
-      /** @enum {undefined} */
-      kind: 'app';
-      /** @enum {undefined} */
-      form_factor: 'smartphone';
-      os: {
-        android?: string;
-        ios?: string;
-      };
-    };
-    /** OutputModuleTouchpointsWebDesktop */
-    OutputModuleTouchpointsWebDesktop: {
-      /** @enum {undefined} */
-      kind: 'web';
-      /** @enum {undefined} */
-      form_factor: 'desktop';
-      os: {
-        linux?: string;
-        macos?: string;
-        windows?: string;
-      };
-    };
-    /** OutputModuleTouchpointsWebTablet */
-    OutputModuleTouchpointsWebTablet: {
-      /** @enum {undefined} */
-      kind: 'web';
-      /** @enum {undefined} */
-      form_factor: 'tablet';
-      os: {
-        android?: string;
-        ios?: string;
-      };
-    };
-    /** OutputModuleTouchpointsWebSmartphone */
-    OutputModuleTouchpointsWebSmartphone: {
-      /** @enum {undefined} */
-      kind: 'web';
-      /** @enum {undefined} */
-      form_factor: 'smartphone';
-      os: {
-        android?: string;
-        ios?: string;
-      };
-    };
-    /** OutputModuleLiteracy */
-    OutputModuleLiteracy: {
-      /** @enum {string} */
-      level: 'beginner' | 'intermediate' | 'expert';
-      percentage: number;
-    }[];
-    /** OutputModuleGender */
-    OutputModuleGender: {
-      /** @enum {string} */
-      gender: 'male' | 'female';
-      percentage: number;
-    }[];
-    /** OutputModuleBrowser */
-    OutputModuleBrowser: {
-      /** @enum {string} */
-      name: 'firefox' | 'edge' | 'chrome' | 'safari';
-      percentage: number;
-    }[];
-    /**
-     * PlanStatus
-     * @enum {string}
-     */
-    PlanStatus: 'pending_review' | 'draft' | 'approved';
-    StrapiTemplate: {
-      title: string;
-      description: string;
-      pre_title: string;
-      /** Format: uri */
-      image?: string;
-      /** Format: uri */
-      output_image?: string;
-      requirements?: {
-        description: string;
-        list: string[];
-      };
-      tags: {
-        /** Format: uri */
-        icon: string;
-        text: string;
-      }[];
-      why?: {
-        reasons: {
-          /** Format: uri */
-          icon: string;
-          title: string;
-          description: string;
-        }[];
-        advantages: string[];
-      };
-      what?: {
-        description: string;
-        goal: string;
-      };
-      how?: {
-        /** Format: uri */
-        icon: string;
-        title: string;
-        description: string;
-      }[];
-      price?: {
-        price: string;
-        previous_price?: string;
-        /** @default 0 */
-        is_strikethrough?: number;
-      };
-      background?: string;
-    };
-    /** Data for post-users request for invited user */
-    PostUserInviteData: {
-      profileId: number;
-      token: string;
-      /** @enum {string} */
-      type: 'invite';
-    };
-    /** Data for post-users request for new user */
-    PostUserNewData: {
-      workspace: string;
-      email: string;
-      /** @enum {string} */
-      type: 'new';
+      /** @description Do this workspace have shared items? */
+      isShared?: boolean;
+      logo?: string;
+      /** @description Number of shared items */
+      sharedItems?: number;
+      tokens: number;
     };
   };
   responses: {
@@ -1687,24 +1688,30 @@ export interface components {
     };
   };
   parameters: {
-    /** @description Workspace (company, customer) id */
-    wid: string;
-    /** @description Project id */
-    pid: string;
+    /** @description Defines an identifier for the bug object (BUG ID) */
+    bid: string;
+    /** @description Campaign id */
+    cid: string;
+    /** @description Custom Status id */
+    csid: string;
+    /** @description filterBy[<fieldName>]=<fieldValue> */
+    filterBy: unknown;
+    /** @description Insight id */
+    iid: string;
     /** @description Limit pagination parameter */
     limit: number;
-    /** @description Start pagination parameter */
-    start: number;
     /** @description Order value (ASC, DESC) */
     order: string;
     /** @description Order by accepted field */
     orderBy: string;
-    /** @description filterBy[<fieldName>]=<fieldValue> */
-    filterBy: unknown;
-    /** @description Campaign id */
-    cid: string;
-    /** @description Defines an identifier for the bug object (BUG ID) */
-    bid: string;
+    /** @description Project id */
+    pid: string;
+    /** @description keywords to search */
+    search: string;
+    /** @description Start pagination parameter */
+    start: number;
+    /** @description Workspace (company, customer) id */
+    wid: string;
     /** @description Campaign widget slug */
     wslug:
       | 'bugs-by-usecase'
@@ -1716,66 +1723,51 @@ export interface components {
       | 'ux-total-titles-vs-recurrent-titles'
       | 'ux-severities-distribution'
       | 'ux-most-used-titles';
-    /** @description keywords to search */
-    search: string;
-    /** @description Custom Status id */
-    csid: string;
-    /** @description Insight id */
-    iid: string;
   };
   requestBodies: {
-    Credentials: {
-      content: {
-        'application/json': {
-          username: string;
-          password: string;
-        };
-      };
-    };
     Campaign: {
       content: {
         'application/json': {
-          title: string;
-          start_date: string;
-          end_date: string;
-          close_date: string;
-          customer_title?: string;
-          status_id?: number;
-          is_public?: number;
+          base_bug_internal_id?: string;
+          browsers?: number[];
           campaign_type_id: number;
-          project_id: number;
-          pm_id: number;
-          platforms: components['schemas']['Platform'][];
-          /** @description Da togliere */
-          page_preview_id?: number;
-          /** @description Da togliere */
-          page_manual_id?: number;
+          close_date: string;
           /** @description Used to check available coins */
           customer_id: number;
+          customer_title?: string;
+          description?: string;
+          end_date: string;
+          goal?: string;
           has_bug_form?: number;
           /** @description if has_bug_form is 0 this has to be 0 */
           has_bug_parade?: number;
-          description?: string;
-          base_bug_internal_id?: string;
-          use_cases?: components['schemas']['UseCase'][];
-          productType?: number;
-          productLink?: string;
-          browsers?: number[];
+          is_public?: number;
           languages?: string[];
           outOfScope?: string;
-          testerRequirements?: string;
+          /** @description Da togliere */
+          page_manual_id?: number;
+          /** @description Da togliere */
+          page_preview_id?: number;
+          platforms: components['schemas']['Platform'][];
+          pm_id: number;
+          productLink?: string;
+          productType?: number;
+          project_id: number;
+          start_date: string;
+          status_id?: number;
           targetSize?: number;
-          goal?: string;
           testDescription?: string;
+          testerRequirements?: string;
+          title: string;
+          use_cases?: components['schemas']['UseCase'][];
         };
       };
     };
-    Project: {
+    Credentials: {
       content: {
         'application/json': {
-          name: string;
-          customer_id: number;
-          description?: string;
+          password: string;
+          username: string;
         };
       };
     };
@@ -1783,12 +1775,21 @@ export interface components {
       content: {
         'application/json': {
           email: string;
-          name?: string;
-          surname?: string;
-          locale?: string;
           event_name?: string;
-          redirect_url?: string;
+          locale?: string;
           message?: string;
+          name?: string;
+          redirect_url?: string;
+          surname?: string;
+        };
+      };
+    };
+    Project: {
+      content: {
+        'application/json': {
+          customer_id: number;
+          description?: string;
+          name: string;
         };
       };
     };
@@ -1809,20 +1810,6 @@ export interface operations {
       500: components['responses']['Error'];
     };
   };
-  /** A request to login with your username and password */
-  'post-authenticate': {
-    parameters: {};
-    responses: {
-      /** OK */
-      200: {
-        content: {
-          'application/json': components['schemas']['Authentication'];
-        };
-      };
-      500: components['responses']['Error'];
-    };
-    requestBody: components['requestBodies']['Credentials'];
-  };
   'post-analytics-views-campaigns-cid': {
     parameters: {
       path: {
@@ -1841,6 +1828,20 @@ export interface operations {
       };
       500: components['responses']['Error'];
     };
+  };
+  /** A request to login with your username and password */
+  'post-authenticate': {
+    parameters: {};
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          'application/json': components['schemas']['Authentication'];
+        };
+      };
+      500: components['responses']['Error'];
+    };
+    requestBody: components['requestBodies']['Credentials'];
   };
   'get-campaign': {
     parameters: {
@@ -1931,21 +1932,21 @@ export interface operations {
         content: {
           'application/json': {
             items?: (components['schemas']['Bug'] & {
+              additional_fields?: {
+                name: string;
+                slug: string;
+                value: string;
+              }[];
+              comments: number;
+              siblings: number;
               tags?: {
                 tag_id: number;
                 tag_name: string;
               }[];
-              siblings: number;
-              comments: number;
-              additional_fields?: {
-                slug: string;
-                value: string;
-                name: string;
-              }[];
             })[];
-            start?: number;
             limit?: number;
             size?: number;
+            start?: number;
             total?: number;
           };
         };
@@ -1970,13 +1971,13 @@ export interface operations {
       200: {
         content: {
           'application/json': components['schemas']['Bug'] & {
-            media: components['schemas']['BugMedia'][];
-            tags: components['schemas']['BugTag'][];
             additional_fields: components['schemas']['BugAdditionalField'][];
+            media: components['schemas']['BugMedia'][];
             reporter: {
-              tester_id: number;
               name: string;
+              tester_id: number;
             };
+            tags: components['schemas']['BugTag'][];
           };
         };
       };
@@ -2000,12 +2001,12 @@ export interface operations {
       200: {
         content: {
           'application/json': {
+            custom_status?: components['schemas']['BugCustomStatus'];
+            priority?: components['schemas']['BugPriority'];
             tags?: {
               tag_id: number;
               tag_name: string;
             }[];
-            priority?: components['schemas']['BugPriority'];
-            custom_status?: components['schemas']['BugCustomStatus'];
           };
         };
       };
@@ -2013,6 +2014,8 @@ export interface operations {
     requestBody: {
       content: {
         'application/json': {
+          custom_status_id?: number;
+          priority_id?: number;
           tags?: (
             | {
                 tag_id: number;
@@ -2021,8 +2024,6 @@ export interface operations {
                 tag_name: string;
               }
           )[];
-          priority_id?: number;
-          custom_status_id?: number;
         };
       };
     };
@@ -2073,50 +2074,13 @@ export interface operations {
     requestBody: {
       content: {
         'application/json': {
-          text: string;
-          mentioned?: {
-            id: number;
-          }[];
           media_id?: {
             id: number;
           }[];
-        };
-      };
-    };
-  };
-  'post-campaigns-cid-bugs-bid-media': {
-    parameters: {
-      path: {
-        /** Campaign id */
-        cid: string;
-        /** Defines an identifier for the bug object (BUG ID) */
-        bid: string;
-      };
-    };
-    responses: {
-      /** OK */
-      200: {
-        content: {
-          'application/json': {
-            failed?: {
-              name: string;
-              /** @enum {string} */
-              errorCode:
-                | 'FILE_TOO_BIG'
-                | 'INVALID_FILE_EXTENSION'
-                | 'GENERIC_ERROR';
-            }[];
-            uploaded_ids?: {
-              id: number;
-            }[];
-          };
-        };
-      };
-    };
-    requestBody: {
-      content: {
-        'multipart/form-data': {
-          media: string | string[];
+          mentioned?: {
+            id: number;
+          }[];
+          text: string;
         };
       };
     };
@@ -2134,17 +2098,17 @@ export interface operations {
       200: {
         content: {
           'application/json': {
-            files?: {
-              name: string;
-              path: string;
-            }[];
             failed?: {
-              name: string;
               /** @enum {string} */
               errorCode:
                 | 'FILE_TOO_BIG'
                 | 'INVALID_FILE_EXTENSION'
                 | 'GENERIC_ERROR';
+              name: string;
+            }[];
+            files?: {
+              name: string;
+              path: string;
             }[];
             uploaded_ids?: {
               id: number;
@@ -2182,6 +2146,43 @@ export interface operations {
       };
     };
   };
+  'post-campaigns-cid-bugs-bid-media': {
+    parameters: {
+      path: {
+        /** Campaign id */
+        cid: string;
+        /** Defines an identifier for the bug object (BUG ID) */
+        bid: string;
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          'application/json': {
+            failed?: {
+              /** @enum {string} */
+              errorCode:
+                | 'FILE_TOO_BIG'
+                | 'INVALID_FILE_EXTENSION'
+                | 'GENERIC_ERROR';
+              name: string;
+            }[];
+            uploaded_ids?: {
+              id: number;
+            }[];
+          };
+        };
+      };
+    };
+    requestBody: {
+      content: {
+        'multipart/form-data': {
+          media: string | string[];
+        };
+      };
+    };
+  };
   'get-campaigns-bug-siblings': {
     parameters: {
       path: {
@@ -2197,31 +2198,31 @@ export interface operations {
         content: {
           'application/json': {
             father?: {
-              id: number;
-              title: {
-                full: string;
-                compact: string;
-                context?: string[];
-              };
               context?: string;
               device: string;
+              id: number;
               os: {
                 name: string;
                 version: string;
+              };
+              title: {
+                compact: string;
+                context?: string[];
+                full: string;
               };
             };
             siblings: {
-              id: number;
-              title: {
-                full: string;
-                compact: string;
-                context?: string[];
-              };
               context?: string;
               device: string;
+              id: number;
               os: {
                 name: string;
                 version: string;
+              };
+              title: {
+                compact: string;
+                context?: string[];
+                full: string;
               };
             }[];
           };
@@ -2316,10 +2317,10 @@ export interface operations {
     requestBody: {
       content: {
         'application/json': {
+          color: string;
           /** @description se esiste già questo parametro viene passato nel request body\r\nse invece non esiste ed il custom status deve essere creato, non viene passato */
           custom_status_id?: number;
           name: string;
-          color: string;
         }[];
       };
     };
@@ -2411,11 +2412,11 @@ export interface operations {
     requestBody: {
       content: {
         'application/json': {
-          title: string;
-          description?: string;
-          severity_id: number;
-          observations_ids: number[];
           comment?: string;
+          description?: string;
+          observations_ids: number[];
+          severity_id: number;
+          title: string;
           visible?: number;
         };
       };
@@ -2434,9 +2435,9 @@ export interface operations {
       200: {
         content: {
           'application/json': components['schemas']['Campaign'] & {
-            selected_testers: number;
             /** @description Array of form factors */
             allowed_devices: string[];
+            selected_testers: number;
           };
         };
       };
@@ -2465,37 +2466,37 @@ export interface operations {
         content: {
           'application/json':
             | {
-                results: {
-                  usecaseId: number;
-                  usecaseTitle: string;
-                  grapes: components['schemas']['Grapes'][];
-                  ungrouped: (components['schemas']['Observation'] & {
-                    uploaderId: number;
-                    mediaId: number;
-                    deviceType: string;
-                    usecaseTitle: string;
-                  })[];
-                }[];
                 /**
                  * @default usecase-grapes
                  * @example usecase-grapes
                  * @enum {string}
                  */
                 kind: 'usecase-grapes';
+                results: {
+                  grapes: components['schemas']['Grapes'][];
+                  ungrouped: (components['schemas']['Observation'] & {
+                    deviceType: string;
+                    mediaId: number;
+                    uploaderId: number;
+                    usecaseTitle: string;
+                  })[];
+                  usecaseId: number;
+                  usecaseTitle: string;
+                }[];
               }
             | {
-                results: (components['schemas']['Observation'] & {
-                  uploaderId: number;
-                  mediaId: number;
-                  deviceType: string;
-                  usecaseTitle: string;
-                })[];
                 /**
                  * @default ungrouped
                  * @example ungrouped
                  * @enum {string}
                  */
                 kind: 'ungrouped';
+                results: (components['schemas']['Observation'] & {
+                  deviceType: string;
+                  mediaId: number;
+                  uploaderId: number;
+                  usecaseTitle: string;
+                })[];
               };
         };
       };
@@ -2611,9 +2612,9 @@ export interface operations {
         content: {
           'application/json': {
             suggestion?: {
-              slug: components['schemas']['BannerType'];
               /** @description ServiceId from strapi */
               serviceId?: number;
+              slug: components['schemas']['BannerType'];
             };
           };
         };
@@ -2658,10 +2659,10 @@ export interface operations {
       200: {
         content: {
           'application/json': {
-            tag_id: number;
             display_name: string;
-            slug: string;
             is_public?: number;
+            slug: string;
+            tag_id: number;
           }[];
         };
       };
@@ -2686,14 +2687,14 @@ export interface operations {
       200: {
         content: {
           'application/json': {
+            completion: number;
             id: number;
             title: {
               full: string;
-              simple?: string;
-              prefix?: string;
               info?: string;
+              prefix?: string;
+              simple?: string;
             };
-            completion: number;
           }[];
         };
       };
@@ -2726,9 +2727,9 @@ export interface operations {
         content: {
           'application/json': {
             items: components['schemas']['Tenant'][];
-            start?: number;
             limit?: number;
             size?: number;
+            start?: number;
             total?: number;
           };
         };
@@ -2751,9 +2752,9 @@ export interface operations {
       200: {
         content: {
           'application/json': {
+            email: string;
             profile_id: number;
             tryber_wp_user_id: number;
-            email: string;
           };
         };
       };
@@ -2810,49 +2811,49 @@ export interface operations {
       200: {
         content: {
           'application/json': {
-            goal?: string;
-            users?: number;
             findings?: {
-              /** @description this field is the Finding ID */
-              id: number;
-              title: string;
-              description: string;
-              comment?: string;
-              severity: {
-                id: number;
-                name: string;
-                style: string;
-              };
               cluster:
                 | {
                     id: number;
                     name: string;
                   }[]
                 | 'all';
+              comment?: string;
+              description: string;
+              /** @description this field is the Finding ID */
+              id: number;
+              severity: {
+                id: number;
+                name: string;
+                style: string;
+              };
+              title: string;
               video?: {
-                url: string;
-                streamUrl: string;
+                description?: string;
+                end: number;
                 poster?: string;
                 start: number;
-                end: number;
-                description?: string;
+                streamUrl: string;
+                url: string;
               }[];
+            }[];
+            goal?: string;
+            methodology?: {
+              description: string;
+              type: string;
+            };
+            questions?: {
+              text: string;
             }[];
             sentiment?: {
               cluster: {
                 id: number;
                 name: string;
               };
-              value: number;
               comment: string;
+              value: number;
             }[];
-            methodology?: {
-              type: string;
-              description: string;
-            };
-            questions?: {
-              text: string;
-            }[];
+            users?: number;
           };
         };
       };
@@ -3041,11 +3042,11 @@ export interface operations {
     requestBody: {
       content: {
         'application/json': {
-          title?: string;
-          description?: string;
-          severity_id?: number;
-          observations_ids?: number[];
           comment?: string;
+          description?: string;
+          observations_ids?: number[];
+          severity_id?: number;
+          title?: string;
           visible?: number;
         };
       };
@@ -3063,26 +3064,15 @@ export interface operations {
       200: {
         content: {
           'application/json': {
+            email: string;
             name: string;
             surname: string;
-            email: string;
             workspace: string;
           };
         };
       };
       /** Bad Request */
       400: unknown;
-    };
-  };
-  'get-media-id': {
-    parameters: {
-      path: {
-        id: string;
-      };
-    };
-    responses: {
-      /** Found */
-      302: never;
     };
   };
   /** Delete a media-comment */
@@ -3103,6 +3093,113 @@ export interface operations {
       401: unknown;
       /** Not Found */
       404: unknown;
+    };
+  };
+  'get-media-id': {
+    parameters: {
+      path: {
+        id: string;
+      };
+    };
+    responses: {
+      /** Found */
+      302: never;
+    };
+  };
+  'get-workspaces-wid-plans-pid': {
+    parameters: {
+      path: {
+        pid: string;
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          'application/json': {
+            campaign?: {
+              id: number;
+              startDate: string;
+              /** @description CustomerTitle ?? Title */
+              title: string;
+            };
+            config: {
+              modules: components['schemas']['Module'][];
+            };
+            id: number;
+            project: {
+              id: number;
+              name: string;
+            };
+            quote?: {
+              id: number;
+              /** @enum {string} */
+              status: 'pending' | 'proposed' | 'approved' | 'rejected';
+              value: string;
+            };
+            status: components['schemas']['PlanStatus'];
+            workspace_id: number;
+          };
+        };
+      };
+    };
+  };
+  'delete-workspaces-wid-plans-pid': {
+    parameters: {
+      path: {
+        pid: string;
+      };
+    };
+    responses: {
+      /** OK */
+      200: unknown;
+    };
+  };
+  'patch-workspaces-wid-plans-pid': {
+    parameters: {
+      path: {
+        pid: string;
+      };
+    };
+    responses: {
+      /** OK */
+      200: unknown;
+      /** Forbidden */
+      403: unknown;
+      /** Not Found */
+      404: unknown;
+    };
+    requestBody: {
+      content: {
+        'application/json': {
+          config: {
+            modules: components['schemas']['Module'][];
+          };
+        };
+      };
+    };
+  };
+  /**  */
+  'patch-workspaces-wid-plans-pid-status': {
+    parameters: {
+      path: {
+        pid: string;
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          'application/json': { [key: string]: unknown };
+        };
+      };
+    };
+    requestBody: {
+      content: {
+        'application/json': {
+          status: components['schemas']['PlanStatus'];
+        };
+      };
     };
   };
   'post-projects': {
@@ -3213,9 +3310,9 @@ export interface operations {
         content: {
           'application/json': {
             items?: components['schemas']['CampaignWithOutput'][];
-            start?: number;
             limit?: number;
             size?: number;
+            start?: number;
             total?: number;
           };
         };
@@ -3251,9 +3348,9 @@ export interface operations {
         content: {
           'application/json': {
             items: components['schemas']['Tenant'][];
-            start?: number;
             limit?: number;
             size?: number;
+            start?: number;
             total?: number;
           };
         };
@@ -3276,9 +3373,9 @@ export interface operations {
       200: {
         content: {
           'application/json': {
+            email: string;
             profile_id: number;
             tryber_wp_user_id: number;
-            email: string;
           };
         };
       };
@@ -3312,9 +3409,9 @@ export interface operations {
     requestBody: {
       content: {
         'application/json': {
+          include_shared?: boolean;
           /** @description Tryber WP USER ID */
           user_id: number;
-          include_shared?: boolean;
         };
       };
     };
@@ -3326,8 +3423,8 @@ export interface operations {
       201: {
         content: {
           'application/json': {
-            workspaceId: number;
             projectId?: number;
+            workspaceId: number;
           };
         };
       };
@@ -3337,9 +3434,9 @@ export interface operations {
       content: {
         'application/json': {
           name: string;
-          surname: string;
           password: string;
           roleId: number;
+          surname: string;
         } & (
           | components['schemas']['PostUserInviteData']
           | components['schemas']['PostUserNewData']
@@ -3484,9 +3581,9 @@ export interface operations {
       content: {
         'application/json': {
           /** Format: float */
-          start: number;
-          /** Format: float */
           end: number;
+          /** Format: float */
+          start: number;
         };
       };
     };
@@ -3523,14 +3620,14 @@ export interface operations {
     requestBody: {
       content: {
         'application/json': {
-          title?: string;
           description?: string;
-          /** Format: float */
-          start?: number;
           /** Format: float */
           end?: number;
           quotes?: string;
+          /** Format: float */
+          start?: number;
           tags?: number[];
+          title?: string;
         };
       };
     };
@@ -3555,9 +3652,9 @@ export interface operations {
             /** @default 0 */
             processing: number;
             sentences: {
-              text: string;
-              start: number;
               end: number;
+              start: number;
+              text: string;
             }[];
           };
         };
@@ -3623,9 +3720,9 @@ export interface operations {
         content: {
           'application/json': {
             items?: components['schemas']['Workspace'][];
-            start?: number;
             limit?: number;
             size?: number;
+            start?: number;
             total?: number;
           };
         };
@@ -3643,8 +3740,8 @@ export interface operations {
       200: {
         content: {
           'application/json': {
-            id: number;
             company: string;
+            id: number;
           };
         };
       };
@@ -3694,10 +3791,10 @@ export interface operations {
       200: {
         content: {
           'application/json': {
+            campaignsCounter: number;
+            description: string;
             id: number;
             name: string;
-            description: string;
-            campaignsCounter: number;
           };
         };
       };
@@ -3731,9 +3828,9 @@ export interface operations {
         content: {
           'application/json': {
             items?: components['schemas']['CampaignWithOutput'][];
-            start?: number;
             limit?: number;
             size?: number;
+            start?: number;
             total?: number;
           };
         };
@@ -3767,9 +3864,9 @@ export interface operations {
         content: {
           'application/json': {
             items?: components['schemas']['Coin'][];
-            start?: number;
             limit?: number;
             size?: number;
+            start?: number;
             total?: number;
           };
         };
@@ -3781,7 +3878,7 @@ export interface operations {
   };
   /**
    * Function: Retrieves all plans within a specified workspace.
-   * Plan Status: Includes plans in a working state, such as those that are in the 'draft' or 'pending review' stages. Also includes plans that are 'approved,' provided there is no active campaign currently linked to them.
+   * Plan Status: Includes plans in a working state, such as those that are in the "draft" or "pending review" stages. Also includes plans that are "approved," provided there is no active campaign currently linked to them.
    *
    * Use Cases:
    * - Reviewing all plans that are still in development or awaiting approval.
@@ -3809,9 +3906,6 @@ export interface operations {
         content: {
           'application/json': {
             id: number;
-            title: string;
-            /** @enum {string} */
-            status: 'draft' | 'pending_review' | 'approved';
             project: {
               id: number;
               title: string;
@@ -3821,6 +3915,9 @@ export interface operations {
               /** @enum {string} */
               status: 'pending' | 'proposed' | 'approved' | 'rejected';
             };
+            /** @enum {string} */
+            status: 'draft' | 'pending_review' | 'approved';
+            title: string;
           }[];
         };
       };
@@ -3849,104 +3946,8 @@ export interface operations {
     requestBody: {
       content: {
         'application/json': {
-          template_id: number;
           project_id: number;
-        };
-      };
-    };
-  };
-  'get-workspaces-wid-plans-pid': {
-    parameters: {
-      path: {
-        pid: string;
-      };
-    };
-    responses: {
-      /** OK */
-      200: {
-        content: {
-          'application/json': {
-            id: number;
-            config: {
-              modules: components['schemas']['Module'][];
-            };
-            status: components['schemas']['PlanStatus'];
-            project: {
-              id: number;
-              name: string;
-            };
-            quote?: {
-              id: number;
-              /** @enum {string} */
-              status: 'pending' | 'proposed' | 'approved' | 'rejected';
-              value: string;
-            };
-            campaign?: {
-              id: number;
-              /** @description CustomerTitle ?? Title */
-              title: string;
-              startDate: string;
-            };
-            workspace_id: number;
-          };
-        };
-      };
-    };
-  };
-  'delete-workspaces-wid-plans-pid': {
-    parameters: {
-      path: {
-        pid: string;
-      };
-    };
-    responses: {
-      /** OK */
-      200: unknown;
-    };
-  };
-  'patch-workspaces-wid-plans-pid': {
-    parameters: {
-      path: {
-        pid: string;
-      };
-    };
-    responses: {
-      /** OK */
-      200: unknown;
-      /** Forbidden */
-      403: unknown;
-      /** Not Found */
-      404: unknown;
-    };
-    requestBody: {
-      content: {
-        'application/json': {
-          config: {
-            modules: components['schemas']['Module'][];
-          };
-        };
-      };
-    };
-  };
-  /**  */
-  'patch-workspaces-wid-plans-pid-status': {
-    parameters: {
-      path: {
-        pid: string;
-      };
-    };
-    responses: {
-      /** OK */
-      200: {
-        content: {
-          'application/json': { [key: string]: unknown };
-        };
-      };
-    };
-    requestBody: {
-      content: {
-        'application/json': {
-          status: components['schemas']['PlanStatus'];
+          template_id: number;
         };
       };
     };
@@ -3970,9 +3971,65 @@ export interface operations {
         content: {
           'application/json': {
             items?: components['schemas']['Project'][];
-            start?: number;
             limit?: number;
             size?: number;
+            start?: number;
+            total?: number;
+          };
+        };
+      };
+      400: components['responses']['Error'];
+      403: components['responses']['Error'];
+      404: components['responses']['Error'];
+      500: components['responses']['Error'];
+    };
+  };
+  'get-workspace-project': {
+    parameters: {
+      path: {
+        /** Workspace (company, customer) id */
+        wid: components['parameters']['wid'];
+        /** Project id */
+        pid: components['parameters']['pid'];
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          'application/json': components['schemas']['Project'];
+        };
+      };
+      400: components['responses']['Error'];
+      403: components['responses']['Error'];
+      404: components['responses']['Error'];
+      500: components['responses']['Error'];
+    };
+  };
+  'get-workspace-project-campaigns': {
+    parameters: {
+      path: {
+        /** Workspace (company, customer) id */
+        wid: components['parameters']['wid'];
+        /** Project id */
+        pid: components['parameters']['pid'];
+      };
+      query: {
+        /** Limit pagination parameter */
+        limit?: components['parameters']['limit'];
+        /** Start pagination parameter */
+        start?: components['parameters']['start'];
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          'application/json': {
+            items?: components['schemas']['CampaignWithOutput'][];
+            limit?: number;
+            size?: number;
+            start?: number;
             total?: number;
           };
         };
@@ -4029,13 +4086,13 @@ export interface operations {
       200: {
         content: {
           'application/json': {
+            config: string;
+            description?: string;
             id: number;
             name: string;
-            description?: string;
-            config: string;
-            workspace_id?: number;
             price?: string;
             strapi?: components['schemas']['StrapiTemplate'];
+            workspace_id?: number;
           };
         };
       };
@@ -4063,62 +4120,6 @@ export interface operations {
       404: unknown;
     };
   };
-  'get-workspace-project': {
-    parameters: {
-      path: {
-        /** Workspace (company, customer) id */
-        wid: components['parameters']['wid'];
-        /** Project id */
-        pid: components['parameters']['pid'];
-      };
-    };
-    responses: {
-      /** OK */
-      200: {
-        content: {
-          'application/json': components['schemas']['Project'];
-        };
-      };
-      400: components['responses']['Error'];
-      403: components['responses']['Error'];
-      404: components['responses']['Error'];
-      500: components['responses']['Error'];
-    };
-  };
-  'get-workspace-project-campaigns': {
-    parameters: {
-      path: {
-        /** Workspace (company, customer) id */
-        wid: components['parameters']['wid'];
-        /** Project id */
-        pid: components['parameters']['pid'];
-      };
-      query: {
-        /** Limit pagination parameter */
-        limit?: components['parameters']['limit'];
-        /** Start pagination parameter */
-        start?: components['parameters']['start'];
-      };
-    };
-    responses: {
-      /** OK */
-      200: {
-        content: {
-          'application/json': {
-            items?: components['schemas']['CampaignWithOutput'][];
-            start?: number;
-            limit?: number;
-            size?: number;
-            total?: number;
-          };
-        };
-      };
-      400: components['responses']['Error'];
-      403: components['responses']['Error'];
-      404: components['responses']['Error'];
-      500: components['responses']['Error'];
-    };
-  };
   /** Return a list of users from a specific workspace */
   'get-workspaces-users': {
     parameters: {
@@ -4143,9 +4144,9 @@ export interface operations {
         content: {
           'application/json': {
             items: components['schemas']['Tenant'][];
-            start?: number;
             limit?: number;
             size?: number;
+            start?: number;
             total?: number;
           };
         };
@@ -4168,9 +4169,9 @@ export interface operations {
       200: {
         content: {
           'application/json': {
+            email: string;
             profile_id: number;
             tryber_wp_user_id: number;
-            email: string;
           };
         };
       };
@@ -4204,9 +4205,9 @@ export interface operations {
     requestBody: {
       content: {
         'application/json': {
+          include_shared?: boolean;
           /** @description Tryber WP USER ID */
           user_id: number;
-          include_shared?: boolean;
         };
       };
     };
