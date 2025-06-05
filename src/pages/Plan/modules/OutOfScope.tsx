@@ -115,6 +115,7 @@ const OutOfScope = () => {
                   onBlur={handleBlur}
                   validation={error ? 'error' : undefined}
                   placeholder={t('__PLAN_PAGE_MODULE_OUT_OF_SCOPE_PLACEHOLDER')}
+                  minRows={6}
                 />
                 <StyledInfoBox>
                   {error && typeof error === 'string' ? (
