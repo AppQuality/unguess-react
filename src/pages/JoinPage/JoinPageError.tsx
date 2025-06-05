@@ -1,7 +1,7 @@
 import { Button, MD, XL } from '@appquality/unguess-design-system';
-import { useFormikContext } from 'formik';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as BackgroundImage } from 'src/assets/icons/lost-in-the-space.svg';
 import { useSendGTMevent } from 'src/hooks/useGTMevent';
@@ -36,15 +36,17 @@ const ButtonWrapper = styled.div`
 
 export const JoinPageError = () => {
   const { t } = useTranslation();
-  const { status } = useFormikContext();
   const sendGTMevent = useSendGTMevent();
+  const { profile, token } = useParams();
+  const isInvited = profile && token;
+
   useEffect(() => {
     sendGTMevent({
       event: 'sign-up-flow',
       category: 'not set',
       action: 'not set',
       content: 'error page',
-      target: `is invited: ${status?.isInvited}`,
+      target: `is invited: ${isInvited}`,
     });
   }, []);
 
