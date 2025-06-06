@@ -6,6 +6,7 @@ import {
   StyledDivider,
 } from 'src/common/components/navigation/asideNav';
 import { useParams } from 'react-router-dom';
+import { appTheme } from 'src/app/theme';
 import { EmptyState } from './EmptyState';
 import { useWidgets } from './useWidgets';
 
@@ -49,7 +50,15 @@ export const CampaignWidgets = () => {
                 }
               })}
               {footers.length > 0 && <StyledDivider />}
-              {footers.map((widget) => widget.content)}
+              <div
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: appTheme.space.sm,
+                }}
+              >
+                {footers.map((widget) => widget.content)}
+              </div>
             </>
           </AsideNav>
         </Col>

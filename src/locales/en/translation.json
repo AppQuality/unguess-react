@@ -995,6 +995,8 @@
   "__PLAN_PAGE_TITLE": "Plan your activity",
   "__PLAN_REQUEST_QUOTATION_CTA": "Submit Request",
   "__PLAN_SAVE_CONFIGURATION_CTA": "Save Draft",
+  "__PLAN_SAVE_DRAFT_TOAST_ERROR": "We couldn't save your draft: please try again later.",
+  "__PLAN_SAVE_DRAFT_TOAST_SUCCESS": "Activity draft saved! You can safely continue editing.",
   "__PLAN_SETUP_NOTE_SIZE_ERROR_EMPTY": "Required: please enter a text to continue",
   "__PLAN_SETUP_NOTE_SIZE_ERROR_TOO_LONG": "Character limit exceeded: Please reduce your text to 512 characters",
   "__PLAN_TARGET_NOTE_SIZE_ERROR_EMPTY": "Please enter a text to continue",
