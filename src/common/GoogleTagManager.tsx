@@ -41,6 +41,7 @@ export const GoogleTagManager = ({
     if (userData?.role && activeWorkspace?.company) {
       const tagManagerDataLayer = {
         role: userData.role,
+        customer_role: userData.customer_role,
         wp_user_id: userData.tryber_wp_user_id,
         tester_id: userData.profile_id,
         name: userData.name,

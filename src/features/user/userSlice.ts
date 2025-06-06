@@ -10,6 +10,7 @@ const initialState: UserState = {
     role: 'none',
     name: '',
     profile_id: 0,
+    customer_role: 'Not set',
     tryber_wp_user_id: 0,
     unguess_wp_user_id: 0,
   },
