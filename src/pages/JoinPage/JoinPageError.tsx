@@ -1,8 +1,11 @@
-import styled from 'styled-components';
-import { ReactComponent as BackgroundImage } from 'src/assets/icons/lost-in-the-space.svg';
 import { Button, MD, XL } from '@appquality/unguess-design-system';
+import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
+import { ReactComponent as BackgroundImage } from 'src/assets/icons/lost-in-the-space.svg';
+import { useSendGTMevent } from 'src/hooks/useGTMevent';
+import styled from 'styled-components';
 
 const Wrapper = styled.div`
   width: 100%;
@@ -33,6 +36,20 @@ const ButtonWrapper = styled.div`
 
 export const JoinPageError = () => {
   const { t } = useTranslation();
+  const sendGTMevent = useSendGTMevent();
+  const { profile, token } = useParams();
+  const isInvited = profile && token;
+
+  useEffect(() => {
+    sendGTMevent({
+      event: 'sign-up-flow',
+      category: 'not set',
+      action: 'not set',
+      content: 'error page',
+      target: `is invited: ${isInvited}`,
+    });
+  }, []);
+
   return (
     <Wrapper data-qa="join-page-error">
       <StyledRow>

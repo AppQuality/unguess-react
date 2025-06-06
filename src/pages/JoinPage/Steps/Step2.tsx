@@ -12,13 +12,15 @@ import { useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { useGetUsersRolesQuery } from 'src/features/api';
+import { useSendGTMevent } from 'src/hooks/useGTMevent';
 import { JoinFormValues } from '../valuesType';
 import { ButtonContainer } from './ButtonContainer';
 
 export const Step2 = () => {
-  const { setFieldValue, validateForm, setTouched } =
+  const { setFieldValue, validateForm, setTouched, status } =
     useFormikContext<JoinFormValues>();
   const { t } = useTranslation();
+  const sendGTMevent = useSendGTMevent();
   const { data, isLoading } = useGetUsersRolesQuery();
   const selectRef = useRef<HTMLDivElement>(null);
   const renderOptions = useMemo(
@@ -44,9 +46,23 @@ export const Step2 = () => {
     if (Object.keys(errors).length > 0) {
       return;
     }
+    sendGTMevent({
+      event: 'sign-up-flow',
+      category: 'not set',
+      action: 'click: go to step 3',
+      content: `error count: ${Object.keys(errors).length}`,
+      target: `is invited: ${status?.isInvited}`,
+    });
     setFieldValue('step', 3);
   };
   const goToPreviousStep = () => {
+    sendGTMevent({
+      event: 'sign-up-flow',
+      category: 'not set',
+      action: 'click: go back to step 1',
+      content: 'not set',
+      target: `is invited: ${status?.isInvited}`,
+    });
     setFieldValue('step', 1);
   };
   return (

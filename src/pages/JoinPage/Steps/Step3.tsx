@@ -1,21 +1,30 @@
 import {
-  FormField,
-  Label,
-  Span,
-  Input,
-  Message,
   Button,
+  FormField,
+  Input,
+  Label,
+  Message,
+  Span,
 } from '@appquality/unguess-design-system';
 import { Field, FieldProps, useFormikContext } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
+import { useSendGTMevent } from 'src/hooks/useGTMevent';
 import { JoinFormValues } from '../valuesType';
 import { ButtonContainer } from './ButtonContainer';
 
 export const Step3 = () => {
   const { setFieldValue, values, status } = useFormikContext<JoinFormValues>();
   const { t } = useTranslation();
+  const sendGTMevent = useSendGTMevent();
   const goToPreviousStep = () => {
+    sendGTMevent({
+      event: 'sign-up-flow',
+      category: 'not set',
+      action: 'click: go back to step 2',
+      content: 'not set',
+      target: `is invited: ${status?.isInvited}`,
+    });
     setFieldValue('step', 2);
   };
   return (
