@@ -21,6 +21,8 @@ const StyledLogo = styled(Logo)`
 const CenteredXYContainer = styled.div`
   display: flex;
   align-items: center;
+  justify-content: center;
+  text-align: center;
   flex-direction: column;
   height: 100vh;
 
@@ -99,8 +101,6 @@ const LoginPage = () => {
 
       if (!values.password) {
         errors.password = t('__FORM_FIELD_REQUIRED_MESSAGE');
-      } else if (values.password.length < 5) {
-        errors.password = t('__LOGIN_FORM_PASSWORD_FIELD_LENGTH_INVALID');
       }
 
       return errors;

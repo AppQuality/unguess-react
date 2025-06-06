@@ -29,9 +29,6 @@ unguessApi.enhanceEndpoints({
     patchProjectsByPid: {
       invalidatesTags: ['Projects'],
     },
-    postCampaigns: {
-      invalidatesTags: ['Campaigns'],
-    },
     patchCampaignsByCid: {
       invalidatesTags: ['Campaigns', 'Projects', 'Archive', 'Users'],
     },
@@ -52,9 +49,6 @@ unguessApi.enhanceEndpoints({
     },
     getWorkspacesByWidCoins: {
       providesTags: ['Workspaces'],
-    },
-    getTemplates: {
-      providesTags: ['Templates'],
     },
     getCampaignsByCidReports: {
       providesTags: ['Reports'],
