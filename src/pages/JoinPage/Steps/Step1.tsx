@@ -24,7 +24,7 @@ import { PasswordRequirements } from './PasswordRequirements';
 export const Step1 = () => {
   const { setFieldValue, validateForm, setTouched, status, values } =
     useFormikContext<JoinFormValues>();
-  const sendGTMevent = useSendGTMevent();
+  const sendGTMevent = useSendGTMevent({ loggedUser: false });
   const { t } = useTranslation();
   const [inputType, setInputType] = useState('password');
   const handleChangeInputType = () => {

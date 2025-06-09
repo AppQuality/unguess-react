@@ -13,7 +13,7 @@ export function useJoinSubmit(isInvited: boolean) {
   const [searchParams] = useSearchParams();
   const redirectTo = searchParams.get('redirect');
   const { token, profile } = useParams();
-  const sendGTMevent = useSendGTMevent();
+  const sendGTMevent = useSendGTMevent({ loggedUser: false });
 
   const onSubmit = useCallback(
     async (

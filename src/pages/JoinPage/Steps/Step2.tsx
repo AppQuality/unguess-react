@@ -20,7 +20,7 @@ export const Step2 = () => {
   const { setFieldValue, validateForm, setTouched, status } =
     useFormikContext<JoinFormValues>();
   const { t } = useTranslation();
-  const sendGTMevent = useSendGTMevent();
+  const sendGTMevent = useSendGTMevent({ loggedUser: false });
   const { data, isLoading } = useGetUsersRolesQuery();
   const selectRef = useRef<HTMLDivElement>(null);
 

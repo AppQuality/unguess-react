@@ -36,7 +36,7 @@ const ButtonWrapper = styled.div`
 
 export const JoinPageError = () => {
   const { t } = useTranslation();
-  const sendGTMevent = useSendGTMevent();
+  const sendGTMevent = useSendGTMevent({ loggedUser: false });
   const { profile, token } = useParams();
   const isInvited = profile && token;
   const navigate = useNavigate();

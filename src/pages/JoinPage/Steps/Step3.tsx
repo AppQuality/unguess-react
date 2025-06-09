@@ -17,7 +17,7 @@ import { ButtonContainer } from './ButtonContainer';
 export const Step3 = () => {
   const { setFieldValue, values, status } = useFormikContext<JoinFormValues>();
   const { t } = useTranslation();
-  const sendGTMevent = useSendGTMevent();
+  const sendGTMevent = useSendGTMevent({ loggedUser: false });
   useEffect(() => {
     sendGTMevent({
       event: 'sign-up-flow',
