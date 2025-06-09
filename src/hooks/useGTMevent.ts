@@ -16,6 +16,7 @@ export const useSendGTMevent = () => {
   const user = useAppSelector(
     (state) => ({
       role: state.user.userData.role,
+      customer_role: state.user.userData.customer_role,
       tryber_wp_user_id: state.user.userData.tryber_wp_user_id,
       id: state.user.userData.id,
       name: state.user.userData.name,
@@ -31,6 +32,7 @@ export const useSendGTMevent = () => {
         TagManager.dataLayer({
           dataLayer: {
             role: user.role,
+            customer_role: user.customer_role,
             wp_user_id: user.tryber_wp_user_id,
             tester_id: user.id,
             name: user.name,

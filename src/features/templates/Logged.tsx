@@ -57,6 +57,7 @@ export const Logged = ({
     wp_user_id: userData.unguess_wp_user_id ?? 0,
     tryber_id: userData.tryber_wp_user_id ?? 0,
     role: userData.role ?? 'unknown',
+    customer_role: userData.customer_role,
   });
 
   return (
