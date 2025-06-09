@@ -117,6 +117,7 @@ const Goal = () => {
                   onBlur={handleBlur}
                   validation={error ? 'error' : undefined}
                   placeholder={t('__PLAN_PAGE_MODULE_GOAL_PLACEHOLDER')}
+                  minRows={5}
                 />
                 <StyledInfoBox>
                   {error && typeof error === 'string' ? (
