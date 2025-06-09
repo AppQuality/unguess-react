@@ -7,12 +7,12 @@ import {
   Span,
 } from '@appquality/unguess-design-system';
 import { Field, FieldProps, useFormikContext } from 'formik';
+import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { useSendGTMevent } from 'src/hooks/useGTMevent';
 import { JoinFormValues } from '../valuesType';
 import { ButtonContainer } from './ButtonContainer';
-import { useEffect } from 'react';
 
 export const Step3 = () => {
   const { setFieldValue, values, status } = useFormikContext<JoinFormValues>();

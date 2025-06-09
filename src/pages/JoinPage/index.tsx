@@ -13,12 +13,11 @@ import { GoogleTagManager } from 'src/common/GoogleTagManager';
 import { useGetInvitesByProfileAndTokenQuery } from 'src/features/api';
 import styled from 'styled-components';
 import { FormProvider } from './FormProvider';
+import { ImagesColumn } from './ImagesColumn';
 import { JoinForm } from './JoinForm';
 import { JoinPageError } from './JoinPageError';
 import { JoinPageLoading } from './JoinPageLoading';
 import { WaitModal } from './WaitModal';
-import { ImagesColumn } from './ImagesColumn';
-import { useSendGTMevent } from 'src/hooks/useGTMevent';
 
 const CenteredXYContainer = styled.div`
   display: flex;
@@ -86,7 +85,6 @@ const JoinPage = () => {
   const { status } = useAppSelector((state) => state.user);
   const navigate = useNavigate();
   const { profile, token } = useParams();
-  const sendGTMevent = useSendGTMevent();
   const shouldSkipQuery =
     status === 'logged' || status === 'loading' || !(profile && token);
 
