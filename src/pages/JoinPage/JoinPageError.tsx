@@ -1,7 +1,7 @@
 import { Button, MD, XL } from '@appquality/unguess-design-system';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as BackgroundImage } from 'src/assets/icons/lost-in-the-space.svg';
 import { useSendGTMevent } from 'src/hooks/useGTMevent';
@@ -39,6 +39,7 @@ export const JoinPageError = () => {
   const sendGTMevent = useSendGTMevent();
   const { profile, token } = useParams();
   const isInvited = profile && token;
+  const navigate = useNavigate();
 
   useEffect(() => {
     sendGTMevent({
@@ -78,7 +79,7 @@ export const JoinPageError = () => {
               style={{ flex: 1 }}
               color={appTheme.palette.kale[600]}
               onClick={() => {
-                document.location.href = '/login';
+                navigate('/login');
               }}
             >
               {t('JOIN_PAGE_ERROR_BUTTON_LOGIN')}
