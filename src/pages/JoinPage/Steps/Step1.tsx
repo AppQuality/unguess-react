@@ -13,7 +13,7 @@ import { ReactComponent as LinkIcon } from '@zendeskgarden/svg-icons/src/16/chev
 import { ReactComponent as Eye } from '@zendeskgarden/svg-icons/src/16/eye-fill.svg';
 import { ReactComponent as EyeHide } from '@zendeskgarden/svg-icons/src/16/eye-hide-fill.svg';
 import { Field, FieldProps, useFormikContext } from 'formik';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { useSendGTMevent } from 'src/hooks/useGTMevent';
@@ -30,6 +30,20 @@ export const Step1 = () => {
   const handleChangeInputType = () => {
     setInputType((prev) => (prev === 'password' ? 'text' : 'password'));
   };
+
+  useEffect(() => {
+    sendGTMevent({
+      event: 'sign-up-flow',
+      category: `is invited: ${status?.isInvited}`,
+      content: 'step 1 rendered',
+    });
+    sendGTMevent({
+      event: 'sign-up-flow',
+      category: `is invited: ${status?.isInvited}`,
+      action: 'start',
+    });
+  }, []);
+
   const goToNextStep = async () => {
     await setTouched({
       email: true,
@@ -37,15 +51,14 @@ export const Step1 = () => {
     });
     const errors = await validateForm();
     if (Object.keys(errors).length > 0) {
+      sendGTMevent({
+        event: 'sign-up-flow',
+        category: `is invited: ${status?.isInvited}`,
+        action: 'step 1 validation error',
+        content: `error count: ${Object.keys(errors).length}`,
+      });
       return;
     }
-    sendGTMevent({
-      event: 'sign-up-flow',
-      category: 'not set',
-      action: 'click: go to step 2',
-      content: `error count: ${Object.keys(errors).length}`,
-      target: `is invited: ${status?.isInvited}`,
-    });
     setFieldValue('step', 2);
   };
 

@@ -8,7 +8,7 @@ import {
   Span,
 } from '@appquality/unguess-design-system';
 import { Field, FieldProps, useFormikContext } from 'formik';
-import { useMemo, useRef } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { useGetUsersRolesQuery } from 'src/features/api';
@@ -23,6 +23,15 @@ export const Step2 = () => {
   const sendGTMevent = useSendGTMevent();
   const { data, isLoading } = useGetUsersRolesQuery();
   const selectRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    sendGTMevent({
+      event: 'sign-up-flow',
+      category: `is invited: ${status?.isInvited}`,
+      content: 'step 2 rendered',
+    });
+  }, []);
+
   const renderOptions = useMemo(
     () =>
       isLoading || !data ? (
@@ -44,25 +53,17 @@ export const Step2 = () => {
     });
     const errors = await validateForm();
     if (Object.keys(errors).length > 0) {
+      sendGTMevent({
+        event: 'sign-up-flow',
+        category: `is invited: ${status?.isInvited}`,
+        action: 'step 2 validation error',
+        content: `error count: ${Object.keys(errors).length}`,
+      });
       return;
     }
-    sendGTMevent({
-      event: 'sign-up-flow',
-      category: 'not set',
-      action: 'click: go to step 3',
-      content: `error count: ${Object.keys(errors).length}`,
-      target: `is invited: ${status?.isInvited}`,
-    });
     setFieldValue('step', 3);
   };
   const goToPreviousStep = () => {
-    sendGTMevent({
-      event: 'sign-up-flow',
-      category: 'not set',
-      action: 'click: go back to step 1',
-      content: 'not set',
-      target: `is invited: ${status?.isInvited}`,
-    });
     setFieldValue('step', 1);
   };
   return (

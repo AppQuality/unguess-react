@@ -12,19 +12,20 @@ import { appTheme } from 'src/app/theme';
 import { useSendGTMevent } from 'src/hooks/useGTMevent';
 import { JoinFormValues } from '../valuesType';
 import { ButtonContainer } from './ButtonContainer';
+import { useEffect } from 'react';
 
 export const Step3 = () => {
   const { setFieldValue, values, status } = useFormikContext<JoinFormValues>();
   const { t } = useTranslation();
   const sendGTMevent = useSendGTMevent();
-  const goToPreviousStep = () => {
+  useEffect(() => {
     sendGTMevent({
       event: 'sign-up-flow',
-      category: 'not set',
-      action: 'click: go back to step 2',
-      content: 'not set',
-      target: `is invited: ${status?.isInvited}`,
+      category: `is invited: ${status?.isInvited}`,
+      content: 'step 3 rendered',
     });
+  }, []);
+  const goToPreviousStep = () => {
     setFieldValue('step', 2);
   };
   return (

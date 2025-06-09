@@ -30,10 +30,9 @@ export function useJoinSubmit(isInvited: boolean) {
       };
       sendGTMevent({
         event: 'sign-up-flow',
-        category: 'not set',
+        category: `is invited: ${isInvited}`,
         action: 'start submit',
         content: `role: ${values.roleId}`,
-        target: `is invited: ${isInvited}`,
       });
       try {
         let res;
@@ -69,29 +68,26 @@ export function useJoinSubmit(isInvited: boolean) {
           if (redirectTo) {
             sendGTMevent({
               event: 'sign-up-flow',
-              category: 'not set',
+              category: `is invited: ${isInvited}`,
               action: 'submit success',
               content: 'redirect',
-              target: `is invited: ${isInvited}`,
             });
             window.location.href = redirectTo;
           } else if (res.projectId) {
             document.location.href = `/projects/${res.projectId}`;
             sendGTMevent({
               event: 'sign-up-flow',
-              category: 'not set',
+              category: `is invited: ${isInvited}`,
               action: 'submit success',
               content: 'project',
-              target: `is invited: ${isInvited}`,
             });
           } else {
             document.location.href = '/';
             sendGTMevent({
               event: 'sign-up-flow',
-              category: 'not set',
+              category: `is invited: ${isInvited}`,
               action: 'submit success',
               content: 'home',
-              target: `is invited: ${isInvited}`,
             });
           }
         } else document.location.href = '/oops';
@@ -101,10 +97,9 @@ export function useJoinSubmit(isInvited: boolean) {
         }`;
         sendGTMevent({
           event: 'sign-up-flow',
-          category: 'not set',
+          category: `is invited: ${isInvited}`,
           action: 'submit error',
           content: message,
-          target: `is invited: ${isInvited}`,
         });
         addToast(
           ({ close }) => (
