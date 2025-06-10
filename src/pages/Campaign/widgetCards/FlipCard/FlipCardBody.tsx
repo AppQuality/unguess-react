@@ -1,9 +1,10 @@
+import { useMemo } from 'react';
 import { AnimatePresence } from 'motion/react';
 import * as motion from 'motion/react-client';
+import useWindowSize from 'src/hooks/useWindowSize';
 import styled from 'styled-components';
 import { useFlipCardContext } from './context/FlipCardContext';
 import { FlipCardBodyProps } from './types';
-import useWindowSize from 'src/hooks/useWindowSize';
 
 const FlipCardFaceContent = styled.div`
   display: flex;
@@ -19,6 +20,12 @@ export const FlipCardBody = ({ front, back }: FlipCardBodyProps) => {
   const { width } = useWindowSize();
   const isMobile = width < breakpoint;
 
+  const cardContent = useMemo(() => {
+    if (isMobile) return back;
+    if (visibleFace === 'front') return front;
+    return back;
+  }, [isMobile, visibleFace, front, back]);
+
   return (
     <FlipCardFaceContent>
       <AnimatePresence mode="wait">
@@ -30,7 +37,7 @@ export const FlipCardBody = ({ front, back }: FlipCardBodyProps) => {
           transition={{ duration: 0.2 }}
           style={{ width: '100%', height: '100%' }}
         >
-          {isMobile ? back : visibleFace === 'front' ? front : back}
+          {cardContent}
         </motion.div>
       </AnimatePresence>
     </FlipCardFaceContent>
