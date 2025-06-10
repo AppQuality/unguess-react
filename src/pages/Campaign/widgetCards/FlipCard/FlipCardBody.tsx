@@ -1,8 +1,8 @@
+import { AnimatePresence } from 'motion/react';
+import * as motion from 'motion/react-client';
 import styled from 'styled-components';
 import { useFlipCardContext } from './context/FlipCardContext';
 import { FlipCardBodyProps } from './types';
-import { AnimatePresence } from 'motion/react';
-import * as motion from 'motion/react-client';
 
 const FlipCardFaceContent = styled.div`
   display: flex;
