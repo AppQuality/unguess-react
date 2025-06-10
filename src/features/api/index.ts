@@ -1209,6 +1209,7 @@ export type GetCampaignsByCidTagsApiArg = {
 };
 export type GetCampaignsByCidUsecasesApiResponse = /** status 200 OK */ {
   completion: number;
+  content?: string;
   id: number;
   title: {
     full: string;
@@ -2601,6 +2602,7 @@ export type Feature = {
   slug?: string;
 };
 export type User = {
+  customer_role: string;
   email: string;
   features?: Feature[];
   /** This is the main id of the user. Currently is equal to tryber_wp_user_id */
@@ -2611,7 +2613,6 @@ export type User = {
   role: string;
   tryber_wp_user_id: number;
   unguess_wp_user_id: number;
-  customer_role: string;
 };
 export type UserPreference = {
   name: string;

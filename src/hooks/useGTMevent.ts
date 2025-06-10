@@ -12,7 +12,9 @@ interface GTMEventData {
   target?: string;
 }
 
-export const useSendGTMevent = () => {
+export const useSendGTMevent = ({
+  loggedUser = true,
+}: { loggedUser?: boolean } = {}) => {
   const user = useAppSelector(
     (state) => ({
       role: state.user.userData.role,
@@ -28,7 +30,12 @@ export const useSendGTMevent = () => {
 
   const callback = useCallback(
     (data: GTMEventData) => {
-      if (user && activeWorkspace && data) {
+      if (
+        (loggedUser ? user : true) &&
+        (loggedUser ? activeWorkspace : true) &&
+        data
+      ) {
+        console.log('GTM Event Data sent');
         TagManager.dataLayer({
           dataLayer: {
             role: user.role,
@@ -37,7 +44,7 @@ export const useSendGTMevent = () => {
             tester_id: user.id,
             name: user.name,
             email: user.email,
-            company: activeWorkspace.company,
+            company: activeWorkspace?.company,
             event: data?.event ?? '(not set)',
             content: data?.content ?? '(not set)',
             category: data?.category ?? '(not set)',

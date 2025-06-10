@@ -17,6 +17,7 @@ import CampaignPreview from 'src/pages/Campaign/preview';
 import Dashboard from 'src/pages/Dashboard';
 import Project from 'src/pages/Dashboard/Project';
 import InsightsPage from 'src/pages/Insights';
+import JoinPage from 'src/pages/JoinPage';
 import LoginPage from 'src/pages/LoginPage';
 import Manual from 'src/pages/Manual';
 import MediaNotFound from 'src/pages/NotFound/MediaNotFound';
@@ -66,6 +67,12 @@ const Pages = () => {
                     path={`/${langPrefix}/login`}
                     element={<LoginPage />}
                   />
+                  <Route path={`/${langPrefix}/join`} element={<JoinPage />} />
+                  <Route
+                    path={`/${langPrefix}/join/invites/:profile/:token`}
+                    element={<JoinPage />}
+                  />
+
                   <Route
                     path={`/${langPrefix}/projects/:projectId`}
                     element={<Project />}
@@ -146,6 +153,21 @@ const Pages = () => {
                 }
                 errorElement={<ErrorBoundaryPage />}
               />
+
+              <Route
+                path="/join"
+                element={
+                  <Redirect
+                    url={({ searchParams }) => {
+                      if (!searchParams || !searchParams.get('redirect'))
+                        return '/oops';
+                      return `/campaigns/${searchParams.get('cid')}/bugform`;
+                    }}
+                  />
+                }
+                errorElement={<ErrorBoundaryPage />}
+              />
+
               <Route path="*" element={<Navigate replace to="/oops" />} />
             </>
           )
