@@ -165,7 +165,9 @@ unguessApi.enhanceEndpoints({
           );
           dispatch(unguessApi.util.invalidateTags(['VideoTags', 'Insights']));
         } catch {
-          dispatch(unguessApi.util.invalidateTags(['Observations']));
+          dispatch(
+            unguessApi.util.invalidateTags(['Observations', 'Insights'])
+          );
         }
       },
     },
