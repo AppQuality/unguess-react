@@ -2,6 +2,8 @@ import {
   Button,
   ButtonMenu,
   IconButton,
+  useToast,
+  Notification,
 } from '@appquality/unguess-design-system';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -30,6 +32,7 @@ const StyledPipe = styled(Pipe)`
 export const Controls = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const { addToast } = useToast();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const { planId } = useParams();
@@ -45,9 +48,36 @@ export const Controls = () => {
     `campaigns/${plan?.campaign?.id ?? 0}`
   );
   const { isRequestQuoteCTADisabled } = useRequestQuotation();
-  const handleSaveConfiguration = () => {
+  const handleSaveConfiguration = async () => {
     validateForm();
-    submitModuleConfiguration();
+    try {
+      await submitModuleConfiguration();
+      addToast(
+        ({ close }) => (
+          <Notification
+            onClose={close}
+            type="success"
+            message={t('__PLAN_SAVE_DRAFT_TOAST_SUCCESS')}
+            closeText={t('__TOAST_CLOSE_TEXT')}
+            isPrimary
+          />
+        ),
+        { placement: 'top' }
+      );
+    } catch (e) {
+      addToast(
+        ({ close }) => (
+          <Notification
+            onClose={close}
+            type="error"
+            message={t('__PLAN_SAVE_DRAFT_TOAST_ERROR')}
+            closeText={t('__TOAST_CLOSE_TEXT')}
+            isPrimary
+          />
+        ),
+        { placement: 'top' }
+      );
+    }
   };
 
   const handleSendRequest = () => {
