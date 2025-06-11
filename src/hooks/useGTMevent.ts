@@ -4,7 +4,7 @@ import { shallowEqual } from 'react-redux';
 import { useAppSelector } from 'src/app/hooks';
 import { useActiveWorkspace } from './useActiveWorkspace';
 
-export interface GTMEventData {
+interface GTMEventData {
   event: string;
   category?: string;
   content?: string;
@@ -12,10 +12,13 @@ export interface GTMEventData {
   target?: string;
 }
 
-export const useSendGTMevent = () => {
+export const useSendGTMevent = ({
+  loggedUser = true,
+}: { loggedUser?: boolean } = {}) => {
   const user = useAppSelector(
     (state) => ({
       role: state.user.userData.role,
+      customer_role: state.user.userData.customer_role,
       tryber_wp_user_id: state.user.userData.tryber_wp_user_id,
       id: state.user.userData.id,
       name: state.user.userData.name,
@@ -27,15 +30,21 @@ export const useSendGTMevent = () => {
 
   const callback = useCallback(
     (data: GTMEventData) => {
-      if (user && activeWorkspace && data) {
+      if (
+        (loggedUser ? user : true) &&
+        (loggedUser ? activeWorkspace : true) &&
+        data
+      ) {
+        console.log('GTM Event Data sent');
         TagManager.dataLayer({
           dataLayer: {
             role: user.role,
+            customer_role: user.customer_role,
             wp_user_id: user.tryber_wp_user_id,
             tester_id: user.id,
             name: user.name,
             email: user.email,
-            company: activeWorkspace.company,
+            company: activeWorkspace?.company,
             event: data?.event ?? '(not set)',
             content: data?.content ?? '(not set)',
             category: data?.category ?? '(not set)',

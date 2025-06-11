@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 export type MetaSize = 'medium' | 'large';
 
-export interface MetaArgs extends React.HTMLAttributes<HTMLDivElement> {
+interface MetaArgs extends React.HTMLAttributes<HTMLDivElement> {
   size?: MetaSize;
   children?: React.ReactNode;
   color?: string;

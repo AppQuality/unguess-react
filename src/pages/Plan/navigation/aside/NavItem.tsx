@@ -22,16 +22,22 @@ const StyledCard = styled(Card)`
   margin-bottom: ${({ theme }) => theme.space.xs};
 `;
 
-const StyledContainer = styled.div`
+const StyledContainerInner = styled.div`
   display: flex;
+  flex-direction: column;
   justify-content: flex-start;
+  align-items: center;
+  margin-left: ${({ theme }) => theme.space.sm};
+  gap: ${({ theme }) => theme.space.sm};
+`;
+
+const StyledContainerOuter = styled.div`
+  display: flex;
   align-items: center;
   padding-left: ${({ theme }) => theme.space.md};
   padding-right: ${({ theme }) => theme.space.md};
   padding-top: ${({ theme }) => theme.space.sm};
   padding-bottom: ${({ theme }) => theme.space.sm};
-
-  gap: ${({ theme }) => theme.space.sm};
 `;
 
 const NavItemLink = styled(Link)`
@@ -82,25 +88,32 @@ const NavItem = ({
           className: 'no-children',
         })}
       >
-        <StyledContainer
-          style={{ marginBottom: children ? appTheme.space.xxs : 0 }}
-        >
-          {getIconFromModuleType(type)}
-          <Ellipsis style={{ width: '95%' }}>
-            <MD color={appTheme.palette.blue[600]}>
-              <Span isBold>{getTitleFromModuleType(type)}</Span>
-            </MD>
-            <SM style={{ color: appTheme.palette.grey[600] }}>
-              <Span>{getSubtitleFromModuleType(type)}</Span>
-            </SM>
-          </Ellipsis>
-        </StyledContainer>
-        {children && children}
-        {hasErrors && (
-          <Message validation="error" style={{ marginTop: appTheme.space.sm }}>
-            {t('__PLAN_PAGE_NAV_GENERIC_MODULE_ERROR')}
-          </Message>
-        )}
+        <StyledContainerOuter>
+          <div
+            className="module-icon"
+            style={{ display: 'flex', alignItems: 'center' }}
+          >
+            {getIconFromModuleType(type)}
+          </div>
+          <StyledContainerInner
+            style={{ marginBottom: children ? appTheme.space.xxs : 0 }}
+          >
+            <Ellipsis style={{ width: '95%' }}>
+              <MD color={appTheme.palette.blue[600]}>
+                <Span isBold>{getTitleFromModuleType(type)}</Span>
+              </MD>
+              <SM style={{ color: appTheme.palette.grey[600] }}>
+                <Span>{getSubtitleFromModuleType(type)}</Span>
+              </SM>
+            </Ellipsis>
+            {children && children}
+            {hasErrors && (
+              <Message validation="error">
+                {t('__PLAN_PAGE_NAV_GENERIC_MODULE_ERROR')}
+              </Message>
+            )}
+          </StyledContainerInner>
+        </StyledContainerOuter>
       </StyledCard>
     </NavItemLink>
   );

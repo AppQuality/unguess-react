@@ -9,7 +9,7 @@ import {
 import { StrapiIcon } from 'src/features/backoffice/strapi';
 import { isDev } from './isDevEnvironment';
 
-export type StrapiResponse =
+type StrapiResponse =
   | CategoryListResponse
   | CategoryResponse
   | ServiceListResponse

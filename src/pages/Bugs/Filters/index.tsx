@@ -41,7 +41,7 @@ const HideOnMobile = styled.div`
   ${hideOnMobile}
 `;
 
-export const FlexWrapper = styled.div<{
+const FlexWrapper = styled.div<{
   orderXl?: number;
   hideOnMobile?: boolean;
 }>`

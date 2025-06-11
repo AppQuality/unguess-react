@@ -17,13 +17,12 @@ import CampaignPreview from 'src/pages/Campaign/preview';
 import Dashboard from 'src/pages/Dashboard';
 import Project from 'src/pages/Dashboard/Project';
 import InsightsPage from 'src/pages/Insights';
+import JoinPage from 'src/pages/JoinPage';
 import LoginPage from 'src/pages/LoginPage';
 import Manual from 'src/pages/Manual';
 import MediaNotFound from 'src/pages/NotFound/MediaNotFound';
 import NotFound from 'src/pages/NotFound/NotFound';
 import Plan from 'src/pages/Plan';
-import Service from 'src/pages/Service';
-import Catalog from 'src/pages/Services';
 import Template from 'src/pages/Template';
 import Templates from 'src/pages/Templates';
 import Video from 'src/pages/Video';
@@ -68,6 +67,12 @@ const Pages = () => {
                     path={`/${langPrefix}/login`}
                     element={<LoginPage />}
                   />
+                  <Route path={`/${langPrefix}/join`} element={<JoinPage />} />
+                  <Route
+                    path={`/${langPrefix}/join/invites/:profile/:token`}
+                    element={<JoinPage />}
+                  />
+
                   <Route
                     path={`/${langPrefix}/projects/:projectId`}
                     element={<Project />}
@@ -79,14 +84,6 @@ const Pages = () => {
                   <Route
                     path={`/${langPrefix}/campaigns/:campaignId/bugs/:bugId`}
                     element={<Bug />}
-                  />
-                  <Route
-                    path={`/${langPrefix}/services`}
-                    element={<Catalog />}
-                  />
-                  <Route
-                    path={`/${langPrefix}/services/:templateId`}
-                    element={<Service />}
                   />
                   <Route
                     path={`/${langPrefix}/templates`}
@@ -156,6 +153,21 @@ const Pages = () => {
                 }
                 errorElement={<ErrorBoundaryPage />}
               />
+
+              <Route
+                path="/join"
+                element={
+                  <Redirect
+                    url={({ searchParams }) => {
+                      if (!searchParams || !searchParams.get('redirect'))
+                        return '/oops';
+                      return `/campaigns/${searchParams.get('cid')}/bugform`;
+                    }}
+                  />
+                }
+                errorElement={<ErrorBoundaryPage />}
+              />
+
               <Route path="*" element={<Navigate replace to="/oops" />} />
             </>
           )

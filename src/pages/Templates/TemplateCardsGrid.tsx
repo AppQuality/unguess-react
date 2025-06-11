@@ -61,7 +61,7 @@ export const TemplateCardsGrid = ({
               {'price' in template && typeof template.price === 'string' && (
                 <TemplateCard.PriceTag text={template.price} />
               )}
-              {targetModule?.output && (
+              {targetModule?.output && Number(targetModule.output) > 0 && (
                 <TemplateCard.UserTag text={targetModule.output} />
               )}
 
