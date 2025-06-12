@@ -130,6 +130,18 @@ export const useModule = <T extends components['schemas']['Module']['type']>(
           variant: 'default',
           output: 'en',
         };
+      // @ts-ignore
+      case 'location':
+        return {
+          type,
+          variant: 'default',
+          output: {
+            // @ts-ignore
+            country: '',
+            region: '',
+            city: '',
+          },
+        };
       case 'target':
         return {
           type,

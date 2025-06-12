@@ -96,8 +96,8 @@
         "type": "location",
         "variant": "default",
         "output": {
-          "country": "Italy",
-          "region": ["Lombardy"],
+          "country": "IT",
+          "region": ["Lombardia"],
           "city": ["Milan"]
         }
       }
