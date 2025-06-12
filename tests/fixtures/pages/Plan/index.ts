@@ -91,6 +91,7 @@ export class PlanPage extends UnguessPage {
       tabSetup: () => this.page.getByTestId('setup-tab'),
       tabSummary: () => this.page.getByTestId('summary-tab'),
       tabTarget: () => this.page.getByTestId('target-tab'),
+      targetNavigation: () => this.page.getByTestId('plans-nav-target'),
       titleModule: () =>
         this.elements().pageHeader().getByTestId('title-module'),
       titleModuleError: () =>
