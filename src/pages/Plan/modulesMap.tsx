@@ -6,6 +6,7 @@ import { Title } from './modules/Title';
 import Goal from './modules/Goal';
 import TargetNote from './modules/TargetNote';
 import TargetSize from './modules/TargetSize';
+import Location from './modules/Location';
 import Language from './modules/Language';
 import Gender from './modules/Gender';
 import Literacy from './modules/Literacy';
@@ -24,6 +25,7 @@ export const MODULES_BY_TAB = {
     'gender',
     'age',
     'literacy',
+    'location',
     'additional_target',
   ],
   instructions: ['instruction_note', 'tasks', 'out_of_scope'],
@@ -46,4 +48,5 @@ export const modulesMap = {
   browser: Browser,
   touchpoints: TouchPoints,
   additional_target: AdditionalTarget,
+  location: Location,
 };

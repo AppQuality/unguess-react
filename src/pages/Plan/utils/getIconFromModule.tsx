@@ -1,5 +1,6 @@
 import { getColor } from '@appquality/unguess-design-system';
 import { ReactComponent as BrowserIcon } from '@zendeskgarden/svg-icons/src/16/globe-fill.svg';
+import { ReactComponent as LocationIcon } from '@zendeskgarden/svg-icons/src/16/location-fill.svg';
 import { shallowEqual } from 'react-redux';
 import { useAppSelector } from 'src/app/hooks';
 import { appTheme } from 'src/app/theme';
@@ -81,6 +82,9 @@ const getIconFromModuleType = (
       return <TouchpointsIcon color={color} />;
     case 'additional_target':
       return <AdditionalTargetIcon color={color} />;
+    // @ts-ignore
+    case 'location':
+      return <LocationIcon color={color} />;
     case 'title':
     case 'dates':
     default:

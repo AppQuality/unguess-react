@@ -91,6 +91,15 @@
             "description": "description kind bug"
           }
         ]
+      },
+      {
+        "type": "location",
+        "variant": "default",
+        "output": {
+          "country": "Italy",
+          "region": ["Lombardy"],
+          "city": ["Milan"]
+        }
       }
     ]
   }
