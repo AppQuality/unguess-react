@@ -16,8 +16,37 @@ export class LocationModule {
     return {
       tab: () => this.page.getByTestId('target-tab'),
       module: () => this.page.getByTestId('location-module'),
-      countryRadioInput: () => this.elements().module().getByRole('radio'),
-      // Add more selectors as needed for the Location module
+      countryRadioPanel: () =>
+        this.elements()
+          .module()
+          .getByRole('group', {
+            name: this.i18n.t('__PLAN_PAGE_MODULE_LOCATION_SELECT_COUNTRY'),
+          }),
+      countryRadioInput: () =>
+        this.elements().countryRadioPanel().getByRole('radio'),
+      areaRadioPanel: () =>
+        this.elements()
+          .module()
+          .getByRole('group', {
+            name: this.i18n.t('__PLAN_PAGE_MODULE_LOCATION_SELECT_AREA'),
+          }),
+      areaRadioInput: () => this.elements().areaRadioPanel().getByRole('radio'),
+      citySelectionPanel: () =>
+        this.elements()
+          .module()
+          .getByRole('group', {
+            name: this.i18n.t('__PLAN_PAGE_MODULE_LOCATION_SELECT_CITY'),
+          }),
+      citySelectionInput: () =>
+        this.elements().citySelectionPanel().getByRole('checkbox'),
+      regionSelectionPanel: () =>
+        this.elements()
+          .module()
+          .getByRole('group', {
+            name: this.i18n.t('__PLAN_PAGE_MODULE_LOCATION_SELECT_REGION'),
+          }),
+      regionSelectionInput: () =>
+        this.elements().regionSelectionPanel().getByRole('checkbox'),
     };
   }
 

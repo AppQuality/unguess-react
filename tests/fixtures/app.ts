@@ -5,6 +5,19 @@ import en from '../../src/locales/en/translation.json';
 import itLinks from '../../src/locales/it/links.json';
 import it from '../../src/locales/it/translation.json';
 
+const suppressedWarnings = ['Warning: React does not recognize the'];
+
+const originalWarn = console.warn;
+console.warn = function (...args) {
+  if (
+    typeof args[0] === 'string' &&
+    suppressedWarnings.some((entry) => args[0].includes(entry))
+  ) {
+    return;
+  }
+  originalWarn.apply(console, args);
+};
+
 const resources = {
   en: { translation: en, links: enLinks },
   it: { translation: it, links: itLinks },

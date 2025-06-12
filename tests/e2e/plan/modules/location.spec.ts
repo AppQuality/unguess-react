@@ -31,16 +31,16 @@ test.describe('Location Module', () => {
     );
   });
   test('should display the Location module with correct data', async () => {
-    const radioButtons = locationModule.elements().countryRadioInput();
-    const checkedCount = await radioButtons.evaluateAll(
-      (elements) =>
-        elements.filter((el) => el instanceof HTMLInputElement && el.checked)
-          .length
-    );
-    expect(checkedCount).toBe(1);
-    const checkedRadio = locationModule
-      .elements()
-      .module()
-      .getByRole('radio', { checked: true });
+    const countryRadios = locationModule.elements().countryRadioInput();
+    const areaRadios = locationModule.elements().areaRadioInput();
+    const regionCheckboxes = locationModule.elements().regionSelectionInput();
+    await expect(countryRadios).toHaveCount(3);
+    await expect(countryRadios.nth(0).locator('input')).toBeChecked();
+    await expect(areaRadios).toHaveCount(2);
+    await expect(areaRadios.nth(0).locator('input')).toBeChecked();
+    await expect(regionCheckboxes).toHaveCount(20);
+    await expect(
+      regionCheckboxes.locator('input[value="lombardia"]')
+    ).toBeChecked();
   });
 });
