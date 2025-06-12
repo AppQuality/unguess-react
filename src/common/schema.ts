@@ -937,7 +937,8 @@ export interface components {
       | components["schemas"]["ModuleInstructionNote"]
       | components["schemas"]["ModuleSetupNote"]
       | components["schemas"]["ModuleTouchpoints"]
-      | components["schemas"]["ModuleAdditionalTarget"];
+      | components["schemas"]["ModuleAdditionalTarget"]
+      | components["schemas"]["ModuleEmployment"];
     /** ModuleAdditionalTarget */
     ModuleAdditionalTarget: {
       output: string;
@@ -965,6 +966,20 @@ export interface components {
       };
       /** @enum {string} */
       type: "dates";
+      variant: string;
+    };
+    /** ModuleEmployment */
+    ModuleEmployment: {
+      output: (
+        | "EMPLOYEE"
+        | "FREELANCER"
+        | "RETIRED"
+        | "STUDENT"
+        | "UNEMPLOYED"
+        | "HOMEMAKER"
+      )[];
+      /** @enum {undefined} */
+      type: "employment";
       variant: string;
     };
     /** ModuleGender */

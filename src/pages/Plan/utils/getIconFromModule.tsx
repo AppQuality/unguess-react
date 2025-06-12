@@ -81,6 +81,7 @@ const getIconFromModuleType = (
       return <TouchpointsIcon color={color} />;
     case 'additional_target':
       return <AdditionalTargetIcon color={color} />;
+    case 'employment':
     case 'title':
     case 'dates':
     default:

@@ -14,6 +14,7 @@ import OutOfScope from './modules/OutOfScope';
 import Browser from './modules/Browser';
 import { TouchPoints } from './modules/Touchpoints';
 import AdditionalTarget from './modules/AdditionalTarget';
+import Employment from './modules/Employment';
 
 export const MODULES_BY_TAB = {
   setup: ['setup_note', 'goal', 'touchpoints', 'browser'],
@@ -23,6 +24,7 @@ export const MODULES_BY_TAB = {
     'language',
     'gender',
     'age',
+    'employment',
     'literacy',
     'additional_target',
   ],
@@ -40,6 +42,7 @@ export const modulesMap = {
   target: TargetSize,
   language: Language,
   gender: Gender,
+  employment: Employment,
   literacy: Literacy,
   instruction_note: InstructionsNote,
   out_of_scope: OutOfScope,
