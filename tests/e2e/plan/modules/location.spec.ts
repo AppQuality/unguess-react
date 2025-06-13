@@ -35,9 +35,9 @@ test.describe('Location Module', () => {
     const areaRadios = locationModule.elements().areaRadioInput();
     const regionCheckboxes = locationModule.elements().regionSelectionInput();
     await expect(countryRadios).toHaveCount(3);
-    await expect(countryRadios.nth(0).locator('input')).toBeChecked();
+    await expect(countryRadios.nth(0)).toBeChecked();
     await expect(areaRadios).toHaveCount(2);
-    await expect(areaRadios.nth(0).locator('input')).toBeChecked();
+    await expect(areaRadios.nth(0)).toBeChecked();
     await expect(regionCheckboxes).toHaveCount(20);
     await expect(
       regionCheckboxes.locator('input[value="lombardia"]')
