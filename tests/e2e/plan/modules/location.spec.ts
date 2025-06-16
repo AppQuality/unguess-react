@@ -30,13 +30,13 @@ test.describe('Location Module', () => {
       i18n.t('__ASIDE_NAVIGATION_MODULE_LOCATION_SUBTITLE')
     );
   });
-  test('should display the Location module with correct data', async () => {
+  test('should display the correct data', async () => {
     const countryRadios = locationModule.elements().countryRadioInput();
     const areaRadios = locationModule.elements().areaRadioInput();
     const regionCheckboxes = locationModule.elements().regionSelectionInput();
     await expect(countryRadios).toHaveCount(3);
     await expect(countryRadios.nth(0)).toBeChecked();
-    await expect(areaRadios).toHaveCount(2);
+    await expect(areaRadios).toHaveCount(3);
     await expect(areaRadios.nth(0)).toBeChecked();
     await expect(regionCheckboxes).toHaveCount(20);
     await expect(
