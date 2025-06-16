@@ -102,7 +102,7 @@
         "variant": "default",
         "output": [
           { "type": "country", "values": ["IT"] },
-          { "type": "region", "values": ["lombardia"] }
+          { "type": "region", "values": ["Lombardia"] }
         ]
       }
     ]

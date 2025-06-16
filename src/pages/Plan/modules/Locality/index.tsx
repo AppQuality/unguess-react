@@ -105,7 +105,9 @@ const Locality = () => {
                         {option.hint && <Hint>{option.hint}</Hint>}
                       </Radio>
                     </Field>
-                    {selectedCountry === 'IT' && selectedArea === 'region' ? (
+                    {selectedCountry === 'IT' &&
+                    selectedArea === 'region' &&
+                    option.value === 'region' ? (
                       <RegionPanel value={outputArr} setOutput={setOutput} />
                     ) : null}
                   </React.Fragment>

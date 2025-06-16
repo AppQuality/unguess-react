@@ -48,8 +48,8 @@ test.describe('Location Module', () => {
     await expect(areaRadioInput()).toHaveCount(3);
     await expect(areaRadioInput().nth(1)).toBeChecked();
 
-    // Assert: region checkboxes (20 regions + 4 market areas)
-    await expect(regionSelectionInput()).toHaveCount(24);
+    // 4 market areas + only 4 other regions are visible because market areas details without selected regions are hidden
+    await expect(regionSelectionInput()).toHaveCount(8);
     // Assert: Lombardia is checked
     await expect(
       regionSelectionPanel().locator(

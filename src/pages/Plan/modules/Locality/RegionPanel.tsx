@@ -48,7 +48,7 @@ export function RegionPanel({ value, setOutput }: RegionPanelProps) {
         <div key={marketArea.marketArea.value}>
           <Field>
             <Checkbox
-              checked={marketArea.regions.every((region) =>
+              checked={marketArea.regions.some((region) =>
                 selectedRegions.includes(region.value)
               )}
               onChange={() => {
@@ -89,34 +89,38 @@ export function RegionPanel({ value, setOutput }: RegionPanelProps) {
               <Label isRegular>{marketArea.marketArea.label}</Label>
             </Checkbox>
           </Field>
-          <RegionsContainer>
-            {marketArea.regions.map((region) => {
-              const regionId = `region-checkbox-${region.value}`;
-              return (
-                <Field key={region.value} style={{ margin: 0 }}>
-                  <Checkbox
-                    id={regionId}
-                    value={region.value}
-                    checked={selectedRegions.includes(region.value)}
-                    onChange={(e) => {
-                      const isChecked = e.target.checked;
-                      let newRegions;
-                      if (isChecked) {
-                        newRegions = [...selectedRegions, region.value];
-                      } else {
-                        newRegions = selectedRegions.filter(
-                          (r: string) => r !== region.value
-                        );
-                      }
-                      updateRegions(newRegions);
-                    }}
-                  >
-                    <Label htmlFor={regionId}>{region.label}</Label>
-                  </Checkbox>
-                </Field>
-              );
-            })}
-          </RegionsContainer>
+          {marketArea.regions.some((region) =>
+            selectedRegions.includes(region.value)
+          ) && (
+            <RegionsContainer>
+              {marketArea.regions.map((region) => {
+                const regionId = `region-checkbox-${region.value}`;
+                return (
+                  <Field key={region.value} style={{ margin: 0 }}>
+                    <Checkbox
+                      id={regionId}
+                      value={region.value}
+                      checked={selectedRegions.includes(region.value)}
+                      onChange={(e) => {
+                        const isChecked = e.target.checked;
+                        let newRegions;
+                        if (isChecked) {
+                          newRegions = [...selectedRegions, region.value];
+                        } else {
+                          newRegions = selectedRegions.filter(
+                            (r: string) => r !== region.value
+                          );
+                        }
+                        updateRegions(newRegions);
+                      }}
+                    >
+                      <Label htmlFor={regionId}>{region.label}</Label>
+                    </Checkbox>
+                  </Field>
+                );
+              })}
+            </RegionsContainer>
+          )}
         </div>
       ))}
     </div>
