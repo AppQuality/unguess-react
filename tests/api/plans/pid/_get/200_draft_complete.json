@@ -100,11 +100,10 @@
       {
         "type": "location",
         "variant": "default",
-        "output": {
-          "country": "IT",
-          "region": ["Lombardia"],
-          "city": ["Milan"]
-        }
+        "output": [
+          { "type": "country", "values": ["IT"] },
+          { "type": "region", "values": ["lombardia"] }
+        ]
       }
     ]
   }

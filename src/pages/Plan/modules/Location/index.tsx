@@ -14,6 +14,7 @@ import { getIconFromModuleType } from '../../utils';
 import styled from 'styled-components';
 import { useModule } from 'src/features/modules/useModule';
 import { CountrySelector } from './CountrySelector';
+import { RegionPanel } from './RegionPanel';
 
 const FieldWrapper = styled.div<{ columns?: string }>`
   ${({ columns, theme }) =>
@@ -26,11 +27,6 @@ const FieldWrapper = styled.div<{ columns?: string }>`
   margin-top: ${({ theme }) => theme.space.md};
   width: 100%;
 `;
-const RegionsContainer = styled.div`
-  padding-left: ${({ theme }) => theme.space.md};
-  margin-top: ${({ theme }) => theme.space.xs};
-  margin-bottom: ${({ theme }) => theme.space.md};
-`;
 
 const areaOptions = [
   { label: 'Tutte le aree', value: 'all', hint: 'hint text' },
@@ -38,77 +34,53 @@ const areaOptions = [
   { label: 'Province e grossi centri', value: 'city', hint: 'hint text' },
 ];
 
-const italyRegions = [
-  {
-    marketArea: 'Nord Ovest',
-    regions: ['Lombardia', 'Piemonte', 'Liguria', "Valle d'Aosta"],
-  },
-  {
-    marketArea: 'Nord Est',
-    regions: [
-      'Trentino Alto Adige',
-      'Veneto',
-      'Friuli Venezia Giulia',
-      'Emilia Romagna',
-    ],
-  },
-  { marketArea: 'Centro', regions: ['Toscana', 'Umbria', 'Marche', 'Lazio'] },
-  {
-    marketArea: 'Sud e Isole',
-    regions: [
-      'Abruzzo',
-      'Molise',
-      'Campania',
-      'Puglia',
-      'Basilicata',
-      'Calabria',
-      'Sicilia',
-      'Sardegna',
-    ],
-  },
-];
-
 const Location = () => {
   const { t } = useTranslation();
-  // @ts-ignore
-  const { value, setOutput, remove } = useModule('location');
-  // @ts-ignore
-  const isAreaSelectionEnabled = useMemo(
-    // @ts-ignore
-    () => value?.output?.country === 'IT',
-    // @ts-ignore
-    [value?.output?.country]
-  );
+  const { value, setOutput, remove } = useModule('locality');
+  let outputArr = (value?.output as { type: string; values: string[] }[]) || [];
+  const countryObj = outputArr.find((a) => a.type === 'country');
+  const selectedCountry = countryObj?.values[0] || '';
+  const areaObj = outputArr.find((a) => a.type === 'region');
+  const cityObj = outputArr.find((a) => a.type === 'city');
+  // find selected area
+  const selectedArea = areaObj ? 'region' : cityObj ? 'city' : 'all';
 
-  const [selectedArea, setSelectedArea] = React.useState<string | undefined>(
-    () => {
-      if (!isAreaSelectionEnabled) return undefined;
-      // @ts-ignore
-      if (value?.output?.regions) return 'region';
-      // @ts-ignore
-      if (value?.output?.cities) return 'city';
-      return undefined;
-    }
-  );
   const handleCountryChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const valueCountry = event.target.value;
     if (valueCountry !== 'IT') {
-      setSelectedArea(undefined);
+      setOutput([
+        { type: 'country', values: [valueCountry] },
+        { type: 'all', values: [] },
+      ]);
+    } else {
+      setOutput([
+        { type: 'country', values: [valueCountry] },
+        { type: 'region', values: [] },
+      ]);
     }
-    // @ts-ignore
-    setOutput({ country: valueCountry });
-  };
-  const handleAreaChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSelectedArea(event.target.value);
   };
 
-  // @ts-ignore
-  const selectedCountry = value?.output?.country || '';
+  const handleAreaChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const areaType = event.target.value;
+    let newArr = outputArr.filter((a) => a.type === 'country');
+    if (areaType === 'all') {
+      // remove region and city if switching to all areas
+      newArr = newArr.filter((a) => a.type !== 'region' && a.type !== 'city');
+    } else if (areaType === 'region') {
+      // If switching to region, remove city and ensure region is present
+      newArr.push({ type: 'region', values: [] });
+      newArr = newArr.filter((a) => a.type !== 'city');
+    } else if (areaType === 'city') {
+      newArr.push({ type: 'city', values: [] });
+      newArr = newArr.filter((a) => a.type !== 'region');
+    }
+    setOutput(newArr);
+  };
+
   return (
     <AccordionNew data-qa="location-module" level={3} hasBorder type="default">
       <AccordionNew.Section>
-        {/* @ts-ignore */}
-        <AccordionNew.Header icon={getIconFromModuleType('location')}>
+        <AccordionNew.Header icon={getIconFromModuleType('locality')}>
           <AccordionNew.Label
             label={t('__PLAN_PAGE_MODULE_LOCATION_TITLE', 'Location')}
           />
@@ -120,152 +92,40 @@ const Location = () => {
             ariaLabel={t('__PLAN_PAGE_MODULE_LOCATION_SELECT_COUNTRY')}
           />
 
-          <FieldWrapper
-            role="group"
-            aria-label={t('__PLAN_PAGE_MODULE_LOCATION_SELECT_AREA')}
-          >
-            {areaOptions.map((option) => {
-              const inputId = `area-radio-${option.value}`;
-              return (
-                <>
-                  <Field key={option.value} style={{ margin: 0 }}>
-                    <Radio
-                      id={inputId}
-                      value={option.value}
-                      name="area"
-                      checked={
-                        selectedArea === option.value ||
-                        (selectedArea === undefined && option.value === 'all')
-                      }
-                      onChange={handleAreaChange}
-                    >
-                      <Label htmlFor={inputId}>{option.label}</Label>
-                      {option.hint && <Hint>{option.hint}</Hint>}
-                    </Radio>
-                  </Field>
-                  {selectedArea === option.value &&
-                    option.value === 'region' && (
-                      <>
-                        <Label>
-                          {t('__PLAN_PAGE_MODULE_LOCATION_SELECT_REGION')}
-                        </Label>
-
-                        {italyRegions.map((marketArea) => (
-                          <div key={marketArea.marketArea}>
-                            <Field>
-                              <Checkbox
-                                checked={marketArea.regions.every((region) =>
-                                  // @ts-ignore
-                                  (value?.output?.region || []).includes(region)
-                                )}
-                                onChange={() => {
-                                  const allSelected = marketArea.regions.every(
-                                    (region) =>
-                                      // @ts-ignore
-                                      (value?.output?.region || []).includes(
-                                        region
-                                      )
-                                  );
-                                  let newRegions;
-                                  if (allSelected) {
-                                    // Uncheck all: remove all regions of this marketArea
-                                    newRegions = // @ts-ignore
-                                      (value?.output?.region || []).filter(
-                                        (r: string) =>
-                                          !marketArea.regions.includes(r)
-                                      );
-                                  } else {
-                                    // Check all: add all regions of this marketArea (avoid duplicates)
-                                    const current = new Set(
-                                      // @ts-ignore
-                                      value?.output?.region || []
-                                    );
-                                    marketArea.regions.forEach((region) =>
-                                      current.add(region)
-                                    );
-                                    newRegions = Array.from(current);
-                                  }
-                                  setOutput({
-                                    // @ts-ignore
-                                    ...value?.output,
-                                    region: newRegions,
-                                  });
-                                }}
-                                indeterminate={
-                                  // @ts-ignore
-                                  (value?.output?.region || []).some(
-                                    // @ts-ignore
-                                    (region) =>
-                                      marketArea.regions.includes(region)
-                                  ) &&
-                                  !marketArea.regions.every((region) =>
-                                    // @ts-ignore
-                                    (value?.output?.region || []).includes(
-                                      region
-                                    )
-                                  )
-                                }
-                              >
-                                <Label isRegular>{marketArea.marketArea}</Label>
-                              </Checkbox>
-                            </Field>
-                            <RegionsContainer>
-                              {marketArea.regions.map((region) => {
-                                const regionId = `region-checkbox-${region}`;
-                                return (
-                                  <Field key={region} style={{ margin: 0 }}>
-                                    <Checkbox
-                                      id={regionId}
-                                      value={region}
-                                      checked={
-                                        // @ts-ignore
-                                        (value?.output?.region || []).includes(
-                                          region
-                                        )
-                                      }
-                                      onChange={(e) => {
-                                        const isChecked = e.target.checked;
-                                        const currentRegions =
-                                          // @ts-ignore
-                                          value?.output?.region || [];
-                                        let newRegions;
-                                        if (isChecked) {
-                                          // Add region
-                                          newRegions = [
-                                            ...currentRegions,
-                                            region,
-                                          ];
-                                        } else {
-                                          // Remove region
-                                          newRegions = currentRegions.filter(
-                                            (r: string) => r !== region
-                                          );
-                                        }
-                                        setOutput({
-                                          // @ts-ignore
-                                          ...value?.output,
-                                          region: newRegions,
-                                        });
-                                      }}
-                                    >
-                                      <Label htmlFor={regionId}>{region}</Label>
-                                    </Checkbox>
-                                  </Field>
-                                );
-                              })}
-                            </RegionsContainer>
-                          </div>
-                        ))}
-                      </>
-                    )}
-                </>
-              );
-            })}
-          </FieldWrapper>
+          {selectedCountry === 'IT' && (
+            <FieldWrapper
+              role="group"
+              aria-label={t('__PLAN_PAGE_MODULE_LOCATION_SELECT_AREA')}
+            >
+              {areaOptions.map((option) => {
+                const inputId = `area-radio-${option.value}`;
+                return (
+                  <React.Fragment key={option.value}>
+                    <Field style={{ margin: 0 }}>
+                      <Radio
+                        id={inputId}
+                        value={option.value}
+                        name="area"
+                        checked={selectedArea === option.value}
+                        onChange={handleAreaChange}
+                      >
+                        <Label htmlFor={inputId}>{option.label}</Label>
+                        {option.hint && <Hint>{option.hint}</Hint>}
+                      </Radio>
+                    </Field>
+                    {selectedArea === 'region' && option.value === 'region' ? (
+                      <RegionPanel value={outputArr} setOutput={setOutput} />
+                    ) : null}
+                  </React.Fragment>
+                );
+              })}
+            </FieldWrapper>
+          )}
         </AccordionNew.Panel>
       </AccordionNew.Section>
     </AccordionNew>
   );
 };
 
+// città: Roma, Milano, Napoli, Torino, Palermo, Genova
 export default Location;
