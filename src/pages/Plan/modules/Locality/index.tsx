@@ -70,24 +70,24 @@ const Locality = () => {
   console.log('outputArr', outputArr, 'selectedCountry', selectedCountry);
 
   return (
-    <AccordionNew data-qa="location-module" level={3} hasBorder type="default">
+    <AccordionNew data-qa="locality-module" level={3} hasBorder type="default">
       <AccordionNew.Section>
         <AccordionNew.Header icon={getIconFromModuleType('locality')}>
           <AccordionNew.Label
-            label={t('__PLAN_PAGE_MODULE_LOCATION_TITLE', 'Location')}
+            label={t('__PLAN_PAGE_MODULE_LOCALITY_TITLE', 'Location')}
           />
         </AccordionNew.Header>
         <AccordionNew.Panel>
           <CountrySelector
             selectedCountry={selectedCountry}
             onChange={handleCountryChange}
-            ariaLabel={t('__PLAN_PAGE_MODULE_LOCATION_SELECT_COUNTRY')}
+            ariaLabel={t('__PLAN_PAGE_MODULE_LOCALITY_SELECT_COUNTRY')}
           />
 
           {selectedCountry === 'IT' && (
             <FieldWrapper
               role="group"
-              aria-label={t('__PLAN_PAGE_MODULE_LOCATION_SELECT_AREA')}
+              aria-label={t('__PLAN_PAGE_MODULE_LOCALITY_SELECT_AREA')}
             >
               {areaOptions.map((option) => {
                 const inputId = `area-radio-${option.value}`;

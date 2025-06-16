@@ -1,7 +1,7 @@
 import draft from '../../../api/plans/pid/_get/200_draft_complete.json';
 import { expect, test } from '../../../fixtures/app';
 import { PlanPage } from '../../../fixtures/pages/Plan';
-import { LocationModule } from '../../../fixtures/pages/Plan/Module_location';
+import { LocationModule } from '../../../fixtures/pages/Plan/Module_locality';
 
 test.describe('Location Module', () => {
   let planPage: PlanPage;
@@ -25,7 +25,7 @@ test.describe('Location Module', () => {
   }) => {
     await expect(locationModule.elements().module()).toBeVisible();
     await expect(planPage.elements().targetNavigation()).toContainText(
-      i18n.t('__PLAN_PAGE_MODULE_LOCATION_TITLE')
+      i18n.t('__PLAN_PAGE_MODULE_LOCALITY_TITLE')
     );
     await expect(planPage.elements().targetNavigation()).toContainText(
       i18n.t('__ASIDE_NAVIGATION_MODULE_LOCATION_SUBTITLE')

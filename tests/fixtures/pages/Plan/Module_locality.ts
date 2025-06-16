@@ -15,12 +15,12 @@ export class LocationModule {
   elements() {
     return {
       tab: () => this.page.getByTestId('target-tab'),
-      module: () => this.page.getByTestId('location-module'),
+      module: () => this.page.getByTestId('locality-module'),
       countryRadioPanel: () =>
         this.elements()
           .module()
           .getByRole('group', {
-            name: this.i18n.t('__PLAN_PAGE_MODULE_LOCATION_SELECT_COUNTRY'),
+            name: this.i18n.t('__PLAN_PAGE_MODULE_LOCALITY_SELECT_COUNTRY'),
           }),
       countryRadioInput: () =>
         this.elements().countryRadioPanel().getByRole('radio'),
@@ -28,14 +28,14 @@ export class LocationModule {
         this.elements()
           .module()
           .getByRole('group', {
-            name: this.i18n.t('__PLAN_PAGE_MODULE_LOCATION_SELECT_AREA'),
+            name: this.i18n.t('__PLAN_PAGE_MODULE_LOCALITY_SELECT_AREA'),
           }),
       areaRadioInput: () => this.elements().areaRadioPanel().getByRole('radio'),
       citySelectionPanel: () =>
         this.elements()
           .module()
           .getByRole('group', {
-            name: this.i18n.t('__PLAN_PAGE_MODULE_LOCATION_SELECT_CITY'),
+            name: this.i18n.t('__PLAN_PAGE_MODULE_LOCALITY_SELECT_CITY'),
           }),
       citySelectionInput: () =>
         this.elements().citySelectionPanel().getByRole('checkbox'),
@@ -43,7 +43,7 @@ export class LocationModule {
         this.elements()
           .module()
           .getByRole('group', {
-            name: this.i18n.t('__PLAN_PAGE_MODULE_LOCATION_SELECT_REGION'),
+            name: this.i18n.t('__PLAN_PAGE_MODULE_LOCALITY_SELECT_REGION'),
           }),
       regionSelectionInput: () =>
         this.elements().regionSelectionPanel().getByRole('checkbox'),

@@ -41,9 +41,9 @@ export function RegionPanel({ value, setOutput }: RegionPanelProps) {
   return (
     <div
       role="group"
-      aria-label={t('__PLAN_PAGE_MODULE_LOCATION_SELECT_REGION')}
+      aria-label={t('__PLAN_PAGE_MODULE_LOCALITY_SELECT_REGION')}
     >
-      <Label>{t('__PLAN_PAGE_MODULE_LOCATION_SELECT_REGION')}</Label>
+      <Label>{t('__PLAN_PAGE_MODULE_LOCALITY_SELECT_REGION')}</Label>
       {italyRegions.map((marketArea) => (
         <div key={marketArea.marketArea.value}>
           <Field>
