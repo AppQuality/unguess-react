@@ -34,7 +34,7 @@ const areaOptions = [
   { label: 'Province e grossi centri', value: 'city', hint: 'hint text' },
 ];
 
-const Location = () => {
+const Locality = () => {
   const { t } = useTranslation();
   const { value, setOutput, remove } = useModule('locality');
   let outputArr = (value?.output as { type: string; values: string[] }[]) || [];
@@ -120,4 +120,4 @@ const Location = () => {
 };
 
 // città: Roma, Milano, Napoli, Torino, Palermo, Genova
-export default Location;
+export default Locality;
