@@ -3,7 +3,7 @@ import { expect, test } from '../../../fixtures/app';
 import { PlanPage } from '../../../fixtures/pages/Plan';
 import { LocationModule } from '../../../fixtures/pages/Plan/Module_locality';
 
-test.describe('Location Module', () => {
+test.describe('Locality Module', () => {
   let planPage: PlanPage;
   let locationModule: LocationModule;
 
@@ -19,7 +19,7 @@ test.describe('Location Module', () => {
     await planPage.open();
     await locationModule.goToTab();
   });
-  test('should display the Location module on the Plan page and relative nav item', async ({
+  test('should display the module on the Plan page and relative nav item', async ({
     page,
     i18n,
   }) => {
