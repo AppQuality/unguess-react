@@ -86,7 +86,7 @@ const getIconFromModuleType = (
     case 'employment':
       return <EmploymentIcon color={color} />;
     // @ts-ignore
-    case 'location':
+    case 'locality':
       return <LocationIcon color={color} />;
     case 'title':
     case 'dates':
