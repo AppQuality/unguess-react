@@ -98,7 +98,7 @@
         ]
       },
       {
-        "type": "location",
+        "type": "locality",
         "variant": "default",
         "output": [
           { "type": "country", "values": ["IT"] },

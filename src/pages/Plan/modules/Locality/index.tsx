@@ -67,6 +67,8 @@ const Location = () => {
     setOutput(newArr);
   };
 
+  console.log('outputArr', outputArr, 'selectedCountry', selectedCountry);
+
   return (
     <AccordionNew data-qa="location-module" level={3} hasBorder type="default">
       <AccordionNew.Section>

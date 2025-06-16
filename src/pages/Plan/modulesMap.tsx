@@ -8,7 +8,7 @@ import Goal from './modules/Goal';
 import InstructionsNote from './modules/InstructionsNote';
 import Language from './modules/Language';
 import Literacy from './modules/Literacy';
-import Location from './modules/Location';
+import Locality from './modules/Locality';
 import OutOfScope from './modules/OutOfScope';
 import SetupNote from './modules/SetupNote';
 import TargetNote from './modules/TargetNote';
@@ -27,7 +27,7 @@ export const MODULES_BY_TAB = {
     'age',
     'employment',
     'literacy',
-    'location',
+    'locality',
     'additional_target',
   ],
   instructions: ['instruction_note', 'tasks', 'out_of_scope'],
@@ -51,6 +51,5 @@ export const modulesMap = {
   browser: Browser,
   touchpoints: TouchPoints,
   additional_target: AdditionalTarget,
-  locality: () => null, // Placeholder for future module
-  location: Location,
+  locality: Locality,
 };
