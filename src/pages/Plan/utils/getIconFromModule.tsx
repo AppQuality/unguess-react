@@ -14,6 +14,7 @@ import { ReactComponent as TouchpointsIcon } from 'src/assets/icons/touchpoints-
 import { ReactComponent as TargetIcon } from 'src/assets/icons/user-follow.svg';
 import { ReactComponent as OutOfScopeIcon } from 'src/assets/icons/x-circle.svg';
 import { ReactComponent as AdditionalTargetIcon } from 'src/assets/icons/additional-target-icon.svg';
+import { ReactComponent as EmplymentIcon } from 'src/assets/icons/shapes.svg';
 import { components } from 'src/common/schema';
 
 const getIconColor = (module_type: components['schemas']['Module']['type']) => {
@@ -82,6 +83,7 @@ const getIconFromModuleType = (
     case 'additional_target':
       return <AdditionalTargetIcon color={color} />;
     case 'employment':
+      return <EmplymentIcon color={color} />;
     case 'title':
     case 'dates':
     default:

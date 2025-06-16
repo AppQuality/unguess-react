@@ -1,12 +1,16 @@
 import {
+  AccordionNew,
   Button,
-  ContainerCard,
+  FormField,
   Label,
-  Message,
+  MultiSelect,
+  SM,
+  Span,
 } from '@appquality/unguess-design-system';
 import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
+import { ReactComponent as AlertIcon } from 'src/assets/icons/alert-icon.svg';
 import { ReactComponent as TrashIcon } from 'src/assets/icons/trash-stroke.svg';
 import { components } from 'src/common/schema';
 import { FEATURE_FLAG_CHANGE_MODULES_VARIANTS } from 'src/constants';
@@ -18,29 +22,22 @@ import styled from 'styled-components';
 import { getIconFromModuleType } from '../utils';
 import { DeleteModuleConfirmationModal } from './modal/DeleteModuleConfirmationModal';
 
-const StyledCard = styled(ContainerCard)`
-  display: flex;
-  flex-direction: column;
-  padding-top: ${({ theme }) => theme.space.md};
-  padding-left: ${({ theme }) => theme.space.md};
-  padding-right: ${({ theme }) => theme.space.md};
-  padding-bottom: ${({ theme }) => theme.space.lg};
-`;
-
-const StyledCardHeader = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  padding-bottom: ${({ theme }) => theme.space.md};
-`;
-
 const StyledInfoBox = styled.div`
   display: flex;
   align-items: center;
-  margin-top: ${({ theme }) => theme.space.sm};
-  gap: ${({ theme }) => theme.space.xxs};
+  margin-top: ${appTheme.space.sm};
+  gap: ${appTheme.space.xxs};
 `;
+
+// eslint-disable-next-line
+enum EmploymentType {
+  EMPLOYEE = 1,
+  FREELANCER,
+  RETIRED,
+  STUDENT,
+  UNEMPLOYED,
+  HOMEMAKER,
+}
 
 const Employment = () => {
   const { hasFeatureFlag } = useFeatureFlag();
@@ -49,12 +46,24 @@ const Employment = () => {
   const { t } = useTranslation();
   const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false);
 
+  const options = Object.values(EmploymentType)
+    .filter((v) => typeof v === 'number')
+    .map((id) => ({
+      id: id as number,
+      label: t(
+        `__PLAN_PAGE_MODULE_EMPLOYMENT_OPTION_${EmploymentType[id as number]}`
+      ),
+    }));
+
   const validation = (
     module: components['schemas']['Module'] & { type: 'employment' }
   ) => {
     let error;
-    if (module.output.length > 512) {
-      error = t('__PLAN_EMPLOYMENT_SIZE_ERROR_TOO_LONG');
+    if (!module.output) {
+      error = t('__PLAN_EMPLOYMENT_SIZE_ERROR_REQUIRED');
+    }
+    if (module.output.length < 1) {
+      error = t('__PLAN_EMPLOYMENT_SIZE_ERROR_REQUIRED');
     }
     return error || true;
   };
@@ -70,50 +79,77 @@ const Employment = () => {
   const handleDelete = () => {
     setIsOpenDeleteModal(true);
   };
-
   return (
     <>
-      <StyledCard>
-        <StyledCardHeader>
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: appTheme.space.xs,
-            }}
-          >
-            {getIconFromModuleType('employment')}
-            <Label>{t('__PLAN_PAGE_EMPLOYMENT_TITLE')}</Label>
-          </div>
-          {hasFeatureFlag(FEATURE_FLAG_CHANGE_MODULES_VARIANTS) &&
-            getPlanStatus() === 'draft' && (
-              <Button
-                isBasic
-                isDanger
-                onClick={(e) => {
-                  handleDelete();
-                  e.stopPropagation();
-                }}
-              >
-                <Button.StartIcon>
-                  <TrashIcon />
-                </Button.StartIcon>
-                {t('__PLAN_PAGE_MODULE_EMPLOYMENT_REMOVE_BUTTON')}
-              </Button>
-            )}
-        </StyledCardHeader>
-        {getPlanStatus() === 'draft' && (
-          <StyledInfoBox>
-            {error && typeof error === 'string' ? (
-              <Message validation="error" data-qa="employment-note-error">
-                {error}
-              </Message>
-            ) : (
-              <Message>{t('__PLAN_PAGE_MODULE_EMPLOYMENT_INFO')}</Message>
-            )}
-          </StyledInfoBox>
-        )}
-      </StyledCard>
+      <AccordionNew
+        data-qa="employment-module"
+        level={3}
+        hasBorder
+        type={error ? 'danger' : 'default'}
+      >
+        <AccordionNew.Section>
+          <AccordionNew.Header icon={getIconFromModuleType('employment')}>
+            <AccordionNew.Label
+              label={t('__PLAN_PAGE_MODULE_EMPLOYMENT_TITLE')}
+            />
+            {hasFeatureFlag(FEATURE_FLAG_CHANGE_MODULES_VARIANTS) &&
+              getPlanStatus() === 'draft' && (
+                <AccordionNew.Meta>
+                  <Button
+                    isBasic
+                    isDanger
+                    onClick={(e) => {
+                      handleDelete();
+                      e.stopPropagation();
+                    }}
+                  >
+                    <Button.StartIcon>
+                      <TrashIcon />
+                    </Button.StartIcon>
+                    {t('__PLAN_PAGE_MODULE_EMPLOYMENT_REMOVE_BUTTON')}
+                  </Button>
+                </AccordionNew.Meta>
+              )}
+          </AccordionNew.Header>
+          <AccordionNew.Panel>
+            <div style={{ padding: appTheme.space.xs }}>
+              <FormField style={{ marginBottom: appTheme.space.md }}>
+                <Label>
+                  <Trans i18nKey="__PLAN_PAGE_MODULE_EMPLOYMENT_LABEL">
+                    Select one or more professional categories
+                  </Trans>
+                  <Span style={{ color: appTheme.palette.red[700] }}>*</Span>
+                </Label>
+                <MultiSelect
+                  options={options}
+                  creatable
+                  maxItems={4}
+                  size="small"
+                  i18n={{
+                    placeholder: t(
+                      '__PLAN_PAGE_MODULE_EMPLOYMENT_SELECT_PLACEHOLDER'
+                    ),
+                  }}
+                  /*   onChange={} */
+                />
+                <StyledInfoBox>
+                  {error && typeof error === 'string' && (
+                    <>
+                      <AlertIcon />
+                      <SM
+                        style={{ color: appTheme.components.text.dangerColor }}
+                        data-qa="employment-error"
+                      >
+                        {error}
+                      </SM>
+                    </>
+                  )}
+                </StyledInfoBox>
+              </FormField>
+            </div>
+          </AccordionNew.Panel>
+        </AccordionNew.Section>
+      </AccordionNew>
       {isOpenDeleteModal && (
         <DeleteModuleConfirmationModal
           onQuit={() => setIsOpenDeleteModal(false)}
