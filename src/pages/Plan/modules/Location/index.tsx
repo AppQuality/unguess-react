@@ -47,17 +47,7 @@ const Location = () => {
 
   const handleCountryChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const valueCountry = event.target.value;
-    if (valueCountry !== 'IT') {
-      setOutput([
-        { type: 'country', values: [valueCountry] },
-        { type: 'all', values: [] },
-      ]);
-    } else {
-      setOutput([
-        { type: 'country', values: [valueCountry] },
-        { type: 'region', values: [] },
-      ]);
-    }
+    setOutput([{ type: 'country', values: [valueCountry] }]);
   };
 
   const handleAreaChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -113,7 +103,7 @@ const Location = () => {
                         {option.hint && <Hint>{option.hint}</Hint>}
                       </Radio>
                     </Field>
-                    {selectedArea === 'region' && option.value === 'region' ? (
+                    {selectedCountry === 'IT' && selectedArea === 'region' ? (
                       <RegionPanel value={outputArr} setOutput={setOutput} />
                     ) : null}
                   </React.Fragment>
