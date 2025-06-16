@@ -72,7 +72,7 @@ const Employment = () => {
     type: 'employment',
     validate: validation,
   });
-  const handleBlur = () => {
+  const handleChange = () => {
     validate();
   };
 
