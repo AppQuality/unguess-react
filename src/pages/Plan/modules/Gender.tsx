@@ -26,35 +26,79 @@ import { FEATURE_FLAG_CHANGE_MODULES_VARIANTS } from 'src/constants';
 import { useModule } from 'src/features/modules/useModule';
 import { useModuleConfiguration } from 'src/features/modules/useModuleConfiguration';
 import { useValidation } from 'src/features/modules/useModuleValidation';
+import { Divider } from 'src/common/components/divider';
 import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
 import { getIconFromModuleType } from '../utils';
 import { DeleteModuleConfirmationModal } from './modal/DeleteModuleConfirmationModal';
 
-const PercentageInput = () => (
-  <div
-    style={{
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'flex-end',
-    }}
-  >
-    <IconButton>
-      <MinusButtonIcon />
-    </IconButton>
+interface PercentageInputProps {
+  value: number;
+  onChange: React.Dispatch<React.SetStateAction<number>>;
+}
 
-    <Input
-      isCompact
-      type="number"
+const PercentageInput: React.FC<PercentageInputProps> = ({
+  value,
+  onChange,
+}) => {
+  const handleDecreasePercentage = () => {
+    // Logic to decrease percentage
+    onChange((prev) => {
+      const newValue = prev - 5;
+      return newValue < 0 ? 0 : newValue;
+    });
+  };
+
+  const handleIncreasePercentage = () => {
+    // Logic to increase percentage
+    onChange((prev) => {
+      const newValue = prev + 5;
+      return newValue > 100 ? 100 : newValue;
+    });
+  };
+
+  return (
+    <div
       style={{
-        width: '20%',
-        height: appTheme.fontSizes.sm,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'flex-end',
       }}
-    />
-    <IconButton>
-      <PlusButtonIcon />
-    </IconButton>
-  </div>
-);
+    >
+      <IconButton
+        onClick={(e) => {
+          e.stopPropagation();
+          // Logic to decrease percentage
+          handleDecreasePercentage();
+        }}
+      >
+        <MinusButtonIcon />
+      </IconButton>
+
+      <Input
+        name="percentage-input"
+        isCompact
+        max={100}
+        min={0}
+        placeholder="%"
+        type="number"
+        value={value}
+        onChange={(e) => {}}
+        style={{
+          width: '20%',
+          height: appTheme.fontSizes.sm,
+        }}
+      />
+      <IconButton
+        onClick={(e) => {
+          e.stopPropagation();
+          handleIncreasePercentage();
+        }}
+      >
+        <PlusButtonIcon />
+      </IconButton>
+    </div>
+  );
+};
 
 const Gender = () => {
   type GenderTypes =
@@ -63,6 +107,9 @@ const Gender = () => {
   const { getPlanStatus } = useModuleConfiguration();
   const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false);
   const [isAddPercentageClicked, setIsAddPercentageClicked] = useState(false);
+
+  const [femalePercentage, setFemalePercentage] = useState(0);
+  const [malePercentage, setMalePercentage] = useState(0);
 
   const genderTypes: GenderTypes[] = ['male', 'female'];
 
@@ -133,6 +180,8 @@ const Gender = () => {
   const handlePercentage = () => {
     setIsAddPercentageClicked(!isAddPercentageClicked);
   };
+
+  const totalPercentage = Number(femalePercentage) + Number(malePercentage);
 
   return (
     <div>
@@ -312,12 +361,40 @@ const Gender = () => {
                         justifyContent: 'space-between',
                       }}
                     >
-                      {genderTypes.map((gender) => (
-                        <PercentageInput key={gender} />
-                      ))}
+                      <PercentageInput
+                        value={femalePercentage}
+                        onChange={setFemalePercentage}
+                      />
+                      <PercentageInput
+                        value={malePercentage}
+                        onChange={setMalePercentage}
+                      />
                     </div>
                   </Col>
                 )}
+              </Row>
+              <Divider style={{ marginBottom: appTheme.space.md }} />
+              <Row>
+                <Col>
+                  <Label
+                    style={{
+                      marginLeft: appTheme.space.md,
+                    }}
+                  >
+                    {t('__PLAN_PAGE_MODULE_GENDER_TOTAL_PERCENTAGE_LABEL')}
+                  </Label>
+                </Col>
+                <Col>
+                  <div
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'flex-end',
+                      marginRight: appTheme.space.xxl,
+                    }}
+                  >
+                    <Label>{totalPercentage}%</Label>
+                  </div>
+                </Col>
               </Row>
 
               {genderError && (
