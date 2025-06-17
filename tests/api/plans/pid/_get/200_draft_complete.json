@@ -76,6 +76,11 @@
         ],
         "variant": "default"
       },
+       {
+        "type": "employment",
+        "output": ["EMPLOYEE", "STUDENT"],
+        "variant": "default"
+      },
       {
         "type": "tasks",
         "variant": "default",
