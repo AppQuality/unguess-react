@@ -823,6 +823,7 @@
   "__PLAN_PAGE_MODULE_GENDER_REMOVE_BUTTON": "Delete",
   "__PLAN_PAGE_MODULE_GENDER_REMOVE_PERCENTAGE_BUTTON_LABEL": "Remove custom percentage",
   "__PLAN_PAGE_MODULE_GENDER_TITLE": "Specify gender distribution for participants",
+  "__PLAN_PAGE_MODULE_GENDER_TOTAL_PERCENTAGE_LABEL": "Total:",
   "__PLAN_PAGE_MODULE_GOAL_INFO": "Enter goal (max 256 characters)",
   "__PLAN_PAGE_MODULE_GOAL_LABEL": "Specify the main goal of this activity",
   "__PLAN_PAGE_MODULE_GOAL_PLACEHOLDER": "Describe what you want to achieve",
