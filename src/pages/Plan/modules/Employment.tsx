@@ -175,6 +175,7 @@ const Employment = () => {
                   <Span style={{ color: appTheme.palette.red[700] }}>*</Span>
                 </Label>
                 <MultiSelect
+                  listboxAppendToNode={document.body}
                   options={options}
                   selectedItems={options.filter((opt) => opt.selected)}
                   size="medium"
