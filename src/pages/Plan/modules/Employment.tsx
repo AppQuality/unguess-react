@@ -32,12 +32,18 @@ const StyledInfoBox = styled.div`
 // eslint-disable-next-line
 enum EmploymentType {
   EMPLOYEE = 1,
-  FREELANCER,
-  RETIRED,
-  STUDENT,
-  UNEMPLOYED,
-  HOMEMAKER,
+  FREELANCER = 2,
+  RETIRED = 3,
+  STUDENT = 4,
+  UNEMPLOYED = 5,
+  HOMEMAKER = 6,
 }
+
+type OptionType = {
+  id: EmploymentType;
+  label: string;
+  selected?: boolean;
+};
 
 const Employment = () => {
   const { hasFeatureFlag } = useFeatureFlag();
@@ -46,14 +52,52 @@ const Employment = () => {
   const { t } = useTranslation();
   const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false);
 
-  const options = Object.values(EmploymentType)
-    .filter((v) => typeof v === 'number')
-    .map((id) => ({
-      id: id as number,
-      label: t(
-        `__PLAN_PAGE_MODULE_EMPLOYMENT_OPTION_${EmploymentType[id as number]}`
-      ),
-    }));
+  const mapEnumIdsToKeys = (
+    values: number[]
+  ): (keyof typeof EmploymentType)[] =>
+    values
+      .map(
+        (id) =>
+          Object.entries(EmploymentType).find(
+            ([key, enumValue]) =>
+              typeof enumValue === 'number' && enumValue === id
+          )?.[0]
+      )
+      .filter((key): key is keyof typeof EmploymentType => Boolean(key));
+  const checkSelected = (key: keyof typeof EmploymentType) =>
+    value?.output?.includes(key) ?? false;
+  const options = [
+    {
+      id: EmploymentType.EMPLOYEE,
+      label: t('__PLAN_PAGE_MODULE_EMPLOYMENT_OPTION_EMPLOYEE'),
+      selected: checkSelected('EMPLOYEE'),
+    },
+    {
+      id: EmploymentType.FREELANCER,
+      label: t('__PLAN_PAGE_MODULE_EMPLOYMENT_OPTION_FREELANCER'),
+      selected: checkSelected('FREELANCER'),
+    },
+    {
+      id: EmploymentType.RETIRED,
+      label: t('__PLAN_PAGE_MODULE_EMPLOYMENT_OPTION_RETIRED'),
+      selected: checkSelected('RETIRED'),
+    },
+    {
+      id: EmploymentType.STUDENT,
+      label: t('__PLAN_PAGE_MODULE_EMPLOYMENT_OPTION_STUDENT'),
+      selected: checkSelected('STUDENT'),
+    },
+    {
+      id: EmploymentType.UNEMPLOYED,
+      label: t('__PLAN_PAGE_MODULE_EMPLOYMENT_OPTION_UNEMPLOYED'),
+      selected: checkSelected('UNEMPLOYED'),
+    },
+    {
+      id: EmploymentType.HOMEMAKER,
+      label: t('__PLAN_PAGE_MODULE_EMPLOYMENT_OPTION_HOMEMAKER'),
+      selected: checkSelected('HOMEMAKER'),
+    },
+  ];
 
   const validation = (
     module: components['schemas']['Module'] & { type: 'employment' }
@@ -72,8 +116,18 @@ const Employment = () => {
     type: 'employment',
     validate: validation,
   });
-  const handleChange = () => {
-    validate();
+
+  const handleChange = async (items: Array<OptionType>): Promise<void> => {
+    const selectedItems = items
+      .filter((item) => item.selected)
+      .map((item) => item.id);
+    const selectedKeys = mapEnumIdsToKeys(selectedItems);
+
+    if (selectedKeys.length < 1) {
+      setOutput([]);
+    } else {
+      setOutput(selectedKeys);
+    }
   };
 
   const handleDelete = () => {
@@ -122,15 +176,14 @@ const Employment = () => {
                 </Label>
                 <MultiSelect
                   options={options}
-                  creatable
-                  maxItems={4}
-                  size="small"
+                  selectedItems={options.filter((opt) => opt.selected)}
+                  size="medium"
                   i18n={{
                     placeholder: t(
                       '__PLAN_PAGE_MODULE_EMPLOYMENT_SELECT_PLACEHOLDER'
                     ),
                   }}
-                  /*   onChange={} */
+                  onChange={handleChange}
                 />
                 <StyledInfoBox>
                   {error && typeof error === 'string' && (
