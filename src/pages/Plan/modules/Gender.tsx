@@ -89,7 +89,16 @@ const Gender = () => {
         desiredGenders.map((item) => {
           let percentage = fixedPercentage;
           if (isAddPercentageClicked) {
-            if (item.gender === 'female') {
+            if (desiredGenders.length === 1) {
+              percentage = 100;
+              if (item.gender === 'female') {
+                setFemalePercentage(100);
+                setMalePercentage(0);
+              } else {
+                setMalePercentage(100);
+                setFemalePercentage(0);
+              }
+            } else if (item.gender === 'female') {
               percentage = femalePercentage;
             } else if (item.gender === 'male') {
               percentage = malePercentage;
@@ -103,23 +112,64 @@ const Gender = () => {
       );
     } else {
       setOutput([]);
+      setFemalePercentage(0);
+      setMalePercentage(0);
     }
   };
 
   useEffect(() => {
-    validate();
     setVariant(isAddPercentageClicked ? 'percentage' : 'default');
-  }, [value]);
+  }, [isAddPercentageClicked]);
+
+  useEffect(() => {
+    if (value?.variant === 'percentage') {
+      setIsAddPercentageClicked(true);
+      setFemalePercentage(
+        value.output.find((v) => v.gender === 'female')?.percentage || 0
+      );
+      setMalePercentage(
+        value.output.find((v) => v.gender === 'male')?.percentage || 0
+      );
+    }
+  }, [value?.variant]);
 
   const handleDelete = () => {
     setIsOpenDeleteModal(true);
   };
 
+  const updatePercentages = () => {
+    if (!isAddPercentageClicked) return;
+    const genders = value?.output.map((v) => ({
+      gender: v.gender as GenderTypes,
+    }));
+    if (genders && genders.length > 0) {
+      updateOutput(genders);
+    }
+  };
+
+  useEffect(() => {
+    validate();
+    updatePercentages();
+  }, [value]);
+
+  const handleFemaleChange = (v: number) => {
+    setFemalePercentage(v);
+    // updatePercentages();
+  };
+
+  const handleMaleChange = (v: number) => {
+    setMalePercentage(v);
+    // updatePercentages();
+  };
+
   const handlePercentage = () => {
-    setIsAddPercentageClicked(!isAddPercentageClicked);
+    const newValue = !isAddPercentageClicked;
+    setIsAddPercentageClicked(newValue);
+    setVariant(newValue ? 'percentage' : 'default');
   };
 
   const totalPercentage = Number(femalePercentage) + Number(malePercentage);
+  const singleGenderSelected = (value?.output || []).length === 1;
 
   return (
     <div>
@@ -302,11 +352,15 @@ const Gender = () => {
                     >
                       <PercentageInput
                         value={femalePercentage}
-                        onChange={setFemalePercentage}
+                        onChange={handleFemaleChange}
+                        readOnly={singleGenderSelected}
+                        disableButtons={singleGenderSelected}
                       />
                       <PercentageInput
                         value={malePercentage}
-                        onChange={setMalePercentage}
+                        onChange={handleMaleChange}
+                        readOnly={singleGenderSelected}
+                        disableButtons={singleGenderSelected}
                       />
                     </div>
                   </Col>
@@ -333,7 +387,16 @@ const Gender = () => {
                           marginRight: appTheme.space.xxl,
                         }}
                       >
-                        <Label>{totalPercentage}%</Label>
+                        <Label
+                          style={{
+                            color:
+                              totalPercentage !== 100
+                                ? appTheme.palette.red[600]
+                                : undefined,
+                          }}
+                        >
+                          {totalPercentage}%
+                        </Label>
                       </div>
                     </Col>
                   </Row>
