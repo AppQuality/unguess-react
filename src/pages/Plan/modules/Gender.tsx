@@ -60,6 +60,15 @@ const Gender = () => {
 
   const percentageError = malePercentage + femalePercentage !== 100;
 
+  // Error if percentage variant is active and any selected gender has 0 percentage
+  const unassignedGenderPercentageError =
+    isAddPercentageClicked &&
+    value?.output.some(
+      (g) =>
+        (g.gender === 'male' && malePercentage === 0) ||
+        (g.gender === 'female' && femalePercentage === 0)
+    );
+
   const genderError =
     error && typeof error === 'object' && `gender.value` in error
       ? error[`gender.value`]
@@ -457,6 +466,27 @@ const Gender = () => {
                     data-qa="gender-percentage-error"
                   >
                     {t('__PLAN_PAGE_MODULE_GENDER_PERCENTAGE_ERROR')}
+                  </Span>
+                </div>
+              )}
+              {unassignedGenderPercentageError && isAddPercentageClicked && (
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+
+                    marginTop: appTheme.space.sm,
+                  }}
+                >
+                  <AlertIcon />
+                  <Span
+                    style={{
+                      marginLeft: appTheme.space.xs,
+                      color: appTheme.palette.red[600],
+                    }}
+                    data-qa="gender-unassigned-percentage-error"
+                  >
+                    {t('__PLAN_PAGE_MODULE_GENDER_UNASSIGNED_PERCENTAGE_ERROR')}
                   </Span>
                 </div>
               )}
