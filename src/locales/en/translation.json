@@ -821,6 +821,7 @@
   "__PLAN_PAGE_MODULE_GENDER_ALL_LABEL_HINT": "Participants equally divided by gender",
   "__PLAN_PAGE_MODULE_GENDER_MALE_HINT": " ",
   "__PLAN_PAGE_MODULE_GENDER_MALE_LABEL": "Male",
+  "__PLAN_PAGE_MODULE_GENDER_PERCENTAGE_ERROR": " Make sure the percentages add up to 100% before continuing.",
   "__PLAN_PAGE_MODULE_GENDER_REMOVE_BUTTON": "Delete",
   "__PLAN_PAGE_MODULE_GENDER_REMOVE_PERCENTAGE_BUTTON_LABEL": "Remove custom percentage",
   "__PLAN_PAGE_MODULE_GENDER_TITLE": "Specify gender distribution for participants",
