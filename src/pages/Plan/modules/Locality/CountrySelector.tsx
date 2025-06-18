@@ -39,38 +39,36 @@ type CountrySelectorProps = {
   ariaLabel: string;
 };
 
-export function CountrySelector({
+export const CountrySelector = ({
   selectedCountry,
   onChange,
   ariaLabel,
-}: CountrySelectorProps) {
-  return (
-    <FieldWrapper columns="3" role="group" aria-label={ariaLabel}>
-      {countryOptions.map((option) => {
-        const inputId = `country-radio-${option.value}`;
-        return (
-          <RadioTag
-            key={option.value}
-            color={appTheme.palette.azure[600]}
-            style={{
-              backgroundColor: appTheme.palette.azure[100],
-              marginBottom: appTheme.space.sm,
-            }}
-          >
-            <Field style={{ margin: 0 }}>
-              <Radio
-                id={inputId}
-                value={option.value}
-                name="country"
-                checked={selectedCountry === option.value}
-                onChange={onChange}
-              >
-                <Label htmlFor={inputId}>{option.label}</Label>
-              </Radio>
-            </Field>
-          </RadioTag>
-        );
-      })}
-    </FieldWrapper>
-  );
-}
+}: CountrySelectorProps) => (
+  <FieldWrapper columns="3" role="group" aria-label={ariaLabel}>
+    {countryOptions.map((option) => {
+      const inputId = `country-radio-${option.value}`;
+      return (
+        <RadioTag
+          key={option.value}
+          color={appTheme.palette.azure[600]}
+          style={{
+            backgroundColor: appTheme.palette.azure[100],
+            marginBottom: appTheme.space.sm,
+          }}
+        >
+          <Field style={{ margin: 0 }}>
+            <Radio
+              id={inputId}
+              value={option.value}
+              name="country"
+              checked={selectedCountry === option.value}
+              onChange={onChange}
+            >
+              <Label htmlFor={inputId}>{option.label}</Label>
+            </Radio>
+          </Field>
+        </RadioTag>
+      );
+    })}
+  </FieldWrapper>
+);

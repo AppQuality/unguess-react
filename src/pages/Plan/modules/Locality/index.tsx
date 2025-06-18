@@ -11,9 +11,11 @@ import {
   Span,
   Tag,
 } from '@appquality/unguess-design-system';
-import React, { useCallback, useEffect, useMemo, useRef } from 'react';
-import { useTranslation, Trans } from 'react-i18next';
+import React, { useCallback, useEffect, useRef } from 'react';
+import { Trans, useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
+import { components } from 'src/common/schema';
+import { getColorWithAlpha } from 'src/common/utils';
 import { useModule } from 'src/features/modules/useModule';
 import { useValidation } from 'src/features/modules/useModuleValidation';
 import styled from 'styled-components';
@@ -21,9 +23,6 @@ import { getIconFromModuleType } from '../../utils';
 import { CitiesPanel } from './CitiesPanel';
 import { CountrySelector } from './CountrySelector';
 import { RegionPanel } from './RegionPanel';
-import { components } from 'src/common/schema';
-import { getColorWithAlpha } from 'src/common/utils';
-import { t } from 'i18next';
 
 const FieldWrapper = styled.div`
   padding-top: ${({ theme }) => theme.space.md};
@@ -125,21 +124,17 @@ const Locality = () => {
     [value?.output]
   );
   // find selected area
-  const selectedArea = regionObj ? 'region' : cityObj ? 'city' : 'all';
-
-  const handleCountryChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const valueCountry = event.target.value;
-    validate({
-      variant: value?.variant || 'default',
-      output: [{ type: 'country', values: [valueCountry] }],
-    });
-    setOutput([{ type: 'country', values: [valueCountry] }]);
-  };
+  let selectedArea = 'all';
+  if (regionObj) {
+    selectedArea = 'region';
+  } else if (cityObj) {
+    selectedArea = 'city';
+  }
 
   const handleAreaChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const areaType = event.target.value;
     // Always start with only the country
-    let newArr = [...(countryObj ? [countryObj] : [])];
+    const newArr = [...(countryObj ? [countryObj] : [])];
     if (areaType === 'region') {
       newArr.push({ type: 'region', values: [] });
     } else if (areaType === 'city') {
@@ -154,24 +149,30 @@ const Locality = () => {
   const validation = useCallback(
     ({ output }: components['schemas']['ModuleLocality']) => {
       let error;
-      const countryObj = output?.find((a) => a.type === 'country');
-      const regionObj = output?.find((a) => a.type === 'region');
-      const cityObj = output?.find((a) => a.type === 'city');
+      const countryOutput = output?.find((a) => a.type === 'country');
+      const regionOutput = output?.find((a) => a.type === 'region');
+      const cityOutput = output?.find((a) => a.type === 'city');
 
       if (
-        !countryObj ||
-        !countryObj.values ||
-        countryObj.values.length === 0 ||
-        !countryObj.values[0]
+        !countryOutput ||
+        !countryOutput.values ||
+        countryOutput.values.length === 0 ||
+        !countryOutput.values[0]
       ) {
         error = t('__PLAN_PAGE_MODULE_LOCALITY_COUNTRY_ERROR');
         return error;
       }
-      if (regionObj && (!regionObj.values || regionObj.values.length === 0)) {
+      if (
+        regionOutput &&
+        (!regionOutput.values || regionOutput.values.length === 0)
+      ) {
         error = t('__PLAN_PAGE_MODULE_LOCALITY_REGION_ERROR');
         return error;
       }
-      if (cityObj && (!cityObj.values || cityObj.values.length === 0)) {
+      if (
+        cityOutput &&
+        (!cityOutput.values || cityOutput.values.length === 0)
+      ) {
         error = t('__PLAN_PAGE_MODULE_LOCALITY_CITY_ERROR');
         return error;
       }
@@ -184,6 +185,15 @@ const Locality = () => {
     type: 'locality',
     validate: validation,
   });
+
+  const handleCountryChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const valueCountry = event.target.value;
+    validate({
+      variant: value?.variant || 'default',
+      output: [{ type: 'country', values: [valueCountry] }],
+    });
+    setOutput([{ type: 'country', values: [valueCountry] }]);
+  };
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {

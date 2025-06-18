@@ -20,7 +20,6 @@ test.describe('Locality Module', () => {
     await locationModule.goToTab();
   });
   test('should display the module on the Plan page and relative nav item', async ({
-    page,
     i18n,
   }) => {
     await expect(locationModule.elements().module()).toBeVisible();
@@ -56,10 +55,7 @@ test.describe('Locality Module', () => {
       )
     ).toBeChecked();
   });
-  test('if a different area or state is selected, the region selection goes back to default', async ({
-    page,
-    i18n,
-  }) => {
+  test('if a different area or state is selected, the region selection goes back to default', async () => {
     const { countryRadioPanel, areaRadioPanel, regionSelectionPanel } =
       locationModule.elements();
 
@@ -79,10 +75,7 @@ test.describe('Locality Module', () => {
     await expect(regionSelectionPanel()).not.toBeVisible();
   });
   // now let's check the output of the location module
-  test('should update the output when changing country that does not allow further refinement', async ({
-    page,
-    i18n,
-  }) => {
+  test('should update the output when changing country that does not allow further refinement', async () => {
     const { countryRadioPanel, areaRadioPanel, regionSelectionPanel } =
       locationModule.elements();
 
@@ -120,7 +113,6 @@ test.describe('Locality Module', () => {
       countryRadioPanel,
       areaRadioPanel,
       citySelectionPanel,
-      citySelectionInput,
       errorMessage,
     } = locationModule.elements();
 
@@ -173,13 +165,7 @@ test.describe('Locality Module', () => {
       - Uncheck Lombardia (leaving only Piemonte selected)
       - Save and check output: output should contain country and other nord ovest regions
     */
-    const {
-      countryRadioPanel,
-      areaRadioPanel,
-      regionSelectionPanel,
-      regionSelectionInput,
-      errorMessage,
-    } = locationModule.elements();
+    const { regionSelectionPanel, errorMessage } = locationModule.elements();
 
     // Add a Region to the panel
     await regionSelectionPanel()

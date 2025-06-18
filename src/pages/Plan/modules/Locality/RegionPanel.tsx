@@ -1,17 +1,17 @@
 import {
-  FormField as Field,
   Checkbox,
-  Label,
+  FormField as Field,
   Hint,
+  Label,
 } from '@appquality/unguess-design-system';
-import styled from 'styled-components';
-import { italyRegions } from './locationRegions';
+import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
+import { appTheme } from 'src/app/theme';
+import { components } from 'src/common/schema';
 import { useModule } from 'src/features/modules/useModule';
 import { useValidation } from 'src/features/modules/useModuleValidation';
-import { useCallback, useEffect } from 'react';
-import { components } from 'src/common/schema';
-import { appTheme } from 'src/app/theme';
+import styled from 'styled-components';
+import { italyRegions } from './locationRegions';
 
 const RegionsContainer = styled.div`
   padding-left: ${({ theme }) => theme.space.md};
@@ -28,7 +28,7 @@ type ModuleOutput = components['schemas']['OutputModuleLocality'];
 const getRegionArea = (areaArr: ModuleOutput) =>
   areaArr.find((a) => a.type === 'region') || { type: 'region', values: [] };
 
-export function RegionPanel({ validate }: RegionPanelProps) {
+export const RegionPanel = ({ validate }: RegionPanelProps) => {
   const { t } = useTranslation();
   const { value, setOutput, remove } = useModule('locality');
   const areaArr: ModuleOutput = value?.output || [];
@@ -157,4 +157,4 @@ export function RegionPanel({ validate }: RegionPanelProps) {
       })}
     </div>
   );
-}
+};

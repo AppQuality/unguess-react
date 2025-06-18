@@ -67,8 +67,8 @@ export class LocationModule {
     await this.elements().tab().click();
   }
 
-  async expectToBeReadonly() {
-    // Implement readonly checks for Location module if needed
-    // Example: check for disabled inputs
-  }
+  // async expectToBeReadonly() {
+  //   // Implement readonly checks for Location module if needed
+  //   // Example: check for disabled inputs
+  // }
 }
