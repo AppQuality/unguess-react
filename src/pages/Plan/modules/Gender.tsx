@@ -309,13 +309,22 @@ const Gender = () => {
                             (item) => item.gender === gender.toLowerCase()
                           )}
                           onChange={(e) => {
+                            const previousGenders =
+                              value?.output.map((item) => item.gender) || [];
+                            let updatedGenders: GenderTypes[] = [];
                             if (e.target.checked) {
-                              updateOutput([
-                                { gender: e.target.value as GenderTypes },
-                              ]);
+                              updatedGenders = [
+                                ...previousGenders,
+                                e.target.value as GenderTypes,
+                              ];
                             } else {
-                              updateOutput([]);
+                              updatedGenders = previousGenders
+                                .filter((item) => item !== e.target.value)
+                                .map((item) => item as GenderTypes);
                             }
+                            updateOutput(
+                              updatedGenders.map((g) => ({ gender: g }))
+                            );
                           }}
                         >
                           <Label
