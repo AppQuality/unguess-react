@@ -34,6 +34,12 @@ const TouchpointItemNavLink = styled(Link)`
   }
 `;
 
+const ModuleIconContainer = styled.div`
+  display: flex;
+  align-items: center;
+  padding-top: 2px;
+`;
+
 const TouchpointItemNav = ({
   touchpoint,
 }: {
@@ -73,15 +79,17 @@ const TouchpointItemNav = ({
         })}
       >
         <StyledContainer>
-          {getIconFromTouchpointOutput(touchpoint)}
-          <Ellipsis style={{ width: '95%' }}>
-            <MD color={appTheme.palette.blue[600]}>
+          <ModuleIconContainer>
+            {getIconFromTouchpointOutput(touchpoint)}
+          </ModuleIconContainer>
+          <MD color={appTheme.palette.blue[600]} style={{ minWidth: 0 }}>
+            <Ellipsis>
               {key + 1}.{' '}
               <Span isBold>
                 {form_factor} {kind}
               </Span>
-            </MD>
-          </Ellipsis>
+            </Ellipsis>
+          </MD>
         </StyledContainer>
         {hasErrors && (
           <Message validation="error" style={{ marginTop: appTheme.space.sm }}>
