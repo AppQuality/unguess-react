@@ -6,8 +6,6 @@ import {
   FormField,
   Grid,
   Hint,
-  IconButton,
-  Input,
   Label,
   Row,
   Span,
@@ -15,7 +13,6 @@ import {
 import { ReactComponent as DeleteIcon } from '@zendeskgarden/svg-icons/src/16/trash-stroke.svg';
 import { ReactComponent as PlusIcon } from '@zendeskgarden/svg-icons/src/16/plus-circle-fill.svg';
 import { ReactComponent as XIcon } from '@zendeskgarden/svg-icons/src/16/x-circle-fill.svg';
-
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
@@ -89,12 +86,21 @@ const Gender = () => {
         (100 / desiredGenders.length).toFixed(2) // the percentage is equally divided and it's the same for all genders
       );
       setOutput(
-        desiredGenders.map((item) => ({
-          ...item,
-          percentage: fixedPercentage,
-        }))
+        desiredGenders.map((item) => {
+          let percentage = fixedPercentage;
+          if (isAddPercentageClicked) {
+            if (item.gender === 'female') {
+              percentage = femalePercentage;
+            } else if (item.gender === 'male') {
+              percentage = malePercentage;
+            }
+          }
+          return {
+            ...item,
+            percentage,
+          };
+        })
       );
-      setVariant(isAddPercentageClicked ? 'percentage' : 'default');
     } else {
       setOutput([]);
     }
@@ -102,6 +108,7 @@ const Gender = () => {
 
   useEffect(() => {
     validate();
+    setVariant(isAddPercentageClicked ? 'percentage' : 'default');
   }, [value]);
 
   const handleDelete = () => {
@@ -169,7 +176,8 @@ const Gender = () => {
                           </Label>
                         </>
                       )}
-                      {isAddPercentageClicked && (
+                      {(value?.variant === 'percentage' ||
+                        isAddPercentageClicked) && (
                         <>
                           <Button.StartIcon>
                             <XIcon />

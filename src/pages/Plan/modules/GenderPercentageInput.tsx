@@ -16,7 +16,7 @@ const PercentageInput: React.FC<PercentageInputProps> = ({
     // Logic to decrease percentage
     onChange((prev) => {
       const newValue = prev - 5;
-      return newValue < 1 ? 1 : newValue;
+      return newValue < 0 ? 0 : newValue;
     });
   };
 
@@ -27,6 +27,8 @@ const PercentageInput: React.FC<PercentageInputProps> = ({
       return newValue > 100 ? 100 : newValue;
     });
   };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {};
 
   return (
     <div
@@ -51,11 +53,11 @@ const PercentageInput: React.FC<PercentageInputProps> = ({
         name="percentage-input"
         isCompact
         max={100}
-        min={1}
+        min={0}
         placeholder="%"
         type="number"
         value={value}
-        onChange={(e) => {}}
+        onChange={(e) => handleInputChange(e)}
         style={{
           width: '20%',
           height: appTheme.fontSizes.sm,
