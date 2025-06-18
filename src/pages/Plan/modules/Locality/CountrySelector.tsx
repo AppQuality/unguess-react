@@ -9,9 +9,9 @@ import { appTheme } from 'src/app/theme';
 import styled from 'styled-components';
 
 const countryOptions = [
-  { label: '🇮🇹 Italy', value: 'IT', backgroundColor: 'bla' },
-  { label: '🇫🇷 France', value: 'FR', backgroundColor: 'bla' },
-  { label: '🇪🇸 Spain', value: 'ES', backgroundColor: 'bla' },
+  { label: '🇮🇹 Italy', value: 'IT' },
+  { label: '🇫🇷 France', value: 'FR' },
+  { label: '🇪🇸 Spain', value: 'ES' },
 ];
 
 const RadioTag = styled(Tag)<{ color: string }>`

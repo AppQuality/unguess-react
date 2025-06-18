@@ -2,6 +2,7 @@ import {
   FormField as Field,
   Checkbox,
   Label,
+  Hint,
 } from '@appquality/unguess-design-system';
 import styled from 'styled-components';
 import { italyRegions } from './locationRegions';
@@ -10,6 +11,7 @@ import { useModule } from 'src/features/modules/useModule';
 import { useValidation } from 'src/features/modules/useModuleValidation';
 import { useCallback, useEffect } from 'react';
 import { components } from 'src/common/schema';
+import { appTheme } from 'src/app/theme';
 
 const RegionsContainer = styled.div`
   padding-left: ${({ theme }) => theme.space.md};
@@ -54,8 +56,17 @@ export function RegionPanel({ validate }: RegionPanelProps) {
     <div
       role="group"
       aria-label={t('__PLAN_PAGE_MODULE_LOCALITY_SELECT_REGION')}
+      style={{ marginTop: appTheme.space.lg, paddingLeft: appTheme.space.xl }}
     >
-      <Label>{t('__PLAN_PAGE_MODULE_LOCALITY_SELECT_REGION')}</Label>
+      <div
+        style={{
+          paddingTop: appTheme.space.xs,
+          marginBottom: appTheme.space.md,
+        }}
+      >
+        <Label>{t('__PLAN_PAGE_MODULE_LOCALITY_SELECT_REGION')}</Label>
+        <Hint>{t('__PLAN_PAGE_MODULE_LOCALITY_SELECT_REGION_HINT')}</Hint>
+      </div>
       {italyRegions.map((marketArea) => {
         const marketAreaId = `market-checkbox-${marketArea.marketArea.value}`;
         return (

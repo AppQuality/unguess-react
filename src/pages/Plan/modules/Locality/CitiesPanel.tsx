@@ -12,7 +12,6 @@ import { components } from 'src/common/schema';
 const CitiesContainer = styled.div`
   padding-left: ${({ theme }) => theme.space.md};
   margin-top: ${({ theme }) => theme.space.xs};
-  margin-bottom: ${({ theme }) => theme.space.md};
 `;
 
 const CITIES = [
