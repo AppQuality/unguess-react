@@ -455,7 +455,7 @@ const Gender = () => {
                       marginLeft: appTheme.space.xs,
                       color: appTheme.palette.red[600],
                     }}
-                    data-qa="gender-error"
+                    data-qa="gender-percentage-error"
                   >
                     {t('__PLAN_PAGE_MODULE_GENDER_PERCENTAGE_ERROR')}
                   </Span>
