@@ -163,10 +163,9 @@ const Gender = () => {
     updatePercentages();
   };
 
-  const handlePercentage = () => {
-    const newValue = !isAddPercentageClicked;
-    setIsAddPercentageClicked(newValue);
-    setVariant(newValue ? 'percentage' : 'default');
+  const handlePercentageVariant = () => {
+    setIsAddPercentageClicked(!isAddPercentageClicked);
+    setVariant(!isAddPercentageClicked ? 'percentage' : 'default');
   };
 
   const totalPercentage =
@@ -215,7 +214,7 @@ const Gender = () => {
                 </Col>
                 <Col>
                   <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                    <Button size="small" onClick={handlePercentage}>
+                    <Button size="small" onClick={handlePercentageVariant}>
                       {!isAddPercentageClicked && (
                         <>
                           <Button.StartIcon>
@@ -440,7 +439,7 @@ const Gender = () => {
                 </div>
               )}
 
-              {percentageError && (
+              {percentageError && isAddPercentageClicked && (
                 <div
                   style={{
                     display: 'flex',
