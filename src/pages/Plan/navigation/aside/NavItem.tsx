@@ -23,17 +23,13 @@ const StyledCard = styled(Card)`
 `;
 
 const StyledContainerInner = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-  margin-left: ${({ theme }) => theme.space.sm};
-  gap: ${({ theme }) => theme.space.sm};
+  min-width: 0;
+  padding-left: ${({ theme }) => theme.space.sm};
 `;
 
 const StyledContainerOuter = styled.div`
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   padding-left: ${({ theme }) => theme.space.md};
   padding-right: ${({ theme }) => theme.space.md};
   padding-top: ${({ theme }) => theme.space.sm};
@@ -49,6 +45,22 @@ const NavItemLink = styled(Link)`
     }
   }
 `;
+
+const ModuleIconContainer = styled.div`
+  display: flex;
+  align-items: center;
+  padding-top: 2px;
+`;
+
+const ModuleIcon = ({
+  type,
+}: {
+  type: components['schemas']['Module']['type'];
+}) => (
+  <ModuleIconContainer className="module-icon">
+    {getIconFromModuleType(type)}
+  </ModuleIconContainer>
+);
 
 const NavItem = ({
   type,
@@ -89,23 +101,18 @@ const NavItem = ({
         })}
       >
         <StyledContainerOuter>
-          <div
-            className="module-icon"
-            style={{ display: 'flex', alignItems: 'center' }}
-          >
-            {getIconFromModuleType(type)}
-          </div>
+          <ModuleIcon type={type} />
           <StyledContainerInner
             style={{ marginBottom: children ? appTheme.space.xxs : 0 }}
           >
-            <Ellipsis style={{ width: '95%' }}>
-              <MD color={appTheme.palette.blue[600]}>
-                <Span isBold>{getTitleFromModuleType(type)}</Span>
+            <div style={{ marginBottom: children ? appTheme.space.sm : 0 }}>
+              <MD isBold color={appTheme.palette.blue[600]}>
+                <Ellipsis>{getTitleFromModuleType(type)}</Ellipsis>
               </MD>
               <SM style={{ color: appTheme.palette.grey[600] }}>
                 <Span>{getSubtitleFromModuleType(type)}</Span>
               </SM>
-            </Ellipsis>
+            </div>
             {children && children}
             {hasErrors && (
               <Message validation="error">
