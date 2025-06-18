@@ -357,7 +357,7 @@ const Gender = () => {
                           !value?.output.some((g) => g.gender === 'male')
                         }
                         gender="male"
-                        value={malePercentage ?? 0}
+                        value={malePercentage ?? 0} // defaults to 0 only frontend but not added to output
                         onChange={handleMaleChange}
                       />
                     </Row>
@@ -374,7 +374,7 @@ const Gender = () => {
                           !value?.output.some((g) => g.gender === 'female')
                         }
                         gender="female"
-                        value={femalePercentage ?? 0}
+                        value={femalePercentage ?? 0} // defaults to 0 only frontend but not added to output
                         onChange={handleFemaleChange}
                       />
                     </Row>
@@ -440,7 +440,7 @@ const Gender = () => {
                 </div>
               )}
 
-              {percentageError && isAddPercentageClicked && (
+              {percentageError && (
                 <div
                   style={{
                     display: 'flex',
