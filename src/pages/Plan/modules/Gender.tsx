@@ -168,8 +168,9 @@ const Gender = () => {
     setVariant(newValue ? 'percentage' : 'default');
   };
 
-  const totalPercentage = Number(femalePercentage) + Number(malePercentage);
-  const singleGenderSelected = (value?.output || []).length === 1;
+  const totalPercentage =
+    (value?.output.some((v) => v.gender === 'female') ? femalePercentage : 0) +
+    (value?.output.some((v) => v.gender === 'male') ? malePercentage : 0);
 
   return (
     <div>
@@ -308,23 +309,13 @@ const Gender = () => {
                             (item) => item.gender === gender.toLowerCase()
                           )}
                           onChange={(e) => {
-                            const previousGenders = value?.output.map(
-                              (item) => item.gender
-                            );
-                            let updatedGenders: GenderTypes[] = [];
                             if (e.target.checked) {
-                              updatedGenders = [
-                                ...(previousGenders || []),
-                                e.target.value as GenderTypes,
-                              ];
+                              updateOutput([
+                                { gender: e.target.value as GenderTypes },
+                              ]);
                             } else {
-                              updatedGenders = previousGenders
-                                ?.filter((item) => item !== e.target.value)
-                                .map((item) => item) as GenderTypes[];
+                              updateOutput([]);
                             }
-                            updateOutput(
-                              updatedGenders.map((g) => ({ gender: g }))
-                            );
                           }}
                         >
                           <Label
@@ -350,18 +341,18 @@ const Gender = () => {
                         justifyContent: 'space-between',
                       }}
                     >
-                      <PercentageInput
-                        value={femalePercentage}
-                        onChange={handleFemaleChange}
-                        readOnly={singleGenderSelected}
-                        disableButtons={singleGenderSelected}
-                      />
-                      <PercentageInput
-                        value={malePercentage}
-                        onChange={handleMaleChange}
-                        readOnly={singleGenderSelected}
-                        disableButtons={singleGenderSelected}
-                      />
+                      {value?.output.some((v) => v.gender === 'female') && (
+                        <PercentageInput
+                          value={femalePercentage}
+                          onChange={handleFemaleChange}
+                        />
+                      )}
+                      {value?.output.some((v) => v.gender === 'male') && (
+                        <PercentageInput
+                          value={malePercentage}
+                          onChange={handleMaleChange}
+                        />
+                      )}
                     </div>
                   </Col>
                 )}
