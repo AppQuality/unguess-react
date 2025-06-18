@@ -1072,6 +1072,13 @@ export interface components {
       type: "touchpoints";
       variant: string;
     };
+    /** ModuleLocality */
+    ModuleLocality: {
+      output: components["schemas"]["OutputModuleLocality"];
+      /** @enum {string} */
+      type: "locality";
+      variant: string;
+    };
     /** Observation */
     Observation: {
       description: string;
@@ -1182,6 +1189,11 @@ export interface components {
       /** Format: uri */
       url?: string;
     };
+    /** Subcomponent */
+    OutputModuleLocality: {
+      type: string; // e.g. "country", "region", "city"
+      values: string[]; // e.g. ["IT", "FR", "DE"] or ["Lombardia", "Lazio", "Campania"] or ["Milano", "Roma", "Napoli"]
+    }[];
     /** SubcomponentTouchpoints */
     OutputModuleTouchpoints:
       | components["schemas"]["OutputModuleTouchpointsAppDesktop"]
