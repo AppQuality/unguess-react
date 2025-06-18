@@ -15,8 +15,7 @@ import {
 import { ReactComponent as DeleteIcon } from '@zendeskgarden/svg-icons/src/16/trash-stroke.svg';
 import { ReactComponent as PlusIcon } from '@zendeskgarden/svg-icons/src/16/plus-circle-fill.svg';
 import { ReactComponent as XIcon } from '@zendeskgarden/svg-icons/src/16/x-circle-fill.svg';
-import { ReactComponent as PlusButtonIcon } from '@zendeskgarden/svg-icons/src/16/plus-stroke.svg';
-import { ReactComponent as MinusButtonIcon } from '@zendeskgarden/svg-icons/src/16/dash-stroke.svg';
+
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
@@ -30,75 +29,7 @@ import { Divider } from 'src/common/components/divider';
 import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
 import { getIconFromModuleType } from '../utils';
 import { DeleteModuleConfirmationModal } from './modal/DeleteModuleConfirmationModal';
-
-interface PercentageInputProps {
-  value: number;
-  onChange: React.Dispatch<React.SetStateAction<number>>;
-}
-
-const PercentageInput: React.FC<PercentageInputProps> = ({
-  value,
-  onChange,
-}) => {
-  const handleDecreasePercentage = () => {
-    // Logic to decrease percentage
-    onChange((prev) => {
-      const newValue = prev - 5;
-      return newValue < 0 ? 0 : newValue;
-    });
-  };
-
-  const handleIncreasePercentage = () => {
-    // Logic to increase percentage
-    onChange((prev) => {
-      const newValue = prev + 5;
-      return newValue > 100 ? 100 : newValue;
-    });
-  };
-
-  return (
-    <div
-      style={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'flex-end',
-      }}
-    >
-      <IconButton
-        onClick={(e) => {
-          e.stopPropagation();
-          // Logic to decrease percentage
-          handleDecreasePercentage();
-        }}
-      >
-        <MinusButtonIcon />
-      </IconButton>
-
-      <Input
-        name="percentage-input"
-        isCompact
-        max={100}
-        min={0}
-        placeholder="%"
-        type="number"
-        value={value}
-        onChange={(e) => {}}
-        style={{
-          width: '20%',
-          height: appTheme.fontSizes.sm,
-        }}
-      />
-      <IconButton
-        onClick={(e) => {
-          e.stopPropagation();
-          handleIncreasePercentage();
-        }}
-      >
-        <PlusButtonIcon />
-      </IconButton>
-    </div>
-  );
-};
+import PercentageInput from './GenderPercentageInput';
 
 const Gender = () => {
   type GenderTypes =
@@ -119,7 +50,7 @@ const Gender = () => {
     module: components['schemas']['Module'] & { type: 'gender' }
   ) => {
     if (!module.output || module.output.length === 0) {
-      return { value: t('__DIGITAL_LITERACY_ERROR_REQUIRED') };
+      return { value: t('__GENDER_ERROR_REQUIRED') };
     }
 
     return true;
@@ -373,29 +304,33 @@ const Gender = () => {
                   </Col>
                 )}
               </Row>
-              <Divider style={{ marginBottom: appTheme.space.md }} />
-              <Row>
-                <Col>
-                  <Label
-                    style={{
-                      marginLeft: appTheme.space.md,
-                    }}
-                  >
-                    {t('__PLAN_PAGE_MODULE_GENDER_TOTAL_PERCENTAGE_LABEL')}
-                  </Label>
-                </Col>
-                <Col>
-                  <div
-                    style={{
-                      display: 'flex',
-                      justifyContent: 'flex-end',
-                      marginRight: appTheme.space.xxl,
-                    }}
-                  >
-                    <Label>{totalPercentage}%</Label>
-                  </div>
-                </Col>
-              </Row>
+              {isAddPercentageClicked && (
+                <>
+                  <Divider style={{ marginBottom: appTheme.space.md }} />
+                  <Row>
+                    <Col>
+                      <Label
+                        style={{
+                          marginLeft: appTheme.space.md,
+                        }}
+                      >
+                        {t('__PLAN_PAGE_MODULE_GENDER_TOTAL_PERCENTAGE_LABEL')}
+                      </Label>
+                    </Col>
+                    <Col>
+                      <div
+                        style={{
+                          display: 'flex',
+                          justifyContent: 'flex-end',
+                          marginRight: appTheme.space.xxl,
+                        }}
+                      >
+                        <Label>{totalPercentage}%</Label>
+                      </div>
+                    </Col>
+                  </Row>
+                </>
+              )}
 
               {genderError && (
                 <div
