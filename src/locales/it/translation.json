@@ -629,6 +629,7 @@
   "__EXPRESS__SERVICE_TILES_DISCLAIMER": "* Prezzo da intendersi salvo accordi pregressi con il tuo customer success manager.",
   "__FORM_FIELD_REQUIRED_MESSAGE": "Campo obbligatorio",
   "__FORM_OPTIONAL_LABEL": "(opzionale)",
+  "__GENDER_ERROR_REQUIRED": "",
   "__INSIGHT_CLUSTER_GENERAL": "Generale",
   "__INSIGHT_LINK_TOAST_COPY_MESSAGE": "Hai copiato il link",
   "__INSIGHTS_COLLECTION_OBSERVATION_CARD_LIGHTBOX_COPY_LINK_BUTTON_LABEL": "Copia link osservazione",

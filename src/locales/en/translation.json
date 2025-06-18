@@ -602,6 +602,7 @@
   "__EXPRESS__SERVICE_TILES_DISCLAIMER": "* The price is to be understood as subject to any prior agreements with your customer success manager.",
   "__FORM_FIELD_REQUIRED_MESSAGE": "This field is required",
   "__FORM_OPTIONAL_LABEL": "(optional)",
+  "__GENDER_ERROR_REQUIRED": "Please select at least one gender to continue",
   "__INSIGHT_CLUSTER_GENERAL": "General",
   "__INSIGHT_LINK_TOAST_COPY_MESSAGE": "Link copied to clipboard",
   "__INSIGHTS_COLLECTION_OBSERVATION_CARD_LIGHTBOX_COPY_LINK_BUTTON_LABEL": "Copy observation link",
