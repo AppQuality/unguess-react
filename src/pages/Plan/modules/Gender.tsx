@@ -58,6 +58,8 @@ const Gender = () => {
     validate: validation,
   });
 
+  const percentageError = malePercentage + femalePercentage !== 100;
+
   const genderError =
     error && typeof error === 'object' && `gender.value` in error
       ? error[`gender.value`]
@@ -104,8 +106,6 @@ const Gender = () => {
               percentage = malePercentage;
             }
           }
-
-          console.log('updateOutput', { ...item, percentage });
           return {
             ...item,
             percentage,
@@ -436,6 +436,28 @@ const Gender = () => {
                     data-qa="gender-error"
                   >
                     {genderError}
+                  </Span>
+                </div>
+              )}
+
+              {percentageError && isAddPercentageClicked && (
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+
+                    marginTop: appTheme.space.sm,
+                  }}
+                >
+                  <AlertIcon />
+                  <Span
+                    style={{
+                      marginLeft: appTheme.space.xs,
+                      color: appTheme.palette.red[600],
+                    }}
+                    data-qa="gender-error"
+                  >
+                    {t('__PLAN_PAGE_MODULE_GENDER_PERCENTAGE_ERROR')}
                   </Span>
                 </div>
               )}
