@@ -43,7 +43,7 @@ const PercentageInput: React.FC<PercentageInputProps> = ({
       }}
     >
       <IconButton
-        disabled={value <= 0}
+        disabled={value <= 0 || readOnly}
         onClick={(e) => {
           e.stopPropagation();
           // Logic to decrease percentage
@@ -68,7 +68,7 @@ const PercentageInput: React.FC<PercentageInputProps> = ({
         }}
       />
       <IconButton
-        disabled={value >= 100}
+        disabled={value >= 100 || readOnly}
         onClick={(e) => {
           e.stopPropagation();
           handleIncreasePercentage();
