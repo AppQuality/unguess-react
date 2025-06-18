@@ -256,9 +256,7 @@ const Gender = () => {
                       // checked if all genders are selected
                       checked={genderTypes.every((gender) =>
                         value?.output.some(
-                          (item) =>
-                            item.gender === gender.toLowerCase() &&
-                            item.percentage > 0
+                          (item) => item.gender === gender.toLowerCase()
                         )
                       )}
                       onChange={(e) => {
@@ -346,36 +344,40 @@ const Gender = () => {
                 </Col>
                 {isAddPercentageClicked && (
                   <Col size={6}>
-                    <div
+                    <Row
                       style={{
                         display: 'flex',
                         flexDirection: 'column',
-                        justifyContent: 'space-between',
+                        justifyContent: 'flex-end',
                       }}
                     >
-                      <Row>
-                        {!value?.output.some((g) => g.percentage > 0) ||
-                          (value.output.some((v) => v.gender === 'male') && (
-                            <PercentageInput
-                              gender="male"
-                              value={malePercentage}
-                              onChange={handleMaleChange}
-                            />
-                          ))}
-                      </Row>
-                      <Row>
-                        {!value?.output.some((g) => g.percentage > 0) ||
-                        value.output.some((v) => v.gender === 'female') ? (
-                          <PercentageInput
-                            gender="female"
-                            value={femalePercentage}
-                            onChange={handleFemaleChange}
-                          />
-                        ) : (
-                          <div>-</div>
-                        )}
-                      </Row>
-                    </div>
+                      <PercentageInput
+                        readOnly={
+                          malePercentage === 0 &&
+                          !value?.output.some((g) => g.gender === 'male')
+                        }
+                        gender="male"
+                        value={malePercentage ?? 0}
+                        onChange={handleMaleChange}
+                      />
+                    </Row>
+                    <Row
+                      style={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        justifyContent: 'flex-end',
+                      }}
+                    >
+                      <PercentageInput
+                        readOnly={
+                          femalePercentage === 0 &&
+                          !value?.output.some((g) => g.gender === 'female')
+                        }
+                        gender="female"
+                        value={femalePercentage ?? 0}
+                        onChange={handleFemaleChange}
+                      />
+                    </Row>
                   </Col>
                 )}
               </Row>
