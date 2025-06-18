@@ -54,9 +54,7 @@ const InstructionsNote = () => {
     module: components['schemas']['Module'] & { type: 'instruction_note' }
   ) => {
     let error;
-    if (module.output.length > 512) {
-      error = t('__PLAN_INSTRUCTION_NOTE_SIZE_ERROR_TOO_LONG');
-    }
+
     if (module.output === '<p></p>') {
       error = t('__PLAN_INSTRUCTION_NOTE_SIZE_ERROR_EMPTY');
     }
@@ -131,13 +129,9 @@ const InstructionsNote = () => {
           {hasFeatureFlag(FEATURE_FLAG_CHANGE_MODULES_VARIANTS) &&
             getPlanStatus() === 'draft' && (
               <StyledInfoBox>
-                {error && typeof error === 'string' ? (
+                {error && typeof error === 'string' && (
                   <Message validation="error" data-qa="instruction-note-error">
                     {error}
-                  </Message>
-                ) : (
-                  <Message>
-                    {t('__PLAN_PAGE_MODULE_INSTRUCTION_NOTE_INFO')}
                   </Message>
                 )}
               </StyledInfoBox>
