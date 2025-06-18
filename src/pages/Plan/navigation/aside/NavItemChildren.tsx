@@ -5,8 +5,7 @@ import { modulesChildrenMap } from './const';
 const ChildrenContainer = styled.div`
   max-height: 300px;
   overflow-y: auto;
-  padding-right: ${({ theme }) => theme.space.sm};
-  padding-left: ${({ theme }) => theme.space.sm};
+  padding-right: ${({ theme }) => theme.space.xs};
 `;
 
 const NavItemChildren = ({
