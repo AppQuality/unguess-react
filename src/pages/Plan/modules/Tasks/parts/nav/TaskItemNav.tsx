@@ -34,6 +34,12 @@ const TaskItemNavLink = styled(Link)`
   }
 `;
 
+const ModuleIconContainer = styled.div`
+  display: flex;
+  align-items: center;
+  padding-top: 2px;
+`;
+
 const TaskItemNav = ({
   task,
 }: {
@@ -81,17 +87,19 @@ const TaskItemNav = ({
         })}
       >
         <StyledContainer>
-          {getIconFromTaskOutput(task)}
-          <Ellipsis style={{ width: '95%' }}>
-            <MD color={appTheme.palette.blue[600]}>
+          <ModuleIconContainer>
+            {getIconFromTaskOutput(task)}
+          </ModuleIconContainer>
+          <MD color={appTheme.palette.blue[600]} style={{ minWidth: '10px' }}>
+            <Ellipsis>
               {key + 1}.{' '}
               <Span isBold>
                 {hasPlaceholder
                   ? t('__PLAN_PAGE_MODULE_TASKS_TASK_TITLE_PLACEHOLDER_EMPTY')
                   : task.title}
               </Span>
-            </MD>
-          </Ellipsis>
+            </Ellipsis>
+          </MD>
         </StyledContainer>
         {hasErrors && (
           <Message validation="error" style={{ marginTop: appTheme.space.sm }}>
