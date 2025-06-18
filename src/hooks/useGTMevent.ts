@@ -35,7 +35,6 @@ export const useSendGTMevent = ({
         (loggedUser ? activeWorkspace : true) &&
         data
       ) {
-        console.log('GTM Event Data sent');
         TagManager.dataLayer({
           dataLayer: {
             role: user.role,
