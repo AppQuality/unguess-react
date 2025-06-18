@@ -352,12 +352,14 @@ const Gender = () => {
                     >
                       {value?.output.some((v) => v.gender === 'female') && (
                         <PercentageInput
+                          gender="female"
                           value={femalePercentage}
                           onChange={handleFemaleChange}
                         />
                       )}
                       {value?.output.some((v) => v.gender === 'male') && (
                         <PercentageInput
+                          gender="male"
                           value={malePercentage}
                           onChange={handleMaleChange}
                         />
