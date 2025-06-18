@@ -46,10 +46,8 @@ const CampaignPageHeader = ({ campaignId }: { campaignId: number }) => {
           }
           cta={{
             label: t('__CAMPAIGN_ARCHIVE_UNARCHIVE_BUTTON'),
-            buttonProps: {
-              onClick: () => {
-                setIsOpen(true);
-              },
+            onClick: () => {
+              setIsOpen(true);
             },
           }}
         />
