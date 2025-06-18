@@ -47,6 +47,8 @@ export class LocationModule {
           }),
       regionSelectionInput: () =>
         this.elements().regionSelectionPanel().getByRole('checkbox'),
+      errorMessage: () =>
+        this.elements().module().getByTestId('locality-module-error-message'),
     };
   }
 

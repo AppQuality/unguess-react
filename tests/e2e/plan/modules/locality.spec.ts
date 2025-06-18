@@ -31,8 +31,7 @@ test.describe('Locality Module', () => {
       i18n.t('__ASIDE_NAVIGATION_MODULE_LOCATION_SUBTITLE')
     );
   });
-  test('should display the correct data', async ({ page }) => {
-    // Arrange: get all relevant elements
+  test('should display the correct saved data', async ({ page }) => {
     const {
       countryRadioInput,
       areaRadioInput,
@@ -80,7 +79,7 @@ test.describe('Locality Module', () => {
     await expect(regionSelectionPanel()).not.toBeVisible();
   });
   // now let's check the output of the location module
-  test('should update the output when changing country, area, or region', async ({
+  test('should update the output when changing country that does not allow further refinement', async ({
     page,
     i18n,
   }) => {
@@ -97,13 +96,146 @@ test.describe('Locality Module', () => {
     // now save plan and check output
     const response = await planPage.saveConfiguration();
     const data = response.request().postDataJSON();
-    expect(data.config.modules).toEqual(
-      expect.arrayContaining([
-        expect.objectContaining({
-          type: 'location',
-          output: [{ type: 'country', values: ['FR'] }],
-        }),
-      ])
+    // Find the locality module and check its output
+    const localityModuleData = data.config.modules.find(
+      (m: any) => m.type === 'locality'
     );
+    expect(localityModuleData.output).toEqual([
+      { type: 'country', values: ['FR'] },
+    ]);
+  });
+  test('should allow selecting cities and update output accordingly', async ({
+    page,
+    i18n,
+  }) => {
+    /*
+      This test covers the following scenario:
+      - Select Italy as country
+      - Select the city area ("Province e grossi centri")
+      - Click outside to trigger validation (no city selected): expect error message
+      - Select two cities: error should disappear
+      - Save and check output: output should contain country and selected cities
+    */
+    const {
+      countryRadioPanel,
+      areaRadioPanel,
+      citySelectionPanel,
+      citySelectionInput,
+      errorMessage,
+    } = locationModule.elements();
+
+    // Select Italy as country
+    await countryRadioPanel().locator('label[for="country-radio-IT"]').click();
+    await expect(areaRadioPanel()).toBeVisible();
+
+    // Select city area
+    await areaRadioPanel().locator('label[for="area-radio-city"]').click();
+    await expect(citySelectionPanel()).toBeVisible();
+
+    // Click outside to trigger validation (no city selected)
+    await page.click('body', { position: { x: 0, y: 0 } });
+    await expect(errorMessage()).toBeVisible();
+    await expect(errorMessage()).toContainText(
+      i18n.t('__PLAN_PAGE_MODULE_LOCALITY_CITY_ERROR')
+    );
+
+    // Select two cities
+    await citySelectionPanel().locator('label[for="city-checkbox-RM"]').click();
+    await citySelectionPanel().locator('label[for="city-checkbox-MI"]').click();
+
+    // Error should disappear
+    await expect(errorMessage()).not.toBeVisible();
+
+    // Save and check output
+    const response = await planPage.saveConfiguration();
+    const data = response.request().postDataJSON();
+    // Find the locality module and check its output
+    const localityModuleData = data.config.modules.find(
+      (m: any) => m.type === 'locality'
+    );
+    expect(localityModuleData.output).toEqual([
+      { type: 'country', values: ['IT'] },
+      { type: 'city', values: ['RM', 'MI'] },
+    ]);
+  });
+  test('should allow selecting regions and update output accordingly', async ({
+    page,
+    i18n,
+  }) => {
+    /*
+      This test covers the following scenario:
+      - Add a region (Piemonte) to the panel
+      - Save and check output: output should contain country and selected regions
+      - Double click to uncheck all Nord Ovest market area (removes all regions in that area)
+      - Click outside to trigger validation: expect error message for missing region
+      - Re-check Nord Ovest market area (all regions in that area are selected again)
+      - Error should disappear
+      - Uncheck Lombardia (leaving only Piemonte selected)
+      - Save and check output: output should contain country and other nord ovest regions
+    */
+    const {
+      countryRadioPanel,
+      areaRadioPanel,
+      regionSelectionPanel,
+      regionSelectionInput,
+      errorMessage,
+    } = locationModule.elements();
+
+    // Add a Region to the panel
+    await regionSelectionPanel()
+      .locator('label[for="region-checkbox-Piemonte"]')
+      .click();
+
+    // Save and check output
+    const response = await planPage.saveConfiguration();
+    const data = response.request().postDataJSON();
+
+    // Find the locality module and check its output
+    const localityModuleData = data.config.modules.find(
+      (m: any) => m.type === 'locality'
+    );
+    expect(localityModuleData.output).toEqual([
+      { type: 'country', values: ['IT'] },
+      { type: 'region', values: ['Lombardia', 'Piemonte'] },
+    ]);
+
+    // Double click to uncheck all Nord Ovest market area that is originally checked
+    await regionSelectionPanel()
+      .locator('label[for="market-checkbox-nord-ovest"]')
+      .click();
+    await regionSelectionPanel()
+      .locator('label[for="market-checkbox-nord-ovest"]')
+      .click();
+
+    // Click outside to trigger validation
+    await page.click('body', { position: { x: 0, y: 0 } });
+    await expect(errorMessage()).toBeVisible();
+    await expect(errorMessage()).toContainText(
+      i18n.t('__PLAN_PAGE_MODULE_LOCALITY_REGION_ERROR')
+    );
+
+    // open market area Nord Ovest, this check all regions
+    await regionSelectionPanel()
+      .locator('label[for="market-checkbox-nord-ovest"]')
+      .click();
+    // Error should disappear
+    await expect(errorMessage()).not.toBeVisible();
+
+    // and then uncheck Lombardia
+    await regionSelectionPanel()
+      .locator('label[for="region-checkbox-Lombardia"]')
+      .click();
+
+    // save and check output again
+    const response2 = await planPage.saveConfiguration();
+    const data2 = response2.request().postDataJSON();
+    // Find the locality module and check its output
+    const localityModuleData2 = data2.config.modules.find(
+      (m: any) => m.type === 'locality'
+    );
+    expect(localityModuleData2.output).toEqual([
+      { type: 'country', values: ['IT'] },
+      { type: 'region', values: ['Piemonte', 'Liguria', "Valle d'Aosta"] },
+    ]);
   });
 });

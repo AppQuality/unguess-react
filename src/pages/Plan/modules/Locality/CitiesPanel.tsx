@@ -1,0 +1,93 @@
+import {
+  FormField as Field,
+  Checkbox,
+  Label,
+} from '@appquality/unguess-design-system';
+import styled from 'styled-components';
+import { useTranslation } from 'react-i18next';
+import { useModule } from 'src/features/modules/useModule';
+import { useValidation } from 'src/features/modules/useModuleValidation';
+import { components } from 'src/common/schema';
+
+const CitiesContainer = styled.div`
+  padding-left: ${({ theme }) => theme.space.md};
+  margin-top: ${({ theme }) => theme.space.xs};
+  margin-bottom: ${({ theme }) => theme.space.md};
+`;
+
+const CITIES = [
+  { label: 'Roma', value: 'RM' },
+  { label: 'Milano', value: 'MI' },
+  { label: 'Napoli', value: 'NA' },
+  { label: 'Torino', value: 'TO' },
+  { label: 'Palermo', value: 'PA' },
+  { label: 'Genova', value: 'GE' },
+];
+
+type ModuleOutput = components['schemas']['OutputModuleLocality'];
+
+type CitiesPanelProps = {
+  validate?: ReturnType<typeof useValidation<'locality'>>['validate'];
+};
+
+const getCityArea = (areaArr: ModuleOutput = []) =>
+  areaArr.find((a) => a.type === 'city') || { type: 'city', values: [] };
+
+export function CitiesPanel({ validate }: CitiesPanelProps) {
+  const { t } = useTranslation();
+  const { value, setOutput } = useModule('locality');
+  const areaArr: ModuleOutput = value?.output || [];
+  const cityArea = getCityArea(areaArr);
+  const selectedCities = cityArea.values || [];
+
+  const updateCities = (newCities: string[]) => {
+    const newAreaArr: ModuleOutput = [
+      ...areaArr.filter((a: ModuleOutput[0]) => a.type !== 'city'),
+      { type: 'city', values: newCities },
+    ];
+    setOutput(newAreaArr);
+    if (validate) {
+      validate({
+        output: newAreaArr,
+        variant: value?.variant || 'default',
+      });
+      if (validate) validate();
+    }
+  };
+
+  return (
+    <div role="group" aria-label={t('__PLAN_PAGE_MODULE_LOCALITY_SELECT_CITY')}>
+      <Label>
+        {t('__PLAN_PAGE_MODULE_LOCALITY_SELECT_CITY', 'Seleziona città')}
+      </Label>
+      <CitiesContainer>
+        {CITIES.map((city) => {
+          const cityId = `city-checkbox-${city.value}`;
+          return (
+            <Field key={city.value} style={{ margin: 0 }}>
+              <Checkbox
+                id={cityId}
+                value={city.value}
+                checked={selectedCities.includes(city.value)}
+                onChange={(e) => {
+                  const isChecked = e.target.checked;
+                  let newCities;
+                  if (isChecked) {
+                    newCities = [...selectedCities, city.value];
+                  } else {
+                    newCities = selectedCities.filter(
+                      (c: string) => c !== city.value
+                    );
+                  }
+                  updateCities(newCities);
+                }}
+              >
+                <Label htmlFor={cityId}>{city.label}</Label>
+              </Checkbox>
+            </Field>
+          );
+        })}
+      </CitiesContainer>
+    </div>
+  );
+}
