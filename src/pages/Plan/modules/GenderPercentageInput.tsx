@@ -5,30 +5,34 @@ import { appTheme } from 'src/app/theme';
 
 interface PercentageInputProps {
   value: number;
-  onChange: React.Dispatch<React.SetStateAction<number>>;
+  onChange: (value: number) => void;
+  readOnly?: boolean;
+  disableButtons?: boolean;
 }
 
 const PercentageInput: React.FC<PercentageInputProps> = ({
   value,
   onChange,
+  readOnly = false,
+  disableButtons = false,
 }) => {
   const handleDecreasePercentage = () => {
     // Logic to decrease percentage
-    onChange((prev) => {
-      const newValue = prev - 5;
-      return newValue < 0 ? 0 : newValue;
-    });
+    const newValue = value - 5;
+    onChange(newValue < 0 ? 0 : newValue);
   };
 
   const handleIncreasePercentage = () => {
     // Logic to increase percentage
-    onChange((prev) => {
-      const newValue = prev + 5;
-      return newValue > 100 ? 100 : newValue;
-    });
+    const newValue = value + 5;
+    onChange(newValue > 100 ? 100 : newValue);
   };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {};
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newValue = Number(e.target.value);
+    if (Number.isNaN(newValue)) return;
+    onChange(Math.max(0, Math.min(100, newValue)));
+  };
 
   return (
     <div
@@ -39,7 +43,7 @@ const PercentageInput: React.FC<PercentageInputProps> = ({
       }}
     >
       <IconButton
-        disabled={value <= 1}
+        disabled={disableButtons || value <= 0}
         onClick={(e) => {
           e.stopPropagation();
           // Logic to decrease percentage
@@ -57,6 +61,7 @@ const PercentageInput: React.FC<PercentageInputProps> = ({
         placeholder="%"
         type="number"
         value={value}
+        readOnly={readOnly}
         onChange={(e) => handleInputChange(e)}
         style={{
           width: '20%',
@@ -64,7 +69,7 @@ const PercentageInput: React.FC<PercentageInputProps> = ({
         }}
       />
       <IconButton
-        disabled={value >= 100}
+        disabled={disableButtons || value >= 100}
         onClick={(e) => {
           e.stopPropagation();
           handleIncreasePercentage();
