@@ -104,6 +104,8 @@ const Gender = () => {
               percentage = malePercentage;
             }
           }
+
+          console.log('updateOutput', { ...item, percentage });
           return {
             ...item,
             percentage,
@@ -149,17 +151,16 @@ const Gender = () => {
 
   useEffect(() => {
     validate();
-    updatePercentages();
   }, [value]);
 
   const handleFemaleChange = (v: number) => {
     setFemalePercentage(v);
-    // updatePercentages();
+    updatePercentages();
   };
 
   const handleMaleChange = (v: number) => {
     setMalePercentage(v);
-    // updatePercentages();
+    updatePercentages();
   };
 
   const handlePercentage = () => {
@@ -255,7 +256,9 @@ const Gender = () => {
                       // checked if all genders are selected
                       checked={genderTypes.every((gender) =>
                         value?.output.some(
-                          (item) => item.gender === gender.toLowerCase()
+                          (item) =>
+                            item.gender === gender.toLowerCase() &&
+                            item.percentage > 0
                         )
                       )}
                       onChange={(e) => {
@@ -350,20 +353,28 @@ const Gender = () => {
                         justifyContent: 'space-between',
                       }}
                     >
-                      {value?.output.some((v) => v.gender === 'female') && (
-                        <PercentageInput
-                          gender="female"
-                          value={femalePercentage}
-                          onChange={handleFemaleChange}
-                        />
-                      )}
-                      {value?.output.some((v) => v.gender === 'male') && (
-                        <PercentageInput
-                          gender="male"
-                          value={malePercentage}
-                          onChange={handleMaleChange}
-                        />
-                      )}
+                      <Row>
+                        {!value?.output.some((g) => g.percentage > 0) ||
+                          (value.output.some((v) => v.gender === 'male') && (
+                            <PercentageInput
+                              gender="male"
+                              value={malePercentage}
+                              onChange={handleMaleChange}
+                            />
+                          ))}
+                      </Row>
+                      <Row>
+                        {!value?.output.some((g) => g.percentage > 0) ||
+                        value.output.some((v) => v.gender === 'female') ? (
+                          <PercentageInput
+                            gender="female"
+                            value={femalePercentage}
+                            onChange={handleFemaleChange}
+                          />
+                        ) : (
+                          <div>-</div>
+                        )}
+                      </Row>
                     </div>
                   </Col>
                 )}
