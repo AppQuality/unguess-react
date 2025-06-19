@@ -3,6 +3,7 @@ import {
   FormField as Field,
   Hint,
   Label,
+  Span,
 } from '@appquality/unguess-design-system';
 import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -65,6 +66,7 @@ export const RegionPanel = ({ validate }: RegionPanelProps) => {
         }}
       >
         <Label>{t('__PLAN_PAGE_MODULE_LOCALITY_SELECT_REGION')}</Label>
+        <Span style={{ color: appTheme.palette.red[600] }}>*</Span>
         <Hint>{t('__PLAN_PAGE_MODULE_LOCALITY_SELECT_REGION_HINT')}</Hint>
       </div>
       {italyRegions.map((marketArea) => {

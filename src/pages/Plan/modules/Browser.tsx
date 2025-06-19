@@ -154,7 +154,7 @@ const Browser = () => {
               <div style={{ marginLeft: appTheme.space.md }}>
                 {browserTypes.map((br) => (
                   <FormField
-                    key="browser"
+                    key={`browser-${br.toLowerCase()}`}
                     style={{
                       marginTop: appTheme.space.sm,
                     }}

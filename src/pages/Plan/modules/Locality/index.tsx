@@ -2,7 +2,6 @@ import {
   AccordionNew,
   Button,
   FormField as Field,
-  getColor,
   FormHint as Hint,
   Label,
   Message,
@@ -10,14 +9,12 @@ import {
   Radio,
   Separator,
   Span,
-  Tag,
 } from '@appquality/unguess-design-system';
 import { ReactComponent as DeleteIcon } from '@zendeskgarden/svg-icons/src/16/trash-stroke.svg';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { components } from 'src/common/schema';
-import { getColorWithAlpha } from 'src/common/utils';
 import { FEATURE_FLAG_CHANGE_MODULES_VARIANTS } from 'src/constants';
 import { useModule } from 'src/features/modules/useModule';
 import { useModuleConfiguration } from 'src/features/modules/useModuleConfiguration';
@@ -191,7 +188,7 @@ const Locality = () => {
                       <Button.StartIcon>
                         <DeleteIcon />
                       </Button.StartIcon>
-                      {t('__PLAN_PAGE_MODULE_AGE_REMOVE_BUTTON')}
+                      {t('__PLAN_PAGE_MODULE_LOCALITY_REMOVE_BUTTON')}
                     </Button>
                   </AccordionNew.Meta>
                 )}

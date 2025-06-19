@@ -7,7 +7,7 @@ export const areaOptions = [
   {
     label: 'Tutte le aree',
     value: 'all',
-    hint: 'hint text',
+    hint: <Trans i18nKey="__PLAN_PAGE_MODULE_LOCALITY_ALL_AREAS_HINT" />,
     tag: (
       <Tag
         hue={getColorWithAlpha(appTheme.colors.successHue, 0.1)}
@@ -26,7 +26,7 @@ export const areaOptions = [
   {
     label: 'Aree Nielsen e Regioni',
     value: 'region',
-    hint: 'hint text',
+    hint: <Trans i18nKey="__PLAN_PAGE_MODULE_LOCALITY_REGIONS_HINT" />,
     tag: (
       <Tag
         hue={getColor(appTheme.palette.grey, 100)}
@@ -45,7 +45,7 @@ export const areaOptions = [
   {
     label: 'Province e grossi centri',
     value: 'city',
-    hint: 'hint text',
+    hint: <Trans i18nKey="__PLAN_PAGE_MODULE_LOCALITY_CITIES_HINT" />,
     tag: (
       <Tag
         hue={getColor(appTheme.palette.grey, 100)}

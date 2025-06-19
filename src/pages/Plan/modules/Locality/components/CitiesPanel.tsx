@@ -3,6 +3,7 @@ import {
   Checkbox,
   Label,
   Hint,
+  Span,
 } from '@appquality/unguess-design-system';
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
@@ -62,6 +63,7 @@ export const CitiesPanel = ({ validate }: CitiesPanelProps) => {
         }}
       >
         <Label>{t('__PLAN_PAGE_MODULE_LOCALITY_SELECT_CITY')}</Label>
+        <Span style={{ color: appTheme.palette.red[600] }}>*</Span>
         <Hint>{t('__PLAN_PAGE_MODULE_LOCALITY_SELECT_CITY_HINT')}</Hint>
       </div>
       <CitiesContainer>
