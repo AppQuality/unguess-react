@@ -157,14 +157,6 @@ const Gender = () => {
     updateOutput();
   }, [desiredGenders, femalePercentage, malePercentage]);
 
-  const handleFemaleChange = (v: number) => {
-    setFemalePercentage(v);
-  };
-
-  const handleMaleChange = (v: number) => {
-    setMalePercentage(v);
-  };
-
   const handlePercentageVariant = () => {
     setIsAddPercentageClicked(!isAddPercentageClicked);
     setVariant(!isAddPercentageClicked ? 'percentage' : 'default');
@@ -364,7 +356,7 @@ const Gender = () => {
                         }
                         gender="male"
                         value={malePercentage ?? 0} // defaults to 0 only frontend but not added to output
-                        onChange={handleMaleChange}
+                        onChange={setMalePercentage}
                       />
                     </Row>
                     <Row
@@ -382,7 +374,7 @@ const Gender = () => {
                         }
                         gender="female"
                         value={femalePercentage ?? 0} // defaults to 0 only frontend but not added to output
-                        onChange={handleFemaleChange}
+                        onChange={setFemalePercentage}
                       />
                     </Row>
                   </Col>
