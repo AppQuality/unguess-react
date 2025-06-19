@@ -26,7 +26,7 @@ test.describe('Locality Module', () => {
       i18n.t('__PLAN_PAGE_MODULE_LOCALITY_TITLE')
     );
     await expect(planPage.elements().targetNavigation()).toContainText(
-      i18n.t('__ASIDE_NAVIGATION_MODULE_LOCATION_SUBTITLE')
+      i18n.t('__ASIDE_NAVIGATION_MODULE_LOCALITY_SUBTITLE')
     );
   });
   test('it should be possible to remove the module, the output should be removed', async () => {
