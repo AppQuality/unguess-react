@@ -134,7 +134,12 @@ export const useModule = <T extends components['schemas']['Module']['type']>(
         return {
           type,
           variant: 'default',
-          output: [],
+          output: [
+            {
+              type: 'country',
+              values: ['IT'],
+            },
+          ],
         };
       case 'target':
         return {
