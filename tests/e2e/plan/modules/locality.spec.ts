@@ -43,9 +43,9 @@ test.describe('Locality Module', () => {
     );
   });
   test('it should be possible to add the module', async () => {
-    const { module } = localityModule.elements();
-    await expect(module()).toBeVisible();
-    await localityModule.removeModule();
+    const { module, removeButton } = localityModule.elements();
+    await removeButton().click();
+    await planPage.elements().removeModuleModalConfirm().click();
     await expect(module()).not.toBeVisible();
 
     // Add the module back
