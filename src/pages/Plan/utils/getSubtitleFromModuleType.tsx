@@ -39,6 +39,7 @@ const getSubtitleFromModuleType = (
       return t('__ASIDE_NAVIGATION_MODULE_TOUCHPOINTS_SUBTITLE');
     case 'additional_target':
       return t('__ASIDE_NAVIGATION_MODULE_ADDITIONAL_TARGET_SUBTITLE');
+    case 'employment':
     default:
       return '';
   }

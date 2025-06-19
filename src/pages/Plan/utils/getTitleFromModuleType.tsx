@@ -39,6 +39,8 @@ const getTitleFromModuleType = (
       return t('__PLAN_PAGE_MODULE_TOUCHPOINTS_TITLE');
     case 'additional_target':
       return t('__PLAN_PAGE_MODULE_ADDITIONAL_TARGET_TITLE');
+    case 'employment':
+      return t('__PLAN_PAGE_MODULE_EMPLOYMENT_TITLE');
     default:
       return '';
   }

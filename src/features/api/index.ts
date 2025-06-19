@@ -2561,6 +2561,18 @@ export type ModuleAdditionalTarget = {
   type: 'additional_target';
   variant: string;
 };
+export type ModuleEmployment = {
+  output: (
+    | 'EMPLOYEE'
+    | 'FREELANCER'
+    | 'RETIRED'
+    | 'STUDENT'
+    | 'UNEMPLOYED'
+    | 'HOMEMAKER'
+  )[];
+  type: 'employment';
+  variant: string;
+};
 export type Module =
   | ModuleTitle
   | ModuleDate
@@ -2577,7 +2589,8 @@ export type Module =
   | ModuleInstructionNote
   | ModuleSetupNote
   | ModuleTouchpoints
-  | ModuleAdditionalTarget;
+  | ModuleAdditionalTarget
+  | ModuleEmployment;
 export type PlanStatus = 'pending_review' | 'draft' | 'approved';
 export type Project = {
   campaigns_count: number;
