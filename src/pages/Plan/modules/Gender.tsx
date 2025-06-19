@@ -61,11 +61,32 @@ const Gender = () => {
   `;
 
   const { t } = useTranslation();
+
+  // Error if percentage variant is active and any selected gender has 0 percentage
+  const unassignedGenderPercentageError =
+    value?.variant === 'percentage' &&
+    value?.output.some(
+      (g) =>
+        (g.gender === 'male' && malePercentage === 0) ||
+        (g.gender === 'female' && femalePercentage === 0)
+    );
+
+  const percentageError =
+    value?.variant === 'percentage' &&
+    malePercentage + femalePercentage !== 100;
+
   const validation = (
     module: components['schemas']['Module'] & { type: 'gender' }
   ) => {
     if (!module.output || module.output.length === 0) {
       return { value: t('__GENDER_ERROR_REQUIRED') };
+    }
+
+    // TODO: update this check to show the error messages here
+    if (unassignedGenderPercentageError || percentageError) {
+      return {
+        value: '',
+      };
     }
 
     return true;
@@ -75,17 +96,6 @@ const Gender = () => {
     type: 'gender',
     validate: validation,
   });
-
-  const percentageError = malePercentage + femalePercentage !== 100;
-
-  // Error if percentage variant is active and any selected gender has 0 percentage
-  const unassignedGenderPercentageError =
-    isAddPercentageClicked &&
-    value?.output.some(
-      (g) =>
-        (g.gender === 'male' && malePercentage === 0) ||
-        (g.gender === 'female' && femalePercentage === 0)
-    );
 
   const genderError =
     error && typeof error === 'object' && `gender.value` in error
@@ -434,7 +444,7 @@ const Gender = () => {
                 </div>
               )}
 
-              {percentageError && isAddPercentageClicked && (
+              {percentageError && (
                 <div
                   style={{
                     display: 'flex',
@@ -455,7 +465,7 @@ const Gender = () => {
                   </Span>
                 </div>
               )}
-              {unassignedGenderPercentageError && isAddPercentageClicked && (
+              {unassignedGenderPercentageError && (
                 <div
                   style={{
                     display: 'flex',
