@@ -24,9 +24,11 @@ export class GenderModule {
       moduleChangeVariantButton: () =>
         this.elements().module().getByLabel('change-variant'),
       moduleMalePercentageInput: () =>
-        this.elements().module().getByTestId('male-percentage-input'),
+        this.elements().module().locator('input[name="male-percentage-input"]'),
       moduleFemalePercentageInput: () =>
-        this.elements().module().getByTestId('female-percentage-input'),
+        this.elements()
+          .module()
+          .locator('input[name="female-percentage-input"]'),
       removeButton: () =>
         this.elements()
           .module()

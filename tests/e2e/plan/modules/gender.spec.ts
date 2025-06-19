@@ -117,6 +117,23 @@ test.describe('The gender module defines the user gender.', () => {
     await expect(
       module().getByTestId('gender-percentage-error')
     ).not.toBeVisible();
+
+    const response = await moduleBuilderPage.saveConfiguration();
+    const data = response.request().postDataJSON();
+    // Find the gender module and check its output
+    const genderModuleData = data.config.modules.find(
+      (m: any) => m.type === 'gender'
+    );
+    expect(genderModuleData).toEqual(
+      expect.objectContaining({
+        type: 'gender',
+        output: [
+          { gender: 'female', percentage: 50 },
+          { gender: 'male', percentage: 50 },
+        ],
+        variant: 'percentage',
+      })
+    );
   });
 
   test('It should be possible to remove the module from the plan', async () => {
@@ -144,7 +161,7 @@ test.describe('The gender module defines the user gender.', () => {
     expect(femaleCheckbox).toBeChecked();
 
     await removeButton().click();
-    await moduleBuilderPage.elements().removeModuleModalConfirm().click(); // check for removeModuleModalConfirm
+    await moduleBuilderPage.elements().removeModuleModalConfirm().click();
     await expect(module()).not.toBeVisible();
     // Assert: the module is removed from the plan output
     const response = await moduleBuilderPage.saveConfiguration();
