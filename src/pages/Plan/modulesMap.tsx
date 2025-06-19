@@ -1,20 +1,20 @@
+import AdditionalTarget from './modules/AdditionalTarget';
 import Age from './modules/Age';
+import Browser from './modules/Browser';
 import { Dates } from './modules/Dates';
-import SetupNote from './modules/SetupNote';
-import { Tasks } from './modules/Tasks';
-import { Title } from './modules/Title';
+import Employment from './modules/Employment';
+import Gender from './modules/Gender';
 import Goal from './modules/Goal';
+import InstructionsNote from './modules/InstructionsNote';
+import Language from './modules/Language';
+import Literacy from './modules/Literacy';
+import OutOfScope from './modules/OutOfScope';
+import SetupNote from './modules/SetupNote';
 import TargetNote from './modules/TargetNote';
 import TargetSize from './modules/TargetSize';
-import Language from './modules/Language';
-import Gender from './modules/Gender';
-import Literacy from './modules/Literacy';
-import InstructionsNote from './modules/InstructionsNote';
-import OutOfScope from './modules/OutOfScope';
-import Browser from './modules/Browser';
+import { Tasks } from './modules/Tasks';
+import { Title } from './modules/Title';
 import { TouchPoints } from './modules/Touchpoints';
-import AdditionalTarget from './modules/AdditionalTarget';
-import Employment from './modules/Employment';
 
 export const MODULES_BY_TAB = {
   setup: ['setup_note', 'goal', 'touchpoints', 'browser'],
@@ -49,4 +49,5 @@ export const modulesMap = {
   browser: Browser,
   touchpoints: TouchPoints,
   additional_target: AdditionalTarget,
+  locality: () => null, // Placeholder for future module
 };

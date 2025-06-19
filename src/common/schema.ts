@@ -938,7 +938,8 @@ export interface components {
       | components["schemas"]["ModuleSetupNote"]
       | components["schemas"]["ModuleTouchpoints"]
       | components["schemas"]["ModuleAdditionalTarget"]
-      | components["schemas"]["ModuleEmployment"];
+      | components["schemas"]["ModuleEmployment"]
+      | components["schemas"]["ModuleLocality"];
     /** ModuleAdditionalTarget */
     ModuleAdditionalTarget: {
       output: string;
@@ -970,6 +971,7 @@ export interface components {
     };
     /** ModuleEmployment */
     ModuleEmployment: {
+      /** @description cuf values of cuf employment */
       output: (
         | "EMPLOYEE"
         | "FREELANCER"
@@ -978,7 +980,7 @@ export interface components {
         | "UNEMPLOYED"
         | "HOMEMAKER"
       )[];
-      /** @enum {undefined} */
+      /** @enum {string} */
       type: "employment";
       variant: string;
     };
@@ -1014,6 +1016,13 @@ export interface components {
       output: components["schemas"]["OutputModuleLiteracy"];
       /** @enum {string} */
       type: "literacy";
+      variant: string;
+    };
+    /** ModuleLocality */
+    ModuleLocality: {
+      output: components["schemas"]["OutputModuleLocality"];
+      /** @enum {string} */
+      type: "locality";
       variant: string;
     };
     ModuleOutOfScope: {
@@ -1105,6 +1114,11 @@ export interface components {
       /** @enum {string} */
       level: "beginner" | "intermediate" | "expert";
       percentage: number;
+    }[];
+    /** OutputModuleLocality */
+    OutputModuleLocality: {
+      type: string;
+      values: string[];
     }[];
     /** SubcomponentTask */
     OutputModuleTask:
