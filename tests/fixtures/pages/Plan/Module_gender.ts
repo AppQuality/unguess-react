@@ -17,6 +17,10 @@ export class GenderModule {
       tab: () => this.page.getByTestId('target-tab'),
       module: () => this.page.getByTestId('gender-module'),
       moduleInput: () => this.elements().module().getByRole('checkbox'),
+      modulepercentageInput: () =>
+        this.elements().module().getByRole('textbox'),
+      moduleError: () =>
+        this.elements().module().getByTestId('gender-error-message'),
     };
   }
 

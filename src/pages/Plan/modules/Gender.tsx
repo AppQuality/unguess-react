@@ -177,6 +177,10 @@ const Gender = () => {
     setVariant(!isAddPercentageClicked ? 'percentage' : 'default');
   };
 
+  const checkisPercentageVariant = () => {
+    return value?.variant === 'percentage';
+  };
+
   const totalPercentage =
     (value?.output.some((v) => v.gender === 'female') ? femalePercentage : 0) +
     (value?.output.some((v) => v.gender === 'male') ? malePercentage : 0);
@@ -257,6 +261,7 @@ const Gender = () => {
                 <Col xs={12} style={{ marginBottom: appTheme.space.sm }}>
                   <FormField>
                     <Checkbox
+                      role="checkbox"
                       key="all"
                       value="all"
                       name="gender-all"
@@ -310,6 +315,7 @@ const Gender = () => {
                         style={{ marginTop: appTheme.space.sm }}
                       >
                         <Checkbox
+                          role="checkbox"
                           key={gender}
                           value={gender.toLowerCase()}
                           name={`gender-${gender}`}
