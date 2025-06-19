@@ -21,6 +21,8 @@ export class GenderModule {
         this.elements().module().getByRole('textbox'),
       moduleError: () =>
         this.elements().module().getByTestId('gender-error-message'),
+      moduleChangeVariantButton: () =>
+        this.elements().module().getByLabel('change-variant'),
     };
   }
 

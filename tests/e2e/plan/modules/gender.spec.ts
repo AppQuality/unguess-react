@@ -78,6 +78,25 @@ test.describe('The gender module defines the user gender.', () => {
     - click on female percentage input and set it to 50
     - the output should be male female with 50 percentages (explicit percentage choice) and variant percentage
     */
+
+    const { module, moduleInput, moduleChangeVariantButton } =
+      genderModule.elements();
+    await expect(module()).toBeVisible();
+    const genderCheckboxes = moduleInput();
+    const checkedCount = await genderCheckboxes.evaluateAll(
+      (elements) =>
+        elements.filter(
+          (el) =>
+            el instanceof HTMLInputElement &&
+            el.type === 'checkbox' &&
+            el.checked
+        ).length
+    );
+    const femaleCheckbox = module().locator('input[value="female"]');
+    expect(checkedCount).toBe(1);
+    expect(femaleCheckbox).toBeChecked();
+    await moduleChangeVariantButton().click();
+    await module().locator('label[for="male"]').check();
   });
 
   test('It should be possible to remove the module from the plan', async () => {

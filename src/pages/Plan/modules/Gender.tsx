@@ -218,7 +218,11 @@ const Gender = () => {
                 </Col>
                 <Col>
                   <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                    <Button size="small" onClick={handlePercentageVariant}>
+                    <Button
+                      aria-label="change-variant"
+                      size="small"
+                      onClick={handlePercentageVariant}
+                    >
                       {!isAddPercentageClicked && (
                         <>
                           <Button.StartIcon>
