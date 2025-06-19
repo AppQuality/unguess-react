@@ -10,21 +10,13 @@ import { useModule } from 'src/features/modules/useModule';
 import { useValidation } from 'src/features/modules/useModuleValidation';
 import { components } from 'src/common/schema';
 import { appTheme } from 'src/app/theme';
+import { CITIES } from '../data/cities';
 
 const CitiesContainer = styled.div`
   padding-left: ${({ theme }) => theme.space.md};
   margin-top: ${({ theme }) => theme.space.xs};
   margin-bottom: ${({ theme }) => theme.space.md};
 `;
-
-const CITIES = [
-  { label: 'Roma', value: 'RM' },
-  { label: 'Milano', value: 'MI' },
-  { label: 'Napoli', value: 'NA' },
-  { label: 'Torino', value: 'TO' },
-  { label: 'Palermo', value: 'PA' },
-  { label: 'Genova', value: 'GE' },
-];
 
 type ModuleOutput = components['schemas']['OutputModuleLocality'];
 

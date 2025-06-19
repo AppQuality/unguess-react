@@ -30,6 +30,19 @@ test.describe('Locality Module', () => {
       i18n.t('__ASIDE_NAVIGATION_MODULE_LOCATION_SUBTITLE')
     );
   });
+  test('it should be possible to remove the module', async () => {
+    const { module, removeButton } = locationModule.elements();
+    await expect(module()).toBeVisible();
+    await removeButton().click();
+    await expect(module()).not.toBeVisible();
+    // Assert: the module is removed from the plan
+    const response = await planPage.saveConfiguration();
+    const data = response.request().postDataJSON();
+    expect(data.config.modules).not.toContainEqual(
+      expect.objectContaining({ type: 'locality' })
+    );
+  });
+  test('it should be possible to add the module', async () => {});
   test('should display the correct saved data', async ({ page }) => {
     const {
       countryRadioInput,

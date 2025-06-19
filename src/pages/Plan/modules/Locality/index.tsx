@@ -1,5 +1,6 @@
 import {
   AccordionNew,
+  Button,
   FormField as Field,
   getColor,
   FormHint as Hint,
@@ -11,18 +12,24 @@ import {
   Span,
   Tag,
 } from '@appquality/unguess-design-system';
-import React, { useCallback, useEffect, useRef } from 'react';
+import { ReactComponent as DeleteIcon } from '@zendeskgarden/svg-icons/src/16/trash-stroke.svg';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { components } from 'src/common/schema';
 import { getColorWithAlpha } from 'src/common/utils';
+import { FEATURE_FLAG_CHANGE_MODULES_VARIANTS } from 'src/constants';
 import { useModule } from 'src/features/modules/useModule';
+import { useModuleConfiguration } from 'src/features/modules/useModuleConfiguration';
 import { useValidation } from 'src/features/modules/useModuleValidation';
+import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
 import styled from 'styled-components';
 import { getIconFromModuleType } from '../../utils';
-import { CitiesPanel } from './CitiesPanel';
-import { CountrySelector } from './CountrySelector';
-import { RegionPanel } from './RegionPanel';
+import { DeleteModuleConfirmationModal } from '../modal/DeleteModuleConfirmationModal';
+import { CitiesPanel } from './components/CitiesPanel';
+import { CountrySelector } from './components/CountrySelector';
+import { RegionPanel } from './components/RegionPanel';
+import { areaOptions } from './data/areaOptions';
 
 const FieldWrapper = styled.div`
   padding-top: ${({ theme }) => theme.space.md};
@@ -43,69 +50,12 @@ const AreaRadioWrapper = styled.div`
   }
 `;
 
-const areaOptions = [
-  {
-    label: 'Tutte le aree',
-    value: 'all',
-    hint: 'hint text',
-    tag: (
-      <Tag
-        hue={getColorWithAlpha(appTheme.colors.successHue, 0.1)}
-        color={getColor(appTheme.colors.successHue, 600)}
-      >
-        <Trans
-          i18nKey="__PLAN_PAGE_MODULE_LOCALITY_ALL_AREAS_TAG"
-          components={{
-            s: <Span isBold hue={getColor(appTheme.colors.successHue, 800)} />,
-          }}
-          defaults="<s>example text</s>: lorem ipsum"
-        />
-      </Tag>
-    ),
-  },
-  {
-    label: 'Aree Nielsen e Regioni',
-    value: 'region',
-    hint: 'hint text',
-    tag: (
-      <Tag
-        hue={getColor(appTheme.palette.grey, 100)}
-        color={getColor(appTheme.colors.neutralHue, 600)}
-      >
-        <Trans
-          i18nKey="__PLAN_PAGE_MODULE_LOCALITY_REGIONS_TAG"
-          components={{
-            s: <Span isBold hue={getColor(appTheme.colors.neutralHue, 700)} />,
-          }}
-          defaults="<s>example text</s>: lorem ipsum"
-        />
-      </Tag>
-    ),
-  },
-  {
-    label: 'Province e grossi centri',
-    value: 'city',
-    hint: 'hint text',
-    tag: (
-      <Tag
-        hue={getColor(appTheme.palette.grey, 100)}
-        color={getColor(appTheme.colors.neutralHue, 600)}
-      >
-        <Trans
-          i18nKey="__PLAN_PAGE_MODULE_LOCALITY_CITIES_TAG"
-          components={{
-            s: <Span isBold hue={getColor(appTheme.colors.neutralHue, 700)} />,
-          }}
-          defaults="<s>example text</s>: lorem ipsum"
-        />
-      </Tag>
-    ),
-  },
-];
-
 const Locality = () => {
   const { t } = useTranslation();
   const { value, setOutput, remove } = useModule('locality');
+  const { hasFeatureFlag } = useFeatureFlag();
+  const { getPlanStatus } = useModuleConfiguration();
+  const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false);
 
   const countryObj = React.useMemo(
     () => value?.output.find((a) => a.type === 'country'),
@@ -185,7 +135,9 @@ const Locality = () => {
     type: 'locality',
     validate: validation,
   });
-
+  const handleDelete = () => {
+    setIsOpenDeleteModal(true);
+  };
   const handleCountryChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const valueCountry = event.target.value;
     validate({
@@ -211,99 +163,125 @@ const Locality = () => {
   }, [validate]);
 
   return (
-    <div ref={localityRef}>
-      <AccordionNew
-        data-qa="locality-module"
-        data-testid="locality-module"
-        level={3}
-        hasBorder
-        type={error ? 'danger' : 'default'}
-      >
-        <AccordionNew.Section>
-          <AccordionNew.Header icon={getIconFromModuleType('locality')}>
-            <AccordionNew.Label
-              label={t('__PLAN_PAGE_MODULE_LOCALITY_TITLE', 'Location')}
-            />
-          </AccordionNew.Header>
-          <AccordionNew.Panel>
-            <div style={{ marginBottom: appTheme.space.md }}>
-              <Label>{t('__PLAN_PAGE_MODULE_LOCALITY_LABEL')}</Label>
-              <Span style={{ color: appTheme.palette.red[600] }}>*</Span>
-            </div>
-            <CountrySelector
-              selectedCountry={selectedCountry}
-              onChange={handleCountryChange}
-              ariaLabel={t('__PLAN_PAGE_MODULE_LOCALITY_SELECT_COUNTRY')}
-            />
-            {selectedCountry === 'IT' && (
-              <>
-                <Separator style={{ margin: `${appTheme.space.md} 0` }} />
-                <Paragraph style={{ padding: `${appTheme.space.xs} 0` }}>
-                  <Trans
-                    i18nKey="__PLAN_PAGE_MODULE_LOCALITY_NARROW_DOWN_AREAS"
-                    components={{
-                      s: <Span hue={appTheme.palette.azure[600]} />,
-                    }}
-                    defaults="Narrow down to specific areas <s>(Italy only)</s>"
-                  />
-                </Paragraph>
-                <FieldWrapper
-                  role="group"
-                  aria-label={t('__PLAN_PAGE_MODULE_LOCALITY_SELECT_AREA')}
-                >
-                  {areaOptions.map((option) => {
-                    const inputId = `area-radio-${option.value}`;
-                    return (
-                      <AreaRadioWrapper key={option.value}>
-                        <Field style={{ margin: 0 }}>
-                          <Radio
-                            id={inputId}
-                            value={option.value}
-                            name="area"
-                            checked={selectedArea === option.value}
-                            onChange={handleAreaChange}
-                          >
-                            <Label htmlFor={inputId}>{option.label}</Label>
-                            {option.hint && <Hint>{option.hint}</Hint>}
-                            <OptionTagWrapper>{option.tag}</OptionTagWrapper>
-                          </Radio>
-                        </Field>
-                        {selectedCountry === 'IT' &&
-                        selectedArea === 'region' &&
-                        option.value === 'region' ? (
-                          <RegionPanel validate={validate} />
-                        ) : null}
-                        {selectedCountry === 'IT' &&
-                        selectedArea === 'city' &&
-                        option.value === 'city' ? (
-                          <CitiesPanel validate={validate} />
-                        ) : null}
-                      </AreaRadioWrapper>
-                    );
-                  })}
-                </FieldWrapper>
-              </>
-            )}
-            {error && typeof error === 'string' && (
-              <div
-                style={{
-                  marginTop: appTheme.space.md,
-                  paddingLeft: appTheme.space.lg,
-                }}
-              >
-                <Message
-                  validation="error"
-                  data-qa="locality-module-error-message"
-                  data-testid="locality-module-error-message"
-                >
-                  {error}
-                </Message>
+    <>
+      <div ref={localityRef}>
+        <AccordionNew
+          data-qa="locality-module"
+          data-testid="locality-module"
+          level={3}
+          hasBorder
+          type={error ? 'danger' : 'default'}
+        >
+          <AccordionNew.Section>
+            <AccordionNew.Header icon={getIconFromModuleType('locality')}>
+              <AccordionNew.Label
+                label={t('__PLAN_PAGE_MODULE_LOCALITY_TITLE', 'Location')}
+              />
+              {hasFeatureFlag(FEATURE_FLAG_CHANGE_MODULES_VARIANTS) &&
+                getPlanStatus() === 'draft' && (
+                  <AccordionNew.Meta>
+                    <Button
+                      isBasic
+                      isDanger
+                      onClick={(e) => {
+                        handleDelete();
+                        e.stopPropagation();
+                      }}
+                    >
+                      <Button.StartIcon>
+                        <DeleteIcon />
+                      </Button.StartIcon>
+                      {t('__PLAN_PAGE_MODULE_AGE_REMOVE_BUTTON')}
+                    </Button>
+                  </AccordionNew.Meta>
+                )}
+            </AccordionNew.Header>
+            <AccordionNew.Panel>
+              <div style={{ marginBottom: appTheme.space.md }}>
+                <Label>{t('__PLAN_PAGE_MODULE_LOCALITY_LABEL')}</Label>
+                <Span style={{ color: appTheme.palette.red[600] }}>*</Span>
               </div>
-            )}
-          </AccordionNew.Panel>
-        </AccordionNew.Section>
-      </AccordionNew>
-    </div>
+              <CountrySelector
+                selectedCountry={selectedCountry}
+                onChange={handleCountryChange}
+                ariaLabel={t('__PLAN_PAGE_MODULE_LOCALITY_SELECT_COUNTRY')}
+              />
+              {selectedCountry === 'IT' && (
+                <>
+                  <Separator style={{ margin: `${appTheme.space.md} 0` }} />
+                  <Paragraph style={{ padding: `${appTheme.space.xs} 0` }}>
+                    <Trans
+                      i18nKey="__PLAN_PAGE_MODULE_LOCALITY_NARROW_DOWN_AREAS"
+                      components={{
+                        s: <Span hue={appTheme.palette.azure[600]} />,
+                      }}
+                      defaults="Narrow down to specific areas <s>(Italy only)</s>"
+                    />
+                  </Paragraph>
+                  <FieldWrapper
+                    role="group"
+                    aria-label={t('__PLAN_PAGE_MODULE_LOCALITY_SELECT_AREA')}
+                  >
+                    {areaOptions.map((option) => {
+                      const inputId = `area-radio-${option.value}`;
+                      return (
+                        <AreaRadioWrapper key={option.value}>
+                          <Field style={{ margin: 0 }}>
+                            <Radio
+                              id={inputId}
+                              value={option.value}
+                              name="area"
+                              checked={selectedArea === option.value}
+                              onChange={handleAreaChange}
+                            >
+                              <Label htmlFor={inputId}>{option.label}</Label>
+                              {option.hint && <Hint>{option.hint}</Hint>}
+                              <OptionTagWrapper>{option.tag}</OptionTagWrapper>
+                            </Radio>
+                          </Field>
+                          {selectedCountry === 'IT' &&
+                          selectedArea === 'region' &&
+                          option.value === 'region' ? (
+                            <RegionPanel validate={validate} />
+                          ) : null}
+                          {selectedCountry === 'IT' &&
+                          selectedArea === 'city' &&
+                          option.value === 'city' ? (
+                            <CitiesPanel validate={validate} />
+                          ) : null}
+                        </AreaRadioWrapper>
+                      );
+                    })}
+                  </FieldWrapper>
+                </>
+              )}
+              {error && typeof error === 'string' && (
+                <div
+                  style={{
+                    marginTop: appTheme.space.md,
+                    paddingLeft: appTheme.space.lg,
+                  }}
+                >
+                  <Message
+                    validation="error"
+                    data-qa="locality-module-error-message"
+                    data-testid="locality-module-error-message"
+                  >
+                    {error}
+                  </Message>
+                </div>
+              )}
+            </AccordionNew.Panel>
+          </AccordionNew.Section>
+        </AccordionNew>
+      </div>
+      {isOpenDeleteModal && (
+        <DeleteModuleConfirmationModal
+          onQuit={() => setIsOpenDeleteModal(false)}
+          onConfirm={remove}
+        />
+      )}
+    </>
   );
 };
 

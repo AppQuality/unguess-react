@@ -49,6 +49,8 @@ export class LocationModule {
         this.elements().regionSelectionPanel().getByRole('checkbox'),
       errorMessage: () =>
         this.elements().module().getByTestId('locality-module-error-message'),
+      removeButton: () =>
+        this.elements().module().getByTestId('locality-module-remove-button'),
     };
   }
 

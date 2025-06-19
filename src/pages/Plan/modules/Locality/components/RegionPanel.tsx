@@ -11,7 +11,7 @@ import { components } from 'src/common/schema';
 import { useModule } from 'src/features/modules/useModule';
 import { useValidation } from 'src/features/modules/useModuleValidation';
 import styled from 'styled-components';
-import { italyRegions } from './locationRegions';
+import { italyRegions } from '../data/locationRegions';
 
 const RegionsContainer = styled.div`
   padding-left: ${({ theme }) => theme.space.md};
