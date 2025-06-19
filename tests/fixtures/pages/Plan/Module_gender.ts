@@ -23,11 +23,31 @@ export class GenderModule {
         this.elements().module().getByTestId('gender-error-message'),
       moduleChangeVariantButton: () =>
         this.elements().module().getByLabel('change-variant'),
+      moduleMalePercentageInput: () =>
+        this.elements().module().getByTestId('male-percentage-input'),
+      moduleFemalePercentageInput: () =>
+        this.elements().module().getByTestId('female-percentage-input'),
+      removeButton: () =>
+        this.elements()
+          .module()
+          .getByText(this.i18n.t('__PLAN_PAGE_MODULE_GENDER_REMOVE_BUTTON')),
     };
   }
 
   async goToTab() {
     await this.elements().tab().click();
+  }
+
+  async fillMalePercentageInput(value: string) {
+    await this.elements().moduleMalePercentageInput().click();
+    await this.elements().moduleMalePercentageInput().fill(value);
+    await this.elements().moduleMalePercentageInput().blur();
+  }
+
+  async fillFemalePercentageInput(value: string) {
+    await this.elements().moduleFemalePercentageInput().click();
+    await this.elements().moduleFemalePercentageInput().fill(value);
+    await this.elements().moduleFemalePercentageInput().blur();
   }
 
   async expectToBeReadonly() {

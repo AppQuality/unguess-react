@@ -73,10 +73,12 @@ test.describe('The gender module defines the user gender.', () => {
     - click on percentage variant
     - click on male checkbox
     - an error should be shown to the user to prompt to set the percentage for male
-    - click on male percentage input and set it to 50
+    - click on male percentage input and set it to 100 and female to 0
     - an error should be shown to the user to prompt to set the percentage for female
     - click on female percentage input and set it to 50
-    - the output should be male female with 50 percentages (explicit percentage choice) and variant percentage
+    - an error should be shown to the user to prompt to set the percentage sum to 100
+    - input into male percentage input 50
+    - the output should be male female with 50 percentages (explicit percentage choice) and variant percentage and without any error
     */
 
     const { module, moduleInput, moduleChangeVariantButton } =
@@ -97,6 +99,24 @@ test.describe('The gender module defines the user gender.', () => {
     expect(femaleCheckbox).toBeChecked();
     await moduleChangeVariantButton().click();
     await module().locator('label[for="gender-male"]').check();
+    await expect(
+      module().getByTestId('gender-unassigned-percentage-error')
+    ).toBeVisible();
+    // write into female percentage input
+    await genderModule.fillFemalePercentageInput('0');
+    await genderModule.fillMalePercentageInput('100');
+    await expect(
+      module().getByTestId('gender-unassigned-percentage-error')
+    ).toBeVisible();
+    await genderModule.fillFemalePercentageInput('50');
+    await expect(module().getByTestId('gender-percentage-error')).toBeVisible();
+    await genderModule.fillMalePercentageInput('50');
+    await expect(
+      module().getByTestId('gender-unassigned-percentage-error')
+    ).not.toBeVisible();
+    await expect(
+      module().getByTestId('gender-percentage-error')
+    ).not.toBeVisible();
   });
 
   test('It should be possible to remove the module from the plan', async () => {
@@ -105,8 +125,33 @@ test.describe('The gender module defines the user gender.', () => {
     - initial state of the plan is only female checked (100%)
     - click on remove module button
     - the module should not be visible anymore
-    - the output should (????)
+    - the output should not contain the module gender
     */
+    const { module, moduleInput, removeButton } = genderModule.elements();
+    await expect(module()).toBeVisible();
+    const genderCheckboxes = moduleInput();
+    const checkedCount = await genderCheckboxes.evaluateAll(
+      (elements) =>
+        elements.filter(
+          (el) =>
+            el instanceof HTMLInputElement &&
+            el.type === 'checkbox' &&
+            el.checked
+        ).length
+    );
+    const femaleCheckbox = module().locator('input[value="female"]');
+    expect(checkedCount).toBe(1);
+    expect(femaleCheckbox).toBeChecked();
+
+    await removeButton().click();
+    await moduleBuilderPage.elements().removeModuleModalConfirm().click(); // check for removeModuleModalConfirm
+    await expect(module()).not.toBeVisible();
+    // Assert: the module is removed from the plan output
+    const response = await moduleBuilderPage.saveConfiguration();
+    const data = response.request().postDataJSON();
+    expect(data.config.modules).not.toContainEqual(
+      expect.objectContaining({ type: 'gender' })
+    );
   });
   test('It should be possible to add the module at the plan if is not already', async () => {
     /*

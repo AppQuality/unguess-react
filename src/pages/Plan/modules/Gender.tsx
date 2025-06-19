@@ -357,6 +357,7 @@ const Gender = () => {
                       }}
                     >
                       <PercentageInput
+                        data-qa="male-percentage-input"
                         readOnly={
                           malePercentage === 0 &&
                           !value?.output.some((g) => g.gender === 'male')
@@ -374,6 +375,7 @@ const Gender = () => {
                       }}
                     >
                       <PercentageInput
+                        data-qa="female-percentage-input"
                         readOnly={
                           femalePercentage === 0 &&
                           !value?.output.some((g) => g.gender === 'female')
