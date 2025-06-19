@@ -38,10 +38,15 @@ const Gender = () => {
 
   const [femalePercentage, setFemalePercentage] = useState(0);
   const [malePercentage, setMalePercentage] = useState(0);
+  const { value, setOutput, setVariant, remove } = useModule('gender');
 
   const genderTypes: GenderTypes[] = ['male', 'female'];
 
-  const { value, setOutput, setVariant, remove } = useModule('gender');
+  // Initialize desiredGenders from value.output or as an empty array
+  const [desiredGenders, setDesiredGenders] = useState<GenderTypes[]>(
+    value?.output?.map((g) => g.gender) || genderTypes
+  );
+
   const { t } = useTranslation();
   const validation = (
     module: components['schemas']['Module'] & { type: 'gender' }
@@ -91,42 +96,32 @@ const Gender = () => {
     }
   };
 
-  const updateOutput = (desiredGenders: { gender: GenderTypes }[]) => {
-    if (desiredGenders.length > 0) {
-      const fixedPercentage: number = Number(
-        (100 / desiredGenders.length).toFixed(2) // the percentage is equally divided and it's the same for all genders
-      );
-      setOutput(
-        desiredGenders.map((item) => {
-          let percentage = fixedPercentage;
-          if (isAddPercentageClicked) {
-            if (desiredGenders.length === 1) {
-              percentage = 100;
-              if (item.gender === 'female') {
-                setFemalePercentage(100);
-                setMalePercentage(0);
-              } else {
-                setMalePercentage(100);
-                setFemalePercentage(0);
-              }
-            } else if (item.gender === 'female') {
-              percentage = femalePercentage;
-            } else if (item.gender === 'male') {
-              percentage = malePercentage;
-            }
-          }
-          return {
-            ...item,
-            percentage,
-          };
-        })
-      );
-    } else {
+  const updateOutput = () => {
+    if (!desiredGenders?.length) {
       setOutput([]);
-      setFemalePercentage(0);
-      setMalePercentage(0);
+      return;
     }
+
+    const output = desiredGenders.map((gender) => {
+      if (value?.variant === 'default') {
+        return { gender, percentage: 0 };
+      }
+
+      const percentage =
+        gender === 'female' ? femalePercentage : malePercentage;
+
+      return { gender, percentage };
+    });
+
+    setOutput(output);
   };
+
+  useEffect(() => {
+    if (value?.variant === 'default') {
+      setMalePercentage(0);
+      setFemalePercentage(0);
+    }
+  }, [value?.variant]);
 
   useEffect(() => {
     setVariant(isAddPercentageClicked ? 'percentage' : 'default');
@@ -148,31 +143,20 @@ const Gender = () => {
     setIsOpenDeleteModal(true);
   };
 
-  const updatePercentages = () => {
-    if (!isAddPercentageClicked) return;
-    // aggiornre percentage
-    const genders = value?.output.map((v) => ({
-      gender: v.gender as GenderTypes,
-    }));
-    console.log(value?.output);
-    if (genders && genders.length > 0) {
-      updateOutput(genders);
-    }
-  };
-
   useEffect(() => {
     validate();
   }, [value]);
 
+  useEffect(() => {
+    updateOutput();
+  }, [desiredGenders, femalePercentage, malePercentage]);
+
   const handleFemaleChange = (v: number) => {
-    console.log('value', v);
     setFemalePercentage(v);
-    updatePercentages();
   };
 
   const handleMaleChange = (v: number) => {
     setMalePercentage(v);
-    updatePercentages();
   };
 
   const handlePercentageVariant = () => {
@@ -180,9 +164,7 @@ const Gender = () => {
     setVariant(!isAddPercentageClicked ? 'percentage' : 'default');
   };
 
-  const checkisPercentageVariant = () => {
-    return value?.variant === 'percentage';
-  };
+  const checkIsPercentageVariant = () => value?.variant === 'percentage';
 
   const totalPercentage =
     (value?.output.some((v) => v.gender === 'female') ? femalePercentage : 0) +
@@ -271,19 +253,15 @@ const Gender = () => {
                       disabled={getPlanStatus() !== 'draft'}
                       // checked if all genders are selected
                       checked={genderTypes.every((gender) =>
-                        value?.output.some(
-                          (item) => item.gender === gender.toLowerCase()
+                        desiredGenders.some(
+                          (item) => item === gender.toLowerCase()
                         )
                       )}
                       onChange={(e) => {
                         if (e.target.checked) {
-                          updateOutput(
-                            genderTypes.map((g) => ({
-                              gender: g.toLowerCase() as GenderTypes,
-                            }))
-                          );
+                          setDesiredGenders(genderTypes);
                         } else {
-                          updateOutput([]);
+                          setDesiredGenders([]);
                         }
                       }}
                     >
@@ -303,7 +281,7 @@ const Gender = () => {
                 </Col>
               </Row>
               <Row>
-                <Col size={isAddPercentageClicked ? 6 : 12}>
+                <Col size={checkIsPercentageVariant() ? 6 : 12}>
                   <div
                     style={{
                       display: 'flex',
@@ -324,12 +302,12 @@ const Gender = () => {
                           value={gender.toLowerCase()}
                           name={`gender-${gender}`}
                           disabled={getPlanStatus() !== 'draft'}
-                          checked={value?.output.some(
-                            (item) => item.gender === gender.toLowerCase()
+                          checked={desiredGenders.some(
+                            (item) => item === gender.toLowerCase()
                           )}
                           onChange={(e) => {
                             const previousGenders =
-                              value?.output.map((item) => item.gender) || [];
+                              desiredGenders.map((item) => item) || [];
                             let updatedGenders: GenderTypes[] = [];
                             if (e.target.checked) {
                               updatedGenders = [
@@ -341,9 +319,7 @@ const Gender = () => {
                                 .filter((item) => item !== e.target.value)
                                 .map((item) => item as GenderTypes);
                             }
-                            updateOutput(
-                              updatedGenders.map((g) => ({ gender: g }))
-                            );
+                            setDesiredGenders(updatedGenders);
                           }}
                         >
                           <Label
