@@ -19,12 +19,14 @@ const PercentageInput: React.FC<PercentageInputProps> = ({
   const handleDecreasePercentage = () => {
     // Logic to decrease percentage
     const newValue = value - 5;
+    console.log('previous', value);
     onChange(newValue < 0 ? 0 : newValue);
   };
 
   const handleIncreasePercentage = () => {
     // Logic to increase percentage
     const newValue = value + 5;
+    console.log('previous', value);
     onChange(newValue > 100 ? 100 : newValue);
   };
 

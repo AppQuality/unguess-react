@@ -150,9 +150,11 @@ const Gender = () => {
 
   const updatePercentages = () => {
     if (!isAddPercentageClicked) return;
+    // aggiornre percentage
     const genders = value?.output.map((v) => ({
       gender: v.gender as GenderTypes,
     }));
+    console.log(value?.output);
     if (genders && genders.length > 0) {
       updateOutput(genders);
     }
@@ -163,6 +165,7 @@ const Gender = () => {
   }, [value]);
 
   const handleFemaleChange = (v: number) => {
+    console.log('value', v);
     setFemalePercentage(v);
     updatePercentages();
   };
