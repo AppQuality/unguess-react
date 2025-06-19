@@ -31,17 +31,9 @@ test.describe('The digital literacy module defines the users digital skills.', (
         elements.filter((el) => el instanceof HTMLInputElement && el.checked)
           .length
     );
-    const checkedFemaleCheckbox = await genderCheckboxes.evaluateAll(
-      (elements) =>
-        elements.filter(
-          (el) =>
-            el instanceof HTMLInputElement &&
-            el.name == 'gender-female' &&
-            el.checked
-        )[0] as HTMLInputElement
-    );
+    const femaleCheckbox = await module().locator('label[for="gender-male"]');
     expect(checkedCount).toBe(1);
-    expect(checkedFemaleCheckbox).toBeDefined();
+    expect(femaleCheckbox).toBeChecked();
     await expect(modulepercentageInput()).not.toBeVisible();
   });
   test('It should have an output of an array of objects with gender and percentage, in the default variant percentages are 0', async ({

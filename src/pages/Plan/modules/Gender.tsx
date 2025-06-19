@@ -315,6 +315,7 @@ const Gender = () => {
                         style={{ marginTop: appTheme.space.sm }}
                       >
                         <Checkbox
+                          id={`gender-${gender}`}
                           role="checkbox"
                           key={gender}
                           value={gender.toLowerCase()}
@@ -343,6 +344,7 @@ const Gender = () => {
                           }}
                         >
                           <Label
+                            htmlFor={`gender-${gender}`}
                             style={{
                               color: appTheme.palette.grey[800],
                               fontSize: appTheme.fontSizes.md,
