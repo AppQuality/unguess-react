@@ -175,6 +175,7 @@ const Employment = () => {
                   <Span style={{ color: appTheme.palette.red[700] }}>*</Span>
                 </Label>
                 <MultiSelect
+                  disabled={getPlanStatus() !== 'draft'}
                   data-qa="employment-input"
                   listboxAppendToNode={document.body}
                   options={options}
