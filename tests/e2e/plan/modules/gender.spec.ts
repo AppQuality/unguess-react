@@ -31,7 +31,7 @@ test.describe('The digital literacy module defines the users digital skills.', (
         elements.filter((el) => el instanceof HTMLInputElement && el.checked)
           .length
     );
-    const femaleCheckbox = await module().locator('label[for="gender-male"]');
+    const femaleCheckbox = module().locator('input[value="female"]');
     expect(checkedCount).toBe(1);
     expect(femaleCheckbox).toBeChecked();
     await expect(modulepercentageInput()).not.toBeVisible();
@@ -42,5 +42,22 @@ test.describe('The digital literacy module defines the users digital skills.', (
     // if we also check male options in variant default, the percentages should be 0
     const { module } = genderModule.elements();
     // check the male checkbox
+    await module().locator('input[value="male"]').check();
+    const response = await moduleBuilderPage.saveConfiguration();
+    const data = response.request().postDataJSON();
+    // Find the gender module and check its output
+    const genderModuleData = data.config.modules.find(
+      (m: any) => m.type === 'gender'
+    );
+    expect(genderModuleData).toEqual(
+      expect.objectContaining({
+        type: 'gender',
+        output: [
+          { gender: 'female', percentage: 0 },
+          { gender: 'male', percentage: 0 },
+        ],
+        variant: 'default',
+      })
+    );
   });
 });
