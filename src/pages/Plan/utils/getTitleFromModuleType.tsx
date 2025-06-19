@@ -17,7 +17,6 @@ const getTitleFromModuleType = (
       return t('__PLAN_PAGE_MODULE_GOAL_TITLE');
     case 'language':
       return t('__PLAN_PAGE_MODULE_LANGUAGE_TITLE');
-    // @ts-ignore
     case 'locality':
       return t('__PLAN_PAGE_MODULE_LOCALITY_TITLE');
     case 'literacy':

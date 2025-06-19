@@ -17,7 +17,6 @@ const getSubtitleFromModuleType = (
       return t('__ASIDE_NAVIGATION_MODULE_GOAL_SUBTITLE');
     case 'language':
       return t('__ASIDE_NAVIGATION_MODULE_LANGUAGE_SUBTITLE');
-    // @ts-ignore
     case 'locality':
       return t('__ASIDE_NAVIGATION_MODULE_LOCALITY_SUBTITLE');
     case 'literacy':

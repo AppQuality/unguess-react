@@ -85,7 +85,6 @@ const getIconFromModuleType = (
       return <AdditionalTargetIcon color={color} />;
     case 'employment':
       return <EmploymentIcon color={color} />;
-    // @ts-ignore
     case 'locality':
       return <LocationIcon color={color} />;
     case 'title':
