@@ -7,6 +7,7 @@ import {
   setOutput as setOutputAction,
   setVariant as setVariantAction,
 } from '../planModules';
+import { get } from 'http';
 
 export const useModule = <T extends components['schemas']['Module']['type']>(
   moduleName: T
@@ -130,17 +131,11 @@ export const useModule = <T extends components['schemas']['Module']['type']>(
           variant: 'default',
           output: 'en',
         };
-      // @ts-ignore
-      case 'location':
+      case 'locality':
         return {
           type,
           variant: 'default',
-          output: {
-            // @ts-ignore
-            country: '',
-            region: '',
-            city: '',
-          },
+          output: {},
         };
       case 'target':
         return {

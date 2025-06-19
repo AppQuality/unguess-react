@@ -23,6 +23,7 @@ const AddBlockModalItem = ({
       isPill={false}
       onClick={() => {
         setModalRef(null);
+        console.log('Adding module:', item.type);
         add();
       }}
       disabled={!item.enabled}
