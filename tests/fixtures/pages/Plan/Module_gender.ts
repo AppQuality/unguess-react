@@ -33,6 +33,16 @@ export class GenderModule {
         this.elements()
           .module()
           .getByText(this.i18n.t('__PLAN_PAGE_MODULE_GENDER_REMOVE_BUTTON')),
+      modulePercentageError: () =>
+        this.elements()
+          .module()
+          .getByText(this.i18n.t('__PLAN_PAGE_MODULE_GENDER_PERCENTAGE_ERROR')),
+      moduleUnassignedPercentageError: () =>
+        this.elements()
+          .module()
+          .getByText(
+            this.i18n.t('__PLAN_PAGE_MODULE_GENDER_UNASSIGNED_PERCENTAGE_ERROR')
+          ),
     };
   }
 

@@ -81,8 +81,13 @@ test.describe('The gender module defines the user gender.', () => {
     - the output should be male female with 50 percentages (explicit percentage choice) and variant percentage and without any error
     */
 
-    const { module, moduleInput, moduleChangeVariantButton } =
-      genderModule.elements();
+    const {
+      module,
+      moduleInput,
+      moduleChangeVariantButton,
+      modulePercentageError,
+      moduleUnassignedPercentageError,
+    } = genderModule.elements();
     await expect(module()).toBeVisible();
     const genderCheckboxes = moduleInput();
     const checkedCount = await genderCheckboxes.evaluateAll(
@@ -99,24 +104,15 @@ test.describe('The gender module defines the user gender.', () => {
     expect(femaleCheckbox).toBeChecked();
     await moduleChangeVariantButton().click();
     await module().locator('label[for="gender-male"]').check();
-    await expect(
-      module().getByTestId('gender-unassigned-percentage-error')
-    ).toBeVisible();
-    // write into female percentage input
+    await expect(moduleUnassignedPercentageError()).toBeVisible();
     await genderModule.fillFemalePercentageInput('0');
     await genderModule.fillMalePercentageInput('100');
-    await expect(
-      module().getByTestId('gender-unassigned-percentage-error')
-    ).toBeVisible();
+    await expect(moduleUnassignedPercentageError()).toBeVisible();
     await genderModule.fillFemalePercentageInput('50');
-    await expect(module().getByTestId('gender-percentage-error')).toBeVisible();
+    await expect(modulePercentageError()).toBeVisible();
     await genderModule.fillMalePercentageInput('50');
-    await expect(
-      module().getByTestId('gender-unassigned-percentage-error')
-    ).not.toBeVisible();
-    await expect(
-      module().getByTestId('gender-percentage-error')
-    ).not.toBeVisible();
+    await expect(moduleUnassignedPercentageError()).not.toBeVisible();
+    await expect(modulePercentageError()).not.toBeVisible();
 
     const response = await moduleBuilderPage.saveConfiguration();
     const data = response.request().postDataJSON();
