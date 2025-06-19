@@ -34,11 +34,17 @@ const Gender = () => {
   const { hasFeatureFlag } = useFeatureFlag();
   const { getPlanStatus } = useModuleConfiguration();
   const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false);
-  const [isAddPercentageClicked, setIsAddPercentageClicked] = useState(false);
-
-  const [femalePercentage, setFemalePercentage] = useState(0);
-  const [malePercentage, setMalePercentage] = useState(0);
   const { value, setOutput, setVariant, remove } = useModule('gender');
+  const initialFemale =
+    value?.output?.find((g) => g.gender === 'female')?.percentage ?? 0;
+  const initialMale =
+    value?.output?.find((g) => g.gender === 'male')?.percentage ?? 0;
+  const initialVariant = value?.variant ?? 'default';
+  const [isAddPercentageClicked, setIsAddPercentageClicked] = useState(
+    initialVariant === 'percentage'
+  );
+  const [femalePercentage, setFemalePercentage] = useState(initialFemale);
+  const [malePercentage, setMalePercentage] = useState(initialMale);
 
   const genderTypes: GenderTypes[] = ['male', 'female'];
 

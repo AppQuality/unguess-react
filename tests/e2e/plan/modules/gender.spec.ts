@@ -2,7 +2,7 @@ import { test, expect } from '../../../fixtures/app';
 import { PlanPage } from '../../../fixtures/pages/Plan';
 import { GenderModule } from '../../../fixtures/pages/Plan/Module_gender';
 
-test.describe('The digital literacy module defines the users digital skills.', () => {
+test.describe('The gender module defines the user gender.', () => {
   let moduleBuilderPage: PlanPage;
   let genderModule: GenderModule;
 
@@ -19,9 +19,7 @@ test.describe('The digital literacy module defines the users digital skills.', (
     await moduleBuilderPage.elements().tabTarget().click();
   });
 
-  test('It should be visible if gender is set in the plan and show saved info correctly', async ({
-    i18n,
-  }) => {
+  test('It should be visible if gender is set in the plan and show saved info correctly', async () => {
     const { module, moduleInput, modulepercentageInput } =
       genderModule.elements();
     await expect(module()).toBeVisible();
