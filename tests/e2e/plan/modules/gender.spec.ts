@@ -47,7 +47,7 @@ test.describe('The gender module defines the user gender.', () => {
     */
     const { module } = genderModule.elements();
     // check the male checkbox
-    await module().locator('label[for="male"]').check();
+    await module().locator('label[for="gender-male"]').check();
     const response = await moduleBuilderPage.saveConfiguration();
     const data = response.request().postDataJSON();
     // Find the gender module and check its output
@@ -96,7 +96,7 @@ test.describe('The gender module defines the user gender.', () => {
     expect(checkedCount).toBe(1);
     expect(femaleCheckbox).toBeChecked();
     await moduleChangeVariantButton().click();
-    await module().locator('label[for="male"]').check();
+    await module().locator('label[for="gender-male"]').check();
   });
 
   test('It should be possible to remove the module from the plan', async () => {
