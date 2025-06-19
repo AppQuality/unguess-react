@@ -50,7 +50,7 @@ export const RegionPanel = ({ validate }: RegionPanelProps) => {
         });
       }
     },
-    [areaArr, setOutput, validate]
+    [areaArr, setOutput, validate, value?.variant]
   );
 
   return (

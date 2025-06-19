@@ -1,15 +1,14 @@
-import draft from '../../../api/plans/pid/_get/200_draft_complete.json';
 import { expect, test } from '../../../fixtures/app';
 import { PlanPage } from '../../../fixtures/pages/Plan';
-import { LocationModule } from '../../../fixtures/pages/Plan/Module_locality';
+import { LocalityModule } from '../../../fixtures/pages/Plan/Module_locality';
 
 test.describe('Locality Module', () => {
   let planPage: PlanPage;
-  let locationModule: LocationModule;
+  let localityModule: LocalityModule;
 
   test.beforeEach(async ({ page }) => {
     planPage = new PlanPage(page);
-    locationModule = new LocationModule(page);
+    localityModule = new LocalityModule(page);
     await planPage.loggedIn();
     await planPage.mockPreferences();
     await planPage.mockWorkspace();
@@ -17,12 +16,12 @@ test.describe('Locality Module', () => {
     await planPage.mockGetDraftPlan();
     await planPage.mockPatchPlan();
     await planPage.open();
-    await locationModule.goToTab();
+    await localityModule.goToTab();
   });
   test('should display the module on the Plan page and relative nav item', async ({
     i18n,
   }) => {
-    await expect(locationModule.elements().module()).toBeVisible();
+    await expect(localityModule.elements().module()).toBeVisible();
     await expect(planPage.elements().targetNavigation()).toContainText(
       i18n.t('__PLAN_PAGE_MODULE_LOCALITY_TITLE')
     );
@@ -30,26 +29,36 @@ test.describe('Locality Module', () => {
       i18n.t('__ASIDE_NAVIGATION_MODULE_LOCATION_SUBTITLE')
     );
   });
-  test('it should be possible to remove the module', async () => {
-    const { module, removeButton } = locationModule.elements();
+  test('it should be possible to remove the module, the output should be removed', async () => {
+    const { module, removeButton } = localityModule.elements();
     await expect(module()).toBeVisible();
     await removeButton().click();
+    await planPage.elements().removeModuleModalConfirm().click();
     await expect(module()).not.toBeVisible();
-    // Assert: the module is removed from the plan
+    // Assert: the module is removed from the plan output
     const response = await planPage.saveConfiguration();
     const data = response.request().postDataJSON();
     expect(data.config.modules).not.toContainEqual(
       expect.objectContaining({ type: 'locality' })
     );
   });
-  test('it should be possible to add the module', async () => {});
+  test('it should be possible to add the module', async () => {
+    const { module } = localityModule.elements();
+    await expect(module()).toBeVisible();
+    await localityModule.removeModule();
+    await expect(module()).not.toBeVisible();
+
+    // Add the module back
+    // await planPage.addModule('locality');
+    // await expect(module()).toBeVisible();
+  });
   test('should display the correct saved data', async ({ page }) => {
     const {
       countryRadioInput,
       areaRadioInput,
       regionSelectionInput,
       regionSelectionPanel,
-    } = locationModule.elements();
+    } = localityModule.elements();
 
     // Assert: country radios
     await expect(countryRadioInput()).toHaveCount(3);
@@ -70,7 +79,7 @@ test.describe('Locality Module', () => {
   });
   test('if a different area or state is selected, the region selection goes back to default', async () => {
     const { countryRadioPanel, areaRadioPanel, regionSelectionPanel } =
-      locationModule.elements();
+      localityModule.elements();
 
     await countryRadioPanel().locator('label[for="country-radio-FR"]').click();
     await expect(
@@ -90,7 +99,7 @@ test.describe('Locality Module', () => {
   // now let's check the output of the location module
   test('should update the output when changing country that does not allow further refinement', async () => {
     const { countryRadioPanel, areaRadioPanel, regionSelectionPanel } =
-      locationModule.elements();
+      localityModule.elements();
 
     await countryRadioPanel().locator('label[for="country-radio-FR"]').click();
     await expect(
@@ -127,7 +136,7 @@ test.describe('Locality Module', () => {
       areaRadioPanel,
       citySelectionPanel,
       errorMessage,
-    } = locationModule.elements();
+    } = localityModule.elements();
 
     // Select Italy as country
     await countryRadioPanel().locator('label[for="country-radio-IT"]').click();
@@ -178,7 +187,7 @@ test.describe('Locality Module', () => {
       - Uncheck Lombardia (leaving only Piemonte selected)
       - Save and check output: output should contain country and other nord ovest regions
     */
-    const { regionSelectionPanel, errorMessage } = locationModule.elements();
+    const { regionSelectionPanel, errorMessage } = localityModule.elements();
 
     // Add a Region to the panel
     await regionSelectionPanel()

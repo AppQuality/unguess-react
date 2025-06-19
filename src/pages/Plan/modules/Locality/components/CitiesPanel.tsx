@@ -12,6 +12,7 @@ import { useValidation } from 'src/features/modules/useModuleValidation';
 import { components } from 'src/common/schema';
 import { appTheme } from 'src/app/theme';
 import { CITIES } from '../data/cities';
+import { useCallback } from 'react';
 
 const CitiesContainer = styled.div`
   padding-left: ${({ theme }) => theme.space.md};
@@ -35,20 +36,22 @@ export const CitiesPanel = ({ validate }: CitiesPanelProps) => {
   const cityArea = getCityArea(areaArr);
   const selectedCities = cityArea.values || [];
 
-  const updateCities = (newCities: string[]) => {
-    const newAreaArr: ModuleOutput = [
-      ...areaArr.filter((a: ModuleOutput[0]) => a.type !== 'city'),
-      { type: 'city', values: newCities },
-    ];
-    setOutput(newAreaArr);
-    if (validate) {
-      validate({
-        output: newAreaArr,
-        variant: value?.variant || 'default',
-      });
-      if (validate) validate();
-    }
-  };
+  const updateCities = useCallback(
+    (newCities: string[]) => {
+      const newAreaArr: ModuleOutput = [
+        ...areaArr.filter((a: ModuleOutput[0]) => a.type !== 'city'),
+        { type: 'city', values: newCities },
+      ];
+      setOutput(newAreaArr);
+      if (validate) {
+        validate({
+          output: newAreaArr,
+          variant: value?.variant || 'default',
+        });
+      }
+    },
+    [areaArr, setOutput, validate, value?.variant]
+  );
 
   return (
     <div

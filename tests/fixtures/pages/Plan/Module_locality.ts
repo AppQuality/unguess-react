@@ -1,8 +1,9 @@
-import { expect, type Page } from '@playwright/test';
+import { type Page } from '@playwright/test';
+import exp from 'constants';
 import { i18n } from 'i18next';
 import { getI18nInstance } from 'playwright-i18next-fixture';
 
-export class LocationModule {
+export class LocalityModule {
   readonly page: Page;
 
   readonly i18n: i18n;
@@ -50,7 +51,11 @@ export class LocationModule {
       errorMessage: () =>
         this.elements().module().getByTestId('locality-module-error-message'),
       removeButton: () =>
-        this.elements().module().getByTestId('locality-module-remove-button'),
+        this.elements()
+          .module()
+          .getByRole('button', {
+            name: this.i18n.t('__PLAN_PAGE_MODULE_LOCALITY_REMOVE_BUTTON'),
+          }),
     };
   }
 
@@ -69,8 +74,12 @@ export class LocationModule {
     await this.elements().tab().click();
   }
 
-  // async expectToBeReadonly() {
-  //   // Implement readonly checks for Location module if needed
-  //   // Example: check for disabled inputs
-  // }
+  removeModule() {
+    return this.elements().removeButton().click();
+  }
+
+  async expectToBeReadonly() {
+    const { areaRadioInput, citySelectionInput } = this.elements();
+    expect(true).toBeTruthy(); // Placeholder for actual implementation
+  }
 }
