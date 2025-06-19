@@ -1,18 +1,18 @@
 import {
-  FormField as Field,
   Checkbox,
-  Label,
+  FormField as Field,
   Hint,
+  Label,
   Span,
 } from '@appquality/unguess-design-system';
-import styled from 'styled-components';
+import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
+import { appTheme } from 'src/app/theme';
+import { components } from 'src/common/schema';
 import { useModule } from 'src/features/modules/useModule';
 import { useValidation } from 'src/features/modules/useModuleValidation';
-import { components } from 'src/common/schema';
-import { appTheme } from 'src/app/theme';
+import styled from 'styled-components';
 import { CITIES } from '../data/cities';
-import { useCallback } from 'react';
 
 const CitiesContainer = styled.div`
   padding-left: ${({ theme }) => theme.space.md};

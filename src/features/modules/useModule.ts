@@ -7,7 +7,6 @@ import {
   setOutput as setOutputAction,
   setVariant as setVariantAction,
 } from '../planModules';
-import { get } from 'http';
 
 export const useModule = <T extends components['schemas']['Module']['type']>(
   moduleName: T
