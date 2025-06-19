@@ -135,7 +135,7 @@ export const useModule = <T extends components['schemas']['Module']['type']>(
         return {
           type,
           variant: 'default',
-          output: {},
+          output: [],
         };
       case 'target':
         return {
