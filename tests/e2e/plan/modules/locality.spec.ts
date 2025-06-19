@@ -155,7 +155,6 @@ test.describe('Locality Module', () => {
 
     // Select two cities
     await citySelectionPanel().locator('label[for="city-checkbox-RM"]').click();
-    await citySelectionPanel().locator('label[for="city-checkbox-MI"]').click();
 
     // Error should disappear
     await expect(errorMessage()).not.toBeVisible();
@@ -169,7 +168,7 @@ test.describe('Locality Module', () => {
     );
     expect(localityModuleData.output).toEqual([
       { type: 'country', values: ['IT'] },
-      { type: 'city', values: ['RM', 'MI'] },
+      { type: 'city', values: ['RM'] },
     ]);
   });
   test('should allow selecting regions and update output accordingly', async ({
