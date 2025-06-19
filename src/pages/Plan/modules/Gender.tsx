@@ -22,6 +22,7 @@ import { FEATURE_FLAG_CHANGE_MODULES_VARIANTS } from 'src/constants';
 import { useModule } from 'src/features/modules/useModule';
 import { useModuleConfiguration } from 'src/features/modules/useModuleConfiguration';
 import { useValidation } from 'src/features/modules/useModuleValidation';
+import styled from 'styled-components';
 import { Divider } from 'src/common/components/divider';
 import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
 import { getIconFromModuleType } from '../utils';
@@ -52,6 +53,12 @@ const Gender = () => {
   const [desiredGenders, setDesiredGenders] = useState<GenderTypes[]>(
     value?.output?.map((g) => g.gender) || genderTypes
   );
+
+  const PercentageInputRow = styled(Row)`
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  `;
 
   const { t } = useTranslation();
   const validation = (
@@ -341,13 +348,7 @@ const Gender = () => {
                 </Col>
                 {isAddPercentageClicked && (
                   <Col size={6}>
-                    <Row
-                      style={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        justifyContent: 'flex-end',
-                      }}
-                    >
+                    <PercentageInputRow>
                       <PercentageInput
                         data-qa="male-percentage-input"
                         readOnly={
@@ -358,14 +359,8 @@ const Gender = () => {
                         value={malePercentage ?? 0} // defaults to 0 only frontend but not added to output
                         onChange={setMalePercentage}
                       />
-                    </Row>
-                    <Row
-                      style={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        justifyContent: 'flex-end',
-                      }}
-                    >
+                    </PercentageInputRow>
+                    <PercentageInputRow>
                       <PercentageInput
                         data-qa="female-percentage-input"
                         readOnly={
@@ -376,7 +371,7 @@ const Gender = () => {
                         value={femalePercentage ?? 0} // defaults to 0 only frontend but not added to output
                         onChange={setFemalePercentage}
                       />
-                    </Row>
+                    </PercentageInputRow>
                   </Col>
                 )}
               </Row>
