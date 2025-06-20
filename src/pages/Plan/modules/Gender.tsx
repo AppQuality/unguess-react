@@ -162,11 +162,6 @@ const Gender = () => {
     updateOutput();
   }, [desiredGenders, femalePercentage, malePercentage]);
 
-  const handlePercentageVariant = () => {
-    setIsAddPercentageClicked(!isAddPercentageClicked);
-    setVariant(!isAddPercentageClicked ? 'percentage' : 'default');
-  };
-
   const checkIsPercentageVariant = () => value?.variant === 'percentage';
 
   const totalPercentage =
@@ -218,7 +213,9 @@ const Gender = () => {
                     <Button
                       aria-label="change-variant"
                       size="small"
-                      onClick={handlePercentageVariant}
+                      onClick={() =>
+                        setIsAddPercentageClicked(!isAddPercentageClicked)
+                      }
                     >
                       {!isAddPercentageClicked && (
                         <>
