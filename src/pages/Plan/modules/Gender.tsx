@@ -335,7 +335,9 @@ const Gender = () => {
                           display: 'flex',
                           alignItems: 'center',
                           height: appTheme.space.lg,
-                          marginBottom: appTheme.space.sm,
+                          marginBottom: checkIsPercentageVariant()
+                            ? appTheme.space.sm
+                            : undefined,
                         }}
                       >
                         <Checkbox
