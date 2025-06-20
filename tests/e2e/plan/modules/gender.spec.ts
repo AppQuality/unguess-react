@@ -39,9 +39,7 @@ test.describe('The gender module defines the user gender.', () => {
     await expect(modulepercentageInput()).not.toBeVisible();
   });
 
-  test('It should show the correct button to change the variant', async ({
-    i18n,
-  }) => {
+  test('It should show the correct button to change the variant', async () => {
     // TODO: update the api example for mockGetDraftPlan fixing the variant to run this test successfully
     /*
     - initial state of the plan is only female checked 100%
