@@ -5,7 +5,7 @@ import { getColorWithAlpha } from 'src/common/utils';
 
 export const areaOptions = [
   {
-    label: 'Tutte le aree',
+    label: <Trans i18nKey="__PLAN_PAGE_MODULE_LOCALITY_ALL_AREAS_LABEL" />,
     value: 'all',
     hint: <Trans i18nKey="__PLAN_PAGE_MODULE_LOCALITY_ALL_AREAS_HINT" />,
     tag: (
@@ -24,7 +24,7 @@ export const areaOptions = [
     ),
   },
   {
-    label: 'Aree Nielsen e Regioni',
+    label: <Trans i18nKey="__PLAN_PAGE_MODULE_LOCALITY_NIELSEN_AREAS_LABEL" />,
     value: 'region',
     hint: <Trans i18nKey="__PLAN_PAGE_MODULE_LOCALITY_REGIONS_HINT" />,
     tag: (
@@ -43,7 +43,7 @@ export const areaOptions = [
     ),
   },
   {
-    label: 'Province e grossi centri',
+    label: <Trans i18nKey="__PLAN_PAGE_MODULE_LOCALITY_REGIONS_LABEL" />,
     value: 'city',
     hint: <Trans i18nKey="__PLAN_PAGE_MODULE_LOCALITY_CITIES_HINT" />,
     tag: (
