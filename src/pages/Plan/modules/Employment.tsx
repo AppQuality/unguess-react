@@ -181,6 +181,7 @@ const Employment = () => {
                 </Label>
                 <MultiSelect
                   disabled={getPlanStatus() !== 'draft'}
+                  onBlur={validate}
                   data-qa="employment-input"
                   listboxAppendToNode={document.body}
                   options={options}
