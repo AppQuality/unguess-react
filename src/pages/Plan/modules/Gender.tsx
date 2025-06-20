@@ -149,6 +149,17 @@ const Gender = () => {
     if (value?.variant === 'default') {
       setMalePercentage(0);
       setFemalePercentage(0);
+    } else {
+      const hasMale = moduleOutputContainsGender('male');
+      const hasFemale = moduleOutputContainsGender('female');
+      if (hasMale && hasFemale) {
+        setMalePercentage(50);
+        setFemalePercentage(50);
+      } else if (hasMale) {
+        setMalePercentage(100);
+      } else if (hasFemale) {
+        setFemalePercentage(100);
+      }
     }
   }, [value?.variant]);
 
@@ -162,7 +173,7 @@ const Gender = () => {
 
   useEffect(() => {
     validate();
-  }, [value]);
+  }, [value?.output]);
 
   useEffect(() => {
     updateOutput();
