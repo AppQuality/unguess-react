@@ -92,7 +92,7 @@ test.describe('The gender module defines the user gender.', () => {
     - initial state of the plan is only female checked (100%)
     - click on percentage variant
     - click on male checkbox
-    - an error should be shown to the user to prompt to set the percentage for male
+    - both input values should be set to 50
     - click on male percentage input and set it to 100 and female to 0
     - an error should be shown to the user to prompt to set the percentage for female
     - click on female percentage input and set it to 50
@@ -107,6 +107,8 @@ test.describe('The gender module defines the user gender.', () => {
       moduleChangeVariantButton,
       modulePercentageError,
       moduleUnassignedPercentageError,
+      moduleFemalePercentageInput,
+      moduleMalePercentageInput,
     } = genderModule.elements();
     await expect(module()).toBeVisible();
     const genderCheckboxes = moduleInput();
@@ -124,7 +126,9 @@ test.describe('The gender module defines the user gender.', () => {
     expect(femaleCheckbox).toBeChecked();
     await moduleChangeVariantButton().click();
     await module().locator('label[for="gender-male"]').check();
-    await expect(moduleUnassignedPercentageError()).toBeVisible();
+    await expect(modulePercentageError()).not.toBeVisible();
+    expect(await moduleFemalePercentageInput().inputValue()).toBe('50');
+    expect(await moduleMalePercentageInput().inputValue()).toBe('50');
     await genderModule.fillFemalePercentageInput('0');
     await genderModule.fillMalePercentageInput('100');
     await expect(moduleUnassignedPercentageError()).toBeVisible();
