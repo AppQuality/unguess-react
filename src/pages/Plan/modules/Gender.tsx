@@ -79,7 +79,10 @@ const Gender = () => {
     );
 
   const percentageError =
-    checkIsPercentageVariant() && malePercentage + femalePercentage !== 100;
+    checkIsPercentageVariant() &&
+    (value?.output?.find((g) => g.gender === 'male')?.percentage ?? 0) +
+      (value?.output?.find((g) => g.gender === 'female')?.percentage ?? 0) !==
+      100;
 
   const validation = (
     module: components['schemas']['Module'] & { type: 'gender' }
@@ -176,6 +179,22 @@ const Gender = () => {
   }, [value?.output]);
 
   useEffect(() => {
+    if (
+      value?.variant === 'percentage' &&
+      desiredGenders.length > 0 &&
+      value?.output?.length === 1
+    ) {
+      setFemalePercentage(Number(100 / desiredGenders.length));
+      setMalePercentage(Number(100 / desiredGenders.length));
+    }
+    if (
+      value?.variant === 'percentage' &&
+      desiredGenders.length === 1 &&
+      value?.output?.length > 1
+    ) {
+      if (value.output[0].gender === 'male') setMalePercentage(100);
+      else setFemalePercentage(100);
+    }
     updateOutput();
   }, [desiredGenders, femalePercentage, malePercentage]);
 
@@ -367,7 +386,11 @@ const Gender = () => {
                       <PercentageInput
                         planStatus={getPlanStatus()}
                         data-qa="male-percentage-input"
-                        readOnly={!moduleOutputContainsGender('male')}
+                        readOnly={
+                          !moduleOutputContainsGender('male') ||
+                          (!moduleOutputContainsGender('female') &&
+                            malePercentage === 100)
+                        }
                         gender="male"
                         value={
                           moduleOutputContainsGender('male')
@@ -381,7 +404,11 @@ const Gender = () => {
                       <PercentageInput
                         planStatus={getPlanStatus()}
                         data-qa="female-percentage-input"
-                        readOnly={!moduleOutputContainsGender('female')}
+                        readOnly={
+                          !moduleOutputContainsGender('female') ||
+                          (!moduleOutputContainsGender('male') &&
+                            femalePercentage === 100)
+                        }
                         gender="female"
                         value={
                           moduleOutputContainsGender('female')
