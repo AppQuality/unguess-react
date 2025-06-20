@@ -61,7 +61,6 @@ const PercentageInput: React.FC<PercentageInputProps> = ({
         placeholder="%"
         type="number"
         value={value}
-        readOnly={readOnly}
         disabled={readOnly || planStatus !== 'draft'}
         onChange={(e) => handleInputChange(e)}
         style={{
