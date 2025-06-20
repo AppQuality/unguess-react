@@ -168,7 +168,12 @@ const Employment = () => {
           <AccordionNew.Panel>
             <div style={{ padding: appTheme.space.xs }}>
               <FormField style={{ marginBottom: appTheme.space.md }}>
-                <Label>
+                <Label
+                  style={{
+                    marginBottom: appTheme.space.xs,
+                    display: 'inline-block',
+                  }}
+                >
                   <Trans i18nKey="__PLAN_PAGE_MODULE_EMPLOYMENT_LABEL">
                     Select one or more professional categories
                   </Trans>
@@ -179,8 +184,9 @@ const Employment = () => {
                   data-qa="employment-input"
                   listboxAppendToNode={document.body}
                   options={options}
+                  size="small"
+                  maxItems={10}
                   selectedItems={options.filter((opt) => opt.selected)}
-                  size="medium"
                   i18n={{
                     placeholder: t(
                       '__PLAN_PAGE_MODULE_EMPLOYMENT_SELECT_PLACEHOLDER'
