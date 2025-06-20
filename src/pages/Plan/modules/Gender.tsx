@@ -150,18 +150,6 @@ const Gender = () => {
     setVariant(isAddPercentageClicked ? 'percentage' : 'default');
   }, [isAddPercentageClicked]);
 
-  useEffect(() => {
-    if (value?.variant === 'percentage') {
-      setIsAddPercentageClicked(true);
-      setFemalePercentage(
-        value.output.find((v) => v.gender === 'female')?.percentage || 0
-      );
-      setMalePercentage(
-        value.output.find((v) => v.gender === 'male')?.percentage || 0
-      );
-    }
-  }, [value?.variant]);
-
   const handleDelete = () => {
     setIsOpenDeleteModal(true);
   };
