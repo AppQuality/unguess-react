@@ -51,6 +51,7 @@ const PercentageInput = ({
     >
       <IconButton
         size="small"
+        isPill={false}
         disabled={value <= 0 || readOnly || planStatus !== 'draft'}
         onClick={(e) => {
           e.stopPropagation();
@@ -76,6 +77,7 @@ const PercentageInput = ({
       />
       <IconButton
         size="small"
+        isPill={false}
         disabled={value >= 100 || readOnly || planStatus !== 'draft'}
         onClick={(e) => {
           e.stopPropagation();
