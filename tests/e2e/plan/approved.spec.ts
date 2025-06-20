@@ -1,4 +1,4 @@
-import { test, expect } from '../../fixtures/app';
+import { expect, test } from '../../fixtures/app';
 import { PlanPage } from '../../fixtures/pages/Plan';
 
 test.describe('A Plan page in approved state', () => {
