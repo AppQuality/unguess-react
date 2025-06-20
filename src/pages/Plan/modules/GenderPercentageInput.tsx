@@ -8,6 +8,7 @@ interface PercentageInputProps {
   onChange: (value: number) => void;
   readOnly?: boolean;
   gender: string;
+  planStatus: string;
 }
 
 const PercentageInput: React.FC<PercentageInputProps> = ({
@@ -15,6 +16,7 @@ const PercentageInput: React.FC<PercentageInputProps> = ({
   onChange,
   gender,
   readOnly = false,
+  planStatus = 'draft',
 }) => {
   const handleDecreasePercentage = () => {
     // Logic to decrease percentage
@@ -43,7 +45,7 @@ const PercentageInput: React.FC<PercentageInputProps> = ({
       }}
     >
       <IconButton
-        disabled={value <= 0 || readOnly}
+        disabled={value <= 0 || readOnly || planStatus !== 'draft'}
         onClick={(e) => {
           e.stopPropagation();
           handleDecreasePercentage();
@@ -60,7 +62,7 @@ const PercentageInput: React.FC<PercentageInputProps> = ({
         type="number"
         value={value}
         readOnly={readOnly}
-        disabled={readOnly}
+        disabled={readOnly || planStatus !== 'draft'}
         onChange={(e) => handleInputChange(e)}
         style={{
           width: '20%',
@@ -68,7 +70,7 @@ const PercentageInput: React.FC<PercentageInputProps> = ({
         }}
       />
       <IconButton
-        disabled={value >= 100 || readOnly}
+        disabled={value >= 100 || readOnly || planStatus !== 'draft'}
         onClick={(e) => {
           e.stopPropagation();
           handleIncreasePercentage();

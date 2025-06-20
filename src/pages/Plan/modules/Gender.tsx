@@ -54,6 +54,8 @@ const Gender = () => {
     value?.output?.map((g) => g.gender) || genderTypes
   );
 
+  const checkIsPercentageVariant = () => value?.variant === 'percentage';
+
   const PercentageInputRow = styled(Row)`
     display: flex;
     flex-direction: column;
@@ -64,7 +66,7 @@ const Gender = () => {
 
   // Error if percentage variant is active and any selected gender has 0 percentage
   const unassignedGenderPercentageError =
-    value?.variant === 'percentage' &&
+    checkIsPercentageVariant() &&
     value?.output.some(
       (g) =>
         (g.gender === 'male' && malePercentage === 0) ||
@@ -72,8 +74,7 @@ const Gender = () => {
     );
 
   const percentageError =
-    value?.variant === 'percentage' &&
-    malePercentage + femalePercentage !== 100;
+    checkIsPercentageVariant() && malePercentage + femalePercentage !== 100;
 
   const validation = (
     module: components['schemas']['Module'] & { type: 'gender' }
@@ -162,8 +163,6 @@ const Gender = () => {
     updateOutput();
   }, [desiredGenders, femalePercentage, malePercentage]);
 
-  const checkIsPercentageVariant = () => value?.variant === 'percentage';
-
   const totalPercentage =
     (value?.output.some((v) => v.gender === 'female') ? femalePercentage : 0) +
     (value?.output.some((v) => v.gender === 'male') ? malePercentage : 0);
@@ -229,8 +228,7 @@ const Gender = () => {
                           </Label>
                         </>
                       )}
-                      {(value?.variant === 'percentage' ||
-                        isAddPercentageClicked) && (
+                      {checkIsPercentageVariant() && (
                         <>
                           <Button.StartIcon>
                             <XIcon />
@@ -345,6 +343,7 @@ const Gender = () => {
                   <Col size={6}>
                     <PercentageInputRow>
                       <PercentageInput
+                        planStatus={getPlanStatus()}
                         data-qa="male-percentage-input"
                         readOnly={
                           malePercentage === 0 &&
@@ -357,6 +356,7 @@ const Gender = () => {
                     </PercentageInputRow>
                     <PercentageInputRow>
                       <PercentageInput
+                        planStatus={getPlanStatus()}
                         data-qa="female-percentage-input"
                         readOnly={
                           femalePercentage === 0 &&
