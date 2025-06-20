@@ -99,6 +99,16 @@ export class PlanPage extends UnguessPage {
         this.elements().titleModule().getByTestId('title-input'),
       titleModuleOutput: () =>
         this.elements().titleModule().getByTestId('title-output'),
+      removeModuleModal: () =>
+        this.page.getByRole('dialog', {
+          name: this.i18n.t('__PLAN_PAGE_MODUL_GENERAL_REMOVE_MODAL_TITLE'),
+        }),
+      removeModuleModalConfirm: () =>
+        this.elements()
+          .removeModuleModal()
+          .getByRole('button', {
+            name: this.i18n.t('__PLAN_PAGE_MODUL_GENERAL_REMOVE_MODAL_CONFIRM'),
+          }),
     };
   }
 
