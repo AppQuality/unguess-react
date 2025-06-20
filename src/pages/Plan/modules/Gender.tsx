@@ -212,6 +212,7 @@ const Gender = () => {
                     <Button
                       aria-label="change-variant"
                       size="small"
+                      disabled={getPlanStatus() !== 'draft'}
                       onClick={() =>
                         setIsAddPercentageClicked(!isAddPercentageClicked)
                       }
