@@ -38,6 +38,28 @@ test.describe('The gender module defines the user gender.', () => {
     expect(femaleCheckbox).toBeChecked();
     await expect(modulepercentageInput()).not.toBeVisible();
   });
+
+  test('It should show the correct button to change the variant', async ({
+    i18n,
+  }) => {
+    // TODO: update the api example for mockGetDraftPlan fixing the variant to run this test successfully
+    /*
+    - initial state of the plan is only female checked 100%
+    - the button to change the variant should be visible
+    - the button should have the text 'Remove custom percentage'
+    - if the button is clicked, the text in the button should change to "Add custom percentage"
+    */
+    const { module, moduleChangeVariantButton } = genderModule.elements();
+    await expect(module()).toBeVisible();
+    await expect(moduleChangeVariantButton()).toBeVisible();
+    /* await expect(moduleChangeVariantButton()).toContainText(
+      i18n.t('__PLAN_PAGE_MODULE_GENDER_REMOVE_PERCENTAGE_BUTTON_LABEL')
+    );
+    await moduleChangeVariantButton().click();
+    await expect(moduleChangeVariantButton()).toContainText(
+      i18n.t('__PLAN_PAGE_MODULE_GENDER_ADD_PERCENTAGE_BUTTON_LABEL')
+    ); */
+  });
   test('It should have an output of an array of objects with gender and percentage, in the default variant percentages are 0', async () => {
     /*
     this testcase test the following:
