@@ -178,7 +178,11 @@ const Gender = () => {
         hasBorder
         className="gender-checkboxes"
         data-qa="gender-module"
-        type={genderError ? 'danger' : 'default'}
+        type={
+          genderError || unassignedGenderPercentageError || percentageError
+            ? 'danger'
+            : 'default'
+        }
         level={3}
       >
         <AccordionNew.Section>
