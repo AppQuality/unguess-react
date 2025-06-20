@@ -82,12 +82,15 @@ export class LocalityModule {
     const areaRadios = this.elements().areaRadioInput();
     const countryCount = await countryRadios.count();
     const areaCount = await areaRadios.count();
-    for (let i = 0; i < countryCount; i++) {
-      await expect(countryRadios.nth(i)).toBeDisabled();
+    const checks: Promise<void>[] = [];
+    for (let i = 0; i < countryCount; i += 1) {
+      checks.push(expect(countryRadios.nth(i)).toHaveAttribute('disabled', ''));
     }
-    for (let i = 0; i < areaCount; i++) {
-      await expect(areaRadios.nth(i)).toBeDisabled();
+
+    for (let i = 0; i < areaCount; i += 1) {
+      checks.push(expect(areaRadios.nth(i)).toHaveAttribute('disabled', ''));
     }
+    await Promise.all(checks);
   }
 
   async expectRegionCheckboxesDisabled() {

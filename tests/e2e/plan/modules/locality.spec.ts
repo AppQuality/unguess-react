@@ -52,7 +52,7 @@ test.describe('Locality Module', () => {
     // await planPage.addModule('locality');
     // await expect(module()).toBeVisible();
   });
-  test('should display the correct saved data', async ({ page }) => {
+  test('should display the correct saved data', async () => {
     const {
       countryRadioInput,
       areaRadioInput,

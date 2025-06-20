@@ -112,7 +112,7 @@ const Employment = () => {
     return error || true;
   };
 
-  const { error, validate } = useValidation({
+  const { error } = useValidation({
     type: 'employment',
     validate: validation,
   });

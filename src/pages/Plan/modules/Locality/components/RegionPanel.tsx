@@ -32,7 +32,7 @@ const getRegionArea = (areaArr: ModuleOutput) =>
 
 export const RegionPanel = ({ validate }: RegionPanelProps) => {
   const { t } = useTranslation();
-  const { value, setOutput, remove } = useModule('locality');
+  const { value, setOutput } = useModule('locality');
   const areaArr: ModuleOutput = value?.output || [];
   const regionArea = getRegionArea(areaArr);
   const selectedRegions = regionArea.values || [];
