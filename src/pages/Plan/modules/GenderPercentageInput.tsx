@@ -21,13 +21,13 @@ const PercentageInput = ({
   const [internalValue, setInternalValue] = useState(value);
   const handleDecreasePercentage = () => {
     // Logic to decrease percentage
-    const newValue = value - 5;
+    const newValue = value - 10;
     onChange(newValue < 0 ? 0 : newValue);
   };
 
   const handleIncreasePercentage = () => {
     // Logic to increase percentage
-    const newValue = value + 5;
+    const newValue = value + 10;
     onChange(newValue > 100 ? 100 : newValue);
   };
 
