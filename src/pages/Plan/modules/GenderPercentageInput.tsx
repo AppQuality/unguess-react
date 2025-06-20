@@ -45,6 +45,7 @@ const PercentageInput: React.FC<PercentageInputProps> = ({
       }}
     >
       <IconButton
+        size="small"
         disabled={value <= 0 || readOnly || planStatus !== 'draft'}
         onClick={(e) => {
           e.stopPropagation();
@@ -69,6 +70,7 @@ const PercentageInput: React.FC<PercentageInputProps> = ({
         }}
       />
       <IconButton
+        size="small"
         disabled={value >= 100 || readOnly || planStatus !== 'draft'}
         onClick={(e) => {
           e.stopPropagation();

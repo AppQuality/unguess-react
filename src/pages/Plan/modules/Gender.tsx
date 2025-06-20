@@ -63,6 +63,8 @@ const Gender = () => {
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
+    padding-right: ${appTheme.space.sm};
+    margin-bottom: ${appTheme.space.sm};
   `;
 
   const { t } = useTranslation();
