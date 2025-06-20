@@ -289,19 +289,24 @@ const Gender = () => {
                 </Col>
               </Row>
               <Row>
-                <Col size={checkIsPercentageVariant() ? 6 : 12}>
+                <Col
+                  size={checkIsPercentageVariant() ? 6 : 12}
+                  style={{ marginBottom: appTheme.space.xxs }}
+                >
                   <div
                     style={{
-                      display: 'flex',
-                      flexDirection: 'column',
-                      gap: appTheme.space.sm,
-                      marginLeft: appTheme.space.md,
+                      paddingLeft: appTheme.space.md,
                     }}
                   >
                     {genderTypes.map((gender) => (
                       <FormField
                         key={gender}
-                        style={{ marginTop: appTheme.space.sm }}
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          height: appTheme.space.lg,
+                          marginBottom: appTheme.space.sm,
+                        }}
                       >
                         <Checkbox
                           id={`gender-${gender}`}
@@ -346,7 +351,7 @@ const Gender = () => {
                   </div>
                 </Col>
                 {isAddPercentageClicked && (
-                  <Col size={6}>
+                  <Col size={6} style={{ marginBottom: appTheme.space.xxs }}>
                     <PercentageInputRow>
                       <PercentageInput
                         planStatus={getPlanStatus()}
@@ -382,7 +387,7 @@ const Gender = () => {
                 <>
                   <Divider style={{ marginBottom: appTheme.space.md }} />
                   <Row>
-                    <Col>
+                    <Col style={{ marginBottom: appTheme.space.xxs }}>
                       <Label
                         style={{
                           marginLeft: appTheme.space.md,
@@ -391,7 +396,7 @@ const Gender = () => {
                         {t('__PLAN_PAGE_MODULE_GENDER_TOTAL_PERCENTAGE_LABEL')}
                       </Label>
                     </Col>
-                    <Col>
+                    <Col style={{ marginBottom: appTheme.space.xxs }}>
                       <div
                         style={{
                           display: 'flex',
