@@ -158,6 +158,7 @@ export class PlanPage extends UnguessPage {
       this.modules.gender.expectToBeReadonly(),
       this.modules.digitalLiteracy.expectToBeReadonly(),
       this.modules.language.expectToBeReadonly(),
+      this.modules.locality.expectToBeReadonly(),
     ]);
 
     // tab instructions

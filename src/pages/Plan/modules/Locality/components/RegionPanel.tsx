@@ -10,6 +10,7 @@ import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { components } from 'src/common/schema';
 import { useModule } from 'src/features/modules/useModule';
+import { useModuleConfiguration } from 'src/features/modules/useModuleConfiguration';
 import { useValidation } from 'src/features/modules/useModuleValidation';
 import styled from 'styled-components';
 import { italyRegions } from '../data/locationRegions';
@@ -35,6 +36,7 @@ export const RegionPanel = ({ validate }: RegionPanelProps) => {
   const areaArr: ModuleOutput = value?.output || [];
   const regionArea = getRegionArea(areaArr);
   const selectedRegions = regionArea.values || [];
+  const { getPlanStatus } = useModuleConfiguration();
 
   const updateRegions = useCallback(
     (newRegions: string[]) => {
@@ -75,6 +77,7 @@ export const RegionPanel = ({ validate }: RegionPanelProps) => {
           <div key={marketArea.marketArea.value}>
             <Field>
               <Checkbox
+                disabled={getPlanStatus() !== 'draft'}
                 id={marketAreaId}
                 checked={marketArea.regions.some((region) =>
                   selectedRegions.includes(region.value)
@@ -131,6 +134,7 @@ export const RegionPanel = ({ validate }: RegionPanelProps) => {
                   return (
                     <Field key={region.value} style={{ margin: 0 }}>
                       <Checkbox
+                        disabled={getPlanStatus() !== 'draft'}
                         id={regionId}
                         value={region.value}
                         checked={selectedRegions.includes(region.value)}

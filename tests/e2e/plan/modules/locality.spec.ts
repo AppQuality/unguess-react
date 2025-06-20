@@ -153,7 +153,7 @@ test.describe('Locality Module', () => {
       i18n.t('__PLAN_PAGE_MODULE_LOCALITY_CITY_ERROR')
     );
 
-    // Select two cities
+    // Select again a city
     await citySelectionPanel().locator('label[for="city-checkbox-RM"]').click();
 
     // Error should disappear

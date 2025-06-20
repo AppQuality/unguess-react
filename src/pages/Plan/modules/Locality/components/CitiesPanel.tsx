@@ -10,6 +10,7 @@ import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { components } from 'src/common/schema';
 import { useModule } from 'src/features/modules/useModule';
+import { useModuleConfiguration } from 'src/features/modules/useModuleConfiguration';
 import { useValidation } from 'src/features/modules/useModuleValidation';
 import styled from 'styled-components';
 import { CITIES } from '../data/cities';
@@ -35,6 +36,7 @@ export const CitiesPanel = ({ validate }: CitiesPanelProps) => {
   const areaArr: ModuleOutput = value?.output || [];
   const cityArea = getCityArea(areaArr);
   const selectedCities = cityArea.values || [];
+  const { getPlanStatus } = useModuleConfiguration();
 
   const updateCities = useCallback(
     (newCities: string[]) => {
@@ -75,6 +77,7 @@ export const CitiesPanel = ({ validate }: CitiesPanelProps) => {
           return (
             <Field key={city.value} style={{ margin: 0 }}>
               <Checkbox
+                disabled={getPlanStatus() !== 'draft'}
                 id={cityId}
                 value={city.value}
                 checked={selectedCities.includes(city.value)}

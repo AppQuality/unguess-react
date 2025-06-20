@@ -226,6 +226,7 @@ const Locality = () => {
                           <Field style={{ margin: 0 }}>
                             <Radio
                               id={inputId}
+                              disabled={getPlanStatus() !== 'draft'}
                               value={option.value}
                               name="area"
                               checked={selectedArea === option.value}

@@ -1,11 +1,12 @@
-import React from 'react';
 import {
   FormField as Field,
-  Radio,
   Label,
+  Radio,
   Tag,
 } from '@appquality/unguess-design-system';
+import React from 'react';
 import { appTheme } from 'src/app/theme';
+import { useModuleConfiguration } from 'src/features/modules/useModuleConfiguration';
 import styled from 'styled-components';
 
 const countryOptions = [
@@ -43,32 +44,36 @@ export const CountrySelector = ({
   selectedCountry,
   onChange,
   ariaLabel,
-}: CountrySelectorProps) => (
-  <FieldWrapper columns="3" role="group" aria-label={ariaLabel}>
-    {countryOptions.map((option) => {
-      const inputId = `country-radio-${option.value}`;
-      return (
-        <RadioTag
-          key={option.value}
-          color={appTheme.palette.azure[600]}
-          style={{
-            backgroundColor: appTheme.palette.azure[100],
-            marginBottom: appTheme.space.sm,
-          }}
-        >
-          <Field style={{ margin: 0 }}>
-            <Radio
-              id={inputId}
-              value={option.value}
-              name="country"
-              checked={selectedCountry === option.value}
-              onChange={onChange}
-            >
-              <Label htmlFor={inputId}>{option.label}</Label>
-            </Radio>
-          </Field>
-        </RadioTag>
-      );
-    })}
-  </FieldWrapper>
-);
+}: CountrySelectorProps) => {
+  const { getPlanStatus } = useModuleConfiguration();
+  return (
+    <FieldWrapper columns="3" role="group" aria-label={ariaLabel}>
+      {countryOptions.map((option) => {
+        const inputId = `country-radio-${option.value}`;
+        return (
+          <RadioTag
+            key={option.value}
+            color={appTheme.palette.azure[600]}
+            style={{
+              backgroundColor: appTheme.palette.azure[100],
+              marginBottom: appTheme.space.sm,
+            }}
+          >
+            <Field style={{ margin: 0 }}>
+              <Radio
+                disabled={getPlanStatus() !== 'draft'}
+                id={inputId}
+                value={option.value}
+                name="country"
+                checked={selectedCountry === option.value}
+                onChange={onChange}
+              >
+                <Label htmlFor={inputId}>{option.label}</Label>
+              </Radio>
+            </Field>
+          </RadioTag>
+        );
+      })}
+    </FieldWrapper>
+  );
+};

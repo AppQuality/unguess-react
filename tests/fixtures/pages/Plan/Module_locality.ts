@@ -1,5 +1,4 @@
-import { type Page } from '@playwright/test';
-import exp from 'constants';
+import { type Page, expect } from '@playwright/test';
 import { i18n } from 'i18next';
 import { getI18nInstance } from 'playwright-i18next-fixture';
 
@@ -78,8 +77,49 @@ export class LocalityModule {
     return this.elements().removeButton().click();
   }
 
+  async expectAllRadiosDisabled() {
+    const countryRadios = this.elements().countryRadioInput();
+    const areaRadios = this.elements().areaRadioInput();
+    const countryCount = await countryRadios.count();
+    const areaCount = await areaRadios.count();
+    for (let i = 0; i < countryCount; i++) {
+      await expect(countryRadios.nth(i)).toBeDisabled();
+    }
+    for (let i = 0; i < areaCount; i++) {
+      await expect(areaRadios.nth(i)).toBeDisabled();
+    }
+  }
+
+  async expectRegionCheckboxesDisabled() {
+    const reggionCheckbox = this.elements().regionSelectionInput();
+    const countRegion = await reggionCheckbox.count();
+    const checksRegion: Promise<void>[] = [];
+    for (let i = 0; i < countRegion; i += 1) {
+      checksRegion.push(
+        expect(reggionCheckbox.nth(i)).toHaveAttribute('disabled', '')
+      );
+    }
+    await Promise.all(checksRegion);
+  }
+
+  async expectCityCheckboxesDisabled() {
+    const cityCheckbox = this.elements().citySelectionInput();
+    const countCity = await cityCheckbox.count();
+    const checksCity: Promise<void>[] = [];
+    for (let i = 0; i < countCity; i += 1) {
+      checksCity.push(
+        expect(cityCheckbox.nth(i)).toHaveAttribute('disabled', '')
+      );
+    }
+    await Promise.all(checksCity);
+  }
+
   async expectToBeReadonly() {
-    const { areaRadioInput, citySelectionInput } = this.elements();
-    expect(true).toBeTruthy(); // Placeholder for actual implementation
+    await this.elements().module().scrollIntoViewIfNeeded();
+    await this.expectAllRadiosDisabled();
+    this.elements().regionSelectionPanel().scrollIntoViewIfNeeded();
+    await this.expectRegionCheckboxesDisabled();
+    // this.elements().citySelectionPanel().scrollIntoViewIfNeeded();
+    // await this.expectCityCheckboxesDisabled();
   }
 }
