@@ -47,6 +47,9 @@ const Gender = () => {
   const [femalePercentage, setFemalePercentage] = useState(initialFemale);
   const [malePercentage, setMalePercentage] = useState(initialMale);
 
+  const moduleOutputContainsGender = (gender: GenderTypes) =>
+    value?.output?.some((g) => g.gender === gender);
+
   const genderTypes: GenderTypes[] = ['male', 'female'];
 
   // Initialize desiredGenders from value.output or as an empty array
@@ -164,8 +167,8 @@ const Gender = () => {
   }, [desiredGenders, femalePercentage, malePercentage]);
 
   const totalPercentage =
-    (value?.output.some((v) => v.gender === 'female') ? femalePercentage : 0) +
-    (value?.output.some((v) => v.gender === 'male') ? malePercentage : 0);
+    (moduleOutputContainsGender('female') ? femalePercentage : 0) +
+    (moduleOutputContainsGender('male') ? malePercentage : 0);
 
   return (
     <div>
@@ -346,12 +349,13 @@ const Gender = () => {
                       <PercentageInput
                         planStatus={getPlanStatus()}
                         data-qa="male-percentage-input"
-                        readOnly={
-                          malePercentage === 0 &&
-                          !value?.output.some((g) => g.gender === 'male')
-                        }
+                        readOnly={!moduleOutputContainsGender('male')}
                         gender="male"
-                        value={malePercentage ?? 0} // defaults to 0 only frontend but not added to output
+                        value={
+                          moduleOutputContainsGender('male')
+                            ? malePercentage
+                            : 0
+                        } // defaults to 0 only frontend but not added to output
                         onChange={setMalePercentage}
                       />
                     </PercentageInputRow>
@@ -359,12 +363,13 @@ const Gender = () => {
                       <PercentageInput
                         planStatus={getPlanStatus()}
                         data-qa="female-percentage-input"
-                        readOnly={
-                          femalePercentage === 0 &&
-                          !value?.output.some((g) => g.gender === 'female')
-                        }
+                        readOnly={!moduleOutputContainsGender('female')}
                         gender="female"
-                        value={femalePercentage ?? 0} // defaults to 0 only frontend but not added to output
+                        value={
+                          moduleOutputContainsGender('female')
+                            ? femalePercentage
+                            : 0
+                        } // defaults to 0 only frontend but not added to output
                         onChange={setFemalePercentage}
                       />
                     </PercentageInputRow>
