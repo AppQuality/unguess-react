@@ -227,11 +227,9 @@ const Gender = () => {
                           <Button.StartIcon>
                             <PlusIcon />
                           </Button.StartIcon>
-                          <Label>
-                            {t(
-                              '__PLAN_PAGE_MODULE_GENDER_ADD_PERCENTAGE_BUTTON_LABEL'
-                            )}
-                          </Label>
+                          {t(
+                            '__PLAN_PAGE_MODULE_GENDER_ADD_PERCENTAGE_BUTTON_LABEL'
+                          )}
                         </>
                       )}
                       {checkIsPercentageVariant() && (
@@ -239,11 +237,9 @@ const Gender = () => {
                           <Button.StartIcon>
                             <XIcon />
                           </Button.StartIcon>
-                          <Label>
-                            {t(
-                              '__PLAN_PAGE_MODULE_GENDER_REMOVE_PERCENTAGE_BUTTON_LABEL'
-                            )}
-                          </Label>
+                          {t(
+                            '__PLAN_PAGE_MODULE_GENDER_REMOVE_PERCENTAGE_BUTTON_LABEL'
+                          )}
                         </>
                       )}
                     </Button>
