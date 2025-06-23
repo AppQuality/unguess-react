@@ -53,28 +53,28 @@ const Age = () => {
   const defaultAgeRanges = [
     {
       min: 16,
-      max: 18,
+      max: 17,
       label: t('__PLAN_PAGE_MODULE_AGE_16_18_LABEL'),
     },
     {
       min: 18,
       max: 24,
-      label: '18-24',
+      label: '18 - 24 years old',
     },
     {
       min: 25,
       max: 34,
-      label: '25-34',
+      label: '25 - 34 years old',
     },
     {
       min: 35,
       max: 54,
-      label: '35-54',
+      label: '35 - 54 years old',
     },
     {
       min: 55,
       max: MAXAGE,
-      label: '55+',
+      label: 'Over 55',
     },
   ];
 
