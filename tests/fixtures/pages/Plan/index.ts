@@ -5,10 +5,10 @@ import { DigitalLiteracyModule } from './Module_digital_literacy';
 import { GenderModule } from './Module_gender';
 import { GoalModule } from './Module_goal';
 import { LanguageModule } from './Module_language';
+import { LocalityModule } from './Module_locality';
 import { OutOfScopeModule } from './Module_out_of_scope';
 import { TargetModule } from './Module_target';
 import { TasksModule } from './Module_tasks';
-import { LocalityModule } from './Module_locality';
 
 interface TabModule {
   expectToBeReadonly(): Promise<void>;
@@ -112,16 +112,6 @@ export class PlanPage extends UnguessPage {
         this.elements().titleModule().getByTestId('title-input'),
       titleModuleOutput: () =>
         this.elements().titleModule().getByTestId('title-output'),
-      removeModuleModal: () =>
-        this.page.getByRole('dialog', {
-          name: this.i18n.t('__PLAN_PAGE_MODUL_GENERAL_REMOVE_MODAL_TITLE'),
-        }),
-      removeModuleModalConfirm: () =>
-        this.elements()
-          .removeModuleModal()
-          .getByRole('button', {
-            name: this.i18n.t('__PLAN_PAGE_MODUL_GENERAL_REMOVE_MODAL_CONFIRM'),
-          }),
     };
   }
 
