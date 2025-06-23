@@ -8,6 +8,7 @@ import { LanguageModule } from './Module_language';
 import { OutOfScopeModule } from './Module_out_of_scope';
 import { TargetModule } from './Module_target';
 import { TasksModule } from './Module_tasks';
+import { LocalityModule } from './Module_locality';
 
 interface TabModule {
   expectToBeReadonly(): Promise<void>;
@@ -29,6 +30,7 @@ export class PlanPage extends UnguessPage {
       language: new LanguageModule(page),
       target: new TargetModule(page),
       tasks: new TasksModule(page),
+      locality: new LocalityModule(page),
     };
     this.page = page;
     this.url = `plans/1`;
@@ -87,10 +89,21 @@ export class PlanPage extends UnguessPage {
       descriptionModule: () => this.page.getByTestId('description-module'),
       extraActionsMenu: () => this.page.getByTestId('extra-actions-menu'),
       pageHeader: () => this.page.getByTestId('plan-page-header'),
+      removeModuleModal: () =>
+        this.page.getByRole('dialog', {
+          name: this.i18n.t('__PLAN_PAGE_MODUL_GENERAL_REMOVE_MODAL_TITLE'),
+        }),
+      removeModuleModalConfirm: () =>
+        this.elements()
+          .removeModuleModal()
+          .getByRole('button', {
+            name: this.i18n.t('__PLAN_PAGE_MODUL_GENERAL_REMOVE_MODAL_CONFIRM'),
+          }),
       tabInstructions: () => this.page.getByTestId('instructions-tab'),
       tabSetup: () => this.page.getByTestId('setup-tab'),
       tabSummary: () => this.page.getByTestId('summary-tab'),
       tabTarget: () => this.page.getByTestId('target-tab'),
+      targetNavigation: () => this.page.getByTestId('plans-nav-target'),
       titleModule: () =>
         this.elements().pageHeader().getByTestId('title-module'),
       titleModuleError: () =>
@@ -155,6 +168,7 @@ export class PlanPage extends UnguessPage {
       this.modules.gender.expectToBeReadonly(),
       this.modules.digitalLiteracy.expectToBeReadonly(),
       this.modules.language.expectToBeReadonly(),
+      this.modules.locality.expectToBeReadonly(),
     ]);
 
     // tab instructions

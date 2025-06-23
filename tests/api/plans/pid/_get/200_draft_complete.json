@@ -96,6 +96,14 @@
             "description": "description kind bug"
           }
         ]
+      },
+      {
+        "type": "locality",
+        "variant": "default",
+        "output": [
+          { "type": "country", "values": ["IT"] },
+          { "type": "region", "values": ["Lombardia"] }
+        ]
       }
     ]
   }
