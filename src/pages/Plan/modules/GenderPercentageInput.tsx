@@ -69,8 +69,8 @@ const PercentageInput = ({
         placeholder="%"
         type="number"
         value={internalValue}
-        disabled={disabled || planStatus !== 'draft'}
-        readOnly={readOnly}
+        disabled={disabled || (planStatus !== 'draft' && internalValue === 0)}
+        readOnly={readOnly || (planStatus !== 'draft' && internalValue !== 0)}
         onChange={handleInputChange}
         onBlur={handleBlur}
         style={{
@@ -81,10 +81,7 @@ const PercentageInput = ({
         size="small"
         isPill={false}
         disabled={
-          internalValue >= 100 ||
-          readOnly ||
-          disabled ||
-          (planStatus !== 'draft' && internalValue !== 0)
+          internalValue >= 100 || readOnly || disabled || planStatus !== 'draft'
         }
         onClick={(e) => {
           e.stopPropagation();
