@@ -148,23 +148,42 @@ const Gender = () => {
     setOutput(output);
   };
 
+  // This effect initializes the percentages from fetched data on first load,
+  // but resets to 50/50 split if both genders are re-selected after any change.
   useEffect(() => {
+    // If variant is default, always reset percentages to 0
     if (value?.variant === 'default') {
       setMalePercentage(0);
       setFemalePercentage(0);
-    } else {
-      const hasMale = moduleOutputContainsGender('male');
-      const hasFemale = moduleOutputContainsGender('female');
-      if (hasMale && hasFemale) {
+      return;
+    }
+
+    const hasMale = moduleOutputContainsGender('male');
+    const hasFemale = moduleOutputContainsGender('female');
+
+    if (hasMale && hasFemale) {
+      // If the number of selected genders just changed to 2 (from 1 or 0), reset to 50/50
+      // Otherwise, on first load, use the initial values from fetched data
+      if (
+        desiredGenders.length === 2 &&
+        (value?.output?.length === 2 || value?.output?.length === 0)
+      ) {
+        // On first load, use fetched values
+        setMalePercentage(initialMale);
+        setFemalePercentage(initialFemale);
+      } else {
+        // If user re-selects both genders after a change, split 50/50
         setMalePercentage(50);
         setFemalePercentage(50);
-      } else if (hasMale) {
-        setMalePercentage(100);
-      } else if (hasFemale) {
-        setFemalePercentage(100);
       }
+    } else if (hasMale) {
+      setMalePercentage(100);
+      setFemalePercentage(0);
+    } else if (hasFemale) {
+      setMalePercentage(0);
+      setFemalePercentage(100);
     }
-  }, [value?.variant]);
+  }, [value?.variant, desiredGenders]);
 
   useEffect(() => {
     setVariant(isAddPercentageClicked ? 'percentage' : 'default');
@@ -388,10 +407,10 @@ const Gender = () => {
                       <PercentageInput
                         planStatus={getPlanStatus()}
                         data-qa="male-percentage-input"
+                        disabled={!moduleOutputContainsGender('male')}
                         readOnly={
-                          !moduleOutputContainsGender('male') ||
-                          (!moduleOutputContainsGender('female') &&
-                            malePercentage === 100)
+                          !moduleOutputContainsGender('female') &&
+                          malePercentage === 100
                         }
                         gender="male"
                         value={
@@ -406,10 +425,10 @@ const Gender = () => {
                       <PercentageInput
                         planStatus={getPlanStatus()}
                         data-qa="female-percentage-input"
+                        disabled={!moduleOutputContainsGender('female')}
                         readOnly={
-                          !moduleOutputContainsGender('female') ||
-                          (!moduleOutputContainsGender('male') &&
-                            femalePercentage === 100)
+                          !moduleOutputContainsGender('male') &&
+                          femalePercentage === 100
                         }
                         gender="female"
                         value={
