@@ -76,9 +76,11 @@ const Gender = () => {
       (g) =>
         (g.gender === 'male' && malePercentage === 0) ||
         (g.gender === 'female' && femalePercentage === 0)
-    );
+    ) &&
+    value?.output.length > 0;
 
   const percentageError =
+    desiredGenders.length > 0 &&
     checkIsPercentageVariant() &&
     (value?.output?.find((g) => g.gender === 'male')?.percentage ?? 0) +
       (value?.output?.find((g) => g.gender === 'female')?.percentage ?? 0) !==
@@ -91,7 +93,7 @@ const Gender = () => {
       return { value: t('__GENDER_ERROR_REQUIRED') };
     }
 
-    // TODO: update this check to show the error messages here
+    // Only to trigger module error, but the message is shown at the bottom of the module
     if (unassignedGenderPercentageError || percentageError) {
       return {
         value: '',
