@@ -7,6 +7,7 @@ interface PercentageInputProps {
   value: number;
   onChange: (value: number) => void;
   readOnly?: boolean;
+  disabled?: boolean;
   gender: string;
   planStatus: string;
 }
@@ -16,6 +17,7 @@ const PercentageInput = ({
   onChange,
   gender,
   readOnly = false,
+  disabled = false,
   planStatus = 'draft',
 }: PercentageInputProps) => {
   const [internalValue, setInternalValue] = useState(value);
@@ -49,7 +51,9 @@ const PercentageInput = ({
       <IconButton
         size="small"
         isPill={false}
-        disabled={value <= 0 || readOnly || planStatus !== 'draft'}
+        disabled={
+          internalValue <= 0 || disabled || readOnly || planStatus !== 'draft'
+        }
         onClick={(e) => {
           e.stopPropagation();
           handleChangePercentage(-10);
@@ -65,7 +69,8 @@ const PercentageInput = ({
         placeholder="%"
         type="number"
         value={internalValue}
-        disabled={readOnly || planStatus !== 'draft'}
+        disabled={disabled || (planStatus !== 'draft' && internalValue === 0)}
+        readOnly={readOnly || (planStatus !== 'draft' && internalValue !== 0)}
         onChange={handleInputChange}
         onBlur={handleBlur}
         style={{
@@ -75,7 +80,9 @@ const PercentageInput = ({
       <IconButton
         size="small"
         isPill={false}
-        disabled={value >= 100 || readOnly || planStatus !== 'draft'}
+        disabled={
+          internalValue >= 100 || readOnly || disabled || planStatus !== 'draft'
+        }
         onClick={(e) => {
           e.stopPropagation();
           handleChangePercentage(10);
