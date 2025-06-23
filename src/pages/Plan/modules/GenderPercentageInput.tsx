@@ -1,6 +1,6 @@
-import { ReactComponent as PlusButtonIcon } from '@zendeskgarden/svg-icons/src/16/plus-stroke.svg';
-import { ReactComponent as MinusButtonIcon } from '@zendeskgarden/svg-icons/src/16/dash-stroke.svg';
 import { IconButton, Input } from '@appquality/unguess-design-system';
+import { ReactComponent as MinusButtonIcon } from '@zendeskgarden/svg-icons/src/16/dash-stroke.svg';
+import { ReactComponent as PlusButtonIcon } from '@zendeskgarden/svg-icons/src/16/plus-stroke.svg';
 import { useState } from 'react';
 
 interface PercentageInputProps {
@@ -19,16 +19,13 @@ const PercentageInput = ({
   planStatus = 'draft',
 }: PercentageInputProps) => {
   const [internalValue, setInternalValue] = useState(value);
-  const handleDecreasePercentage = () => {
-    // Logic to decrease percentage
-    const newValue = value - 10;
-    onChange(newValue < 0 ? 0 : newValue);
-  };
 
-  const handleIncreasePercentage = () => {
-    // Logic to increase percentage
-    const newValue = value + 10;
-    onChange(newValue > 100 ? 100 : newValue);
+  const handleChangePercentage = (change: number) => {
+    let newValue = value + change;
+    if (newValue < 0) newValue = 0;
+    if (newValue > 100) newValue = 100;
+    onChange(newValue);
+    setInternalValue(newValue);
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -55,7 +52,7 @@ const PercentageInput = ({
         disabled={value <= 0 || readOnly || planStatus !== 'draft'}
         onClick={(e) => {
           e.stopPropagation();
-          handleDecreasePercentage();
+          handleChangePercentage(-10);
         }}
       >
         <MinusButtonIcon />
@@ -81,7 +78,7 @@ const PercentageInput = ({
         disabled={value >= 100 || readOnly || planStatus !== 'draft'}
         onClick={(e) => {
           e.stopPropagation();
-          handleIncreasePercentage();
+          handleChangePercentage(10);
         }}
       >
         <PlusButtonIcon />
