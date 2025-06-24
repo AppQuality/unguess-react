@@ -91,7 +91,7 @@ const TaskItemNav = ({
             {getIconFromTaskOutput(task)}
           </ModuleIconContainer>
           <MD color={appTheme.palette.blue[600]} style={{ minWidth: '10px' }}>
-            <Ellipsis>
+            <Ellipsis title={task.title}>
               {key + 1}.{' '}
               <Span isBold>
                 {hasPlaceholder
