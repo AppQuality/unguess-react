@@ -83,7 +83,7 @@ const TouchpointItemNav = ({
             {getIconFromTouchpointOutput(touchpoint)}
           </ModuleIconContainer>
           <MD color={appTheme.palette.blue[600]} style={{ minWidth: 0 }}>
-            <Ellipsis>
+            <Ellipsis title={`${form_factor} ${kind}`}>
               {key + 1}.{' '}
               <Span isBold>
                 {form_factor} {kind}
