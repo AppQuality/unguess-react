@@ -937,7 +937,9 @@ export interface components {
       | components["schemas"]["ModuleInstructionNote"]
       | components["schemas"]["ModuleSetupNote"]
       | components["schemas"]["ModuleTouchpoints"]
-      | components["schemas"]["ModuleAdditionalTarget"];
+      | components["schemas"]["ModuleAdditionalTarget"]
+      | components["schemas"]["ModuleEmployment"]
+      | components["schemas"]["ModuleLocality"];
     /** ModuleAdditionalTarget */
     ModuleAdditionalTarget: {
       output: string;
@@ -965,6 +967,21 @@ export interface components {
       };
       /** @enum {string} */
       type: "dates";
+      variant: string;
+    };
+    /** ModuleEmployment */
+    ModuleEmployment: {
+      /** @description cuf values of cuf employment */
+      output: (
+        | "EMPLOYEE"
+        | "FREELANCER"
+        | "RETIRED"
+        | "STUDENT"
+        | "UNEMPLOYED"
+        | "HOMEMAKER"
+      )[];
+      /** @enum {string} */
+      type: "employment";
       variant: string;
     };
     /** ModuleGender */
@@ -999,6 +1016,13 @@ export interface components {
       output: components["schemas"]["OutputModuleLiteracy"];
       /** @enum {string} */
       type: "literacy";
+      variant: string;
+    };
+    /** ModuleLocality */
+    ModuleLocality: {
+      output: components["schemas"]["OutputModuleLocality"];
+      /** @enum {string} */
+      type: "locality";
       variant: string;
     };
     ModuleOutOfScope: {
@@ -1090,6 +1114,11 @@ export interface components {
       /** @enum {string} */
       level: "beginner" | "intermediate" | "expert";
       percentage: number;
+    }[];
+    /** OutputModuleLocality */
+    OutputModuleLocality: {
+      type: string;
+      values: string[];
     }[];
     /** SubcomponentTask */
     OutputModuleTask:

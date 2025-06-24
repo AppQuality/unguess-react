@@ -1,5 +1,6 @@
 import { getColor } from '@appquality/unguess-design-system';
 import { ReactComponent as BrowserIcon } from '@zendeskgarden/svg-icons/src/16/globe-fill.svg';
+import { ReactComponent as LocationIcon } from '@zendeskgarden/svg-icons/src/16/location-fill.svg';
 import { shallowEqual } from 'react-redux';
 import { useAppSelector } from 'src/app/hooks';
 import { appTheme } from 'src/app/theme';
@@ -14,6 +15,7 @@ import { ReactComponent as TouchpointsIcon } from 'src/assets/icons/touchpoints-
 import { ReactComponent as TargetIcon } from 'src/assets/icons/user-follow.svg';
 import { ReactComponent as OutOfScopeIcon } from 'src/assets/icons/x-circle.svg';
 import { ReactComponent as AdditionalTargetIcon } from 'src/assets/icons/additional-target-icon.svg';
+import { ReactComponent as EmploymentIcon } from 'src/assets/icons/work.svg';
 import { components } from 'src/common/schema';
 
 const getIconColor = (module_type: components['schemas']['Module']['type']) => {
@@ -81,6 +83,10 @@ const getIconFromModuleType = (
       return <TouchpointsIcon color={color} />;
     case 'additional_target':
       return <AdditionalTargetIcon color={color} />;
+    case 'employment':
+      return <EmploymentIcon color={color} />;
+    case 'locality':
+      return <LocationIcon color={color} />;
     case 'title':
     case 'dates':
     default:

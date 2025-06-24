@@ -22,7 +22,7 @@ export const List = ({
   });
   const [currentPage, setCurrentPage] = useState(1);
   const [paginatedItems, setPaginatedItems] = useState(items);
-  const pageSize = 6;
+  const pageSize = 4;
   const maxPages = useMemo(
     () => Math.ceil(items.length / pageSize),
     [items, pageSize]

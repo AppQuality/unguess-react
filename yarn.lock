@@ -59,10 +59,10 @@
   dependencies:
     hls.js "^1.4.8"
 
-"@appquality/unguess-design-system@4.0.39":
-  version "4.0.39"
-  resolved "https://registry.npmjs.org/@appquality/unguess-design-system/-/unguess-design-system-4.0.39.tgz#a094ed5a6202c46283030bd7d81abb76205d4286"
-  integrity sha512-30Slq/8iZ7MBG5QH/+uqBOKdsjT0ZP7Nm6l4oKI027vbuoCxpXipsunVxd4qT2HXvCS/UUHlJaqamQxVgG2Wag==
+"@appquality/unguess-design-system@4.0.42":
+  version "4.0.42"
+  resolved "https://registry.npmjs.org/@appquality/unguess-design-system/-/unguess-design-system-4.0.42.tgz#885837b3a053a03df5a8700d6c74d99f20e5216b"
+  integrity sha512-3e6H2lcvBCLUdWbzNZkdQUGCFwuHR5T1QnSIxBIjBPp+tckuSqILbdx/Ne/jdY5034VG3PYhlyBjOhK5dLdKag==
   dependencies:
     "@appquality/stream-player" "1.0.6"
     "@nivo/bar" "^0.87.0"
@@ -3331,6 +3331,11 @@ compute-scroll-into-view@^3.0.3:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/compute-scroll-into-view/-/compute-scroll-into-view-3.1.0.tgz#753f11d972596558d8fe7c6bcbc8497690ab4c87"
   integrity sha512-rj8l8pD4bJ1nx+dAkMhV1xB5RuZEyVysfxJqB1pRchh1KVvwOv9b7CGB8ZfjTImVv2oF+sYMUkMZq6Na5Ftmbg==
+
+comuni-province-regioni@^0.4.3:
+  version "0.4.3"
+  resolved "https://registry.yarnpkg.com/comuni-province-regioni/-/comuni-province-regioni-0.4.3.tgz#287c312f1caac8cf8b770d6b707a7ca1e7b6f1d4"
+  integrity sha512-UhJmDaIUg5nDHiHAfIcMGX87E6f54z6UU538WQHeqTOA/BxjSz5ZQCsVclGRT9c801Fe3BLfD5uDoatvRbl9xg==
 
 concat-map@0.0.1:
   version "0.0.1"

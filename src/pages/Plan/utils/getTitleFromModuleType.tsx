@@ -17,6 +17,8 @@ const getTitleFromModuleType = (
       return t('__PLAN_PAGE_MODULE_GOAL_TITLE');
     case 'language':
       return t('__PLAN_PAGE_MODULE_LANGUAGE_TITLE');
+    case 'locality':
+      return t('__PLAN_PAGE_MODULE_LOCALITY_TITLE');
     case 'literacy':
       return t('__PLAN_PAGE_MODULE_DIGITAL_LITERACY_ACCORDION_LABEL');
     case 'out_of_scope':
@@ -39,6 +41,8 @@ const getTitleFromModuleType = (
       return t('__PLAN_PAGE_MODULE_TOUCHPOINTS_TITLE');
     case 'additional_target':
       return t('__PLAN_PAGE_MODULE_ADDITIONAL_TARGET_TITLE');
+    case 'employment':
+      return t('__PLAN_PAGE_MODULE_EMPLOYMENT_TITLE');
     default:
       return '';
   }

@@ -78,6 +78,8 @@ const NavItem = ({
       Object.keys(errors).some((key) => key.startsWith(type))) ??
     false;
 
+  const titleType = getTitleFromModuleType(type);
+
   return (
     <NavItemLink
       to={`module-${type}`}
@@ -107,7 +109,7 @@ const NavItem = ({
           >
             <div style={{ marginBottom: children ? appTheme.space.sm : 0 }}>
               <MD isBold color={appTheme.palette.blue[600]}>
-                <Ellipsis>{getTitleFromModuleType(type)}</Ellipsis>
+                <Ellipsis title={titleType}>{titleType}</Ellipsis>
               </MD>
               <SM style={{ color: appTheme.palette.grey[600] }}>
                 <Span>{getSubtitleFromModuleType(type)}</Span>

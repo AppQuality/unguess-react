@@ -130,6 +130,17 @@ export const useModule = <T extends components['schemas']['Module']['type']>(
           variant: 'default',
           output: 'en',
         };
+      case 'locality':
+        return {
+          type,
+          variant: 'default',
+          output: [
+            {
+              type: 'country',
+              values: ['IT'],
+            },
+          ],
+        };
       case 'target':
         return {
           type,
@@ -176,6 +187,12 @@ export const useModule = <T extends components['schemas']['Module']['type']>(
           type,
           variant: 'default',
           output: '',
+        };
+      case 'employment':
+        return {
+          type,
+          variant: 'default',
+          output: [],
         };
       default:
         return null;

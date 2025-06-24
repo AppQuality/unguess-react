@@ -50,47 +50,33 @@ const Age = () => {
 
   const isDefaultVariant = value?.variant === 'default';
 
-  const defaultAgeRanges: { min: number; max: number }[] = [
+  const defaultAgeRanges = [
     {
       min: 16,
+      max: 17,
+      label: t('__PLAN_PAGE_MODULE_AGE_16_18_LABEL'),
+    },
+    {
+      min: 18,
       max: 24,
+      label: '18 - 24 years old',
     },
     {
       min: 25,
       max: 34,
+      label: '25 - 34 years old',
     },
     {
       min: 35,
       max: 54,
+      label: '35 - 54 years old',
     },
     {
       min: 55,
       max: MAXAGE,
+      label: 'Over 55',
     },
   ];
-
-  // for future use cases we can pass the ranges from other input sources
-  const generateAgeRangesAndLabels = (
-    ranges: { min: number; max: number }[] = defaultAgeRanges
-  ) => {
-    const ageRangesAndLabels: (AgeRange & { checkboxLabel: string })[] = [];
-    ranges.forEach((range) => {
-      ageRangesAndLabels.push({
-        min: range.min,
-        max: range.max,
-        checkboxLabel:
-          range.max === MAXAGE
-            ? t('__MAX_AGE_RANGE', { min: range.min, max: MAXAGE })
-            : t('__MINMAX_AGE_RANGE', {
-                min: range.min,
-                max: range.max,
-              }),
-      });
-    });
-    return ageRangesAndLabels;
-  };
-
-  const ageRangesAndLabels = generateAgeRangesAndLabels();
 
   const ageError =
     error && typeof error === 'object' && `age.value` in error
@@ -164,10 +150,10 @@ const Age = () => {
                 <Checkbox
                   key="all"
                   value="all"
-                  name="gender-all"
+                  name="age-all"
                   disabled={getPlanStatus() !== 'draft'}
                   // checked if all ages are selected
-                  checked={ageRangesAndLabels.every((ageRange) =>
+                  checked={defaultAgeRanges.every((ageRange) =>
                     value?.output.some(
                       (item) =>
                         item.min === ageRange.min && item.max === ageRange.max
@@ -176,7 +162,7 @@ const Age = () => {
                   onChange={(e) => {
                     if (e.target.checked) {
                       updateOutput(
-                        ageRangesAndLabels.map((ar) => ({
+                        defaultAgeRanges.map((ar) => ({
                           range: {
                             min: ar.min,
                             max: ar.max,
@@ -200,7 +186,7 @@ const Age = () => {
                 </Checkbox>
               </FormField>
               <div style={{ marginLeft: appTheme.space.md }}>
-                {ageRangesAndLabels.map((ar) => (
+                {defaultAgeRanges.map((ar) => (
                   <FormField
                     key={`range-${ar.min}-${ar.max}`}
                     style={{
@@ -213,29 +199,21 @@ const Age = () => {
                       name={`range-${ar.min}-${ar.max}`}
                       disabled={getPlanStatus() !== 'draft'}
                       checked={value?.output.some(
-                        (item) => item.min === ar.min && item.max === ar.max
+                        (item) => item.min <= ar.min && item.max >= ar.max
                       )}
                       onChange={(e) => {
-                        const previousAgeRanges = value?.output.map(
-                          (item) => item
-                        );
-                        let updatedAgeRanges: AgeRange[] = [];
-                        if (e.target.checked) {
-                          updatedAgeRanges = [
-                            ...(previousAgeRanges || []),
-                            {
-                              min: ar.min,
-                              max: ar.max,
-                            },
-                          ];
-                        } else {
-                          updatedAgeRanges = previousAgeRanges
-                            ?.filter(
+                        const updatedAgeRanges = e.target.checked
+                          ? [
+                              ...(value?.output || []),
+                              {
+                                min: ar.min,
+                                max: ar.max,
+                              },
+                            ]
+                          : value?.output?.filter(
                               (item) =>
                                 item.min !== ar.min && item.max !== ar.max
-                            )
-                            .map((item) => item) as AgeRange[];
-                        }
+                            );
                         updateOutput(
                           updatedAgeRanges.map((a) => ({ range: a }))
                         );
@@ -247,7 +225,7 @@ const Age = () => {
                           fontSize: appTheme.fontSizes.md,
                         }}
                       >
-                        {ar.checkboxLabel}
+                        {ar.label}
                       </Label>
                     </Checkbox>
                   </FormField>

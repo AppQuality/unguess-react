@@ -76,6 +76,11 @@
         ],
         "variant": "default"
       },
+       {
+        "type": "employment",
+        "output": ["EMPLOYEE", "STUDENT"],
+        "variant": "default"
+      },
       {
         "type": "tasks",
         "variant": "default",
@@ -90,6 +95,14 @@
             "title": "Think aloud",
             "description": "description kind bug"
           }
+        ]
+      },
+      {
+        "type": "locality",
+        "variant": "default",
+        "output": [
+          { "type": "country", "values": ["IT"] },
+          { "type": "region", "values": ["Lombardia"] }
         ]
       }
     ]

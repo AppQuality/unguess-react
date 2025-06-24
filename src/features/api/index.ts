@@ -2561,6 +2561,28 @@ export type ModuleAdditionalTarget = {
   type: 'additional_target';
   variant: string;
 };
+export type ModuleEmployment = {
+  /** cuf values of cuf employment */
+  output: (
+    | 'EMPLOYEE'
+    | 'FREELANCER'
+    | 'RETIRED'
+    | 'STUDENT'
+    | 'UNEMPLOYED'
+    | 'HOMEMAKER'
+  )[];
+  type: 'employment';
+  variant: string;
+};
+export type OutputModuleLocality = {
+  type: string;
+  values: string[];
+}[];
+export type ModuleLocality = {
+  output: OutputModuleLocality;
+  type: 'locality';
+  variant: string;
+};
 export type Module =
   | ModuleTitle
   | ModuleDate
@@ -2577,7 +2599,9 @@ export type Module =
   | ModuleInstructionNote
   | ModuleSetupNote
   | ModuleTouchpoints
-  | ModuleAdditionalTarget;
+  | ModuleAdditionalTarget
+  | ModuleEmployment
+  | ModuleLocality;
 export type PlanStatus = 'pending_review' | 'draft' | 'approved';
 export type Project = {
   campaigns_count: number;

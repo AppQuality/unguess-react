@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { shallowEqual } from 'react-redux';
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
 import { components } from 'src/common/schema';
-import { addValidationFunction, setError } from '../planModules';
+import { addValidationFunction, ModuleRecord, setError } from '../planModules';
 import { useModule } from './useModule';
 
 function flattenObject(
@@ -57,11 +57,12 @@ export const useValidation = <
     dispatch(setError({ type, error: newErrors }));
   };
 
-  const validationHandler = (): boolean => {
+  const validationHandler = (updatedValue?: ModuleRecord[`${T}`]): boolean => {
     if (!value) return false;
+    const baseValue = updatedValue || value;
 
     const item = {
-      ...value,
+      ...baseValue,
       type,
     } as components['schemas']['Module'] & { type: T };
 
