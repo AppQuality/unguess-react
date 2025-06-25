@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@analytics/google-tag-manager": "^0.6.0",
+    "@analytics/segment": "^2.1.0",
     "@appquality/languages": "1.4.3",
     "@appquality/unguess-design-system": "4.0.42",
     "@headwayapp/react-widget": "^0.0.4",
