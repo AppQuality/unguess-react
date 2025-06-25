@@ -43,6 +43,13 @@ const Bank = () => {
       return { value: t('__BANK_ERROR_REQUIRED') };
     }
 
+    if (
+      module.output.some((bank) => bank.isOther === 1) &&
+      module.output.find((bank) => bank.isOther === 1)?.name === ''
+    ) {
+      return { value: t('__OTHER_BANK_ERROR_REQUIRED') };
+    }
+
     return true;
   };
 
