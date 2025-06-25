@@ -238,16 +238,29 @@ const Bank = () => {
                   </FormField>
                 ))}
                 {isOtherProvidersSelected && (
-                  <FormField>
-                    <Hint>{t('__PLAN_PAGE_MODULE_OTHER_BANK_LABEL_HINT')}</Hint>
-                    <Span style={{ color: appTheme.palette.red[600] }}>*</Span>
-                    <Textarea
-                      isResizable
-                      placeholder={t(
-                        '__PLAN_PAGE_MODULE_OTHER_BANK_TEXTAREA_PLACEHOLDER'
-                      )}
-                    />
-                  </FormField>
+                  <>
+                    <div
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                      }}
+                    >
+                      <Hint>
+                        {t('__PLAN_PAGE_MODULE_OTHER_BANK_LABEL_HINT')}
+                      </Hint>
+                      <Span style={{ color: appTheme.palette.red[600] }}>
+                        *
+                      </Span>
+                    </div>
+                    <FormField>
+                      <Textarea
+                        isResizable
+                        placeholder={t(
+                          '__PLAN_PAGE_MODULE_OTHER_BANK_TEXTAREA_PLACEHOLDER'
+                        )}
+                      />
+                    </FormField>
+                  </>
                 )}
               </div>
 
