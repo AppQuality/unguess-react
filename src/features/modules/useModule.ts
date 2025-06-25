@@ -194,6 +194,28 @@ export const useModule = <T extends components['schemas']['Module']['type']>(
           variant: 'default',
           output: [],
         };
+      case 'annual_income_range':
+        return {
+          type,
+          variant: 'default',
+          output: [
+            {
+              min: 0,
+              max: 25000,
+              percentage: 0,
+            },
+            {
+              min: 25001,
+              max: 50000,
+              percentage: 0,
+            },
+            {
+              min: 50001,
+              max: 999999999,
+              percentage: 0,
+            },
+          ],
+        };
       default:
         return null;
     }

@@ -939,7 +939,13 @@ export interface components {
       | components["schemas"]["ModuleTouchpoints"]
       | components["schemas"]["ModuleAdditionalTarget"]
       | components["schemas"]["ModuleEmployment"]
-      | components["schemas"]["ModuleLocality"];
+      | components["schemas"]["ModuleLocality"]
+      | components["schemas"]["ModuleBank"]
+      | components["schemas"]["ModuleElettricitySupply"]
+      | components["schemas"]["ModuleMobileInternet"]
+      | components["schemas"]["ModuleHomeInternet"]
+      | components["schemas"]["ModuleGasSupply"]
+      | components["schemas"]["ModuleAnnualIncomeRange"];
     /** ModuleAdditionalTarget */
     ModuleAdditionalTarget: {
       output: string;
@@ -952,6 +958,20 @@ export interface components {
       output: components["schemas"]["OutputModuleAge"];
       /** @enum {string} */
       type: "age";
+      variant: string;
+    };
+    /** ModuleAnnualIncomeRange */
+    ModuleAnnualIncomeRange: {
+      output: components["schemas"]["OutputModuleIncomeRange"];
+      /** @enum {string} */
+      type: "annual_income_range";
+      variant: string;
+    };
+    /** ModuleBank */
+    ModuleBank: {
+      output: components["schemas"]["OutputServiceProviders"];
+      /** @enum {string} */
+      type: "bank";
       variant: string;
     };
     /** ModuleBrowser */
@@ -969,6 +989,20 @@ export interface components {
       type: "dates";
       variant: string;
     };
+    /** ModuleElettricitySupply */
+    ModuleElettricitySupply: {
+      output: components["schemas"]["OutputServiceProviders"];
+      /** @enum {string} */
+      type: "elettricity_supply";
+      variant: string;
+    };
+    /** ModuleGender */
+    ModuleGender: {
+      output: components["schemas"]["OutputModuleGender"];
+      /** @enum {string} */
+      type: "gender";
+      variant: string;
+    };
     /** ModuleEmployment */
     ModuleEmployment: {
       /** @description cuf values of cuf employment */
@@ -984,17 +1018,24 @@ export interface components {
       type: "employment";
       variant: string;
     };
-    /** ModuleGender */
-    ModuleGender: {
-      output: components["schemas"]["OutputModuleGender"];
+    /** ModuleGasSupply */
+    ModuleGasSupply: {
+      output: components["schemas"]["OutputServiceProviders"];
       /** @enum {string} */
-      type: "gender";
+      type: "gas_supply";
       variant: string;
     };
     ModuleGoal: {
       output: string;
       /** @enum {string} */
       type: "goal";
+      variant: string;
+    };
+    /** ModuleHomeInternet */
+    ModuleHomeInternet: {
+      output: components["schemas"]["OutputServiceProviders"];
+      /** @enum {string} */
+      type: "home_internet";
       variant: string;
     };
     /** ModuleInstructionNote */
@@ -1023,6 +1064,13 @@ export interface components {
       output: components["schemas"]["OutputModuleLocality"];
       /** @enum {string} */
       type: "locality";
+      variant: string;
+    };
+    /** ModuleMobileInternet */
+    ModuleMobileInternet: {
+      output: components["schemas"]["OutputServiceProviders"];
+      /** @enum {string} */
+      type: "mobile_internet";
       variant: string;
     };
     ModuleOutOfScope: {
@@ -1107,6 +1155,12 @@ export interface components {
     OutputModuleGender: {
       /** @enum {string} */
       gender: "male" | "female";
+      percentage: number;
+    }[];
+    /** OutputModuleIncomeRange */
+    OutputModuleIncomeRange: {
+      min: number;
+      max: number;
       percentage: number;
     }[];
     /** OutputModuleLiteracy */
@@ -1707,6 +1761,10 @@ export interface components {
       sharedItems?: number;
       tokens: number;
     };
+    OutputServiceProviders: {
+      name: string;
+      isOther?: number;
+    }[];
   };
   responses: {
     /** Shared error response */

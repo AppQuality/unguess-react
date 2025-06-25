@@ -2583,6 +2583,45 @@ export type ModuleLocality = {
   type: 'locality';
   variant: string;
 };
+export type OutputServiceProviders = {
+  name: string;
+  isOther?: number;
+}[];
+export type ModuleBank = {
+  output: OutputServiceProviders;
+  type: 'bank';
+  variant: string;
+};
+export type ModuleElettricitySupply = {
+  output: OutputServiceProviders;
+  type: 'elettricity_supply';
+  variant: string;
+};
+export type ModuleMobileInternet = {
+  output: OutputServiceProviders;
+  type: 'mobile_internet';
+  variant: string;
+};
+export type ModuleHomeInternet = {
+  output: OutputServiceProviders;
+  type: 'home_internet';
+  variant: string;
+};
+export type ModuleGasSupply = {
+  output: OutputServiceProviders;
+  type: 'gas_supply';
+  variant: string;
+};
+export type OutputModuleIncomeRange = {
+  min: number;
+  max: number;
+  percentage: number;
+}[];
+export type ModuleAnnualIncomeRange = {
+  output: OutputModuleIncomeRange;
+  type: 'annual_income_range';
+  variant: string;
+};
 export type Module =
   | ModuleTitle
   | ModuleDate
@@ -2601,7 +2640,13 @@ export type Module =
   | ModuleTouchpoints
   | ModuleAdditionalTarget
   | ModuleEmployment
-  | ModuleLocality;
+  | ModuleLocality
+  | ModuleBank
+  | ModuleElettricitySupply
+  | ModuleMobileInternet
+  | ModuleHomeInternet
+  | ModuleGasSupply
+  | ModuleAnnualIncomeRange;
 export type PlanStatus = 'pending_review' | 'draft' | 'approved';
 export type Project = {
   campaigns_count: number;
