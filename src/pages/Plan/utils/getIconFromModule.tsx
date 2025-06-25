@@ -17,6 +17,7 @@ import { ReactComponent as TouchpointsIcon } from 'src/assets/icons/touchpoints-
 import { ReactComponent as TargetIcon } from 'src/assets/icons/user-follow.svg';
 import { ReactComponent as EmploymentIcon } from 'src/assets/icons/work.svg';
 import { ReactComponent as OutOfScopeIcon } from 'src/assets/icons/x-circle.svg';
+import { ReactComponent as BankIcon } from '@zendeskgarden/svg-icons/src/16/credit-card-stroke.svg';
 import { components } from 'src/common/schema';
 
 const getIconColor = (module_type: components['schemas']['Module']['type']) => {
@@ -90,6 +91,8 @@ const getIconFromModuleType = (
       return <LocationIcon color={color} />;
     case 'annual_income_range':
       return <ArrowTrending color={color} />;
+    case 'bank':
+      return <BankIcon color={color} />;
     case 'title':
     case 'dates':
     default:
