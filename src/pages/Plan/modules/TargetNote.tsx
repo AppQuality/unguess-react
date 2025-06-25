@@ -10,11 +10,9 @@ import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as TrashIcon } from 'src/assets/icons/trash-stroke.svg';
 import { components } from 'src/common/schema';
-import { FEATURE_FLAG_CHANGE_MODULES_VARIANTS } from 'src/constants';
 import { useModule } from 'src/features/modules/useModule';
 import { useModuleConfiguration } from 'src/features/modules/useModuleConfiguration';
 import { useValidation } from 'src/features/modules/useModuleValidation';
-import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
 import styled from 'styled-components';
 import { getIconFromModuleType } from '../utils';
 import { DeleteModuleConfirmationModal } from './modal/DeleteModuleConfirmationModal';
@@ -44,7 +42,6 @@ const StyledInfoBox = styled.div`
 `;
 
 const TargetNote = () => {
-  const { hasFeatureFlag } = useFeatureFlag();
   const { value, setOutput, remove } = useModule('target_note');
   const { getPlanStatus } = useModuleConfiguration();
   const { t } = useTranslation();
@@ -87,29 +84,25 @@ const TargetNote = () => {
             {getIconFromModuleType('target_note')}
             <Label>{t('__PLAN_PAGE_MODULE_TARGET_NOTE_TITLE')}</Label>
           </div>
-          {hasFeatureFlag(FEATURE_FLAG_CHANGE_MODULES_VARIANTS) &&
-            getPlanStatus() === 'draft' && (
-              <Button
-                isBasic
-                isDanger
-                onClick={(e) => {
-                  handleDelete();
-                  e.stopPropagation();
-                }}
-              >
-                <Button.StartIcon>
-                  <TrashIcon />
-                </Button.StartIcon>
-                {t('__PLAN_PAGE_MODULE_TARGET_NOTE_REMOVE_BUTTON')}
-              </Button>
-            )}
+          {getPlanStatus() === 'draft' && (
+            <Button
+              isBasic
+              isDanger
+              onClick={(e) => {
+                handleDelete();
+                e.stopPropagation();
+              }}
+            >
+              <Button.StartIcon>
+                <TrashIcon />
+              </Button.StartIcon>
+              {t('__PLAN_PAGE_MODULE_TARGET_NOTE_REMOVE_BUTTON')}
+            </Button>
+          )}
         </StyledCardHeader>
         <>
           <Editor
-            editable={
-              hasFeatureFlag(FEATURE_FLAG_CHANGE_MODULES_VARIANTS) &&
-              getPlanStatus() === 'draft'
-            }
+            editable={getPlanStatus() === 'draft'}
             headerTitle={t(
               '__PLAN_PAGE_MODULE_TARGET_NOTE_DESCRIPTION_EDITOR_HEADER_TITLE'
             )}
@@ -126,16 +119,15 @@ const TargetNote = () => {
           >
             {value?.output}
           </Editor>
-          {hasFeatureFlag(FEATURE_FLAG_CHANGE_MODULES_VARIANTS) &&
-            getPlanStatus() === 'draft' && (
-              <StyledInfoBox>
-                {error && typeof error === 'string' && (
-                  <Message validation="error" data-qa="instruction-note-error">
-                    {error}
-                  </Message>
-                )}
-              </StyledInfoBox>
-            )}
+          {getPlanStatus() === 'draft' && (
+            <StyledInfoBox>
+              {error && typeof error === 'string' && (
+                <Message validation="error" data-qa="instruction-note-error">
+                  {error}
+                </Message>
+              )}
+            </StyledInfoBox>
+          )}
         </>
       </StyledCard>
       {isOpenDeleteModal && (
