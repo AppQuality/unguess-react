@@ -82,13 +82,37 @@ const Bank = () => {
       ? error[`bank.value`]
       : false;
 
-  const updateOutput = (desiredBanks: { bank: BankType }[]) => {
+  const [otherProviderName, setOtherProviderName] = useState('');
+
+  // Update the initial state if the value already contains an "Other" provider
+  useEffect(() => {
+    const other = value?.output.find((bank) => bank.isOther === 1);
+    if (other) {
+      setOtherProviderName(other.name || '');
+    } else {
+      setOtherProviderName('');
+    }
+  }, [value?.output]);
+
+  const updateOutput = (
+    desiredBanks: { bank: BankType }[],
+    otherName?: string
+  ) => {
     if (desiredBanks.length > 0) {
       setOutput(
-        desiredBanks.map((item) => ({
-          ...item.bank,
-          isOther: item.bank.isOther ? 1 : 0,
-        }))
+        desiredBanks.map((item) => {
+          if (item.bank.isOther) {
+            return {
+              ...item.bank,
+              name: otherName ?? otherProviderName,
+              isOther: 1,
+            };
+          }
+          return {
+            ...item.bank,
+            isOther: 0,
+          };
+        })
       );
     } else {
       setOutput([]);
@@ -196,24 +220,35 @@ const Bank = () => {
                       disabled={getPlanStatus() !== 'draft'}
                       checked={value?.output.some(
                         (item) =>
-                          item.name === b.name && item.isOther === b.isOther
+                          item.isOther === b.isOther &&
+                          (b.isOther
+                            ? item.isOther === 1
+                            : item.name === b.name)
                       )}
                       onChange={(e) => {
                         let updatedBanks;
                         if (e.target.checked) {
-                          // Add the selected bank if not already present
-                          updatedBanks = [
-                            ...(value?.output || []),
-                            { name: b.name, isOther: b.isOther },
-                          ];
+                          // If "other providers" is selected, add the value from the textarea
+                          if (b.isOther) {
+                            updatedBanks = [
+                              ...(value?.output.filter(
+                                (item) => item.isOther !== 1
+                              ) || []),
+                              { name: otherProviderName, isOther: 1 },
+                            ];
+                          } else {
+                            updatedBanks = [
+                              ...(value?.output || []),
+                              { name: b.name, isOther: 0 },
+                            ];
+                          }
                         } else {
-                          // Remove the unselected bank
+                          // Remove the selected bank
                           updatedBanks = (value?.output || []).filter(
                             (item) =>
-                              !(
-                                item.name === b.name &&
-                                item.isOther === b.isOther
-                              )
+                              !(b.isOther
+                                ? item.isOther === 1
+                                : item.name === b.name && item.isOther === 0)
                           );
                         }
                         updateOutput(
@@ -222,7 +257,8 @@ const Bank = () => {
                               name: bank.name,
                               isOther: bank.isOther ?? 0,
                             },
-                          }))
+                          })),
+                          b.isOther ? otherProviderName : undefined
                         );
                       }}
                     >
@@ -255,6 +291,28 @@ const Bank = () => {
                     <FormField>
                       <Textarea
                         isResizable
+                        value={otherProviderName}
+                        onChange={(e) => {
+                          setOtherProviderName(e.target.value);
+                          // Update output only if "Other providers" is selected
+                          const others = (value?.output || []).filter(
+                            (item) => item.isOther === 1
+                          );
+                          if (others.length > 0) {
+                            const rest = (value?.output || []).filter(
+                              (item) => item.isOther !== 1
+                            );
+                            updateOutput(
+                              [
+                                ...rest.map((bank) => ({
+                                  bank: { name: bank.name, isOther: 0 },
+                                })),
+                                { bank: { name: e.target.value, isOther: 1 } },
+                              ],
+                              e.target.value
+                            );
+                          }
+                        }}
                         placeholder={t(
                           '__PLAN_PAGE_MODULE_OTHER_BANK_TEXTAREA_PLACEHOLDER'
                         )}
