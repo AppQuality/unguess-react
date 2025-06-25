@@ -1,4 +1,4 @@
-import { GoogleTagManager } from 'src/common/GoogleTagManager';
+import { Track } from 'src/common/Track';
 import { Container } from 'src/features/templates/Container';
 import { styled } from 'styled-components';
 
@@ -37,11 +37,11 @@ const PageWrapper = ({
   children: React.ReactNode;
   title: string;
 }) => (
-  <GoogleTagManager title={title}>
+  <Track title={title}>
     <Container id="container" excludeMarginTop excludeMarginBottom>
       <Wrapper>{children}</Wrapper>
     </Container>
-  </GoogleTagManager>
+  </Track>
 );
 
 export default PageWrapper;

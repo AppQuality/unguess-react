@@ -10,7 +10,7 @@ import {
 } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { ReactComponent as Illustration } from 'src/assets/errorBoundaryPage.svg';
-import { GoogleTagManager } from 'src/common/GoogleTagManager';
+import { Track } from 'src/common/Track';
 import { Logged } from 'src/features/templates/Logged';
 import styled from 'styled-components';
 
@@ -26,7 +26,7 @@ const ErrorBoundaryPage = () => {
   const { t } = useTranslation();
 
   return (
-    <GoogleTagManager title={t('__ERROR_PAGE_TITLE')}>
+    <Track title={t('__ERROR_PAGE_TITLE')}>
       <Logged route="">
         <Container id="error-container" style={{ height: '100%' }}>
           <Grid>
@@ -56,7 +56,7 @@ const ErrorBoundaryPage = () => {
           </Grid>
         </Container>
       </Logged>
-    </GoogleTagManager>
+    </Track>
   );
 };
 
