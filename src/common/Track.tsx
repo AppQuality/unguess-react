@@ -45,7 +45,7 @@ export const Track = ({
 
   useEffect(() => {
     if (userData?.role && activeWorkspace?.company) {
-      identify(`T${userData.profile_id}`, {
+      identify(`profile_${userData.profile_id}`, {
         role: userData.role,
         customer_role: userData.customer_role,
         wp_user_id: userData.tryber_wp_user_id,
