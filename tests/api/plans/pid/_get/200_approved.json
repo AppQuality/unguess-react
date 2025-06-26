@@ -90,8 +90,14 @@
         "type": "locality",
         "variant": "default",
         "output": [
-          { "type": "country", "values": ["IT"] },
-          { "type": "region", "values": ["Lombardia"] }
+          {
+            "type": "country",
+            "values": ["IT"]
+          },
+          {
+            "type": "region",
+            "values": ["Lombardia"]
+          }
         ]
       },
       {
