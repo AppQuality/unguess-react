@@ -60,6 +60,11 @@
         "variant": "default"
       },
       {
+        "type": "employment",
+        "output": ["EMPLOYEE", "STUDENT"],
+        "variant": "default"
+      },
+      {
         "type": "gender",
         "output": [
           {
