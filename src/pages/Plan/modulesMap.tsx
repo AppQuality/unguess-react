@@ -62,4 +62,10 @@ export const modulesMap = {
   gas_supply: () => null, // Placeholder for future module
   annual_income_range: Income, // Placeholder for future module
   bank: Bank,
+  // update these lines to match the new modules while developing
+  elettricity_supply: null,
+  mobile_internet: null,
+  home_internet: null,
+  gas_supply: null,
+  annual_income_range: null,
 };
