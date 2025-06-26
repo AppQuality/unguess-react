@@ -29,17 +29,16 @@
         "variant": "default"
       },
       {
-        "type": "literacy",
         "output": [
           {
             "level": "intermediate",
             "percentage": 100
           }
         ],
+        "type": "literacy",
         "variant": "default"
       },
       {
-        "type": "age",
         "output": [
           {
             "max": 24,
@@ -52,6 +51,7 @@
             "percentage": 50
           }
         ],
+        "type": "age",
         "variant": "default"
       },
       {
@@ -60,18 +60,18 @@
         "variant": "default"
       },
       {
-        "type": "employment",
         "output": ["EMPLOYEE", "STUDENT"],
+        "type": "employment",
         "variant": "default"
       },
       {
-        "type": "gender",
         "output": [
           {
             "gender": "female",
             "percentage": 100
           }
         ],
+        "type": "gender",
         "variant": "default"
       },
       {
@@ -91,8 +91,6 @@
         "variant": "default"
       },
       {
-        "type": "tasks",
-        "variant": "default",
         "output": [
           {
             "description": "description kind bug",
@@ -104,11 +102,11 @@
             "kind": "video",
             "title": "Think aloud"
           }
-        ]
+        ],
+        "type": "tasks",
+        "variant": "default"
       },
       {
-        "type": "locality",
-        "variant": "default",
         "output": [
           {
             "type": "country",
@@ -118,7 +116,9 @@
             "type": "region",
             "values": ["Lombardia"]
           }
-        ]
+        ],
+        "type": "locality",
+        "variant": "default"
       }
     ]
   },
