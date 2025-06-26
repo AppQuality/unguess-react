@@ -176,7 +176,7 @@ export class PlanPage extends UnguessPage {
     await this.page.route('*/**/api/plans/1', async (route) => {
       if (route.request().method() === 'GET') {
         await route.fulfill({
-          path: 'tests/api/         ',
+          path: 'tests/api/plans/pid/_get/200_draft_complete.json',
         });
       } else {
         await route.fallback();
