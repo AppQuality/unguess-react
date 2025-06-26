@@ -1292,7 +1292,7 @@
   "SIGNUP_FORM_SURNAME_IS_REQUIRED": "This field is required",
   "SIGNUP_FORM_SURNAME_LABEL": "Last name",
   "SIGNUP_FORM_SURNAME_PLACEHOLDER": "Insert last name",
-  "SIGNUP_FORM_TERMS_AND_CONDITIONS": "By signing up, you agree to our <terms-link>Terms and Conditions</terms-link>",
+  "SIGNUP_FORM_TERMS_AND_CONDITIONS": "By signing up, you agree to our <privacy-link>Privacy Policy</privacy-link> and <terms-link>Terms and Conditions</terms-link>",
   "SIGNUP_FORM_WAITING_FOR_SIGNUP": "<XL>Setting up your account</XL><LG>This will take just a few seconds.</LG>",
   "SIGNUP_FORM_WORKSPACE_IS_REQUIRED": "This field is required",
   "SIGNUP_FORM_WORKSPACE_LABEL": "Name your Workspace",
