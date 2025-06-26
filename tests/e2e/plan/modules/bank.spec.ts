@@ -20,12 +20,8 @@ test.describe('The bank module defines the testers bank accounts', () => {
   });
 
   test('It should have 2 elements checked and the textbox area visible and filled with the right value', async () => {
-    const {
-      moduleCheckboxes,
-      module,
-      otherBanksTextArea,
-      bankAccountAsideNavButton,
-    } = bankModule.elements();
+    const { moduleCheckboxes, module, otherBanksTextArea } =
+      bankModule.elements();
 
     await planPage.elements().tabTarget().click();
     await expect(module()).toBeVisible();

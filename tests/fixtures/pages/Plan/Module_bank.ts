@@ -11,7 +11,7 @@ export class BankModule {
     return {
       module: () => this.page.getByTestId('bank-module'),
       tab: () => this.page.getByTestId('target-tab'),
-      moduleCheckboxes: () => this.elements().module().getByText('checkbox'),
+      moduleCheckboxes: () => this.elements().module().getByRole('checkbox'),
       otherBanksTextArea: () =>
         this.elements().module().locator('textarea[name="other-bank-name"]'),
       bankAccountAsideNavButton: () =>
