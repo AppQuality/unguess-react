@@ -1,54 +1,31 @@
 {
-  "id": 275021,
-  "internal_id": "internal_id275021",
+  "additional_fields": [
+    {
+      "id": 2101,
+      "kind": "select",
+      "name": "Rete",
+      "options": ["Wi-Fi", "Mobile"],
+      "value": "Mobile"
+    }
+  ],
+  "application_section": {
+    "id": 20884,
+    "prefix": "USE CASE 3: Apertura conto “Start”",
+    "title": "USE CASE 3: Apertura conto “Start”  "
+  },
   "campaign_id": 4997,
-  "title": {
-    "full": "[Autocertificazione] - Impossibile selezionare il menu a tendina “Regione/Area”",
-    "compact": "Impossibile selezionare il menu a tendina “Regione/Area”",
-    "context": ["Autocertificazione"]
-  },
-  "step_by_step": "1. Aprire il conto e procedere con il flusso\r\n2. Atterrare allo step 5/6e inserire i dati richiesti\r\n3. Fare tap sul menu “Regione/Area”",
-  "expected_result": "Mi aspettavo di poter selezionare la regione di residenza.",
+  "created": "Fri Dec 02 2022 12:37:04 GMT+0000 (Coordinated Universal Time)",
   "current_result": "Impossibile inserire dati nella barra dedicata.",
-  "status": {
-    "id": 2,
-    "name": "Approved"
-  },
-  "severity": {
-    "id": 3,
-    "name": "HIGH"
-  },
-  "priority": {
-    "id": 3,
-    "name": "medium"
-  },
   "custom_status": {
+    "color": "ffffff",
     "id": 1,
+    "is_default": 1,
     "name": "to do",
     "phase": {
       "id": 1,
       "name": "working"
-    },
-    "color": "ffffff",
-    "is_default": 1
+    }
   },
-  "type": {
-    "id": 6,
-    "name": "Malfunction"
-  },
-  "replicability": {
-    "id": 2,
-    "name": "Always"
-  },
-  "application_section": {
-    "id": 20884,
-    "title": "USE CASE 3: Apertura conto “Start”  ",
-    "prefix": "USE CASE 3: Apertura conto “Start”"
-  },
-  "created": "Fri Dec 02 2022 12:37:04 GMT+0000 (Coordinated Universal Time)",
-  "updated": "Mon Dec 05 2022 07:20:59 GMT+0000 (Coordinated Universal Time)",
-  "occurred_date": "2022-12-02T13:34:15.000+01:00",
-  "note": "",
   "device": {
     "manufacturer": "Apple",
     "model": "iPhone 11 Pro",
@@ -56,36 +33,59 @@
     "os_version": "iOS 15.6 (15.6)",
     "type": "smartphone"
   },
+  "expected_result": "Mi aspettavo di poter selezionare la regione di residenza.",
+  "id": 275021,
+  "internal_id": "internal_id275021",
   "media": [
     {
+      "creation_date": "Fri Dec 02 2022 12:37:04 GMT+0000 (Coordinated Universal Time)",
       "mime_type": {
-        "type": "video",
-        "extension": "mov"
+        "extension": "mov",
+        "type": "video"
       },
-      "url": "https://s3.eu-west-1.amazonaws.com/tryber.media.production/media/T47681/CP4997/bugs/15dedf20d71b64af4d0fb0e1bb0cb1d93ca53630a84010b90099bd9caa002f3e.MOV?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIASMECOWR4JATNKJV4%2F20250203%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20250203T154133Z&X-Amz-Expires=1200&X-Amz-Signature=818e0253f0186ba0e540926555ea35c90037fe49b99454373b10c7ccfef3e050&X-Amz-SignedHeaders=host",
-      "creation_date": "Fri Dec 02 2022 12:37:04 GMT+0000 (Coordinated Universal Time)"
+      "url": "https://s3.eu-west-1.amazonaws.com/tryber.media.production/media/T47681/CP4997/bugs/15dedf20d71b64af4d0fb0e1bb0cb1d93ca53630a84010b90099bd9caa002f3e.MOV?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIASMECOWR4JATNKJV4%2F20250203%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20250203T154133Z&X-Amz-Expires=1200&X-Amz-Signature=818e0253f0186ba0e540926555ea35c90037fe49b99454373b10c7ccfef3e050&X-Amz-SignedHeaders=host"
     },
     {
+      "creation_date": "Fri Dec 02 2022 12:37:04 GMT+0000 (Coordinated Universal Time)",
       "mime_type": {
-        "type": "image",
-        "extension": "png"
+        "extension": "png",
+        "type": "image"
       },
-      "url": "https://s3.eu-west-1.amazonaws.com/tryber.media.production/media/T47681/CP4997/bugs/0ba02c401e62f5bed25677831abb82856dcb5db0f43907b3d0218708efa479d3.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIASMECOWR4JATNKJV4%2F20250203%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20250203T154133Z&X-Amz-Expires=1200&X-Amz-Signature=76e8ca0047bbbc6f62d3ad7e8a71996c1d5ae380d3913d3b97ba678041dfc762&X-Amz-SignedHeaders=host",
-      "creation_date": "Fri Dec 02 2022 12:37:04 GMT+0000 (Coordinated Universal Time)"
+      "url": "https://s3.eu-west-1.amazonaws.com/tryber.media.production/media/T47681/CP4997/bugs/0ba02c401e62f5bed25677831abb82856dcb5db0f43907b3d0218708efa479d3.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIASMECOWR4JATNKJV4%2F20250203%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20250203T154133Z&X-Amz-Expires=1200&X-Amz-Signature=76e8ca0047bbbc6f62d3ad7e8a71996c1d5ae380d3913d3b97ba678041dfc762&X-Amz-SignedHeaders=host"
     }
   ],
-  "tags": [],
-  "additional_fields": [
-    {
-      "id": 2101,
-      "name": "Rete",
-      "value": "Mobile",
-      "options": ["Wi-Fi", "Mobile"],
-      "kind": "select"
-    }
-  ],
+  "note": "",
+  "occurred_date": "2022-12-02T13:34:15.000+01:00",
+  "priority": {
+    "id": 3,
+    "name": "medium"
+  },
+  "replicability": {
+    "id": 2,
+    "name": "Always"
+  },
   "reporter": {
-    "tester_id": 47681,
-    "name": "Tester"
-  }
+    "name": "Tester",
+    "tester_id": 47681
+  },
+  "severity": {
+    "id": 3,
+    "name": "HIGH"
+  },
+  "status": {
+    "id": 2,
+    "name": "Approved"
+  },
+  "step_by_step": "1. Aprire il conto e procedere con il flusso\r\n2. Atterrare allo step 5/6e inserire i dati richiesti\r\n3. Fare tap sul menu “Regione/Area”",
+  "tags": [],
+  "title": {
+    "compact": "Impossibile selezionare il menu a tendina “Regione/Area”",
+    "context": ["Autocertificazione"],
+    "full": "[Autocertificazione] - Impossibile selezionare il menu a tendina “Regione/Area”"
+  },
+  "type": {
+    "id": 6,
+    "name": "Malfunction"
+  },
+  "updated": "Mon Dec 05 2022 07:20:59 GMT+0000 (Coordinated Universal Time)"
 }
