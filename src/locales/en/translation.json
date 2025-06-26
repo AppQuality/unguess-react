@@ -794,7 +794,7 @@
   "__PLAN_PAGE_MODULE_BANK_ALL_LABEL": "All",
   "__PLAN_PAGE_MODULE_BANK_ALL_LABEL_HINT": "Target participants based on their primary banking relationships",
   "__PLAN_PAGE_MODULE_BANK_LABEL": "Bank Account",
-  "__PLAN_PAGE_MODULE_BANK_REMOVE_BUTTON": " ",
+  "__PLAN_PAGE_MODULE_BANK_REMOVE_BUTTON": "Delete",
   "__PLAN_PAGE_MODULE_BANK_TITLE": "Select participant banking providers",
   "__PLAN_PAGE_MODULE_BROWSER_ALL_LABEL": "All browsers",
   "__PLAN_PAGE_MODULE_BROWSER_ALL_LABEL_HINT": "Users equally divided by browser",
