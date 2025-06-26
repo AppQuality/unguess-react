@@ -91,6 +91,17 @@
       {
         "output": [
           {
+            "max": 0,
+            "min": 25000,
+            "percentage": 0
+          }
+        ],
+        "type": "annual_income_range",
+        "variant": "default"
+      },
+      {
+        "output": [
+          {
             "description": "description kind bug",
             "kind": "bug",
             "title": "Search for bugs"

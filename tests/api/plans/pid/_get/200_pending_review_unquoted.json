@@ -46,6 +46,17 @@
       {
         "output": [
           {
+            "max": 0,
+            "min": 25000,
+            "percentage": 0
+          }
+        ],
+        "type": "annual_income_range",
+        "variant": "default"
+      },
+      {
+        "output": [
+          {
             "max": 24,
             "min": 16,
             "percentage": 50
