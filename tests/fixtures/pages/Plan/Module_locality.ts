@@ -118,10 +118,9 @@ export class LocalityModule {
   }
 
   async expectToBeReadonly() {
-    await this.goToTab();
     await this.elements().module().scrollIntoViewIfNeeded();
     await this.expectAllRadiosDisabled();
-    this.elements().regionSelectionPanel().scrollIntoViewIfNeeded();
+    await this.elements().regionSelectionPanel().scrollIntoViewIfNeeded();
     await this.expectRegionCheckboxesDisabled();
     // this.elements().citySelectionPanel().scrollIntoViewIfNeeded();
     // await this.expectCityCheckboxesDisabled();
