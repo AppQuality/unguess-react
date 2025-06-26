@@ -244,7 +244,7 @@ const Bank = () => {
                         }
                         updateOutput(
                           updatedBanks,
-                          b.isOther ? otherProviderName : undefined
+                          b.isOther ? otherProviderName : ''
                         );
                       }}
                     >
@@ -276,6 +276,8 @@ const Bank = () => {
                     </div>
                     <FormField>
                       <Textarea
+                        id="other-bank-name"
+                        name="other-bank-name"
                         isResizable
                         value={otherProviderName}
                         onChange={(e) => {
