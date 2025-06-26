@@ -1,6 +1,6 @@
 import { type Page } from '@playwright/test';
-import { UnguessPage } from '../../UnguessPage';
 import validInvitedUser from '../../../api/invites/profile/token/_get/200_Example_1.json';
+import { UnguessPage } from '../../UnguessPage';
 
 export class Join extends UnguessPage {
   readonly page: Page;
@@ -63,7 +63,7 @@ export class Join extends UnguessPage {
     await this.page.route(`*/**/api/users`, async (route) => {
       if (route.request().method() === 'POST') {
         await route.fulfill({
-          path: 'tests/api/users/_post/200_projectId.json',
+          path: 'tests/api/users/_post/201_new_user.json',
         });
       } else {
         await route.fallback();
@@ -76,7 +76,7 @@ export class Join extends UnguessPage {
     await this.page.route(`*/**/api/users`, async (route) => {
       if (route.request().method() === 'POST') {
         await route.fulfill({
-          path: 'tests/api/users/_post/200_Example_1.json',
+          path: 'tests/api/users/_post/201_Invited_user.json',
         });
       } else {
         await route.fallback();
