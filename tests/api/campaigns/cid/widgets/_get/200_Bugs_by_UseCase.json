@@ -1,11 +1,11 @@
 {
   "data": [
     {
+      "bugs": 10,
+      "description": "string",
       "title": {
         "full": "UC1 asd"
       },
-      "description": "string",
-      "bugs": 10,
       "uniqueBugs": 8,
       "usecase_id": 1220
     }

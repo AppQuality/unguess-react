@@ -1,15 +1,15 @@
 [
   {
+    "creation_date": "string",
+    "description": "string",
+    "file_type": {
+      "domain_name": "string",
+      "extension": "pdf",
+      "type": "string"
+    },
     "id": 0,
     "title": "string",
-    "description": "string",
-    "url": "string",
-    "file_type": {
-      "extension": "pdf",
-      "type": "string",
-      "domain_name": "string"
-    },
-    "creation_date": "string",
-    "update_date": "string"
+    "update_date": "string",
+    "url": "string"
   }
 ]

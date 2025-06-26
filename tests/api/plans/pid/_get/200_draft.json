@@ -1,18 +1,18 @@
 {
-  "id": 13,
   "config": {
     "modules": [
       {
+        "output": "cp-title",
         "type": "title",
-        "variant": "default",
-        "output": "cp-title"
+        "variant": "default"
       }
     ]
   },
-  "status": "draft",
-  "workspace_id": 1,
+  "id": 13,
   "project": {
     "id": 90,
     "name": "MyProject"
-  }
+  },
+  "status": "draft",
+  "workspace_id": 1
 }

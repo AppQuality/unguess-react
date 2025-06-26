@@ -1,22 +1,18 @@
 {
+  "kind": "usecase-grapes",
   "results": [
     {
-      "usecaseId": 2,
-      "usecaseTitle": "usecase-2",
       "grapes": [
         {
-          "title": "title-grape-1",
-          "severity": "undetermined",
-          "usersNumber": 5,
           "observations": [
             {
-              "id": 1,
-              "title": "obs1",
               "description": "obs1 desc",
-              "start": 2,
+              "deviceType": "string",
               "end": 15,
+              "id": 1,
+              "mediaId": 0,
               "quotes": "quotes",
-              "uxNote": "ux notes",
+              "start": 2,
               "tags": [
                 {
                   "group": {
@@ -43,19 +39,19 @@
                   }
                 }
               ],
+              "title": "obs1",
               "uploaderId": 0,
-              "mediaId": 0,
-              "deviceType": "string",
-              "usecaseTitle": "string"
+              "usecaseTitle": "string",
+              "uxNote": "ux notes"
             },
             {
-              "id": 2,
-              "title": "obs2",
               "description": "obs2 desc",
-              "start": 2,
+              "deviceType": "string",
               "end": 10,
+              "id": 2,
+              "mediaId": 0,
               "quotes": "quotes",
-              "uxNote": "ux notes",
+              "start": 2,
               "tags": [
                 {
                   "group": {
@@ -82,23 +78,26 @@
                   }
                 }
               ],
+              "title": "obs2",
               "uploaderId": 0,
-              "mediaId": 0,
-              "deviceType": "string",
-              "usecaseTitle": "string"
+              "usecaseTitle": "string",
+              "uxNote": "ux notes"
             }
-          ]
+          ],
+          "severity": "undetermined",
+          "title": "title-grape-1",
+          "usersNumber": 5
         }
       ],
       "ungrouped": [
         {
-          "id": 3,
-          "title": "ungrouped-obs",
           "description": "descript",
-          "start": 1,
+          "deviceType": "string",
           "end": 54,
+          "id": 3,
+          "mediaId": 0,
           "quotes": "quotes",
-          "uxNote": "ux note",
+          "start": 1,
           "tags": [
             {
               "group": {
@@ -113,13 +112,14 @@
               }
             }
           ],
+          "title": "ungrouped-obs",
           "uploaderId": 0,
-          "mediaId": 0,
-          "deviceType": "string",
-          "usecaseTitle": "string"
+          "usecaseTitle": "string",
+          "uxNote": "ux note"
         }
-      ]
+      ],
+      "usecaseId": 2,
+      "usecaseTitle": "usecase-2"
     }
-  ],
-  "kind": "usecase-grapes"
+  ]
 }

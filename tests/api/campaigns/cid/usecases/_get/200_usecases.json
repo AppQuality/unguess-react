@@ -1,73 +1,73 @@
 [
   {
+    "completion": 87.5,
     "id": 20544,
     "title": {
       "full": "Canale Telegram della CP",
       "prefix": "Canale Telegram della CP"
-    },
-    "completion": 87.5
+    }
   },
   {
+    "completion": 87.5,
     "id": 20545,
     "title": {
       "full": "USE CASE 0: Set-Up",
       "prefix": "USE CASE 0: Set-Up"
-    },
-    "completion": 87.5
+    }
   },
   {
+    "completion": 87.5,
     "id": 20546,
     "title": {
       "full": "USE CASE 1: Installazione App",
       "prefix": "USE CASE 1: Installazione App"
-    },
-    "completion": 87.5
+    }
   },
   {
+    "completion": 87.5,
     "id": 20883,
     "title": {
       "full": "USE CASE 2: Prima apertura App",
       "prefix": "USE CASE 2: Prima apertura App"
-    },
-    "completion": 87.5
+    }
   },
   {
+    "completion": 87.5,
     "id": 20884,
     "title": {
       "full": "USE CASE 3: Apertura conto “Start”",
       "prefix": "USE CASE 3: Apertura conto “Start”"
-    },
-    "completion": 87.5
+    }
   },
   {
+    "completion": 87.5,
     "id": 20885,
     "title": {
       "full": "USE CASE 4: Apertura conto “Premium”",
       "prefix": "USE CASE 4: Apertura conto “Premium”"
-    },
-    "completion": 87.5
+    }
   },
   {
+    "completion": 87.5,
     "id": 20886,
     "title": {
       "full": "USE CASE 5: Apertura conto “Circle”",
       "prefix": "USE CASE 5: Apertura conto “Circle”"
-    },
-    "completion": 87.5
+    }
   },
   {
+    "completion": 87.5,
     "id": 20887,
     "title": {
       "full": "USE CASE 6: Ricezione email apertura e email annullamento",
       "prefix": "USE CASE 6: Ricezione email apertura e email annullamento"
-    },
-    "completion": 87.5
+    }
   },
   {
+    "completion": 87.5,
     "id": 20548,
     "title": {
       "full": "Completamento attività"
-    },
-    "completion": 87.5
+    }
   }
 ]
