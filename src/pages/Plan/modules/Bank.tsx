@@ -260,11 +260,12 @@ const Bank = () => {
                   </FormField>
                 ))}
                 {isOtherProvidersSelected && (
-                  <>
+                  <div style={{ marginLeft: appTheme.space.md }}>
                     <div
                       style={{
                         display: 'flex',
                         alignItems: 'center',
+                        marginBottom: appTheme.space.xs,
                       }}
                     >
                       <Hint>
@@ -307,7 +308,7 @@ const Bank = () => {
                         )}
                       />
                     </FormField>
-                  </>
+                  </div>
                 )}
               </div>
 
