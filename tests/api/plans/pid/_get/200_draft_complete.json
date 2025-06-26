@@ -29,8 +29,44 @@
         "variant": "default"
       },
       {
+        "type": "literacy",
+        "output": [
+          {
+            "level": "intermediate",
+            "percentage": 100
+          }
+        ],
+        "variant": "default"
+      },
+      {
+        "type": "age",
+        "output": [
+          {
+            "max": 24,
+            "min": 16,
+            "percentage": 50
+          },
+          {
+            "max": 70,
+            "min": 55,
+            "percentage": 50
+          }
+        ],
+        "variant": "default"
+      },
+      {
         "output": "This is a Goal",
         "type": "goal",
+        "variant": "default"
+      },
+      {
+        "type": "gender",
+        "output": [
+          {
+            "gender": "female",
+            "percentage": 100
+          }
+        ],
         "variant": "default"
       },
       {
@@ -48,6 +84,36 @@
         ],
         "type": "tasks",
         "variant": "default"
+      },
+      {
+        "type": "tasks",
+        "variant": "default",
+        "output": [
+          {
+            "description": "description kind bug",
+            "kind": "bug",
+            "title": "Search for bugs"
+          },
+          {
+            "description": "description kind bug",
+            "kind": "video",
+            "title": "Think aloud"
+          }
+        ]
+      },
+      {
+        "type": "locality",
+        "variant": "default",
+        "output": [
+          {
+            "type": "country",
+            "values": ["IT"]
+          },
+          {
+            "type": "region",
+            "values": ["Lombardia"]
+          }
+        ]
       }
     ]
   },
