@@ -1,17 +1,17 @@
 {
-  "id": 0,
-  "text": "string",
   "creation_date": "string",
   "creator": {
     "id": 0,
-    "name": "string",
-    "isInternal": true
+    "isInternal": true,
+    "name": "string"
   },
+  "id": 0,
   "media": [
     {
-      "url": "string",
       "id": 0,
-      "type": "string"
+      "type": "string",
+      "url": "string"
     }
-  ]
+  ],
+  "text": "string"
 }

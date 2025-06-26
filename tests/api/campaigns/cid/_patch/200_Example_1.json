@@ -1,32 +1,32 @@
 {
-  "id": 0,
-  "start_date": "string",
-  "end_date": "string",
-  "close_date": "string",
-  "title": "string",
-  "customer_title": "string",
-  "is_public": 0,
+  "base_bug_internal_id": "string",
   "bug_form": -1,
-  "type": {
-    "id": 0,
-    "name": "string"
-  },
+  "close_date": "string",
+  "customer_title": "string",
+  "description": "string",
+  "end_date": "string",
   "family": {
     "id": 0,
     "name": "string"
   },
+  "id": 0,
+  "is_public": 0,
+  "project": {
+    "id": 0,
+    "name": "string"
+  },
+  "start_date": "string",
   "status": {
     "id": 0,
     "name": "string"
   },
-  "project": {
+  "title": "string",
+  "type": {
     "id": 0,
     "name": "string"
   },
   "workspace": {
     "id": 0,
     "name": "string"
-  },
-  "description": "string",
-  "base_bug_internal_id": "string"
+  }
 }
