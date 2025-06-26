@@ -1,4 +1,4 @@
-import { type Page, expect } from '@playwright/test';
+import { expect, type Page } from '@playwright/test';
 import { i18n } from 'i18next';
 import { getI18nInstance } from 'playwright-i18next-fixture';
 
@@ -118,6 +118,7 @@ export class LocalityModule {
   }
 
   async expectToBeReadonly() {
+    await this.goToTab();
     await this.elements().module().scrollIntoViewIfNeeded();
     await this.expectAllRadiosDisabled();
     this.elements().regionSelectionPanel().scrollIntoViewIfNeeded();
