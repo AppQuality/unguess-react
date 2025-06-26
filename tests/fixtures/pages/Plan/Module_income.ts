@@ -20,9 +20,11 @@ export class IncomeModule {
   }
 
   async expectToBeReadonly() {
+    await this.elements().module().waitFor({ state: 'visible' });
     const incomeCheckbox = this.elements().moduleInput();
     const count = await incomeCheckbox.count();
     const checks: Promise<void>[] = [];
+    expect(count).toBeGreaterThan(0);
     for (let i = 0; i < count; i += 1) {
       checks.push(
         expect(incomeCheckbox.nth(i)).toHaveAttribute('disabled', '')
