@@ -56,8 +56,7 @@ const Employment = () => {
       .map(
         (id) =>
           Object.entries(EmploymentType).find(
-            ([key, enumValue]) =>
-              typeof enumValue === 'number' && enumValue === id
+            ([, enumValue]) => typeof enumValue === 'number' && enumValue === id
           )?.[0]
       )
       .filter((key): key is keyof typeof EmploymentType => Boolean(key));
