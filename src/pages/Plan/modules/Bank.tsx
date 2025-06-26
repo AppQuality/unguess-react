@@ -210,15 +210,43 @@ const Bank = () => {
                             ? item.isOther === 1
                             : item.name === b.name)
                       )}
-                      onChange={(e) =>
-                        handleBankCheckboxChange(
-                          e,
-                          b,
-                          value,
-                          otherProviderName,
-                          updateOutput
-                        )
-                      }
+                      onChange={(e) => {
+                        let updatedBanks = (value?.output ??
+                          []) as BankType[] satisfies BankType[];
+                        if (e.target.checked) {
+                          // If "other providers" is selected, add the value from the textarea
+                          if (b.isOther) {
+                            updatedBanks = updatedBanks.filter(
+                              (item) => item.isOther !== 1
+                            );
+                            updatedBanks.push({
+                              name: otherProviderName,
+                              isOther: 1,
+                            });
+                          } else if (
+                            !updatedBanks.some(
+                              (item) =>
+                                item.name === b.name && item.isOther === 0
+                            )
+                          ) {
+                            updatedBanks = [
+                              ...updatedBanks,
+                              { name: b.name, isOther: 0 },
+                            ];
+                          }
+                        } else {
+                          // Remove the selected bank
+                          updatedBanks = updatedBanks.filter((item) =>
+                            b.isOther
+                              ? item.isOther !== 1
+                              : !(item.name === b.name && item.isOther === 0)
+                          );
+                        }
+                        updateOutput(
+                          updatedBanks,
+                          b.isOther ? otherProviderName : ''
+                        );
+                      }}
                     >
                       <Label
                         style={{
