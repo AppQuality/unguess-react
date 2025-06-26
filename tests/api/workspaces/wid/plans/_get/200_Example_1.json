@@ -1,8 +1,6 @@
 [
   {
     "id": 0,
-    "title": "string",
-    "status": "draft",
     "project": {
       "id": 456,
       "title": "project"
@@ -10,6 +8,8 @@
     "quote": {
       "id": 12,
       "status": "proposed"
-    }
+    },
+    "status": "draft",
+    "title": "string"
   }
 ]
