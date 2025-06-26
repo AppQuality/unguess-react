@@ -14,11 +14,9 @@ import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as AlertIcon } from 'src/assets/icons/alert-icon.svg';
 import { components } from 'src/common/schema';
-import { FEATURE_FLAG_CHANGE_MODULES_VARIANTS } from 'src/constants';
 import { useModule } from 'src/features/modules/useModule';
 import { useModuleConfiguration } from 'src/features/modules/useModuleConfiguration';
 import { useValidation } from 'src/features/modules/useModuleValidation';
-import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
 import { getIconFromModuleType } from '../utils';
 import { DeleteModuleConfirmationModal } from './modal/DeleteModuleConfirmationModal';
 
@@ -27,13 +25,11 @@ const Bank = () => {
     name: components['schemas']['OutputServiceProviders'][number]['name'];
     isOther: components['schemas']['OutputServiceProviders'][number]['isOther'];
   };
-
-  const { hasFeatureFlag } = useFeatureFlag();
   const { getPlanStatus } = useModuleConfiguration();
   const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false);
   const { value, setOutput, remove } = useModule('bank');
   const { t } = useTranslation();
-  const isOtherProvidersSelected = value?.output.find(
+  const isOtherProvidersSelected = value?.output.some(
     (bank) => bank.isOther === 1
   );
   const validation = (
@@ -101,25 +97,13 @@ const Bank = () => {
     }
   }, [value?.output]);
 
-  const updateOutput = (
-    desiredBanks: { bank: BankType }[],
-    otherName?: string
-  ) => {
-    if (desiredBanks.length > 0) {
+  const updateOutput = (banks: BankType[], otherName?: string) => {
+    if (banks.length > 0) {
       setOutput(
-        desiredBanks.map((item) => {
-          if (item.bank.isOther) {
-            return {
-              ...item.bank,
-              name: otherName ?? otherProviderName,
-              isOther: 1,
-            };
-          }
-          return {
-            ...item.bank,
-            isOther: 0,
-          };
-        })
+        banks.map((bank) => ({
+          name: bank.isOther ? otherName ?? otherProviderName : bank.name,
+          isOther: bank.isOther ? 1 : 0,
+        }))
       );
     } else {
       setOutput([]);
@@ -146,24 +130,23 @@ const Bank = () => {
         <AccordionNew.Section>
           <AccordionNew.Header icon={getIconFromModuleType('bank')}>
             <AccordionNew.Label label={t('__PLAN_PAGE_MODULE_BANK_LABEL')} />
-            {hasFeatureFlag(FEATURE_FLAG_CHANGE_MODULES_VARIANTS) &&
-              getPlanStatus() === 'draft' && (
-                <AccordionNew.Meta>
-                  <Button
-                    isBasic
-                    isDanger
-                    onClick={(e) => {
-                      handleDelete();
-                      e.stopPropagation();
-                    }}
-                  >
-                    <Button.StartIcon>
-                      <DeleteIcon />
-                    </Button.StartIcon>
-                    {t('__PLAN_PAGE_MODULE_BANK_REMOVE_BUTTON')}
-                  </Button>
-                </AccordionNew.Meta>
-              )}
+            {getPlanStatus() === 'draft' && (
+              <AccordionNew.Meta>
+                <Button
+                  isBasic
+                  isDanger
+                  onClick={(e) => {
+                    handleDelete();
+                    e.stopPropagation();
+                  }}
+                >
+                  <Button.StartIcon>
+                    <DeleteIcon />
+                  </Button.StartIcon>
+                  {t('__PLAN_PAGE_MODULE_BANK_REMOVE_BUTTON')}
+                </Button>
+              </AccordionNew.Meta>
+            )}
           </AccordionNew.Header>
           {isDefaultVariant && (
             <AccordionNew.Panel>
@@ -181,21 +164,16 @@ const Bank = () => {
                   disabled={getPlanStatus() !== 'draft'}
                   // checked if all banks are selected
                   checked={defaultBanks.every((bank) =>
-                    value?.output.some(
-                      (item) =>
-                        item.name === bank.name && item.isOther === bank.isOther
-                    )
+                    bank.isOther
+                      ? value?.output.some((item) => item.isOther === 1)
+                      : value?.output.some(
+                          (item) =>
+                            item.name === bank.name && item.isOther === 0
+                        )
                   )}
                   onChange={(e) => {
                     if (e.target.checked) {
-                      updateOutput(
-                        defaultBanks.map((bank) => ({
-                          bank: {
-                            name: bank.name,
-                            isOther: bank.isOther,
-                          },
-                        }))
-                      );
+                      updateOutput(defaultBanks, otherProviderName);
                     } else {
                       updateOutput([]);
                     }
@@ -233,38 +211,39 @@ const Bank = () => {
                             : item.name === b.name)
                       )}
                       onChange={(e) => {
-                        let updatedBanks;
+                        let updatedBanks = (value?.output ??
+                          []) as BankType[] satisfies BankType[];
                         if (e.target.checked) {
                           // If "other providers" is selected, add the value from the textarea
                           if (b.isOther) {
+                            updatedBanks = updatedBanks.filter(
+                              (item) => item.isOther !== 1
+                            );
+                            updatedBanks.push({
+                              name: otherProviderName,
+                              isOther: 1,
+                            });
+                          } else if (
+                            !updatedBanks.some(
+                              (item) =>
+                                item.name === b.name && item.isOther === 0
+                            )
+                          ) {
                             updatedBanks = [
-                              ...(value?.output.filter(
-                                (item) => item.isOther !== 1
-                              ) || []),
-                              { name: otherProviderName, isOther: 1 },
-                            ];
-                          } else {
-                            updatedBanks = [
-                              ...(value?.output || []),
+                              ...updatedBanks,
                               { name: b.name, isOther: 0 },
                             ];
                           }
                         } else {
                           // Remove the selected bank
-                          updatedBanks = (value?.output || []).filter(
-                            (item) =>
-                              !(b.isOther
-                                ? item.isOther === 1
-                                : item.name === b.name && item.isOther === 0)
+                          updatedBanks = updatedBanks.filter((item) =>
+                            b.isOther
+                              ? item.isOther !== 1
+                              : !(item.name === b.name && item.isOther === 0)
                           );
                         }
                         updateOutput(
-                          updatedBanks.map((bank) => ({
-                            bank: {
-                              name: bank.name,
-                              isOther: bank.isOther ?? 0,
-                            },
-                          })),
+                          updatedBanks,
                           b.isOther ? otherProviderName : undefined
                         );
                       }}
@@ -312,9 +291,10 @@ const Bank = () => {
                             updateOutput(
                               [
                                 ...rest.map((bank) => ({
-                                  bank: { name: bank.name, isOther: 0 },
+                                  name: bank.name,
+                                  isOther: 0,
                                 })),
-                                { bank: { name: e.target.value, isOther: 1 } },
+                                { name: e.target.value, isOther: 1 },
                               ],
                               e.target.value
                             );
