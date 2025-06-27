@@ -17,14 +17,12 @@ import { components } from 'src/common/schema';
 import { useModule } from 'src/features/modules/useModule';
 import { useModuleConfiguration } from 'src/features/modules/useModuleConfiguration';
 import { useValidation } from 'src/features/modules/useModuleValidation';
-import { getIconFromModuleType } from '../utils';
-import { DeleteModuleConfirmationModal } from './modal/DeleteModuleConfirmationModal';
+import { getIconFromModuleType } from '../../utils';
+import { DeleteModuleConfirmationModal } from '../modal/DeleteModuleConfirmationModal';
+import { defaultBanks } from './defaultBanks';
+import { BankType } from './types';
 
 const Bank = () => {
-  type BankType = {
-    name: components['schemas']['OutputServiceProviders'][number]['name'];
-    isOther: components['schemas']['OutputServiceProviders'][number]['isOther'];
-  };
   const { getPlanStatus } = useModuleConfiguration();
   const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false);
   const { value, setOutput, remove } = useModule('bank');
@@ -55,30 +53,6 @@ const Bank = () => {
   });
 
   const isDefaultVariant = value?.variant === 'default';
-
-  const defaultBanks: BankType[] = [
-    {
-      name: 'Intesa San Paolo',
-      isOther: 0,
-    },
-    {
-      name: 'Poste Italiane',
-      isOther: 0,
-    },
-    {
-      name: 'Unicredit',
-      isOther: 0,
-    },
-    {
-      name: 'ING',
-      isOther: 0,
-    },
-    {
-      name: 'Fineco',
-      isOther: 0,
-    },
-    { name: 'Other providers', isOther: 1 },
-  ];
 
   const bankError =
     error && typeof error === 'object' && `bank.value` in error

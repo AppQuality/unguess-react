@@ -1,6 +1,7 @@
 import { useCallback, useMemo } from 'react';
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
 import { components } from 'src/common/schema';
+import { defaultBanks } from 'src/pages/Plan/modules/Bank/defaultBanks';
 import {
   removeModule,
   setModule,
@@ -220,7 +221,7 @@ export const useModule = <T extends components['schemas']['Module']['type']>(
         return {
           type,
           variant: 'default',
-          output: [],
+          output: defaultBanks.filter((bank) => !bank.isOther),
         };
       default:
         return null;
