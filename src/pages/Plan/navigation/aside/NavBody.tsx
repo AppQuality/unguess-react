@@ -1,11 +1,9 @@
-import { useAppSelector } from 'src/app/hooks';
-import { FEATURE_FLAG_CHANGE_MODULES_VARIANTS } from 'src/constants';
-import { useModuleConfiguration } from 'src/features/modules/useModuleConfiguration';
-import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
-import styled from 'styled-components';
-import { appTheme } from 'src/app/theme';
 import { MD } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
+import { useAppSelector } from 'src/app/hooks';
+import { appTheme } from 'src/app/theme';
+import { useModuleConfiguration } from 'src/features/modules/useModuleConfiguration';
+import styled from 'styled-components';
 import { NavContainer } from '../../common/NavContainer';
 import { usePlanTab } from '../../context/planContext';
 import { MODULES_BY_TAB } from '../../modulesMap';
@@ -27,7 +25,6 @@ const NavBody = () => {
     MODULES_BY_TAB[activeTab as keyof typeof MODULES_BY_TAB] || [];
   const { getPlanStatus } = useModuleConfiguration();
   const { currentModules } = useAppSelector((state) => state.planModules);
-  const { hasFeatureFlag } = useFeatureFlag();
   const { t } = useTranslation();
 
   return (
@@ -49,13 +46,12 @@ const NavBody = () => {
             </NavItem>
           ))}
       </BodyContainer>
-      {getPlanStatus() === 'draft' &&
-        hasFeatureFlag(FEATURE_FLAG_CHANGE_MODULES_VARIANTS) && (
-          <div style={{ marginTop: 'auto' }}>
-            <AddBlockButton />
-            <AddBlockModal />
-          </div>
-        )}
+      {getPlanStatus() === 'draft' && (
+        <div style={{ marginTop: 'auto' }}>
+          <AddBlockButton />
+          <AddBlockModal />
+        </div>
+      )}
     </NavContainer>
   );
 };

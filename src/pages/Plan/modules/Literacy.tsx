@@ -13,18 +13,15 @@ import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as AlertIcon } from 'src/assets/icons/alert-icon.svg';
 import { components } from 'src/common/schema';
-import { FEATURE_FLAG_CHANGE_MODULES_VARIANTS } from 'src/constants';
 import { useModule } from 'src/features/modules/useModule';
 import { useModuleConfiguration } from 'src/features/modules/useModuleConfiguration';
 import { useValidation } from 'src/features/modules/useModuleValidation';
-import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
 import { getIconFromModuleType } from '../utils';
 import { DeleteModuleConfirmationModal } from './modal/DeleteModuleConfirmationModal';
 
 const DigitalLiteracy = () => {
   type DigitalLiteracyLevel =
     components['schemas']['OutputModuleLiteracy'][number]['level'];
-  const { hasFeatureFlag } = useFeatureFlag();
   const { getPlanStatus } = useModuleConfiguration();
   const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false);
 
@@ -113,24 +110,23 @@ const DigitalLiteracy = () => {
             <AccordionNew.Label
               label={t('__PLAN_PAGE_MODULE_DIGITAL_LITERACY_ACCORDION_LABEL')}
             />
-            {hasFeatureFlag(FEATURE_FLAG_CHANGE_MODULES_VARIANTS) &&
-              getPlanStatus() === 'draft' && (
-                <AccordionNew.Meta>
-                  <Button
-                    isBasic
-                    isDanger
-                    onClick={(e) => {
-                      handleDelete();
-                      e.stopPropagation();
-                    }}
-                  >
-                    <Button.StartIcon>
-                      <DeleteIcon />
-                    </Button.StartIcon>
-                    {t('__PLAN_PAGE_MODULE_DIGITAL_LITERACY_REMOVE_BUTTON')}
-                  </Button>
-                </AccordionNew.Meta>
-              )}
+            {getPlanStatus() === 'draft' && (
+              <AccordionNew.Meta>
+                <Button
+                  isBasic
+                  isDanger
+                  onClick={(e) => {
+                    handleDelete();
+                    e.stopPropagation();
+                  }}
+                >
+                  <Button.StartIcon>
+                    <DeleteIcon />
+                  </Button.StartIcon>
+                  {t('__PLAN_PAGE_MODULE_DIGITAL_LITERACY_REMOVE_BUTTON')}
+                </Button>
+              </AccordionNew.Meta>
+            )}
           </AccordionNew.Header>
           <AccordionNew.Panel>
             <Label>{t('__PLAN_PAGE_MODULE_DIGITAL_LITERACY_TITLE')}</Label>
