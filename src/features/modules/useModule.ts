@@ -46,6 +46,7 @@ export const useModule = <T extends components['schemas']['Module']['type']>(
   const getConfig = (
     type: components['schemas']['Module']['type']
   ): components['schemas']['Module'] | null => {
+    const firstBank = defaultBanks.filter((bank) => !bank.isOther).shift();
     switch (type) {
       case 'dates':
         return {
@@ -221,7 +222,7 @@ export const useModule = <T extends components['schemas']['Module']['type']>(
         return {
           type,
           variant: 'default',
-          output: defaultBanks.filter((bank) => !bank.isOther),
+          output: firstBank ? [firstBank] : [],
         };
       default:
         return null;

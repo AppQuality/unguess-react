@@ -126,45 +126,7 @@ const Bank = () => {
             <AccordionNew.Panel>
               <Label>{t('__PLAN_PAGE_MODULE_BANK_TITLE')}</Label>
               <Span style={{ color: appTheme.palette.red[600] }}>*</Span>
-              <FormField
-                style={{
-                  marginTop: appTheme.space.sm,
-                }}
-              >
-                <Checkbox
-                  key="all"
-                  value="all"
-                  name="bank-all"
-                  disabled={getPlanStatus() !== 'draft'}
-                  // checked if all banks are selected
-                  checked={defaultBanks.every((bank) =>
-                    bank.isOther
-                      ? value?.output.some((item) => item.isOther === 1)
-                      : value?.output.some(
-                          (item) =>
-                            item.name === bank.name && item.isOther === 0
-                        )
-                  )}
-                  onChange={(e) => {
-                    if (e.target.checked) {
-                      updateOutput(defaultBanks, otherProviderName);
-                    } else {
-                      updateOutput([]);
-                    }
-                  }}
-                >
-                  <Label
-                    style={{
-                      color: appTheme.palette.grey[800],
-                      fontSize: appTheme.fontSizes.md,
-                    }}
-                  >
-                    {t('__PLAN_PAGE_MODULE_BANK_ALL_LABEL')}
-                  </Label>
-                  <Hint>{t('__PLAN_PAGE_MODULE_BANK_ALL_LABEL_HINT')}</Hint>
-                </Checkbox>
-              </FormField>
-              <div style={{ marginLeft: appTheme.space.md }}>
+              <div>
                 {defaultBanks.map((b) => (
                   <FormField
                     key={`bank-${b.name}`}
