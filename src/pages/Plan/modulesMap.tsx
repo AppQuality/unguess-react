@@ -4,6 +4,7 @@ import Bank from './modules/Bank';
 import Browser from './modules/Browser';
 import { Dates } from './modules/Dates';
 import Employment from './modules/Employment';
+import GasSupply from './modules/GasSupply';
 import Gender from './modules/Gender';
 import Goal from './modules/Goal';
 import Income from './modules/Income';
@@ -33,6 +34,7 @@ export const MODULES_BY_TAB = {
     'annual_income_range',
     'additional_target',
     'bank',
+    'gas_supply',
   ],
   instructions: ['instruction_note', 'tasks', 'out_of_scope'],
 };
@@ -56,10 +58,10 @@ export const modulesMap = {
   touchpoints: TouchPoints,
   additional_target: AdditionalTarget,
   locality: Locality,
+  gas_supply: GasSupply,
   elettricity_supply: () => null, // Placeholder for future module
   mobile_internet: () => null, // Placeholder for future module
   home_internet: () => null, // Placeholder for future module
-  gas_supply: () => null, // Placeholder for future module
   annual_income_range: Income, // Placeholder for future module
   bank: Bank,
 };

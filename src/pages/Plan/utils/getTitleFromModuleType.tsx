@@ -47,6 +47,8 @@ const getTitleFromModuleType = (
       return t('__PLAN_PAGE_MODULE_INCOME_LABEL');
     case 'bank':
       return t('__PLAN_PAGE_MODULE_BANK_LABEL');
+    case 'gas_supply':
+      return t('__PLAN_PAGE_MODULE_GAS_SUPPLY_LABEL');
     default:
       return '';
   }

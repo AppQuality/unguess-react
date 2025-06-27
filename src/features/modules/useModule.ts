@@ -223,6 +223,12 @@ export const useModule = <T extends components['schemas']['Module']['type']>(
           variant: 'default',
           output: defaultBanks.filter((bank) => !bank.isOther),
         };
+      case 'gas_supply':
+        return {
+          type,
+          variant: 'default',
+          output: [],
+        };
       default:
         return null;
     }
