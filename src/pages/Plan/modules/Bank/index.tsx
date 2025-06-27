@@ -71,22 +71,21 @@ const Bank = () => {
     }
   }, [value?.output]);
 
-  const updateOutput = (banks: BankType[], otherName?: string) => {
-    if (banks.length > 0) {
-      setOutput(
-        banks.map((bank) => ({
-          name: bank.isOther ? otherName ?? otherProviderName : bank.name,
-          isOther: bank.isOther ? 1 : 0,
-        }))
-      );
-    } else {
-      setOutput([]);
+  const updateOutput = (
+    banks: BankType[],
+    otherName?: string,
+    doValidation?: boolean
+  ) => {
+    const updatedBanks = banks.map((bank) => ({
+      name: bank.isOther ? otherName ?? otherProviderName : bank.name,
+      isOther: bank.isOther ? 1 : 0,
+    }));
+
+    setOutput(updatedBanks);
+    if (doValidation) {
+      validate({ output: updatedBanks, variant: value?.variant || 'default' });
     }
   };
-
-  useEffect(() => {
-    validate();
-  }, [value]);
 
   const handleDelete = () => {
     setIsOpenDeleteModal(true);
@@ -147,40 +146,27 @@ const Bank = () => {
                             : item.name === b.name)
                       )}
                       onChange={(e) => {
-                        let updatedBanks = (value?.output ??
-                          []) as BankType[] satisfies BankType[];
-                        if (e.target.checked) {
-                          // If "other providers" is selected, add the value from the textarea
-                          if (b.isOther) {
-                            updatedBanks = updatedBanks.filter(
-                              (item) => item.isOther !== 1
+                        const shouldValidate =
+                          (e.target.checked && !b.isOther) || !e.target.checked;
+
+                        const updatedBanks = e.target.checked
+                          ? [
+                              ...(value?.output ?? []),
+                              {
+                                name: b.isOther ? otherProviderName : b.name,
+                                isOther: b.isOther ? 1 : 0,
+                              },
+                            ]
+                          : (value?.output ?? []).filter((item) =>
+                              b.isOther
+                                ? item.isOther !== 1
+                                : !(item.name === b.name && item.isOther === 0)
                             );
-                            updatedBanks.push({
-                              name: otherProviderName,
-                              isOther: 1,
-                            });
-                          } else if (
-                            !updatedBanks.some(
-                              (item) =>
-                                item.name === b.name && item.isOther === 0
-                            )
-                          ) {
-                            updatedBanks = [
-                              ...updatedBanks,
-                              { name: b.name, isOther: 0 },
-                            ];
-                          }
-                        } else {
-                          // Remove the selected bank
-                          updatedBanks = updatedBanks.filter((item) =>
-                            b.isOther
-                              ? item.isOther !== 1
-                              : !(item.name === b.name && item.isOther === 0)
-                          );
-                        }
+
                         updateOutput(
                           updatedBanks,
-                          b.isOther ? otherProviderName : ''
+                          otherProviderName,
+                          shouldValidate
                         );
                       }}
                     >
@@ -217,28 +203,22 @@ const Bank = () => {
                         name="other-bank-name"
                         readOnly={getPlanStatus() !== 'draft'}
                         isResizable
+                        onBlur={() => {
+                          validate();
+                        }}
                         value={otherProviderName}
                         onChange={(e) => {
                           setOtherProviderName(e.target.value);
-                          // Update output only if "Other providers" is selected
-                          const others = (value?.output || []).filter(
-                            (item) => item.isOther === 1
+                          const updatedBanks = (value?.output || []).map(
+                            (bank) => {
+                              if (bank.isOther === 1) {
+                                return { ...bank, name: e.target.value };
+                              }
+                              return bank;
+                            }
                           );
-                          if (others.length > 0) {
-                            const rest = (value?.output || []).filter(
-                              (item) => item.isOther !== 1
-                            );
-                            updateOutput(
-                              [
-                                ...rest.map((bank) => ({
-                                  name: bank.name,
-                                  isOther: 0,
-                                })),
-                                { name: e.target.value, isOther: 1 },
-                              ],
-                              e.target.value
-                            );
-                          }
+
+                          updateOutput(updatedBanks, e.target.value, true);
                         }}
                         placeholder={t(
                           '__PLAN_PAGE_MODULE_OTHER_BANK_TEXTAREA_PLACEHOLDER'
