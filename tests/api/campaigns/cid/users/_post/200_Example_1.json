@@ -1,5 +1,5 @@
 {
+  "email": "string",
   "profile_id": 0,
-  "tryber_wp_user_id": 0,
-  "email": "string"
+  "tryber_wp_user_id": 0
 }

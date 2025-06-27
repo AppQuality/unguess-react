@@ -1,42 +1,25 @@
 {
   "items": [
     {
-      "id": 274852,
-      "internal_id": "internal_id274852",
-      "campaign_id": 4997,
-      "title": {
-        "full": "[Apertura Conto] - Status bar di iOS non visibile nella pagina informativa dei conti",
-        "compact": "Status bar di iOS non visibile nella pagina informativa dei conti",
-        "context": ["Apertura Conto"]
-      },
-      "step_by_step": "1. Aprire l’app\r\n2. Fare tap su “Apri conto”\r\n3. Visualizzare la pagina informativa su i conti",
-      "expected_result": "Mi sarei aspettato di visualizzare correttamente tutti gli elementi della status bar di iOS.",
-      "current_result": "La status bar non viene visualizzata o è nascosta nello sfondo bianco dell'app. Bisogna impostare lo stile scuro per poterla vedere.",
-      "status": {
-        "id": 2,
-        "name": "Approved"
-      },
-      "severity": {
-        "id": 3,
-        "name": "HIGH"
-      },
-      "type": {
-        "id": 3,
-        "name": "Graphic"
-      },
-      "replicability": {
-        "id": 2,
-        "name": "Always"
-      },
       "application_section": {
         "id": 20883,
-        "title": "USE CASE 2: Prima apertura App  ",
-        "prefix": "USE CASE 2: Prima apertura App"
+        "prefix": "USE CASE 2: Prima apertura App",
+        "title": "USE CASE 2: Prima apertura App  "
       },
+      "campaign_id": 4997,
+      "comments": 0,
       "created": "Thu Dec 01 2022 19:47:58 GMT+0000 (Coordinated Universal Time)",
-      "occurred_date": "2022-12-01T20:42:05.000+01:00",
-      "updated": "Fri Dec 02 2022 11:05:34 GMT+0000 (Coordinated Universal Time)",
-      "note": "",
+      "current_result": "La status bar non viene visualizzata o è nascosta nello sfondo bianco dell'app. Bisogna impostare lo stile scuro per poterla vedere.",
+      "custom_status": {
+        "color": "c2c8cc",
+        "id": 2,
+        "is_default": 1,
+        "name": "pending",
+        "phase": {
+          "id": 1,
+          "name": "working"
+        }
+      },
       "device": {
         "manufacturer": "Apple",
         "model": "iPhone 14 Pro",
@@ -44,63 +27,63 @@
         "os_version": "iOS 16 (16)",
         "type": "smartphone"
       },
-      "is_favorite": 0,
+      "expected_result": "Mi sarei aspettato di visualizzare correttamente tutti gli elementi della status bar di iOS.",
+      "id": 274852,
+      "internal_id": "internal_id274852",
       "is_duplicated": 0,
-      "read": true,
-      "siblings": 1,
+      "is_favorite": 0,
+      "note": "",
+      "occurred_date": "2022-12-01T20:42:05.000+01:00",
       "priority": {
         "id": 3,
         "name": "medium"
       },
-      "custom_status": {
+      "read": true,
+      "replicability": {
         "id": 2,
-        "name": "pending",
-        "phase": {
-          "id": 1,
-          "name": "working"
-        },
-        "color": "c2c8cc",
-        "is_default": 1
-      },
-      "comments": 0
-    },
-    {
-      "id": 274888,
-      "internal_id": "internal_id274888",
-      "campaign_id": 4997,
-      "title": {
-        "full": "[Apertura Conto] - Impossibile tornare indietro una volta selezionato il pulsante \"?\"",
-        "compact": "Impossibile tornare indietro una volta selezionato il pulsante \"?\"",
-        "context": ["Apertura Conto"]
-      },
-      "step_by_step": "1. Aprire l'app e iniziare flusso di apertura conto\r\n2. Da uno step qualunque del flusso fare tap sul pulsante verde \"?\" in alto a destra\r\n3. Visualizzare la scheda di assistenza",
-      "expected_result": "Mi aspettavo di trovare un pulsante che mi rimandasse alla pagina dello step a cui sono arrivato procedendo con la registrazione.",
-      "current_result": "È presente un solo pulsante (\"X\") che elimina tutti i progressi e mi fa tornare alla pagina iniziale, così da obbligarmi ad iniziare il flusso di iscrizione da capo.",
-      "status": {
-        "id": 2,
-        "name": "Approved"
+        "name": "Always"
       },
       "severity": {
         "id": 3,
         "name": "HIGH"
       },
-      "type": {
-        "id": 10,
-        "name": "Usability"
-      },
-      "replicability": {
+      "siblings": 1,
+      "status": {
         "id": 2,
-        "name": "Always"
+        "name": "Approved"
       },
+      "step_by_step": "1. Aprire l’app\r\n2. Fare tap su “Apri conto”\r\n3. Visualizzare la pagina informativa su i conti",
+      "title": {
+        "compact": "Status bar di iOS non visibile nella pagina informativa dei conti",
+        "context": ["Apertura Conto"],
+        "full": "[Apertura Conto] - Status bar di iOS non visibile nella pagina informativa dei conti"
+      },
+      "type": {
+        "id": 3,
+        "name": "Graphic"
+      },
+      "updated": "Fri Dec 02 2022 11:05:34 GMT+0000 (Coordinated Universal Time)"
+    },
+    {
       "application_section": {
         "id": 20884,
-        "title": "USE CASE 3: Apertura conto “Start”  ",
-        "prefix": "USE CASE 3: Apertura conto “Start”"
+        "prefix": "USE CASE 3: Apertura conto “Start”",
+        "title": "USE CASE 3: Apertura conto “Start”  "
       },
+      "campaign_id": 4997,
+      "comments": 0,
       "created": "Thu Dec 01 2022 21:27:00 GMT+0000 (Coordinated Universal Time)",
-      "occurred_date": "2022-12-01T22:24:13.000+01:00",
-      "updated": "Fri Dec 02 2022 11:05:44 GMT+0000 (Coordinated Universal Time)",
-      "note": "",
+      "current_result": "È presente un solo pulsante (\"X\") che elimina tutti i progressi e mi fa tornare alla pagina iniziale, così da obbligarmi ad iniziare il flusso di iscrizione da capo.",
+      "custom_status": {
+        "color": "ffffff",
+        "id": 1,
+        "is_default": 1,
+        "name": "to do",
+        "phase": {
+          "id": 1,
+          "name": "working"
+        }
+      },
       "device": {
         "manufacturer": "Apple",
         "model": "iPhone XS",
@@ -108,63 +91,63 @@
         "os_version": "iOS 16 (16)",
         "type": "smartphone"
       },
-      "is_favorite": 0,
+      "expected_result": "Mi aspettavo di trovare un pulsante che mi rimandasse alla pagina dello step a cui sono arrivato procedendo con la registrazione.",
+      "id": 274888,
+      "internal_id": "internal_id274888",
       "is_duplicated": 0,
-      "read": true,
-      "siblings": 1,
+      "is_favorite": 0,
+      "note": "",
+      "occurred_date": "2022-12-01T22:24:13.000+01:00",
       "priority": {
         "id": 3,
         "name": "medium"
       },
-      "custom_status": {
-        "id": 1,
-        "name": "to do",
-        "phase": {
-          "id": 1,
-          "name": "working"
-        },
-        "color": "ffffff",
-        "is_default": 1
-      },
-      "comments": 0
-    },
-    {
-      "id": 275021,
-      "internal_id": "internal_id275021",
-      "campaign_id": 4997,
-      "title": {
-        "full": "[Autocertificazione] - Impossibile selezionare il menu a tendina “Regione/Area”",
-        "compact": "Impossibile selezionare il menu a tendina “Regione/Area”",
-        "context": ["Autocertificazione"]
-      },
-      "step_by_step": "1. Aprire il conto e procedere con il flusso\r\n2. Atterrare allo step 5/6e inserire i dati richiesti\r\n3. Fare tap sul menu “Regione/Area”",
-      "expected_result": "Mi aspettavo di poter selezionare la regione di residenza.",
-      "current_result": "Impossibile inserire dati nella barra dedicata.",
-      "status": {
+      "read": true,
+      "replicability": {
         "id": 2,
-        "name": "Approved"
+        "name": "Always"
       },
       "severity": {
         "id": 3,
         "name": "HIGH"
       },
-      "type": {
-        "id": 6,
-        "name": "Malfunction"
-      },
-      "replicability": {
+      "siblings": 1,
+      "status": {
         "id": 2,
-        "name": "Always"
+        "name": "Approved"
       },
+      "step_by_step": "1. Aprire l'app e iniziare flusso di apertura conto\r\n2. Da uno step qualunque del flusso fare tap sul pulsante verde \"?\" in alto a destra\r\n3. Visualizzare la scheda di assistenza",
+      "title": {
+        "compact": "Impossibile tornare indietro una volta selezionato il pulsante \"?\"",
+        "context": ["Apertura Conto"],
+        "full": "[Apertura Conto] - Impossibile tornare indietro una volta selezionato il pulsante \"?\""
+      },
+      "type": {
+        "id": 10,
+        "name": "Usability"
+      },
+      "updated": "Fri Dec 02 2022 11:05:44 GMT+0000 (Coordinated Universal Time)"
+    },
+    {
       "application_section": {
         "id": 20884,
-        "title": "USE CASE 3: Apertura conto “Start”  ",
-        "prefix": "USE CASE 3: Apertura conto “Start”"
+        "prefix": "USE CASE 3: Apertura conto “Start”",
+        "title": "USE CASE 3: Apertura conto “Start”  "
       },
+      "campaign_id": 4997,
+      "comments": 0,
       "created": "Fri Dec 02 2022 12:37:04 GMT+0000 (Coordinated Universal Time)",
-      "occurred_date": "2022-12-02T13:34:15.000+01:00",
-      "updated": "Mon Dec 05 2022 07:20:59 GMT+0000 (Coordinated Universal Time)",
-      "note": "",
+      "current_result": "Impossibile inserire dati nella barra dedicata.",
+      "custom_status": {
+        "color": "ffffff",
+        "id": 1,
+        "is_default": 1,
+        "name": "to do",
+        "phase": {
+          "id": 1,
+          "name": "working"
+        }
+      },
       "device": {
         "manufacturer": "Apple",
         "model": "iPhone 11 Pro",
@@ -172,63 +155,127 @@
         "os_version": "iOS 15.6 (15.6)",
         "type": "smartphone"
       },
-      "is_favorite": 0,
+      "expected_result": "Mi aspettavo di poter selezionare la regione di residenza.",
+      "id": 275021,
+      "internal_id": "internal_id275021",
       "is_duplicated": 0,
-      "read": true,
-      "siblings": 1,
+      "is_favorite": 0,
+      "note": "",
+      "occurred_date": "2022-12-02T13:34:15.000+01:00",
       "priority": {
         "id": 3,
         "name": "medium"
       },
+      "read": true,
+      "replicability": {
+        "id": 2,
+        "name": "Always"
+      },
+      "severity": {
+        "id": 3,
+        "name": "HIGH"
+      },
+      "siblings": 1,
+      "status": {
+        "id": 2,
+        "name": "Approved"
+      },
+      "step_by_step": "1. Aprire il conto e procedere con il flusso\r\n2. Atterrare allo step 5/6e inserire i dati richiesti\r\n3. Fare tap sul menu “Regione/Area”",
+      "title": {
+        "compact": "Impossibile selezionare il menu a tendina “Regione/Area”",
+        "context": ["Autocertificazione"],
+        "full": "[Autocertificazione] - Impossibile selezionare il menu a tendina “Regione/Area”"
+      },
+      "type": {
+        "id": 6,
+        "name": "Malfunction"
+      },
+      "updated": "Mon Dec 05 2022 07:20:59 GMT+0000 (Coordinated Universal Time)"
+    },
+    {
+      "application_section": {
+        "id": 20884,
+        "prefix": "USE CASE 3: Apertura conto “Start”",
+        "title": "USE CASE 3: Apertura conto “Start”  "
+      },
+      "campaign_id": 4997,
+      "comments": 0,
+      "created": "Fri Dec 02 2022 14:44:56 GMT+0000 (Coordinated Universal Time)",
+      "current_result": "Nessun errore senza selezionare l'indirizzo e posso procedere.",
       "custom_status": {
+        "color": "ffffff",
         "id": 1,
+        "is_default": 1,
         "name": "to do",
         "phase": {
           "id": 1,
           "name": "working"
-        },
-        "color": "ffffff",
-        "is_default": 1
+        }
       },
-      "comments": 0
-    },
-    {
+      "device": {
+        "manufacturer": "Huawei",
+        "model": "Mate 20 Pro",
+        "os": "Android",
+        "os_version": "10 (10.0)",
+        "type": "smartphone"
+      },
+      "expected_result": "Mi sarei aspettato di non poter proseguire non avendo scelto dove spedire la carta.",
       "id": 275055,
       "internal_id": "internal_id275055",
-      "campaign_id": 4997,
-      "title": {
-        "full": "[Autocertificazione] - É possibile non selezionare nessun indirizzo di spedizione della carta",
-        "compact": "É possibile non selezionare nessun indirizzo di spedizione della carta",
-        "context": ["Autocertificazione"]
+      "is_duplicated": 0,
+      "is_favorite": 0,
+      "note": "",
+      "occurred_date": "2022-12-02T15:41:32.000+01:00",
+      "priority": {
+        "id": 3,
+        "name": "medium"
+      },
+      "read": true,
+      "replicability": {
+        "id": 2,
+        "name": "Always"
+      },
+      "severity": {
+        "id": 3,
+        "name": "HIGH"
+      },
+      "siblings": 0,
+      "status": {
+        "id": 2,
+        "name": "Approved"
       },
       "step_by_step": "1. Aprire il conto Start \r\n2. Anadare allo step \"Autocertificazione\"\r\n3. Inserire i dati della residenza\r\n4. Premere su \"Residenza di versa da domicilio\"\r\n5. Selezionare \"Spedisci la carta al domicilio\"\r\n6. Selezionare la residenza uguale a domicilio\r\n7. Guardare le attuali impostazioni di spedizione (nessuna selezionata)\r\n8. Procedere facendo tap sul pulsante \"Procedi\"",
-      "expected_result": "Mi sarei aspettato di non poter proseguire non avendo scelto dove spedire la carta.",
-      "current_result": "Nessun errore senza selezionare l'indirizzo e posso procedere.",
-      "status": {
-        "id": 2,
-        "name": "Approved"
-      },
-      "severity": {
-        "id": 3,
-        "name": "HIGH"
+      "title": {
+        "compact": "É possibile non selezionare nessun indirizzo di spedizione della carta",
+        "context": ["Autocertificazione"],
+        "full": "[Autocertificazione] - É possibile non selezionare nessun indirizzo di spedizione della carta"
       },
       "type": {
         "id": 10,
         "name": "Usability"
       },
-      "replicability": {
-        "id": 2,
-        "name": "Always"
-      },
+      "updated": "Mon Dec 05 2022 07:38:26 GMT+0000 (Coordinated Universal Time)"
+    },
+    {
       "application_section": {
         "id": 20884,
-        "title": "USE CASE 3: Apertura conto “Start”  ",
-        "prefix": "USE CASE 3: Apertura conto “Start”"
+        "prefix": "USE CASE 3: Apertura conto “Start”",
+        "title": "USE CASE 3: Apertura conto “Start”  "
       },
-      "created": "Fri Dec 02 2022 14:44:56 GMT+0000 (Coordinated Universal Time)",
-      "occurred_date": "2022-12-02T15:41:32.000+01:00",
-      "updated": "Mon Dec 05 2022 07:38:26 GMT+0000 (Coordinated Universal Time)",
-      "note": "",
+      "campaign_id": 4997,
+      "comments": 0,
+      "created": "Fri Dec 02 2022 14:55:23 GMT+0000 (Coordinated Universal Time)",
+      "current_result": "Non si riesce a procedere ma non si capisce il perché.",
+      "custom_status": {
+        "color": "ffffff",
+        "id": 1,
+        "is_default": 1,
+        "name": "to do",
+        "phase": {
+          "id": 1,
+          "name": "working"
+        }
+      },
       "device": {
         "manufacturer": "Huawei",
         "model": "Mate 20 Pro",
@@ -236,63 +283,63 @@
         "os_version": "10 (10.0)",
         "type": "smartphone"
       },
-      "is_favorite": 0,
-      "is_duplicated": 0,
-      "read": true,
-      "siblings": 0,
-      "priority": {
-        "id": 3,
-        "name": "medium"
-      },
-      "custom_status": {
-        "id": 1,
-        "name": "to do",
-        "phase": {
-          "id": 1,
-          "name": "working"
-        },
-        "color": "ffffff",
-        "is_default": 1
-      },
-      "comments": 0
-    },
-    {
+      "expected_result": "Mi sarei aspettato di poter procedere oppure che comparisse un messaggio di errore (ad esempio, \"Altro non ammesso\").",
       "id": 275059,
       "internal_id": "internal_id275059",
-      "campaign_id": 4997,
-      "title": {
-        "full": "[Autocertificazione] - Impossibile procedere dal punto 5 se si seleziona \"Altro\" come \"Provenienza apporto iniziale\"",
-        "compact": "Impossibile procedere dal punto 5 se si seleziona \"Altro\" come \"Provenienza apporto iniziale\"",
-        "context": ["Autocertificazione"]
+      "is_duplicated": 0,
+      "is_favorite": 0,
+      "note": "",
+      "occurred_date": "2022-12-02T15:50:50.000+01:00",
+      "priority": {
+        "id": 3,
+        "name": "medium"
       },
-      "step_by_step": "1. Aprire il conto Start\r\n2. Arrivare alla pagina di \"Autocertificazione\"\r\n3. Selezionare in fondo \"Provenienza apporto iniziale\" come \"Altro\"\r\n4. Fare tap su \"Procedi\"",
-      "expected_result": "Mi sarei aspettato di poter procedere oppure che comparisse un messaggio di errore (ad esempio, \"Altro non ammesso\").",
-      "current_result": "Non si riesce a procedere ma non si capisce il perché.",
-      "status": {
+      "read": true,
+      "replicability": {
         "id": 2,
-        "name": "Approved"
+        "name": "Always"
       },
       "severity": {
         "id": 3,
         "name": "HIGH"
       },
+      "siblings": 2,
+      "status": {
+        "id": 2,
+        "name": "Approved"
+      },
+      "step_by_step": "1. Aprire il conto Start\r\n2. Arrivare alla pagina di \"Autocertificazione\"\r\n3. Selezionare in fondo \"Provenienza apporto iniziale\" come \"Altro\"\r\n4. Fare tap su \"Procedi\"",
+      "title": {
+        "compact": "Impossibile procedere dal punto 5 se si seleziona \"Altro\" come \"Provenienza apporto iniziale\"",
+        "context": ["Autocertificazione"],
+        "full": "[Autocertificazione] - Impossibile procedere dal punto 5 se si seleziona \"Altro\" come \"Provenienza apporto iniziale\""
+      },
       "type": {
         "id": 6,
         "name": "Malfunction"
       },
-      "replicability": {
-        "id": 2,
-        "name": "Always"
-      },
+      "updated": "Mon Dec 05 2022 07:38:29 GMT+0000 (Coordinated Universal Time)"
+    },
+    {
       "application_section": {
         "id": 20884,
-        "title": "USE CASE 3: Apertura conto “Start”  ",
-        "prefix": "USE CASE 3: Apertura conto “Start”"
+        "prefix": "USE CASE 3: Apertura conto “Start”",
+        "title": "USE CASE 3: Apertura conto “Start”  "
       },
-      "created": "Fri Dec 02 2022 14:55:23 GMT+0000 (Coordinated Universal Time)",
-      "occurred_date": "2022-12-02T15:50:50.000+01:00",
-      "updated": "Mon Dec 05 2022 07:38:29 GMT+0000 (Coordinated Universal Time)",
-      "note": "",
+      "campaign_id": 4997,
+      "comments": 0,
+      "created": "Fri Dec 02 2022 15:07:56 GMT+0000 (Coordinated Universal Time)",
+      "current_result": "Posso caricare patente o passaporto.",
+      "custom_status": {
+        "color": "ffffff",
+        "id": 1,
+        "is_default": 1,
+        "name": "to do",
+        "phase": {
+          "id": 1,
+          "name": "working"
+        }
+      },
       "device": {
         "manufacturer": "Huawei",
         "model": "Mate 20 Pro",
@@ -300,127 +347,63 @@
         "os_version": "10 (10.0)",
         "type": "smartphone"
       },
-      "is_favorite": 0,
+      "expected_result": "Mi sarei aspettato di poter caricare la patente o la tessera sanitaria.",
+      "id": 275063,
+      "internal_id": "internal_id275063",
       "is_duplicated": 0,
-      "read": true,
-      "siblings": 2,
+      "is_favorite": 1,
+      "note": "Praticamente se non viaggio e se non guido non posso aprire il conto ",
+      "occurred_date": "2022-12-02T16:04:11.000+01:00",
       "priority": {
         "id": 3,
         "name": "medium"
       },
-      "custom_status": {
-        "id": 1,
-        "name": "to do",
-        "phase": {
-          "id": 1,
-          "name": "working"
-        },
-        "color": "ffffff",
-        "is_default": 1
-      },
-      "comments": 0
-    },
-    {
-      "id": 275063,
-      "internal_id": "internal_id275063",
-      "campaign_id": 4997,
-      "title": {
-        "full": "[Identificazione] - Inizialmente viene indicata la tessera sanitaria come secondo documento ma poi non è richiesta",
-        "compact": "Inizialmente viene indicata la tessera sanitaria come secondo documento ma poi non è richiesta",
-        "context": ["Identificazione"]
-      },
-      "step_by_step": "1. Aprire il conto Start \r\n2. Leggere l'introduzione dello step di \"Identificazione\"\r\n3. Constatare che serve la tessera sanitaria o la patente di giuda come secondo documento\r\n4. Caricare il primo documento\r\n5. Visualizzare i documenti richiesti come secondo documento",
-      "expected_result": "Mi sarei aspettato di poter caricare la patente o la tessera sanitaria.",
-      "current_result": "Posso caricare patente o passaporto.",
-      "status": {
+      "read": true,
+      "replicability": {
         "id": 2,
-        "name": "Approved"
+        "name": "Always"
       },
       "severity": {
         "id": 3,
         "name": "HIGH"
+      },
+      "siblings": 3,
+      "status": {
+        "id": 2,
+        "name": "Approved"
+      },
+      "step_by_step": "1. Aprire il conto Start \r\n2. Leggere l'introduzione dello step di \"Identificazione\"\r\n3. Constatare che serve la tessera sanitaria o la patente di giuda come secondo documento\r\n4. Caricare il primo documento\r\n5. Visualizzare i documenti richiesti come secondo documento",
+      "title": {
+        "compact": "Inizialmente viene indicata la tessera sanitaria come secondo documento ma poi non è richiesta",
+        "context": ["Identificazione"],
+        "full": "[Identificazione] - Inizialmente viene indicata la tessera sanitaria come secondo documento ma poi non è richiesta"
       },
       "type": {
         "id": 10,
         "name": "Usability"
       },
-      "replicability": {
-        "id": 2,
-        "name": "Always"
-      },
+      "updated": "Mon Dec 05 2022 07:38:36 GMT+0000 (Coordinated Universal Time)"
+    },
+    {
       "application_section": {
         "id": 20884,
-        "title": "USE CASE 3: Apertura conto “Start”  ",
-        "prefix": "USE CASE 3: Apertura conto “Start”"
+        "prefix": "USE CASE 3: Apertura conto “Start”",
+        "title": "USE CASE 3: Apertura conto “Start”  "
       },
-      "created": "Fri Dec 02 2022 15:07:56 GMT+0000 (Coordinated Universal Time)",
-      "occurred_date": "2022-12-02T16:04:11.000+01:00",
-      "updated": "Mon Dec 05 2022 07:38:36 GMT+0000 (Coordinated Universal Time)",
-      "note": "Praticamente se non viaggio e se non guido non posso aprire il conto ",
-      "device": {
-        "manufacturer": "Huawei",
-        "model": "Mate 20 Pro",
-        "os": "Android",
-        "os_version": "10 (10.0)",
-        "type": "smartphone"
-      },
-      "is_favorite": 1,
-      "is_duplicated": 0,
-      "read": true,
-      "siblings": 3,
-      "priority": {
-        "id": 3,
-        "name": "medium"
-      },
+      "campaign_id": 4997,
+      "comments": 0,
+      "created": "Fri Dec 02 2022 17:14:02 GMT+0000 (Coordinated Universal Time)",
+      "current_result": "L'app non accetta il codice fiscale.",
       "custom_status": {
+        "color": "ffffff",
         "id": 1,
+        "is_default": 1,
         "name": "to do",
         "phase": {
           "id": 1,
           "name": "working"
-        },
-        "color": "ffffff",
-        "is_default": 1
+        }
       },
-      "comments": 0
-    },
-    {
-      "id": 275090,
-      "internal_id": "internal_id275090",
-      "campaign_id": 4997,
-      "title": {
-        "full": "[I tuoi dati] - App non accetta codice fiscale corretto per la registrazione ",
-        "compact": "App non accetta codice fiscale corretto per la registrazione",
-        "context": ["I tuoi dati"]
-      },
-      "step_by_step": "1. Aprire l'app e fare tap su \"Apri conto\"\r\n2. Selezionare il conto \"Start\" e fare tap su \"Apri conto\"\r\n3. Nella pagina aperta scorrere verso il basso e fare tap su \"Procedi\"\r\n4. Selezionare \"A me\" e inserire le proprie informazioni personali fra cui il codice fiscale ",
-      "expected_result": "L'app accetta il codice fiscale e sì può procedere con la registrazione.",
-      "current_result": "L'app non accetta il codice fiscale.",
-      "status": {
-        "id": 2,
-        "name": "Approved"
-      },
-      "severity": {
-        "id": 3,
-        "name": "HIGH"
-      },
-      "type": {
-        "id": 6,
-        "name": "Malfunction"
-      },
-      "replicability": {
-        "id": 2,
-        "name": "Always"
-      },
-      "application_section": {
-        "id": 20884,
-        "title": "USE CASE 3: Apertura conto “Start”  ",
-        "prefix": "USE CASE 3: Apertura conto “Start”"
-      },
-      "created": "Fri Dec 02 2022 17:14:02 GMT+0000 (Coordinated Universal Time)",
-      "occurred_date": "2022-12-02T18:09:03.000+01:00",
-      "updated": "Mon Dec 05 2022 08:22:35 GMT+0000 (Coordinated Universal Time)",
-      "note": "Fra le immagini una foto della mia carta d'identità con CF come prova.",
       "device": {
         "manufacturer": "Xiaomi",
         "model": "Pocophone F1",
@@ -428,63 +411,63 @@
         "os_version": "10 (10.0)",
         "type": "smartphone"
       },
-      "is_favorite": 0,
+      "expected_result": "L'app accetta il codice fiscale e sì può procedere con la registrazione.",
+      "id": 275090,
+      "internal_id": "internal_id275090",
       "is_duplicated": 0,
-      "read": true,
-      "siblings": 1,
+      "is_favorite": 0,
+      "note": "Fra le immagini una foto della mia carta d'identità con CF come prova.",
+      "occurred_date": "2022-12-02T18:09:03.000+01:00",
       "priority": {
         "id": 3,
         "name": "medium"
       },
-      "custom_status": {
-        "id": 1,
-        "name": "to do",
-        "phase": {
-          "id": 1,
-          "name": "working"
-        },
-        "color": "ffffff",
-        "is_default": 1
-      },
-      "comments": 0
-    },
-    {
-      "id": 275100,
-      "internal_id": "internal_id275100",
-      "campaign_id": 4997,
-      "title": {
-        "full": "[Identificazione] - Videocamera e microfono non si attivano per effettuare la procedura di identificazione",
-        "compact": "Videocamera e microfono non si attivano per effettuare la procedura di identificazione",
-        "context": ["Identificazione"]
-      },
-      "step_by_step": "1. Scegliere “Start” e fare tap sul pulsante “Apri Conto”\r\n2. Scegliere se ricevere la carta di debito contestualmente all'apertura del conto\r\n3. Nella pagina dedicata al primo documento effettuare l’upload del Passaporto e controllare i dati rilevati dall’app\r\n4. Nella pagina dedicata al secondo documento effettuare l’upload della patente di guida e controllare i dati rilevati dall’app\r\n5. Al passaggio successivo viene richiesto di confermare l’identità con un selfie\r\n6. Effettuare una registrazione audio/video",
-      "expected_result": "Mi aspetterei che, avendo dato i consenti, si attivino videocamera e microfono per poter registrare un video-selfie che sembrerebbe essere obbligatorio per l'identificazione.",
-      "current_result": "Videocamera e microfono sembrano non attivarsi, nonostante abbia dato il consenso sin dal primo accesso e di nuovo in questa sezione, così mi viene richiesta una foto con la modalità fotocamera base. Peraltro in questo modo non si attiva la fotocamera frontale (per acquisire il selfie), ma quella posteriore.",
-      "status": {
+      "read": true,
+      "replicability": {
         "id": 2,
-        "name": "Approved"
+        "name": "Always"
       },
       "severity": {
         "id": 3,
         "name": "HIGH"
       },
+      "siblings": 1,
+      "status": {
+        "id": 2,
+        "name": "Approved"
+      },
+      "step_by_step": "1. Aprire l'app e fare tap su \"Apri conto\"\r\n2. Selezionare il conto \"Start\" e fare tap su \"Apri conto\"\r\n3. Nella pagina aperta scorrere verso il basso e fare tap su \"Procedi\"\r\n4. Selezionare \"A me\" e inserire le proprie informazioni personali fra cui il codice fiscale ",
+      "title": {
+        "compact": "App non accetta codice fiscale corretto per la registrazione",
+        "context": ["I tuoi dati"],
+        "full": "[I tuoi dati] - App non accetta codice fiscale corretto per la registrazione "
+      },
       "type": {
         "id": 6,
         "name": "Malfunction"
       },
-      "replicability": {
-        "id": 2,
-        "name": "Always"
-      },
+      "updated": "Mon Dec 05 2022 08:22:35 GMT+0000 (Coordinated Universal Time)"
+    },
+    {
       "application_section": {
         "id": 20884,
-        "title": "USE CASE 3: Apertura conto “Start”  ",
-        "prefix": "USE CASE 3: Apertura conto “Start”"
+        "prefix": "USE CASE 3: Apertura conto “Start”",
+        "title": "USE CASE 3: Apertura conto “Start”  "
       },
+      "campaign_id": 4997,
+      "comments": 0,
       "created": "Fri Dec 02 2022 18:37:38 GMT+0000 (Coordinated Universal Time)",
-      "occurred_date": "2022-12-02T17:55:12.000+01:00",
-      "updated": "Tue Dec 06 2022 11:10:58 GMT+0000 (Coordinated Universal Time)",
-      "note": "",
+      "current_result": "Videocamera e microfono sembrano non attivarsi, nonostante abbia dato il consenso sin dal primo accesso e di nuovo in questa sezione, così mi viene richiesta una foto con la modalità fotocamera base. Peraltro in questo modo non si attiva la fotocamera frontale (per acquisire il selfie), ma quella posteriore.",
+      "custom_status": {
+        "color": "ffffff",
+        "id": 1,
+        "is_default": 1,
+        "name": "to do",
+        "phase": {
+          "id": 1,
+          "name": "working"
+        }
+      },
       "device": {
         "manufacturer": "Samsung",
         "model": "Galaxy A7 (2018)",
@@ -492,63 +475,63 @@
         "os_version": "10 (10.0)",
         "type": "smartphone"
       },
-      "is_favorite": 0,
+      "expected_result": "Mi aspetterei che, avendo dato i consenti, si attivino videocamera e microfono per poter registrare un video-selfie che sembrerebbe essere obbligatorio per l'identificazione.",
+      "id": 275100,
+      "internal_id": "internal_id275100",
       "is_duplicated": 0,
-      "read": true,
-      "siblings": 0,
+      "is_favorite": 0,
+      "note": "",
+      "occurred_date": "2022-12-02T17:55:12.000+01:00",
       "priority": {
         "id": 3,
         "name": "medium"
       },
-      "custom_status": {
-        "id": 1,
-        "name": "to do",
-        "phase": {
-          "id": 1,
-          "name": "working"
-        },
-        "color": "ffffff",
-        "is_default": 1
-      },
-      "comments": 0
-    },
-    {
-      "id": 275272,
-      "internal_id": "internal_id275272",
-      "campaign_id": 4997,
-      "title": {
-        "full": "[Apertura Conto] - Compare il messaggio “connessione internet assente”",
-        "compact": "Compare il messaggio “connessione internet assente”",
-        "context": ["Apertura Conto"]
-      },
-      "step_by_step": "1. Aprire l’app\r\n2. Selezionare “conto Premium”\r\n3. Procedere con l’inserimento dei dati",
-      "expected_result": "Mi aspettavo di poter normalmente con la registrazione sull'app.",
-      "current_result": "Compare il messaggio d’errore “Connessione internet assente”.",
-      "status": {
+      "read": true,
+      "replicability": {
         "id": 2,
-        "name": "Approved"
+        "name": "Always"
       },
       "severity": {
         "id": 3,
         "name": "HIGH"
       },
+      "siblings": 0,
+      "status": {
+        "id": 2,
+        "name": "Approved"
+      },
+      "step_by_step": "1. Scegliere “Start” e fare tap sul pulsante “Apri Conto”\r\n2. Scegliere se ricevere la carta di debito contestualmente all'apertura del conto\r\n3. Nella pagina dedicata al primo documento effettuare l’upload del Passaporto e controllare i dati rilevati dall’app\r\n4. Nella pagina dedicata al secondo documento effettuare l’upload della patente di guida e controllare i dati rilevati dall’app\r\n5. Al passaggio successivo viene richiesto di confermare l’identità con un selfie\r\n6. Effettuare una registrazione audio/video",
+      "title": {
+        "compact": "Videocamera e microfono non si attivano per effettuare la procedura di identificazione",
+        "context": ["Identificazione"],
+        "full": "[Identificazione] - Videocamera e microfono non si attivano per effettuare la procedura di identificazione"
+      },
       "type": {
-        "id": 10,
-        "name": "Usability"
+        "id": 6,
+        "name": "Malfunction"
       },
-      "replicability": {
-        "id": 3,
-        "name": "Once"
-      },
+      "updated": "Tue Dec 06 2022 11:10:58 GMT+0000 (Coordinated Universal Time)"
+    },
+    {
       "application_section": {
         "id": 20885,
-        "title": "USE CASE 4: Apertura conto “Premium”  ",
-        "prefix": "USE CASE 4: Apertura conto “Premium”"
+        "prefix": "USE CASE 4: Apertura conto “Premium”",
+        "title": "USE CASE 4: Apertura conto “Premium”  "
       },
+      "campaign_id": 4997,
+      "comments": 0,
       "created": "Mon Dec 05 2022 10:15:06 GMT+0000 (Coordinated Universal Time)",
-      "occurred_date": "2022-12-05T11:07:50.000+01:00",
-      "updated": "Tue Dec 06 2022 07:30:27 GMT+0000 (Coordinated Universal Time)",
-      "note": "",
+      "current_result": "Compare il messaggio d’errore “Connessione internet assente”.",
+      "custom_status": {
+        "color": "ffffff",
+        "id": 1,
+        "is_default": 1,
+        "name": "to do",
+        "phase": {
+          "id": 1,
+          "name": "working"
+        }
+      },
       "device": {
         "manufacturer": "Apple",
         "model": "iPhone 11 Pro",
@@ -556,63 +539,63 @@
         "os_version": "iOS 15.6 (15.6)",
         "type": "smartphone"
       },
-      "is_favorite": 0,
+      "expected_result": "Mi aspettavo di poter normalmente con la registrazione sull'app.",
+      "id": 275272,
+      "internal_id": "internal_id275272",
       "is_duplicated": 0,
-      "read": false,
-      "siblings": 0,
+      "is_favorite": 0,
+      "note": "",
+      "occurred_date": "2022-12-05T11:07:50.000+01:00",
       "priority": {
         "id": 3,
         "name": "medium"
       },
-      "custom_status": {
-        "id": 1,
-        "name": "to do",
-        "phase": {
-          "id": 1,
-          "name": "working"
-        },
-        "color": "ffffff",
-        "is_default": 1
-      },
-      "comments": 0
-    },
-    {
-      "id": 275300,
-      "internal_id": "internal_id275300",
-      "campaign_id": 4997,
-      "title": {
-        "full": "[Il tuo conto] - Premendo il pulsante \"Procedi\" viene deselezionata la casella di consenso",
-        "compact": "Premendo il pulsante \"Procedi\" viene deselezionata la casella di consenso",
-        "context": ["Il tuo conto"]
-      },
-      "step_by_step": "1. Aprire l'app Sella\r\n2. Premere su \"Apri conto\"\r\n3. Scegliere il conto Start\r\n4. Procedere fino allo step 3 con la lista dei documenti\r\n5. Premere \"Procedi\" dopo aver selezionato la seconda casella per il consenso",
-      "expected_result": "Mi sarei aspettato che la seconda casella per il consenso non venisse deselezionata.",
-      "current_result": "La casella viene deselezionata ma non c'è un warning per la prima.",
-      "status": {
-        "id": 2,
-        "name": "Approved"
+      "read": false,
+      "replicability": {
+        "id": 3,
+        "name": "Once"
       },
       "severity": {
         "id": 3,
         "name": "HIGH"
       },
-      "type": {
-        "id": 6,
-        "name": "Malfunction"
-      },
-      "replicability": {
+      "siblings": 0,
+      "status": {
         "id": 2,
-        "name": "Always"
+        "name": "Approved"
       },
+      "step_by_step": "1. Aprire l’app\r\n2. Selezionare “conto Premium”\r\n3. Procedere con l’inserimento dei dati",
+      "title": {
+        "compact": "Compare il messaggio “connessione internet assente”",
+        "context": ["Apertura Conto"],
+        "full": "[Apertura Conto] - Compare il messaggio “connessione internet assente”"
+      },
+      "type": {
+        "id": 10,
+        "name": "Usability"
+      },
+      "updated": "Tue Dec 06 2022 07:30:27 GMT+0000 (Coordinated Universal Time)"
+    },
+    {
       "application_section": {
         "id": 20884,
-        "title": "USE CASE 3: Apertura conto “Start”  ",
-        "prefix": "USE CASE 3: Apertura conto “Start”"
+        "prefix": "USE CASE 3: Apertura conto “Start”",
+        "title": "USE CASE 3: Apertura conto “Start”  "
       },
+      "campaign_id": 4997,
+      "comments": 0,
       "created": "Mon Dec 05 2022 11:25:15 GMT+0000 (Coordinated Universal Time)",
-      "occurred_date": "2022-12-05T12:19:55.000+01:00",
-      "updated": "Tue Dec 06 2022 07:30:30 GMT+0000 (Coordinated Universal Time)",
-      "note": "",
+      "current_result": "La casella viene deselezionata ma non c'è un warning per la prima.",
+      "custom_status": {
+        "color": "ffffff",
+        "id": 1,
+        "is_default": 1,
+        "name": "to do",
+        "phase": {
+          "id": 1,
+          "name": "working"
+        }
+      },
       "device": {
         "manufacturer": "Samsung",
         "model": "Galaxy A21s",
@@ -620,127 +603,127 @@
         "os_version": "12 (12)",
         "type": "smartphone"
       },
-      "is_favorite": 0,
+      "expected_result": "Mi sarei aspettato che la seconda casella per il consenso non venisse deselezionata.",
+      "id": 275300,
+      "internal_id": "internal_id275300",
       "is_duplicated": 0,
-      "read": false,
-      "siblings": 2,
+      "is_favorite": 0,
+      "note": "",
+      "occurred_date": "2022-12-05T12:19:55.000+01:00",
       "priority": {
         "id": 3,
         "name": "medium"
       },
-      "custom_status": {
-        "id": 1,
-        "name": "to do",
-        "phase": {
-          "id": 1,
-          "name": "working"
-        },
-        "color": "ffffff",
-        "is_default": 1
-      },
-      "comments": 0
-    },
-    {
-      "id": 275319,
-      "internal_id": "internal_id275319",
-      "campaign_id": 4997,
-      "title": {
-        "full": "[Identificazione] - La pagina dalla quale caricare il secondo documento non presenta il pulsante per proseguire",
-        "compact": "La pagina dalla quale caricare il secondo documento non presenta il pulsante per proseguire",
-        "context": ["Identificazione"]
-      },
-      "step_by_step": "1. Aprire l'app Sella\r\n2. Premere \"Apri conto\" e scegliere il conto Start\r\n3. Procedere fino alla pagina di caricamento del secondo documento",
-      "expected_result": "Mi sarei aspettata ci fosse unaa CTA per proseguire.",
-      "current_result": "Il testo dice di proseguire ma non c'è nessuna CTA o collegamento.",
-      "status": {
+      "read": false,
+      "replicability": {
         "id": 2,
-        "name": "Approved"
+        "name": "Always"
       },
       "severity": {
         "id": 3,
         "name": "HIGH"
       },
+      "siblings": 2,
+      "status": {
+        "id": 2,
+        "name": "Approved"
+      },
+      "step_by_step": "1. Aprire l'app Sella\r\n2. Premere su \"Apri conto\"\r\n3. Scegliere il conto Start\r\n4. Procedere fino allo step 3 con la lista dei documenti\r\n5. Premere \"Procedi\" dopo aver selezionato la seconda casella per il consenso",
+      "title": {
+        "compact": "Premendo il pulsante \"Procedi\" viene deselezionata la casella di consenso",
+        "context": ["Il tuo conto"],
+        "full": "[Il tuo conto] - Premendo il pulsante \"Procedi\" viene deselezionata la casella di consenso"
+      },
       "type": {
         "id": 6,
         "name": "Malfunction"
       },
+      "updated": "Tue Dec 06 2022 07:30:30 GMT+0000 (Coordinated Universal Time)"
+    },
+    {
+      "application_section": {
+        "id": 20884,
+        "prefix": "USE CASE 3: Apertura conto “Start”",
+        "title": "USE CASE 3: Apertura conto “Start”  "
+      },
+      "campaign_id": 4997,
+      "comments": 0,
+      "created": "Mon Dec 05 2022 13:05:20 GMT+0000 (Coordinated Universal Time)",
+      "current_result": "Il testo dice di proseguire ma non c'è nessuna CTA o collegamento.",
+      "custom_status": {
+        "color": "ffffff",
+        "id": 1,
+        "is_default": 1,
+        "name": "to do",
+        "phase": {
+          "id": 1,
+          "name": "working"
+        }
+      },
+      "device": {
+        "manufacturer": "Samsung",
+        "model": "Galaxy A21s",
+        "os": "Android",
+        "os_version": "12 (12)",
+        "type": "smartphone"
+      },
+      "expected_result": "Mi sarei aspettata ci fosse unaa CTA per proseguire.",
+      "id": 275319,
+      "internal_id": "internal_id275319",
+      "is_duplicated": 0,
+      "is_favorite": 0,
+      "note": "",
+      "occurred_date": "2022-12-05T14:01:31.000+01:00",
+      "priority": {
+        "id": 3,
+        "name": "medium"
+      },
+      "read": false,
       "replicability": {
         "id": 1,
         "name": "Sometimes"
       },
-      "application_section": {
-        "id": 20884,
-        "title": "USE CASE 3: Apertura conto “Start”  ",
-        "prefix": "USE CASE 3: Apertura conto “Start”"
-      },
-      "created": "Mon Dec 05 2022 13:05:20 GMT+0000 (Coordinated Universal Time)",
-      "occurred_date": "2022-12-05T14:01:31.000+01:00",
-      "updated": "Tue Dec 06 2022 07:30:40 GMT+0000 (Coordinated Universal Time)",
-      "note": "",
-      "device": {
-        "manufacturer": "Samsung",
-        "model": "Galaxy A21s",
-        "os": "Android",
-        "os_version": "12 (12)",
-        "type": "smartphone"
-      },
-      "is_favorite": 0,
-      "is_duplicated": 0,
-      "read": false,
-      "siblings": 0,
-      "priority": {
+      "severity": {
         "id": 3,
-        "name": "medium"
+        "name": "HIGH"
       },
-      "custom_status": {
-        "id": 1,
-        "name": "to do",
-        "phase": {
-          "id": 1,
-          "name": "working"
-        },
-        "color": "ffffff",
-        "is_default": 1
-      },
-      "comments": 0
-    },
-    {
-      "id": 275350,
-      "internal_id": "internal_id275350",
-      "campaign_id": 4997,
-      "title": {
-        "full": "[Identificazione] - L'app non abilita il microfono dello smartphone per la verifica",
-        "compact": "L'app non abilita il microfono dello smartphone per la verifica",
-        "context": ["Identificazione"]
-      },
-      "step_by_step": "1. Dalla scheda iniziale dei 3 conti scegliere “Premium” e fare tap sul pulsante “Apri Conto”\r\n2. Scegliere SPID come modalità di autenticazione, cliccando sulla CTA \"Entra con SPID\"\r\n3. Inserire le credenziali SPID e procedere con l'apertura del conto\r\n4. Procedere con tutti i passaggi richiesti relativamente ai dati anagrafici fino alla richiesta di conferma dell’identità con un videoselfie\r\n5. Prestare tutti i consensi richiesti per far accedere l'app a telecamera e microfono, quindi registrare i videoselfie richiesti",
-      "expected_result": "Mi aspetterei di registrare dei videoselfie con audio funzionante.",
-      "current_result": "Rivedendo i videoselfie acquisiti, mi rendo conto che l'audio non funziona: il volume è al massimo, ma non è stato registrato nulla.",
+      "siblings": 0,
       "status": {
         "id": 2,
         "name": "Approved"
       },
-      "severity": {
-        "id": 3,
-        "name": "HIGH"
+      "step_by_step": "1. Aprire l'app Sella\r\n2. Premere \"Apri conto\" e scegliere il conto Start\r\n3. Procedere fino alla pagina di caricamento del secondo documento",
+      "title": {
+        "compact": "La pagina dalla quale caricare il secondo documento non presenta il pulsante per proseguire",
+        "context": ["Identificazione"],
+        "full": "[Identificazione] - La pagina dalla quale caricare il secondo documento non presenta il pulsante per proseguire"
       },
       "type": {
         "id": 6,
         "name": "Malfunction"
       },
-      "replicability": {
-        "id": 2,
-        "name": "Always"
-      },
+      "updated": "Tue Dec 06 2022 07:30:40 GMT+0000 (Coordinated Universal Time)"
+    },
+    {
       "application_section": {
         "id": 20885,
-        "title": "USE CASE 4: Apertura conto “Premium”  ",
-        "prefix": "USE CASE 4: Apertura conto “Premium”"
+        "prefix": "USE CASE 4: Apertura conto “Premium”",
+        "title": "USE CASE 4: Apertura conto “Premium”  "
       },
+      "campaign_id": 4997,
+      "comments": 0,
       "created": "Mon Dec 05 2022 15:53:52 GMT+0000 (Coordinated Universal Time)",
-      "occurred_date": "2022-12-05T15:36:59.000+01:00",
-      "updated": "Tue Dec 06 2022 08:05:31 GMT+0000 (Coordinated Universal Time)",
-      "note": "",
+      "current_result": "Rivedendo i videoselfie acquisiti, mi rendo conto che l'audio non funziona: il volume è al massimo, ma non è stato registrato nulla.",
+      "custom_status": {
+        "color": "ffffff",
+        "id": 1,
+        "is_default": 1,
+        "name": "to do",
+        "phase": {
+          "id": 1,
+          "name": "working"
+        }
+      },
       "device": {
         "manufacturer": "Samsung",
         "model": "Galaxy A7 (2018)",
@@ -748,191 +731,63 @@
         "os_version": "10 (10.0)",
         "type": "smartphone"
       },
-      "is_favorite": 0,
+      "expected_result": "Mi aspetterei di registrare dei videoselfie con audio funzionante.",
+      "id": 275350,
+      "internal_id": "internal_id275350",
       "is_duplicated": 0,
+      "is_favorite": 0,
+      "note": "",
+      "occurred_date": "2022-12-05T15:36:59.000+01:00",
+      "priority": {
+        "id": 3,
+        "name": "medium"
+      },
       "read": true,
-      "siblings": 0,
-      "priority": {
-        "id": 3,
-        "name": "medium"
-      },
-      "custom_status": {
-        "id": 1,
-        "name": "to do",
-        "phase": {
-          "id": 1,
-          "name": "working"
-        },
-        "color": "ffffff",
-        "is_default": 1
-      },
-      "comments": 0
-    },
-    {
-      "id": 275384,
-      "internal_id": "internal_id275384",
-      "campaign_id": 4997,
-      "title": {
-        "full": "[Apertura Conto] - Dopo aver iniziato l'apertura di un conto start è impossibile aprire un altro tipo di conto",
-        "compact": "Dopo aver iniziato l'apertura di un conto start è impossibile aprire un altro tipo di conto",
-        "context": ["Apertura Conto"]
-      },
-      "step_by_step": "1. Entrare nel flusso di apertura di un conto start e iniziare a inserire alcuni dati\r\n2. Interrompere la procedura dopo alcuni step, senza concludere la richiesta\r\n3. Chiudere e riaprire l'app\r\n4. Iniziare il flusso di apertura di un conto circle\r\n5. Immettere i propri dati",
-      "expected_result": "Il sistema dovrebbe chiedere se si vuole proseguire con la precedente richiesta di pertura di un conto start o se si vuole iniziare una nuova pratica per il conto circle",
-      "current_result": "Il sistema propone solo di proseguire con la pratica di apertura di un conto start. ",
-      "status": {
-        "id": 2,
-        "name": "Approved"
-      },
-      "severity": {
-        "id": 3,
-        "name": "HIGH"
-      },
-      "type": {
-        "id": 10,
-        "name": "Usability"
-      },
-      "replicability": {
-        "id": 3,
-        "name": "Once"
-      },
-      "application_section": {
-        "id": 20886,
-        "title": "USE CASE 5: Apertura conto “Circle”  ",
-        "prefix": "USE CASE 5: Apertura conto “Circle”"
-      },
-      "created": "Mon Dec 05 2022 18:57:09 GMT+0000 (Coordinated Universal Time)",
-      "occurred_date": "2022-12-05T19:44:47.000+01:00",
-      "updated": "Tue Dec 06 2022 11:28:25 GMT+0000 (Coordinated Universal Time)",
-      "note": "Mi è stato possibile testare il bug solo una volta; resto disponibile per riprovare il test una volta annullate tutte le pratiche già in corso. \r\nSegnalo il bug come critical in quanto l'utente che per errore inizia una pratica per la tipologia di conto sbagliata non può fare immediatamente l'upgrade al conto più costoso e ciò costituisce una frizione per l'utente. ",
-      "device": {
-        "manufacturer": "Samsung",
-        "model": "Galaxy S21",
-        "os": "Android",
-        "os_version": "12 (12)",
-        "type": "smartphone"
-      },
-      "is_favorite": 0,
-      "is_duplicated": 0,
-      "read": false,
-      "siblings": 0,
-      "priority": {
-        "id": 3,
-        "name": "medium"
-      },
-      "custom_status": {
-        "id": 1,
-        "name": "to do",
-        "phase": {
-          "id": 1,
-          "name": "working"
-        },
-        "color": "ffffff",
-        "is_default": 1
-      },
-      "comments": 0
-    },
-    {
-      "id": 275386,
-      "internal_id": "internal_id275386",
-      "campaign_id": 4997,
-      "title": {
-        "full": "[Autenticazione] - Il login con Sielte ID reinvia al login al proprio profilo Sielte non al login con SPID",
-        "compact": "Il login con Sielte ID reinvia al login al proprio profilo Sielte non al login con SPID",
-        "context": ["Autenticazione"]
-      },
-      "step_by_step": "1. Aprire l'app Sella\r\n2. Iniziare la procedura di apertura conto\r\n3. Eseguire il login con SPIDusando sielte",
-      "expected_result": "Si dovrebbe essere rimandati al login con spid tramite sielte.",
-      "current_result": "Si viene rimandati alla pagina di login al proprio account sielte (es. per gestire la password dello spid, la propria anagrafica ecc, non al login che autorizza un accesso a una terza parte).",
-      "status": {
-        "id": 2,
-        "name": "Approved"
-      },
-      "severity": {
-        "id": 3,
-        "name": "HIGH"
-      },
-      "type": {
-        "id": 10,
-        "name": "Usability"
-      },
       "replicability": {
         "id": 2,
         "name": "Always"
       },
-      "application_section": {
-        "id": 20884,
-        "title": "USE CASE 3: Apertura conto “Start”  ",
-        "prefix": "USE CASE 3: Apertura conto “Start”"
-      },
-      "created": "Mon Dec 05 2022 19:04:53 GMT+0000 (Coordinated Universal Time)",
-      "occurred_date": "2022-12-05T19:57:09.000+01:00",
-      "updated": "Tue Dec 06 2022 10:40:25 GMT+0000 (Coordinated Universal Time)",
-      "note": "Il bug NON si verifica ad esempio loggandosi con SPID tramite poste. Allego inoltre un video della pagina di autorizzazione all'accesso a una terza parte correttamente funzionante",
-      "device": {
-        "manufacturer": "Samsung",
-        "model": "Galaxy S21",
-        "os": "Android",
-        "os_version": "12 (12)",
-        "type": "smartphone"
-      },
-      "is_favorite": 0,
-      "is_duplicated": 0,
-      "read": false,
-      "siblings": 0,
-      "priority": {
+      "severity": {
         "id": 3,
-        "name": "medium"
+        "name": "HIGH"
       },
-      "custom_status": {
-        "id": 1,
-        "name": "to do",
-        "phase": {
-          "id": 1,
-          "name": "working"
-        },
-        "color": "ffffff",
-        "is_default": 1
-      },
-      "comments": 0
-    },
-    {
-      "id": 275402,
-      "internal_id": "internal_id275402",
-      "campaign_id": 4997,
-      "title": {
-        "full": "[Stress test] - L'app si riapre ogni volta perdendo i dati già inseriti impostando lo schermo diviso Android",
-        "compact": "L'app si riapre ogni volta perdendo i dati già inseriti impostando lo schermo diviso Android",
-        "context": ["Stress test"]
-      },
-      "step_by_step": "1. Aprire l'app\r\n2. Terminare l'onboarding\r\n3. Iniziare il percorso di apertura conto corrente inserendo i primi dati (es. nome e cognome)\r\n4. Utilizzare la funzionalità popup o schermo diviso",
-      "expected_result": "L'app dovrebbe continuare la sua esecuzione o dovrebbe essermi impedito di ridimensionare l'app.",
-      "current_result": "L'app si riavvia da zero senza aver salvato i dati già immessi.",
+      "siblings": 0,
       "status": {
         "id": 2,
         "name": "Approved"
       },
-      "severity": {
-        "id": 3,
-        "name": "HIGH"
+      "step_by_step": "1. Dalla scheda iniziale dei 3 conti scegliere “Premium” e fare tap sul pulsante “Apri Conto”\r\n2. Scegliere SPID come modalità di autenticazione, cliccando sulla CTA \"Entra con SPID\"\r\n3. Inserire le credenziali SPID e procedere con l'apertura del conto\r\n4. Procedere con tutti i passaggi richiesti relativamente ai dati anagrafici fino alla richiesta di conferma dell’identità con un videoselfie\r\n5. Prestare tutti i consensi richiesti per far accedere l'app a telecamera e microfono, quindi registrare i videoselfie richiesti",
+      "title": {
+        "compact": "L'app non abilita il microfono dello smartphone per la verifica",
+        "context": ["Identificazione"],
+        "full": "[Identificazione] - L'app non abilita il microfono dello smartphone per la verifica"
       },
       "type": {
         "id": 6,
         "name": "Malfunction"
       },
-      "replicability": {
-        "id": 2,
-        "name": "Always"
-      },
+      "updated": "Tue Dec 06 2022 08:05:31 GMT+0000 (Coordinated Universal Time)"
+    },
+    {
       "application_section": {
-        "id": 20884,
-        "title": "USE CASE 3: Apertura conto “Start”  ",
-        "prefix": "USE CASE 3: Apertura conto “Start”"
+        "id": 20886,
+        "prefix": "USE CASE 5: Apertura conto “Circle”",
+        "title": "USE CASE 5: Apertura conto “Circle”  "
       },
-      "created": "Mon Dec 05 2022 21:43:06 GMT+0000 (Coordinated Universal Time)",
-      "occurred_date": "2022-12-05T22:33:10.000+01:00",
-      "updated": "Tue Dec 06 2022 10:58:54 GMT+0000 (Coordinated Universal Time)",
-      "note": "Il bug si verifica sia con la visualizzazione a schermo diviso che con la visualizzazione in popup. il bug si verifica indipendentemente dal tipo di conto aperto (monointestato o cointestato)",
+      "campaign_id": 4997,
+      "comments": 0,
+      "created": "Mon Dec 05 2022 18:57:09 GMT+0000 (Coordinated Universal Time)",
+      "current_result": "Il sistema propone solo di proseguire con la pratica di apertura di un conto start. ",
+      "custom_status": {
+        "color": "ffffff",
+        "id": 1,
+        "is_default": 1,
+        "name": "to do",
+        "phase": {
+          "id": 1,
+          "name": "working"
+        }
+      },
       "device": {
         "manufacturer": "Samsung",
         "model": "Galaxy S21",
@@ -940,29 +795,174 @@
         "os_version": "12 (12)",
         "type": "smartphone"
       },
-      "is_favorite": 0,
+      "expected_result": "Il sistema dovrebbe chiedere se si vuole proseguire con la precedente richiesta di pertura di un conto start o se si vuole iniziare una nuova pratica per il conto circle",
+      "id": 275384,
+      "internal_id": "internal_id275384",
       "is_duplicated": 0,
-      "read": false,
-      "siblings": 0,
+      "is_favorite": 0,
+      "note": "Mi è stato possibile testare il bug solo una volta; resto disponibile per riprovare il test una volta annullate tutte le pratiche già in corso. \r\nSegnalo il bug come critical in quanto l'utente che per errore inizia una pratica per la tipologia di conto sbagliata non può fare immediatamente l'upgrade al conto più costoso e ciò costituisce una frizione per l'utente. ",
+      "occurred_date": "2022-12-05T19:44:47.000+01:00",
       "priority": {
         "id": 3,
         "name": "medium"
       },
+      "read": false,
+      "replicability": {
+        "id": 3,
+        "name": "Once"
+      },
+      "severity": {
+        "id": 3,
+        "name": "HIGH"
+      },
+      "siblings": 0,
+      "status": {
+        "id": 2,
+        "name": "Approved"
+      },
+      "step_by_step": "1. Entrare nel flusso di apertura di un conto start e iniziare a inserire alcuni dati\r\n2. Interrompere la procedura dopo alcuni step, senza concludere la richiesta\r\n3. Chiudere e riaprire l'app\r\n4. Iniziare il flusso di apertura di un conto circle\r\n5. Immettere i propri dati",
+      "title": {
+        "compact": "Dopo aver iniziato l'apertura di un conto start è impossibile aprire un altro tipo di conto",
+        "context": ["Apertura Conto"],
+        "full": "[Apertura Conto] - Dopo aver iniziato l'apertura di un conto start è impossibile aprire un altro tipo di conto"
+      },
+      "type": {
+        "id": 10,
+        "name": "Usability"
+      },
+      "updated": "Tue Dec 06 2022 11:28:25 GMT+0000 (Coordinated Universal Time)"
+    },
+    {
+      "application_section": {
+        "id": 20884,
+        "prefix": "USE CASE 3: Apertura conto “Start”",
+        "title": "USE CASE 3: Apertura conto “Start”  "
+      },
+      "campaign_id": 4997,
+      "comments": 0,
+      "created": "Mon Dec 05 2022 19:04:53 GMT+0000 (Coordinated Universal Time)",
+      "current_result": "Si viene rimandati alla pagina di login al proprio account sielte (es. per gestire la password dello spid, la propria anagrafica ecc, non al login che autorizza un accesso a una terza parte).",
       "custom_status": {
+        "color": "ffffff",
         "id": 1,
+        "is_default": 1,
         "name": "to do",
         "phase": {
           "id": 1,
           "name": "working"
-        },
-        "color": "ffffff",
-        "is_default": 1
+        }
       },
-      "comments": 0
+      "device": {
+        "manufacturer": "Samsung",
+        "model": "Galaxy S21",
+        "os": "Android",
+        "os_version": "12 (12)",
+        "type": "smartphone"
+      },
+      "expected_result": "Si dovrebbe essere rimandati al login con spid tramite sielte.",
+      "id": 275386,
+      "internal_id": "internal_id275386",
+      "is_duplicated": 0,
+      "is_favorite": 0,
+      "note": "Il bug NON si verifica ad esempio loggandosi con SPID tramite poste. Allego inoltre un video della pagina di autorizzazione all'accesso a una terza parte correttamente funzionante",
+      "occurred_date": "2022-12-05T19:57:09.000+01:00",
+      "priority": {
+        "id": 3,
+        "name": "medium"
+      },
+      "read": false,
+      "replicability": {
+        "id": 2,
+        "name": "Always"
+      },
+      "severity": {
+        "id": 3,
+        "name": "HIGH"
+      },
+      "siblings": 0,
+      "status": {
+        "id": 2,
+        "name": "Approved"
+      },
+      "step_by_step": "1. Aprire l'app Sella\r\n2. Iniziare la procedura di apertura conto\r\n3. Eseguire il login con SPIDusando sielte",
+      "title": {
+        "compact": "Il login con Sielte ID reinvia al login al proprio profilo Sielte non al login con SPID",
+        "context": ["Autenticazione"],
+        "full": "[Autenticazione] - Il login con Sielte ID reinvia al login al proprio profilo Sielte non al login con SPID"
+      },
+      "type": {
+        "id": 10,
+        "name": "Usability"
+      },
+      "updated": "Tue Dec 06 2022 10:40:25 GMT+0000 (Coordinated Universal Time)"
+    },
+    {
+      "application_section": {
+        "id": 20884,
+        "prefix": "USE CASE 3: Apertura conto “Start”",
+        "title": "USE CASE 3: Apertura conto “Start”  "
+      },
+      "campaign_id": 4997,
+      "comments": 0,
+      "created": "Mon Dec 05 2022 21:43:06 GMT+0000 (Coordinated Universal Time)",
+      "current_result": "L'app si riavvia da zero senza aver salvato i dati già immessi.",
+      "custom_status": {
+        "color": "ffffff",
+        "id": 1,
+        "is_default": 1,
+        "name": "to do",
+        "phase": {
+          "id": 1,
+          "name": "working"
+        }
+      },
+      "device": {
+        "manufacturer": "Samsung",
+        "model": "Galaxy S21",
+        "os": "Android",
+        "os_version": "12 (12)",
+        "type": "smartphone"
+      },
+      "expected_result": "L'app dovrebbe continuare la sua esecuzione o dovrebbe essermi impedito di ridimensionare l'app.",
+      "id": 275402,
+      "internal_id": "internal_id275402",
+      "is_duplicated": 0,
+      "is_favorite": 0,
+      "note": "Il bug si verifica sia con la visualizzazione a schermo diviso che con la visualizzazione in popup. il bug si verifica indipendentemente dal tipo di conto aperto (monointestato o cointestato)",
+      "occurred_date": "2022-12-05T22:33:10.000+01:00",
+      "priority": {
+        "id": 3,
+        "name": "medium"
+      },
+      "read": false,
+      "replicability": {
+        "id": 2,
+        "name": "Always"
+      },
+      "severity": {
+        "id": 3,
+        "name": "HIGH"
+      },
+      "siblings": 0,
+      "status": {
+        "id": 2,
+        "name": "Approved"
+      },
+      "step_by_step": "1. Aprire l'app\r\n2. Terminare l'onboarding\r\n3. Iniziare il percorso di apertura conto corrente inserendo i primi dati (es. nome e cognome)\r\n4. Utilizzare la funzionalità popup o schermo diviso",
+      "title": {
+        "compact": "L'app si riapre ogni volta perdendo i dati già inseriti impostando lo schermo diviso Android",
+        "context": ["Stress test"],
+        "full": "[Stress test] - L'app si riapre ogni volta perdendo i dati già inseriti impostando lo schermo diviso Android"
+      },
+      "type": {
+        "id": 6,
+        "name": "Malfunction"
+      },
+      "updated": "Tue Dec 06 2022 10:58:54 GMT+0000 (Coordinated Universal Time)"
     }
   ],
-  "start": 0,
   "limit": 0,
   "size": 15,
+  "start": 0,
   "total": 15
 }

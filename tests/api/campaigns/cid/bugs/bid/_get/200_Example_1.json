@@ -1,49 +1,32 @@
 {
-  "id": 0,
-  "internal_id": "string",
+  "additional_fields": [
+    {
+      "id": 0,
+      "kind": "regex",
+      "name": "string",
+      "validation": "string",
+      "value": "string"
+    }
+  ],
+  "application_section": {
+    "id": 0,
+    "prefix_title": "string",
+    "simple_title": "string",
+    "title": "string"
+  },
   "campaign_id": 0,
-  "title": {
-    "full": "string",
-    "compact": "string",
-    "context": ["string"]
-  },
-  "step_by_step": "string",
-  "expected_result": "string",
+  "created": "string",
   "current_result": "string",
-  "status": {
-    "id": 0,
-    "name": "string"
-  },
-  "severity": {
-    "id": 0,
-    "name": "string"
-  },
-  "type": {
-    "id": 0,
-    "name": "string"
-  },
-  "replicability": {
-    "id": 0,
-    "name": "string"
-  },
-  "priority": {
-    "id": 0,
-    "name": "string"
-  },
   "custom_status": {
-    "id": 0,
-    "name": "string",
     "color": "string",
+    "id": 0,
+    "is_default": 0,
+    "name": "string",
     "phase": {
       "id": 0,
       "name": "string"
-    },
-    "is_default": 0
+    }
   },
-  "created": "string",
-  "occurred_date": "string",
-  "updated": "string",
-  "note": "string",
   "device": {
     "manufacturer": "string",
     "model": "string",
@@ -51,50 +34,67 @@
     "os_version": "string",
     "type": "smartphone"
   },
-  "application_section": {
-    "id": 0,
-    "prefix_title": "string",
-    "title": "string",
-    "simple_title": "string"
-  },
   "duplicated_of_id": 0,
+  "expected_result": "string",
+  "id": 0,
+  "internal_id": "string",
   "is_favorite": 0,
-  "read": true,
   "media": [
     {
+      "creation_date": "string",
       "mime_type": {
-        "type": "video",
-        "extension": "string"
+        "extension": "string",
+        "type": "video"
       },
-      "url": "http://example.com",
-      "creation_date": "string"
+      "url": "http://example.com"
     }
   ],
+  "note": "string",
+  "occurred_date": "string",
+  "priority": {
+    "id": 0,
+    "name": "string"
+  },
+  "read": true,
+  "replicability": {
+    "id": 0,
+    "name": "string"
+  },
+  "reporter": {
+    "name": "string",
+    "tester_id": 0
+  },
+  "severity": {
+    "id": 0,
+    "name": "string"
+  },
+  "status": {
+    "id": 0,
+    "name": "string"
+  },
+  "step_by_step": "string",
   "tags": [
     {
-      "id": 0,
-      "tag_id": 0,
-      "name": "string",
-      "slug": "string",
+      "author_tid": 0,
+      "author_wp_id": 0,
       "bug_id": 0,
       "campaign_id": 0,
-      "author_wp_id": 0,
-      "author_tid": 0,
       "creation_date": "string",
-      "is_visible_to_customer": 0
-    }
-  ],
-  "additional_fields": [
-    {
       "id": 0,
+      "is_visible_to_customer": 0,
       "name": "string",
-      "value": "string",
-      "validation": "string",
-      "kind": "regex"
+      "slug": "string",
+      "tag_id": 0
     }
   ],
-  "reporter": {
-    "tester_id": 0,
+  "title": {
+    "compact": "string",
+    "context": ["string"],
+    "full": "string"
+  },
+  "type": {
+    "id": 0,
     "name": "string"
-  }
+  },
+  "updated": "string"
 }

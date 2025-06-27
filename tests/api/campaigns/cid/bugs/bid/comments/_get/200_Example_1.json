@@ -1,14 +1,14 @@
 {
   "items": [
     {
-      "id": 0,
-      "text": "string",
       "creation_date": "string",
       "creator": {
         "id": 0,
-        "name": "string",
-        "isInternal": true
-      }
+        "isInternal": true,
+        "name": "string"
+      },
+      "id": 0,
+      "text": "string"
     }
   ]
 }

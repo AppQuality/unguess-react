@@ -1,6 +1,6 @@
 import { expect, type Page } from '@playwright/test';
 
-export class AgeModule {
+export class IncomeModule {
   readonly page: Page;
 
   constructor(page: Page) {
@@ -9,7 +9,7 @@ export class AgeModule {
 
   elements() {
     return {
-      module: () => this.page.getByTestId('age-module'),
+      module: () => this.page.getByTestId('income-module'),
       tab: () => this.page.getByTestId('target-tab'),
       moduleInput: () => this.elements().module().getByRole('checkbox'),
     };
@@ -21,12 +21,14 @@ export class AgeModule {
 
   async expectToBeReadonly() {
     await this.elements().module().waitFor({ state: 'visible' });
-    const ageCheckbox = this.elements().moduleInput();
-    const count = await ageCheckbox.count();
+    const incomeCheckbox = this.elements().moduleInput();
+    const count = await incomeCheckbox.count();
     const checks: Promise<void>[] = [];
     expect(count).toBeGreaterThan(0);
     for (let i = 0; i < count; i += 1) {
-      checks.push(expect(ageCheckbox.nth(i)).toHaveAttribute('disabled', ''));
+      checks.push(
+        expect(incomeCheckbox.nth(i)).toHaveAttribute('disabled', '')
+      );
     }
     await Promise.all(checks);
   }

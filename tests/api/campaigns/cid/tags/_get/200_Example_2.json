@@ -1,12 +1,12 @@
 [
   {
-    "tag_id": 15104,
     "display_name": "be",
-    "slug": "be"
+    "slug": "be",
+    "tag_id": 15104
   },
   {
-    "tag_id": 15105,
     "display_name": "new",
-    "slug": "new"
+    "slug": "new",
+    "tag_id": 15105
   }
 ]

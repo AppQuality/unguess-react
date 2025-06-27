@@ -1,16 +1,16 @@
 {
   "items": [
     {
-      "id": 1,
-      "name": "string",
       "campaigns_count": 4,
-      "workspaceId": 1,
       "description": "string",
-      "is_archive": 0
+      "id": 1,
+      "is_archive": 0,
+      "name": "string",
+      "workspaceId": 1
     }
   ],
-  "start": 0,
   "limit": 0,
   "size": 0,
+  "start": 0,
   "total": 1
 }

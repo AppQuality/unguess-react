@@ -1,6 +1,6 @@
 {
-    "name": "John",
-    "surname": "Doe",
-    "email": "jhon.doe@example.com",
-    "workspace": "My new workspace"
+  "email": "jhon.doe@example.com",
+  "name": "John",
+  "surname": "Doe",
+  "workspace": "My new workspace"
 }

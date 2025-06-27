@@ -1,8 +1,8 @@
 {
-  "title": "string",
-  "description": "string",
-  "severity_id": 0,
-  "observations_ids": [0],
   "comment": "string",
+  "description": "string",
+  "observations_ids": [0],
+  "severity_id": 0,
+  "title": "string",
   "visible": 0
 }
