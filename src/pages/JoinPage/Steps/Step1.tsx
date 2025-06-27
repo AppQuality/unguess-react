@@ -165,7 +165,7 @@ export const Step1 = () => {
         }}
       </Field>
       <PasswordRequirements />
-      <ButtonContainer style={{ marginBottom: appTheme.space.xl }}>
+      <ButtonContainer style={{ marginBottom: appTheme.space.sm }}>
         <Button onClick={goToNextStep} isAccent isPrimary isStretched>
           {t('SIGNUP_FORM_GO_TO_STEP_2')}
         </Button>
@@ -183,6 +183,17 @@ export const Step1 = () => {
                 href="https://unguess.io/terms-and-conditions/"
                 target="_blank"
                 title="Terms and Conditions"
+              />
+            ),
+            'privacy-link': (
+              <Anchor
+                style={{
+                  fontStyle: 'italic',
+                  color: appTheme.palette.azure[600],
+                }}
+                href="https://unguess.io/privacy-policy/"
+                target="_blank"
+                title="Privacy Policy"
               />
             ),
           }}
