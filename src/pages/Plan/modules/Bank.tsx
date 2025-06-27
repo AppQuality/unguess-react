@@ -279,6 +279,7 @@ const Bank = () => {
                       <Textarea
                         id="other-bank-name"
                         name="other-bank-name"
+                        readOnly={getPlanStatus() !== 'draft'}
                         isResizable
                         value={otherProviderName}
                         onChange={(e) => {
