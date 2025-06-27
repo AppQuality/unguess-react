@@ -85,23 +85,28 @@ export const useModule = <T extends components['schemas']['Module']['type']>(
           output: [
             {
               min: 16,
+              max: 17,
+              percentage: 0,
+            },
+            {
+              min: 18,
               max: 24,
-              percentage: 25,
+              percentage: 0,
             },
             {
               min: 25,
               max: 34,
-              percentage: 25,
+              percentage: 0,
             },
             {
               min: 35,
               max: 54,
-              percentage: 25,
+              percentage: 0,
             },
             {
               min: 55,
               max: 70,
-              percentage: 25,
+              percentage: 0,
             },
           ],
         };
