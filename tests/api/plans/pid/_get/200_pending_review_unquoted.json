@@ -7,6 +7,11 @@
         "variant": "default"
       },
       {
+        "output": ["EMPLOYEE", "STUDENT"],
+        "type": "employment",
+        "variant": "default"
+      },
+      {
         "output": {
           "start": "2041-12-17T08:00:00.000Z"
         },
