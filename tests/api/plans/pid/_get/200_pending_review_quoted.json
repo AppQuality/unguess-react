@@ -91,6 +91,20 @@
       {
         "output": [
           {
+            "isOther": 0,
+            "name": "ING"
+          },
+          {
+            "isOther": 1,
+            "name": "ImportantBank"
+          }
+        ],
+        "type": "bank",
+        "variant": "default"
+      },
+      {
+        "output": [
+          {
             "max": 0,
             "min": 25000,
             "percentage": 0

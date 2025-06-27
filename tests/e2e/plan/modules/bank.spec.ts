@@ -13,8 +13,7 @@ test.describe('The bank module defines the testers bank accounts', () => {
     await planPage.mockPreferences();
     await planPage.mockWorkspace();
     await planPage.mockWorkspacesList();
-    // await planPage.mockGetDraftPlan();
-    await bankModule.mockGetDraftPlan();
+    await planPage.mockGetDraftPlan();
 
     await planPage.open();
   });

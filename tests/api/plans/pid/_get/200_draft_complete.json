@@ -1,4 +1,9 @@
 {
+  "campaign": {
+    "id": 6856,
+    "startDate": "Thu Apr 03 2025 06:00:00 GMT+0000 (Coordinated Universal Time)",
+    "title": "Meet Accessibility Compliance 123"
+  },
   "config": {
     "modules": [
       {
@@ -19,6 +24,17 @@
         "variant": "default"
       },
       {
+        "output": [
+          {
+            "max": 0,
+            "min": 25000,
+            "percentage": 0
+          }
+        ],
+        "type": "annual_income_range",
+        "variant": "default"
+      },
+      {
         "output": 5,
         "type": "target",
         "variant": "default"
@@ -26,6 +42,11 @@
       {
         "output": "en",
         "type": "language",
+        "variant": "default"
+      },
+      {
+        "output": "This is a Goal",
+        "type": "goal",
         "variant": "default"
       },
       {
@@ -55,16 +76,6 @@
         "variant": "default"
       },
       {
-        "output": "This is a Goal",
-        "type": "goal",
-        "variant": "default"
-      },
-      {
-        "output": ["EMPLOYEE", "STUDENT"],
-        "type": "employment",
-        "variant": "default"
-      },
-      {
         "output": [
           {
             "gender": "female",
@@ -72,38 +83,6 @@
           }
         ],
         "type": "gender",
-        "variant": "default"
-      },
-      {
-        "output": [
-          {
-            "description": "description kind bug",
-            "kind": "bug",
-            "title": "Search for bugs"
-          },
-          {
-            "description": "description kind bug",
-            "kind": "video",
-            "title": "Think aloud"
-          }
-        ],
-        "type": "tasks",
-        "variant": "default"
-      },
-      {
-        "output": [
-          {
-            "description": "description kind bug",
-            "kind": "bug",
-            "title": "Search for bugs"
-          },
-          {
-            "description": "description kind bug",
-            "kind": "video",
-            "title": "Think aloud"
-          }
-        ],
-        "type": "tasks",
         "variant": "default"
       },
       {
@@ -119,14 +98,49 @@
         ],
         "type": "locality",
         "variant": "default"
+      },
+      {
+        "output": [
+          {
+            "isOther": 0,
+            "name": "ING"
+          },
+          {
+            "isOther": 1,
+            "name": "ImportantBank"
+          }
+        ],
+        "type": "bank",
+        "variant": "default"
+      },
+      {
+        "output": [
+          {
+            "description": "description kind bug",
+            "kind": "bug",
+            "title": "Search for bugs"
+          },
+          {
+            "description": "description kind bug",
+            "kind": "video",
+            "title": "Think aloud"
+          }
+        ],
+        "type": "tasks",
+        "variant": "default"
       }
     ]
   },
-  "id": 13,
+  "id": 1,
   "project": {
     "id": 90,
     "name": "MyProject"
   },
-  "status": "draft",
+  "quote": {
+    "id": 98,
+    "status": "approved",
+    "value": "3600 €"
+  },
+  "status": "approved",
   "workspace_id": 1
 }

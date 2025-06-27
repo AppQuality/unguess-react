@@ -102,6 +102,20 @@
       {
         "output": [
           {
+            "isOther": 0,
+            "name": "ING"
+          },
+          {
+            "isOther": 1,
+            "name": "ImportantBank"
+          }
+        ],
+        "type": "bank",
+        "variant": "default"
+      },
+      {
+        "output": [
+          {
             "description": "description kind bug",
             "kind": "bug",
             "title": "Search for bugs"

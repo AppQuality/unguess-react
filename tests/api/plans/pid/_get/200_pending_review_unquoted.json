@@ -83,6 +83,20 @@
       {
         "output": [
           {
+            "isOther": 0,
+            "name": "ING"
+          },
+          {
+            "isOther": 1,
+            "name": "ImportantBank"
+          }
+        ],
+        "type": "bank",
+        "variant": "default"
+      },
+      {
+        "output": [
+          {
             "type": "country",
             "values": ["IT"]
           },
