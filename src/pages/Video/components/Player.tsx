@@ -2,11 +2,10 @@ import {
   Notification,
   PlayerProvider,
   Skeleton,
-  useVideoContext as usePlayerContext,
   useToast,
+  useVideoContext as usePlayerContext,
 } from '@appquality/unguess-design-system';
 import { ComponentProps, useCallback, useMemo, useRef, useState } from 'react';
-import TagManager from 'react-gtm-module';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
@@ -18,10 +17,11 @@ import {
 } from 'src/features/api';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { styled } from 'styled-components';
+import { useAnalytics } from 'use-analytics';
 import { useVideoContext } from '../context/VideoContext';
 import { ObservationTooltip } from './ObservationTooltip';
-import { Transcript } from './Transcript';
 import { ToolsContextProvider } from './tools/context/ToolsContext';
+import { Transcript } from './Transcript';
 
 const PlayerContainer = styled.div<{
   isFetching?: boolean;
@@ -57,6 +57,7 @@ const CorePlayer = () => {
   const { context, setIsPlaying } = usePlayerContext();
   const { currentTime } = context.player || { currentTime: 0 };
   const { addToast } = useToast();
+  const { track } = useAnalytics();
 
   const exitFullscreen = () => {
     if (document.fullscreenElement) {
@@ -218,11 +219,7 @@ const CorePlayer = () => {
           ref={videoRef}
           pipMode="auto"
           onShortcut={(key) => {
-            TagManager.dataLayer({
-              dataLayer: {
-                event: `player:${key}`,
-              },
-            });
+            track(`player:${key}`);
           }}
           url={video.streamUrl ?? video.url}
           onCutHandler={handleCut}
