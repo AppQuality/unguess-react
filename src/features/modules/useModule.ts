@@ -1,7 +1,6 @@
 import { useCallback, useMemo } from 'react';
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
 import { components } from 'src/common/schema';
-import { defaultBanks } from 'src/pages/Plan/modules/Bank/defaultBanks';
 import {
   removeModule,
   setModule,
@@ -86,23 +85,28 @@ export const useModule = <T extends components['schemas']['Module']['type']>(
           output: [
             {
               min: 16,
+              max: 17,
+              percentage: 0,
+            },
+            {
+              min: 18,
               max: 24,
-              percentage: 25,
+              percentage: 0,
             },
             {
               min: 25,
               max: 34,
-              percentage: 25,
+              percentage: 0,
             },
             {
               min: 35,
               max: 54,
-              percentage: 25,
+              percentage: 0,
             },
             {
               min: 55,
               max: 70,
-              percentage: 25,
+              percentage: 0,
             },
           ],
         };
@@ -221,7 +225,7 @@ export const useModule = <T extends components['schemas']['Module']['type']>(
         return {
           type,
           variant: 'default',
-          output: defaultBanks.filter((bank) => !bank.isOther),
+          output: [],
         };
       default:
         return null;

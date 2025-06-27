@@ -78,19 +78,6 @@ const Locality = () => {
     selectedArea = 'city';
   }
 
-  const handleAreaChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const areaType = event.target.value;
-    // Always start with only the country
-    const newArr = [...(countryObj ? [countryObj] : [])];
-    if (areaType === 'region') {
-      newArr.push({ type: 'region', values: [] });
-    } else if (areaType === 'city') {
-      newArr.push({ type: 'city', values: [] });
-    }
-    // If 'all', just country
-    setOutput(newArr);
-  };
-
   const localityRef = useRef<HTMLDivElement>(null);
 
   const validation = useCallback(
@@ -132,6 +119,27 @@ const Locality = () => {
     type: 'locality',
     validate: validation,
   });
+
+  const handleAreaChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const areaType = event.target.value;
+    // Always start with only the country
+    const newArr = [...(countryObj ? [countryObj] : [])];
+    if (areaType === 'region') {
+      newArr.push({ type: 'region', values: [] });
+    } else if (areaType === 'city') {
+      newArr.push({ type: 'city', values: [] });
+    }
+
+    if (error) {
+      validate({
+        variant: value?.variant || 'default',
+        output: newArr,
+      });
+    }
+
+    // If 'all', just country
+    setOutput(newArr);
+  };
   const handleDelete = () => {
     setIsOpenDeleteModal(true);
   };
