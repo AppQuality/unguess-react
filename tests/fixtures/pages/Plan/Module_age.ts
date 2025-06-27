@@ -21,12 +21,12 @@ export class AgeModule {
 
   async expectToBeReadonly() {
     await this.elements().module().waitFor({ state: 'visible' });
-    const ageCheckbox = this.elements().moduleInput();
-    const count = await ageCheckbox.count();
+    const bankCheckbox = this.elements().moduleInput();
+    const count = await bankCheckbox.count();
     const checks: Promise<void>[] = [];
     expect(count).toBeGreaterThan(0);
     for (let i = 0; i < count; i += 1) {
-      checks.push(expect(ageCheckbox.nth(i)).toHaveAttribute('disabled', ''));
+      checks.push(expect(bankCheckbox.nth(i)).toHaveAttribute('disabled', ''));
     }
     await Promise.all(checks);
   }

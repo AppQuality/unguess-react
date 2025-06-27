@@ -24,17 +24,6 @@
         "variant": "default"
       },
       {
-        "output": [
-          {
-            "max": 0,
-            "min": 25000,
-            "percentage": 0
-          }
-        ],
-        "type": "annual_income_range",
-        "variant": "default"
-      },
-      {
         "output": 5,
         "type": "target",
         "variant": "default"
@@ -42,11 +31,6 @@
       {
         "output": "en",
         "type": "language",
-        "variant": "default"
-      },
-      {
-        "output": "This is a Goal",
-        "type": "goal",
         "variant": "default"
       },
       {
@@ -76,6 +60,16 @@
         "variant": "default"
       },
       {
+        "output": "This is a Goal",
+        "type": "goal",
+        "variant": "default"
+      },
+      {
+        "output": ["EMPLOYEE", "STUDENT"],
+        "type": "employment",
+        "variant": "default"
+      },
+      {
         "output": [
           {
             "gender": "female",
@@ -88,15 +82,49 @@
       {
         "output": [
           {
-            "type": "country",
-            "values": ["IT"]
+            "isOther": 0,
+            "name": "ING"
           },
           {
-            "type": "region",
-            "values": ["Lombardia"]
+            "isOther": 1,
+            "name": "ImportantBank"
           }
         ],
-        "type": "locality",
+        "type": "bank",
+        "variant": "default"
+      },
+      {
+        "output": [
+          {
+            "name": "Chrome",
+            "percentage": 0
+          }
+        ],
+        "type": "browser",
+        "variant": "default"
+      },
+      {
+        "output": [
+          {
+            "form_factor": "smartphone",
+            "kind": "app",
+            "os": {
+              "android": "https://example.com"
+            }
+          }
+        ],
+        "type": "touchpoints",
+        "variant": "default"
+      },
+      {
+        "output": [
+          {
+            "max": 25000,
+            "min": 0,
+            "percentage": 0
+          }
+        ],
+        "type": "annual_income_range",
         "variant": "default"
       },
       {
@@ -113,6 +141,20 @@
           }
         ],
         "type": "tasks",
+        "variant": "default"
+      },
+      {
+        "output": [
+          {
+            "type": "country",
+            "values": ["IT"]
+          },
+          {
+            "type": "region",
+            "values": ["Lombardia"]
+          }
+        ],
+        "type": "locality",
         "variant": "default"
       }
     ]

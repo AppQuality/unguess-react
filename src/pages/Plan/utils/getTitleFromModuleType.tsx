@@ -45,6 +45,8 @@ const getTitleFromModuleType = (
       return t('__PLAN_PAGE_MODULE_EMPLOYMENT_TITLE');
     case 'annual_income_range':
       return t('__PLAN_PAGE_MODULE_INCOME_LABEL');
+    case 'bank':
+      return t('__PLAN_PAGE_MODULE_BANK_LABEL');
     default:
       return '';
   }

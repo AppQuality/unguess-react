@@ -77,17 +77,49 @@
       {
         "output": [
           {
-            "description": "description kind bug",
-            "kind": "bug",
-            "title": "Search for bugs"
+            "isOther": 0,
+            "name": "ING"
           },
           {
-            "description": "description kind bug",
-            "kind": "video",
-            "title": "Think aloud"
+            "isOther": 1,
+            "name": "ImportantBank"
           }
         ],
-        "type": "tasks",
+        "type": "bank",
+        "variant": "default"
+      },
+      {
+        "output": [
+          {
+            "name": "Chrome",
+            "percentage": 0
+          }
+        ],
+        "type": "browser",
+        "variant": "default"
+      },
+      {
+        "output": [
+          {
+            "form_factor": "smartphone",
+            "kind": "app",
+            "os": {
+              "android": "https://example.com"
+            }
+          }
+        ],
+        "type": "touchpoints",
+        "variant": "default"
+      },
+      {
+        "output": [
+          {
+            "max": 25000,
+            "min": 0,
+            "percentage": 0
+          }
+        ],
+        "type": "annual_income_range",
         "variant": "default"
       },
       {
