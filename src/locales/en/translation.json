@@ -690,6 +690,7 @@
   "__NOTIFICATION_CLOSE_TEXT": "Dismiss",
   "__NOTIFICATION_PROFILE_MODAL_COPY_EMAIL_MESSAGE": "Email address copied to clipboard",
   "__OBSERVATIONS_DRAWER_TOTAL": "Total observations",
+  "__OTHER_BANK_ERROR_REQUIRED": "This field cannot be empty",
   "__PAGE_BUG_EMPTY_STATE_CTA": "Try another search",
   "__PAGE_BUG_SEARCH_EMPTY_STATE_MAIN_GENERIC": "There are no results for this keyword",
   "__PAGE_BUG_SEARCH_EMPTY_STATE_SUB": "Try different or more general keywords",
