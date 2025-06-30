@@ -49,6 +49,8 @@ const getTitleFromModuleType = (
       return t('__PLAN_PAGE_MODULE_BANK_LABEL');
     case 'elettricity_supply':
       return t('__PLAN_PAGE_MODULE_ELECTRICITY_LABEL');
+    case 'mobile_internet':
+      return t('__PLAN_PAGE_MODULE_INTERNET_MOBILE_LABEL');
     default:
       return '';
   }

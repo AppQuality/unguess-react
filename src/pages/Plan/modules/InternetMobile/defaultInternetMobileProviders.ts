@@ -1,6 +1,6 @@
 import { MobileInternetProvidersType } from './types';
 
-export const defaultElectricityProviders: MobileInternetProvidersType[] = [
+export const defaultInternetMobileProviders: MobileInternetProvidersType[] = [
   {
     name: 'Iliad',
     isOther: 0,

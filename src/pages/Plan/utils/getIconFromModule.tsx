@@ -1,5 +1,4 @@
 import { getColor } from '@appquality/unguess-design-system';
-import { ReactComponent as BankIcon } from '@zendeskgarden/svg-icons/src/16/credit-card-stroke.svg';
 import { ReactComponent as BrowserIcon } from '@zendeskgarden/svg-icons/src/16/globe-fill.svg';
 import { ReactComponent as LocationIcon } from '@zendeskgarden/svg-icons/src/16/location-fill.svg';
 import { ReactComponent as PlugIcon } from '@zendeskgarden/svg-icons/src/16/plug-fill.svg';
@@ -19,6 +18,8 @@ import { ReactComponent as TouchpointsIcon } from 'src/assets/icons/touchpoints-
 import { ReactComponent as TargetIcon } from 'src/assets/icons/user-follow.svg';
 import { ReactComponent as EmploymentIcon } from 'src/assets/icons/work.svg';
 import { ReactComponent as OutOfScopeIcon } from 'src/assets/icons/x-circle.svg';
+import { ReactComponent as BankIcon } from '@zendeskgarden/svg-icons/src/16/credit-card-stroke.svg';
+import { ReactComponent as PhoneIcon } from '@zendeskgarden/svg-icons/src/16/phone-fill.svg';
 import { components } from 'src/common/schema';
 
 const getIconColor = (module_type: components['schemas']['Module']['type']) => {
@@ -96,6 +97,8 @@ const getIconFromModuleType = (
       return <BankIcon color={color} />;
     case 'elettricity_supply':
       return <PlugIcon color={color} />;
+    case 'mobile_internet':
+      return <PhoneIcon color={color} />;
     case 'title':
     case 'dates':
     default:
