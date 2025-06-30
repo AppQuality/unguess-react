@@ -3,6 +3,7 @@ import { UnguessPage } from '../../UnguessPage';
 import { AgeModule } from './Module_age';
 import { BankModule } from './Module_bank';
 import { DigitalLiteracyModule } from './Module_digital_literacy';
+import { ElectricityModule } from './Module_electricity';
 import { GenderModule } from './Module_gender';
 import { GoalModule } from './Module_goal';
 import { IncomeModule } from './Module_income';
@@ -35,6 +36,7 @@ export class PlanPage extends UnguessPage {
       locality: new LocalityModule(page),
       income: new IncomeModule(page),
       bank: new BankModule(page),
+      electricity: new ElectricityModule(page),
     };
     this.page = page;
     this.url = `plans/1`;
@@ -165,6 +167,7 @@ export class PlanPage extends UnguessPage {
       this.modules.locality.expectToBeReadonly(),
       this.modules.income.expectToBeReadonly(),
       this.modules.bank.expectToBeReadonly(),
+      this.modules.electricity.expectToBeReadonly(),
     ]);
 
     // tab instructions

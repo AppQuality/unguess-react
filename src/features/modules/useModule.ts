@@ -227,6 +227,12 @@ export const useModule = <T extends components['schemas']['Module']['type']>(
           variant: 'default',
           output: [],
         };
+      case 'elettricity_supply':
+        return {
+          type,
+          variant: 'default',
+          output: [],
+        };
       default:
         return null;
     }
