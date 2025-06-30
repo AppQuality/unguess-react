@@ -105,6 +105,20 @@
       {
         "output": [
           {
+            "isOther": 0,
+            "name": "Italgas"
+          },
+          {
+            "isOther": 1,
+            "name": "Other Gas"
+          }
+        ],
+        "type": "gas_supply",
+        "variant": "default"
+      },
+      {
+        "output": [
+          {
             "name": "Chrome",
             "percentage": 0
           }
