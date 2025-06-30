@@ -10,29 +10,26 @@ import {
   Row,
   Span,
 } from '@appquality/unguess-design-system';
-import { ReactComponent as DeleteIcon } from '@zendeskgarden/svg-icons/src/16/trash-stroke.svg';
 import { ReactComponent as PlusIcon } from '@zendeskgarden/svg-icons/src/16/plus-circle-fill.svg';
+import { ReactComponent as DeleteIcon } from '@zendeskgarden/svg-icons/src/16/trash-stroke.svg';
 import { ReactComponent as XIcon } from '@zendeskgarden/svg-icons/src/16/x-circle-fill.svg';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as AlertIcon } from 'src/assets/icons/alert-icon.svg';
+import { Divider } from 'src/common/components/divider';
 import { components } from 'src/common/schema';
-import { FEATURE_FLAG_CHANGE_MODULES_VARIANTS } from 'src/constants';
 import { useModule } from 'src/features/modules/useModule';
 import { useModuleConfiguration } from 'src/features/modules/useModuleConfiguration';
 import { useValidation } from 'src/features/modules/useModuleValidation';
 import styled from 'styled-components';
-import { Divider } from 'src/common/components/divider';
-import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
 import { getIconFromModuleType } from '../utils';
-import { DeleteModuleConfirmationModal } from './modal/DeleteModuleConfirmationModal';
 import PercentageInput from './GenderPercentageInput';
+import { DeleteModuleConfirmationModal } from './modal/DeleteModuleConfirmationModal';
 
 const Gender = () => {
   type GenderTypes =
     components['schemas']['OutputModuleGender'][number]['gender'];
-  const { hasFeatureFlag } = useFeatureFlag();
   const { getPlanStatus } = useModuleConfiguration();
   const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false);
   const { value, setOutput, setVariant, remove } = useModule('gender');
@@ -241,24 +238,23 @@ const Gender = () => {
             <AccordionNew.Label
               label={t('__PLAN_PAGE_MODULE_GENDER_ACCORDION_LABEL')}
             />
-            {hasFeatureFlag(FEATURE_FLAG_CHANGE_MODULES_VARIANTS) &&
-              getPlanStatus() === 'draft' && (
-                <AccordionNew.Meta>
-                  <Button
-                    isBasic
-                    isDanger
-                    onClick={(e) => {
-                      handleDelete();
-                      e.stopPropagation();
-                    }}
-                  >
-                    <Button.StartIcon>
-                      <DeleteIcon />
-                    </Button.StartIcon>
-                    {t('__PLAN_PAGE_MODULE_GENDER_REMOVE_BUTTON')}
-                  </Button>
-                </AccordionNew.Meta>
-              )}
+            {getPlanStatus() === 'draft' && (
+              <AccordionNew.Meta>
+                <Button
+                  isBasic
+                  isDanger
+                  onClick={(e) => {
+                    handleDelete();
+                    e.stopPropagation();
+                  }}
+                >
+                  <Button.StartIcon>
+                    <DeleteIcon />
+                  </Button.StartIcon>
+                  {t('__PLAN_PAGE_MODULE_GENDER_REMOVE_BUTTON')}
+                </Button>
+              </AccordionNew.Meta>
+            )}
           </AccordionNew.Header>
           <AccordionNew.Panel>
             <Grid>

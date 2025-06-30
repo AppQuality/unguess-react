@@ -13,11 +13,9 @@ import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as AlertIcon } from 'src/assets/icons/alert-icon.svg';
 import { components } from 'src/common/schema';
-import { FEATURE_FLAG_CHANGE_MODULES_VARIANTS } from 'src/constants';
 import { useModule } from 'src/features/modules/useModule';
 import { useModuleConfiguration } from 'src/features/modules/useModuleConfiguration';
 import { useValidation } from 'src/features/modules/useModuleValidation';
-import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
 import { getIconFromModuleType } from '../utils';
 import { DeleteModuleConfirmationModal } from './modal/DeleteModuleConfirmationModal';
 
@@ -26,7 +24,6 @@ const Browser = () => {
     components['schemas']['OutputModuleBrowser'][number]['name'];
   const browserTypes: BrowserType[] = ['chrome', 'firefox', 'safari', 'edge'];
 
-  const { hasFeatureFlag } = useFeatureFlag();
   const { getPlanStatus } = useModuleConfiguration();
   const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false);
   const { value, setOutput, remove } = useModule('browser');
@@ -89,24 +86,23 @@ const Browser = () => {
         <AccordionNew.Section>
           <AccordionNew.Header icon={getIconFromModuleType('browser')}>
             <AccordionNew.Label label={t('__PLAN_PAGE_MODULE_BROWSER_LABEL')} />
-            {hasFeatureFlag(FEATURE_FLAG_CHANGE_MODULES_VARIANTS) &&
-              getPlanStatus() === 'draft' && (
-                <AccordionNew.Meta>
-                  <Button
-                    isBasic
-                    isDanger
-                    onClick={(e) => {
-                      handleDelete();
-                      e.stopPropagation();
-                    }}
-                  >
-                    <Button.StartIcon>
-                      <DeleteIcon />
-                    </Button.StartIcon>
-                    {t('__PLAN_PAGE_MODULE_BROWSER_REMOVE_BUTTON')}
-                  </Button>
-                </AccordionNew.Meta>
-              )}
+            {getPlanStatus() === 'draft' && (
+              <AccordionNew.Meta>
+                <Button
+                  isBasic
+                  isDanger
+                  onClick={(e) => {
+                    handleDelete();
+                    e.stopPropagation();
+                  }}
+                >
+                  <Button.StartIcon>
+                    <DeleteIcon />
+                  </Button.StartIcon>
+                  {t('__PLAN_PAGE_MODULE_BROWSER_REMOVE_BUTTON')}
+                </Button>
+              </AccordionNew.Meta>
+            )}
           </AccordionNew.Header>
           {isDefaultVariant && (
             <AccordionNew.Panel>
