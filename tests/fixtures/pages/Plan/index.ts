@@ -12,6 +12,7 @@ import { LocalityModule } from './Module_locality';
 import { OutOfScopeModule } from './Module_out_of_scope';
 import { TargetModule } from './Module_target';
 import { TasksModule } from './Module_tasks';
+import { GasModule } from './Module_gas';
 
 interface TabModule {
   expectToBeReadonly(): Promise<void>;
@@ -37,6 +38,7 @@ export class PlanPage extends UnguessPage {
       income: new IncomeModule(page),
       bank: new BankModule(page),
       electricity: new ElectricityModule(page),
+      gas: new GasModule(page),
     };
     this.page = page;
     this.url = `plans/1`;
@@ -168,6 +170,7 @@ export class PlanPage extends UnguessPage {
       this.modules.income.expectToBeReadonly(),
       this.modules.bank.expectToBeReadonly(),
       this.modules.electricity.expectToBeReadonly(),
+      this.modules.gas.expectToBeReadonly(),
     ]);
 
     // tab instructions
