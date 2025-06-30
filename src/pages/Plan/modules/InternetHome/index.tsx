@@ -34,7 +34,7 @@ const InternetHomeProviders = () => {
     module: components['schemas']['Module'] & { type: 'home_internet' }
   ) => {
     if (!module.output || module.output.length === 0) {
-      return { value: t('__INTERNET_MOBILE_ERROR_REQUIRED') };
+      return { value: t('__INTERNET_HOME_ERROR_REQUIRED') };
     }
 
     if (
@@ -42,7 +42,7 @@ const InternetHomeProviders = () => {
       module.output.find((home_internet) => home_internet.isOther === 1)
         ?.name === ''
     ) {
-      return { value: t('__OTHER_INTERNET_MOBILE_ERROR_REQUIRED') };
+      return { value: t('__OTHER_INTERNET_HOME_ERROR_REQUIRED') };
     }
 
     return true;
@@ -111,7 +111,7 @@ const InternetHomeProviders = () => {
             icon={getIconFromModuleType('home_internet', true)}
           >
             <AccordionNew.Label
-              label={t('__PLAN_PAGE_MODULE_INTERNET_MOBILE_LABEL')}
+              label={t('__PLAN_PAGE_MODULE_INTERNET_HOME_LABEL')}
             />
             {getPlanStatus() === 'draft' && (
               <AccordionNew.Meta>
@@ -126,14 +126,14 @@ const InternetHomeProviders = () => {
                   <Button.StartIcon>
                     <DeleteIcon />
                   </Button.StartIcon>
-                  {t('__PLAN_PAGE_MODULE_INTERNET_MOBILE_REMOVE_BUTTON')}
+                  {t('__PLAN_PAGE_MODULE_INTERNET_HOME_REMOVE_BUTTON')}
                 </Button>
               </AccordionNew.Meta>
             )}
           </AccordionNew.Header>
           {isDefaultVariant && (
             <AccordionNew.Panel>
-              <Label>{t('__PLAN_PAGE_MODULE_INTERNET_MOBILE_TITLE')}</Label>
+              <Label>{t('__PLAN_PAGE_MODULE_INTERNET_HOME_TITLE')}</Label>
               <Span style={{ color: appTheme.palette.red[600] }}>*</Span>
               <div>
                 {defaultInternetHomeProviders.map((e) => (
@@ -203,9 +203,7 @@ const InternetHomeProviders = () => {
                       }}
                     >
                       <Hint>
-                        {t(
-                          '__PLAN_PAGE_MODULE_OTHER_INTERNET_MOBILE_LABEL_HINT'
-                        )}
+                        {t('__PLAN_PAGE_MODULE_OTHER_INTERNET_HOME_LABEL_HINT')}
                       </Hint>
                       <Span style={{ color: appTheme.palette.red[600] }}>
                         *
@@ -239,7 +237,7 @@ const InternetHomeProviders = () => {
                           );
                         }}
                         placeholder={t(
-                          '__PLAN_PAGE_MODULE_OTHER_INTERNET_MOBILE_TEXTAREA_PLACEHOLDER'
+                          '__PLAN_PAGE_MODULE_OTHER_INTERNET_HOME_TEXTAREA_PLACEHOLDER'
                         )}
                       />
                     </FormField>
