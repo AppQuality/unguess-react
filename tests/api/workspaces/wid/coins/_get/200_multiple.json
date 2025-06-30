@@ -1,41 +1,41 @@
 {
   "items": [
     {
-      "id": 123,
-      "customer_id": 98,
-      "amount": 5,
       "agreement_id": 2002,
+      "amount": 5,
+      "created_on": "2022-06-23T12:14:12Z",
+      "customer_id": 98,
+      "id": 123,
       "price": 900,
-      "created_on": "2022-06-23T12:14:12Z",
       "updated_on": "2022-06-23T14:45:15Z"
     },
     {
-      "id": 151,
-      "customer_id": 98,
       "amount": 50,
+      "created_on": "2022-06-23T12:14:12Z",
+      "customer_id": 98,
+      "id": 151,
       "price": 15,
-      "created_on": "2022-06-23T12:14:12Z",
       "updated_on": "2022-06-23T14:45:15Z"
     },
     {
-      "id": 456,
-      "customer_id": 98,
       "amount": 2,
-      "price": 1,
       "created_on": "2022-06-23T12:14:12Z",
+      "customer_id": 98,
+      "id": 456,
+      "price": 1,
       "updated_on": "2022-06-23T14:45:15Z"
     },
     {
-      "id": 678,
-      "customer_id": 98,
       "amount": 200,
-      "price": 24,
       "created_on": "2022-06-23T12:14:12Z",
+      "customer_id": 98,
+      "id": 678,
+      "price": 24,
       "updated_on": "2022-06-23T14:45:15Z"
     }
   ],
-  "start": 0,
   "limit": 4,
   "size": 4,
+  "start": 0,
   "total": 18
 }

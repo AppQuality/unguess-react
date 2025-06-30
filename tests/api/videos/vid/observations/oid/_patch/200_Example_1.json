@@ -1,11 +1,9 @@
 {
-  "id": 0,
-  "title": "string",
   "description": "string",
-  "start": 0,
   "end": 0,
+  "id": 0,
   "quotes": "string",
-  "uxNote": "string",
+  "start": 0,
   "tags": [
     {
       "group": {
@@ -19,5 +17,7 @@
         "usageNumber": 0
       }
     }
-  ]
+  ],
+  "title": "string",
+  "uxNote": "string"
 }

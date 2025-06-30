@@ -1,10 +1,13 @@
 import AdditionalTarget from './modules/AdditionalTarget';
 import Age from './modules/Age';
+import Bank from './modules/Bank';
 import Browser from './modules/Browser';
 import { Dates } from './modules/Dates';
+import ElectricityProviders from './modules/Electricity';
 import Employment from './modules/Employment';
 import Gender from './modules/Gender';
 import Goal from './modules/Goal';
+import Income from './modules/Income';
 import InstructionsNote from './modules/InstructionsNote';
 import Language from './modules/Language';
 import Literacy from './modules/Literacy';
@@ -13,9 +16,12 @@ import OutOfScope from './modules/OutOfScope';
 import SetupNote from './modules/SetupNote';
 import TargetNote from './modules/TargetNote';
 import TargetSize from './modules/TargetSize';
+import InternetMobileProviders from './modules/InternetMobile';
 import { Tasks } from './modules/Tasks';
 import { Title } from './modules/Title';
 import { TouchPoints } from './modules/Touchpoints';
+import InternetHomeProviders from './modules/InternetHome';
+import GasProviders from './modules/Gas';
 
 export const MODULES_BY_TAB = {
   setup: ['setup_note', 'goal', 'touchpoints', 'browser'],
@@ -28,7 +34,13 @@ export const MODULES_BY_TAB = {
     'employment',
     'literacy',
     'locality',
+    'annual_income_range',
     'additional_target',
+    'bank',
+    'elettricity_supply',
+    'mobile_internet',
+    'home_internet',
+    'gas_supply',
   ],
   instructions: ['instruction_note', 'tasks', 'out_of_scope'],
 };
@@ -52,4 +64,10 @@ export const modulesMap = {
   touchpoints: TouchPoints,
   additional_target: AdditionalTarget,
   locality: Locality,
+  elettricity_supply: ElectricityProviders, // Placeholder for future module
+  mobile_internet: InternetMobileProviders,
+  home_internet: InternetHomeProviders,
+  gas_supply: GasProviders,
+  annual_income_range: Income, // Placeholder for future module
+  bank: Bank,
 };

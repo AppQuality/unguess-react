@@ -1,31 +1,31 @@
 {
   "father": {
-    "id": 0,
-    "title": {
-      "full": "string",
-      "compact": "string",
-      "context": ["string"]
-    },
     "context": "string",
     "device": "string",
+    "id": 0,
     "os": {
       "name": "string",
       "version": "string"
+    },
+    "title": {
+      "compact": "string",
+      "context": ["string"],
+      "full": "string"
     }
   },
   "siblings": [
     {
-      "id": 0,
-      "title": {
-        "full": "string",
-        "compact": "string",
-        "context": ["string"]
-      },
       "context": "string",
       "device": "string",
+      "id": 0,
       "os": {
         "name": "string",
         "version": "string"
+      },
+      "title": {
+        "compact": "string",
+        "context": ["string"],
+        "full": "string"
       }
     }
   ]

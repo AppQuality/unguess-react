@@ -1,14 +1,18 @@
 import { type Page } from '@playwright/test';
 import { UnguessPage } from '../../UnguessPage';
 import { AgeModule } from './Module_age';
+import { BankModule } from './Module_bank';
 import { DigitalLiteracyModule } from './Module_digital_literacy';
+import { ElectricityModule } from './Module_electricity';
 import { GenderModule } from './Module_gender';
 import { GoalModule } from './Module_goal';
+import { IncomeModule } from './Module_income';
 import { LanguageModule } from './Module_language';
 import { LocalityModule } from './Module_locality';
 import { OutOfScopeModule } from './Module_out_of_scope';
 import { TargetModule } from './Module_target';
 import { TasksModule } from './Module_tasks';
+import { GasModule } from './Module_gas';
 
 interface TabModule {
   expectToBeReadonly(): Promise<void>;
@@ -31,6 +35,10 @@ export class PlanPage extends UnguessPage {
       target: new TargetModule(page),
       tasks: new TasksModule(page),
       locality: new LocalityModule(page),
+      income: new IncomeModule(page),
+      bank: new BankModule(page),
+      electricity: new ElectricityModule(page),
+      gas: new GasModule(page),
     };
     this.page = page;
     this.url = `plans/1`;
@@ -159,6 +167,10 @@ export class PlanPage extends UnguessPage {
       this.modules.digitalLiteracy.expectToBeReadonly(),
       this.modules.language.expectToBeReadonly(),
       this.modules.locality.expectToBeReadonly(),
+      this.modules.income.expectToBeReadonly(),
+      this.modules.bank.expectToBeReadonly(),
+      this.modules.electricity.expectToBeReadonly(),
+      this.modules.gas.expectToBeReadonly(),
     ]);
 
     // tab instructions
@@ -259,7 +271,7 @@ export class PlanPage extends UnguessPage {
     await this.page.route('*/**/api/plans/1', async (route) => {
       if (route.request().method() === 'PATCH') {
         await route.fulfill({
-          path: 'tests/api/plans/pid/_patch/200_draft_mandatory_only.json',
+          body: JSON.stringify({}),
         });
       } else {
         await route.fallback();

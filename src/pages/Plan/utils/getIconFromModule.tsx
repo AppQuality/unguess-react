@@ -1,9 +1,13 @@
 import { getColor } from '@appquality/unguess-design-system';
 import { ReactComponent as BrowserIcon } from '@zendeskgarden/svg-icons/src/16/globe-fill.svg';
 import { ReactComponent as LocationIcon } from '@zendeskgarden/svg-icons/src/16/location-fill.svg';
+import { ReactComponent as PlugIcon } from '@zendeskgarden/svg-icons/src/16/plug-fill.svg';
+import { ReactComponent as GasIcon } from 'src/assets/icons/gas_module_icon.svg';
 import { shallowEqual } from 'react-redux';
 import { useAppSelector } from 'src/app/hooks';
 import { appTheme } from 'src/app/theme';
+import { ReactComponent as AdditionalTargetIcon } from 'src/assets/icons/additional-target-icon.svg';
+import { ReactComponent as ArrowTrending } from 'src/assets/icons/arrow-trending.svg';
 import { ReactComponent as AgeIcon } from 'src/assets/icons/cake-icon-fill.svg';
 import { ReactComponent as GoalIcon } from 'src/assets/icons/flag-fill.svg';
 import { ReactComponent as GenderIcon } from 'src/assets/icons/gender-icon.svg';
@@ -13,9 +17,11 @@ import { ReactComponent as NotificationIcon } from 'src/assets/icons/notificatio
 import { ReactComponent as TasksIcon } from 'src/assets/icons/tasks-icon.svg';
 import { ReactComponent as TouchpointsIcon } from 'src/assets/icons/touchpoints-icon.svg';
 import { ReactComponent as TargetIcon } from 'src/assets/icons/user-follow.svg';
-import { ReactComponent as OutOfScopeIcon } from 'src/assets/icons/x-circle.svg';
-import { ReactComponent as AdditionalTargetIcon } from 'src/assets/icons/additional-target-icon.svg';
 import { ReactComponent as EmploymentIcon } from 'src/assets/icons/work.svg';
+import { ReactComponent as OutOfScopeIcon } from 'src/assets/icons/x-circle.svg';
+import { ReactComponent as BankIcon } from '@zendeskgarden/svg-icons/src/16/credit-card-stroke.svg';
+import { ReactComponent as PhoneIcon } from '@zendeskgarden/svg-icons/src/16/phone-fill.svg';
+import { ReactComponent as HomeInternetIcon } from 'src/assets/icons/home-internet.svg';
 import { components } from 'src/common/schema';
 
 const getIconColor = (module_type: components['schemas']['Module']['type']) => {
@@ -87,6 +93,18 @@ const getIconFromModuleType = (
       return <EmploymentIcon color={color} />;
     case 'locality':
       return <LocationIcon color={color} />;
+    case 'annual_income_range':
+      return <ArrowTrending color={color} />;
+    case 'bank':
+      return <BankIcon color={color} />;
+    case 'elettricity_supply':
+      return <PlugIcon color={color} />;
+    case 'mobile_internet':
+      return <PhoneIcon color={color} />;
+    case 'home_internet':
+      return <HomeInternetIcon color={color} />;
+    case 'gas_supply':
+      return <GasIcon color={color} />;
     case 'title':
     case 'dates':
     default:

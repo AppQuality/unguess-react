@@ -6,11 +6,11 @@
     },
     "tags": [
       {
+        "color": "string",
         "id": 0,
         "name": "string",
-        "color": "string",
-        "usageNumber": 0,
-        "style": "white"
+        "style": "white",
+        "usageNumber": 0
       }
     ]
   }

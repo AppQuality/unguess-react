@@ -85,23 +85,28 @@ export const useModule = <T extends components['schemas']['Module']['type']>(
           output: [
             {
               min: 16,
+              max: 17,
+              percentage: 0,
+            },
+            {
+              min: 18,
               max: 24,
-              percentage: 25,
+              percentage: 0,
             },
             {
               min: 25,
               max: 34,
-              percentage: 25,
+              percentage: 0,
             },
             {
               min: 35,
               max: 54,
-              percentage: 25,
+              percentage: 0,
             },
             {
               min: 55,
               max: 70,
-              percentage: 25,
+              percentage: 0,
             },
           ],
         };
@@ -189,6 +194,58 @@ export const useModule = <T extends components['schemas']['Module']['type']>(
           output: '',
         };
       case 'employment':
+        return {
+          type,
+          variant: 'default',
+          output: [],
+        };
+      case 'annual_income_range':
+        return {
+          type,
+          variant: 'default',
+          output: [
+            {
+              min: 0,
+              max: 25000,
+              percentage: 0,
+            },
+            {
+              min: 25001,
+              max: 50000,
+              percentage: 0,
+            },
+            {
+              min: 50001,
+              max: 999999999,
+              percentage: 0,
+            },
+          ],
+        };
+      case 'bank':
+        return {
+          type,
+          variant: 'default',
+          output: [],
+        };
+      case 'elettricity_supply':
+        return {
+          type,
+          variant: 'default',
+          output: [],
+        };
+      case 'gas_supply':
+        return {
+          type,
+          variant: 'default',
+          output: [],
+        };
+      case 'mobile_internet':
+        return {
+          type,
+          variant: 'default',
+          output: [],
+        };
+      case 'home_internet':
         return {
           type,
           variant: 'default',

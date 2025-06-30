@@ -1,131 +1,131 @@
 {
-  "id": 0,
-  "url": "string",
-  "streamUrl": "string",
-  "poster": "string",
   "duration": 0,
-  "tester": {
-    "id": 0,
-    "name": "string",
-    "surname": "string",
-    "device": {
-      "type": "smartphone"
-    }
-  },
-  "transcript": {
-    "speakers": 0,
+  "id": 0,
+  "language": "string",
+  "poster": "string",
+  "sentiment": {
     "paragraphs": [
       {
-        "text": "ciao",
+        "end": 2.01,
+        "reason": "very negative",
         "start": 1,
+        "value": 1
+      },
+      {
+        "end": 10,
+        "reason": "negative",
+        "start": 2.01,
+        "value": 2
+      },
+      {
+        "end": 20,
+        "reason": "neutral",
+        "start": 10.01,
+        "value": 3
+      },
+      {
+        "end": 30,
+        "reason": "positive",
+        "start": 20.01,
+        "value": 4
+      },
+      {
+        "end": 40,
+        "reason": "very positive",
+        "start": 30.01,
+        "value": 5
+      }
+    ],
+    "reason": "string",
+    "value": 2
+  },
+  "streamUrl": "string",
+  "tester": {
+    "device": {
+      "type": "smartphone"
+    },
+    "id": 0,
+    "name": "string",
+    "surname": "string"
+  },
+  "transcript": {
+    "paragraphs": [
+      {
         "end": 2.01,
         "speaker": 0,
+        "start": 1,
+        "text": "ciao",
         "words": [
           {
-            "start": 1,
             "end": 2.01,
             "speaker": 0,
+            "start": 1,
             "word": "ciao"
           }
         ]
       },
       {
-        "text": "ciao2",
-        "start": 2.01,
         "end": 10,
         "speaker": 0,
+        "start": 2.01,
+        "text": "ciao2",
         "words": [
           {
-            "start": 2.01,
             "end": 10,
             "speaker": 0,
+            "start": 2.01,
             "word": "ciao2"
           }
         ]
       },
       {
-        "text": "ciao3",
-        "start": 10.01,
         "end": 20,
         "speaker": 0,
+        "start": 10.01,
+        "text": "ciao3",
         "words": [
           {
-            "start": 10.01,
             "end": 20,
             "speaker": 0,
+            "start": 10.01,
             "word": "ciao3"
           }
         ]
       },
       {
-        "text": "ciao4",
-        "start": 20.01,
         "end": 30,
         "speaker": 0,
+        "start": 20.01,
+        "text": "ciao4",
         "words": [
           {
-            "start": 20.01,
             "end": 30,
             "speaker": 0,
+            "start": 20.01,
             "word": "ciao4"
           }
         ]
       },
       {
-        "text": "ciao5",
-        "start": 30.01,
         "end": 40,
         "speaker": 0,
+        "start": 30.01,
+        "text": "ciao5",
         "words": [
           {
-            "start": 30.01,
             "end": 40,
             "speaker": 0,
+            "start": 30.01,
             "word": "ciao5"
           }
         ]
       }
-    ]
+    ],
+    "speakers": 0
   },
-  "sentiment": {
-    "value": 2,
-    "reason": "string",
-    "paragraphs": [
-      {
-        "start": 1,
-        "end": 2.01,
-        "value": 1,
-        "reason": "very negative"
-      },
-      {
-        "start": 2.01,
-        "end": 10,
-        "value": 2,
-        "reason": "negative"
-      },
-      {
-        "start": 10.01,
-        "end": 20,
-        "value": 3,
-        "reason": "neutral"
-      },
-      {
-        "start": 20.01,
-        "end": 30,
-        "value": 4,
-        "reason": "positive"
-      },
-      {
-        "start": 30.01,
-        "end": 40,
-        "value": 5,
-        "reason": "very positive"
-      }
-    ]
-  },
+  "url": "string",
   "usecase": {
     "id": 0,
     "name": "string"
-  },
-  "language": "string"
+  }
 }

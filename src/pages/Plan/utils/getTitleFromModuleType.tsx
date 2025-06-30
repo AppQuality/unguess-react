@@ -43,6 +43,18 @@ const getTitleFromModuleType = (
       return t('__PLAN_PAGE_MODULE_ADDITIONAL_TARGET_TITLE');
     case 'employment':
       return t('__PLAN_PAGE_MODULE_EMPLOYMENT_TITLE');
+    case 'annual_income_range':
+      return t('__PLAN_PAGE_MODULE_INCOME_LABEL');
+    case 'bank':
+      return t('__PLAN_PAGE_MODULE_BANK_LABEL');
+    case 'elettricity_supply':
+      return t('__PLAN_PAGE_MODULE_ELECTRICITY_LABEL');
+    case 'mobile_internet':
+      return t('__PLAN_PAGE_MODULE_INTERNET_MOBILE_LABEL');
+    case 'home_internet':
+      return t('__PLAN_PAGE_MODULE_INTERNET_HOME_LABEL');
+    case 'gas_supply':
+      return t('__PLAN_PAGE_MODULE_GAS_LABEL');
     default:
       return '';
   }

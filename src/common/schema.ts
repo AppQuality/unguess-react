@@ -343,6 +343,7 @@ export interface paths {
     };
   };
   "/plans/{pid}": {
+    /**  */
     get: operations["get-workspaces-wid-plans-pid"];
     delete: operations["delete-workspaces-wid-plans-pid"];
     patch: operations["patch-workspaces-wid-plans-pid"];
@@ -939,7 +940,13 @@ export interface components {
       | components["schemas"]["ModuleTouchpoints"]
       | components["schemas"]["ModuleAdditionalTarget"]
       | components["schemas"]["ModuleEmployment"]
-      | components["schemas"]["ModuleLocality"];
+      | components["schemas"]["ModuleLocality"]
+      | components["schemas"]["ModuleBank"]
+      | components["schemas"]["ModuleElettricitySupply"]
+      | components["schemas"]["ModuleMobileInternet"]
+      | components["schemas"]["ModuleHomeInternet"]
+      | components["schemas"]["ModuleGasSupply"]
+      | components["schemas"]["ModuleAnnualIncomeRange"];
     /** ModuleAdditionalTarget */
     ModuleAdditionalTarget: {
       output: string;
@@ -952,6 +959,20 @@ export interface components {
       output: components["schemas"]["OutputModuleAge"];
       /** @enum {string} */
       type: "age";
+      variant: string;
+    };
+    /** ModuleAnnualIncomeRange */
+    ModuleAnnualIncomeRange: {
+      output: components["schemas"]["OutputModuleIncomeRange"];
+      /** @enum {string} */
+      type: "annual_income_range";
+      variant: string;
+    };
+    /** ModuleBank */
+    ModuleBank: {
+      output: components["schemas"]["OutputServiceProviders"];
+      /** @enum {string} */
+      type: "bank";
       variant: string;
     };
     /** ModuleBrowser */
@@ -969,6 +990,13 @@ export interface components {
       type: "dates";
       variant: string;
     };
+    /** ModuleElettricitySupply */
+    ModuleElettricitySupply: {
+      output: components["schemas"]["OutputServiceProviders"];
+      /** @enum {string} */
+      type: "elettricity_supply";
+      variant: string;
+    };
     /** ModuleEmployment */
     ModuleEmployment: {
       /** @description cuf values of cuf employment */
@@ -984,6 +1012,13 @@ export interface components {
       type: "employment";
       variant: string;
     };
+    /** ModuleGasSupply */
+    ModuleGasSupply: {
+      output: components["schemas"]["OutputServiceProviders"];
+      /** @enum {string} */
+      type: "gas_supply";
+      variant: string;
+    };
     /** ModuleGender */
     ModuleGender: {
       output: components["schemas"]["OutputModuleGender"];
@@ -995,6 +1030,13 @@ export interface components {
       output: string;
       /** @enum {string} */
       type: "goal";
+      variant: string;
+    };
+    /** ModuleHomeInternet */
+    ModuleHomeInternet: {
+      output: components["schemas"]["OutputServiceProviders"];
+      /** @enum {string} */
+      type: "home_internet";
       variant: string;
     };
     /** ModuleInstructionNote */
@@ -1023,6 +1065,13 @@ export interface components {
       output: components["schemas"]["OutputModuleLocality"];
       /** @enum {string} */
       type: "locality";
+      variant: string;
+    };
+    /** ModuleMobileInternet */
+    ModuleMobileInternet: {
+      output: components["schemas"]["OutputServiceProviders"];
+      /** @enum {string} */
+      type: "mobile_internet";
       variant: string;
     };
     ModuleOutOfScope: {
@@ -1107,6 +1156,12 @@ export interface components {
     OutputModuleGender: {
       /** @enum {string} */
       gender: "male" | "female";
+      percentage: number;
+    }[];
+    /** OutputModuleIncomeRange */
+    OutputModuleIncomeRange: {
+      max: number;
+      min: number;
       percentage: number;
     }[];
     /** OutputModuleLiteracy */
@@ -1259,6 +1314,10 @@ export interface components {
         ios?: string;
       };
     };
+    OutputServiceProviders: {
+      isOther?: number;
+      name: string;
+    }[];
     /** PaginationData */
     PaginationData: {
       limit?: number;
@@ -3136,6 +3195,7 @@ export interface operations {
       302: never;
     };
   };
+  /**  */
   "get-workspaces-wid-plans-pid": {
     parameters: {
       path: {

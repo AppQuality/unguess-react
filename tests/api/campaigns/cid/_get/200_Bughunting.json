@@ -1,35 +1,35 @@
 {
-  "id": 4997,
-  "start_date": "Thu Dec 01 2022 17:00:00 GMT+0000 (Coordinated Universal Time)",
-  "end_date": "Mon Dec 05 2022 18:00:00 GMT+0000 (Coordinated Universal Time)",
-  "close_date": "Mon Dec 12 2022 15:17:16 GMT+0000 (Coordinated Universal Time)",
-  "title": "Bug Hunting Campaign Title",
-  "customer_title": "Customer Title",
-  "is_public": 3,
+  "base_bug_internal_id": "internal_id",
   "bug_form": 0,
-  "type": {
-    "id": 1,
-    "name": "Bug Hunting"
-  },
-  "status": {
-    "id": 2,
-    "name": "completed"
-  },
+  "close_date": "Mon Dec 12 2022 15:17:16 GMT+0000 (Coordinated Universal Time)",
+  "customer_title": "Customer Title",
+  "description": "Bug Hunting Campaign Description",
+  "end_date": "Mon Dec 05 2022 18:00:00 GMT+0000 (Coordinated Universal Time)",
   "family": {
     "id": 0,
     "name": "Functional"
   },
+  "formFactors": "0",
+  "id": 4997,
+  "is_public": 3,
+  "outputs": ["bugs"],
   "project": {
     "id": 11,
     "name": "Demo Internal"
   },
+  "showNeedReview": false,
+  "start_date": "Thu Dec 01 2022 17:00:00 GMT+0000 (Coordinated Universal Time)",
+  "status": {
+    "id": 2,
+    "name": "completed"
+  },
+  "title": "Bug Hunting Campaign Title",
+  "type": {
+    "id": 1,
+    "name": "Bug Hunting"
+  },
   "workspace": {
     "id": 1,
     "name": "Demo Internal"
-  },
-  "description": "Bug Hunting Campaign Description",
-  "base_bug_internal_id": "internal_id",
-  "showNeedReview": false,
-  "outputs": ["bugs"],
-  "formFactors": "0"
+  }
 }

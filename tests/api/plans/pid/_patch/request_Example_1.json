@@ -2,32 +2,32 @@
   "config": {
     "modules": [
       {
+        "output": "My Plan",
         "type": "title",
-        "variant": "default",
-        "output": "My Plan"
+        "variant": "default"
       },
       {
-        "type": "dates",
-        "variant": "default",
         "output": {
           "start": "2041-12-17T08:00:00.000Z"
-        }
+        },
+        "type": "dates",
+        "variant": "default"
       },
       {
-        "type": "tasks",
-        "variant": "default",
         "output": [
           {
+            "description": "description kind bug",
             "kind": "bug",
-            "title": "Search for bugs",
-            "description": "description kind bug"
+            "title": "Search for bugs"
           },
           {
+            "description": "description kind video",
             "kind": "video",
-            "title": "Think aloud",
-            "description": "description kind video"
+            "title": "Think aloud"
           }
-        ]
+        ],
+        "type": "tasks",
+        "variant": "default"
       }
     ]
   }

@@ -9,7 +9,7 @@ import joinBg2 from 'src/assets/join-bg-2.png';
 import joinBg2webp from 'src/assets/join-bg-2.webp';
 import joinBg3 from 'src/assets/join-bg-3.png';
 import joinBg3webp from 'src/assets/join-bg-3.webp';
-import { GoogleTagManager } from 'src/common/GoogleTagManager';
+import { Track } from 'src/common/Track';
 import { useGetInvitesByProfileAndTokenQuery } from 'src/features/api';
 import styled from 'styled-components';
 import { FormProvider } from './FormProvider';
@@ -111,7 +111,7 @@ const JoinPage = () => {
   if (error) return <JoinPageError />;
 
   return (
-    <GoogleTagManager title={t('__PAGE_TITLE_JOIN')}>
+    <Track title={t('__PAGE_TITLE_JOIN')}>
       <FormProvider {...data}>
         {({ isSubmitting, values: { step } }) => (
           <Background step={step.toString()}>
@@ -137,7 +137,7 @@ const JoinPage = () => {
           </Background>
         )}
       </FormProvider>
-    </GoogleTagManager>
+    </Track>
   );
 };
 

@@ -6,15 +6,13 @@ import {
   Label,
   Radio,
 } from '@appquality/unguess-design-system';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as TrashIcon } from 'src/assets/icons/trash-stroke.svg';
-import { FEATURE_FLAG_CHANGE_MODULES_VARIANTS } from 'src/constants';
 import { useModule } from 'src/features/modules/useModule';
 import { useModuleConfiguration } from 'src/features/modules/useModuleConfiguration';
-import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
 import styled from 'styled-components';
-import { useState } from 'react';
 import { getIconFromModuleType } from '../utils';
 import { DeleteModuleConfirmationModal } from './modal/DeleteModuleConfirmationModal';
 
@@ -24,7 +22,6 @@ const StyledTitleGroup = styled.div`
   margin-bottom: ${appTheme.space.sm};
 `;
 const Language = () => {
-  const { hasFeatureFlag } = useFeatureFlag();
   const { getPlanStatus } = useModuleConfiguration();
   const { value, setOutput, remove } = useModule('language');
   const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false);
@@ -63,24 +60,23 @@ const Language = () => {
             <AccordionNew.Label
               label={t('__PLAN_PAGE_MODULE_LANGUAGE_TITLE')}
             />
-            {hasFeatureFlag(FEATURE_FLAG_CHANGE_MODULES_VARIANTS) &&
-              getPlanStatus() === 'draft' && (
-                <AccordionNew.Meta>
-                  <Button
-                    isBasic
-                    isDanger
-                    onClick={(e) => {
-                      handleDelete();
-                      e.stopPropagation();
-                    }}
-                  >
-                    <Button.StartIcon>
-                      <TrashIcon />
-                    </Button.StartIcon>
-                    {t('__PLAN_PAGE_MODULE_LANGUAGE_REMOVE_BUTTON')}
-                  </Button>
-                </AccordionNew.Meta>
-              )}
+            {getPlanStatus() === 'draft' && (
+              <AccordionNew.Meta>
+                <Button
+                  isBasic
+                  isDanger
+                  onClick={(e) => {
+                    handleDelete();
+                    e.stopPropagation();
+                  }}
+                >
+                  <Button.StartIcon>
+                    <TrashIcon />
+                  </Button.StartIcon>
+                  {t('__PLAN_PAGE_MODULE_LANGUAGE_REMOVE_BUTTON')}
+                </Button>
+              </AccordionNew.Meta>
+            )}
           </AccordionNew.Header>
           <AccordionNew.Panel>
             <StyledTitleGroup>

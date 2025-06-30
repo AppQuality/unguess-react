@@ -1,23 +1,14 @@
 {
-  "id": 0,
-  "title": "string",
-  "description": "string",
-  "severity": {
-    "id": 0,
-    "name": "string",
-    "style": "string"
-  },
-  "visible": 0,
   "comment": "string",
+  "description": "string",
+  "id": 0,
   "observations": [
     {
-      "id": 0,
-      "title": "string",
       "description": "string",
-      "start": 0,
       "end": 0,
+      "id": 0,
       "quotes": "string",
-      "uxNote": "string",
+      "start": 0,
       "tags": [
         {
           "group": {
@@ -32,12 +23,21 @@
           }
         }
       ],
-      "video": {
-        "id": 0,
-        "deviceType": "string"
-      },
+      "title": "string",
       "uploaderId": 0,
-      "usecaseTitle": "string"
+      "usecaseTitle": "string",
+      "uxNote": "string",
+      "video": {
+        "deviceType": "string",
+        "id": 0
+      }
     }
-  ]
+  ],
+  "severity": {
+    "id": 0,
+    "name": "string",
+    "style": "string"
+  },
+  "title": "string",
+  "visible": 0
 }

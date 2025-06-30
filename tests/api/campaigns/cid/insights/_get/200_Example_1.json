@@ -1,205 +1,197 @@
 [
   {
-    "id": 1,
-    "title": "Provola",
     "description": "",
-    "visible": 0,
+    "id": 1,
+    "observations": [
+      {
+        "description": "",
+        "end": 5.62,
+        "id": 21256,
+        "quotes": "che belle quotes modificate a dovere",
+        "start": 2,
+        "tags": [
+          {
+            "group": {
+              "id": 242,
+              "name": "tags"
+            },
+            "tag": {
+              "id": 1114,
+              "name": "marco",
+              "style": "white",
+              "usageNumber": 3
+            }
+          },
+          {
+            "group": {
+              "id": 242,
+              "name": "tags"
+            },
+            "tag": {
+              "id": 1097,
+              "name": "tag 1",
+              "style": "white",
+              "usageNumber": 2
+            }
+          },
+          {
+            "group": {
+              "id": 242,
+              "name": "tags"
+            },
+            "tag": {
+              "id": 1098,
+              "name": "tag 2",
+              "style": "white",
+              "usageNumber": 3
+            }
+          },
+          {
+            "group": {
+              "id": 242,
+              "name": "tags"
+            },
+            "tag": {
+              "id": 20756,
+              "name": "gimmi test",
+              "style": "white",
+              "usageNumber": 1
+            }
+          },
+          {
+            "group": {
+              "id": 242,
+              "name": "tags"
+            },
+            "tag": {
+              "id": 1104,
+              "name": "non b",
+              "style": "white",
+              "usageNumber": 2
+            }
+          },
+          {
+            "group": {
+              "id": 242,
+              "name": "tags"
+            },
+            "tag": {
+              "id": 20786,
+              "name": "prova\"dell'annoincredibile",
+              "style": "white",
+              "usageNumber": 1
+            }
+          },
+          {
+            "group": {
+              "id": 241,
+              "name": "severity"
+            },
+            "tag": {
+              "id": 1094,
+              "name": "Positive Finding",
+              "style": "#007D5A",
+              "usageNumber": 5
+            }
+          },
+          {
+            "group": {
+              "id": 270,
+              "name": "title"
+            },
+            "tag": {
+              "id": 20767,
+              "name": "grey 500 andrebbe corretto in tutte le pagine per il testo perchè non",
+              "style": "white",
+              "usageNumber": 1
+            }
+          }
+        ],
+        "title": "",
+        "uploaderId": 72768,
+        "usecaseTitle": "USE CASE X: Internal Test (ITA) ",
+        "video": {
+          "deviceType": "pc",
+          "id": 92098
+        }
+      },
+      {
+        "description": "modificata",
+        "end": 98.445,
+        "id": 21257,
+        "quotes": "Noi ci facciamo le foto",
+        "start": 94.985,
+        "tags": [
+          {
+            "group": {
+              "id": 242,
+              "name": "tags"
+            },
+            "tag": {
+              "id": 20794,
+              "name": "taglunghissimosupercalifragilistichespiralidosissimo",
+              "style": "white",
+              "usageNumber": 2
+            }
+          },
+          {
+            "group": {
+              "id": 241,
+              "name": "severity"
+            },
+            "tag": {
+              "id": 1094,
+              "name": "Positive Finding",
+              "style": "#007D5A",
+              "usageNumber": 5
+            }
+          },
+          {
+            "group": {
+              "id": 270,
+              "name": "title"
+            },
+            "tag": {
+              "id": 20787,
+              "name": "asdasd",
+              "style": "white",
+              "usageNumber": 1
+            }
+          }
+        ],
+        "title": "",
+        "uploaderId": 72768,
+        "usecaseTitle": "USE CASE X: Internal Test (ITA) ",
+        "video": {
+          "deviceType": "pc",
+          "id": 92098
+        }
+      }
+    ],
     "severity": {
       "id": 1096,
       "name": "Major Issue",
       "style": "#932127"
     },
-    "observations": [
-      {
-        "id": 21256,
-        "title": "",
-        "description": "",
-        "quotes": "che belle quotes modificate a dovere",
-        "start": 2,
-        "end": 5.62,
-        "tags": [
-          {
-            "group": {
-              "id": 242,
-              "name": "tags"
-            },
-            "tag": {
-              "id": 1114,
-              "name": "marco",
-              "style": "white",
-              "usageNumber": 3
-            }
-          },
-          {
-            "group": {
-              "id": 242,
-              "name": "tags"
-            },
-            "tag": {
-              "id": 1097,
-              "name": "tag 1",
-              "style": "white",
-              "usageNumber": 2
-            }
-          },
-          {
-            "group": {
-              "id": 242,
-              "name": "tags"
-            },
-            "tag": {
-              "id": 1098,
-              "name": "tag 2",
-              "style": "white",
-              "usageNumber": 3
-            }
-          },
-          {
-            "group": {
-              "id": 242,
-              "name": "tags"
-            },
-            "tag": {
-              "id": 20756,
-              "name": "gimmi test",
-              "style": "white",
-              "usageNumber": 1
-            }
-          },
-          {
-            "group": {
-              "id": 242,
-              "name": "tags"
-            },
-            "tag": {
-              "id": 1104,
-              "name": "non b",
-              "style": "white",
-              "usageNumber": 2
-            }
-          },
-          {
-            "group": {
-              "id": 242,
-              "name": "tags"
-            },
-            "tag": {
-              "id": 20786,
-              "name": "prova\"dell'annoincredibile",
-              "style": "white",
-              "usageNumber": 1
-            }
-          },
-          {
-            "group": {
-              "id": 241,
-              "name": "severity"
-            },
-            "tag": {
-              "id": 1094,
-              "name": "Positive Finding",
-              "style": "#007D5A",
-              "usageNumber": 5
-            }
-          },
-          {
-            "group": {
-              "id": 270,
-              "name": "title"
-            },
-            "tag": {
-              "id": 20767,
-              "name": "grey 500 andrebbe corretto in tutte le pagine per il testo perchè non",
-              "style": "white",
-              "usageNumber": 1
-            }
-          }
-        ],
-        "uploaderId": 72768,
-        "video": {
-          "id": 92098,
-          "deviceType": "pc"
-        },
-        "usecaseTitle": "USE CASE X: Internal Test (ITA) "
-      },
-      {
-        "id": 21257,
-        "title": "",
-        "description": "modificata",
-        "quotes": "Noi ci facciamo le foto",
-        "start": 94.985,
-        "end": 98.445,
-        "tags": [
-          {
-            "group": {
-              "id": 242,
-              "name": "tags"
-            },
-            "tag": {
-              "id": 20794,
-              "name": "taglunghissimosupercalifragilistichespiralidosissimo",
-              "style": "white",
-              "usageNumber": 2
-            }
-          },
-          {
-            "group": {
-              "id": 241,
-              "name": "severity"
-            },
-            "tag": {
-              "id": 1094,
-              "name": "Positive Finding",
-              "style": "#007D5A",
-              "usageNumber": 5
-            }
-          },
-          {
-            "group": {
-              "id": 270,
-              "name": "title"
-            },
-            "tag": {
-              "id": 20787,
-              "name": "asdasd",
-              "style": "white",
-              "usageNumber": 1
-            }
-          }
-        ],
-        "uploaderId": 72768,
-        "video": {
-          "id": 92098,
-          "deviceType": "pc"
-        },
-        "usecaseTitle": "USE CASE X: Internal Test (ITA) "
-      }
-    ],
+    "title": "Provola",
     "usecases": [
       {
         "id": 29090,
         "name": "USE CASE X: Internal Test (ITA) "
       }
-    ]
+    ],
+    "visible": 0
   },
   {
-    "id": 2,
-    "title": "Provola 3",
     "description": "I giovani sono allo spando, si drogano, si menano, trombano a destra e sinistra. Certo voi direte fin qui tutto ok ma il problema è che tutte queste le fanno male! Cosa ne pensa dell'alcol tra I giovani? ",
-    "visible": 1,
-    "severity": {
-      "id": 1094,
-      "name": "Positive Finding",
-      "style": "#007D5A"
-    },
+    "id": 2,
     "observations": [
       {
-        "id": 21256,
-        "title": "",
         "description": "",
+        "end": 5.62,
+        "id": 21256,
         "quotes": "che belle quotes modificate a dovere",
         "start": 2,
-        "end": 5.62,
         "tags": [
           {
             "group": {
@@ -298,20 +290,20 @@
             }
           }
         ],
+        "title": "",
         "uploaderId": 72768,
+        "usecaseTitle": "USE CASE X: Internal Test (ITA) ",
         "video": {
-          "id": 92098,
-          "deviceType": "pc"
-        },
-        "usecaseTitle": "USE CASE X: Internal Test (ITA) "
+          "deviceType": "pc",
+          "id": 92098
+        }
       },
       {
-        "id": 21257,
-        "title": "",
         "description": "modificata",
+        "end": 98.445,
+        "id": 21257,
         "quotes": "Noi ci facciamo le foto",
         "start": 94.985,
-        "end": 98.445,
         "tags": [
           {
             "group": {
@@ -350,39 +342,39 @@
             }
           }
         ],
+        "title": "",
         "uploaderId": 72768,
+        "usecaseTitle": "USE CASE X: Internal Test (ITA) ",
         "video": {
-          "id": 92098,
-          "deviceType": "pc"
-        },
-        "usecaseTitle": "USE CASE X: Internal Test (ITA) "
+          "deviceType": "pc",
+          "id": 92098
+        }
       }
     ],
-    "usecases": [
-      {
-        "id": 29090,
-        "name": "USE CASE X: Internal Test (ITA) "
-      }
-    ]
-  },
-  {
-    "id": 3,
-    "title": "Test luca",
-    "description": "",
-    "visible": 1,
     "severity": {
       "id": 1094,
       "name": "Positive Finding",
       "style": "#007D5A"
     },
+    "title": "Provola 3",
+    "usecases": [
+      {
+        "id": 29090,
+        "name": "USE CASE X: Internal Test (ITA) "
+      }
+    ],
+    "visible": 1
+  },
+  {
+    "description": "",
+    "id": 3,
     "observations": [
       {
-        "id": 21267,
-        "title": "",
         "description": "",
+        "end": 31.864527,
+        "id": 21267,
         "quotes": "mi ricordo io invece che ai miei tempi che mi dovevo bere fior di bottiglie per diventare alcolizzato. È vero che le ragazze di oggi so' tutte troppo facili ma anche tempi miei la",
         "start": 21.925133,
-        "end": 31.864527,
         "tags": [
           {
             "group": {
@@ -409,20 +401,20 @@
             }
           }
         ],
+        "title": "",
         "uploaderId": 72768,
+        "usecaseTitle": "USE CASE X: Internal Test (ITA) ",
         "video": {
-          "id": 92098,
-          "deviceType": "pc"
-        },
-        "usecaseTitle": "USE CASE X: Internal Test (ITA) "
+          "deviceType": "pc",
+          "id": 92098
+        }
       },
       {
-        "id": 21268,
-        "title": "",
         "description": "",
+        "end": 65.805,
+        "id": 21268,
         "quotes": "checkout per acquistarla. Dopo aver inserito tutti",
         "start": 52.170002,
-        "end": 65.805,
         "tags": [
           {
             "group": {
@@ -449,39 +441,39 @@
             }
           }
         ],
+        "title": "",
         "uploaderId": 32,
+        "usecaseTitle": "USE CASE X: Internal Test (ITA) ",
         "video": {
-          "id": 92099,
-          "deviceType": "pc"
-        },
-        "usecaseTitle": "USE CASE X: Internal Test (ITA) "
+          "deviceType": "pc",
+          "id": 92099
+        }
       }
     ],
-    "usecases": [
-      {
-        "id": 29090,
-        "name": "USE CASE X: Internal Test (ITA) "
-      }
-    ]
-  },
-  {
-    "id": 4,
-    "title": "prova",
-    "description": "s",
-    "visible": 1,
     "severity": {
       "id": 1094,
       "name": "Positive Finding",
       "style": "#007D5A"
     },
+    "title": "Test luca",
+    "usecases": [
+      {
+        "id": 29090,
+        "name": "USE CASE X: Internal Test (ITA) "
+      }
+    ],
+    "visible": 1
+  },
+  {
+    "description": "s",
+    "id": 4,
     "observations": [
       {
-        "id": 21257,
-        "title": "",
         "description": "modificata",
+        "end": 98.445,
+        "id": 21257,
         "quotes": "Noi ci facciamo le foto",
         "start": 94.985,
-        "end": 98.445,
         "tags": [
           {
             "group": {
@@ -520,20 +512,20 @@
             }
           }
         ],
+        "title": "",
         "uploaderId": 72768,
+        "usecaseTitle": "USE CASE X: Internal Test (ITA) ",
         "video": {
-          "id": 92098,
-          "deviceType": "pc"
-        },
-        "usecaseTitle": "USE CASE X: Internal Test (ITA) "
+          "deviceType": "pc",
+          "id": 92098
+        }
       },
       {
-        "id": 21260,
-        "title": "",
         "description": "",
+        "end": 157.37999,
+        "id": 21260,
         "quotes": "droga!",
         "start": 156.87999,
-        "end": 157.37999,
         "tags": [
           {
             "group": {
@@ -560,20 +552,20 @@
             }
           }
         ],
+        "title": "",
         "uploaderId": 72768,
+        "usecaseTitle": "USE CASE X: Internal Test (ITA) ",
         "video": {
-          "id": 92098,
-          "deviceType": "pc"
-        },
-        "usecaseTitle": "USE CASE X: Internal Test (ITA) "
+          "deviceType": "pc",
+          "id": 92098
+        }
       },
       {
-        "id": 21262,
-        "title": "",
         "description": "",
+        "end": 26.515,
+        "id": 21262,
         "quotes": "voglio personalizzare nome e numero",
         "start": 20.66,
-        "end": 26.515,
         "tags": [
           {
             "group": {
@@ -600,20 +592,20 @@
             }
           }
         ],
+        "title": "",
         "uploaderId": 32,
+        "usecaseTitle": "USE CASE X: Internal Test (ITA) ",
         "video": {
-          "id": 92099,
-          "deviceType": "pc"
-        },
-        "usecaseTitle": "USE CASE X: Internal Test (ITA) "
+          "deviceType": "pc",
+          "id": 92099
+        }
       },
       {
-        "id": 21268,
-        "title": "",
         "description": "",
+        "end": 65.805,
+        "id": 21268,
         "quotes": "checkout per acquistarla. Dopo aver inserito tutti",
         "start": 52.170002,
-        "end": 65.805,
         "tags": [
           {
             "group": {
@@ -640,20 +632,20 @@
             }
           }
         ],
+        "title": "",
         "uploaderId": 32,
+        "usecaseTitle": "USE CASE X: Internal Test (ITA) ",
         "video": {
-          "id": 92099,
-          "deviceType": "pc"
-        },
-        "usecaseTitle": "USE CASE X: Internal Test (ITA) "
+          "deviceType": "pc",
+          "id": 92099
+        }
       },
       {
-        "id": 21272,
-        "title": "",
         "description": "",
+        "end": 8.96,
+        "id": 21272,
         "quotes": "Certo voi direte fin qui tutto ok ma il problema",
         "start": 5.7599998,
-        "end": 8.96,
         "tags": [
           {
             "group": {
@@ -704,39 +696,39 @@
             }
           }
         ],
+        "title": "",
         "uploaderId": 72768,
+        "usecaseTitle": "USE CASE X: Internal Test (ITA) ",
         "video": {
-          "id": 92098,
-          "deviceType": "pc"
-        },
-        "usecaseTitle": "USE CASE X: Internal Test (ITA) "
+          "deviceType": "pc",
+          "id": 92098
+        }
       }
     ],
-    "usecases": [
-      {
-        "id": 29090,
-        "name": "USE CASE X: Internal Test (ITA) "
-      }
-    ]
-  },
-  {
-    "id": 5,
-    "title": "Preferisco \"Temi\" a \"Evidenze\" per indicare categorie generali di interesse.",
-    "description": "",
-    "visible": 0,
     "severity": {
       "id": 1094,
       "name": "Positive Finding",
       "style": "#007D5A"
     },
+    "title": "prova",
+    "usecases": [
+      {
+        "id": 29090,
+        "name": "USE CASE X: Internal Test (ITA) "
+      }
+    ],
+    "visible": 1
+  },
+  {
+    "description": "",
+    "id": 5,
     "observations": [
       {
-        "id": 21257,
-        "title": "",
         "description": "modificata",
+        "end": 98.445,
+        "id": 21257,
         "quotes": "Noi ci facciamo le foto",
         "start": 94.985,
-        "end": 98.445,
         "tags": [
           {
             "group": {
@@ -775,20 +767,20 @@
             }
           }
         ],
+        "title": "",
         "uploaderId": 72768,
+        "usecaseTitle": "USE CASE X: Internal Test (ITA) ",
         "video": {
-          "id": 92098,
-          "deviceType": "pc"
-        },
-        "usecaseTitle": "USE CASE X: Internal Test (ITA) "
+          "deviceType": "pc",
+          "id": 92098
+        }
       },
       {
-        "id": 21262,
-        "title": "",
         "description": "",
+        "end": 26.515,
+        "id": 21262,
         "quotes": "voglio personalizzare nome e numero",
         "start": 20.66,
-        "end": 26.515,
         "tags": [
           {
             "group": {
@@ -815,39 +807,39 @@
             }
           }
         ],
+        "title": "",
         "uploaderId": 32,
+        "usecaseTitle": "USE CASE X: Internal Test (ITA) ",
         "video": {
-          "id": 92099,
-          "deviceType": "pc"
-        },
-        "usecaseTitle": "USE CASE X: Internal Test (ITA) "
+          "deviceType": "pc",
+          "id": 92099
+        }
       }
     ],
+    "severity": {
+      "id": 1094,
+      "name": "Positive Finding",
+      "style": "#007D5A"
+    },
+    "title": "Preferisco \"Temi\" a \"Evidenze\" per indicare categorie generali di interesse.",
     "usecases": [
       {
         "id": 29090,
         "name": "USE CASE X: Internal Test (ITA) "
       }
-    ]
+    ],
+    "visible": 0
   },
   {
-    "id": 6,
-    "title": "provax3",
     "description": "sdsd sadasd sdasdad sdsd sadasd sdasdad sdsd sadasd sdasdad sdsd sadasd sdasdad sdsd sadasd sdasdad sdsd sadasd sdasdad sdsd sadasd sdasdad sdsd sadasd sdasdad sdsd sadasd sdasdad sdsd sadasd sdasdad sdsd sadasd sdasdad sdsd sadasd sdasdad sdsd sadasd sdasdad sdsd sadasd sdasdad sdsd sadasd sdasdad sdsd sadasd sdasdad sdsd sadasd sdasdad sdsd sadasd sdasdad sdsd sadasd sdasdad ",
-    "visible": 0,
-    "severity": {
-      "id": 1099,
-      "name": "Observation",
-      "style": "#003A57"
-    },
+    "id": 6,
     "observations": [
       {
-        "id": 21276,
-        "title": "",
         "description": "modificata",
+        "end": 2.491272,
+        "id": 21276,
         "quotes": "ss",
         "start": 0.792919,
-        "end": 2.491272,
         "tags": [
           {
             "group": {
@@ -886,20 +878,20 @@
             }
           }
         ],
+        "title": "",
         "uploaderId": 11111,
+        "usecaseTitle": "USE CASE 5: Para cargas en español",
         "video": {
-          "id": 92142,
-          "deviceType": "smartphone"
-        },
-        "usecaseTitle": "USE CASE 5: Para cargas en español"
+          "deviceType": "smartphone",
+          "id": 92142
+        }
       },
       {
-        "id": 21266,
-        "title": "",
         "description": "note del \nreas",
+        "end": 48.465,
+        "id": 21266,
         "quotes": "prendre rendez-vous en atelier,",
         "start": 40.719997,
-        "end": 48.465,
         "tags": [
           {
             "group": {
@@ -962,14 +954,21 @@
             }
           }
         ],
+        "title": "",
         "uploaderId": 11205,
+        "usecaseTitle": "USE CASE X: French ",
         "video": {
-          "id": 92119,
-          "deviceType": "other"
-        },
-        "usecaseTitle": "USE CASE X: French "
+          "deviceType": "other",
+          "id": 92119
+        }
       }
     ],
+    "severity": {
+      "id": 1099,
+      "name": "Observation",
+      "style": "#003A57"
+    },
+    "title": "provax3",
     "usecases": [
       {
         "id": 29629,
@@ -979,26 +978,19 @@
         "id": 29651,
         "name": "USE CASE X: French "
       }
-    ]
+    ],
+    "visible": 0
   },
   {
-    "id": 7,
-    "title": "PTIOB",
     "description": "",
-    "visible": 0,
-    "severity": {
-      "id": 1094,
-      "name": "Positive Finding",
-      "style": "#007D5A"
-    },
+    "id": 7,
     "observations": [
       {
-        "id": 21276,
-        "title": "",
         "description": "modificata",
+        "end": 2.491272,
+        "id": 21276,
         "quotes": "ss",
         "start": 0.792919,
-        "end": 2.491272,
         "tags": [
           {
             "group": {
@@ -1037,20 +1029,20 @@
             }
           }
         ],
+        "title": "",
         "uploaderId": 11111,
+        "usecaseTitle": "USE CASE 5: Para cargas en español",
         "video": {
-          "id": 92142,
-          "deviceType": "smartphone"
-        },
-        "usecaseTitle": "USE CASE 5: Para cargas en español"
+          "deviceType": "smartphone",
+          "id": 92142
+        }
       },
       {
-        "id": 21257,
-        "title": "",
         "description": "modificata",
+        "end": 98.445,
+        "id": 21257,
         "quotes": "Noi ci facciamo le foto",
         "start": 94.985,
-        "end": 98.445,
         "tags": [
           {
             "group": {
@@ -1089,20 +1081,20 @@
             }
           }
         ],
+        "title": "",
         "uploaderId": 72768,
+        "usecaseTitle": "USE CASE X: Internal Test (ITA) ",
         "video": {
-          "id": 92098,
-          "deviceType": "pc"
-        },
-        "usecaseTitle": "USE CASE X: Internal Test (ITA) "
+          "deviceType": "pc",
+          "id": 92098
+        }
       },
       {
-        "id": 21269,
-        "title": "",
         "description": "",
+        "end": 105.53999,
+        "id": 21269,
         "quotes": "I tuoi valori quali sono?",
         "start": 103.46,
-        "end": 105.53999,
         "tags": [
           {
             "group": {
@@ -1141,20 +1133,20 @@
             }
           }
         ],
+        "title": "",
         "uploaderId": 72768,
+        "usecaseTitle": "USE CASE X: Internal Test (ITA) ",
         "video": {
-          "id": 92098,
-          "deviceType": "pc"
-        },
-        "usecaseTitle": "USE CASE X: Internal Test (ITA) "
+          "deviceType": "pc",
+          "id": 92098
+        }
       },
       {
-        "id": 21265,
-        "title": "",
         "description": "",
+        "end": 25.915,
+        "id": 21265,
         "quotes": "voir un récapitulatif, j'imagine, 8=D en cliquant sur suivant. Alors en cliquant",
         "start": 19.93,
-        "end": 25.915,
         "tags": [
           {
             "group": {
@@ -1181,14 +1173,21 @@
             }
           }
         ],
+        "title": "",
         "uploaderId": 11205,
+        "usecaseTitle": "USE CASE X: French ",
         "video": {
-          "id": 92119,
-          "deviceType": "other"
-        },
-        "usecaseTitle": "USE CASE X: French "
+          "deviceType": "other",
+          "id": 92119
+        }
       }
     ],
+    "severity": {
+      "id": 1094,
+      "name": "Positive Finding",
+      "style": "#007D5A"
+    },
+    "title": "PTIOB",
     "usecases": [
       {
         "id": 29629,
@@ -1202,26 +1201,19 @@
         "id": 29651,
         "name": "USE CASE X: French "
       }
-    ]
+    ],
+    "visible": 0
   },
   {
-    "id": 8,
-    "title": "new insight con rimozione video",
     "description": "ss",
-    "visible": 0,
-    "severity": {
-      "id": 1099,
-      "name": "Observation",
-      "style": "#003A57"
-    },
+    "id": 8,
     "observations": [
       {
-        "id": 21263,
-        "title": "",
         "description": "",
+        "end": 110.799995,
+        "id": 21263,
         "quotes": "molto perfetto adesso vado al trattamento",
         "start": 102.615,
-        "end": 110.799995,
         "tags": [
           {
             "group": {
@@ -1248,20 +1240,20 @@
             }
           }
         ],
+        "title": "",
         "uploaderId": 32,
+        "usecaseTitle": "USE CASE X: Internal Test (ITA) ",
         "video": {
-          "id": 92099,
-          "deviceType": "pc"
-        },
-        "usecaseTitle": "USE CASE X: Internal Test (ITA) "
+          "deviceType": "pc",
+          "id": 92099
+        }
       },
       {
-        "id": 21267,
-        "title": "",
         "description": "",
+        "end": 31.864527,
+        "id": 21267,
         "quotes": "mi ricordo io invece che ai miei tempi che mi dovevo bere fior di bottiglie per diventare alcolizzato. È vero che le ragazze di oggi so' tutte troppo facili ma anche tempi miei la",
         "start": 21.925133,
-        "end": 31.864527,
         "tags": [
           {
             "group": {
@@ -1288,138 +1280,138 @@
             }
           }
         ],
+        "title": "",
         "uploaderId": 72768,
+        "usecaseTitle": "USE CASE X: Internal Test (ITA) ",
         "video": {
-          "id": 92098,
-          "deviceType": "pc"
-        },
-        "usecaseTitle": "USE CASE X: Internal Test (ITA) "
+          "deviceType": "pc",
+          "id": 92098
+        }
       }
     ],
+    "severity": {
+      "id": 1099,
+      "name": "Observation",
+      "style": "#003A57"
+    },
+    "title": "new insight con rimozione video",
     "usecases": [
       {
         "id": 29090,
         "name": "USE CASE X: Internal Test (ITA) "
       }
-    ]
+    ],
+    "visible": 0
   },
   {
-    "id": 9,
-    "title": "Test",
     "description": "",
-    "visible": 0,
+    "id": 9,
+    "observations": [
+      {
+        "description": "",
+        "end": 110.799995,
+        "id": 21263,
+        "quotes": "molto perfetto adesso vado al trattamento",
+        "start": 102.615,
+        "tags": [
+          {
+            "group": {
+              "id": 241,
+              "name": "severity"
+            },
+            "tag": {
+              "id": 1095,
+              "name": "Minor issue",
+              "style": "#955F1D",
+              "usageNumber": 3
+            }
+          },
+          {
+            "group": {
+              "id": 270,
+              "name": "title"
+            },
+            "tag": {
+              "id": 13660,
+              "name": "Test ottimo",
+              "style": "white",
+              "usageNumber": 4
+            }
+          }
+        ],
+        "title": "",
+        "uploaderId": 32,
+        "usecaseTitle": "USE CASE X: Internal Test (ITA) ",
+        "video": {
+          "deviceType": "pc",
+          "id": 92099
+        }
+      },
+      {
+        "description": "",
+        "end": 31.864527,
+        "id": 21267,
+        "quotes": "mi ricordo io invece che ai miei tempi che mi dovevo bere fior di bottiglie per diventare alcolizzato. È vero che le ragazze di oggi so' tutte troppo facili ma anche tempi miei la",
+        "start": 21.925133,
+        "tags": [
+          {
+            "group": {
+              "id": 241,
+              "name": "severity"
+            },
+            "tag": {
+              "id": 1099,
+              "name": "Observation",
+              "style": "#003A57",
+              "usageNumber": 10
+            }
+          },
+          {
+            "group": {
+              "id": 270,
+              "name": "title"
+            },
+            "tag": {
+              "id": 13660,
+              "name": "Test ottimo",
+              "style": "white",
+              "usageNumber": 4
+            }
+          }
+        ],
+        "title": "",
+        "uploaderId": 72768,
+        "usecaseTitle": "USE CASE X: Internal Test (ITA) ",
+        "video": {
+          "deviceType": "pc",
+          "id": 92098
+        }
+      }
+    ],
     "severity": {
       "id": 1096,
       "name": "Major Issue",
       "style": "#932127"
     },
-    "observations": [
-      {
-        "id": 21263,
-        "title": "",
-        "description": "",
-        "quotes": "molto perfetto adesso vado al trattamento",
-        "start": 102.615,
-        "end": 110.799995,
-        "tags": [
-          {
-            "group": {
-              "id": 241,
-              "name": "severity"
-            },
-            "tag": {
-              "id": 1095,
-              "name": "Minor issue",
-              "style": "#955F1D",
-              "usageNumber": 3
-            }
-          },
-          {
-            "group": {
-              "id": 270,
-              "name": "title"
-            },
-            "tag": {
-              "id": 13660,
-              "name": "Test ottimo",
-              "style": "white",
-              "usageNumber": 4
-            }
-          }
-        ],
-        "uploaderId": 32,
-        "video": {
-          "id": 92099,
-          "deviceType": "pc"
-        },
-        "usecaseTitle": "USE CASE X: Internal Test (ITA) "
-      },
-      {
-        "id": 21267,
-        "title": "",
-        "description": "",
-        "quotes": "mi ricordo io invece che ai miei tempi che mi dovevo bere fior di bottiglie per diventare alcolizzato. È vero che le ragazze di oggi so' tutte troppo facili ma anche tempi miei la",
-        "start": 21.925133,
-        "end": 31.864527,
-        "tags": [
-          {
-            "group": {
-              "id": 241,
-              "name": "severity"
-            },
-            "tag": {
-              "id": 1099,
-              "name": "Observation",
-              "style": "#003A57",
-              "usageNumber": 10
-            }
-          },
-          {
-            "group": {
-              "id": 270,
-              "name": "title"
-            },
-            "tag": {
-              "id": 13660,
-              "name": "Test ottimo",
-              "style": "white",
-              "usageNumber": 4
-            }
-          }
-        ],
-        "uploaderId": 72768,
-        "video": {
-          "id": 92098,
-          "deviceType": "pc"
-        },
-        "usecaseTitle": "USE CASE X: Internal Test (ITA) "
-      }
-    ],
+    "title": "Test",
     "usecases": [
       {
         "id": 29090,
         "name": "USE CASE X: Internal Test (ITA) "
       }
-    ]
+    ],
+    "visible": 0
   },
   {
-    "id": 10,
-    "title": "Cornetto is not croissant",
     "description": "Brioche is not Croissant\nCornetto is not Croissant\nCroissant is not Croissant",
-    "visible": 1,
-    "severity": {
-      "id": 1099,
-      "name": "Observation",
-      "style": "#003A57"
-    },
+    "id": 10,
     "observations": [
       {
-        "id": 21276,
-        "title": "",
         "description": "modificata",
+        "end": 2.491272,
+        "id": 21276,
         "quotes": "ss",
         "start": 0.792919,
-        "end": 2.491272,
         "tags": [
           {
             "group": {
@@ -1458,39 +1450,39 @@
             }
           }
         ],
+        "title": "",
         "uploaderId": 11111,
+        "usecaseTitle": "USE CASE 5: Para cargas en español",
         "video": {
-          "id": 92142,
-          "deviceType": "smartphone"
-        },
-        "usecaseTitle": "USE CASE 5: Para cargas en español"
+          "deviceType": "smartphone",
+          "id": 92142
+        }
       }
     ],
+    "severity": {
+      "id": 1099,
+      "name": "Observation",
+      "style": "#003A57"
+    },
+    "title": "Cornetto is not croissant",
     "usecases": [
       {
         "id": 29629,
         "name": "USE CASE 5: Para cargas en español"
       }
-    ]
+    ],
+    "visible": 1
   },
   {
-    "id": 11,
-    "title": "Mistone",
     "description": "L'avversario è tra le zone rutilanti delle fonti sottostanti così come l'erba del vicino è sempre più verde.",
-    "visible": 1,
-    "severity": {
-      "id": 1096,
-      "name": "Major Issue",
-      "style": "#932127"
-    },
+    "id": 11,
     "observations": [
       {
-        "id": 21256,
-        "title": "",
         "description": "",
+        "end": 5.62,
+        "id": 21256,
         "quotes": "che belle quotes modificate a dovere",
         "start": 2,
-        "end": 5.62,
         "tags": [
           {
             "group": {
@@ -1589,20 +1581,20 @@
             }
           }
         ],
+        "title": "",
         "uploaderId": 72768,
+        "usecaseTitle": "USE CASE X: Internal Test (ITA) ",
         "video": {
-          "id": 92098,
-          "deviceType": "pc"
-        },
-        "usecaseTitle": "USE CASE X: Internal Test (ITA) "
+          "deviceType": "pc",
+          "id": 92098
+        }
       },
       {
-        "id": 21264,
-        "title": "",
         "description": "adsadsadas",
+        "end": 124.82,
+        "id": 21264,
         "quotes": "vizio",
         "start": 124.5,
-        "end": 124.82,
         "tags": [
           {
             "group": {
@@ -1653,20 +1645,20 @@
             }
           }
         ],
+        "title": "",
         "uploaderId": 72768,
+        "usecaseTitle": "USE CASE X: Internal Test (ITA) ",
         "video": {
-          "id": 92098,
-          "deviceType": "pc"
-        },
-        "usecaseTitle": "USE CASE X: Internal Test (ITA) "
+          "deviceType": "pc",
+          "id": 92098
+        }
       },
       {
-        "id": 21265,
-        "title": "",
         "description": "",
+        "end": 25.915,
+        "id": 21265,
         "quotes": "voir un récapitulatif, j'imagine, 8=D en cliquant sur suivant. Alors en cliquant",
         "start": 19.93,
-        "end": 25.915,
         "tags": [
           {
             "group": {
@@ -1693,14 +1685,21 @@
             }
           }
         ],
+        "title": "",
         "uploaderId": 11205,
+        "usecaseTitle": "USE CASE X: French ",
         "video": {
-          "id": 92119,
-          "deviceType": "other"
-        },
-        "usecaseTitle": "USE CASE X: French "
+          "deviceType": "other",
+          "id": 92119
+        }
       }
     ],
+    "severity": {
+      "id": 1096,
+      "name": "Major Issue",
+      "style": "#932127"
+    },
+    "title": "Mistone",
     "usecases": [
       {
         "id": 29090,
@@ -1710,85 +1709,78 @@
         "id": 29651,
         "name": "USE CASE X: French "
       }
-    ]
+    ],
+    "visible": 1
   },
   {
-    "id": 12,
-    "title": "dsfd",
     "description": "dfs",
-    "visible": 0,
+    "id": 12,
+    "observations": [
+      {
+        "description": "",
+        "end": 25.915,
+        "id": 21265,
+        "quotes": "voir un récapitulatif, j'imagine, 8=D en cliquant sur suivant. Alors en cliquant",
+        "start": 19.93,
+        "tags": [
+          {
+            "group": {
+              "id": 241,
+              "name": "severity"
+            },
+            "tag": {
+              "id": 1095,
+              "name": "Minor issue",
+              "style": "#955F1D",
+              "usageNumber": 3
+            }
+          },
+          {
+            "group": {
+              "id": 270,
+              "name": "title"
+            },
+            "tag": {
+              "id": 13390,
+              "name": "Home page navigation",
+              "style": "",
+              "usageNumber": 1
+            }
+          }
+        ],
+        "title": "",
+        "uploaderId": 11205,
+        "usecaseTitle": "USE CASE X: French ",
+        "video": {
+          "deviceType": "other",
+          "id": 92119
+        }
+      }
+    ],
     "severity": {
       "id": 1099,
       "name": "Observation",
       "style": "#003A57"
     },
-    "observations": [
-      {
-        "id": 21265,
-        "title": "",
-        "description": "",
-        "quotes": "voir un récapitulatif, j'imagine, 8=D en cliquant sur suivant. Alors en cliquant",
-        "start": 19.93,
-        "end": 25.915,
-        "tags": [
-          {
-            "group": {
-              "id": 241,
-              "name": "severity"
-            },
-            "tag": {
-              "id": 1095,
-              "name": "Minor issue",
-              "style": "#955F1D",
-              "usageNumber": 3
-            }
-          },
-          {
-            "group": {
-              "id": 270,
-              "name": "title"
-            },
-            "tag": {
-              "id": 13390,
-              "name": "Home page navigation",
-              "style": "",
-              "usageNumber": 1
-            }
-          }
-        ],
-        "uploaderId": 11205,
-        "video": {
-          "id": 92119,
-          "deviceType": "other"
-        },
-        "usecaseTitle": "USE CASE X: French "
-      }
-    ],
+    "title": "dsfd",
     "usecases": [
       {
         "id": 29651,
         "name": "USE CASE X: French "
       }
-    ]
+    ],
+    "visible": 0
   },
   {
+    "description": "n",
     "id": 13,
-    "title": "n",
-    "description": "n",
-    "visible": 0,
-    "severity": {
-      "id": 1094,
-      "name": "Positive Finding",
-      "style": "#007D5A"
-    },
     "observations": [
       {
-        "id": 21256,
-        "title": "",
         "description": "",
+        "end": 5.62,
+        "id": 21256,
         "quotes": "che belle quotes modificate a dovere",
         "start": 2,
-        "end": 5.62,
         "tags": [
           {
             "group": {
@@ -1887,39 +1879,39 @@
             }
           }
         ],
+        "title": "",
         "uploaderId": 72768,
+        "usecaseTitle": "USE CASE X: Internal Test (ITA) ",
         "video": {
-          "id": 92098,
-          "deviceType": "pc"
-        },
-        "usecaseTitle": "USE CASE X: Internal Test (ITA) "
+          "deviceType": "pc",
+          "id": 92098
+        }
       }
     ],
+    "severity": {
+      "id": 1094,
+      "name": "Positive Finding",
+      "style": "#007D5A"
+    },
+    "title": "n",
     "usecases": [
       {
         "id": 29090,
         "name": "USE CASE X: Internal Test (ITA) "
       }
-    ]
+    ],
+    "visible": 0
   },
   {
+    "description": "n",
     "id": 14,
-    "title": "n",
-    "description": "n",
-    "visible": 0,
-    "severity": {
-      "id": 1094,
-      "name": "Positive Finding",
-      "style": "#007D5A"
-    },
     "observations": [
       {
-        "id": 21256,
-        "title": "",
         "description": "",
+        "end": 5.62,
+        "id": 21256,
         "quotes": "che belle quotes modificate a dovere",
         "start": 2,
-        "end": 5.62,
         "tags": [
           {
             "group": {
@@ -2018,39 +2010,39 @@
             }
           }
         ],
+        "title": "",
         "uploaderId": 72768,
+        "usecaseTitle": "USE CASE X: Internal Test (ITA) ",
         "video": {
-          "id": 92098,
-          "deviceType": "pc"
-        },
-        "usecaseTitle": "USE CASE X: Internal Test (ITA) "
+          "deviceType": "pc",
+          "id": 92098
+        }
       }
     ],
-    "usecases": [
-      {
-        "id": 29090,
-        "name": "USE CASE X: Internal Test (ITA) "
-      }
-    ]
-  },
-  {
-    "id": 15,
-    "title": "CIAO",
-    "description": "",
-    "visible": 0,
     "severity": {
       "id": 1094,
       "name": "Positive Finding",
       "style": "#007D5A"
     },
+    "title": "n",
+    "usecases": [
+      {
+        "id": 29090,
+        "name": "USE CASE X: Internal Test (ITA) "
+      }
+    ],
+    "visible": 0
+  },
+  {
+    "description": "",
+    "id": 15,
     "observations": [
       {
-        "id": 21266,
-        "title": "",
         "description": "note del \nreas",
+        "end": 48.465,
+        "id": 21266,
         "quotes": "prendre rendez-vous en atelier,",
         "start": 40.719997,
-        "end": 48.465,
         "tags": [
           {
             "group": {
@@ -2113,20 +2105,20 @@
             }
           }
         ],
+        "title": "",
         "uploaderId": 11205,
+        "usecaseTitle": "USE CASE X: French ",
         "video": {
-          "id": 92119,
-          "deviceType": "other"
-        },
-        "usecaseTitle": "USE CASE X: French "
+          "deviceType": "other",
+          "id": 92119
+        }
       },
       {
-        "id": 21272,
-        "title": "",
         "description": "",
+        "end": 8.96,
+        "id": 21272,
         "quotes": "Certo voi direte fin qui tutto ok ma il problema",
         "start": 5.7599998,
-        "end": 8.96,
         "tags": [
           {
             "group": {
@@ -2177,20 +2169,20 @@
             }
           }
         ],
+        "title": "",
         "uploaderId": 72768,
+        "usecaseTitle": "USE CASE X: Internal Test (ITA) ",
         "video": {
-          "id": 92098,
-          "deviceType": "pc"
-        },
-        "usecaseTitle": "USE CASE X: Internal Test (ITA) "
+          "deviceType": "pc",
+          "id": 92098
+        }
       },
       {
-        "id": 21276,
-        "title": "",
         "description": "modificata",
+        "end": 2.491272,
+        "id": 21276,
         "quotes": "ss",
         "start": 0.792919,
-        "end": 2.491272,
         "tags": [
           {
             "group": {
@@ -2229,14 +2221,21 @@
             }
           }
         ],
+        "title": "",
         "uploaderId": 11111,
+        "usecaseTitle": "USE CASE 5: Para cargas en español",
         "video": {
-          "id": 92142,
-          "deviceType": "smartphone"
-        },
-        "usecaseTitle": "USE CASE 5: Para cargas en español"
+          "deviceType": "smartphone",
+          "id": 92142
+        }
       }
     ],
+    "severity": {
+      "id": 1094,
+      "name": "Positive Finding",
+      "style": "#007D5A"
+    },
+    "title": "CIAO",
     "usecases": [
       {
         "id": 29651,
@@ -2250,6 +2249,7 @@
         "id": 29629,
         "name": "USE CASE 5: Para cargas en español"
       }
-    ]
+    ],
+    "visible": 0
   }
 ]
