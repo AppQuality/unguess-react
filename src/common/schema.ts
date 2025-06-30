@@ -343,6 +343,7 @@ export interface paths {
     };
   };
   "/plans/{pid}": {
+    /**  */
     get: operations["get-workspaces-wid-plans-pid"];
     delete: operations["delete-workspaces-wid-plans-pid"];
     patch: operations["patch-workspaces-wid-plans-pid"];
@@ -996,13 +997,6 @@ export interface components {
       type: "elettricity_supply";
       variant: string;
     };
-    /** ModuleGender */
-    ModuleGender: {
-      output: components["schemas"]["OutputModuleGender"];
-      /** @enum {string} */
-      type: "gender";
-      variant: string;
-    };
     /** ModuleEmployment */
     ModuleEmployment: {
       /** @description cuf values of cuf employment */
@@ -1023,6 +1017,13 @@ export interface components {
       output: components["schemas"]["OutputServiceProviders"];
       /** @enum {string} */
       type: "gas_supply";
+      variant: string;
+    };
+    /** ModuleGender */
+    ModuleGender: {
+      output: components["schemas"]["OutputModuleGender"];
+      /** @enum {string} */
+      type: "gender";
       variant: string;
     };
     ModuleGoal: {
@@ -1159,8 +1160,8 @@ export interface components {
     }[];
     /** OutputModuleIncomeRange */
     OutputModuleIncomeRange: {
-      min: number;
       max: number;
+      min: number;
       percentage: number;
     }[];
     /** OutputModuleLiteracy */
@@ -1313,6 +1314,10 @@ export interface components {
         ios?: string;
       };
     };
+    OutputServiceProviders: {
+      isOther?: number;
+      name: string;
+    }[];
     /** PaginationData */
     PaginationData: {
       limit?: number;
@@ -1761,10 +1766,6 @@ export interface components {
       sharedItems?: number;
       tokens: number;
     };
-    OutputServiceProviders: {
-      name: string;
-      isOther?: number;
-    }[];
   };
   responses: {
     /** Shared error response */
@@ -3194,6 +3195,7 @@ export interface operations {
       302: never;
     };
   };
+  /**  */
   "get-workspaces-wid-plans-pid": {
     parameters: {
       path: {
