@@ -2584,8 +2584,8 @@ export type ModuleLocality = {
   variant: string;
 };
 export type OutputServiceProviders = {
-  name: string;
   isOther?: number;
+  name: string;
 }[];
 export type ModuleBank = {
   output: OutputServiceProviders;
@@ -2613,8 +2613,8 @@ export type ModuleGasSupply = {
   variant: string;
 };
 export type OutputModuleIncomeRange = {
-  min: number;
   max: number;
+  min: number;
   percentage: number;
 }[];
 export type ModuleAnnualIncomeRange = {

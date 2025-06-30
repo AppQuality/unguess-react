@@ -16,9 +16,11 @@ import OutOfScope from './modules/OutOfScope';
 import SetupNote from './modules/SetupNote';
 import TargetNote from './modules/TargetNote';
 import TargetSize from './modules/TargetSize';
+import InternetMobileProviders from './modules/InternetMobile';
 import { Tasks } from './modules/Tasks';
 import { Title } from './modules/Title';
 import { TouchPoints } from './modules/Touchpoints';
+import InternetHomeProviders from './modules/InternetHome';
 
 export const MODULES_BY_TAB = {
   setup: ['setup_note', 'goal', 'touchpoints', 'browser'],
@@ -35,6 +37,8 @@ export const MODULES_BY_TAB = {
     'additional_target',
     'bank',
     'elettricity_supply',
+    'mobile_internet',
+    'home_internet',
   ],
   instructions: ['instruction_note', 'tasks', 'out_of_scope'],
 };
@@ -59,8 +63,8 @@ export const modulesMap = {
   additional_target: AdditionalTarget,
   locality: Locality,
   elettricity_supply: ElectricityProviders, // Placeholder for future module
-  mobile_internet: () => null, // Placeholder for future module
-  home_internet: () => null, // Placeholder for future module
+  mobile_internet: InternetMobileProviders,
+  home_internet: InternetHomeProviders,
   gas_supply: () => null, // Placeholder for future module
   annual_income_range: Income, // Placeholder for future module
   bank: Bank,
