@@ -2,6 +2,7 @@ import { getColor } from '@appquality/unguess-design-system';
 import { ReactComponent as BrowserIcon } from '@zendeskgarden/svg-icons/src/16/globe-fill.svg';
 import { ReactComponent as LocationIcon } from '@zendeskgarden/svg-icons/src/16/location-fill.svg';
 import { ReactComponent as PlugIcon } from '@zendeskgarden/svg-icons/src/16/plug-fill.svg';
+import { ReactComponent as GasIcon } from 'src/assets/icons/gas_module_icon.svg';
 import { shallowEqual } from 'react-redux';
 import { useAppSelector } from 'src/app/hooks';
 import { appTheme } from 'src/app/theme';
@@ -103,7 +104,7 @@ const getIconFromModuleType = (
     case 'home_internet':
       return <HomeInternetIcon color={color} />;
     case 'gas_supply':
-      return <PlugIcon color={color} />; // Use PlugIcon for gas, or replace with a gas icon if available
+      return <GasIcon color={color} />;
     case 'title':
     case 'dates':
     default:
