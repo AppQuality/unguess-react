@@ -2,23 +2,35 @@ import { ElectricityProvidersType } from './types';
 
 export const defaultElectricityProviders: ElectricityProvidersType[] = [
   {
-    name: 'Intesa San Paolo',
+    name: 'Enel Energia',
     isOther: 0,
   },
   {
-    name: 'Poste Italiane',
+    name: 'Servizio Elettrico Nazionale',
     isOther: 0,
   },
   {
-    name: 'Unicredit',
+    name: 'A2A Energia',
     isOther: 0,
   },
   {
-    name: 'ING',
+    name: 'Sorgenia',
     isOther: 0,
   },
   {
-    name: 'Fineco',
+    name: 'ACEA Energia',
+    isOther: 0,
+  },
+  {
+    name: 'Edison Energia',
+    isOther: 0,
+  },
+  {
+    name: 'Eni Energia',
+    isOther: 0,
+  },
+  {
+    name: 'Eni Plenitude',
     isOther: 0,
   },
   { name: 'Other providers', isOther: 1 },
