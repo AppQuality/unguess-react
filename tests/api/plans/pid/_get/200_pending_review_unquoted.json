@@ -141,6 +141,20 @@
       {
         "output": [
           {
+            "isOther": 0,
+            "name": "Enel Energia"
+          },
+          {
+            "isOther": 1,
+            "name": "Other Energia"
+          }
+        ],
+        "type": "elettricity_supply",
+        "variant": "default"
+      },
+      {
+        "output": [
+          {
             "type": "country",
             "values": ["IT"]
           },
