@@ -233,7 +233,7 @@ export const useModule = <T extends components['schemas']['Module']['type']>(
           variant: 'default',
           output: [],
         };
-      case 'elettricity_supply':
+      case 'gas_supply':
         return {
           type,
           variant: 'default',
