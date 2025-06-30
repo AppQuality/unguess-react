@@ -6,7 +6,7 @@ import { FormikHelpers } from 'formik';
 import styled from 'styled-components';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useAppSelector } from 'src/app/hooks';
-import { GoogleTagManager } from 'src/common/GoogleTagManager';
+import { Track } from 'src/common/Track';
 import { LoginFormFields } from './type';
 
 const StyledLogo = styled(Logo)`
@@ -123,12 +123,12 @@ const LoginPage = () => {
   };
 
   return (
-    <GoogleTagManager title={t('__PAGE_TITLE_LOGIN')}>
+    <Track title={t('__PAGE_TITLE_LOGIN')}>
       <CenteredXYContainer>
         <StyledLogo type="vertical" size={200} />
         <LoginForm {...defaultArgs} />
       </CenteredXYContainer>
-    </GoogleTagManager>
+    </Track>
   );
 };
 
