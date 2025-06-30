@@ -20,6 +20,7 @@ import { ReactComponent as EmploymentIcon } from 'src/assets/icons/work.svg';
 import { ReactComponent as OutOfScopeIcon } from 'src/assets/icons/x-circle.svg';
 import { ReactComponent as BankIcon } from '@zendeskgarden/svg-icons/src/16/credit-card-stroke.svg';
 import { ReactComponent as PhoneIcon } from '@zendeskgarden/svg-icons/src/16/phone-fill.svg';
+import { ReactComponent as HomeInternetIcon } from 'src/assets/icons/home-internet.svg';
 import { components } from 'src/common/schema';
 
 const getIconColor = (module_type: components['schemas']['Module']['type']) => {
@@ -99,6 +100,8 @@ const getIconFromModuleType = (
       return <PlugIcon color={color} />;
     case 'mobile_internet':
       return <PhoneIcon color={color} />;
+    case 'home_internet':
+      return <HomeInternetIcon color={color} />;
     case 'title':
     case 'dates':
     default:
