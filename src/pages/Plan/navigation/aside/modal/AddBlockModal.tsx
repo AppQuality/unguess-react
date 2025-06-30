@@ -55,6 +55,7 @@ const AddBlockModal = () => {
       onClose={() => setModalRef(null)}
       placement="top-start"
       hasArrow={false}
+      appendToNode={document.body}
     >
       <TooltipModal.Title>
         <MD isBold>{t('__PLAN_PAGE_ADD_MODULE_BLOCK_MODAL_TITLE')}</MD>
@@ -62,7 +63,7 @@ const AddBlockModal = () => {
           {t('__PLAN_PAGE_ADD_MODULE_BLOCK_MODAL_SUBTITLE')}
         </SM>
       </TooltipModal.Title>
-      <TooltipModal.Body>
+      <TooltipModal.Body style={{ maxHeight: '75vh', overflowY: 'auto' }}>
         <ButtonsContainer>
           {items.map((item) => (
             <AddBlockModalItem key={item.type} item={item} />
