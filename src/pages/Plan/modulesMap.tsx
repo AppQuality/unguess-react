@@ -21,6 +21,7 @@ import { Tasks } from './modules/Tasks';
 import { Title } from './modules/Title';
 import { TouchPoints } from './modules/Touchpoints';
 import InternetHomeProviders from './modules/InternetHome';
+import GasProviders from './modules/Gas';
 
 export const MODULES_BY_TAB = {
   setup: ['setup_note', 'goal', 'touchpoints', 'browser'],
@@ -39,6 +40,7 @@ export const MODULES_BY_TAB = {
     'elettricity_supply',
     'mobile_internet',
     'home_internet',
+    'gas_supply',
   ],
   instructions: ['instruction_note', 'tasks', 'out_of_scope'],
 };
@@ -65,7 +67,7 @@ export const modulesMap = {
   elettricity_supply: ElectricityProviders, // Placeholder for future module
   mobile_internet: InternetMobileProviders,
   home_internet: InternetHomeProviders,
-  gas_supply: () => null, // Placeholder for future module
+  gas_supply: GasProviders,
   annual_income_range: Income, // Placeholder for future module
   bank: Bank,
 };

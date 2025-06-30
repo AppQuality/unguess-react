@@ -102,6 +102,8 @@ const getIconFromModuleType = (
       return <PhoneIcon color={color} />;
     case 'home_internet':
       return <HomeInternetIcon color={color} />;
+    case 'gas_supply':
+      return <PlugIcon color={color} />; // Use PlugIcon for gas, or replace with a gas icon if available
     case 'title':
     case 'dates':
     default:

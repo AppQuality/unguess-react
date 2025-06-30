@@ -53,6 +53,8 @@ const getTitleFromModuleType = (
       return t('__PLAN_PAGE_MODULE_INTERNET_MOBILE_LABEL');
     case 'home_internet':
       return t('__PLAN_PAGE_MODULE_INTERNET_HOME_LABEL');
+    case 'gas_supply':
+      return t('__PLAN_PAGE_MODULE_GAS_LABEL');
     default:
       return '';
   }
