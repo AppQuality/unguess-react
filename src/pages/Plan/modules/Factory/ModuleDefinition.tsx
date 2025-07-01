@@ -19,6 +19,7 @@ export interface ModuleDefinition<T extends Slug> {
   defaultVariant: ModuleSchemaMap[T]['variant'];
   defaultData: ModuleSchemaMap[T]['output'];
   tab: PlanTab | 'none';
+  priority?: number;
 }
 
 type InferModuleDefinition<S extends Slug> = ModuleDefinition<S> & {
@@ -28,5 +29,5 @@ type InferModuleDefinition<S extends Slug> = ModuleDefinition<S> & {
 export function createModuleDefinition<S extends Slug>(
   def: InferModuleDefinition<S>
 ): InferModuleDefinition<S> {
-  return def;
+  return { ...def, priority: def.priority ?? 0 };
 }

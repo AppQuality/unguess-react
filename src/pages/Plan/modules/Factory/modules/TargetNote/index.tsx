@@ -13,4 +13,5 @@ export const TargetNoteModule = createModuleDefinition({
   defaultData: '',
   defaultVariant: 'default',
   tab: 'target',
+  priority: 1000,
 });

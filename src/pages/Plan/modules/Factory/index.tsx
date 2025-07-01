@@ -70,5 +70,6 @@ export function getModulesByTab(
 ): ModuleDefinition<components['schemas']['Module']['type']>['slug'][] {
   return Object.values(modules)
     .filter((module) => module.tab === tab)
+    .sort((a, b) => (b.priority ?? 0) - (a.priority ?? 0))
     .map((m) => m.slug);
 }

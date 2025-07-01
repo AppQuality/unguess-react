@@ -13,4 +13,5 @@ export const SetupNoteModule = createModuleDefinition({
   defaultData: '',
   defaultVariant: 'default',
   tab: 'setup',
+  priority: 1000,
 });

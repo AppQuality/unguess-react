@@ -13,4 +13,5 @@ export const InstructionNoteModule = createModuleDefinition({
   defaultData: '',
   defaultVariant: 'default',
   tab: 'instructions',
+  priority: 1000,
 });
