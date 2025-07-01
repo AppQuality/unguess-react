@@ -1,13 +1,13 @@
-import { ReactComponent as NotificationIcon } from 'src/assets/icons/notification.svg';
+import { ReactComponent as OutOfScopeIcon } from 'src/assets/icons/x-circle.svg';
 import useIconColor from '../../useIconColor';
 
 const useIcon = (withValidation: boolean = true) => {
   const color = useIconColor({
-    module_type: 'instruction_note',
+    module_type: 'out_of_scope',
     withValidation,
   });
 
-  return <NotificationIcon color={color} />;
+  return <OutOfScopeIcon color={color} />;
 };
 
 export const useIconWithValidation = () => useIcon(true);

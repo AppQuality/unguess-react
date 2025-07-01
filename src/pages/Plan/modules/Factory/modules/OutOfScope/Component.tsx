@@ -2,23 +2,24 @@ import {
   AccordionNew,
   Button,
   FormField,
-  Input,
   Label,
   SM,
   Span,
+  Textarea,
 } from '@appquality/unguess-design-system';
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as AlertIcon } from 'src/assets/icons/alert-icon.svg';
+import { ReactComponent as InfoIcon } from 'src/assets/icons/info-icon.svg';
 import { ReactComponent as TrashIcon } from 'src/assets/icons/trash-stroke.svg';
 import { components } from 'src/common/schema';
 import { useModule } from 'src/features/modules/useModule';
 import { useModuleConfiguration } from 'src/features/modules/useModuleConfiguration';
 import { useValidation } from 'src/features/modules/useModuleValidation';
+import { DeleteModuleConfirmationModal } from 'src/pages/Plan/modules/modal/DeleteModuleConfirmationModal';
 import styled from 'styled-components';
-import { getIconFromModuleType } from '../utils';
-import { DeleteModuleConfirmationModal } from './modal/DeleteModuleConfirmationModal';
+import { useIconWithValidation } from './useIcon';
 
 const StyledInfoBox = styled.div`
   display: flex;
@@ -27,41 +28,33 @@ const StyledInfoBox = styled.div`
   gap: ${appTheme.space.xxs};
 `;
 
-const TargetSize = () => {
-  const { value, setOutput, remove } = useModule('target');
-  const { t } = useTranslation();
+const OutOfScope = () => {
+  const { value, setOutput, remove } = useModule('out_of_scope');
   const { getPlanStatus } = useModuleConfiguration();
-  const [currentValue, setCurrentValue] = useState<string | undefined>(
-    value?.output.toString()
-  );
+  const { t } = useTranslation();
   const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false);
+  const Icon = useIconWithValidation();
 
-  useEffect(() => {
-    setOutput(Number(currentValue));
-  }, [currentValue]);
   const validation = (
-    module: components['schemas']['Module'] & { type: 'target' }
+    module: components['schemas']['Module'] & { type: 'out_of_scope' }
   ) => {
     let error;
-    if (!module.output) {
-      error = t('__PLAN_TARGET_SIZE_ERROR_REQUIRED');
-    }
-    if (module.output < 1) {
-      error = t('__PLAN_TARGET_SIZE_ERROR_REQUIRED');
+    if (module.output.length > 512) {
+      error = t('__PLAN_OUT_OF_SCOPE_SIZE_ERROR_TOO_LONG');
     }
     return error || true;
   };
 
   const { error, validate } = useValidation({
-    type: 'target',
+    type: 'out_of_scope',
     validate: validation,
   });
   const handleBlur = () => {
     validate();
   };
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     const inputValue = e.target.value;
-    setCurrentValue(inputValue);
+    setOutput(inputValue);
   };
 
   const handleDelete = () => {
@@ -71,14 +64,16 @@ const TargetSize = () => {
   return (
     <>
       <AccordionNew
-        data-qa="target-module"
+        data-qa="out-of-scope-module"
         level={3}
         hasBorder
         type={error ? 'danger' : 'default'}
       >
         <AccordionNew.Section>
-          <AccordionNew.Header icon={getIconFromModuleType('target')}>
-            <AccordionNew.Label label={t('__PLAN_PAGE_MODULE_TARGET_TITLE')} />
+          <AccordionNew.Header icon={Icon}>
+            <AccordionNew.Label
+              label={t('__PLAN_PAGE_MODULE_OUT_OF_SCOPE_TITLE')}
+            />
             {getPlanStatus() === 'draft' && (
               <AccordionNew.Meta>
                 <Button
@@ -92,39 +87,49 @@ const TargetSize = () => {
                   <Button.StartIcon>
                     <TrashIcon />
                   </Button.StartIcon>
-                  {t('__PLAN_PAGE_MODULE_TARGET_REMOVE_BUTTON')}
+                  {t('__PLAN_PAGE_MODULE_OUT_OF_SCOPE_REMOVE_BUTTON')}
                 </Button>
               </AccordionNew.Meta>
             )}
           </AccordionNew.Header>
           <AccordionNew.Panel>
             <div style={{ padding: appTheme.space.xs }}>
-              <FormField>
+              <FormField style={{ marginBottom: appTheme.space.md }}>
                 <Label>
-                  <Trans i18nKey="__PLAN_PAGE_MODULE_TARGET_LABEL">
-                    Enter the number of users you want to include
+                  <Trans i18nKey="__PLAN_PAGE_MODULE_OUT_OF_SCOPE_LABEL">
+                    Describe the areas excluded from the activity
                   </Trans>
-                  <Span style={{ color: appTheme.palette.red[700] }}>*</Span>
+                  <Span style={{ color: appTheme.palette.grey[600] }}>
+                    (optional)
+                  </Span>
                 </Label>
-                <Input
+                <Textarea
                   readOnly={getPlanStatus() !== 'draft'}
-                  data-qa="target-input"
-                  type="number"
-                  value={currentValue}
+                  data-qa="out-of-scope-input"
+                  isResizable
+                  value={value?.output || ''}
                   onChange={handleChange}
                   onBlur={handleBlur}
                   validation={error ? 'error' : undefined}
-                  placeholder={t('__PLAN_PAGE_MODULE_TARGET_PLACEHOLDER')}
+                  placeholder={t('__PLAN_PAGE_MODULE_OUT_OF_SCOPE_PLACEHOLDER')}
+                  minRows={6}
                 />
                 <StyledInfoBox>
-                  {error && typeof error === 'string' && (
+                  {error && typeof error === 'string' ? (
                     <>
                       <AlertIcon />
                       <SM
                         style={{ color: appTheme.components.text.dangerColor }}
-                        data-qa="target-error"
+                        data-qa="out-of-scope-error"
                       >
                         {error}
+                      </SM>
+                    </>
+                  ) : (
+                    <>
+                      <InfoIcon />
+                      <SM style={{ color: appTheme.palette.grey[600] }}>
+                        {t('__PLAN_PAGE_MODULE_OUT_OF_SCOPE_INFO')}
                       </SM>
                     </>
                   )}
@@ -144,4 +149,4 @@ const TargetSize = () => {
   );
 };
 
-export default TargetSize;
+export default OutOfScope;

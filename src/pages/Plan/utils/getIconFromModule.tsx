@@ -8,11 +8,8 @@ import { useAppSelector } from 'src/app/hooks';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as GasIcon } from 'src/assets/icons/gas_module_icon.svg';
 import { ReactComponent as HomeInternetIcon } from 'src/assets/icons/home-internet.svg';
-import { ReactComponent as LanguageIcon } from 'src/assets/icons/languages.svg';
 import { ReactComponent as LiteracyIcon } from 'src/assets/icons/literacy-icon.svg';
 import { ReactComponent as TouchpointsIcon } from 'src/assets/icons/touchpoints-icon.svg';
-import { ReactComponent as TargetIcon } from 'src/assets/icons/user-follow.svg';
-import { ReactComponent as OutOfScopeIcon } from 'src/assets/icons/x-circle.svg';
 import { components } from 'src/common/schema';
 import { getModuleBySlug } from '../modules/Factory';
 
@@ -59,14 +56,8 @@ const getIconFromModuleType = (
     : getColor(appTheme.colors.primaryHue, 600);
 
   switch (type) {
-    case 'language':
-      return <LanguageIcon color={color} />;
     case 'literacy':
       return <LiteracyIcon color={color} />;
-    case 'out_of_scope':
-      return <OutOfScopeIcon color={color} />;
-    case 'target':
-      return <TargetIcon color={color} />;
     case 'touchpoints':
       return <TouchpointsIcon color={color} />;
     case 'locality':

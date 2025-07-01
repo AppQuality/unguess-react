@@ -1,13 +1,13 @@
-import { ReactComponent as NotificationIcon } from 'src/assets/icons/notification.svg';
+import { ReactComponent as LanguageIcon } from 'src/assets/icons/languages.svg';
 import useIconColor from '../../useIconColor';
 
 const useIcon = (withValidation: boolean = true) => {
   const color = useIconColor({
-    module_type: 'instruction_note',
+    module_type: 'language',
     withValidation,
   });
 
-  return <NotificationIcon color={color} />;
+  return <LanguageIcon color={color} />;
 };
 
 export const useIconWithValidation = () => useIcon(true);

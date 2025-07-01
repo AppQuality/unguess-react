@@ -18,12 +18,6 @@ export const getConfig = <L extends components['schemas']['Module']['type']>(
           start: '',
         },
       } as ModuleByType<L>;
-    case 'out_of_scope':
-      return {
-        type,
-        variant: 'default',
-        output: '',
-      } as ModuleByType<L>;
     case 'title':
       return {
         type,
@@ -40,12 +34,6 @@ export const getConfig = <L extends components['schemas']['Module']['type']>(
           { level: 'expert', percentage: 33.33 },
         ],
       } as ModuleByType<L>;
-    case 'language':
-      return {
-        type,
-        variant: 'default',
-        output: 'en',
-      } as ModuleByType<L>;
     case 'locality':
       return {
         type,
@@ -56,12 +44,6 @@ export const getConfig = <L extends components['schemas']['Module']['type']>(
             values: ['IT'],
           },
         ],
-      } as ModuleByType<L>;
-    case 'target':
-      return {
-        type,
-        variant: 'default',
-        output: 5,
       } as ModuleByType<L>;
     case 'touchpoints':
       return {

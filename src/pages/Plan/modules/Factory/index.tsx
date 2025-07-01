@@ -8,6 +8,7 @@ import { GenderModule } from './modules/Gender';
 import { GoalModule } from './modules/Goal';
 import { IncomeModule } from './modules/IncomeModule';
 import { InstructionNoteModule } from './modules/InstructionNote';
+import { OutOfScopeModule } from './modules/OutOfScope';
 import { SetupNoteModule } from './modules/SetupNote';
 import { TargetNoteModule } from './modules/TargetNote';
 import { TasksModule } from './modules/Tasks';
@@ -27,6 +28,8 @@ const modules: Record<
   [SetupNoteModule.slug]: SetupNoteModule,
   [TargetNoteModule.slug]: TargetNoteModule,
   [InstructionNoteModule.slug]: InstructionNoteModule,
+  [OutOfScopeModule.slug]: OutOfScopeModule,
+  [TargetNoteModule.slug]: TargetNoteModule,
 };
 
 export function getModuleBySlug(

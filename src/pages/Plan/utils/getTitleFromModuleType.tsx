@@ -22,12 +22,6 @@ const getTitleFromModuleType = (
       return t('__PLAN_PAGE_MODULE_LOCALITY_TITLE');
     case 'literacy':
       return t('__PLAN_PAGE_MODULE_DIGITAL_LITERACY_ACCORDION_LABEL');
-    case 'out_of_scope':
-      return t('__PLAN_PAGE_MODULE_OUT_OF_SCOPE_TITLE');
-    case 'target':
-      return t('__PLAN_PAGE_MODULE_TARGET_TITLE');
-    case 'title':
-      return t('__PLAN_PAGE_MODULE_TITLE_BLOCK_TITLE');
     case 'touchpoints':
       return t('__PLAN_PAGE_MODULE_TOUCHPOINTS_TITLE');
     case 'bank':

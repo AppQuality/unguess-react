@@ -1,13 +1,13 @@
-import { ReactComponent as NotificationIcon } from 'src/assets/icons/notification.svg';
+import { ReactComponent as TargetIcon } from 'src/assets/icons/user-follow.svg';
 import useIconColor from '../../useIconColor';
 
 const useIcon = (withValidation: boolean = true) => {
   const color = useIconColor({
-    module_type: 'instruction_note',
+    module_type: 'target',
     withValidation,
   });
 
-  return <NotificationIcon color={color} />;
+  return <TargetIcon color={color} />;
 };
 
 export const useIconWithValidation = () => useIcon(true);
