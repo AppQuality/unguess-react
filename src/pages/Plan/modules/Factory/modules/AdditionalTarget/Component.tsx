@@ -16,9 +16,9 @@ import { components } from 'src/common/schema';
 import { useModule } from 'src/features/modules/useModule';
 import { useModuleConfiguration } from 'src/features/modules/useModuleConfiguration';
 import { useValidation } from 'src/features/modules/useModuleValidation';
+import { DeleteModuleConfirmationModal } from 'src/pages/Plan/modules/modal/DeleteModuleConfirmationModal';
 import styled from 'styled-components';
-import { getIconFromModuleType } from '../utils';
-import { DeleteModuleConfirmationModal } from './modal/DeleteModuleConfirmationModal';
+import { useIconWithValidation } from './useIcon';
 
 const StyledCard = styled(Card)`
   display: flex;
@@ -43,6 +43,7 @@ const AdditionalTarget = () => {
   const { getPlanStatus } = useModuleConfiguration();
   const { t } = useTranslation();
   const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false);
+  const Icon = useIconWithValidation();
 
   const validation = (
     module: components['schemas']['ModuleAdditionalTarget']
@@ -82,7 +83,7 @@ const AdditionalTarget = () => {
               gap: appTheme.space.xs,
             }}
           >
-            {getIconFromModuleType('additional_target', true)}
+            {Icon}
             <Label>{t('__PLAN_PAGE_MODULE_ADDITIONAL_TARGET_TITLE')}</Label>
           </div>
           {getPlanStatus() === 'draft' && (

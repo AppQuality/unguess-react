@@ -70,38 +70,6 @@ export const useModule = <T extends components['schemas']['Module']['type']>(
           variant: 'default',
           output: '',
         } as ModuleByType<L>;
-      case 'age':
-        return {
-          type,
-          variant: 'default',
-          output: [
-            {
-              min: 16,
-              max: 17,
-              percentage: 0,
-            },
-            {
-              min: 18,
-              max: 24,
-              percentage: 0,
-            },
-            {
-              min: 25,
-              max: 34,
-              percentage: 0,
-            },
-            {
-              min: 35,
-              max: 54,
-              percentage: 0,
-            },
-            {
-              min: 55,
-              max: 70,
-              percentage: 0,
-            },
-          ],
-        } as ModuleByType<L>;
       case 'gender':
         return {
           type,
@@ -144,17 +112,6 @@ export const useModule = <T extends components['schemas']['Module']['type']>(
           variant: 'default',
           output: 5,
         } as ModuleByType<L>;
-      case 'browser':
-        return {
-          type,
-          variant: 'default',
-          output: [
-            { name: 'chrome', percentage: 25 },
-            { name: 'firefox', percentage: 25 },
-            { name: 'safari', percentage: 25 },
-            { name: 'edge', percentage: 25 },
-          ],
-        } as ModuleByType<L>;
       case 'setup_note':
         return {
           type,
@@ -178,18 +135,6 @@ export const useModule = <T extends components['schemas']['Module']['type']>(
           type,
           variant: 'default',
           output: [] as ModuleByType<'touchpoints'>['output'],
-        } as ModuleByType<L>;
-      case 'additional_target':
-        return {
-          type,
-          variant: 'default',
-          output: '',
-        } as ModuleByType<L>;
-      case 'employment':
-        return {
-          type,
-          variant: 'default',
-          output: [] as ModuleByType<'employment'>['output'],
         } as ModuleByType<L>;
       case 'bank':
         return {

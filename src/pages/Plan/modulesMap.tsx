@@ -1,10 +1,6 @@
-import AdditionalTarget from './modules/AdditionalTarget';
-import Age from './modules/Age';
 import Bank from './modules/Bank';
-import Browser from './modules/Browser';
 import { Dates } from './modules/Dates';
 import ElectricityProviders from './modules/Electricity';
-import Employment from './modules/Employment';
 import { getModuleBySlug, getModulesByTab } from './modules/Factory';
 import GasProviders from './modules/Gas';
 import Gender from './modules/Gender';
@@ -22,17 +18,14 @@ import { Title } from './modules/Title';
 import { TouchPoints } from './modules/Touchpoints';
 
 export const MODULES_BY_TAB = {
-  setup: ['setup_note', 'touchpoints', 'browser', ...getModulesByTab('setup')],
+  setup: ['setup_note', 'touchpoints', ...getModulesByTab('setup')],
   target: [
     'target_note',
     'target',
     'language',
     'gender',
-    'age',
-    'employment',
     'literacy',
     'locality',
-    'additional_target',
     'bank',
     'elettricity_supply',
     'mobile_internet',
@@ -52,19 +45,19 @@ export const modulesMap = {
   title: Title,
   tasks: getModuleBySlug('tasks').Component,
   dates: Dates,
-  age: Age,
+  age: getModuleBySlug('age').Component,
   goal: getModuleBySlug('goal').Component,
   target_note: TargetNote,
   target: TargetSize,
   language: Language,
   gender: Gender,
-  employment: Employment,
+  employment: getModuleBySlug('employment').Component,
   literacy: Literacy,
   instruction_note: InstructionsNote,
   out_of_scope: OutOfScope,
-  browser: Browser,
+  browser: getModuleBySlug('browser').Component,
   touchpoints: TouchPoints,
-  additional_target: AdditionalTarget,
+  additional_target: getModuleBySlug('additional_target').Component,
   locality: Locality,
   elettricity_supply: ElectricityProviders, // Placeholder for future module
   mobile_internet: InternetMobileProviders,

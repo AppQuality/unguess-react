@@ -17,8 +17,7 @@ const getSubtitleFromModuleType = (
   switch (type) {
     case 'dates':
       return t('__ASIDE_NAVIGATION_MODULE_DATES_BLOCK_SUBTITLE');
-    case 'age':
-      return t('__ASIDE_NAVIGATION_MODULE_AGE_SUBTITLE');
+
     case 'gender':
       return t('__ASIDE_NAVIGATION_MODULE_GENDER_ACCORDION_SUBTITLE');
     case 'language':
@@ -39,13 +38,8 @@ const getSubtitleFromModuleType = (
       return t('__ASIDE_NAVIGATION_MODULE_SETUP_NOTE_BLOCK_SUBTITLE');
     case 'instruction_note':
       return t('__ASIDE_NAVIGATION_MODULE_INSTRUCTIONS_NOTE_BLOCK_SUBTITLE');
-    case 'browser':
-      return t('__ASIDE_NAVIGATION_MODULE_BROWSER_SUBTITLE');
     case 'touchpoints':
       return t('__ASIDE_NAVIGATION_MODULE_TOUCHPOINTS_SUBTITLE');
-    case 'additional_target':
-      return t('__ASIDE_NAVIGATION_MODULE_ADDITIONAL_TARGET_SUBTITLE');
-    case 'employment':
     default:
       return subtitle || '';
   }

@@ -16,8 +16,8 @@ import { components } from 'src/common/schema';
 import { useModule } from 'src/features/modules/useModule';
 import { useModuleConfiguration } from 'src/features/modules/useModuleConfiguration';
 import { useValidation } from 'src/features/modules/useModuleValidation';
-import { getIconFromModuleType } from '../utils';
-import { DeleteModuleConfirmationModal } from './modal/DeleteModuleConfirmationModal';
+import { DeleteModuleConfirmationModal } from 'src/pages/Plan/modules/modal/DeleteModuleConfirmationModal';
+import { useIconWithValidation } from './useIcon';
 
 const Age = () => {
   type AgeRange = {
@@ -30,6 +30,7 @@ const Age = () => {
   const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false);
   const { value, setOutput, remove } = useModule('age');
   const { t } = useTranslation();
+  const Icon = useIconWithValidation();
   const validation = (
     module: components['schemas']['Module'] & { type: 'age' }
   ) => {
@@ -114,7 +115,7 @@ const Age = () => {
         level={3}
       >
         <AccordionNew.Section>
-          <AccordionNew.Header icon={getIconFromModuleType('age')}>
+          <AccordionNew.Header icon={Icon}>
             <AccordionNew.Label label={t('__PLAN_PAGE_MODULE_AGE_LABEL')} />
             {getPlanStatus() === 'draft' && (
               <AccordionNew.Meta>

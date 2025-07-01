@@ -16,8 +16,6 @@ const getTitleFromModuleType = (
   switch (type) {
     case 'dates':
       return t('__PLAN_PAGE_MODULE_DATES_BLOCK_TITLE');
-    case 'age':
-      return t('__PLAN_PAGE_MODULE_AGE_LABEL');
     case 'gender':
       return t('__PLAN_PAGE_MODULE_GENDER_ACCORDION_LABEL');
     case 'language':
@@ -38,14 +36,8 @@ const getTitleFromModuleType = (
       return t('__PLAN_PAGE_MODULE_SETUP_NOTE_BLOCK_TITLE');
     case 'instruction_note':
       return t('__PLAN_PAGE_MODULE_INSTRUCTIONS_NOTE_BLOCK_TITLE');
-    case 'browser':
-      return t('__PLAN_PAGE_MODULE_BROWSER_LABEL');
     case 'touchpoints':
       return t('__PLAN_PAGE_MODULE_TOUCHPOINTS_TITLE');
-    case 'additional_target':
-      return t('__PLAN_PAGE_MODULE_ADDITIONAL_TARGET_TITLE');
-    case 'employment':
-      return t('__PLAN_PAGE_MODULE_EMPLOYMENT_TITLE');
     case 'bank':
       return t('__PLAN_PAGE_MODULE_BANK_LABEL');
     case 'elettricity_supply':

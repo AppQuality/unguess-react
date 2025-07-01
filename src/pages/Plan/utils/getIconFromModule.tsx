@@ -1,14 +1,11 @@
 import { getColor } from '@appquality/unguess-design-system';
 import { ReactComponent as BankIcon } from '@zendeskgarden/svg-icons/src/16/credit-card-stroke.svg';
-import { ReactComponent as BrowserIcon } from '@zendeskgarden/svg-icons/src/16/globe-fill.svg';
 import { ReactComponent as LocationIcon } from '@zendeskgarden/svg-icons/src/16/location-fill.svg';
 import { ReactComponent as PhoneIcon } from '@zendeskgarden/svg-icons/src/16/phone-fill.svg';
 import { ReactComponent as PlugIcon } from '@zendeskgarden/svg-icons/src/16/plug-fill.svg';
 import { shallowEqual } from 'react-redux';
 import { useAppSelector } from 'src/app/hooks';
 import { appTheme } from 'src/app/theme';
-import { ReactComponent as AdditionalTargetIcon } from 'src/assets/icons/additional-target-icon.svg';
-import { ReactComponent as AgeIcon } from 'src/assets/icons/cake-icon-fill.svg';
 import { ReactComponent as GasIcon } from 'src/assets/icons/gas_module_icon.svg';
 import { ReactComponent as GenderIcon } from 'src/assets/icons/gender-icon.svg';
 import { ReactComponent as HomeInternetIcon } from 'src/assets/icons/home-internet.svg';
@@ -17,7 +14,6 @@ import { ReactComponent as LiteracyIcon } from 'src/assets/icons/literacy-icon.s
 import { ReactComponent as NotificationIcon } from 'src/assets/icons/notification.svg';
 import { ReactComponent as TouchpointsIcon } from 'src/assets/icons/touchpoints-icon.svg';
 import { ReactComponent as TargetIcon } from 'src/assets/icons/user-follow.svg';
-import { ReactComponent as EmploymentIcon } from 'src/assets/icons/work.svg';
 import { ReactComponent as OutOfScopeIcon } from 'src/assets/icons/x-circle.svg';
 import { components } from 'src/common/schema';
 import { getModuleBySlug } from '../modules/Factory';
@@ -65,8 +61,6 @@ const getIconFromModuleType = (
     : getColor(appTheme.colors.primaryHue, 600);
 
   switch (type) {
-    case 'age':
-      return <AgeIcon color={color} />;
     case 'gender':
       return <GenderIcon color={color} />;
     case 'language':
@@ -77,8 +71,6 @@ const getIconFromModuleType = (
       return <OutOfScopeIcon color={color} />;
     case 'target':
       return <TargetIcon color={color} />;
-    case 'browser':
-      return <BrowserIcon color={color} />;
     case 'setup_note':
       return <NotificationIcon color={color} />;
     case 'instruction_note':
@@ -87,10 +79,6 @@ const getIconFromModuleType = (
       return <NotificationIcon color={color} />;
     case 'touchpoints':
       return <TouchpointsIcon color={color} />;
-    case 'additional_target':
-      return <AdditionalTargetIcon color={color} />;
-    case 'employment':
-      return <EmploymentIcon color={color} />;
     case 'locality':
       return <LocationIcon color={color} />;
     case 'bank':
