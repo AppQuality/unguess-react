@@ -72,13 +72,14 @@ const NavItem = ({
   const { t } = useTranslation();
   const { errors } = useAppSelector((state) => state.planModules);
 
+  const titleType = getTitleFromModuleType(type);
+  const oldSubtitle = getSubtitleFromModuleType(type);
+
   const hasErrors =
     (errors &&
       typeof errors === 'object' &&
       Object.keys(errors).some((key) => key.startsWith(type))) ??
     false;
-
-  const titleType = getTitleFromModuleType(type);
 
   return (
     <NavItemLink
@@ -112,7 +113,7 @@ const NavItem = ({
                 <Ellipsis title={titleType}>{titleType}</Ellipsis>
               </MD>
               <SM style={{ color: appTheme.palette.grey[600] }}>
-                <Span>{getSubtitleFromModuleType(type)}</Span>
+                <Span>{oldSubtitle}</Span>
               </SM>
             </div>
             {children && children}

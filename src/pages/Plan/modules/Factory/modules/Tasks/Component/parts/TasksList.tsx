@@ -8,17 +8,17 @@ import {
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
-import { ReactComponent as TasksIcon } from 'src/assets/icons/tasks-icon.svg';
 import { FEATURE_FLAG_CHANGE_MODULES_VARIANTS } from 'src/constants';
 import { useModule } from 'src/features/modules/useModule';
 import { useModuleConfiguration } from 'src/features/modules/useModuleConfiguration';
 import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
+import { DeleteModuleConfirmationModal } from 'src/pages/Plan/modules/modal/DeleteModuleConfirmationModal';
 import styled from 'styled-components';
-import { DeleteModuleConfirmationModal } from '../../modal/DeleteModuleConfirmationModal';
+import { useIconWithValidation } from '../../useIcon';
 import { useModuleTasks } from '../hooks';
 import { AddTaskButton } from './AddTaskButton';
-import { TaskItem } from './TaskItem';
 import { TasksModal } from './modal';
+import { TaskItem } from './TaskItem';
 
 const StyledCard = styled(ContainerCard)`
   background-color: transparent;
@@ -55,6 +55,7 @@ const TasksList = () => {
   const { t } = useTranslation();
   const { hasFeatureFlag } = useFeatureFlag();
   const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false);
+  const Icon = useIconWithValidation();
 
   const handleDelete = () => {
     setIsOpenDeleteModal(true);
@@ -72,11 +73,7 @@ const TasksList = () => {
       >
         <HeaderContainer hasErrors={!!error}>
           <TitleContainer>
-            <TasksIcon
-              color={
-                error ? appTheme.palette.red[900] : appTheme.palette.blue[600]
-              }
-            />
+            {Icon}
             <MD isBold style={{ color: appTheme.palette.blue[600] }}>
               {t('__PLAN_PAGE_MODULE_TASKS_TITLE')}
             </MD>

@@ -1,10 +1,18 @@
 import { useTranslation } from 'react-i18next';
 import { components } from 'src/common/schema';
+import { getModuleBySlug } from '../modules/Factory';
 
 const getSubtitleFromModuleType = (
   type: components['schemas']['Module']['type']
 ) => {
   const { t } = useTranslation();
+  let subtitle = '';
+  try {
+    subtitle = getModuleBySlug(type)?.useSubtitle?.() || '';
+    console.log(`Subtitle for module type "${type}":`, subtitle);
+  } catch (error) {
+    console.error(`Error getting subtitle for module type "${type}":`, error);
+  }
 
   switch (type) {
     case 'dates':
@@ -13,8 +21,6 @@ const getSubtitleFromModuleType = (
       return t('__ASIDE_NAVIGATION_MODULE_AGE_SUBTITLE');
     case 'gender':
       return t('__ASIDE_NAVIGATION_MODULE_GENDER_ACCORDION_SUBTITLE');
-    case 'goal':
-      return t('__ASIDE_NAVIGATION_MODULE_GOAL_SUBTITLE');
     case 'language':
       return t('__ASIDE_NAVIGATION_MODULE_LANGUAGE_SUBTITLE');
     case 'locality':
@@ -27,8 +33,6 @@ const getSubtitleFromModuleType = (
       return t('__ASIDE_NAVIGATION_MODULE_TARGET_SUBTITLE');
     case 'target_note':
       return t('__ASIDE_NAVIGATION_MODULE_TARGET_NOTE_BLOCK_SUBTITLE');
-    case 'tasks':
-      return t('__ASIDE_NAVIGATION_MODULE_TASKS_SUBTITLE');
     case 'title':
       return t('__ASIDE_NAVIGATION_MODULE_SUBTITLE_BLOCK_SUBTITLE');
     case 'setup_note':
@@ -43,7 +47,7 @@ const getSubtitleFromModuleType = (
       return t('__ASIDE_NAVIGATION_MODULE_ADDITIONAL_TARGET_SUBTITLE');
     case 'employment':
     default:
-      return '';
+      return subtitle || '';
   }
 };
 

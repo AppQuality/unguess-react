@@ -1,10 +1,17 @@
 import { useTranslation } from 'react-i18next';
 import { components } from 'src/common/schema';
+import { getModuleBySlug } from '../modules/Factory';
 
 const getTitleFromModuleType = (
   type: components['schemas']['Module']['type']
 ) => {
   const { t } = useTranslation();
+  let title;
+  try {
+    title = getModuleBySlug(type)?.useTitle?.();
+  } catch (error) {
+    console.error(`Error getting title for module type "${type}":`, error);
+  }
 
   switch (type) {
     case 'dates':
@@ -13,8 +20,6 @@ const getTitleFromModuleType = (
       return t('__PLAN_PAGE_MODULE_AGE_LABEL');
     case 'gender':
       return t('__PLAN_PAGE_MODULE_GENDER_ACCORDION_LABEL');
-    case 'goal':
-      return t('__PLAN_PAGE_MODULE_GOAL_TITLE');
     case 'language':
       return t('__PLAN_PAGE_MODULE_LANGUAGE_TITLE');
     case 'locality':
@@ -27,8 +32,6 @@ const getTitleFromModuleType = (
       return t('__PLAN_PAGE_MODULE_TARGET_TITLE');
     case 'target_note':
       return t('__PLAN_PAGE_MODULE_TARGET_NOTE_BLOCK_TITLE');
-    case 'tasks':
-      return t('__PLAN_PAGE_MODULE_TASKS_TITLE');
     case 'title':
       return t('__PLAN_PAGE_MODULE_TITLE_BLOCK_TITLE');
     case 'setup_note':
@@ -43,8 +46,6 @@ const getTitleFromModuleType = (
       return t('__PLAN_PAGE_MODULE_ADDITIONAL_TARGET_TITLE');
     case 'employment':
       return t('__PLAN_PAGE_MODULE_EMPLOYMENT_TITLE');
-    case 'annual_income_range':
-      return t('__PLAN_PAGE_MODULE_INCOME_LABEL');
     case 'bank':
       return t('__PLAN_PAGE_MODULE_BANK_LABEL');
     case 'elettricity_supply':
@@ -56,7 +57,7 @@ const getTitleFromModuleType = (
     case 'gas_supply':
       return t('__PLAN_PAGE_MODULE_GAS_LABEL');
     default:
-      return '';
+      return title || '';
   }
 };
 

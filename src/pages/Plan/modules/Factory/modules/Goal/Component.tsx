@@ -17,9 +17,9 @@ import { components } from 'src/common/schema';
 import { useModule } from 'src/features/modules/useModule';
 import { useModuleConfiguration } from 'src/features/modules/useModuleConfiguration';
 import { useValidation } from 'src/features/modules/useModuleValidation';
+import { DeleteModuleConfirmationModal } from 'src/pages/Plan/modules/modal/DeleteModuleConfirmationModal';
 import styled from 'styled-components';
-import { getIconFromModuleType } from '../utils';
-import { DeleteModuleConfirmationModal } from './modal/DeleteModuleConfirmationModal';
+import { useIconWithValidation } from './useIcon';
 
 const StyledInfoBox = styled.div`
   display: flex;
@@ -32,6 +32,7 @@ const Goal = () => {
   const { value, setOutput, remove } = useModule('goal');
   const { getPlanStatus } = useModuleConfiguration();
   const { t } = useTranslation();
+  const Icon = useIconWithValidation();
   const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false);
 
   const validation = (
@@ -75,7 +76,7 @@ const Goal = () => {
         type={error ? 'danger' : 'default'}
       >
         <AccordionNew.Section>
-          <AccordionNew.Header icon={getIconFromModuleType('goal')}>
+          <AccordionNew.Header icon={Icon}>
             <AccordionNew.Label label={t('__PLAN_PAGE_MODULE_GOAL_TITLE')} />
             {getPlanStatus() === 'draft' && (
               <AccordionNew.Meta>

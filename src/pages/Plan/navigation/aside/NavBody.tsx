@@ -39,11 +39,13 @@ const NavBody = () => {
         {currentModules
           .filter((module) => availableModules.includes(module))
           .map((module) => (
-            <NavItem type={module}>
-              {MODULES_WITH_OUTPUT.includes(module) && (
-                <NavItemChildren key={module} type={module} />
-              )}
-            </NavItem>
+            <div key={module}>
+              <NavItem type={module}>
+                {MODULES_WITH_OUTPUT.includes(module) && (
+                  <NavItemChildren key={module} type={module} />
+                )}
+              </NavItem>
+            </div>
           ))}
       </BodyContainer>
       {getPlanStatus() === 'draft' && (

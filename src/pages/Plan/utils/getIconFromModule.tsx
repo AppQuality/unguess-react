@@ -1,28 +1,26 @@
 import { getColor } from '@appquality/unguess-design-system';
+import { ReactComponent as BankIcon } from '@zendeskgarden/svg-icons/src/16/credit-card-stroke.svg';
 import { ReactComponent as BrowserIcon } from '@zendeskgarden/svg-icons/src/16/globe-fill.svg';
 import { ReactComponent as LocationIcon } from '@zendeskgarden/svg-icons/src/16/location-fill.svg';
+import { ReactComponent as PhoneIcon } from '@zendeskgarden/svg-icons/src/16/phone-fill.svg';
 import { ReactComponent as PlugIcon } from '@zendeskgarden/svg-icons/src/16/plug-fill.svg';
-import { ReactComponent as GasIcon } from 'src/assets/icons/gas_module_icon.svg';
 import { shallowEqual } from 'react-redux';
 import { useAppSelector } from 'src/app/hooks';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as AdditionalTargetIcon } from 'src/assets/icons/additional-target-icon.svg';
-import { ReactComponent as ArrowTrending } from 'src/assets/icons/arrow-trending.svg';
 import { ReactComponent as AgeIcon } from 'src/assets/icons/cake-icon-fill.svg';
-import { ReactComponent as GoalIcon } from 'src/assets/icons/flag-fill.svg';
+import { ReactComponent as GasIcon } from 'src/assets/icons/gas_module_icon.svg';
 import { ReactComponent as GenderIcon } from 'src/assets/icons/gender-icon.svg';
+import { ReactComponent as HomeInternetIcon } from 'src/assets/icons/home-internet.svg';
 import { ReactComponent as LanguageIcon } from 'src/assets/icons/languages.svg';
 import { ReactComponent as LiteracyIcon } from 'src/assets/icons/literacy-icon.svg';
 import { ReactComponent as NotificationIcon } from 'src/assets/icons/notification.svg';
-import { ReactComponent as TasksIcon } from 'src/assets/icons/tasks-icon.svg';
 import { ReactComponent as TouchpointsIcon } from 'src/assets/icons/touchpoints-icon.svg';
 import { ReactComponent as TargetIcon } from 'src/assets/icons/user-follow.svg';
 import { ReactComponent as EmploymentIcon } from 'src/assets/icons/work.svg';
 import { ReactComponent as OutOfScopeIcon } from 'src/assets/icons/x-circle.svg';
-import { ReactComponent as BankIcon } from '@zendeskgarden/svg-icons/src/16/credit-card-stroke.svg';
-import { ReactComponent as PhoneIcon } from '@zendeskgarden/svg-icons/src/16/phone-fill.svg';
-import { ReactComponent as HomeInternetIcon } from 'src/assets/icons/home-internet.svg';
 import { components } from 'src/common/schema';
+import { getModuleBySlug } from '../modules/Factory';
 
 const getIconColor = (module_type: components['schemas']['Module']['type']) => {
   const value = useAppSelector(
@@ -56,6 +54,12 @@ const getIconFromModuleType = (
   type: components['schemas']['Module']['type'],
   withValidation: boolean = true
 ) => {
+  let icon;
+  try {
+    icon = getModuleBySlug(type)?.useIcon?.();
+  } catch (error) {
+    console.error(`Error getting icon for module type "${type}":`, error);
+  }
   const color = withValidation
     ? getIconColor(type)
     : getColor(appTheme.colors.primaryHue, 600);
@@ -65,8 +69,6 @@ const getIconFromModuleType = (
       return <AgeIcon color={color} />;
     case 'gender':
       return <GenderIcon color={color} />;
-    case 'goal':
-      return <GoalIcon color={color} />;
     case 'language':
       return <LanguageIcon color={color} />;
     case 'literacy':
@@ -75,8 +77,6 @@ const getIconFromModuleType = (
       return <OutOfScopeIcon color={color} />;
     case 'target':
       return <TargetIcon color={color} />;
-    case 'tasks':
-      return <TasksIcon color={color} />;
     case 'browser':
       return <BrowserIcon color={color} />;
     case 'setup_note':
@@ -93,8 +93,6 @@ const getIconFromModuleType = (
       return <EmploymentIcon color={color} />;
     case 'locality':
       return <LocationIcon color={color} />;
-    case 'annual_income_range':
-      return <ArrowTrending color={color} />;
     case 'bank':
       return <BankIcon color={color} />;
     case 'elettricity_supply':
@@ -108,7 +106,7 @@ const getIconFromModuleType = (
     case 'title':
     case 'dates':
     default:
-      return null;
+      return icon || null;
   }
 };
 

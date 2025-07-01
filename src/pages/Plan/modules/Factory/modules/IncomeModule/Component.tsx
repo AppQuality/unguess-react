@@ -18,8 +18,8 @@ import { useModule } from 'src/features/modules/useModule';
 import { useModuleConfiguration } from 'src/features/modules/useModuleConfiguration';
 import { useValidation } from 'src/features/modules/useModuleValidation';
 import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
-import { getIconFromModuleType } from '../utils';
-import { DeleteModuleConfirmationModal } from './modal/DeleteModuleConfirmationModal';
+import { DeleteModuleConfirmationModal } from 'src/pages/Plan/modules/modal/DeleteModuleConfirmationModal';
+import { useIconWithValidation } from './useIcon';
 
 const Income = () => {
   type IncomeRange = {
@@ -32,6 +32,7 @@ const Income = () => {
   const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false);
   const { value, setOutput, remove } = useModule('annual_income_range');
   const { t } = useTranslation();
+  const Icon = useIconWithValidation();
   const validation = (
     module: components['schemas']['Module'] & { type: 'annual_income_range' }
   ) => {
@@ -103,9 +104,7 @@ const Income = () => {
         level={3}
       >
         <AccordionNew.Section>
-          <AccordionNew.Header
-            icon={getIconFromModuleType('annual_income_range')}
-          >
+          <AccordionNew.Header icon={Icon}>
             <AccordionNew.Label label={t('__PLAN_PAGE_MODULE_INCOME_LABEL')} />
             {hasFeatureFlag(FEATURE_FLAG_CHANGE_MODULES_VARIANTS) &&
               getPlanStatus() === 'draft' && (

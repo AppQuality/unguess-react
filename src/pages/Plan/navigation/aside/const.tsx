@@ -1,5 +1,5 @@
 import { components } from 'src/common/schema';
-import { TasksListNav } from '../../modules/Tasks/parts';
+import { TasksListNav } from 'src/pages/Plan/modules/Factory/modules/Tasks/Component/parts';
 import { TouchpointsListNav } from '../../modules/Touchpoints/parts';
 
 export const MODULES_WITH_OUTPUT: components['schemas']['Module']['type'][] = [

@@ -7,4 +7,4 @@ const Tasks = () => (
   </ModuleTasksContextProvider>
 );
 
-export { Tasks };
+export default Tasks;

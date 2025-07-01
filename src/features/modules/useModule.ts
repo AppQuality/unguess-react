@@ -1,6 +1,7 @@
 import { useCallback, useMemo } from 'react';
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
 import { components } from 'src/common/schema';
+import { getModuleBySlug } from 'src/pages/Plan/modules/Factory';
 import {
   removeModule,
   setModule,
@@ -42,9 +43,12 @@ export const useModule = <T extends components['schemas']['Module']['type']>(
     dispatch(removeModule(moduleName));
   }, [moduleName]);
 
-  const getConfig = (
-    type: components['schemas']['Module']['type']
-  ): components['schemas']['Module'] | null => {
+  type ModuleByType<W extends components['schemas']['Module']['type']> =
+    Extract<components['schemas']['Module'], { type: W }>;
+
+  const getConfig = <L extends components['schemas']['Module']['type']>(
+    type: L
+  ): ModuleByType<L> | null => {
     switch (type) {
       case 'dates':
         return {
@@ -53,31 +57,19 @@ export const useModule = <T extends components['schemas']['Module']['type']>(
           output: {
             start: '',
           },
-        };
-      case 'goal':
-        return {
-          type,
-          variant: 'default',
-          output: '',
-        };
+        } as ModuleByType<L>;
       case 'out_of_scope':
         return {
           type,
           variant: 'default',
           output: '',
-        };
+        } as ModuleByType<L>;
       case 'title':
         return {
           type,
           variant: 'default',
           output: '',
-        };
-      case 'tasks':
-        return {
-          type,
-          variant: 'default',
-          output: [],
-        };
+        } as ModuleByType<L>;
       case 'age':
         return {
           type,
@@ -109,7 +101,7 @@ export const useModule = <T extends components['schemas']['Module']['type']>(
               percentage: 0,
             },
           ],
-        };
+        } as ModuleByType<L>;
       case 'gender':
         return {
           type,
@@ -118,7 +110,7 @@ export const useModule = <T extends components['schemas']['Module']['type']>(
             { gender: 'male', percentage: 50 },
             { gender: 'female', percentage: 50 },
           ],
-        };
+        } as ModuleByType<L>;
       case 'literacy':
         return {
           type,
@@ -128,13 +120,13 @@ export const useModule = <T extends components['schemas']['Module']['type']>(
             { level: 'intermediate', percentage: 33.33 },
             { level: 'expert', percentage: 33.33 },
           ],
-        };
+        } as ModuleByType<L>;
       case 'language':
         return {
           type,
           variant: 'default',
           output: 'en',
-        };
+        } as ModuleByType<L>;
       case 'locality':
         return {
           type,
@@ -145,13 +137,13 @@ export const useModule = <T extends components['schemas']['Module']['type']>(
               values: ['IT'],
             },
           ],
-        };
+        } as ModuleByType<L>;
       case 'target':
         return {
           type,
           variant: 'default',
           output: 5,
-        };
+        } as ModuleByType<L>;
       case 'browser':
         return {
           type,
@@ -162,97 +154,79 @@ export const useModule = <T extends components['schemas']['Module']['type']>(
             { name: 'safari', percentage: 25 },
             { name: 'edge', percentage: 25 },
           ],
-        };
+        } as ModuleByType<L>;
       case 'setup_note':
         return {
           type,
           variant: 'default',
           output: '',
-        };
+        } as ModuleByType<L>;
       case 'target_note':
         return {
           type,
           variant: 'default',
           output: '',
-        };
+        } as ModuleByType<L>;
       case 'instruction_note':
         return {
           type,
           variant: 'default',
           output: '',
-        };
+        } as ModuleByType<L>;
       case 'touchpoints':
         return {
           type,
           variant: 'default',
-          output: [],
-        };
+          output: [] as ModuleByType<'touchpoints'>['output'],
+        } as ModuleByType<L>;
       case 'additional_target':
         return {
           type,
           variant: 'default',
           output: '',
-        };
+        } as ModuleByType<L>;
       case 'employment':
         return {
           type,
           variant: 'default',
-          output: [],
-        };
-      case 'annual_income_range':
-        return {
-          type,
-          variant: 'default',
-          output: [
-            {
-              min: 0,
-              max: 25000,
-              percentage: 0,
-            },
-            {
-              min: 25001,
-              max: 50000,
-              percentage: 0,
-            },
-            {
-              min: 50001,
-              max: 999999999,
-              percentage: 0,
-            },
-          ],
-        };
+          output: [] as ModuleByType<'employment'>['output'],
+        } as ModuleByType<L>;
       case 'bank':
         return {
           type,
           variant: 'default',
-          output: [],
-        };
+          output: [] as ModuleByType<'bank'>['output'],
+        } as ModuleByType<L>;
       case 'elettricity_supply':
         return {
           type,
           variant: 'default',
-          output: [],
-        };
+          output: [] as ModuleByType<'elettricity_supply'>['output'],
+        } as ModuleByType<L>;
       case 'gas_supply':
         return {
           type,
           variant: 'default',
-          output: [],
-        };
+          output: [] as ModuleByType<'gas_supply'>['output'],
+        } as ModuleByType<L>;
       case 'mobile_internet':
         return {
           type,
           variant: 'default',
-          output: [],
-        };
+          output: [] as ModuleByType<'mobile_internet'>['output'],
+        } as ModuleByType<L>;
       case 'home_internet':
         return {
           type,
           variant: 'default',
-          output: [],
-        };
+          output: [] as ModuleByType<'home_internet'>['output'],
+        } as ModuleByType<L>;
       default:
-        return null;
+        return {
+          type,
+          variant: getModuleBySlug(type)?.defaultVariant,
+          output: getModuleBySlug(type)?.defaultData,
+        } as ModuleByType<L>;
     }
   };
 
