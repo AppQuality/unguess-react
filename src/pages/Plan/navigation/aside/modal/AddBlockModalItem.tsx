@@ -1,7 +1,7 @@
 import { Button } from '@appquality/unguess-design-system';
 import { components } from 'src/common/schema';
 import { useModuleAdd } from 'src/features/modules/useModuleAdd';
-import { getIconFromModuleType, getTitleFromModuleType } from '../../../utils';
+import { getModuleBySlug } from 'src/pages/Plan/modules/Factory';
 import { usePlanNavContext } from '../context';
 
 const AddBlockModalItem = ({
@@ -13,8 +13,8 @@ const AddBlockModalItem = ({
   };
 }) => {
   const { setModalRef } = usePlanNavContext();
-  const title = getTitleFromModuleType(item.type);
-  const icon = getIconFromModuleType(item.type, false);
+  const title = getModuleBySlug(item.type).useTitle?.();
+  const icon = getModuleBySlug(item.type).useIcon?.(false);
   const { add } = useModuleAdd(item.type);
 
   return (

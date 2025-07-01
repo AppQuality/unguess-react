@@ -13,7 +13,7 @@ export interface ModuleDefinition<T extends Slug> {
   Component: React.ComponentType<any>;
   useTitle: () => string;
   useSubtitle?: () => string;
-  useIcon: () => React.ReactNode;
+  useIcon: (withValidation?: boolean) => React.ReactNode;
   defaultVariant: ModuleSchemaMap[T]['variant'];
   defaultData: ModuleSchemaMap[T]['output'];
   tab: 'setup' | 'target' | 'instructions';

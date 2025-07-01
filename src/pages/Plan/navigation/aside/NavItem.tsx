@@ -13,7 +13,6 @@ import { appTheme } from 'src/app/theme';
 import { components } from 'src/common/schema';
 import styled from 'styled-components';
 import { getModuleBySlug } from '../../modules/Factory';
-import { getIconFromModuleType, getTitleFromModuleType } from '../../utils';
 
 const StyledCard = styled(Card)`
   background-color: transparent;
@@ -56,11 +55,13 @@ const ModuleIcon = ({
   type,
 }: {
   type: components['schemas']['Module']['type'];
-}) => (
-  <ModuleIconContainer className="module-icon">
-    {getIconFromModuleType(type)}
-  </ModuleIconContainer>
-);
+}) => {
+  const Icon = getModuleBySlug(type).useIcon?.();
+
+  return (
+    <ModuleIconContainer className="module-icon">{Icon}</ModuleIconContainer>
+  );
+};
 
 const NavItem = ({
   type,
@@ -72,7 +73,7 @@ const NavItem = ({
   const { t } = useTranslation();
   const { errors } = useAppSelector((state) => state.planModules);
 
-  const titleType = getTitleFromModuleType(type);
+  const titleType = getModuleBySlug(type)?.useTitle?.();
   const oldSubtitle = getModuleBySlug(type)?.useSubtitle?.() || '';
 
   const hasErrors =
