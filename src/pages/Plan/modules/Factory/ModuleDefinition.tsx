@@ -1,4 +1,5 @@
 import { components } from 'src/common/schema';
+import { PlanTab } from '../../context/planContext';
 
 type ModuleSchemaMap = {
   [M in components['schemas']['Module'] as M['type']]: {
@@ -16,7 +17,7 @@ export interface ModuleDefinition<T extends Slug> {
   useIcon: (withValidation?: boolean) => React.ReactNode;
   defaultVariant: ModuleSchemaMap[T]['variant'];
   defaultData: ModuleSchemaMap[T]['output'];
-  tab: 'setup' | 'target' | 'instructions';
+  tab: PlanTab | 'none';
 }
 
 type InferModuleDefinition<S extends Slug> = ModuleDefinition<S> & {

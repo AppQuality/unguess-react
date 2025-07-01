@@ -4,6 +4,7 @@ import { AdditionalTarget } from './modules/AdditionalTarget';
 import { AgeModule } from './modules/Age';
 import { BankModule } from './modules/Bank';
 import { BrowserModule } from './modules/Browser';
+import { DatesModule } from './modules/Dates';
 import { ElectricityModule } from './modules/Electricity';
 import { EmploymentModule } from './modules/Employment';
 import { GasModule } from './modules/GasSupply';
@@ -21,6 +22,7 @@ import { SetupNoteModule } from './modules/SetupNote';
 import { TargetNoteModule } from './modules/TargetNote';
 import { TargetSizeModule } from './modules/TargetSize';
 import { TasksModule } from './modules/Tasks';
+import { TitleModule } from './modules/Title';
 import { TouchpointsModule } from './modules/Touchpoints';
 
 const modules: Record<
@@ -50,6 +52,8 @@ const modules: Record<
   [ElectricityModule.slug]: ElectricityModule,
   [GasModule.slug]: GasModule,
   [InternetHomeModule.slug]: InternetHomeModule,
+  [TitleModule.slug]: TitleModule,
+  [DatesModule.slug]: DatesModule,
 };
 
 export function getModuleBySlug(
@@ -62,7 +66,7 @@ export function getModuleBySlug(
 }
 
 export function getModulesByTab(
-  tab: 'setup' | 'target' | 'instructions'
+  tab: ModuleDefinition<components['schemas']['Module']['type']>['tab']
 ): ModuleDefinition<components['schemas']['Module']['type']>['slug'][] {
   return Object.values(modules)
     .filter((module) => module.tab === tab)

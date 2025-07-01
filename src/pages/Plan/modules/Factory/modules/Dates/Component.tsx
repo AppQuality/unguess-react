@@ -5,20 +5,17 @@ import {
   Message,
 } from '@appquality/unguess-design-system';
 import { isBefore } from 'date-fns';
-import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { components } from 'src/common/schema';
 import { PLAN_MINIMUM_DATE } from 'src/constants';
 import { useModule } from 'src/features/modules/useModule';
 import { useValidation } from 'src/features/modules/useModuleValidation';
-import { formatModuleDate } from '../utils/formatModuleDate';
-import { DeleteModuleConfirmationModal } from './modal/DeleteModuleConfirmationModal';
+import { formatModuleDate } from 'src/pages/Plan/utils/formatModuleDate';
 
-export const Dates = () => {
-  const { value, setOutput, remove } = useModule('dates');
+const Dates = () => {
+  const { value, setOutput } = useModule('dates');
   const { t } = useTranslation();
-  const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false);
 
   const validation = (
     module: components['schemas']['Module'] & { type: 'dates' }
@@ -85,12 +82,8 @@ export const Dates = () => {
           {datesError}
         </Message>
       )}
-      {isOpenDeleteModal && (
-        <DeleteModuleConfirmationModal
-          onQuit={() => setIsOpenDeleteModal(false)}
-          onConfirm={remove}
-        />
-      )}
     </div>
   );
 };
+
+export default Dates;

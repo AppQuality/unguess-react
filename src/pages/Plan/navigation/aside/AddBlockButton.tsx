@@ -6,7 +6,7 @@ import { ReactComponent as PlusIcon } from 'src/assets/icons/plus-icon.svg';
 import { useModuleConfiguration } from 'src/features/modules/useModuleConfiguration';
 import styled from 'styled-components';
 import { usePlanTab } from '../../context/planContext';
-import { MODULES_BY_TAB } from '../../modulesMap';
+import { getModulesByTab } from '../../modules/Factory';
 import { usePlanNavContext } from './context';
 
 const ButtonContainer = styled.div`
@@ -22,8 +22,7 @@ const AddBlockButton = () => {
   const { setModalRef } = usePlanNavContext();
   const { getPlanStatus } = useModuleConfiguration();
   const { activeTab } = usePlanTab();
-  const availableModules =
-    MODULES_BY_TAB[activeTab as keyof typeof MODULES_BY_TAB] || [];
+  const availableModules = getModulesByTab(activeTab);
   const { currentModules } = useAppSelector((state) => state.planModules);
 
   const items = availableModules.filter((module_type) => {

@@ -6,7 +6,7 @@ import { useModuleConfiguration } from 'src/features/modules/useModuleConfigurat
 import styled from 'styled-components';
 import { NavContainer } from '../../common/NavContainer';
 import { usePlanTab } from '../../context/planContext';
-import { MODULES_BY_TAB } from '../../modulesMap';
+import { getModulesByTab } from '../../modules/Factory';
 import { AddBlockButton } from './AddBlockButton';
 import { MODULES_WITH_OUTPUT } from './const';
 import { AddBlockModal } from './modal/AddBlockModal';
@@ -21,8 +21,7 @@ const BodyContainer = styled.div`
 
 const NavBody = () => {
   const { activeTab } = usePlanTab();
-  const availableModules =
-    MODULES_BY_TAB[activeTab as keyof typeof MODULES_BY_TAB] || [];
+  const availableModules = getModulesByTab(activeTab);
   const { getPlanStatus } = useModuleConfiguration();
   const { currentModules } = useAppSelector((state) => state.planModules);
   const { t } = useTranslation();

@@ -1,11 +1,11 @@
 import { InputToggle, LG, SM } from '@appquality/unguess-design-system';
-import { useModule } from 'src/features/modules/useModule';
-import { components } from 'src/common/schema';
-import { useTranslation } from 'react-i18next';
-import { useValidation } from 'src/features/modules/useModuleValidation';
 import { ChangeEvent, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
+import { components } from 'src/common/schema';
+import { useModule } from 'src/features/modules/useModule';
 import { useModuleConfiguration } from 'src/features/modules/useModuleConfiguration';
+import { useValidation } from 'src/features/modules/useModuleValidation';
 
 const Title = () => {
   const { value, setOutput } = useModule('title');
@@ -78,4 +78,4 @@ const Title = () => {
   );
 };
 
-export { Title };
+export default Title;
