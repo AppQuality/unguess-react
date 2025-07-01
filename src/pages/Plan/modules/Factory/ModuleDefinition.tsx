@@ -12,6 +12,7 @@ type Slug = keyof ModuleSchemaMap;
 export interface ModuleDefinition<T extends Slug> {
   slug: T;
   Component: React.ComponentType<any>;
+  NavChildren?: React.ComponentType<any>;
   useTitle: () => string;
   useSubtitle?: () => string;
   useIcon: (withValidation?: boolean) => React.ReactNode;

@@ -6,17 +6,21 @@ import { useModuleConfiguration } from 'src/features/modules/useModuleConfigurat
 import styled from 'styled-components';
 import { NavContainer } from '../../common/NavContainer';
 import { usePlanTab } from '../../context/planContext';
-import { getModulesByTab } from '../../modules/Factory';
+import { getModuleBySlug, getModulesByTab } from '../../modules/Factory';
 import { AddBlockButton } from './AddBlockButton';
-import { MODULES_WITH_OUTPUT } from './const';
 import { AddBlockModal } from './modal/AddBlockModal';
 import { NavItem } from './NavItem';
-import { NavItemChildren } from './NavItemChildren';
 
 const BodyContainer = styled.div`
   max-height: calc(100vh - ${({ theme }) => theme.space.xxl});
   overflow-y: auto;
   margin-bottom: ${({ theme }) => theme.space.md};
+`;
+
+const ChildrenContainer = styled.div`
+  max-height: 300px;
+  overflow-y: auto;
+  padding-right: ${({ theme }) => theme.space.xs};
 `;
 
 const NavBody = () => {
@@ -37,15 +41,20 @@ const NavBody = () => {
       <BodyContainer data-qa={`plans-nav-${activeTab}`}>
         {currentModules
           .filter((module) => availableModules.includes(module))
-          .map((module) => (
-            <div key={module}>
-              <NavItem type={module}>
-                {MODULES_WITH_OUTPUT.includes(module) && (
-                  <NavItemChildren key={module} type={module} />
-                )}
-              </NavItem>
-            </div>
-          ))}
+          .map((module) => {
+            const { NavChildren } = getModuleBySlug(module);
+            return (
+              <div key={module}>
+                <NavItem type={module}>
+                  {NavChildren && (
+                    <ChildrenContainer>
+                      <NavChildren />
+                    </ChildrenContainer>
+                  )}
+                </NavItem>
+              </div>
+            );
+          })}
       </BodyContainer>
       {getPlanStatus() === 'draft' && (
         <div style={{ marginTop: 'auto' }}>
