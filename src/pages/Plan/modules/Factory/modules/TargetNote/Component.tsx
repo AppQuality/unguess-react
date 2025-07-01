@@ -15,9 +15,9 @@ import { useModule } from 'src/features/modules/useModule';
 import { useModuleConfiguration } from 'src/features/modules/useModuleConfiguration';
 import { useValidation } from 'src/features/modules/useModuleValidation';
 import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
+import { DeleteModuleConfirmationModal } from 'src/pages/Plan/modules/modal/DeleteModuleConfirmationModal';
 import styled from 'styled-components';
-import { getIconFromModuleType } from '../utils';
-import { DeleteModuleConfirmationModal } from './modal/DeleteModuleConfirmationModal';
+import { useIconWithValidation } from './useIcon';
 
 const StyledCard = styled(ContainerCard)`
   display: flex;
@@ -43,25 +43,27 @@ const StyledInfoBox = styled.div`
   gap: ${({ theme }) => theme.space.xxs};
 `;
 
-const SetupNote = () => {
+const TargetNote = () => {
   const { hasFeatureFlag } = useFeatureFlag();
-  const { value, setOutput, remove } = useModule('setup_note');
+  const { value, setOutput, remove } = useModule('target_note');
   const { getPlanStatus } = useModuleConfiguration();
   const { t } = useTranslation();
   const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false);
+  const Icon = useIconWithValidation();
 
   const validation = (
-    module: components['schemas']['Module'] & { type: 'setup_note' }
+    module: components['schemas']['Module'] & { type: 'target_note' }
   ) => {
     let error;
+
     if (module.output === '<p></p>') {
-      error = t('__PLAN_SETUP_NOTE_SIZE_ERROR_EMPTY');
+      error = t('__PLAN_TARGET_NOTE_SIZE_ERROR_EMPTY');
     }
     return error || true;
   };
 
   const { error, validate } = useValidation({
-    type: 'setup_note',
+    type: 'target_note',
     validate: validation,
   });
   const handleBlur = () => {
@@ -83,8 +85,8 @@ const SetupNote = () => {
               gap: appTheme.space.xs,
             }}
           >
-            {getIconFromModuleType('setup_note')}
-            <Label>{t('__PLAN_PAGE_MODULE_SETUP_NOTE_TITLE')}</Label>
+            {Icon}
+            <Label>{t('__PLAN_PAGE_MODULE_TARGET_NOTE_TITLE')}</Label>
           </div>
           {hasFeatureFlag(FEATURE_FLAG_CHANGE_MODULES_VARIANTS) &&
             getPlanStatus() === 'draft' && (
@@ -99,7 +101,7 @@ const SetupNote = () => {
                 <Button.StartIcon>
                   <TrashIcon />
                 </Button.StartIcon>
-                {t('__PLAN_PAGE_MODULE_SETUP_NOTE_REMOVE_BUTTON')}
+                {t('__PLAN_PAGE_MODULE_TARGET_NOTE_REMOVE_BUTTON')}
               </Button>
             )}
         </StyledCardHeader>
@@ -110,13 +112,13 @@ const SetupNote = () => {
               getPlanStatus() === 'draft'
             }
             headerTitle={t(
-              '__PLAN_PAGE_MODULE_SETUP_NOTE_DESCRIPTION_EDITOR_HEADER_TITLE'
+              '__PLAN_PAGE_MODULE_TARGET_NOTE_DESCRIPTION_EDITOR_HEADER_TITLE'
             )}
             onUpdate={(content) => setOutput(content.editor.getHTML())}
             hasInlineMenu
             placeholderOptions={{
               placeholder: t(
-                '__PLAN_PAGE_MODULE_SETUP_NOTE_DESCRIPTION_EDITOR_PLACEHOLDER'
+                '__PLAN_PAGE_MODULE_TARGET_NOTE_DESCRIPTION_EDITOR_PLACEHOLDER'
               ),
             }}
             disableSaveShortcut
@@ -147,4 +149,4 @@ const SetupNote = () => {
   );
 };
 
-export default SetupNote;
+export default TargetNote;

@@ -4,8 +4,12 @@ import { AdditionalTarget } from './modules/AdditionalTarget';
 import { AgeModule } from './modules/Age';
 import { BrowserModule } from './modules/Browser';
 import { EmploymentModule } from './modules/Employment';
+import { GenderModule } from './modules/Gender';
 import { GoalModule } from './modules/Goal';
 import { IncomeModule } from './modules/IncomeModule';
+import { InstructionNoteModule } from './modules/InstructionNote';
+import { SetupNoteModule } from './modules/SetupNote';
+import { TargetNoteModule } from './modules/TargetNote';
 import { TasksModule } from './modules/Tasks';
 
 const modules: Record<
@@ -19,6 +23,10 @@ const modules: Record<
   [AgeModule.slug]: AgeModule,
   [BrowserModule.slug]: BrowserModule,
   [EmploymentModule.slug]: EmploymentModule,
+  [GenderModule.slug]: GenderModule,
+  [SetupNoteModule.slug]: SetupNoteModule,
+  [TargetNoteModule.slug]: TargetNoteModule,
+  [InstructionNoteModule.slug]: InstructionNoteModule,
 };
 
 export function getModuleBySlug(

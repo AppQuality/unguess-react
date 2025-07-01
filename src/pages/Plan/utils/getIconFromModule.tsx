@@ -7,11 +7,9 @@ import { shallowEqual } from 'react-redux';
 import { useAppSelector } from 'src/app/hooks';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as GasIcon } from 'src/assets/icons/gas_module_icon.svg';
-import { ReactComponent as GenderIcon } from 'src/assets/icons/gender-icon.svg';
 import { ReactComponent as HomeInternetIcon } from 'src/assets/icons/home-internet.svg';
 import { ReactComponent as LanguageIcon } from 'src/assets/icons/languages.svg';
 import { ReactComponent as LiteracyIcon } from 'src/assets/icons/literacy-icon.svg';
-import { ReactComponent as NotificationIcon } from 'src/assets/icons/notification.svg';
 import { ReactComponent as TouchpointsIcon } from 'src/assets/icons/touchpoints-icon.svg';
 import { ReactComponent as TargetIcon } from 'src/assets/icons/user-follow.svg';
 import { ReactComponent as OutOfScopeIcon } from 'src/assets/icons/x-circle.svg';
@@ -61,8 +59,6 @@ const getIconFromModuleType = (
     : getColor(appTheme.colors.primaryHue, 600);
 
   switch (type) {
-    case 'gender':
-      return <GenderIcon color={color} />;
     case 'language':
       return <LanguageIcon color={color} />;
     case 'literacy':
@@ -71,12 +67,6 @@ const getIconFromModuleType = (
       return <OutOfScopeIcon color={color} />;
     case 'target':
       return <TargetIcon color={color} />;
-    case 'setup_note':
-      return <NotificationIcon color={color} />;
-    case 'instruction_note':
-      return <NotificationIcon color={color} />;
-    case 'target_note':
-      return <NotificationIcon color={color} />;
     case 'touchpoints':
       return <TouchpointsIcon color={color} />;
     case 'locality':

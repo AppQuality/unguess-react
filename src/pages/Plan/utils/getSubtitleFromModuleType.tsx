@@ -17,9 +17,6 @@ const getSubtitleFromModuleType = (
   switch (type) {
     case 'dates':
       return t('__ASIDE_NAVIGATION_MODULE_DATES_BLOCK_SUBTITLE');
-
-    case 'gender':
-      return t('__ASIDE_NAVIGATION_MODULE_GENDER_ACCORDION_SUBTITLE');
     case 'language':
       return t('__ASIDE_NAVIGATION_MODULE_LANGUAGE_SUBTITLE');
     case 'locality':
@@ -30,14 +27,8 @@ const getSubtitleFromModuleType = (
       return t('__ASIDE_NAVIGATION_MODULE_OUT_OF_SCOPE_SUBTITLE');
     case 'target':
       return t('__ASIDE_NAVIGATION_MODULE_TARGET_SUBTITLE');
-    case 'target_note':
-      return t('__ASIDE_NAVIGATION_MODULE_TARGET_NOTE_BLOCK_SUBTITLE');
     case 'title':
       return t('__ASIDE_NAVIGATION_MODULE_SUBTITLE_BLOCK_SUBTITLE');
-    case 'setup_note':
-      return t('__ASIDE_NAVIGATION_MODULE_SETUP_NOTE_BLOCK_SUBTITLE');
-    case 'instruction_note':
-      return t('__ASIDE_NAVIGATION_MODULE_INSTRUCTIONS_NOTE_BLOCK_SUBTITLE');
     case 'touchpoints':
       return t('__ASIDE_NAVIGATION_MODULE_TOUCHPOINTS_SUBTITLE');
     default:

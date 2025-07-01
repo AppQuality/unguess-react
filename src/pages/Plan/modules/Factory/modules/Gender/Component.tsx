@@ -22,10 +22,10 @@ import { components } from 'src/common/schema';
 import { useModule } from 'src/features/modules/useModule';
 import { useModuleConfiguration } from 'src/features/modules/useModuleConfiguration';
 import { useValidation } from 'src/features/modules/useModuleValidation';
+import { DeleteModuleConfirmationModal } from 'src/pages/Plan/modules/modal/DeleteModuleConfirmationModal';
 import styled from 'styled-components';
-import { getIconFromModuleType } from '../utils';
 import PercentageInput from './GenderPercentageInput';
-import { DeleteModuleConfirmationModal } from './modal/DeleteModuleConfirmationModal';
+import { useIconWithValidation } from './useIcon';
 
 const Gender = () => {
   type GenderTypes =
@@ -43,6 +43,7 @@ const Gender = () => {
   );
   const [femalePercentage, setFemalePercentage] = useState(initialFemale);
   const [malePercentage, setMalePercentage] = useState(initialMale);
+  const Icon = useIconWithValidation();
 
   const moduleOutputContainsGender = (gender: GenderTypes) =>
     value?.output?.some((g) => g.gender === gender);
@@ -234,7 +235,7 @@ const Gender = () => {
         level={3}
       >
         <AccordionNew.Section>
-          <AccordionNew.Header icon={getIconFromModuleType('gender')}>
+          <AccordionNew.Header icon={Icon}>
             <AccordionNew.Label
               label={t('__PLAN_PAGE_MODULE_GENDER_ACCORDION_LABEL')}
             />
