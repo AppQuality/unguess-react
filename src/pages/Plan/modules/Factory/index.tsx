@@ -16,6 +16,7 @@ import { SetupNoteModule } from './modules/SetupNote';
 import { TargetNoteModule } from './modules/TargetNote';
 import { TargetSizeModule } from './modules/TargetSize';
 import { TasksModule } from './modules/Tasks';
+import { TouchpointsModule } from './modules/Touchpoints';
 
 const modules: Record<
   string,
@@ -38,6 +39,7 @@ const modules: Record<
   [LanguageModule.slug]: LanguageModule,
   [TargetSizeModule.slug]: TargetSizeModule,
   [LiteracyModule.slug]: LiteracyModule,
+  [TouchpointsModule.slug]: TouchpointsModule,
 };
 
 export function getModuleBySlug(

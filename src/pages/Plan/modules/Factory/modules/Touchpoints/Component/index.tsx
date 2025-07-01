@@ -7,4 +7,4 @@ const TouchPoints = () => (
   </ModuleTouchpointsContextProvider>
 );
 
-export { TouchPoints };
+export default TouchPoints;

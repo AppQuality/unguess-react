@@ -7,7 +7,6 @@ import { useAppSelector } from 'src/app/hooks';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as GasIcon } from 'src/assets/icons/gas_module_icon.svg';
 import { ReactComponent as HomeInternetIcon } from 'src/assets/icons/home-internet.svg';
-import { ReactComponent as TouchpointsIcon } from 'src/assets/icons/touchpoints-icon.svg';
 import { components } from 'src/common/schema';
 import { getModuleBySlug } from '../modules/Factory';
 
@@ -54,8 +53,6 @@ const getIconFromModuleType = (
     : getColor(appTheme.colors.primaryHue, 600);
 
   switch (type) {
-    case 'touchpoints':
-      return <TouchpointsIcon color={color} />;
     case 'bank':
       return <BankIcon color={color} />;
     case 'elettricity_supply':

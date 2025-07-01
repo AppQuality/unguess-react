@@ -12,8 +12,8 @@ import { useAppSelector } from 'src/app/hooks';
 import { appTheme } from 'src/app/theme';
 import { components } from 'src/common/schema';
 import styled from 'styled-components';
+import { getModuleBySlug } from '../../modules/Factory';
 import { getIconFromModuleType, getTitleFromModuleType } from '../../utils';
-import { getSubtitleFromModuleType } from '../../utils/getSubtitleFromModuleType';
 
 const StyledCard = styled(Card)`
   background-color: transparent;
@@ -73,7 +73,7 @@ const NavItem = ({
   const { errors } = useAppSelector((state) => state.planModules);
 
   const titleType = getTitleFromModuleType(type);
-  const oldSubtitle = getSubtitleFromModuleType(type);
+  const oldSubtitle = getModuleBySlug(type)?.useSubtitle?.() || '';
 
   const hasErrors =
     (errors &&

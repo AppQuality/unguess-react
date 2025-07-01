@@ -24,12 +24,6 @@ export const getConfig = <L extends components['schemas']['Module']['type']>(
         variant: 'default',
         output: '',
       } as ModuleByType<L>;
-    case 'touchpoints':
-      return {
-        type,
-        variant: 'default',
-        output: [] as ModuleByType<'touchpoints'>['output'],
-      } as ModuleByType<L>;
     case 'bank':
       return {
         type,

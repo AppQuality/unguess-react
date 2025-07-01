@@ -6,10 +6,9 @@ import GasProviders from './modules/Gas';
 import InternetHomeProviders from './modules/InternetHome';
 import InternetMobileProviders from './modules/InternetMobile';
 import { Title } from './modules/Title';
-import { TouchPoints } from './modules/Touchpoints';
 
 export const MODULES_BY_TAB = {
-  setup: ['touchpoints', ...getModulesByTab('setup')],
+  setup: getModulesByTab('setup'),
   target: [
     'bank',
     'elettricity_supply',
@@ -37,7 +36,7 @@ export const modulesMap = {
   instruction_note: getModuleBySlug('instruction_note').Component,
   out_of_scope: getModuleBySlug('out_of_scope').Component,
   browser: getModuleBySlug('browser').Component,
-  touchpoints: TouchPoints,
+  touchpoints: getModuleBySlug('touchpoints').Component,
   additional_target: getModuleBySlug('additional_target').Component,
   locality: getModuleBySlug('locality').Component,
   elettricity_supply: ElectricityProviders, // Placeholder for future module
