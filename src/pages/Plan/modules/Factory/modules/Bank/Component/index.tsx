@@ -17,56 +17,55 @@ import { components } from 'src/common/schema';
 import { useModule } from 'src/features/modules/useModule';
 import { useModuleConfiguration } from 'src/features/modules/useModuleConfiguration';
 import { useValidation } from 'src/features/modules/useModuleValidation';
-import { getIconFromModuleType } from '../../utils';
-import { DeleteModuleConfirmationModal } from '../modal/DeleteModuleConfirmationModal';
-import { defaultInternetHomeProviders } from './defaultInternetHomeProviders';
-import { HomeInternetProvidersType } from './types';
+import { DeleteModuleConfirmationModal } from 'src/pages/Plan/modules/modal/DeleteModuleConfirmationModal';
+import { useIconWithValidation } from '../useIcon';
+import { defaultBanks } from './defaultBanks';
+import { BankType } from './types';
 
-const InternetHomeProviders = () => {
+const Bank = () => {
   const { getPlanStatus } = useModuleConfiguration();
   const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false);
-  const { value, setOutput, remove } = useModule('home_internet');
+  const { value, setOutput, remove } = useModule('bank');
   const { t } = useTranslation();
   const isOtherProvidersSelected = value?.output.some(
-    (provider) => provider.isOther === 1
+    (bank) => bank.isOther === 1
   );
+  const Icon = useIconWithValidation();
+
   const validation = (
-    module: components['schemas']['Module'] & { type: 'home_internet' }
+    module: components['schemas']['Module'] & { type: 'bank' }
   ) => {
     if (!module.output || module.output.length === 0) {
-      return { value: t('__INTERNET_HOME_ERROR_REQUIRED') };
+      return { value: t('__BANK_ERROR_REQUIRED') };
     }
 
     if (
-      module.output.some((home_internet) => home_internet.isOther === 1) &&
-      module.output.find((home_internet) => home_internet.isOther === 1)
-        ?.name === ''
+      module.output.some((bank) => bank.isOther === 1) &&
+      module.output.find((bank) => bank.isOther === 1)?.name === ''
     ) {
-      return { value: t('__OTHER_INTERNET_HOME_ERROR_REQUIRED') };
+      return { value: t('__OTHER_BANK_ERROR_REQUIRED') };
     }
 
     return true;
   };
 
   const { error, validate } = useValidation({
-    type: 'home_internet',
+    type: 'bank',
     validate: validation,
   });
 
   const isDefaultVariant = value?.variant === 'default';
 
-  const internetHomeError =
-    error && typeof error === 'object' && `home_internet.value` in error
-      ? error[`home_internet.value`]
+  const bankError =
+    error && typeof error === 'object' && `bank.value` in error
+      ? error[`bank.value`]
       : false;
 
   const [otherProviderName, setOtherProviderName] = useState('');
 
   // Update the initial state if the value already contains an "Other" provider
   useEffect(() => {
-    const other = value?.output.find(
-      (home_internet) => home_internet.isOther === 1
-    );
+    const other = value?.output.find((bank) => bank.isOther === 1);
     if (other) {
       setOtherProviderName(other.name || '');
     } else {
@@ -75,21 +74,18 @@ const InternetHomeProviders = () => {
   }, [value?.output]);
 
   const updateOutput = (
-    intenetHomeProviders: HomeInternetProvidersType[],
+    banks: BankType[],
     otherName?: string,
     doValidation?: boolean
   ) => {
-    const updatedIntenetHomeProviders = intenetHomeProviders.map((ep) => ({
-      name: ep.isOther ? otherName ?? otherProviderName : ep.name,
-      isOther: ep.isOther ? 1 : 0,
+    const updatedBanks = banks.map((bank) => ({
+      name: bank.isOther ? otherName ?? otherProviderName : bank.name,
+      isOther: bank.isOther ? 1 : 0,
     }));
 
-    setOutput(updatedIntenetHomeProviders);
+    setOutput(updatedBanks);
     if (doValidation) {
-      validate({
-        output: updatedIntenetHomeProviders,
-        variant: value?.variant || 'default',
-      });
+      validate({ output: updatedBanks, variant: value?.variant || 'default' });
     }
   };
 
@@ -101,18 +97,14 @@ const InternetHomeProviders = () => {
     <div>
       <AccordionNew
         hasBorder
-        className="internet-home-checkboxes"
-        data-qa="internet-home-module"
-        type={internetHomeError ? 'danger' : 'default'}
+        className="bank-checkboxes"
+        data-qa="bank-module"
+        type={bankError ? 'danger' : 'default'}
         level={3}
       >
         <AccordionNew.Section>
-          <AccordionNew.Header
-            icon={getIconFromModuleType('home_internet', true)}
-          >
-            <AccordionNew.Label
-              label={t('__PLAN_PAGE_MODULE_INTERNET_HOME_LABEL')}
-            />
+          <AccordionNew.Header icon={Icon}>
+            <AccordionNew.Label label={t('__PLAN_PAGE_MODULE_BANK_LABEL')} />
             {getPlanStatus() === 'draft' && (
               <AccordionNew.Meta>
                 <Button
@@ -126,57 +118,55 @@ const InternetHomeProviders = () => {
                   <Button.StartIcon>
                     <DeleteIcon />
                   </Button.StartIcon>
-                  {t('__PLAN_PAGE_MODULE_INTERNET_HOME_REMOVE_BUTTON')}
+                  {t('__PLAN_PAGE_MODULE_BANK_REMOVE_BUTTON')}
                 </Button>
               </AccordionNew.Meta>
             )}
           </AccordionNew.Header>
           {isDefaultVariant && (
             <AccordionNew.Panel>
-              <Label>{t('__PLAN_PAGE_MODULE_INTERNET_HOME_TITLE')}</Label>
+              <Label>{t('__PLAN_PAGE_MODULE_BANK_TITLE')}</Label>
               <Span style={{ color: appTheme.palette.red[600] }}>*</Span>
               <div>
-                {defaultInternetHomeProviders.map((e) => (
+                {defaultBanks.map((b) => (
                   <FormField
-                    key={`internet-home-${e.name}`}
+                    key={`bank-${b.name}`}
                     style={{
                       marginTop: appTheme.space.sm,
                     }}
                   >
                     <Checkbox
-                      key={`internet-home-${e.name}`}
-                      value={e.name}
-                      name={`internet-home-${e.name}`}
+                      key={`bank-${b.name}`}
+                      value={b.name}
+                      name={`bank-${b.name}`}
                       disabled={getPlanStatus() !== 'draft'}
                       checked={value?.output.some(
                         (item) =>
-                          item.isOther === e.isOther &&
-                          (e.isOther
+                          item.isOther === b.isOther &&
+                          (b.isOther
                             ? item.isOther === 1
-                            : item.name === e.name)
+                            : item.name === b.name)
                       )}
-                      onChange={(event) => {
+                      onChange={(e) => {
                         const shouldValidate =
-                          (event.target.checked && !e.isOther) ||
-                          !event.target.checked;
+                          (e.target.checked && !b.isOther) || !e.target.checked;
 
-                        const updatedInternetHomeProviders = event.target
-                          .checked
+                        const updatedBanks = e.target.checked
                           ? [
                               ...(value?.output ?? []),
                               {
-                                name: e.isOther ? otherProviderName : e.name,
-                                isOther: e.isOther ? 1 : 0,
+                                name: b.isOther ? otherProviderName : b.name,
+                                isOther: b.isOther ? 1 : 0,
                               },
                             ]
                           : (value?.output ?? []).filter((item) =>
-                              e.isOther
+                              b.isOther
                                 ? item.isOther !== 1
-                                : !(item.name === e.name && item.isOther === 0)
+                                : !(item.name === b.name && item.isOther === 0)
                             );
 
                         updateOutput(
-                          updatedInternetHomeProviders,
+                          updatedBanks,
                           otherProviderName,
                           shouldValidate
                         );
@@ -188,7 +178,7 @@ const InternetHomeProviders = () => {
                           fontSize: appTheme.fontSizes.md,
                         }}
                       >
-                        {e.name}
+                        {b.name}
                       </Label>
                     </Checkbox>
                   </FormField>
@@ -203,7 +193,7 @@ const InternetHomeProviders = () => {
                       }}
                     >
                       <Hint>
-                        {t('__PLAN_PAGE_MODULE_OTHER_INTERNET_HOME_LABEL_HINT')}
+                        {t('__PLAN_PAGE_MODULE_OTHER_BANK_LABEL_HINT')}
                       </Hint>
                       <Span style={{ color: appTheme.palette.red[600] }}>
                         *
@@ -211,8 +201,8 @@ const InternetHomeProviders = () => {
                     </div>
                     <FormField>
                       <Textarea
-                        id="other-internet-home-name"
-                        name="other-internet-home-name"
+                        id="other-bank-name"
+                        name="other-bank-name"
                         readOnly={getPlanStatus() !== 'draft'}
                         isResizable
                         onBlur={() => {
@@ -221,23 +211,19 @@ const InternetHomeProviders = () => {
                         value={otherProviderName}
                         onChange={(e) => {
                           setOtherProviderName(e.target.value);
-                          const updatedInternetHomeProviders = (
-                            value?.output || []
-                          ).map((provider) => {
-                            if (provider.isOther === 1) {
-                              return { ...provider, name: e.target.value };
+                          const updatedBanks = (value?.output || []).map(
+                            (bank) => {
+                              if (bank.isOther === 1) {
+                                return { ...bank, name: e.target.value };
+                              }
+                              return bank;
                             }
-                            return provider;
-                          });
-
-                          updateOutput(
-                            updatedInternetHomeProviders,
-                            e.target.value,
-                            true
                           );
+
+                          updateOutput(updatedBanks, e.target.value, true);
                         }}
                         placeholder={t(
-                          '__PLAN_PAGE_MODULE_OTHER_INTERNET_HOME_TEXTAREA_PLACEHOLDER'
+                          '__PLAN_PAGE_MODULE_OTHER_BANK_TEXTAREA_PLACEHOLDER'
                         )}
                       />
                     </FormField>
@@ -245,7 +231,7 @@ const InternetHomeProviders = () => {
                 )}
               </div>
 
-              {internetHomeError && (
+              {bankError && (
                 <div
                   style={{
                     display: 'flex',
@@ -259,9 +245,9 @@ const InternetHomeProviders = () => {
                       marginLeft: appTheme.space.xs,
                       color: appTheme.palette.red[600],
                     }}
-                    data-qa="internet-home-error"
+                    data-qa="bank-error"
                   >
-                    {internetHomeError}
+                    {bankError}
                   </Span>
                 </div>
               )}
@@ -279,4 +265,4 @@ const InternetHomeProviders = () => {
   );
 };
 
-export default InternetHomeProviders;
+export default Bank;

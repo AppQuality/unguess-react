@@ -2,12 +2,17 @@ import { components } from 'src/common/schema';
 import { ModuleDefinition } from './ModuleDefinition';
 import { AdditionalTarget } from './modules/AdditionalTarget';
 import { AgeModule } from './modules/Age';
+import { BankModule } from './modules/Bank';
 import { BrowserModule } from './modules/Browser';
+import { ElectricityModule } from './modules/Electricity';
 import { EmploymentModule } from './modules/Employment';
+import { GasModule } from './modules/GasSupply';
 import { GenderModule } from './modules/Gender';
 import { GoalModule } from './modules/Goal';
 import { IncomeModule } from './modules/IncomeModule';
 import { InstructionNoteModule } from './modules/InstructionNote';
+import { InternetHomeModule } from './modules/InternetHome';
+import { InternetMobileModule } from './modules/InternetMobile';
 import { LanguageModule } from './modules/Language';
 import { LiteracyModule } from './modules/Literacy';
 import { LocalityModule } from './modules/Locality';
@@ -40,6 +45,11 @@ const modules: Record<
   [TargetSizeModule.slug]: TargetSizeModule,
   [LiteracyModule.slug]: LiteracyModule,
   [TouchpointsModule.slug]: TouchpointsModule,
+  [BankModule.slug]: BankModule,
+  [InternetMobileModule.slug]: InternetMobileModule,
+  [ElectricityModule.slug]: ElectricityModule,
+  [GasModule.slug]: GasModule,
+  [InternetHomeModule.slug]: InternetHomeModule,
 };
 
 export function getModuleBySlug(

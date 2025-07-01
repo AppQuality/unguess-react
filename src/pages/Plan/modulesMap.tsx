@@ -1,22 +1,10 @@
-import Bank from './modules/Bank';
 import { Dates } from './modules/Dates';
-import ElectricityProviders from './modules/Electricity';
 import { getModuleBySlug, getModulesByTab } from './modules/Factory';
-import GasProviders from './modules/Gas';
-import InternetHomeProviders from './modules/InternetHome';
-import InternetMobileProviders from './modules/InternetMobile';
 import { Title } from './modules/Title';
 
 export const MODULES_BY_TAB = {
   setup: getModulesByTab('setup'),
-  target: [
-    'bank',
-    'elettricity_supply',
-    'mobile_internet',
-    'home_internet',
-    'gas_supply',
-    ...getModulesByTab('target'),
-  ],
+  target: getModulesByTab('target'),
   instructions: getModulesByTab('instructions'),
 };
 
@@ -39,10 +27,10 @@ export const modulesMap = {
   touchpoints: getModuleBySlug('touchpoints').Component,
   additional_target: getModuleBySlug('additional_target').Component,
   locality: getModuleBySlug('locality').Component,
-  elettricity_supply: ElectricityProviders, // Placeholder for future module
-  mobile_internet: InternetMobileProviders,
-  home_internet: InternetHomeProviders,
-  gas_supply: GasProviders,
-  annual_income_range: getModuleBySlug('annual_income_range').Component, // Placeholder for future module
-  bank: Bank,
+  elettricity_supply: getModuleBySlug('elettricity_supply').Component,
+  mobile_internet: getModuleBySlug('mobile_internet').Component,
+  home_internet: getModuleBySlug('home_internet').Component,
+  gas_supply: getModuleBySlug('gas_supply').Component,
+  annual_income_range: getModuleBySlug('annual_income_range').Component,
+  bank: getModuleBySlug('bank').Component,
 };

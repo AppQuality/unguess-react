@@ -17,8 +17,8 @@ import { components } from 'src/common/schema';
 import { useModule } from 'src/features/modules/useModule';
 import { useModuleConfiguration } from 'src/features/modules/useModuleConfiguration';
 import { useValidation } from 'src/features/modules/useModuleValidation';
-import { getIconFromModuleType } from '../../utils';
-import { DeleteModuleConfirmationModal } from '../modal/DeleteModuleConfirmationModal';
+import { DeleteModuleConfirmationModal } from 'src/pages/Plan/modules/modal/DeleteModuleConfirmationModal';
+import { useIconWithValidation } from '../useIcon';
 import { defaultElectricityProviders } from './defaultElectricityProviders';
 import { ElectricityProvidersType } from './types';
 
@@ -27,6 +27,7 @@ const ElectricityProviders = () => {
   const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false);
   const { value, setOutput, remove } = useModule('elettricity_supply');
   const { t } = useTranslation();
+  const Icon = useIconWithValidation();
   const isOtherProvidersSelected = value?.output.some(
     (provider) => provider.isOther === 1
   );
@@ -110,9 +111,7 @@ const ElectricityProviders = () => {
         level={3}
       >
         <AccordionNew.Section>
-          <AccordionNew.Header
-            icon={getIconFromModuleType('elettricity_supply')}
-          >
+          <AccordionNew.Header icon={Icon}>
             <AccordionNew.Label
               label={t('__PLAN_PAGE_MODULE_ELECTRICITY_LABEL')}
             />

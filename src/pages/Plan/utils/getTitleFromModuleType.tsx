@@ -14,18 +14,6 @@ const getTitleFromModuleType = (
   }
 
   switch (type) {
-    case 'dates':
-      return t('__PLAN_PAGE_MODULE_DATES_BLOCK_TITLE');
-    case 'bank':
-      return t('__PLAN_PAGE_MODULE_BANK_LABEL');
-    case 'elettricity_supply':
-      return t('__PLAN_PAGE_MODULE_ELECTRICITY_LABEL');
-    case 'mobile_internet':
-      return t('__PLAN_PAGE_MODULE_INTERNET_MOBILE_LABEL');
-    case 'home_internet':
-      return t('__PLAN_PAGE_MODULE_INTERNET_HOME_LABEL');
-    case 'gas_supply':
-      return t('__PLAN_PAGE_MODULE_GAS_LABEL');
     default:
       return title || '';
   }

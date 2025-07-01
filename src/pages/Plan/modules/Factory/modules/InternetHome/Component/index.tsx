@@ -17,47 +17,48 @@ import { components } from 'src/common/schema';
 import { useModule } from 'src/features/modules/useModule';
 import { useModuleConfiguration } from 'src/features/modules/useModuleConfiguration';
 import { useValidation } from 'src/features/modules/useModuleValidation';
-import { getIconFromModuleType } from '../../utils';
-import { DeleteModuleConfirmationModal } from '../modal/DeleteModuleConfirmationModal';
-import { defaultInternetMobileProviders } from './defaultInternetMobileProviders';
-import { MobileInternetProvidersType } from './types';
+import { DeleteModuleConfirmationModal } from 'src/pages/Plan/modules/modal/DeleteModuleConfirmationModal';
+import { useIconWithValidation } from '../useIcon';
+import { defaultInternetHomeProviders } from './defaultInternetHomeProviders';
+import { HomeInternetProvidersType } from './types';
 
-const InternetMobileProviders = () => {
+const InternetHomeProviders = () => {
   const { getPlanStatus } = useModuleConfiguration();
   const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false);
-  const { value, setOutput, remove } = useModule('mobile_internet');
+  const { value, setOutput, remove } = useModule('home_internet');
   const { t } = useTranslation();
+  const Icon = useIconWithValidation();
   const isOtherProvidersSelected = value?.output.some(
     (provider) => provider.isOther === 1
   );
   const validation = (
-    module: components['schemas']['Module'] & { type: 'mobile_internet' }
+    module: components['schemas']['Module'] & { type: 'home_internet' }
   ) => {
     if (!module.output || module.output.length === 0) {
-      return { value: t('__INTERNET_MOBILE_ERROR_REQUIRED') };
+      return { value: t('__INTERNET_HOME_ERROR_REQUIRED') };
     }
 
     if (
-      module.output.some((mobile_internet) => mobile_internet.isOther === 1) &&
-      module.output.find((mobile_internet) => mobile_internet.isOther === 1)
+      module.output.some((home_internet) => home_internet.isOther === 1) &&
+      module.output.find((home_internet) => home_internet.isOther === 1)
         ?.name === ''
     ) {
-      return { value: t('__OTHER_INTERNET_MOBILE_ERROR_REQUIRED') };
+      return { value: t('__OTHER_INTERNET_HOME_ERROR_REQUIRED') };
     }
 
     return true;
   };
 
   const { error, validate } = useValidation({
-    type: 'mobile_internet',
+    type: 'home_internet',
     validate: validation,
   });
 
   const isDefaultVariant = value?.variant === 'default';
 
-  const internetMobileError =
-    error && typeof error === 'object' && `mobile_internet.value` in error
-      ? error[`mobile_internet.value`]
+  const internetHomeError =
+    error && typeof error === 'object' && `home_internet.value` in error
+      ? error[`home_internet.value`]
       : false;
 
   const [otherProviderName, setOtherProviderName] = useState('');
@@ -65,7 +66,7 @@ const InternetMobileProviders = () => {
   // Update the initial state if the value already contains an "Other" provider
   useEffect(() => {
     const other = value?.output.find(
-      (mobile_internet) => mobile_internet.isOther === 1
+      (home_internet) => home_internet.isOther === 1
     );
     if (other) {
       setOtherProviderName(other.name || '');
@@ -75,19 +76,19 @@ const InternetMobileProviders = () => {
   }, [value?.output]);
 
   const updateOutput = (
-    intenetMobileProviders: MobileInternetProvidersType[],
+    intenetHomeProviders: HomeInternetProvidersType[],
     otherName?: string,
     doValidation?: boolean
   ) => {
-    const updatedIntenetMobileProviders = intenetMobileProviders.map((ep) => ({
+    const updatedIntenetHomeProviders = intenetHomeProviders.map((ep) => ({
       name: ep.isOther ? otherName ?? otherProviderName : ep.name,
       isOther: ep.isOther ? 1 : 0,
     }));
 
-    setOutput(updatedIntenetMobileProviders);
+    setOutput(updatedIntenetHomeProviders);
     if (doValidation) {
       validate({
-        output: updatedIntenetMobileProviders,
+        output: updatedIntenetHomeProviders,
         variant: value?.variant || 'default',
       });
     }
@@ -101,17 +102,15 @@ const InternetMobileProviders = () => {
     <div>
       <AccordionNew
         hasBorder
-        className="internet-mobile-checkboxes"
-        data-qa="internet-mobile-module"
-        type={internetMobileError ? 'danger' : 'default'}
+        className="internet-home-checkboxes"
+        data-qa="internet-home-module"
+        type={internetHomeError ? 'danger' : 'default'}
         level={3}
       >
         <AccordionNew.Section>
-          <AccordionNew.Header
-            icon={getIconFromModuleType('mobile_internet', true)}
-          >
+          <AccordionNew.Header icon={Icon}>
             <AccordionNew.Label
-              label={t('__PLAN_PAGE_MODULE_INTERNET_MOBILE_LABEL')}
+              label={t('__PLAN_PAGE_MODULE_INTERNET_HOME_LABEL')}
             />
             {getPlanStatus() === 'draft' && (
               <AccordionNew.Meta>
@@ -126,27 +125,27 @@ const InternetMobileProviders = () => {
                   <Button.StartIcon>
                     <DeleteIcon />
                   </Button.StartIcon>
-                  {t('__PLAN_PAGE_MODULE_INTERNET_MOBILE_REMOVE_BUTTON')}
+                  {t('__PLAN_PAGE_MODULE_INTERNET_HOME_REMOVE_BUTTON')}
                 </Button>
               </AccordionNew.Meta>
             )}
           </AccordionNew.Header>
           {isDefaultVariant && (
             <AccordionNew.Panel>
-              <Label>{t('__PLAN_PAGE_MODULE_INTERNET_MOBILE_TITLE')}</Label>
+              <Label>{t('__PLAN_PAGE_MODULE_INTERNET_HOME_TITLE')}</Label>
               <Span style={{ color: appTheme.palette.red[600] }}>*</Span>
               <div>
-                {defaultInternetMobileProviders.map((e) => (
+                {defaultInternetHomeProviders.map((e) => (
                   <FormField
-                    key={`internet-mobile-${e.name}`}
+                    key={`internet-home-${e.name}`}
                     style={{
                       marginTop: appTheme.space.sm,
                     }}
                   >
                     <Checkbox
-                      key={`internet-mobile-${e.name}`}
+                      key={`internet-home-${e.name}`}
                       value={e.name}
-                      name={`internet-mobile-${e.name}`}
+                      name={`internet-home-${e.name}`}
                       disabled={getPlanStatus() !== 'draft'}
                       checked={value?.output.some(
                         (item) =>
@@ -160,7 +159,7 @@ const InternetMobileProviders = () => {
                           (event.target.checked && !e.isOther) ||
                           !event.target.checked;
 
-                        const updatedInternetMobileProviders = event.target
+                        const updatedInternetHomeProviders = event.target
                           .checked
                           ? [
                               ...(value?.output ?? []),
@@ -176,7 +175,7 @@ const InternetMobileProviders = () => {
                             );
 
                         updateOutput(
-                          updatedInternetMobileProviders,
+                          updatedInternetHomeProviders,
                           otherProviderName,
                           shouldValidate
                         );
@@ -203,9 +202,7 @@ const InternetMobileProviders = () => {
                       }}
                     >
                       <Hint>
-                        {t(
-                          '__PLAN_PAGE_MODULE_OTHER_INTERNET_MOBILE_LABEL_HINT'
-                        )}
+                        {t('__PLAN_PAGE_MODULE_OTHER_INTERNET_HOME_LABEL_HINT')}
                       </Hint>
                       <Span style={{ color: appTheme.palette.red[600] }}>
                         *
@@ -213,8 +210,8 @@ const InternetMobileProviders = () => {
                     </div>
                     <FormField>
                       <Textarea
-                        id="other-internet-mobile-name"
-                        name="other-internet-mobile-name"
+                        id="other-internet-home-name"
+                        name="other-internet-home-name"
                         readOnly={getPlanStatus() !== 'draft'}
                         isResizable
                         onBlur={() => {
@@ -223,7 +220,7 @@ const InternetMobileProviders = () => {
                         value={otherProviderName}
                         onChange={(e) => {
                           setOtherProviderName(e.target.value);
-                          const updatedInternetMobileProviders = (
+                          const updatedInternetHomeProviders = (
                             value?.output || []
                           ).map((provider) => {
                             if (provider.isOther === 1) {
@@ -233,13 +230,13 @@ const InternetMobileProviders = () => {
                           });
 
                           updateOutput(
-                            updatedInternetMobileProviders,
+                            updatedInternetHomeProviders,
                             e.target.value,
                             true
                           );
                         }}
                         placeholder={t(
-                          '__PLAN_PAGE_MODULE_OTHER_INTERNET_MOBILE_TEXTAREA_PLACEHOLDER'
+                          '__PLAN_PAGE_MODULE_OTHER_INTERNET_HOME_TEXTAREA_PLACEHOLDER'
                         )}
                       />
                     </FormField>
@@ -247,7 +244,7 @@ const InternetMobileProviders = () => {
                 )}
               </div>
 
-              {internetMobileError && (
+              {internetHomeError && (
                 <div
                   style={{
                     display: 'flex',
@@ -261,9 +258,9 @@ const InternetMobileProviders = () => {
                       marginLeft: appTheme.space.xs,
                       color: appTheme.palette.red[600],
                     }}
-                    data-qa="internet-mobile-error"
+                    data-qa="internet-home-error"
                   >
-                    {internetMobileError}
+                    {internetHomeError}
                   </Span>
                 </div>
               )}
@@ -281,4 +278,4 @@ const InternetMobileProviders = () => {
   );
 };
 
-export default InternetMobileProviders;
+export default InternetHomeProviders;

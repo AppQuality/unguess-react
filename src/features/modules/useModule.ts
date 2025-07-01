@@ -7,7 +7,6 @@ import {
   setOutput as setOutputAction,
   setVariant as setVariantAction,
 } from '../planModules';
-import { getConfig } from './getConfig';
 
 export const useModule = <T extends components['schemas']['Module']['type']>(
   moduleName: T
@@ -43,16 +42,8 @@ export const useModule = <T extends components['schemas']['Module']['type']>(
     dispatch(removeModule(moduleName));
   }, [moduleName]);
 
-  const add = () => {
-    if (!getConfig(moduleName)) return;
-
-    const newModule = getConfig(moduleName);
-    if (!newModule) return;
-    dispatch(setModule({ type: moduleName, module: newModule }));
-  };
-
   return useMemo(
-    () => ({ value: module, set, remove, setOutput, setVariant, add }),
-    [module, set, remove, add]
+    () => ({ value: module, set, remove, setOutput, setVariant }),
+    [module, set, remove]
   );
 };

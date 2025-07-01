@@ -1,12 +1,8 @@
 import { getColor } from '@appquality/unguess-design-system';
-import { ReactComponent as BankIcon } from '@zendeskgarden/svg-icons/src/16/credit-card-stroke.svg';
-import { ReactComponent as PhoneIcon } from '@zendeskgarden/svg-icons/src/16/phone-fill.svg';
 import { ReactComponent as PlugIcon } from '@zendeskgarden/svg-icons/src/16/plug-fill.svg';
 import { shallowEqual } from 'react-redux';
 import { useAppSelector } from 'src/app/hooks';
 import { appTheme } from 'src/app/theme';
-import { ReactComponent as GasIcon } from 'src/assets/icons/gas_module_icon.svg';
-import { ReactComponent as HomeInternetIcon } from 'src/assets/icons/home-internet.svg';
 import { components } from 'src/common/schema';
 import { getModuleBySlug } from '../modules/Factory';
 
@@ -53,18 +49,9 @@ const getIconFromModuleType = (
     : getColor(appTheme.colors.primaryHue, 600);
 
   switch (type) {
-    case 'bank':
-      return <BankIcon color={color} />;
     case 'elettricity_supply':
       return <PlugIcon color={color} />;
-    case 'mobile_internet':
-      return <PhoneIcon color={color} />;
-    case 'home_internet':
-      return <HomeInternetIcon color={color} />;
-    case 'gas_supply':
-      return <GasIcon color={color} />;
-    case 'title':
-    case 'dates':
+
     default:
       return icon || null;
   }
