@@ -4,13 +4,18 @@ import useIcon from './useIcon';
 import useSubtitle from './useSubtitle';
 import useTitle from './useTitle';
 
-export const LanguageModule = createModuleDefinition({
-  slug: 'language',
+export const LocalityModule = createModuleDefinition({
+  slug: 'locality',
   Component,
   useTitle,
   useIcon,
   useSubtitle,
-  defaultData: 'en',
+  defaultData: [
+    {
+      type: 'country',
+      values: ['IT'],
+    },
+  ],
   defaultVariant: 'default',
   tab: 'target',
 });

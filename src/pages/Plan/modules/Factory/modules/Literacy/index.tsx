@@ -4,13 +4,17 @@ import useIcon from './useIcon';
 import useSubtitle from './useSubtitle';
 import useTitle from './useTitle';
 
-export const LanguageModule = createModuleDefinition({
-  slug: 'language',
+export const LiteracyModule = createModuleDefinition({
+  slug: 'literacy',
   Component,
   useTitle,
   useIcon,
   useSubtitle,
-  defaultData: 'en',
+  defaultData: [
+    { level: 'beginner', percentage: 33.33 },
+    { level: 'intermediate', percentage: 33.33 },
+    { level: 'expert', percentage: 33.33 },
+  ],
   defaultVariant: 'default',
   tab: 'target',
 });

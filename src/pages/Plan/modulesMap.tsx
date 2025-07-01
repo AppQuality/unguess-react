@@ -5,16 +5,12 @@ import { getModuleBySlug, getModulesByTab } from './modules/Factory';
 import GasProviders from './modules/Gas';
 import InternetHomeProviders from './modules/InternetHome';
 import InternetMobileProviders from './modules/InternetMobile';
-import Literacy from './modules/Literacy';
-import Locality from './modules/Locality';
 import { Title } from './modules/Title';
 import { TouchPoints } from './modules/Touchpoints';
 
 export const MODULES_BY_TAB = {
   setup: ['touchpoints', ...getModulesByTab('setup')],
   target: [
-    'literacy',
-    'locality',
     'bank',
     'elettricity_supply',
     'mobile_internet',
@@ -37,13 +33,13 @@ export const modulesMap = {
   language: getModuleBySlug('language').Component,
   gender: getModuleBySlug('gender').Component,
   employment: getModuleBySlug('employment').Component,
-  literacy: Literacy,
+  literacy: getModuleBySlug('literacy').Component,
   instruction_note: getModuleBySlug('instruction_note').Component,
   out_of_scope: getModuleBySlug('out_of_scope').Component,
   browser: getModuleBySlug('browser').Component,
   touchpoints: TouchPoints,
   additional_target: getModuleBySlug('additional_target').Component,
-  locality: Locality,
+  locality: getModuleBySlug('locality').Component,
   elettricity_supply: ElectricityProviders, // Placeholder for future module
   mobile_internet: InternetMobileProviders,
   home_internet: InternetHomeProviders,

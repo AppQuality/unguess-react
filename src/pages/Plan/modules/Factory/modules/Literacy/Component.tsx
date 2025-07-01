@@ -16,14 +16,16 @@ import { components } from 'src/common/schema';
 import { useModule } from 'src/features/modules/useModule';
 import { useModuleConfiguration } from 'src/features/modules/useModuleConfiguration';
 import { useValidation } from 'src/features/modules/useModuleValidation';
-import { getIconFromModuleType } from '../utils';
-import { DeleteModuleConfirmationModal } from './modal/DeleteModuleConfirmationModal';
+import { DeleteModuleConfirmationModal } from 'src/pages/Plan/modules/modal/DeleteModuleConfirmationModal';
+
+import { useIconWithValidation } from './useIcon';
 
 const DigitalLiteracy = () => {
   type DigitalLiteracyLevel =
     components['schemas']['OutputModuleLiteracy'][number]['level'];
   const { getPlanStatus } = useModuleConfiguration();
   const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false);
+  const Icon = useIconWithValidation();
 
   const handleDelete = () => {
     setIsOpenDeleteModal(true);
@@ -106,7 +108,7 @@ const DigitalLiteracy = () => {
         level={3}
       >
         <AccordionNew.Section>
-          <AccordionNew.Header icon={getIconFromModuleType('literacy')}>
+          <AccordionNew.Header icon={Icon}>
             <AccordionNew.Label
               label={t('__PLAN_PAGE_MODULE_DIGITAL_LITERACY_ACCORDION_LABEL')}
             />

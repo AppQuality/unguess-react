@@ -24,27 +24,6 @@ export const getConfig = <L extends components['schemas']['Module']['type']>(
         variant: 'default',
         output: '',
       } as ModuleByType<L>;
-    case 'literacy':
-      return {
-        type,
-        variant: 'default',
-        output: [
-          { level: 'beginner', percentage: 33.33 },
-          { level: 'intermediate', percentage: 33.33 },
-          { level: 'expert', percentage: 33.33 },
-        ],
-      } as ModuleByType<L>;
-    case 'locality':
-      return {
-        type,
-        variant: 'default',
-        output: [
-          {
-            type: 'country',
-            values: ['IT'],
-          },
-        ],
-      } as ModuleByType<L>;
     case 'touchpoints':
       return {
         type,

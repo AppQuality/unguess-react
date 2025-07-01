@@ -8,9 +8,13 @@ import { GenderModule } from './modules/Gender';
 import { GoalModule } from './modules/Goal';
 import { IncomeModule } from './modules/IncomeModule';
 import { InstructionNoteModule } from './modules/InstructionNote';
+import { LanguageModule } from './modules/Language';
+import { LiteracyModule } from './modules/Literacy';
+import { LocalityModule } from './modules/Locality';
 import { OutOfScopeModule } from './modules/OutOfScope';
 import { SetupNoteModule } from './modules/SetupNote';
 import { TargetNoteModule } from './modules/TargetNote';
+import { TargetSizeModule } from './modules/TargetSize';
 import { TasksModule } from './modules/Tasks';
 
 const modules: Record<
@@ -30,6 +34,10 @@ const modules: Record<
   [InstructionNoteModule.slug]: InstructionNoteModule,
   [OutOfScopeModule.slug]: OutOfScopeModule,
   [TargetNoteModule.slug]: TargetNoteModule,
+  [LocalityModule.slug]: LocalityModule,
+  [LanguageModule.slug]: LanguageModule,
+  [TargetSizeModule.slug]: TargetSizeModule,
+  [LiteracyModule.slug]: LiteracyModule,
 };
 
 export function getModuleBySlug(

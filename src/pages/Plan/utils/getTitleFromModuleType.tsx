@@ -16,12 +16,6 @@ const getTitleFromModuleType = (
   switch (type) {
     case 'dates':
       return t('__PLAN_PAGE_MODULE_DATES_BLOCK_TITLE');
-    case 'language':
-      return t('__PLAN_PAGE_MODULE_LANGUAGE_TITLE');
-    case 'locality':
-      return t('__PLAN_PAGE_MODULE_LOCALITY_TITLE');
-    case 'literacy':
-      return t('__PLAN_PAGE_MODULE_DIGITAL_LITERACY_ACCORDION_LABEL');
     case 'touchpoints':
       return t('__PLAN_PAGE_MODULE_TOUCHPOINTS_TITLE');
     case 'bank':
