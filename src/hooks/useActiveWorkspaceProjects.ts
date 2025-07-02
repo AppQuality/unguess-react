@@ -5,9 +5,14 @@ const useActiveWorkspaceProjects = () => {
   const { activeWorkspace } = useActiveWorkspace();
 
   const { data, isLoading, isFetching, isError } =
-    useGetWorkspacesByWidProjectsQuery({
-      wid: activeWorkspace?.id.toString() || '',
-    });
+    useGetWorkspacesByWidProjectsQuery(
+      {
+        wid: activeWorkspace?.id.toString() || '',
+      },
+      {
+        skip: !activeWorkspace?.id,
+      }
+    );
   // If there is no active workspace, we return an empty object
   if (!activeWorkspace)
     return {
