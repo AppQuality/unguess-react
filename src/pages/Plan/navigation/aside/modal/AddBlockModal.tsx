@@ -3,9 +3,9 @@ import { useTranslation } from 'react-i18next';
 import { useAppSelector } from 'src/app/hooks';
 import { appTheme } from 'src/app/theme';
 import { components } from 'src/common/schema';
+import { getModulesByTab } from 'src/pages/Plan/modules/Factory';
 import styled from 'styled-components';
 import { usePlanTab } from '../../../context/planContext';
-import { MODULES_BY_TAB } from '../../../modulesMap';
 import { usePlanNavContext } from '../context';
 import { AddBlockModalItem } from './AddBlockModalItem';
 
@@ -25,8 +25,7 @@ const AddBlockModal = () => {
   const { t } = useTranslation();
   const { modalRef, setModalRef } = usePlanNavContext();
   const { activeTab } = usePlanTab();
-  const availableModules =
-    MODULES_BY_TAB[activeTab as keyof typeof MODULES_BY_TAB] || [];
+  const availableModules = getModulesByTab(activeTab);
   const { currentModules } = useAppSelector((state) => state.planModules);
 
   const items = availableModules.map((module_type) => {

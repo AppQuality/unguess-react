@@ -17,13 +17,14 @@ import { Trans, useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { useRequestQuotation } from 'src/features/modules/useRequestQuotation';
 import { useValidateForm } from 'src/features/planModules';
-import { Dates } from '../modules/Dates';
-import { Title } from '../modules/Title';
+import { getModuleBySlug } from '../modules/Factory';
 
 const SendRequestModal = ({ onQuit }: { onQuit: () => void }) => {
   const { t } = useTranslation();
   const { isRequestingQuote, handleQuoteRequest } = useRequestQuotation();
   const { addToast } = useToast();
+  const Title = getModuleBySlug('title').Component;
+  const Dates = getModuleBySlug('dates').Component;
 
   const { validateForm } = useValidateForm();
 

@@ -4,7 +4,7 @@ import { useAppSelector } from 'src/app/hooks';
 import { useModuleConfiguration } from 'src/features/modules/useModuleConfiguration';
 import styled from 'styled-components';
 import { usePlanTab } from '../../context/planContext';
-import { MODULES_BY_TAB } from '../../modulesMap';
+import { getModulesByTab } from '../../modules/Factory';
 
 const StyledBreadcrumb = styled(Breadcrumb)`
   ol {
@@ -18,11 +18,9 @@ export const BreadCrumbTabs = () => {
   const { errors } = useAppSelector((state) => state.planModules);
   const { getPlanStatus } = useModuleConfiguration();
 
-  const availableModules = MODULES_BY_TAB;
-
-  const setupModules = availableModules.setup || [];
-  const targetModules = availableModules.target || [];
-  const instructionsModules = availableModules.instructions || [];
+  const setupModules = getModulesByTab('setup');
+  const targetModules = getModulesByTab('target');
+  const instructionsModules = getModulesByTab('instructions');
 
   const hasSetupErrors = setupModules.some(
     (module_type) =>

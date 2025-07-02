@@ -12,8 +12,7 @@ import { useAppSelector } from 'src/app/hooks';
 import { appTheme } from 'src/app/theme';
 import { components } from 'src/common/schema';
 import styled from 'styled-components';
-import { getIconFromModuleType, getTitleFromModuleType } from '../../utils';
-import { getSubtitleFromModuleType } from '../../utils/getSubtitleFromModuleType';
+import { getModuleBySlug } from '../../modules/Factory';
 
 const StyledCard = styled(Card)`
   background-color: transparent;
@@ -56,11 +55,13 @@ const ModuleIcon = ({
   type,
 }: {
   type: components['schemas']['Module']['type'];
-}) => (
-  <ModuleIconContainer className="module-icon">
-    {getIconFromModuleType(type)}
-  </ModuleIconContainer>
-);
+}) => {
+  const Icon = getModuleBySlug(type).useIcon?.();
+
+  return (
+    <ModuleIconContainer className="module-icon">{Icon}</ModuleIconContainer>
+  );
+};
 
 const NavItem = ({
   type,
@@ -72,13 +73,14 @@ const NavItem = ({
   const { t } = useTranslation();
   const { errors } = useAppSelector((state) => state.planModules);
 
+  const titleType = getModuleBySlug(type)?.useTitle?.();
+  const oldSubtitle = getModuleBySlug(type)?.useSubtitle?.() || '';
+
   const hasErrors =
     (errors &&
       typeof errors === 'object' &&
       Object.keys(errors).some((key) => key.startsWith(type))) ??
     false;
-
-  const titleType = getTitleFromModuleType(type);
 
   return (
     <NavItemLink
@@ -112,7 +114,7 @@ const NavItem = ({
                 <Ellipsis title={titleType}>{titleType}</Ellipsis>
               </MD>
               <SM style={{ color: appTheme.palette.grey[600] }}>
-                <Span>{getSubtitleFromModuleType(type)}</Span>
+                <Span>{oldSubtitle}</Span>
               </SM>
             </div>
             {children && children}
