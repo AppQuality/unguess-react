@@ -38,7 +38,6 @@ const modules: Record<
   [EmploymentModule.slug]: EmploymentModule,
   [GenderModule.slug]: GenderModule,
   [SetupNoteModule.slug]: SetupNoteModule,
-  [TargetNoteModule.slug]: TargetNoteModule,
   [InstructionNoteModule.slug]: InstructionNoteModule,
   [OutOfScopeModule.slug]: OutOfScopeModule,
   [TargetNoteModule.slug]: TargetNoteModule,
