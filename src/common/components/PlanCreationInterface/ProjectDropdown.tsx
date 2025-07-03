@@ -9,11 +9,9 @@ import { useTranslation } from 'react-i18next';
 import { useLocation, useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as FolderIcon } from 'src/assets/icons/folder-icon.svg';
-import {
-  useGetWorkspacesByWidProjectsQuery,
-  usePostProjectsMutation,
-} from 'src/features/api';
+import { usePostProjectsMutation } from 'src/features/api';
 import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
+import { useActiveWorkspaceProjects } from 'src/hooks/useActiveWorkspaceProjects';
 import { useCanAccessToActiveWorkspace } from 'src/hooks/useCanAccessToActiveWorkspace';
 import { usePlanCreationContext } from './Context';
 
@@ -25,9 +23,7 @@ export const ProjectDropdown = () => {
   const { projectId: pid } = useParams();
   const { projectId, setProjectId, fieldIsTouched, setFieldIsTouched } =
     usePlanCreationContext();
-  const { data, isLoading, isFetching } = useGetWorkspacesByWidProjectsQuery({
-    wid: activeWorkspace?.id.toString() || '',
-  });
+  const { data, isLoading, isFetching } = useActiveWorkspaceProjects();
   const [createProject] = usePostProjectsMutation();
   const projects = data?.items;
   const hasValidationError = useMemo(

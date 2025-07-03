@@ -14,18 +14,17 @@ import { Link } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as EditRedoStroke } from 'src/assets/icons/move-icon.svg';
 import { ReactComponent as InboxFill } from 'src/assets/icons/project-archive.svg';
-import { PageMeta } from 'src/common/components/PageMeta';
-import { Pipe } from 'src/common/components/Pipe';
 import { Divider } from 'src/common/components/divider';
 import { CampaignSettings } from 'src/common/components/inviteUsers/campaignSettings';
 import { StatusMeta } from 'src/common/components/meta/StatusMeta';
+import { PageMeta } from 'src/common/components/PageMeta';
+import { Pipe } from 'src/common/components/Pipe';
 import { FEATURE_FLAG_TAGGING_TOOL } from 'src/constants';
 import {
   CampaignWithOutput,
   useGetCampaignsByCidMetaQuery,
-  useGetWorkspacesByWidProjectsQuery,
 } from 'src/features/api';
-import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
+import { useActiveWorkspaceProjects } from 'src/hooks/useActiveWorkspaceProjects';
 import { useCanAccessToActiveWorkspace } from 'src/hooks/useCanAccessToActiveWorkspace';
 import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
@@ -91,7 +90,6 @@ export const Metas = ({
   const [isArchiveModalOpen, setIsArchiveModalOpen] = useState<boolean>(false);
   const { hasFeatureFlag } = useFeatureFlag();
   const hasTaggingToolFeature = hasFeatureFlag(FEATURE_FLAG_TAGGING_TOOL);
-  const { activeWorkspace } = useActiveWorkspace();
   const functionalDashboardRoute = useLocalizeRoute(
     `campaigns/${campaign.id}/bugs`
   );
@@ -117,9 +115,7 @@ export const Metas = ({
     isLoading: isLoadingProjects,
     isFetching: isFetchingProjects,
     isError: isErrorProjects,
-  } = useGetWorkspacesByWidProjectsQuery({
-    wid: activeWorkspace?.id.toString() || '',
-  });
+  } = useActiveWorkspaceProjects();
 
   const projects = projectsData?.items;
 
