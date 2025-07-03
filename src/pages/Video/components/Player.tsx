@@ -22,6 +22,7 @@ import { useVideoContext } from '../context/VideoContext';
 import { ObservationTooltip } from './ObservationTooltip';
 import { ToolsContextProvider } from './tools/context/ToolsContext';
 import { Transcript } from './Transcript';
+import { useSetStartTimeFromObservation } from '../useSetStartTimeFromObservation';
 
 const PlayerContainer = styled.div<{
   isFetching?: boolean;
@@ -75,6 +76,8 @@ const CorePlayer = () => {
   const { data: video, isFetching: isFetchingVideo } = useGetVideosByVidQuery({
     vid: videoId || '',
   });
+
+  useSetStartTimeFromObservation(observations, videoRef);
 
   const handleCut = useCallback(
     async (time: number) => {
