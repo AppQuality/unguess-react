@@ -1,20 +1,33 @@
 import {
+  Draggable,
+  DraggableList,
   Ellipsis,
   MD,
   Message,
-  Draggable,
-  DraggableList,
   Span,
 } from '@appquality/unguess-design-system';
+import {
+  attachClosestEdge,
+  type Edge,
+  extractClosestEdge,
+} from '@atlaskit/pragmatic-drag-and-drop-hitbox/closest-edge';
+import { combine } from '@atlaskit/pragmatic-drag-and-drop/combine';
+import {
+  draggable,
+  dropTargetForElements,
+} from '@atlaskit/pragmatic-drag-and-drop/element/adapter';
+import { pointerOutsideOfPreview } from '@atlaskit/pragmatic-drag-and-drop/element/pointer-outside-of-preview';
+import { setCustomNativeDragPreview } from '@atlaskit/pragmatic-drag-and-drop/element/set-custom-native-drag-preview';
+import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-scroll';
 import { appTheme } from 'src/app/theme';
 import { components } from 'src/common/schema';
 import styled from 'styled-components';
-import { useModuleTasks } from '../../hooks';
+import { getTaskData, isTaskData, TTask, useModuleTasks } from '../../hooks';
 import { getIconFromTaskOutput } from '../../utils';
-import { useEffect, useRef, useState } from 'react';
-import { draggable } from '@atlaskit/pragmatic-drag-and-drop/element/adapter';
+import { DropIndicator } from './drop-indicator';
+import { createPortal } from 'react-dom';
 
 const StyledDraggableContent = styled(Draggable.Content)`
   min-width: 0;
@@ -28,7 +41,7 @@ const StyledDraggableListItem = styled(DraggableList.Item)`
   display: block;
 `;
 
-const StyledDraggable = styled(Draggable)<{ $dragging: boolean }>`
+const StyledDraggable = styled(Draggable)<{ $dragging?: boolean }>`
   opacity: ${({ $dragging }) => ($dragging ? 0.5 : 1)};
 `;
 
@@ -51,29 +64,113 @@ const ModuleIconContainer = styled.div`
   align-items: center;
   padding-top: 2px;
 `;
+type TaskState =
+  | {
+      type: 'idle';
+    }
+  | {
+      type: 'preview';
+      container: HTMLElement;
+    }
+  | {
+      type: 'is-dragging';
+    }
+  | {
+      type: 'is-dragging-over';
+      closestEdge: Edge | null;
+    };
+const idle: TaskState = { type: 'idle' };
 
 const TaskItemNav = ({
   task,
 }: {
-  task: components['schemas']['OutputModuleTask'] & { key: number };
+  task: components['schemas']['OutputModuleTask'] & { key: number; id: string };
 }) => {
+  const [state, setState] = useState<TaskState>(idle);
   const { t } = useTranslation();
   const { error } = useModuleTasks();
   const { key } = task;
   const ref = useRef(null);
-  const [dragging, setDragging] = useState<boolean>(false);
 
   useEffect(() => {
-    const el = ref.current;
-    if (!el) {
+    const element = ref.current;
+    if (!element) {
       return;
     }
-    return draggable({
-      element: el,
-      onDragStart: () => setDragging(true),
-      onDrop: () => setDragging(false),
-    });
-  }, []);
+    return combine(
+      draggable({
+        element,
+        getInitialData() {
+          return getTaskData(task);
+        },
+        onGenerateDragPreview({ nativeSetDragImage }) {
+          setCustomNativeDragPreview({
+            nativeSetDragImage,
+            getOffset: pointerOutsideOfPreview({
+              x: '16px',
+              y: '8px',
+            }),
+            render({ container }) {
+              setState({ type: 'preview', container });
+            },
+          });
+        },
+        onDragStart() {
+          setState({ type: 'is-dragging' });
+        },
+        onDrop() {
+          setState(idle);
+        },
+      }),
+      dropTargetForElements({
+        element,
+        canDrop({ source }) {
+          // not allowing dropping on yourself
+          if (source.element === element) {
+            return false;
+          }
+          // only allowing tasks to be dropped on me
+          return isTaskData(source.data);
+        },
+        getData({ input }) {
+          const data = getTaskData(task);
+          return attachClosestEdge(data, {
+            element,
+            input,
+            allowedEdges: ['top', 'bottom'],
+          });
+        },
+        getIsSticky() {
+          return true;
+        },
+        onDragEnter({ self }) {
+          const closestEdge = extractClosestEdge(self.data);
+          setState({ type: 'is-dragging-over', closestEdge });
+        },
+        onDrag({ self }) {
+          const closestEdge = extractClosestEdge(self.data);
+
+          // Only need to update react state if nothing has changed.
+          // Prevents re-rendering.
+          setState((current) => {
+            if (
+              current.type === 'is-dragging-over' &&
+              current.closestEdge === closestEdge
+            ) {
+              return current;
+            }
+            return { type: 'is-dragging-over', closestEdge };
+          });
+        },
+        onDragLeave() {
+          setState(idle);
+        },
+        onDrop() {
+          setState(idle);
+        },
+      })
+    );
+  }, [task]);
 
   const titleError =
     error && typeof error === 'object' && `tasks.${key}.title` in error
@@ -103,7 +200,11 @@ const TaskItemNav = ({
         isDynamic
         activeClass="isCurrent"
       >
-        <StyledDraggable ref={ref} $dragging={dragging}>
+        <StyledDraggable
+          ref={ref}
+          data-task-id={task.id}
+          $dragging={state.type === 'is-dragging'}
+        >
           <Draggable.Grip style={{ cursor: 'grab' }} />
           <StyledDraggableContent>
             <ModuleIconContainer>
@@ -130,8 +231,18 @@ const TaskItemNav = ({
           </StyledDraggableContent>
         </StyledDraggable>
       </TaskItemNavLink>
+      {state.type === 'is-dragging-over' && state.closestEdge ? (
+        <DropIndicator edge={state.closestEdge} gap={'8px'} />
+      ) : null}
+      {state.type === 'preview'
+        ? createPortal(<DragPreview task={task} />, state.container)
+        : null}
     </StyledDraggableListItem>
   );
 };
+
+function DragPreview({ task }: { task: TTask }) {
+  return <div>{task.title}</div>;
+}
 
 export { TaskItemNav };

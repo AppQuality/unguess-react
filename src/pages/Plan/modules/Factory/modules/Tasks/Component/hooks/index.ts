@@ -5,6 +5,25 @@ import { useModule } from 'src/features/modules/useModule';
 import { useValidation } from 'src/features/modules/useModuleValidation';
 import * as yup from 'yup';
 
+const taskDataKey = Symbol('task');
+
+export type TTask = components['schemas']['OutputModuleTask'] & {
+  key: number;
+  id: string;
+};
+
+export type TTaskData = { [taskDataKey]: true; taskId: TTask['id'] };
+
+export function getTaskData(task: TTask): TTaskData {
+  return { [taskDataKey]: true, taskId: task.id };
+}
+
+export function isTaskData(
+  data: Record<string | symbol, unknown>
+): data is TTaskData {
+  return data[taskDataKey] === true;
+}
+
 function usePreviousValue(
   value?: Omit<components['schemas']['ModuleTask'], 'type'>
 ) {
@@ -95,6 +114,7 @@ const useModuleTasks = () => {
   const output = (value?.output || []).map((task, i) => ({
     ...task,
     key: i,
+    id: i.toString(),
   }));
 
   const add = (kind: NonNullable<typeof value>['output'][number]['kind']) => {
