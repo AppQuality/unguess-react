@@ -1105,6 +1105,7 @@
   "__PROFILE_MODAL_CURRENT_LANGUAGE_LABEL": "Now:",
   "__PROFILE_MODAL_FEEDBACK_SUBTITLE": "Help us improve UNGUESS!",
   "__PROFILE_MODAL_FEEDBACK_TITLE": "Give us your feedback",
+  "__PROFILE_MODAL_GO_TO_PROFILE": "Edit profile",
   "__PROFILE_MODAL_LANGUAGES_TITLE": "Change Language",
   "__PROFILE_MODAL_LOGOUT_TITLE": "Log Out",
   "__PROFILE_MODAL_NOTIFICATIONS_INTRO": "Manage the notifications we send you by email.",
