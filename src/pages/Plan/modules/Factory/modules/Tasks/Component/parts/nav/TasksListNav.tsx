@@ -9,8 +9,7 @@ import { flushSync } from 'react-dom';
 import { monitorForElements } from '@atlaskit/pragmatic-drag-and-drop/element/adapter';
 
 const TasksListNav = () => {
-  const { value } = useModuleTasks();
-  const [tasks, setTasks] = useState<typeof value>(value);
+  const { value, setOutput } = useModuleTasks();
 
   useEffect(() => {
     return monitorForElements({
@@ -30,10 +29,10 @@ const TasksListNav = () => {
           return;
         }
 
-        const indexOfSource = tasks.findIndex(
+        const indexOfSource = value.findIndex(
           (task) => task.id === sourceData.taskId
         );
-        const indexOfTarget = tasks.findIndex(
+        const indexOfTarget = value.findIndex(
           (task) => task.id === targetData.taskId
         );
 
@@ -45,9 +44,9 @@ const TasksListNav = () => {
 
         // Using `flushSync` so we can query the DOM straight after this line
         flushSync(() => {
-          setTasks(
+          setOutput(
             reorderWithEdge({
-              list: tasks,
+              list: value,
               startIndex: indexOfSource,
               indexOfTarget,
               closestEdgeOfTarget,
@@ -67,11 +66,11 @@ const TasksListNav = () => {
         }
       },
     });
-  }, [tasks]);
+  }, [value]);
 
   return (
     <DraggableList data-qa="tasks-module-nav">
-      {tasks.map((task) => (
+      {value.map((task) => (
         <TaskItemNav key={task.key} task={task} />
       ))}
     </DraggableList>
