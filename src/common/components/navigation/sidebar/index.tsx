@@ -27,6 +27,8 @@ import { useCanAccessToActiveWorkspace } from 'src/hooks/useCanAccessToActiveWor
 import useWindowSize from 'src/hooks/useWindowSize';
 import i18n from 'src/i18n';
 import styled, { useTheme } from 'styled-components';
+import { ReactComponent as GearIcon } from '@zendeskgarden/svg-icons/src/16/gear-stroke.svg';
+import { ReactComponent as GearIconActive } from '@zendeskgarden/svg-icons/src/16/gear-fill.svg';
 import { WorkspacesDropdown } from '../workspacesDropdown';
 import { ReactComponent as ArchiveIconActive } from './icons/archive-active.svg';
 import { ReactComponent as ArchiveIcon } from './icons/archive.svg';
@@ -268,6 +270,29 @@ export const AppSidebar = (props: PropsWithChildren<SidebarProps>) => {
             </NavItemText>
           </NavItem>
         )}
+
+        {/** Profile */}
+        <NavItem
+          role="menuitem"
+          className="sidebar-first-level-item"
+          title="Profile"
+          isExpanded={isSidebarOpen}
+          isCurrent={route === `profile`}
+          onClick={() => navigateTo(`profile`)}
+          style={{ marginBottom: '16px' }}
+        >
+          <NavItemIcon isStyled>
+            {route === `profile` ? <GearIconActive /> : <GearIcon />}
+          </NavItemIcon>
+          <NavItemText>
+            {t('__APP_SIDEBAR_PROFILE_ITEM_LABEL')}
+            <div>
+              <SM style={{ color: getColor(theme.colors.neutralHue, 500) }}>
+                {t('__SIDEBAR_PROFILE_LABEL')}
+              </SM>
+            </div>
+          </NavItemText>
+        </NavItem>
       </ScrollingContainer>
       {/* Footer Logo */}
       <NavItem
