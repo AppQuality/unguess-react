@@ -19,10 +19,9 @@ import { appTheme } from 'src/app/theme';
 import { ReactComponent as RightArrow } from 'src/assets/icons/arrow-right.svg';
 import {
   useGetCampaignsByCidQuery,
-  useGetWorkspacesByWidProjectsQuery,
   usePatchCampaignsByCidMutation,
 } from 'src/features/api';
-import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
+import { useActiveWorkspaceProjects } from 'src/hooks/useActiveWorkspaceProjects';
 import { useSendGTMevent } from 'src/hooks/useGTMevent';
 
 const MoveCampaignModalContext = createContext<{
@@ -69,14 +68,11 @@ const MoveCampaignModal = ({ campaignId }: { campaignId: string }) => {
   const { isOpen, setIsOpen } = useMoveCampaignModalContext();
 
   const { t } = useTranslation();
-  const { activeWorkspace } = useActiveWorkspace();
   const [selectedProjectId, setSelectedProjectId] = useState<number>();
   const [patchCampaign] = usePatchCampaignsByCidMutation();
   const { addToast } = useToast();
 
-  const { data, isLoading, isFetching } = useGetWorkspacesByWidProjectsQuery({
-    wid: activeWorkspace?.id.toString() || '',
-  });
+  const { data, isLoading, isFetching } = useActiveWorkspaceProjects();
 
   const sendGTMEvent = useSendGTMevent();
 

@@ -55,15 +55,24 @@ export const Track = ({
         company: activeWorkspace.company,
       });
 
-      track('unguess_loaded', {
-        role: userData.role,
-        customer_role: userData.customer_role,
-        wp_user_id: userData.tryber_wp_user_id,
-        tester_id: userData.profile_id,
-        name: userData.name,
-        email: userData.email,
-        company: activeWorkspace.company,
-      });
+      track(
+        'unguess_loaded',
+        {
+          role: userData.role,
+          customer_role: userData.customer_role,
+          wp_user_id: userData.tryber_wp_user_id,
+          tester_id: userData.profile_id,
+          name: userData.name,
+          email: userData.email,
+          company: activeWorkspace.company,
+        },
+        {
+          plugins: {
+            // disable track event for segment
+            segment: false,
+          },
+        }
+      );
     }
   }, [userData, activeWorkspace]);
 
