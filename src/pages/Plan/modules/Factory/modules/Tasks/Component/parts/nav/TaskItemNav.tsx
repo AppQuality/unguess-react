@@ -233,9 +233,7 @@ const TaskItemNav = ({
         </StyledDraggable>
       </TaskItemNavLink>
       {state.type === 'is-dragging-over' && state.closestEdge && (
-        <>
-          <DropIndicator edge={state.closestEdge} />
-        </>
+        <DropIndicator edge={state.closestEdge} />
       )}
       {state.type === 'preview' &&
         createPortal(<DragPreview task={task} />, state.container)}
