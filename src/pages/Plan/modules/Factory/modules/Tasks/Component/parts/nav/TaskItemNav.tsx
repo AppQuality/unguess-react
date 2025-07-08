@@ -28,6 +28,8 @@ import { getTaskData, isTaskData, TTask, useModuleTasks } from '../../hooks';
 import { getIconFromTaskOutput } from '../../utils';
 import { DropIndicator } from './drop-indicator';
 import { createPortal } from 'react-dom';
+import { DragPreview } from './DragPreview';
+import { s } from 'motion/dist/react-client';
 
 const StyledDraggableContent = styled(Draggable.Content)`
   min-width: 0;
@@ -38,6 +40,7 @@ const StyledDraggableContent = styled(Draggable.Content)`
 `;
 
 const StyledDraggableListItem = styled(DraggableList.Item)`
+  position: relative;
   display: block;
 `;
 
@@ -149,7 +152,6 @@ const TaskItemNav = ({
         },
         onDrag({ self }) {
           const closestEdge = extractClosestEdge(self.data);
-
           // Only need to update react state if nothing has changed.
           // Prevents re-rendering.
           setState((current) => {
@@ -231,18 +233,17 @@ const TaskItemNav = ({
           </StyledDraggableContent>
         </StyledDraggable>
       </TaskItemNavLink>
-      {state.type === 'is-dragging-over' && state.closestEdge ? (
-        <DropIndicator edge={state.closestEdge} gap={'8px'} />
-      ) : null}
-      {state.type === 'preview'
-        ? createPortal(<DragPreview task={task} />, state.container)
-        : null}
+      {state.type === 'is-dragging-over' && state.closestEdge && (
+        <>
+          {state.closestEdge}
+          {task.title}
+          <DropIndicator edge={state.closestEdge} />
+        </>
+      )}
+      {state.type === 'preview' &&
+        createPortal(<DragPreview task={task} />, state.container)}
     </StyledDraggableListItem>
   );
 };
-
-function DragPreview({ task }: { task: TTask }) {
-  return <div>{task.title}</div>;
-}
 
 export { TaskItemNav };

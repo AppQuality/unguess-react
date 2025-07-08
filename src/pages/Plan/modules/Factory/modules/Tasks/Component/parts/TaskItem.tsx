@@ -11,7 +11,7 @@ import {
   Paragraph,
   Span,
 } from '@appquality/unguess-design-system';
-import { useState } from 'react';
+import { forwardRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as LinkIcon } from 'src/assets/icons/link-stroke.svg';
@@ -22,11 +22,12 @@ import { useModuleTasks } from '../hooks';
 import { getIconFromTaskOutput } from '../utils';
 import { DeleteTaskConfirmationModal } from './modal/DeleteTaskConfirmationModal';
 
-const TaskItem = ({
-  task,
-}: {
+type TaskItemProps = {
   task: components['schemas']['OutputModuleTask'] & { key: number };
-}) => {
+};
+
+const TaskItem = forwardRef<HTMLDivElement, TaskItemProps>((props, ref) => {
+  const { task } = props;
   const { t } = useTranslation();
   const { update, validate, error } = useModuleTasks();
   const { getPlanStatus } = useModuleConfiguration();
@@ -62,7 +63,7 @@ const TaskItem = ({
   const isSimpleInterface = ['explorative-bug', 'accessibility'].includes(kind);
 
   return (
-    <>
+    <div ref={ref}>
       <AccordionNew
         level={3}
         id={`task-${index}`}
@@ -219,8 +220,8 @@ const TaskItem = ({
       {confirmationState[0].isOpen && (
         <DeleteTaskConfirmationModal state={confirmationState} />
       )}
-    </>
+    </div>
   );
-};
+});
 
 export { TaskItem };
