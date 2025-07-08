@@ -1521,6 +1521,8 @@ export interface components {
       role: string;
       tryber_wp_user_id: number;
       unguess_wp_user_id: number;
+      first_name: string;
+      last_name: string;
     };
     /** UserPreference */
     UserPreference: {
