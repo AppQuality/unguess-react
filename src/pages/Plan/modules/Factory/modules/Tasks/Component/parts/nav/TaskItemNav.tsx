@@ -29,7 +29,6 @@ import { getIconFromTaskOutput } from '../../utils';
 import { DropIndicator } from './drop-indicator';
 import { createPortal } from 'react-dom';
 import { DragPreview } from './DragPreview';
-import { s } from 'motion/dist/react-client';
 
 const StyledDraggableContent = styled(Draggable.Content)`
   min-width: 0;
@@ -235,8 +234,6 @@ const TaskItemNav = ({
       </TaskItemNavLink>
       {state.type === 'is-dragging-over' && state.closestEdge && (
         <>
-          {state.closestEdge}
-          {task.title}
           <DropIndicator edge={state.closestEdge} />
         </>
       )}

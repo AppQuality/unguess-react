@@ -1,12 +1,12 @@
-import { useEffect, useState } from 'react';
-import { isTaskData, useModuleTasks } from '../../hooks';
-import { TaskItemNav } from './TaskItemNav';
 import { DraggableList } from '@appquality/unguess-design-system';
+import { triggerPostMoveFlash } from '@atlaskit/pragmatic-drag-and-drop-flourish/trigger-post-move-flash';
 import { extractClosestEdge } from '@atlaskit/pragmatic-drag-and-drop-hitbox/closest-edge';
 import { reorderWithEdge } from '@atlaskit/pragmatic-drag-and-drop-hitbox/util/reorder-with-edge';
-import { triggerPostMoveFlash } from '@atlaskit/pragmatic-drag-and-drop-flourish/trigger-post-move-flash';
-import { flushSync } from 'react-dom';
 import { monitorForElements } from '@atlaskit/pragmatic-drag-and-drop/element/adapter';
+import { useEffect } from 'react';
+import { flushSync } from 'react-dom';
+import { isTaskData, useModuleTasks } from '../../hooks';
+import { TaskItemNav } from './TaskItemNav';
 
 const TasksListNav = () => {
   const { value, setOutput } = useModuleTasks();
