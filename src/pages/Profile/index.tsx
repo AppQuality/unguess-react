@@ -1,19 +1,10 @@
-import {
-  Col,
-  Grid,
-  Row,
-  Select,
-  theme,
-} from '@appquality/unguess-design-system';
-import { useMemo, useRef } from 'react';
+import { Col, Grid, Row, theme } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import {
   AsideNav,
   StickyNavItem,
   StickyNavItemLabel,
-  StyledDivider,
 } from 'src/common/components/navigation/asideNav';
-import { useGetUsersRolesQuery } from 'src/features/api';
 import { Page } from 'src/features/templates/Page';
 import ProfilePageHeader from 'src/pages/Profile/Header';
 import { Form } from './Form';
@@ -21,22 +12,6 @@ import { FormProvider } from './FormProvider';
 
 const Profile = () => {
   const { t } = useTranslation();
-
-  const { data, isLoading } = useGetUsersRolesQuery();
-  const renderOptions = useMemo(
-    () =>
-      isLoading || !data ? (
-        <Select.Option value="loading">loading...</Select.Option>
-      ) : (
-        data?.map((role) => (
-          <Select.Option key={role.id} value={role.id.toString()}>
-            {role.name}
-          </Select.Option>
-        ))
-      ),
-    [data]
-  );
-  const selectRef = useRef<HTMLDivElement>(null);
 
   return (
     <Page
@@ -52,8 +27,6 @@ const Profile = () => {
           <Col xs={12} lg={2} style={{ margin: 0 }}>
             <AsideNav containerId="main">
               <>
-                <StickyNavItemLabel>PROFILE</StickyNavItemLabel>
-
                 <StickyNavItem
                   id="anchor-profile"
                   to="anchor-profile"
@@ -63,11 +36,12 @@ const Profile = () => {
                   duration={500}
                   offset={-30}
                 >
-                  Profile settings
+                  {t('__PROFILE_PAGE_NAV_ITEM_PROFILE')}
                 </StickyNavItem>
 
-                <StyledDivider />
-                <StickyNavItemLabel>PASSWORD</StickyNavItemLabel>
+                <StickyNavItemLabel>
+                  {t('__PROFILE_PAGE_NAV_SECTION_PASSWORD')}
+                </StickyNavItemLabel>
 
                 <StickyNavItem
                   id="anchor-pino"
@@ -78,7 +52,7 @@ const Profile = () => {
                   duration={500}
                   offset={-30}
                 >
-                  Password settings
+                  {t('__PROFILE_PAGE_NAV_ITEM_PASSWORD')}
                 </StickyNavItem>
               </>
             </AsideNav>

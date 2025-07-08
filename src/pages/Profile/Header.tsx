@@ -9,9 +9,9 @@ const ProfilePageHeader = ({ pageTitle }: { pageTitle?: string }) => {
   return (
     <LayoutWrapper>
       <PageHeader>
-        <PageHeader.Main mainTitle={pageTitle || 'My Dashboard'}>
+        <PageHeader.Main mainTitle={pageTitle || 'Profile'}>
           <PageHeader.Title>
-            <PageTitle>{pageTitle || 'My Dashboard'}</PageTitle>
+            <PageTitle>{pageTitle || 'Profile'}</PageTitle>
           </PageHeader.Title>
           <PageHeader.Meta style={{ justifyContent: 'space-between' }} />
           <MD
@@ -21,7 +21,7 @@ const ProfilePageHeader = ({ pageTitle }: { pageTitle?: string }) => {
               color: theme.palette.grey[600],
             }}
           >
-            Manage your data and update your information
+            {t('_PAGE_PROFILE_HEADER_TEXT')}
           </MD>
         </PageHeader.Main>
       </PageHeader>
