@@ -2,10 +2,13 @@ import {
   AccordionNew,
   Button,
   Card,
+  Col,
+  FormField,
   Input,
   Label,
   LG,
   Message,
+  Row,
   Select,
   Span,
   theme,
@@ -21,19 +24,19 @@ import { ProfileFormValues } from './valuesType';
 
 export const Form = () => {
   const { t } = useTranslation();
-  const { data, isLoading } = useGetUsersRolesQuery();
+  const { data: roleData, isLoading: roleIsLoading } = useGetUsersRolesQuery();
   const renderOptions = useMemo(
     () =>
-      isLoading || !data ? (
+      roleIsLoading || !roleData ? (
         <Select.Option value="loading">loading...</Select.Option>
       ) : (
-        data?.map((role) => (
+        roleData?.map((role) => (
           <Select.Option key={role.id} value={role.id.toString()}>
             {role.name}
           </Select.Option>
         ))
       ),
-    [data]
+    [roleData]
   );
   const selectRef = useRef<HTMLDivElement>(null);
 
@@ -42,75 +45,154 @@ export const Form = () => {
   const isOpen = false; // Temporary, as the context is not fully implemented yet
   return (
     <>
-      <Card id="anchor-profile" style={{ marginBottom: theme.space.xxl }}>
-        <LG style={{ color: theme.palette.blue[600] }}>
-          <UserIcon /> {t('__PROFILE_PAGE_USER_CARD_LABEL')}
-        </LG>
-        <div>
-          <Label>{t('__PROFILE_PAGE_USER_CARD_NAME_LABEL')}</Label>
-          <Input type="text" style={{ width: '100%' }} />
-        </div>
-        <div>
-          <Label>{t('__PROFILE_PAGE_USER_CARD_SURNAME_LABEL')}</Label>
-          <Input type="text" style={{ width: '100%' }} />
-        </div>
-        <div>
-          <Label>{t('__PROFILE_PAGE_USER_CARD_EMAIL_LABEL')}</Label>
-          <Input disabled type="text" style={{ width: '100%' }} />
-        </div>
-        <div>
-          <Label>{t('__PROFILE_PAGE_USER_CARD_ROLE_LABEL')}</Label>
-          <Field name="roleId">
-            {({ field, meta }: FieldProps) => {
-              const hasError = meta.touched && Boolean(meta.error);
-              return (
-                <div ref={selectRef}>
-                  <Select
-                    data-qa="roleId-select"
-                    {...field}
-                    renderValue={(value) =>
-                      data?.find((role) => role.id === Number(value.inputValue))
-                        ?.name
-                    }
-                    isCompact
-                    inputValue={field.value}
-                    selectionValue={field.value}
-                    label={
-                      <>
-                        {t('SIGNUP_FORM_ROLE_LABEL')}
-                        <Span
-                          style={{
-                            color: appTheme.palette.red[600],
-                          }}
-                        >
-                          *
-                        </Span>
-                      </>
-                    }
-                    onSelect={(roleId) => {
-                      setFieldValue('roleId', Number(roleId));
-                      (
-                        selectRef.current?.querySelector(
-                          '[role="combobox"]'
-                        ) as HTMLElement | null
-                      )?.blur();
-                    }}
-                  >
-                    {renderOptions}
-                  </Select>
-                  {hasError && (
-                    <Message
-                      data-qa="update-profile-role-error"
-                      validation="error"
-                    >
-                      {meta.error}
-                    </Message>
-                  )}
-                </div>
-              );
+      <Card
+        id="anchor-profile"
+        style={{ marginBottom: theme.space.xxl }}
+        title={t('__PROFILE_PAGE_USER_CARD_LABEL')}
+      >
+        <Row>
+          <UserIcon
+            style={{
+              color: theme.palette.blue[600],
+              marginRight: theme.space.base,
             }}
-          </Field>
-        </div>
+          />
+          <LG style={{ color: theme.palette.grey[800] }}>
+            {t('__PROFILE_PAGE_USER_CARD_LABEL')}
+          </LG>
+        </Row>
+        <Row>
+          <Col>
+            <Field name="name">
+              {({ field, meta }: FieldProps) => {
+                const hasError = meta.touched && Boolean(meta.error);
+                return (
+                  <FormField>
+                    <Label>
+                      {t('__PROFILE_PAGE_USER_CARD_NAME_LABEL')}
+                      <Span style={{ color: appTheme.palette.red[600] }}>
+                        *
+                      </Span>
+                    </Label>
+                    <Input
+                      type="text"
+                      {...field}
+                      placeholder={t('SIGNUP_FORM_NAME_PLACEHOLDER')}
+                      {...(hasError && { validation: 'error' })}
+                    />
+                    {hasError && (
+                      <Message data-qa="signup-name-error" validation="error">
+                        {meta.error}
+                      </Message>
+                    )}
+                  </FormField>
+                );
+              }}
+            </Field>
+          </Col>
+          <Col>
+            <Field name="surname">
+              {({ field, meta }: FieldProps) => {
+                const hasError = meta.touched && Boolean(meta.error);
+                return (
+                  <FormField>
+                    <Label>
+                      {t('__PROFILE_PAGE_USER_CARD_SURNAME_LABEL')}
+                      <Span style={{ color: appTheme.palette.red[600] }}>
+                        *
+                      </Span>
+                    </Label>
+                    <Input
+                      type="text"
+                      {...field}
+                      placeholder={t('SIGNUP_FORM_SURNAME_PLACEHOLDER')}
+                      {...(hasError && { validation: 'error' })}
+                    />
+                    {hasError && (
+                      <Message
+                        data-qa="signup-surname-error"
+                        validation="error"
+                      >
+                        {meta.error}
+                      </Message>
+                    )}
+                  </FormField>
+                );
+              }}
+            </Field>
+          </Col>
+        </Row>
+
+        <Field name="email">
+          {({ field }: FieldProps) => (
+            <FormField>
+              <Label>
+                {t('__PROFILE_PAGE_USER_CARD_EMAIL_LABEL')}
+                <Span style={{ color: appTheme.palette.red[600] }}> *</Span>
+              </Label>
+              <Input
+                disabled
+                type="email"
+                role="textbox"
+                title="Email"
+                {...field}
+              />
+            </FormField>
+          )}
+        </Field>
+        <Field name="roleId">
+          {({ field, meta }: FieldProps) => {
+            const hasError = meta.touched && Boolean(meta.error);
+            return (
+              <div ref={selectRef}>
+                <Select
+                  // TODO: CHECK placeholder not working
+                  placeholder={t('__PROFILE_PAGE_USER_CARD_ROLE_PLACEHOLDER')}
+                  data-qa="roleId-select"
+                  {...field}
+                  renderValue={(value) =>
+                    roleData?.find(
+                      (role) => role.id === Number(value.inputValue)
+                    )?.name
+                  }
+                  isCompact
+                  inputValue={field.value}
+                  selectionValue={field.value}
+                  label={
+                    <>
+                      {t('__PROFILE_PAGE_USER_CARD_ROLE_LABEL')}
+                      <Span
+                        style={{
+                          color: appTheme.palette.red[600],
+                        }}
+                      >
+                        *
+                      </Span>
+                    </>
+                  }
+                  onSelect={(roleId) => {
+                    setFieldValue('roleId', Number(roleId));
+                    (
+                      selectRef.current?.querySelector(
+                        '[role="combobox"]'
+                      ) as HTMLElement | null
+                    )?.blur();
+                  }}
+                >
+                  {renderOptions}
+                </Select>
+                {hasError && (
+                  <Message
+                    data-qa="update-profile-role-error"
+                    validation="error"
+                  >
+                    {meta.error}
+                  </Message>
+                )}
+              </div>
+            );
+          }}
+        </Field>
         <div>
           <Button
             isAccent
