@@ -19,6 +19,7 @@ import { useModuleTasks } from '../hooks';
 import { AddTaskButton } from './AddTaskButton';
 import { TasksModal } from './modal';
 import { TaskItem } from './TaskItem';
+import { TasksContainerAnimation } from './TasksContainerAnimation';
 
 const StyledCard = styled(ContainerCard)`
   background-color: transparent;
@@ -118,11 +119,11 @@ const TasksList = () => {
               </Message>
             ))}
         </div>
-        <TasksContainer role="list">
+        <TasksContainerAnimation>
           {value.map((task) => (
-            <TaskItem key={task.key} task={task} />
+            <TaskItem key={task.id} task={task} />
           ))}
-        </TasksContainer>
+        </TasksContainerAnimation>
         {getPlanStatus() === 'draft' && <AddTaskButton />}
         <TasksModal />
       </StyledCard>
