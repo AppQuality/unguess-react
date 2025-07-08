@@ -38,7 +38,11 @@ export const Step2 = () => {
         <Select.Option value="loading">loading...</Select.Option>
       ) : (
         data?.map((role) => (
-          <Select.Option key={role.id} value={role.id.toString()}>
+          <Select.Option
+            key={role.id}
+            value={role.id.toString()}
+            label={role.name}
+          >
             {role.name}
           </Select.Option>
         ))
@@ -124,14 +128,16 @@ export const Step2 = () => {
               <Select
                 placeholder={t('SIGNUP_FORM_ROLE_PLACEHOLDER')}
                 data-qa="roleId-select"
+                placeholder={t('SIGNUP_FORM_ROLE_PLACEHOLDER')}
                 {...field}
-                renderValue={(value) =>
-                  data?.find((role) => role.id === Number(value.inputValue))
-                    ?.name
-                }
                 isCompact
-                inputValue={field.value}
-                selectionValue={field.value}
+                inputValue={
+                  field.value
+                    ? data?.find((role) => role.id === Number(field.value))
+                        ?.name || ''
+                    : ''
+                }
+                selectionValue={field.value ? field.value.toString() : ''}
                 label={
                   <>
                     {t('SIGNUP_FORM_ROLE_LABEL')}
