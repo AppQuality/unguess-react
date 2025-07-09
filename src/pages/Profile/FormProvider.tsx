@@ -52,7 +52,7 @@ export const FormProvider = ({ children }: { children: React.ReactNode }) => {
     name: Yup.string().required(t('__PROFILE_PAGE_NAME_REQUIRED_ERROR')),
     surname: Yup.string().required(t('__PROFILE_PAGE_SURNAME_REQUIRED_ERROR')),
     roleId: Yup.number()
-      .min(1)
+      .min(1, t('__PROFILE_PAGE_ROLE_REQUIRED_ERROR'))
       .required(t('__PROFILE_PAGE_ROLE_REQUIRED_ERROR')),
   });
 
