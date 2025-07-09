@@ -1,11 +1,12 @@
-import { Formik, FormikHelpers } from 'formik';
+import { Formik, useFormikContext } from 'formik';
 import { usePatchUsersMeMutation } from 'src/features/api';
 import * as Yup from 'yup';
 import { useTranslation } from 'react-i18next';
 import { ProfileFormValues } from './valuesType';
 import { useProfileData } from './useProfileData';
+import { ProfileCard } from './parts/ProfileCard';
 
-export const FormProvider = ({ children }: { children: React.ReactNode }) => {
+export const FormProfile = () => {
   const { t } = useTranslation();
   const { data, isLoading } = useProfileData();
   const [updateProfile] = usePatchUsersMeMutation();
@@ -16,34 +17,6 @@ export const FormProvider = ({ children }: { children: React.ReactNode }) => {
     name: data?.name || '',
     surname: data?.surname || '',
     email: data?.email || '',
-  };
-
-  const onSubmit = async (
-    values: ProfileFormValues,
-    actions: FormikHelpers<ProfileFormValues>
-  ) => {
-    const { setSubmitting } = actions;
-
-    if (values) {
-      setSubmitting(true);
-
-      try {
-        await updateProfile({
-          body: {
-            name: values.name,
-            surname: values.surname,
-            roleId: values.roleId,
-          },
-        }).unwrap();
-        console.log('Profile updated successfully');
-      } catch (error) {
-        console.error('Error updating profile:', error);
-      }
-
-      console.log(`Submitted values: ${JSON.stringify(values, null, 2)}`);
-
-      setSubmitting(false);
-    }
   };
 
   if (isLoading) return <>Loading...</>;
@@ -58,13 +31,34 @@ export const FormProvider = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <Formik
-      onSubmit={onSubmit}
+      onSubmit={async (values, actions) => {
+        if (values) {
+          actions.setSubmitting(true);
+
+          await updateProfile({
+            body: {
+              name: values.name,
+              surname: values.surname,
+              roleId: values.roleId,
+            },
+          })
+            .unwrap()
+            .then((res) => {
+              alert('ok');
+            })
+            .catch((error) => {
+              alert('ko');
+            });
+
+          actions.setSubmitting(false);
+        }
+      }}
       initialValues={initialValues}
       validationSchema={schema}
       enableReinitialize
       validateOnChange
     >
-      {children}
+      <ProfileCard />
     </Formik>
   );
 };

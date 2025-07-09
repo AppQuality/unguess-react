@@ -3,7 +3,7 @@ import { ReactComponent as X } from 'src/assets/icons/password-check-x.svg';
 import { ReactComponent as Check } from 'src/assets/icons/password-check-v.svg';
 import { useFormikContext } from 'formik';
 import { useTranslation } from 'react-i18next';
-import { ProfileFormValues } from './valuesType';
+import { PasswordFormValues } from './valuesType';
 
 const PasswordRequirement = ({
   check,
@@ -30,7 +30,7 @@ const PasswordRequirement = ({
 );
 
 const PasswordRequirements = () => {
-  const { values } = useFormikContext<ProfileFormValues>();
+  const { values } = useFormikContext<PasswordFormValues>();
   const { t } = useTranslation();
 
   return (
@@ -38,27 +38,27 @@ const PasswordRequirements = () => {
       <MD>{t('PASSWORD_VALIDATOR_PASSWORD_REQUIREMENTS')}</MD>
       <ul>
         <PasswordRequirement
-          check={() => (values.password?.new?.length ?? 0) >= 6}
+          check={() => (values.newPassword?.length ?? 0) >= 6}
         >
           {t('PASSWORD_VALIDATOR_MINIMUM_OF_6_CHARACTERS')}
         </PasswordRequirement>
         <PasswordRequirement
-          check={() => values.password?.new.match(/[A-Z]/) !== null}
+          check={() => values.newPassword.match(/[A-Z]/) !== null}
         >
           {t('PASSWORD_VALIDATOR_CONTAIN_AN_UPPERCASE_LETTER')}
         </PasswordRequirement>
         <PasswordRequirement
-          check={() => values.password?.new.match(/[a-z]/) !== null}
+          check={() => values.newPassword.match(/[a-z]/) !== null}
         >
           {t('PASSWORD_VALIDATOR_CONTAIN_A_LOWERCASE_LETTER')}
         </PasswordRequirement>
         <PasswordRequirement
-          check={() => values.password?.new.match(/[0-9]/) !== null}
+          check={() => values.newPassword.match(/[0-9]/) !== null}
         >
           {t('PASSWORD_VALIDATOR_CONTAIN_A_NUMBER')}
         </PasswordRequirement>
         <PasswordRequirement
-          check={() => values.password?.new !== values.password?.confirm}
+          check={() => values.newPassword !== values.confirmPassword}
         >
           {t('PASSWORD_VALIDATOR_PASSWORDS_DO_NOT_MATCH')}
         </PasswordRequirement>
