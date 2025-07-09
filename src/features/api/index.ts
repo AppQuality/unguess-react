@@ -541,6 +541,13 @@ const injectedRtkApi = api.injectEndpoints({
     getUsersMe: build.query<GetUsersMeApiResponse, GetUsersMeApiArg>({
       query: () => ({ url: `/users/me` }),
     }),
+    patchUsersMe: build.mutation<PatchUsersMeApiResponse, PatchUsersMeApiArg>({
+      query: (queryArg) => ({
+        url: `/users/me`,
+        method: 'PATCH',
+        body: queryArg.body,
+      }),
+    }),
     getUsersMePreferences: build.query<
       GetUsersMePreferencesApiResponse,
       GetUsersMePreferencesApiArg
@@ -1606,6 +1613,22 @@ export type HeadUsersByEmailByEmailApiArg = {
 };
 export type GetUsersMeApiResponse = /** status 200  */ User;
 export type GetUsersMeApiArg = void;
+export type PatchUsersMeApiResponse = /** status 200 OK */ {
+  name?: string;
+  surname?: string;
+  role?: string;
+};
+export type PatchUsersMeApiArg = {
+  body: {
+    name?: string;
+    surname?: string;
+    password?: {
+      current: string;
+      new: string;
+    };
+    roleId?: number;
+  };
+};
 export type GetUsersMePreferencesApiResponse = /** status 200 OK */ {
   items?: UserPreference[];
 };
@@ -2834,6 +2857,7 @@ export const {
   usePostUsersMutation,
   useHeadUsersByEmailByEmailMutation,
   useGetUsersMeQuery,
+  usePatchUsersMeMutation,
   useGetUsersMePreferencesQuery,
   usePutUsersMePreferencesBySlugMutation,
   useGetUsersRolesQuery,
