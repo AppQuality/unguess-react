@@ -1,5 +1,5 @@
 import { Formik, FormikHelpers } from 'formik';
-import { useGetUsersMeQuery, usePatchUsersMeMutation } from 'src/features/api';
+import { usePatchUsersMeMutation } from 'src/features/api';
 import * as Yup from 'yup';
 import { useTranslation } from 'react-i18next';
 import { ProfileFormValues } from './valuesType';
