@@ -19,7 +19,7 @@ import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as KeyIcon } from 'src/assets/icons/key.svg';
 import { PasswordRequirements } from '../PasswordRequirements';
-import { ProfileFormValues } from '../valuesType';
+import { PasswordFormValues } from '../valuesType';
 
 export const PasswordAccordion = () => {
   const { t } = useTranslation();
@@ -33,18 +33,12 @@ export const PasswordAccordion = () => {
     setFieldValue,
     validateForm,
     values: formValues,
-  } = useFormikContext<ProfileFormValues>();
+    submitForm,
+  } = useFormikContext<PasswordFormValues>();
 
   const isOpen = false; // Temporary, as the context is not fully implemented yet
 
-  // On change of the form, console log the form values
-  useEffect(() => {
-    const logFormValues = async () => {
-      const values = await validateForm();
-      console.log(`Form values: ${JSON.stringify(values, null, 2)}`);
-    };
-    logFormValues();
-  }, [setFieldValue, validateForm]);
+  console.log('🚀 ~ PasswordAccordion ~ formValues:', formValues);
 
   return (
     <Card>
@@ -63,7 +57,7 @@ export const PasswordAccordion = () => {
             />
           </AccordionNew.Header>
           <AccordionNew.Panel>
-            <Field name="current-password">
+            <Field name="currentPassword">
               {({ field, meta }: FieldProps) => {
                 const hasError = meta.touched && Boolean(meta.error);
                 return (
@@ -120,7 +114,7 @@ export const PasswordAccordion = () => {
             </Field>
             <Row>
               <Col>
-                <Field name="new-password">
+                <Field name="newPassword">
                   {({ field, meta }: FieldProps) => {
                     const hasError = meta.touched && Boolean(meta.error);
                     return (
@@ -153,7 +147,7 @@ export const PasswordAccordion = () => {
                 </Field>
               </Col>
               <Col>
-                <Field name="confirm-password">
+                <Field name="confirmPassword">
                   {({ field, meta }: FieldProps) => {
                     const hasError = meta.touched && Boolean(meta.error);
                     return (
@@ -192,7 +186,7 @@ export const PasswordAccordion = () => {
                 isAccent
                 isPrimary
                 // disabled={isSubmitting || !Object.values(touched).length}
-                // onClick={submitForm}
+                onClick={submitForm}
               >
                 Save changes
               </Button>

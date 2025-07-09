@@ -7,8 +7,8 @@ import {
 } from 'src/common/components/navigation/asideNav';
 import { Page } from 'src/features/templates/Page';
 import ProfilePageHeader from 'src/pages/Profile/Header';
-import { Form } from './Form';
-import { FormProvider } from './FormProvider';
+import { FormPassword } from './FormPassword';
+import { FormProfile } from './FormProfile';
 
 const Profile = () => {
   const { t } = useTranslation();
@@ -61,9 +61,8 @@ const Profile = () => {
             <Grid gutters="xl" columns={12}>
               <Row>
                 <Col xs={12} lg={9} style={{ margin: 0 }}>
-                  <FormProvider>
-                    <Form />
-                  </FormProvider>
+                  <FormProfile />
+                  <FormPassword />
                 </Col>
               </Row>
             </Grid>
