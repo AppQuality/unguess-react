@@ -67,8 +67,34 @@ export const FormPassword = () => {
             })
             .catch((error) => {
               if (error.status === 417) {
-                alert('Invalid current password');
-              } else alert('An error occurred while updating the password');
+                addToast(
+                  ({ close }) => (
+                    <Notification
+                      onClose={close}
+                      type="error"
+                      message={t(
+                        '__PROFILE_PAGE_TOAST_ERROR_INVALID_CURRENT_PASSWORD'
+                      )}
+                      isPrimary
+                    />
+                  ),
+                  { placement: 'top' }
+                );
+              } else {
+                addToast(
+                  ({ close }) => (
+                    <Notification
+                      onClose={close}
+                      type="error"
+                      message={t(
+                        '__PROFILE_PAGE_TOAST_ERROR_UPDATING_PASSWORD'
+                      )}
+                      isPrimary
+                    />
+                  ),
+                  { placement: 'top' }
+                );
+              }
             });
 
           actions.setSubmitting(false);
