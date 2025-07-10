@@ -1,12 +1,13 @@
-import { useAppSelector } from 'src/app/hooks';
 import {
   useGetCampaignsByCidQuery,
   useGetProjectsByPidQuery,
+  useGetUsersMeQuery,
 } from 'src/features/api';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 
 export const useCampaign = (campaignId: number) => {
-  const { status: userStatus } = useAppSelector((state) => state.user);
+  const { isLoading: isUserLoading, isFetching: isUserFetching } =
+    useGetUsersMeQuery();
 
   const {
     isLoading: isCampaignLoading,
@@ -50,7 +51,7 @@ export const useCampaign = (campaignId: number) => {
   return {
     isLoading: false as const,
     isError: false as const,
-    isUserLoading: userStatus === 'idle' || userStatus === 'loading',
+    isUserLoading: isUserLoading || isUserFetching,
     campaign,
     project: {
       ...(campaign && { ...campaign.project, hasAccess: false }),
