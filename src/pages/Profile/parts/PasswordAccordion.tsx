@@ -33,6 +33,8 @@ export const PasswordAccordion = () => {
     setFieldValue,
     validateForm,
     values: formValues,
+    touched,
+    isSubmitting,
     submitForm,
   } = useFormikContext<PasswordFormValues>();
 
@@ -185,7 +187,12 @@ export const PasswordAccordion = () => {
               <Button
                 isAccent
                 isPrimary
-                // disabled={isSubmitting || !Object.values(touched).length}
+                disabled={
+                  isSubmitting ||
+                  !formValues.currentPassword ||
+                  !formValues.newPassword ||
+                  !formValues.confirmPassword
+                }
                 onClick={submitForm}
               >
                 Save changes

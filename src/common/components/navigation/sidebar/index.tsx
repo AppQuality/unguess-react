@@ -272,7 +272,7 @@ export const AppSidebar = (props: PropsWithChildren<SidebarProps>) => {
         )}
 
         {/** Profile */}
-        <NavItem
+        {/* <NavItem
           role="menuitem"
           className="sidebar-first-level-item"
           title="Profile"
@@ -292,7 +292,7 @@ export const AppSidebar = (props: PropsWithChildren<SidebarProps>) => {
               </SM>
             </div>
           </NavItemText>
-        </NavItem>
+        </NavItem> */}
       </ScrollingContainer>
       {/* Footer Logo */}
       <NavItem
