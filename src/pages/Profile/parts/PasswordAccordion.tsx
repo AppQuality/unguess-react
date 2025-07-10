@@ -58,7 +58,15 @@ export const PasswordAccordion = () => {
     >
       <StyledAccordionSection>
         <AccordionNew.Header
-          icon={<KeyIcon style={{ width: appTheme.iconSizes.md }} />}
+          icon={
+            <KeyIcon
+              style={{
+                width: appTheme.iconSizes.md,
+                height: appTheme.iconSizes.md,
+                color: appTheme.palette.blue[600],
+              }}
+            />
+          }
         >
           <AccordionNew.Label
             style={{
