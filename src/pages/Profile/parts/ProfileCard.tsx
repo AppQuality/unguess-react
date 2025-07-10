@@ -1,6 +1,7 @@
 import {
   Button,
   Col,
+  ContainerCard,
   FormField,
   Input,
   Label,
@@ -19,7 +20,7 @@ import { Divider } from 'src/common/components/divider';
 import { useGetUsersRolesQuery } from 'src/features/api';
 import styled from 'styled-components';
 import { ProfileFormValues } from '../valuesType';
-import { StyledContainerCard, StyledFooter } from './common';
+import { StyledFooter } from './common';
 
 const StyledCardHeader = styled.div`
   display: flex;
@@ -27,6 +28,9 @@ const StyledCardHeader = styled.div`
   gap: ${({ theme }) => theme.space.xs};
   padding: ${({ theme }) => theme.space.xs} 0;
   margin-bottom: ${({ theme }) => theme.space.xs};
+`;
+const StyledContainerCard = styled(ContainerCard)`
+  padding: ${({ theme }) => theme.space.md};
 `;
 
 export const ProfileCard = () => {
@@ -68,8 +72,8 @@ export const ProfileCard = () => {
       </StyledCardHeader>
       <Divider style={{ marginBottom: appTheme.space.md }} />
 
-      <Row>
-        <Col>
+      <Row style={{ marginBottom: appTheme.space.md }}>
+        <Col style={{ marginBottom: appTheme.space.xs }}>
           <Field name="name">
             {({ field, meta }: FieldProps) => {
               const hasError = meta.touched && Boolean(meta.error);
@@ -95,7 +99,7 @@ export const ProfileCard = () => {
             }}
           </Field>
         </Col>
-        <Col>
+        <Col style={{ marginBottom: appTheme.space.xs }}>
           <Field name="surname">
             {({ field, meta }: FieldProps) => {
               const hasError = meta.touched && Boolean(meta.error);
@@ -122,8 +126,8 @@ export const ProfileCard = () => {
           </Field>
         </Col>
       </Row>
-      <Row>
-        <Col>
+      <Row style={{ marginBottom: appTheme.space.xs }}>
+        <Col style={{ marginBottom: appTheme.space.sm }}>
           <Field name="email">
             {({ field }: FieldProps) => (
               <FormField>
@@ -143,8 +147,8 @@ export const ProfileCard = () => {
           </Field>
         </Col>
       </Row>
-      <Row>
-        <Col>
+      <Row style={{ marginBottom: appTheme.space.md }}>
+        <Col style={{ marginBottom: appTheme.space.xs }}>
           <Field name="roleId">
             {({ field, meta }: FieldProps) => {
               const hasError = meta.touched && Boolean(meta.error);
