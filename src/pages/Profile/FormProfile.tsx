@@ -31,6 +31,10 @@ export const FormProfile = () => {
 
   return (
     <Formik
+      initialValues={initialValues}
+      validationSchema={schema}
+      enableReinitialize
+      validateOnChange
       onSubmit={async (values, actions) => {
         if (values) {
           actions.setSubmitting(true);
@@ -53,10 +57,6 @@ export const FormProfile = () => {
           actions.setSubmitting(false);
         }
       }}
-      initialValues={initialValues}
-      validationSchema={schema}
-      enableReinitialize
-      validateOnChange
     >
       <ProfileCard />
     </Formik>

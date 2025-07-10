@@ -13,11 +13,6 @@ const analytics = Analytics({
         preview: 'env-4',
       }),
     }),
-    segmentPlugin({
-      writeKey: isDev()
-        ? 'AxHbacd31w50NwjDM8tadsP82hSwTz4Z'
-        : 'oxd3W7coKxDdzq99F88doV5VvQrESbJh',
-    }),
   ],
 });
 
