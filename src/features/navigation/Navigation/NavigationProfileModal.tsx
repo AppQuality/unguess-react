@@ -94,7 +94,10 @@ export const NavigationProfileModal = () => {
     feedbackSubTitle: t('__PROFILE_MODAL_FEEDBACK_SUBTITLE'),
     profile: {
       title: t('__PROFILE_MODAL_GO_TO_PROFILE'),
-      onClick: () => navigate('/profile'),
+      onClick: () => {
+        navigate('/profile');
+        dispatch(setProfileModalOpen(false));
+      },
     },
     csmTitle: t('__PROFILE_MODAL_CSM_TITLE'),
     csmContactLabel: t('__PROFILE_MODAL_CSM_CONTACT_LABEL'),
