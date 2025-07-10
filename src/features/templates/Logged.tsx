@@ -3,11 +3,11 @@ import { Chrome, Body, Main, Anchor } from '@appquality/unguess-design-system';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
-import { useAppSelector } from 'src/app/hooks';
 import styled from 'styled-components';
 import { PageLoader } from 'src/common/components/PageLoader';
 import * as Sentry from '@sentry/react';
 import { Navigation } from '../navigation/Navigation';
+import { useGetUsersMeQuery } from '../api';
 
 const StyledMain = styled(Main)`
   background-color: ${({ theme }) => theme.palette.grey[100]};
@@ -37,17 +37,17 @@ export const Logged = ({
   const loginRoute = useLocalizeRoute('login');
   const navigate = useNavigate();
 
-  const { status, userData } = useAppSelector((state) => state.user);
+  const { data: userData, isLoading, error, isFetching } = useGetUsersMeQuery();
 
   useEffect(() => {
-    if (status === 'failed') {
+    if (error) {
       navigate(loginRoute, {
         state: { from: locationState?.from ?? pathname },
       });
     }
-  }, [status]);
+  }, [error]);
 
-  if (status === 'idle' || status === 'loading') {
+  if (isLoading || isFetching || !userData) {
     return <PageLoader />;
   }
 
