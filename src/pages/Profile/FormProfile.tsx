@@ -1,10 +1,10 @@
-import { Formik, useFormikContext } from 'formik';
+import { Formik } from 'formik';
+import { useTranslation } from 'react-i18next';
 import { usePatchUsersMeMutation } from 'src/features/api';
 import * as Yup from 'yup';
-import { useTranslation } from 'react-i18next';
-import { ProfileFormValues } from './valuesType';
-import { useProfileData } from './useProfileData';
 import { ProfileCard } from './parts/ProfileCard';
+import { useProfileData } from './useProfileData';
+import { ProfileFormValues } from './valuesType';
 
 export const FormProfile = () => {
   const { t } = useTranslation();
@@ -16,7 +16,6 @@ export const FormProfile = () => {
     roleId: data?.roleId || 0,
     name: data?.name || '',
     surname: data?.surname || '',
-    email: data?.email || '',
   };
 
   if (isLoading) return <>Loading...</>;
