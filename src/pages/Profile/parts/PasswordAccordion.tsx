@@ -62,7 +62,7 @@ export const PasswordAccordion = () => {
         >
           <AccordionNew.Label
             style={{
-              color: appTheme.palette.blue[600],
+              color: appTheme.palette.grey[800],
             }}
             label={t('__PROFILE_PAGE_PASSWORD_ACCORDION_LABEL')}
           />
