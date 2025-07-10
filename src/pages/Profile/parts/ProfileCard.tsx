@@ -177,7 +177,6 @@ export const ProfileCard = () => {
                         </>
                       }
                       onSelect={(role) => {
-                        console.log('🚀 ~ ProfileCard ~ onSelect:', role);
                         setFieldValue('roleId', Number.parseInt(role, 10));
                         (
                           selectRef.current?.querySelector(
