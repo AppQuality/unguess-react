@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { useAppSelector } from 'src/app/hooks';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
 import { PageLoader } from 'src/common/components/PageLoader';
 import PlanCreationInterface from 'src/common/components/PlanCreationInterface';
-import { useGetWorkspacesByWidTemplatesAndTidQuery } from 'src/features/api';
+import {
+  useGetUsersMeQuery,
+  useGetWorkspacesByWidTemplatesAndTidQuery,
+} from 'src/features/api';
 import { Page } from 'src/features/templates/Page';
 import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
@@ -22,7 +24,8 @@ const Template = () => {
   const { activeWorkspace } = useActiveWorkspace();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
-  const { status } = useAppSelector((state) => state.user);
+  const { isLoading: isUserLoading, isFetching: isUserFetching } =
+    useGetUsersMeQuery();
 
   if (typeof templateId === 'undefined') {
     navigate(notFoundRoute, {
@@ -49,7 +52,13 @@ const Template = () => {
     return null;
   }
 
-  if (!data || isLoading || status === 'loading' || !activeWorkspace) {
+  if (
+    !data ||
+    isLoading ||
+    isUserFetching ||
+    isUserLoading ||
+    !activeWorkspace
+  ) {
     return <PageLoader />;
   }
 
