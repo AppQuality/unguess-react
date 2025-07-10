@@ -1138,7 +1138,7 @@
   "__PROFILE_PAGE_SURNAME_REQUIRED_ERROR": "Surname is required",
   "__PROFILE_PAGE_TITLE": "Profile",
   "__PROFILE_PAGE_TOAST_SUCCESS_PASSWORD_UPDATED": "Password updated successfully",
-  "__PROFILE_PAGE_USER_CARD_EMAIL_LABEL": "Email address",
+  "__PROFILE_PAGE_USER_CARD_EMAIL_LABEL": "Work email",
   "__PROFILE_PAGE_USER_CARD_LABEL": "Profile settings",
   "__PROFILE_PAGE_USER_CARD_NAME_LABEL": "First name",
   "__PROFILE_PAGE_USER_CARD_ROLE_LABEL": "Job role",
