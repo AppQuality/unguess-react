@@ -9,7 +9,6 @@ import {
 } from '@appquality/unguess-design-system';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useAppSelector } from 'src/app/hooks';
 import { appTheme } from 'src/app/theme';
 import {
   GetWorkspacesByWidUsersApiResponse,
