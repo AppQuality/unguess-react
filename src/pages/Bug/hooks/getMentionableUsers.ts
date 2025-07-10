@@ -4,6 +4,7 @@ import {
   Tenant,
   useGetCampaignsByCidUsersQuery,
   useGetProjectsByPidUsersQuery,
+  useGetUsersMeQuery,
   useGetWorkspacesByWidUsersQuery,
 } from 'src/features/api';
 import { useGetCampaignWithWorkspaceQuery } from 'src/features/api/customEndpoints/getCampaignWithWorkspace';
@@ -19,7 +20,7 @@ export const useGetMentionableUsers = () => {
   const { data: { campaign } = {} } = useGetCampaignWithWorkspaceQuery({
     cid: campaignId || '0',
   });
-  const { userData } = useAppSelector((state) => state.user);
+  const { data: userData } = useGetUsersMeQuery();
 
   const {
     data: workspaceUsers,
@@ -78,7 +79,7 @@ export const useGetMentionableUsers = () => {
 
   // Remove user himself
   const users = filteredUsers.filter(
-    (u) => u.profile_id !== userData.profile_id
+    (u) => u.profile_id !== userData?.profile_id
   );
 
   return {
