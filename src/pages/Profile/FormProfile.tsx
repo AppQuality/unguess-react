@@ -16,6 +16,7 @@ export const FormProfile = () => {
     roleId: data?.roleId || 0,
     name: data?.name || '',
     surname: data?.surname || '',
+    email: data?.email || '',
   };
 
   if (isLoading) return <>Loading...</>;

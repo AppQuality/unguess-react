@@ -2,6 +2,7 @@ export type ProfileFormValues = {
   name: string;
   surname: string;
   roleId: number;
+  email?: string;
   role?: string;
 };
 
