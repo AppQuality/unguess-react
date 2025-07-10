@@ -44,15 +44,15 @@ const TasksListNav = () => {
 
         // Using `flushSync` so we can query the DOM straight after this line
         flushSync(() => {
-          setOutput(
-            reorderWithEdge({
-              list: value,
-              startIndex: indexOfSource,
-              indexOfTarget,
-              closestEdgeOfTarget,
-              axis: 'vertical',
-            })
-          );
+          // Create a new array for immutability
+          const newList = reorderWithEdge({
+            list: value,
+            startIndex: indexOfSource,
+            indexOfTarget,
+            closestEdgeOfTarget,
+            axis: 'vertical',
+          });
+          setOutput([...newList]); // ensure a new array reference
         });
         // Being simple and just querying for the task after the drop.
         // We could use react context to register the element in a lookup,
@@ -70,8 +70,8 @@ const TasksListNav = () => {
 
   return (
     <DraggableList data-qa="tasks-module-nav">
-      {value.map((task) => (
-        <TaskItemNav key={task.key} task={task} />
+      {value.map((task, i) => (
+        <TaskItemNav key={task.id} task={task} index={i} />
       ))}
     </DraggableList>
   );
