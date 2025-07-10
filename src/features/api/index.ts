@@ -2375,36 +2375,42 @@ export type ModuleDate = {
 };
 export type SubcomponentTaskVideo = {
   description?: string;
+  id?: string;
   kind: 'video';
   title: string;
   url?: string;
 };
 export type SubcomponentTaskBug = {
   description?: string;
+  id?: string;
   kind: 'bug';
   title: string;
   url?: string;
 };
 export type SubcomponentTaskSurvey = {
   description?: string;
+  id?: string;
   kind: 'survey';
   title: string;
   url?: string;
 };
 export type OutputModuleTaskModerateVideo = {
   description?: string;
+  id?: string;
   kind: 'moderate-video';
   title: string;
   url?: string;
 };
 export type OutputModuleTaskExplorativeBug = {
   description?: string;
+  id?: string;
   kind: 'explorative-bug';
   title: string;
   url?: string;
 };
 export type OutputModuleTaskAccessibility = {
   description?: string;
+  id?: string;
   kind: 'accessibility';
   title: string;
   url?: string;
@@ -2674,8 +2680,10 @@ export type User = {
   customer_role: string;
   email: string;
   features?: Feature[];
+  first_name: string;
   /** This is the main id of the user. Currently is equal to tryber_wp_user_id */
   id: number;
+  last_name: string;
   name: string;
   picture?: string;
   profile_id: number;
