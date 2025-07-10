@@ -46,10 +46,7 @@ export const PasswordAccordion = () => {
 
   const isOpen = false; // Temporary, as the context is not fully implemented yet
 
-  console.log('🚀 ~ PasswordAccordion ~ formValues:', formValues);
-
   return (
-    // <StyledContainerCard>
     <AccordionNew
       level={3}
       key={`password_accordion_${isOpen}`}
@@ -211,6 +208,5 @@ export const PasswordAccordion = () => {
         </AccordionNew.Panel>
       </StyledAccordionSection>
     </AccordionNew>
-    // </StyledContainerCard>
   );
 };

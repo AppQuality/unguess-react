@@ -48,8 +48,6 @@ export const ProfileCard = () => {
     submitForm,
   } = useFormikContext<ProfileFormValues>();
 
-  console.log('🚀 ~ ProfileCard ~ values:', values);
-
   if (isLoading) return <>Loading...</>;
 
   return (
