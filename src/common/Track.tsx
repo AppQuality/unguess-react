@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import { useLocation } from 'react-router-dom';
-import { useAppSelector } from 'src/app/hooks';
+import { useGetUsersMeQuery } from 'src/features/api';
 import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
 import { useAnalytics } from 'use-analytics';
 
@@ -26,7 +26,7 @@ export const Track = ({
   title: string;
   children: React.ReactNode;
 }) => {
-  const { userData } = useAppSelector((state) => state.user);
+  const { data: userData, isLoading } = useGetUsersMeQuery();
   const { activeWorkspace } = useActiveWorkspace();
   const { track, identify, page } = useAnalytics();
   const location = useLocation();
@@ -44,7 +44,7 @@ export const Track = ({
   );
 
   useEffect(() => {
-    if (userData?.role && activeWorkspace?.company) {
+    if (!isLoading && userData?.role && activeWorkspace?.company) {
       identify(`profile_${userData.profile_id}`, {
         role: userData.role,
         customer_role: userData.customer_role,
