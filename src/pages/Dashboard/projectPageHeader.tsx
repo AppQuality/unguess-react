@@ -10,11 +10,10 @@ import { ReactComponent as DeleteIcon } from '@zendeskgarden/svg-icons/src/16/tr
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useAppSelector } from 'src/app/hooks';
 import { appTheme } from 'src/app/theme';
 import { ProjectSettings } from 'src/common/components/inviteUsers/projectSettings';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
-import { useGetProjectsByPidQuery } from 'src/features/api';
+import { useGetProjectsByPidQuery, useGetUsersMeQuery } from 'src/features/api';
 import { useCanAccessToActiveWorkspace } from 'src/hooks/useCanAccessToActiveWorkspace';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import styled from 'styled-components';
@@ -51,7 +50,9 @@ export const ProjectPageHeader = ({ projectId }: { projectId: number }) => {
   const navigate = useNavigate();
   const notFoundRoute = useLocalizeRoute('oops');
   const location = useLocation();
-  const { status } = useAppSelector((state) => state.user);
+  const { isLoading: isUserLoading, isFetching: isUserFetching } =
+    useGetUsersMeQuery();
+
   const templatesRoute = useLocalizeRoute('templates');
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
 
@@ -97,7 +98,8 @@ export const ProjectPageHeader = ({ projectId }: { projectId: number }) => {
             {isLoading ||
             isLoadingPlans ||
             isFetching ||
-            status === 'loading' ? (
+            isUserLoading ||
+            isUserFetching ? (
               <Skeleton width="60%" height="44px" />
             ) : (
               titleContent
@@ -107,7 +109,8 @@ export const ProjectPageHeader = ({ projectId }: { projectId: number }) => {
             {isLoading ||
             isLoadingPlans ||
             isFetching ||
-            status === 'loading' ? (
+            isUserLoading ||
+            isUserFetching ? (
               <Skeleton width="60%" height="44px" />
             ) : (
               descriptionContent
