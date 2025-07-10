@@ -1,13 +1,15 @@
-import { Formik, useFormikContext } from 'formik';
+import { useToast, Notification } from '@appquality/unguess-design-system';
+import { Formik } from 'formik';
+import { useTranslation } from 'react-i18next';
 import { usePatchUsersMeMutation } from 'src/features/api';
 import * as Yup from 'yup';
-import { useTranslation } from 'react-i18next';
-import { PasswordFormValues } from './valuesType';
-import { useProfileData } from './useProfileData';
 import { PasswordAccordion } from './parts/PasswordAccordion';
+import { useProfileData } from './useProfileData';
+import { PasswordFormValues } from './valuesType';
 
 export const FormPassword = () => {
   const { t } = useTranslation();
+  const { addToast } = useToast();
   const { data, isLoading } = useProfileData();
   const [updateProfile] = usePatchUsersMeMutation();
 
@@ -47,10 +49,22 @@ export const FormPassword = () => {
           })
             .unwrap()
             .then((res) => {
-              alert('ok');
+              addToast(
+                ({ close }) => (
+                  <Notification
+                    onClose={close}
+                    type="success"
+                    message={t('__PROFILE_PAGE_TOAST_SUCCESS_PASSWORD_UPDATED')}
+                    isPrimary
+                  />
+                ),
+                { placement: 'top' }
+              );
             })
             .catch((error) => {
-              alert('ko');
+              if (error.status === 417) {
+                alert('Invalid current password');
+              } else alert('An error occurred while updating the password');
             });
 
           actions.setSubmitting(false);
