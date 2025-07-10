@@ -8,6 +8,7 @@ import {
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
 import { prepareGravatar } from 'src/common/utils';
 import { toggleProfileModal } from 'src/features/navigation/navigationSlice';
+import { useGetUsersMeQuery } from 'src/features/api';
 import { ReactComponent as ChevronIcon } from 'src/assets/icons/chevron-down-stroke.svg';
 import styled from 'styled-components';
 import { getInitials } from './utils';
@@ -20,7 +21,9 @@ const ChevronButton = styled(IconButton)`
 
 export const ProfileAvatar = () => {
   const dispatch = useAppDispatch();
-  const { userData: user } = useAppSelector((state) => state.user);
+
+  const { data: user, isLoading, error: dataError } = useGetUsersMeQuery();
+
   const { isProfileModalOpen } = useAppSelector((state) => state.navigation);
 
   const toggleProfileModalState = () => {
@@ -28,27 +31,31 @@ export const ProfileAvatar = () => {
   };
 
   return (
-    <HeaderItem isRound onClick={toggleProfileModalState}>
-      <HeaderItemIcon>
-        {!user ? (
-          <Skeleton
-            width="32px"
-            height="32px"
-            style={{ borderRadius: '100%' }}
-          />
-        ) : (
-          <>
-            <Avatar avatarType={user.picture ? 'image' : 'text'}>
-              {user.picture
-                ? prepareGravatar(user.picture, 64)
-                : getInitials(user.name)}
-            </Avatar>
-            <ChevronButton size="small" isRotated={isProfileModalOpen}>
-              <ChevronIcon />
-            </ChevronButton>
-          </>
-        )}
-      </HeaderItemIcon>
-    </HeaderItem>
+    !isLoading &&
+    user &&
+    !dataError && (
+      <HeaderItem isRound onClick={toggleProfileModalState}>
+        <HeaderItemIcon>
+          {!user ? (
+            <Skeleton
+              width="32px"
+              height="32px"
+              style={{ borderRadius: '100%' }}
+            />
+          ) : (
+            <>
+              <Avatar avatarType={user.picture ? 'image' : 'text'}>
+                {user.picture
+                  ? prepareGravatar(user.picture, 64)
+                  : getInitials(user.name)}
+              </Avatar>
+              <ChevronButton size="small" isRotated={isProfileModalOpen}>
+                <ChevronIcon />
+              </ChevronButton>
+            </>
+          )}
+        </HeaderItemIcon>
+      </HeaderItem>
+    )
   );
 };
