@@ -35,6 +35,10 @@ export const FormPassword = () => {
 
   return (
     <Formik
+      initialValues={initialValues}
+      validationSchema={schema}
+      enableReinitialize
+      validateOnChange
       onSubmit={async (values, actions) => {
         if (values) {
           actions.setSubmitting(true);
@@ -70,10 +74,6 @@ export const FormPassword = () => {
           actions.setSubmitting(false);
         }
       }}
-      initialValues={initialValues}
-      validationSchema={schema}
-      enableReinitialize
-      validateOnChange
     >
       <PasswordAccordion />
     </Formik>
