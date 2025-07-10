@@ -119,11 +119,7 @@ const TasksList = () => {
               </Message>
             ))}
         </div>
-        <TasksContainerAnimation>
-          {value.map((task) => (
-            <TaskItem key={task.id} task={task} />
-          ))}
-        </TasksContainerAnimation>
+        <TasksContainerAnimation tasks={value} />
         {getPlanStatus() === 'draft' && <AddTaskButton />}
         <TasksModal />
       </StyledCard>

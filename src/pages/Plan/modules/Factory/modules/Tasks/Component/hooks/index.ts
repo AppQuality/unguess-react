@@ -1,14 +1,15 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { components } from 'src/common/schema';
 import { useModule } from 'src/features/modules/useModule';
 import { useValidation } from 'src/features/modules/useModuleValidation';
 import * as yup from 'yup';
+import * as uuid from 'uuid';
+import { id } from 'date-fns/locale';
 
 const taskDataKey = Symbol('task');
 
 export type TTask = components['schemas']['OutputModuleTask'] & {
-  key: number;
   id: string;
 };
 
@@ -39,6 +40,15 @@ const useModuleTasks = () => {
   const { value, setOutput, setVariant } = useModule('tasks');
   const previousValue = usePreviousValue(value);
 
+  const output: TTask[] = useMemo(
+    () =>
+      (value?.output || []).map((task, i) => ({
+        ...task,
+        id: task.id as string, // each task should have a unique ID from db or api transformResponse
+      })),
+    [value?.output]
+  );
+
   const checkUrl = (
     url: components['schemas']['ModuleTask']['output'][number]['url']
   ) => {
@@ -61,7 +71,7 @@ const useModuleTasks = () => {
       return {
         empty: t('__PLAN_PAGE_MODULE_TASKS_TASK_ERROR_REQUIRED'),
       };
-    const errors = o.reduce((acc, item, idx) => {
+    const errors = o.reduce((acc, item) => {
       const titleEmpty = !item.title || item.title.length === 0;
       const titleMaxLength = item.title.length > 64;
       const descriptionEmpty =
@@ -74,7 +84,8 @@ const useModuleTasks = () => {
         return { ...acc };
       return {
         ...acc,
-        [idx]: {
+        [item.id as string]: {
+          // here we rely on the id being provided from db or api transformResponse
           ...(titleEmpty
             ? {
                 title: t('__PLAN_PAGE_MODULE_TASKS_TASK_TITLE_ERROR_REQUIRED'),
@@ -110,12 +121,6 @@ const useModuleTasks = () => {
     type: 'tasks',
     validate: validation,
   });
-
-  const output = (value?.output || []).map((task, i) => ({
-    ...task,
-    key: i,
-    id: i.toString(),
-  }));
 
   const add = (kind: NonNullable<typeof value>['output'][number]['kind']) => {
     function getDefaultTitle(fill: boolean = false) {
@@ -177,47 +182,36 @@ const useModuleTasks = () => {
     }
 
     setOutput([
-      ...(value?.output || []),
+      ...(output || []),
       {
         kind,
         title: getDefaultTitle(),
         description: getDefaultDescription(),
+        id: uuid.v4(),
       },
     ]);
   };
 
-  const update = (k: number, v: Partial<(typeof output)[number]>) => {
+  const update = (id: string, v: Partial<(typeof output)[number]>) => {
+    console.log('Updating task with id:', id, 'with value:', v);
+    console.log('Current output:', output);
     setOutput(
-      output
-        .map((o) => {
-          if (o.key !== k) return o;
+      output.map((o) => {
+        if (o.id !== id) return o;
 
-          if (v.url !== '') return { ...o, ...v };
+        if (v.url !== '') return { ...o, ...v };
 
-          // eslint-disable-next-line @typescript-eslint/no-unused-vars
-          const { url: __, ...rest } = o;
-          // eslint-disable-next-line @typescript-eslint/no-unused-vars
-          const { url: _, ...restWithoutUrl } = v;
-          return { ...rest, ...restWithoutUrl };
-        })
-        .map((o) => {
-          // eslint-disable-next-line @typescript-eslint/no-unused-vars
-          const { key, ...rest } = o;
-          return rest;
-        })
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const { url: __, ...rest } = o;
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const { url: _, ...restWithoutUrl } = v;
+        return { ...rest, ...restWithoutUrl };
+      })
     );
   };
 
-  const remove = (k: number) => {
-    setOutput(
-      output
-        .filter((o) => o.key !== k)
-        .map((o) => {
-          // eslint-disable-next-line @typescript-eslint/no-unused-vars
-          const { key, ...rest } = o;
-          return rest;
-        })
-    );
+  const remove = (id: string) => {
+    setOutput(output.filter((o) => o.id !== id));
   };
 
   useEffect(() => {

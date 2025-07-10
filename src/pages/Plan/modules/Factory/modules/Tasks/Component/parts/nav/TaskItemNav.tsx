@@ -22,7 +22,6 @@ import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-scroll';
 import { appTheme } from 'src/app/theme';
-import { components } from 'src/common/schema';
 import styled from 'styled-components';
 import { getTaskData, isTaskData, TTask, useModuleTasks } from '../../hooks';
 import { getIconFromTaskOutput } from '../../utils';
@@ -83,15 +82,10 @@ type TaskState =
     };
 const idle: TaskState = { type: 'idle' };
 
-const TaskItemNav = ({
-  task,
-}: {
-  task: components['schemas']['OutputModuleTask'] & { key: number; id: string };
-}) => {
+const TaskItemNav = ({ task, index }: { task: TTask; index: number }) => {
   const [state, setState] = useState<TaskState>(idle);
   const { t } = useTranslation();
   const { error } = useModuleTasks();
-  const { key } = task;
   const ref = useRef(null);
 
   useEffect(() => {
@@ -174,25 +168,27 @@ const TaskItemNav = ({
   }, [task]);
 
   const titleError =
-    error && typeof error === 'object' && `tasks.${key}.title` in error
-      ? error[`tasks.${key}.title`]
+    error && typeof error === 'object' && `tasks.${task.id}.title` in error
+      ? error[`tasks.${task.id}.title`]
       : false;
   const descriptionError =
-    error && typeof error === 'object' && `tasks.${key}.description` in error
-      ? error[`tasks.${key}.description`]
+    error &&
+    typeof error === 'object' &&
+    `tasks.${task.id}.description` in error
+      ? error[`tasks.${task.id}.description`]
       : false;
   const invalidUrlError =
-    error && typeof error === 'object' && `tasks.${key}.url` in error
-      ? error[`tasks.${key}.url`]
+    error && typeof error === 'object' && `tasks.${task.id}.url` in error
+      ? error[`tasks.${task.id}.url`]
       : false;
 
   const hasErrors = titleError || descriptionError || invalidUrlError;
   const hasPlaceholder = !task.title;
 
   return (
-    <StyledDraggableListItem key={key} data-qa="task-item-nav">
+    <StyledDraggableListItem key={task.id} data-qa="task-item-nav">
       <TaskItemNavLink
-        to={`task-${key + 1}`}
+        to={task.id}
         containerId="main"
         duration={500}
         offset={-200}
@@ -213,7 +209,7 @@ const TaskItemNav = ({
             </ModuleIconContainer>
             <MD color={appTheme.palette.blue[600]} style={{ minWidth: '10px' }}>
               <Ellipsis title={task.title}>
-                {key + 1}.{' '}
+                {index + 1}.{' '}
                 <Span isBold>
                   {hasPlaceholder
                     ? t('__PLAN_PAGE_MODULE_TASKS_TASK_TITLE_PLACEHOLDER_EMPTY')

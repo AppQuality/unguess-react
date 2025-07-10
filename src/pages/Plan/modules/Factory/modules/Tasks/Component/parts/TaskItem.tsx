@@ -11,44 +11,43 @@ import {
   Paragraph,
   Span,
 } from '@appquality/unguess-design-system';
-import { forwardRef, useState } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as LinkIcon } from 'src/assets/icons/link-stroke.svg';
 import { ReactComponent as TrashIcon } from 'src/assets/icons/trash-stroke.svg';
 import { components } from 'src/common/schema';
 import { useModuleConfiguration } from 'src/features/modules/useModuleConfiguration';
-import { useModuleTasks } from '../hooks';
+import { TTask, useModuleTasks } from '../hooks';
 import { getIconFromTaskOutput } from '../utils';
 import { DeleteTaskConfirmationModal } from './modal/DeleteTaskConfirmationModal';
 
 type TaskItemProps = {
-  task: components['schemas']['OutputModuleTask'] & { key: number };
+  task: TTask;
+  index: number;
 };
 
-const TaskItem = forwardRef<HTMLDivElement, TaskItemProps>((props, ref) => {
-  const { task } = props;
+const TaskItem = ({ task, index }: TaskItemProps) => {
   const { t } = useTranslation();
   const { update, validate, error } = useModuleTasks();
   const { getPlanStatus } = useModuleConfiguration();
   const confirmationState = useState<{
     isOpen: boolean;
-    taskKey: number;
-  }>({ isOpen: false, taskKey: 0 });
-  const { key, kind, title, description } = task;
-  const index = key + 1;
+    taskId: string;
+  }>({ isOpen: false, taskId: '' });
+  const { id, kind, title, description } = task;
 
   const titleError =
-    error && typeof error === 'object' && `tasks.${key}.title` in error
-      ? error[`tasks.${key}.title`]
+    error && typeof error === 'object' && `tasks.${index}.title` in error
+      ? error[`tasks.${index}.title`]
       : false;
   const descriptionError =
-    error && typeof error === 'object' && `tasks.${key}.description` in error
-      ? error[`tasks.${key}.description`]
+    error && typeof error === 'object' && `tasks.${index}.description` in error
+      ? error[`tasks.${index}.description`]
       : false;
   const invalidUrlError =
-    error && typeof error === 'object' && `tasks.${key}.url` in error
-      ? error[`tasks.${key}.url`]
+    error && typeof error === 'object' && `tasks.${index}.url` in error
+      ? error[`tasks.${index}.url`]
       : false;
 
   const hasError = titleError || descriptionError || invalidUrlError;
@@ -63,17 +62,17 @@ const TaskItem = forwardRef<HTMLDivElement, TaskItemProps>((props, ref) => {
   const isSimpleInterface = ['explorative-bug', 'accessibility'].includes(kind);
 
   return (
-    <div ref={ref}>
+    <>
       <AccordionNew
         level={3}
-        id={`task-${index}`}
-        key={`task-${index}`}
+        id={id}
+        key={id}
         hasBorder
         type={hasError ? 'danger' : 'default'}
         role="listitem"
       >
         <AccordionNew.Section>
-          <AccordionNew.Header icon={getIconFromTaskOutput(task)}>
+          <AccordionNew.Header icon={getIconFromTaskOutput(task, index)}>
             <AccordionNew.Label
               label={`${index}. ${
                 hasPlaceholder
@@ -90,7 +89,7 @@ const TaskItem = forwardRef<HTMLDivElement, TaskItemProps>((props, ref) => {
                   onClick={(e) => {
                     confirmationState[1]({
                       isOpen: true,
-                      taskKey: key,
+                      taskId: id,
                     });
                     e.stopPropagation();
                   }}
@@ -118,7 +117,10 @@ const TaskItem = forwardRef<HTMLDivElement, TaskItemProps>((props, ref) => {
                     type="text"
                     readOnly={getPlanStatus() !== 'draft'}
                     value={title}
-                    onChange={(e) => update(key, { title: e.target.value })}
+                    onChange={(e) => {
+                      console.log('updating');
+                      update(id, { title: e.target.value });
+                    }}
                     placeholder={t(
                       '__PLAN_PAGE_MODULE_TASKS_TASK_TITLE_PLACEHOLDER'
                     )}
@@ -157,7 +159,7 @@ const TaskItem = forwardRef<HTMLDivElement, TaskItemProps>((props, ref) => {
                       '__PLAN_PAGE_MODULE_TASKS_TASK_DESCRIPTION_EDITOR_HEADER_TITLE'
                     )}
                     onUpdate={(value) =>
-                      update(key, { description: value.editor.getHTML() })
+                      update(id, { description: value.editor.getHTML() })
                     }
                     hasInlineMenu
                     placeholderOptions={{
@@ -195,7 +197,7 @@ const TaskItem = forwardRef<HTMLDivElement, TaskItemProps>((props, ref) => {
                     start={<LinkIcon />}
                     value={task.url}
                     onBlur={handleBlur}
-                    onChange={(e) => update(key, { url: e.target.value })}
+                    onChange={(e) => update(id, { url: e.target.value })}
                     placeholder={t(
                       '__PLAN_PAGE_MODULE_TASKS_TASK_LINK_PLACEHOLDER'
                     )}
@@ -220,8 +222,8 @@ const TaskItem = forwardRef<HTMLDivElement, TaskItemProps>((props, ref) => {
       {confirmationState[0].isOpen && (
         <DeleteTaskConfirmationModal state={confirmationState} />
       )}
-    </div>
+    </>
   );
-});
+};
 
 export { TaskItem };

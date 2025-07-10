@@ -1,13 +1,7 @@
-import {
-  Children,
-  cloneElement,
-  isValidElement,
-  ReactNode,
-  useLayoutEffect,
-  useRef,
-  useState,
-} from 'react';
+import { Transition } from 'motion/react';
+import * as motion from 'motion/react-client';
 import styled from 'styled-components';
+import { TTask } from '../hooks';
 import { TaskItem } from './TaskItem';
 
 const StyledWrapper = styled.div`
@@ -15,54 +9,25 @@ const StyledWrapper = styled.div`
 `;
 
 type TasksContainerAnimationProps = {
-  children?: ReactNode;
+  tasks: TTask[];
 };
 
-const TasksContainerAnimation = ({
-  children,
-}: TasksContainerAnimationProps) => {
-  const [boundingBoxes, setBoundingBoxes] = useState<Record<string, DOMRect>>(
-    {}
-  );
-  // Store refs to all TaskItem nodes
-  const itemRefs = useRef<Record<string, HTMLElement | null>>({});
+const spring: Transition = {
+  type: 'spring',
+  damping: 20,
+  stiffness: 300,
+};
 
-  // After render, measure all TaskItems and update boundingBoxes
-  useLayoutEffect(() => {
-    const newBoxes: Record<string, DOMRect> = {};
-    Object.entries(itemRefs.current).forEach(([idx, el]) => {
-      if (el) newBoxes[idx] = el.getBoundingClientRect();
-    });
-    setBoundingBoxes((prev) => {
-      // do something with the previous state if needed
-      console.log('animation prev', prev);
-      console.log('animation new', newBoxes);
-      return {
-        ...newBoxes,
-      };
-    });
-  }, [children]);
-
+const TasksContainerAnimation = ({ tasks }: TasksContainerAnimationProps) => {
   return (
-    <StyledWrapper role="list">
-      {/*
-        Only add ref to children that are TaskItem components.
-        All children passed here should be <TaskItem /> for animation/measurement.
-      */}
-      {Children.map(children, (child, idx) => {
-        if (!isValidElement(child)) return null;
-        if (child.type === TaskItem) {
-          return cloneElement(child as any, {
-            ref: (el: HTMLElement | null) => {
-              if (child.key != null) {
-                // @ts-ignore
-                itemRefs.current[child.key] = el;
-              }
-            },
-          });
-        }
-        return child;
-      })}
+    <StyledWrapper>
+      <motion.ul role="list" layout transition={spring}>
+        {tasks.map((task, index) => (
+          <motion.li key={task.id}>
+            <TaskItem task={task} index={index} />
+          </motion.li>
+        ))}
+      </motion.ul>
     </StyledWrapper>
   );
 };
