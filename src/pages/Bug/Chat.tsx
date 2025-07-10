@@ -9,12 +9,12 @@ import {
 } from '@appquality/unguess-design-system';
 import { t } from 'i18next';
 import { useEffect, useRef, useState } from 'react';
-import { useAppSelector } from 'src/app/hooks';
 import defaultBkg from 'src/assets/bg-chat.svg';
 import { getInitials } from 'src/common/components/navigation/header/utils';
 import {
   useDeleteCampaignsByCidBugsAndBidCommentsCmidMutation,
   useGetCampaignsByCidBugsAndBidCommentsQuery,
+  useGetUsersMeQuery,
 } from 'src/features/api';
 import i18n from 'src/i18n';
 import { styled } from 'styled-components';
@@ -59,7 +59,12 @@ export const ChatBox = ({
   setIsSubmitting: (state: boolean) => void;
 }) => {
   const { triggerSave, editor, clearInput } = useChatContext();
-  const { userData: user } = useAppSelector((state) => state.user);
+  const {
+    data: user,
+    isLoading: userDataLoading,
+    error,
+  } = useGetUsersMeQuery();
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [commentToDelete, setCommentToDelete] = useState<string>('');
   const { addToast } = useToast();
@@ -128,107 +133,114 @@ export const ChatBox = ({
   }, [comments]);
 
   return (
-    <>
-      <Chat>
-        <Chat.Header>{t('__BUG_COMMENTS_CHAT_HEADER__')}</Chat.Header>
-        <StyledComments
-          id="bug-comments-container"
-          chatBkg={`url(${defaultBkg}) repeat center center`}
-          key="bug-comments-container"
-          ref={commentsContainerRef}
-        >
-          {isLoading || isFetching ? (
-            <Skeleton style={{ borderRadius: 0 }} />
-          ) : (
-            comments &&
-            comments.items.length > 0 && (
-              <>
-                {comments.items.map((comment) => (
-                  <Comment
-                    author={{
-                      avatar: getInitials(comment.creator.name),
-                      name: comment.creator.name,
-                      ...(comment.creator.isInternal && {
-                        avatarType: 'system',
-                      }),
-                    }}
-                    header={{
-                      title: `Bug ID: ${bugId}`,
-                      message: `Comment posted by: ${comment.creator.name}`,
-                    }}
-                    date={convertToLocalTime(
-                      comment.creation_date,
-                      currentLanguage
-                    )}
-                    message={comment.text}
-                    key={comment.id}
-                    media={comment.media?.map((media) => ({
-                      id: media.id.toString(),
-                      url: media.url,
-                      type: media.type,
-                    }))}
-                  >
-                    <>
-                      <br />
-                      {(comment.creator.id === user.profile_id ||
-                        user.role === 'administrator') && (
-                        <Button
-                          isPill
-                          isBasic
-                          isDanger
-                          onClick={() => openModal(`${comment.id}`)}
-                        >
-                          {t('__BUG_COMMENTS_CHAT_DELETE__')}
-                        </Button>
+    user &&
+    !userDataLoading && (
+      <>
+        <Chat>
+          <Chat.Header>{t('__BUG_COMMENTS_CHAT_HEADER__')}</Chat.Header>
+          <StyledComments
+            id="bug-comments-container"
+            chatBkg={`url(${defaultBkg}) repeat center center`}
+            key="bug-comments-container"
+            ref={commentsContainerRef}
+          >
+            {isLoading || isFetching ? (
+              <Skeleton style={{ borderRadius: 0 }} />
+            ) : (
+              comments &&
+              comments.items.length > 0 && (
+                <>
+                  {comments.items.map((comment) => (
+                    <Comment
+                      author={{
+                        avatar: getInitials(comment.creator.name),
+                        name: comment.creator.name,
+                        ...(comment.creator.isInternal && {
+                          avatarType: 'system',
+                        }),
+                      }}
+                      header={{
+                        title: `Bug ID: ${bugId}`,
+                        message: `Comment posted by: ${comment.creator.name}`,
+                      }}
+                      date={convertToLocalTime(
+                        comment.creation_date,
+                        currentLanguage
                       )}
-                    </>
-                  </Comment>
-                ))}
-              </>
-            )
-          )}
-        </StyledComments>
-        <Chat.Input
-          author={{ avatar: getInitials(user.name), name: user.name }}
-          hasFloatingMenu
-          hasButtonsMenu
-          placeholderOptions={{
-            placeholder: () => t('__BUG_COMMENTS_CHAT_PLACEHOLDER'),
-          }}
-          i18n={{
-            menu: {
-              bold: t('__BUG_COMMENTS_CHAT_BOLD'),
-              italic: t('__BUG_COMMENTS_CHAT_ITALIC'),
-              mention: t('__BUG_COMMENTS_CHAT_MENTION'),
-            },
-            mention: {
-              noResults: t('__BUG_COMMENTS_CHAT_NO_RESULTS'),
-            },
-          }}
-        />
-        <Chat.Footer showShortcut saveText={t('__BUG_COMMENTS_CHAT_SAVE_TEXT')}>
-          <ButtonsContainer>
-            <Button isBasic onClick={clearInput}>
-              {t('__BUG_COMMENTS_CHAT_CANCEL__')}
-            </Button>
-            <Button
-              isPrimary
-              isAccent
-              disabled={isSubmitting}
-              onClick={handleSendComment}
-            >
-              {t('__BUG_COMMENTS_CHAT_CONFIRM__')}
-            </Button>
-          </ButtonsContainer>
-        </Chat.Footer>
-      </Chat>
-      {isModalOpen && (
-        <DeleteCommentModal
-          setIsModalOpen={setIsModalOpen}
-          deleteCommentHandler={deleteCommentHandler}
-          deleteCommentId={commentToDelete}
-        />
-      )}
-    </>
+                      message={comment.text}
+                      key={comment.id}
+                      media={comment.media?.map((media) => ({
+                        id: media.id.toString(),
+                        url: media.url,
+                        type: media.type,
+                      }))}
+                    >
+                      <>
+                        <br />
+                        {((user && comment.creator.id === user.profile_id) ||
+                          user.role === 'administrator') &&
+                          !error && (
+                            <Button
+                              isPill
+                              isBasic
+                              isDanger
+                              onClick={() => openModal(`${comment.id}`)}
+                            >
+                              {t('__BUG_COMMENTS_CHAT_DELETE__')}
+                            </Button>
+                          )}
+                      </>
+                    </Comment>
+                  ))}
+                </>
+              )
+            )}
+          </StyledComments>
+          <Chat.Input
+            author={{ avatar: getInitials(user.name), name: user.name }}
+            hasFloatingMenu
+            hasButtonsMenu
+            placeholderOptions={{
+              placeholder: () => t('__BUG_COMMENTS_CHAT_PLACEHOLDER'),
+            }}
+            i18n={{
+              menu: {
+                bold: t('__BUG_COMMENTS_CHAT_BOLD'),
+                italic: t('__BUG_COMMENTS_CHAT_ITALIC'),
+                mention: t('__BUG_COMMENTS_CHAT_MENTION'),
+              },
+              mention: {
+                noResults: t('__BUG_COMMENTS_CHAT_NO_RESULTS'),
+              },
+            }}
+          />
+          <Chat.Footer
+            showShortcut
+            saveText={t('__BUG_COMMENTS_CHAT_SAVE_TEXT')}
+          >
+            <ButtonsContainer>
+              <Button isBasic onClick={clearInput}>
+                {t('__BUG_COMMENTS_CHAT_CANCEL__')}
+              </Button>
+              <Button
+                isPrimary
+                isAccent
+                disabled={isSubmitting}
+                onClick={handleSendComment}
+              >
+                {t('__BUG_COMMENTS_CHAT_CONFIRM__')}
+              </Button>
+            </ButtonsContainer>
+          </Chat.Footer>
+        </Chat>
+        {isModalOpen && (
+          <DeleteCommentModal
+            setIsModalOpen={setIsModalOpen}
+            deleteCommentHandler={deleteCommentHandler}
+            deleteCommentId={commentToDelete}
+          />
+        )}
+      </>
+    )
   );
 };
