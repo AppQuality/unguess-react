@@ -59,6 +59,7 @@ export const ProfileCard = () => {
           style={{
             color: appTheme.palette.blue[600],
             width: appTheme.iconSizes.md,
+            height: appTheme.iconSizes.md,
           }}
         />
         <LG isBold style={{ color: appTheme.palette.grey[800] }}>
