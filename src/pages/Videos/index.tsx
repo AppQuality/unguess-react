@@ -2,7 +2,7 @@ import { Page } from 'src/features/templates/Page';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
-import { useAppDispatch, useAppSelector } from 'src/app/hooks';
+import { useAppDispatch } from 'src/app/hooks';
 import { useCampaignAnalytics } from 'src/hooks/useCampaignAnalytics';
 import { useGetCampaignWithWorkspaceQuery } from 'src/features/api/customEndpoints/getCampaignWithWorkspace';
 import { FEATURE_FLAG_TAGGING_TOOL } from 'src/constants';
@@ -12,6 +12,7 @@ import {
   setWorkspace,
 } from 'src/features/navigation/navigationSlice';
 import { useEffect } from 'react';
+import { useGetUsersMeQuery } from 'src/features/api';
 import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
 import VideosPageHeader from './PageHeader';
 import VideosPageContent from './Content';
@@ -24,7 +25,12 @@ const VideosPage = () => {
   const { campaignId } = useParams();
   const dispatch = useAppDispatch();
   const location = useLocation();
-  const { status } = useAppSelector((state) => state.user);
+  const {
+    data: userData,
+    isLoading: isUserLoading,
+    isFetching: isUserFetching,
+    isSuccess,
+  } = useGetUsersMeQuery();
   const { hasFeatureFlag } = useFeatureFlag();
 
   const hasTaggingToolFeature = hasFeatureFlag(FEATURE_FLAG_TAGGING_TOOL);
@@ -36,14 +42,20 @@ const VideosPage = () => {
   }
 
   useEffect(() => {
-    if (status === 'idle' || status === 'loading') return;
+    if (!userData || isUserFetching || isUserLoading) return;
 
-    if (!hasTaggingToolFeature && status === 'logged') {
+    if (!hasTaggingToolFeature && isSuccess && userData) {
       navigate(notFoundRoute, {
         state: { from: location.pathname },
       });
     }
-  }, [status, hasTaggingToolFeature]);
+  }, [
+    isUserFetching,
+    isUserLoading,
+    userData,
+    isSuccess,
+    hasTaggingToolFeature,
+  ]);
 
   useCampaignAnalytics(campaignId);
 
