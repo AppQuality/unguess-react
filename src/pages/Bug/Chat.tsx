@@ -62,7 +62,8 @@ export const ChatBox = ({
   const {
     data: user,
     isLoading: userDataLoading,
-    error,
+    isSuccess,
+    isError: isUserError,
   } = useGetUsersMeQuery();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -132,6 +133,8 @@ export const ChatBox = ({
     };
   }, [comments]);
 
+  if (!user || isUserError) return null;
+
   return (
     user &&
     !userDataLoading && (
@@ -179,7 +182,7 @@ export const ChatBox = ({
                         <br />
                         {((user && comment.creator.id === user.profile_id) ||
                           user.role === 'administrator') &&
-                          !error && (
+                          isSuccess && (
                             <Button
                               isPill
                               isBasic
