@@ -58,7 +58,10 @@ const PasswordRequirements = () => {
           {t('PASSWORD_VALIDATOR_CONTAIN_A_NUMBER')}
         </PasswordRequirement>
         <PasswordRequirement
-          check={() => values.newPassword === values.confirmPassword}
+          check={() =>
+            values.newPassword === values.confirmPassword &&
+            values.confirmPassword !== ''
+          }
         >
           {t('PASSWORD_VALIDATOR_PASSWORDS_DO_NOT_MATCH')}
         </PasswordRequirement>
