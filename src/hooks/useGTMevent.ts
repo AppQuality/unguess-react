@@ -1,6 +1,7 @@
 import { useCallback } from 'react';
 import { shallowEqual } from 'react-redux';
 import { useAppSelector } from 'src/app/hooks';
+import { useGetUsersMeQuery } from 'src/features/api';
 import { useAnalytics } from 'use-analytics';
 import { useActiveWorkspace } from './useActiveWorkspace';
 
@@ -12,17 +13,22 @@ interface GTMEventData {
   target?: string;
 }
 
+const { data: userData } = useGetUsersMeQuery();
+
+if (!userData) {
+  throw new Error('User data is not available');
+}
 export const useSendGTMevent = ({
   loggedUser = true,
 }: { loggedUser?: boolean } = {}) => {
   const user = useAppSelector(
-    (state) => ({
-      role: state.user.userData.role,
-      customer_role: state.user.userData.customer_role,
-      tryber_wp_user_id: state.user.userData.tryber_wp_user_id,
-      id: state.user.userData.id,
-      name: state.user.userData.name,
-      email: state.user.userData.email,
+    () => ({
+      role: userData.role,
+      customer_role: userData.customer_role,
+      tryber_wp_user_id: userData.tryber_wp_user_id,
+      id: userData.id,
+      name: userData.name,
+      email: userData.email,
     }),
     shallowEqual
   );
