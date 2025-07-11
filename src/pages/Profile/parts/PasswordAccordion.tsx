@@ -17,7 +17,9 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as KeyIcon } from 'src/assets/icons/key.svg';
+import { isDev } from 'src/common/isDevEnvironment';
 import { styled } from 'styled-components';
+
 import { PasswordRequirements } from '../PasswordRequirements';
 import { PasswordFormValues } from '../valuesType';
 import { StyledFooter } from './common';
@@ -77,6 +79,8 @@ export const PasswordAccordion = () => {
             style={{
               marginTop: appTheme.space.base * 4,
               marginBottom: appTheme.space.md,
+              marginLeft: '2px',
+              marginRight: '2px',
             }}
           >
             <Field name="currentPassword">
@@ -134,9 +138,27 @@ export const PasswordAccordion = () => {
                 );
               }}
             </Field>
+            <div>
+              <Button
+                style={{
+                  marginTop: appTheme.space.sm,
+                  marginRight: 0,
+                  color: appTheme.palette.grey[600],
+                }}
+                isLink
+                className="header-integration-center"
+                onClick={() => {
+                  window.location.href = `https://${
+                    isDev() ? 'dev' : 'app'
+                  }.unguess.io/wp-login.php?action=lostpassword`;
+                }}
+              >
+                <div>Forgot password?</div>
+              </Button>
+            </div>
           </div>
           <Row style={{ marginTop: appTheme.space.xs }}>
-            <Col>
+            <Col style={{ marginBottom: appTheme.space.xs }}>
               <Field name="newPassword">
                 {({ field, meta }: FieldProps) => {
                   const hasError = meta.touched && Boolean(meta.error);
@@ -169,7 +191,7 @@ export const PasswordAccordion = () => {
                 }}
               </Field>
             </Col>
-            <Col>
+            <Col style={{ marginBottom: appTheme.space.xs }}>
               <Field name="confirmPassword">
                 {({ field, meta }: FieldProps) => {
                   const hasError = meta.touched && Boolean(meta.error);
@@ -206,13 +228,12 @@ export const PasswordAccordion = () => {
           <div
             style={{
               marginTop: appTheme.space.xs,
-              marginBottom: appTheme.space.xs,
             }}
           >
             <PasswordRequirements />
           </div>
 
-          <StyledFooter style={{ marginTop: appTheme.space.md }}>
+          <StyledFooter style={{ marginTop: appTheme.space.sm }}>
             <Button
               isAccent
               isPrimary
