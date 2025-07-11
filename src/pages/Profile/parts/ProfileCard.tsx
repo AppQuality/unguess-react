@@ -1,7 +1,6 @@
 import {
   Button,
   Col,
-  ContainerCard,
   FormField,
   Input,
   Label,
@@ -18,20 +17,9 @@ import { appTheme } from 'src/app/theme';
 import { ReactComponent as UserIcon } from 'src/assets/icons/user.svg';
 import { Divider } from 'src/common/components/divider';
 import { useGetUsersRolesQuery } from 'src/features/api';
-import styled from 'styled-components';
 import { ProfileFormValues } from '../valuesType';
-import { StyledFooter } from './common';
-
-const StyledCardHeader = styled.div`
-  display: flex;
-  align-items: center;
-  gap: ${({ theme }) => theme.space.xs};
-  padding: ${({ theme }) => theme.space.xs} 0;
-  margin-bottom: ${({ theme }) => theme.space.xs};
-`;
-const StyledContainerCard = styled(ContainerCard)`
-  padding: ${({ theme }) => theme.space.md};
-`;
+import { Loader } from './cardLoader';
+import { StyledCardHeader, StyledContainerCard, StyledFooter } from './common';
 
 export const ProfileCard = () => {
   const { t } = useTranslation();
@@ -40,7 +28,7 @@ export const ProfileCard = () => {
   const { setFieldValue, touched, isSubmitting, submitForm } =
     useFormikContext<ProfileFormValues>();
 
-  if (isLoading) return <>Loading...</>;
+  if (isLoading) return <Loader />;
 
   return (
     <StyledContainerCard
