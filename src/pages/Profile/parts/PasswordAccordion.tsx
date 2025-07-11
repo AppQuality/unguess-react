@@ -20,6 +20,7 @@ import { ReactComponent as KeyIcon } from 'src/assets/icons/key.svg';
 import { styled } from 'styled-components';
 import { PasswordRequirements } from '../PasswordRequirements';
 import { PasswordFormValues } from '../valuesType';
+import { StyledFooter } from './common';
 
 const StyledAccordionSection = styled(AccordionNew.Section)`
   box-shadow: none;
@@ -73,55 +74,69 @@ export const PasswordAccordion = () => {
           />
         </AccordionNew.Header>
         <AccordionNew.Panel>
-          <Field name="currentPassword">
-            {({ field, meta }: FieldProps) => {
-              const hasError = meta.touched && Boolean(meta.error);
-              return (
-                <FormField>
-                  <Label>
-                    {t('__PAGE_PROFILE_CURRENT_PASSWORD_LABEL')}
-                    <Span style={{ color: appTheme.palette.red[600] }}> *</Span>
-                  </Label>
-
-                  <MediaInput
-                    type={inputType}
-                    role="textbox"
-                    title="Current Password"
-                    end={
-                      inputType === 'password' ? (
-                        <Eye
-                          style={{ cursor: 'pointer' }}
-                          onClick={handleChangeInputType}
-                          title={t('__PAGE_PROFILE_FORM_CURRENT_PASSWORD_SHOW')}
-                        />
-                      ) : (
-                        <EyeHide
-                          style={{ cursor: 'pointer' }}
-                          onClick={handleChangeInputType}
-                          title={t('__PAGE_PROFILE_FORM_CURRENT_PASSWORD_HIDE')}
-                        />
-                      )
-                    }
-                    {...field}
-                    placeholder={t(
-                      '__PAGE_PROFILE_CURRENT_PASSWORD_PLACEHOLDER'
-                    )}
-                    {...(hasError && { validation: 'error' })}
-                  />
-
-                  {hasError && (
-                    <Message
-                      data-qa="message-error-current-password"
-                      validation="error"
-                    >
-                      {meta.error}
-                    </Message>
-                  )}
-                </FormField>
-              );
+          <div
+            style={{
+              marginTop: appTheme.space.base * 4,
+              marginBottom: appTheme.space.md,
             }}
-          </Field>
-          <Row>
+          >
+            <Field name="currentPassword">
+              {({ field, meta }: FieldProps) => {
+                const hasError = meta.touched && Boolean(meta.error);
+                return (
+                  <FormField>
+                    <Label>
+                      {t('__PAGE_PROFILE_CURRENT_PASSWORD_LABEL')}
+                      <Span style={{ color: appTheme.palette.red[600] }}>
+                        {' '}
+                        *
+                      </Span>
+                    </Label>
+
+                    <MediaInput
+                      type={inputType}
+                      role="textbox"
+                      title="Current Password"
+                      end={
+                        inputType === 'password' ? (
+                          <Eye
+                            style={{ cursor: 'pointer' }}
+                            onClick={handleChangeInputType}
+                            title={t(
+                              '__PAGE_PROFILE_FORM_CURRENT_PASSWORD_SHOW'
+                            )}
+                          />
+                        ) : (
+                          <EyeHide
+                            style={{ cursor: 'pointer' }}
+                            onClick={handleChangeInputType}
+                            title={t(
+                              '__PAGE_PROFILE_FORM_CURRENT_PASSWORD_HIDE'
+                            )}
+                          />
+                        )
+                      }
+                      {...field}
+                      placeholder={t(
+                        '__PAGE_PROFILE_CURRENT_PASSWORD_PLACEHOLDER'
+                      )}
+                      {...(hasError && { validation: 'error' })}
+                    />
+
+                    {hasError && (
+                      <Message
+                        data-qa="message-error-current-password"
+                        validation="error"
+                      >
+                        {meta.error}
+                      </Message>
+                    )}
+                  </FormField>
+                );
+              }}
+            </Field>
+          </div>
+          <Row style={{ marginTop: appTheme.space.xs }}>
             <Col>
               <Field name="newPassword">
                 {({ field, meta }: FieldProps) => {
@@ -189,8 +204,16 @@ export const PasswordAccordion = () => {
               </Field>
             </Col>
           </Row>
-          <PasswordRequirements />
-          <div>
+          <div
+            style={{
+              marginTop: appTheme.space.xs,
+              marginBottom: appTheme.space.xs,
+            }}
+          >
+            <PasswordRequirements />
+          </div>
+
+          <StyledFooter style={{ marginTop: appTheme.space.md }}>
             <Button
               isAccent
               isPrimary
@@ -204,7 +227,7 @@ export const PasswordAccordion = () => {
             >
               Save changes
             </Button>
-          </div>
+          </StyledFooter>
         </AccordionNew.Panel>
       </StyledAccordionSection>
     </AccordionNew>
