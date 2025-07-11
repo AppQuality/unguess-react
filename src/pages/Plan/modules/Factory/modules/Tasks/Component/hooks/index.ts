@@ -5,7 +5,6 @@ import { useModule } from 'src/features/modules/useModule';
 import { useValidation } from 'src/features/modules/useModuleValidation';
 import * as yup from 'yup';
 import * as uuid from 'uuid';
-import { id } from 'date-fns/locale';
 
 const taskDataKey = Symbol('task');
 
@@ -22,6 +21,7 @@ export function getTaskData(task: TTask): TTaskData {
 export function isTaskData(
   data: Record<string | symbol, unknown>
 ): data is TTaskData {
+  // eslint-disable-next-line security/detect-object-injection
   return data[taskDataKey] === true;
 }
 
@@ -42,7 +42,7 @@ const useModuleTasks = () => {
 
   const output: TTask[] = useMemo(
     () =>
-      (value?.output || []).map((task, i) => ({
+      (value?.output || []).map((task) => ({
         ...task,
         id: task.id as string, // each task should have a unique ID from db or api transformResponse
       })),
@@ -193,8 +193,6 @@ const useModuleTasks = () => {
   };
 
   const update = (id: string, v: Partial<(typeof output)[number]>) => {
-    console.log('Updating task with id:', id, 'with value:', v);
-    console.log('Current output:', output);
     setOutput(
       output.map((o) => {
         if (o.id !== id) return o;

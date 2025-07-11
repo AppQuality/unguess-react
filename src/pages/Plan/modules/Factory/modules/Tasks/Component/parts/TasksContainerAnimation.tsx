@@ -18,18 +18,16 @@ const spring: Transition = {
   stiffness: 300,
 };
 
-const TasksContainerAnimation = ({ tasks }: TasksContainerAnimationProps) => {
-  return (
-    <StyledWrapper>
-      <motion.ul role="list" layout transition={spring}>
-        {tasks.map((task, index) => (
-          <motion.li key={task.id} layout>
-            <TaskItem task={task} index={index} />
-          </motion.li>
-        ))}
-      </motion.ul>
-    </StyledWrapper>
-  );
-};
+const TasksContainerAnimation = ({ tasks }: TasksContainerAnimationProps) => (
+  <StyledWrapper>
+    <motion.ul role="list" layout transition={spring}>
+      {tasks.map((task, index) => (
+        <motion.li key={task.id} layout>
+          <TaskItem task={task} index={index} />
+        </motion.li>
+      ))}
+    </motion.ul>
+  </StyledWrapper>
+);
 
 export { TasksContainerAnimation };
