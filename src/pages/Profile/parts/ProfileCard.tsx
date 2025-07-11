@@ -52,7 +52,8 @@ export const ProfileCard = () => {
 
   return (
     <StyledContainerCard
-      id="anchor-profile"
+      id="anchor-profile-id"
+      data-qa="profile-card"
       style={{ marginBottom: appTheme.space.xxl, height: 'auto' }}
       title={t('__PROFILE_PAGE_USER_CARD_LABEL')}
     >

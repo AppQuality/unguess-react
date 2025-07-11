@@ -29,7 +29,7 @@ const Profile = () => {
                 <>
                   <StickyNavItem
                     id="anchor-profile"
-                    to="anchor-profile"
+                    to="anchor-profile-id"
                     containerId="main"
                     spy
                     smooth
@@ -44,8 +44,8 @@ const Profile = () => {
                   </StickyNavItemLabel>
 
                   <StickyNavItem
-                    id="anchor-pino"
-                    to="anchor-pino"
+                    id="anchor-password"
+                    to="anchor-password-id"
                     containerId="main"
                     spy
                     smooth

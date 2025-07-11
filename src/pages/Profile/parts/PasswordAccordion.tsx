@@ -50,6 +50,8 @@ export const PasswordAccordion = () => {
   return (
     <AccordionNew
       level={3}
+      id="anchor-password-id"
+      data-qa="password-accordion"
       key={`password_accordion_${isOpen}`}
       hasBorder
       defaultExpandedSections={isOpen ? [0, 1] : []}
