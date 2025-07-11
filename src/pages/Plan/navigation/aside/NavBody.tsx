@@ -21,7 +21,7 @@ const BodyContainer = styled.div`
 const ChildrenContainer = styled.div`
   max-height: 300px;
   overflow-y: auto;
-  padding-top: ${({ theme }) => theme.space.xs};
+  padding-top: ${({ theme }) => theme.space.md};
 `;
 
 const NavBody = () => {

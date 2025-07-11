@@ -24,7 +24,7 @@ const StyledCard = styled(Card)`
 `;
 
 const StyledContainerInner = styled.div`
-  min-width: 0;
+  min-width: 0; // Ensures that the content does not overflow
 `;
 
 const TitleContainer = styled.div`
@@ -33,7 +33,8 @@ const TitleContainer = styled.div`
   grid-template-rows: 20px;
   align-items: center;
   column-gap: ${({ theme }) => theme.space.sm};
-  padding: ${({ theme }) => theme.space.xs};
+  padding-left: ${({ theme }) => theme.space.xs};
+  padding-right: ${({ theme }) => theme.space.xs};
 `;
 
 const NavItemLink = styled(Link)`
@@ -93,7 +94,7 @@ const NavItem = ({
             <Ellipsis title={titleType}>{titleType}</Ellipsis>
           </MD>
           {oldSubtitle && (
-            <SM style={{ color: appTheme.palette.grey[600] }}>
+            <SM style={{ color: appTheme.palette.grey[600], gridColumn: '2' }}>
               <Span>{oldSubtitle}</Span>
             </SM>
           )}
