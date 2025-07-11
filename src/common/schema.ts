@@ -1186,6 +1186,7 @@ export interface components {
     /** OutputModuleTaskAccessibility */
     OutputModuleTaskAccessibility: {
       description?: string;
+      id?: string;
       /** @enum {string} */
       kind: "accessibility";
       title: string;
@@ -1195,6 +1196,7 @@ export interface components {
     /** SubcomponentTaskBug */
     OutputModuleTaskBug: {
       description?: string;
+      id?: string;
       /** @enum {string} */
       kind: "bug";
       title: string;
@@ -1204,6 +1206,7 @@ export interface components {
     /** OutputModuleTaskExplorativeBug */
     OutputModuleTaskExplorativeBug: {
       description?: string;
+      id?: string;
       /** @enum {string} */
       kind: "explorative-bug";
       title: string;
@@ -1213,6 +1216,7 @@ export interface components {
     /** OutputModuleTaskModerateVideo */
     OutputModuleTaskModerateVideo: {
       description?: string;
+      id?: string;
       /** @enum {string} */
       kind: "moderate-video";
       title: string;
@@ -1222,6 +1226,7 @@ export interface components {
     /** SubcomponentTaskSurvey */
     OutputModuleTaskSurvey: {
       description?: string;
+      id?: string;
       /** @enum {string} */
       kind: "survey";
       title: string;
@@ -1231,6 +1236,7 @@ export interface components {
     /** SubcomponentTaskVideo */
     OutputModuleTaskVideo: {
       description?: string;
+      id?: string;
       /** @enum {string} */
       kind: "video";
       title: string;
@@ -1504,8 +1510,10 @@ export interface components {
       /** Format: email */
       email: string;
       features?: components["schemas"]["Feature"][];
+      first_name: string;
       /** @description This is the main id of the user. Currently is equal to tryber_wp_user_id */
       id: number;
+      last_name: string;
       name: string;
       picture?: string;
       profile_id: number;

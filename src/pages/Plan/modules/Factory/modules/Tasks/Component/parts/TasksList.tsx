@@ -18,17 +18,13 @@ import { useIconWithValidation } from '../../useIcon';
 import { useModuleTasks } from '../hooks';
 import { AddTaskButton } from './AddTaskButton';
 import { TasksModal } from './modal';
-import { TaskItem } from './TaskItem';
+import { TasksContainerAnimation } from './TasksContainerAnimation';
 
 const StyledCard = styled(ContainerCard)`
   background-color: transparent;
   padding: 0;
   overflow: hidden;
   margin-bottom: ${({ theme }) => theme.space.md};
-`;
-
-const TasksContainer = styled.div`
-  padding: 0 ${({ theme }) => theme.space.xs};
 `;
 
 const HeaderContainer = styled.div<{
@@ -118,11 +114,7 @@ const TasksList = () => {
               </Message>
             ))}
         </div>
-        <TasksContainer role="list">
-          {value.map((task) => (
-            <TaskItem key={task.key} task={task} />
-          ))}
-        </TasksContainer>
+        <TasksContainerAnimation tasks={value} />
         {getPlanStatus() === 'draft' && <AddTaskButton />}
         <TasksModal />
       </StyledCard>

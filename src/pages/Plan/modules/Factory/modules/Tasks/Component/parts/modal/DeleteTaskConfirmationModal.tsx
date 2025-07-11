@@ -14,12 +14,12 @@ const DeleteTaskConfirmationModal = ({
   state: [
     {
       isOpen: boolean;
-      taskKey: number;
+      taskId: string;
     },
     Dispatch<
       SetStateAction<{
         isOpen: boolean;
-        taskKey: number;
+        taskId: string;
       }>
     >
   ];
@@ -30,15 +30,15 @@ const DeleteTaskConfirmationModal = ({
   const onQuit = () => {
     state[1]({
       isOpen: false,
-      taskKey: 0,
+      taskId: '',
     });
   };
 
   const onConfirm = () => {
-    remove(state[0].taskKey);
+    remove(state[0].taskId);
     state[1]({
       isOpen: false,
-      taskKey: 0,
+      taskId: '',
     });
   };
 
