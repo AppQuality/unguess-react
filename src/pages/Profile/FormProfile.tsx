@@ -3,6 +3,7 @@ import { Formik } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { usePatchUsersMeMutation } from 'src/features/api';
 import * as Yup from 'yup';
+import { Loader } from './parts/cardLoader';
 import { ProfileCard } from './parts/ProfileCard';
 import { useProfileData } from './useProfileData';
 import { ProfileFormValues } from './valuesType';
@@ -21,7 +22,7 @@ export const FormProfile = () => {
     email: data?.email || '',
   };
 
-  if (isLoading) return <>Loading...</>;
+  if (isLoading) return <Loader />;
 
   const schema = Yup.object().shape({
     name: Yup.string().required(t('__PROFILE_PAGE_NAME_REQUIRED_ERROR')),

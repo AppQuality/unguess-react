@@ -3,6 +3,7 @@ import { Formik } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { usePatchUsersMeMutation } from 'src/features/api';
 import * as Yup from 'yup';
+import { Loader } from './parts/cardLoader';
 import { PasswordAccordion } from './parts/PasswordAccordion';
 import { useProfileData } from './useProfileData';
 import { PasswordFormValues } from './valuesType';
@@ -19,7 +20,7 @@ export const FormPassword = () => {
     confirmPassword: '',
   };
 
-  if (isLoading) return <>Loading...</>;
+  if (isLoading) return <Loader />;
 
   const schema = Yup.object().shape({
     newPassword: Yup.string().required(
