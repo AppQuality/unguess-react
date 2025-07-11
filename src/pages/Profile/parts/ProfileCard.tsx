@@ -37,16 +37,8 @@ export const ProfileCard = () => {
   const { t } = useTranslation();
   const { data, isLoading } = useGetUsersRolesQuery();
   const selectRef = useRef<HTMLDivElement>(null);
-  const {
-    setFieldValue,
-    validateForm,
-    setTouched,
-    status,
-    values,
-    touched,
-    isSubmitting,
-    submitForm,
-  } = useFormikContext<ProfileFormValues>();
+  const { setFieldValue, touched, isSubmitting, submitForm } =
+    useFormikContext<ProfileFormValues>();
 
   if (isLoading) return <>Loading...</>;
 

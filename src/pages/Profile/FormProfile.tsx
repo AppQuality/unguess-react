@@ -1,3 +1,4 @@
+import { useToast, Notification } from '@appquality/unguess-design-system';
 import { Formik } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { usePatchUsersMeMutation } from 'src/features/api';
@@ -8,6 +9,7 @@ import { ProfileFormValues } from './valuesType';
 
 export const FormProfile = () => {
   const { t } = useTranslation();
+  const { addToast } = useToast();
   const { data, isLoading } = useProfileData();
   const [updateProfile] = usePatchUsersMeMutation();
 
@@ -47,11 +49,31 @@ export const FormProfile = () => {
             },
           })
             .unwrap()
-            .then((res) => {
-              alert('ok');
+            .then(() => {
+              addToast(
+                ({ close }) => (
+                  <Notification
+                    onClose={close}
+                    type="success"
+                    message={t('__PROFILE_PAGE_UPDATE_SUCCESS')}
+                    isPrimary
+                  />
+                ),
+                { placement: 'top' }
+              );
             })
-            .catch((error) => {
-              alert('ko');
+            .catch(() => {
+              addToast(
+                ({ close }) => (
+                  <Notification
+                    onClose={close}
+                    type="error"
+                    message={t('__PROFILE_PAGE_TOAST_ERROR_UPDATING_PROFILE')}
+                    isPrimary
+                  />
+                ),
+                { placement: 'top' }
+              );
             });
 
           actions.setSubmitting(false);

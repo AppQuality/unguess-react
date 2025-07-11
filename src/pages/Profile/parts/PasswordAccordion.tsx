@@ -37,10 +37,7 @@ export const PasswordAccordion = () => {
   };
 
   const {
-    setFieldValue,
-    validateForm,
     values: formValues,
-    touched,
     isSubmitting,
     submitForm,
   } = useFormikContext<PasswordFormValues>();

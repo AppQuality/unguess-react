@@ -1,6 +1,5 @@
 import Analytics from 'analytics';
 import googleTagManager from '@analytics/google-tag-manager';
-import segmentPlugin from '@analytics/segment';
 import { isDev } from './common/isDevEnvironment';
 
 const analytics = Analytics({
