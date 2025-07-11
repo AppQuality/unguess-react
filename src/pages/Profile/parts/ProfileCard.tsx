@@ -146,10 +146,11 @@ export const ProfileCard = () => {
               return (
                 <div ref={selectRef}>
                   <Select
-                    // TODO: CHECK placeholder not working
                     placeholder={t('__PROFILE_PAGE_USER_CARD_ROLE_PLACEHOLDER')}
                     data-qa="roleId-select"
                     {...field}
+                    inputValue={field.value}
+                    selectionValue={field.value}
                     renderValue={(value) =>
                       data?.find(
                         (role) =>
@@ -157,8 +158,6 @@ export const ProfileCard = () => {
                           Number.parseInt(value.inputValue ?? '', 10)
                       )?.name
                     }
-                    inputValue={field.value}
-                    selectionValue={field.value}
                     label={
                       <>
                         {t('__PROFILE_PAGE_USER_CARD_ROLE_LABEL')}
