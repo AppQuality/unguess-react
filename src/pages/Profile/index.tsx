@@ -31,7 +31,6 @@ const Profile = () => {
                     id="anchor-profile"
                     to="anchor-profile-id"
                     containerId="main"
-                    spy
                     smooth
                     duration={500}
                     offset={-30}
@@ -47,10 +46,8 @@ const Profile = () => {
                     id="anchor-password"
                     to="anchor-password-id"
                     containerId="main"
-                    spy
                     smooth
                     duration={500}
-                    offset={-30}
                   >
                     {t('__PROFILE_PAGE_NAV_ITEM_PASSWORD')}
                   </StickyNavItem>
@@ -58,7 +55,7 @@ const Profile = () => {
               </AsideNav>
             </Col>
             <Col xs={12} lg={10}>
-              <Grid gutters="xl" columns={12}>
+              <Grid gutters="xl" columns={12} id="main">
                 <Row>
                   <Col xs={12} lg={9} style={{ margin: 0 }}>
                     <FormProfile />

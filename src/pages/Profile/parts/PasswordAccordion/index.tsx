@@ -2,15 +2,10 @@ import {
   AccordionNew,
   Button,
   Col,
-  FormField,
-  Input,
-  Label,
-  Message,
   Row,
-  Span,
 } from '@appquality/unguess-design-system';
 
-import { Field, FieldProps, useFormikContext } from 'formik';
+import { useFormikContext } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as KeyIcon } from 'src/assets/icons/key.svg';
@@ -69,32 +64,26 @@ export const PasswordAccordion = () => {
           />
         </AccordionNew.Header>
         <AccordionNew.Panel>
-          <div
-            style={{
-              marginTop: appTheme.space.base * 4,
-              marginBottom: appTheme.space.md,
-              marginLeft: '2px',
-              marginRight: '2px',
-            }}
-          >
-            <CurrentPassword />
+          <div style={{ padding: '0px 2px' }}>
+            <Row>
+              <Col xs={12}>
+                <CurrentPassword />
+              </Col>
+              <Col xs={12} md={6}>
+                <Row>
+                  <Col xs={12}>
+                    <NewPassword />
+                  </Col>
+                  <Col xs={12}>
+                    <PasswordRequirements />
+                  </Col>
+                </Row>
+              </Col>
+              <Col xs={12} md={6}>
+                <ConfirmPassword />
+              </Col>
+            </Row>
           </div>
-          <Row style={{ marginTop: appTheme.space.xs }}>
-            <Col style={{ marginBottom: appTheme.space.xs }}>
-              <NewPassword />
-            </Col>
-            <Col style={{ marginBottom: appTheme.space.xs }}>
-              <ConfirmPassword />
-            </Col>
-          </Row>
-          <div
-            style={{
-              marginTop: appTheme.space.xs,
-            }}
-          >
-            <PasswordRequirements />
-          </div>
-
           <StyledFooter style={{ marginTop: appTheme.space.sm }}>
             <Button
               isAccent
