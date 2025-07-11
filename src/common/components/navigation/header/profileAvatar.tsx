@@ -22,13 +22,20 @@ const ChevronButton = styled(IconButton)`
 export const ProfileAvatar = () => {
   const dispatch = useAppDispatch();
 
-  const { data: user, isLoading, error: dataError } = useGetUsersMeQuery();
+  const {
+    data: user,
+    isLoading,
+    isError,
+    error: dataError,
+  } = useGetUsersMeQuery();
 
   const { isProfileModalOpen } = useAppSelector((state) => state.navigation);
 
   const toggleProfileModalState = () => {
     dispatch(toggleProfileModal());
   };
+
+  if (!user || isLoading || isError) return null;
 
   return (
     !isLoading &&
