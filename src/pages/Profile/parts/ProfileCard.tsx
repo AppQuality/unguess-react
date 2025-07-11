@@ -52,7 +52,7 @@ export const ProfileCard = () => {
       <Divider style={{ marginBottom: appTheme.space.md }} />
 
       <Row style={{ marginBottom: appTheme.space.md }}>
-        <Col style={{ marginBottom: appTheme.space.xs }}>
+        <Col xs={12} md={6} style={{ marginBottom: appTheme.space.xs }}>
           <Field name="name">
             {({ field, meta }: FieldProps) => {
               const hasError = meta.touched && Boolean(meta.error);
@@ -78,7 +78,7 @@ export const ProfileCard = () => {
             }}
           </Field>
         </Col>
-        <Col style={{ marginBottom: appTheme.space.xs }}>
+        <Col xs={12} md={6} style={{ marginBottom: appTheme.space.xs }}>
           <Field name="surname">
             {({ field, meta }: FieldProps) => {
               const hasError = meta.touched && Boolean(meta.error);
