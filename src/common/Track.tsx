@@ -26,7 +26,7 @@ export const Track = ({
   title: string;
   children: React.ReactNode;
 }) => {
-  const { data: userData, isLoading, error: dataError } = useGetUsersMeQuery();
+  const { data: userData, isLoading, isSuccess } = useGetUsersMeQuery();
   const { activeWorkspace } = useActiveWorkspace();
   const { track, identify, page } = useAnalytics();
   const location = useLocation();
@@ -44,12 +44,7 @@ export const Track = ({
   );
 
   useEffect(() => {
-    if (
-      !isLoading &&
-      !dataError &&
-      userData?.role &&
-      activeWorkspace?.company
-    ) {
+    if (!isLoading && isSuccess && userData?.role && activeWorkspace?.company) {
       identify(`profile_${userData.profile_id}`, {
         role: userData.role,
         customer_role: userData.customer_role,
