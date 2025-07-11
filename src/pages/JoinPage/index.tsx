@@ -2,7 +2,6 @@ import { Col, Grid, Logo, Row } from '@appquality/unguess-design-system';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
-import { useAppSelector } from 'src/app/hooks';
 import joinBg from 'src/assets/join-bg-1.png';
 import joingBgwebp from 'src/assets/join-bg-1.webp';
 import joinBg2 from 'src/assets/join-bg-2.png';
