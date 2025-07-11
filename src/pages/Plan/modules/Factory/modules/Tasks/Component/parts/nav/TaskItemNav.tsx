@@ -23,12 +23,12 @@ import { createPortal } from 'react-dom';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-scroll';
 import { appTheme } from 'src/app/theme';
+import { useModuleConfiguration } from 'src/features/modules/useModuleConfiguration';
 import styled from 'styled-components';
 import { getTaskData, isTaskData, TTask, useModuleTasks } from '../../hooks';
 import { getIconFromTaskOutput } from '../../utils';
 import { DragPreview } from './DragPreview';
 import { DropIndicator } from './drop-indicator';
-import { useModuleConfiguration } from 'src/features/modules/useModuleConfiguration';
 
 const StyledDraggableContent = styled(Draggable.Content)`
   min-width: 0; // Ensures that the content does not overflow
