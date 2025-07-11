@@ -52,6 +52,8 @@ export const UserItem = ({
 
   const isMe = userData?.email === user.email;
 
+  if (isLoading || !isSuccess || !userData) return null;
+
   return (
     !isLoading &&
     isSuccess &&
