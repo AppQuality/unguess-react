@@ -10,7 +10,7 @@ import { PasswordFormValues } from './valuesType';
 export const FormPassword = () => {
   const { t } = useTranslation();
   const { addToast } = useToast();
-  const { data, isLoading } = useProfileData();
+  const { isLoading } = useProfileData();
   const [updateProfile] = usePatchUsersMeMutation();
 
   const initialValues: PasswordFormValues = {
@@ -52,7 +52,7 @@ export const FormPassword = () => {
             },
           })
             .unwrap()
-            .then((res) => {
+            .then(() => {
               addToast(
                 ({ close }) => (
                   <Notification
