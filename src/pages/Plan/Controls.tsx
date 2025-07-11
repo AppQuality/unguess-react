@@ -2,26 +2,31 @@ import {
   Button,
   ButtonMenu,
   IconButton,
-  useToast,
   Notification,
+  useToast,
 } from '@appquality/unguess-design-system';
+import { ReactComponent as DotsIcon } from '@zendeskgarden/svg-icons/src/16/overflow-vertical-stroke.svg';
+import { ReactComponent as TrashIcon } from '@zendeskgarden/svg-icons/src/16/trash-stroke.svg';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
+import { ReactComponent as SaveTemplateIcon } from 'src/assets/icons/template.svg';
+import { Divider } from 'src/common/components/divider';
 import { Pipe } from 'src/common/components/Pipe';
-import { ReactComponent as DotsIcon } from '@zendeskgarden/svg-icons/src/16/overflow-vertical-stroke.svg';
 import { usePatchPlansByPidStatusMutation } from 'src/features/api';
+import { useModule } from 'src/features/modules/useModule';
 import { useSubmit } from 'src/features/modules/useModuleConfiguration';
 import { useRequestQuotation } from 'src/features/modules/useRequestQuotation';
 import { useValidateForm } from 'src/features/planModules';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import styled from 'styled-components';
-import { useModule } from 'src/features/modules/useModule';
 import { getPlanStatus } from '../Dashboard/hooks/getPlanStatus';
+import { usePlanContext } from './context/planContext';
 import { usePlan } from './hooks/usePlan';
-import { SendRequestModal } from './modals/SendRequestModal';
 import { DeletePlanModal } from './modals/DeletePlanModal';
+import { SaveAsTemplateModal } from './modals/SaveAsTemplateModal';
+import { SendRequestModal } from './modals/SendRequestModal';
 
 const StyledPipe = styled(Pipe)`
   display: inline;
@@ -35,6 +40,8 @@ export const Controls = () => {
   const { addToast } = useToast();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const { isSaveTemplateModalOpen, setIsSaveTemplateModalOpen } =
+    usePlanContext();
   const { planId } = useParams();
   const { plan } = usePlan(planId);
   const { handleSubmit: submitModuleConfiguration, isLoading: isSubmitting } =
@@ -91,6 +98,9 @@ export const Controls = () => {
   const handleMenuClick = (value?: string) => {
     if (value === 'delete') {
       setIsDeleteModalOpen(true);
+    }
+    if (value === 'save_template') {
+      setIsSaveTemplateModalOpen(true);
     }
   };
 
@@ -175,9 +185,18 @@ export const Controls = () => {
         )}
       >
         <ButtonMenu.Item
+          data-qa="save-template-action-item"
+          value="save_template"
+          icon={<SaveTemplateIcon />}
+        >
+          {t('__PLAN_SAVE_TEMPLATE_CTA')}
+        </ButtonMenu.Item>
+        <Divider />
+        <ButtonMenu.Item
           data-qa="delete-action-item"
           type="danger"
           value="delete"
+          icon={<TrashIcon />}
         >
           {t('__PLAN_DELETE_PLAN_CTA')}
         </ButtonMenu.Item>
@@ -188,6 +207,16 @@ export const Controls = () => {
           planId={planId}
           planTitle={titleValue?.output ?? ''}
           onQuit={handleQuitDeletePlanModal}
+        />
+      )}
+
+      {isSaveTemplateModalOpen && planId && (
+        <SaveAsTemplateModal
+          planId={planId}
+          planTitle={titleValue?.output ?? ''}
+          onQuit={() => {
+            setIsSaveTemplateModalOpen(false);
+          }}
         />
       )}
 

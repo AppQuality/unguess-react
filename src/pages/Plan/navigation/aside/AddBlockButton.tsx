@@ -5,7 +5,7 @@ import { useAppSelector } from 'src/app/hooks';
 import { ReactComponent as PlusIcon } from 'src/assets/icons/plus-icon.svg';
 import { useModuleConfiguration } from 'src/features/modules/useModuleConfiguration';
 import styled from 'styled-components';
-import { usePlanTab } from '../../context/planContext';
+import { usePlanContext } from '../../context/planContext';
 import { getModulesByTab } from '../../modules/Factory';
 import { usePlanNavContext } from './context';
 
@@ -21,7 +21,7 @@ const AddBlockButton = () => {
   const triggerRef = useRef<HTMLButtonElement>(null);
   const { setModalRef } = usePlanNavContext();
   const { getPlanStatus } = useModuleConfiguration();
-  const { activeTab } = usePlanTab();
+  const { activeTab } = usePlanContext();
   const availableModules = getModulesByTab(activeTab);
   const { currentModules } = useAppSelector((state) => state.planModules);
 
