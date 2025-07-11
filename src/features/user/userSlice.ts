@@ -5,6 +5,8 @@ import { UserState } from './types';
 const initialState: UserState = {
   status: 'idle',
   userData: {
+    first_name: '',
+    last_name: '',
     id: 0,
     email: '',
     role: 'none',

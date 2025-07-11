@@ -1,6 +1,6 @@
+import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import { TTask } from '../../hooks';
-import { useTranslation } from 'react-i18next';
 
 const Style = styled.div`
   padding: 8px;

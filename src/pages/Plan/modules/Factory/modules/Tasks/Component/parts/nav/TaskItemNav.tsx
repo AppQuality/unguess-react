@@ -19,15 +19,15 @@ import {
 import { pointerOutsideOfPreview } from '@atlaskit/pragmatic-drag-and-drop/element/pointer-outside-of-preview';
 import { setCustomNativeDragPreview } from '@atlaskit/pragmatic-drag-and-drop/element/set-custom-native-drag-preview';
 import { useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-scroll';
 import { appTheme } from 'src/app/theme';
 import styled from 'styled-components';
 import { getTaskData, isTaskData, TTask, useModuleTasks } from '../../hooks';
 import { getIconFromTaskOutput } from '../../utils';
-import { DropIndicator } from './drop-indicator';
-import { createPortal } from 'react-dom';
 import { DragPreview } from './DragPreview';
+import { DropIndicator } from './drop-indicator';
 
 const StyledDraggableContent = styled(Draggable.Content)`
   min-width: 0; // Ensures that the content does not overflow
@@ -61,11 +61,6 @@ const TaskItemNavLink = styled(Link)`
   }
 `;
 
-const ModuleIconContainer = styled.div`
-  display: flex;
-  align-items: center;
-`;
-
 type TaskState =
   | {
       type: 'idle';
@@ -92,7 +87,7 @@ const TaskItemNav = ({ task, index }: { task: TTask; index: number }) => {
   useEffect(() => {
     const element = ref.current;
     if (!element) {
-      return;
+      return undefined;
     }
     return combine(
       draggable({

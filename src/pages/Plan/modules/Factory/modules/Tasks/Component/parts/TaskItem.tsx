@@ -117,7 +117,6 @@ const TaskItem = ({ task, index }: TaskItemProps) => {
                     readOnly={getPlanStatus() !== 'draft'}
                     value={title}
                     onChange={(e) => {
-                      console.log('updating');
                       update(id, { title: e.target.value });
                     }}
                     placeholder={t(

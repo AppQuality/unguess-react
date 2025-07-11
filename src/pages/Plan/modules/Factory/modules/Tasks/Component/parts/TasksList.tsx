@@ -18,7 +18,6 @@ import { useIconWithValidation } from '../../useIcon';
 import { useModuleTasks } from '../hooks';
 import { AddTaskButton } from './AddTaskButton';
 import { TasksModal } from './modal';
-import { TaskItem } from './TaskItem';
 import { TasksContainerAnimation } from './TasksContainerAnimation';
 
 const StyledCard = styled(ContainerCard)`
