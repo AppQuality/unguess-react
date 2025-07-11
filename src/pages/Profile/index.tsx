@@ -18,7 +18,7 @@ const Profile = () => {
     <Page
       title={t('__PROFILE_PAGE_TITLE')}
       className="profile-page"
-      pageHeader={<ProfilePageHeader pageTitle="Profile settings" />}
+      pageHeader={<ProfilePageHeader pageTitle={t('__PROFILE_PAGE_TITLE')} />}
       route="profile"
     >
       <LayoutWrapper>
