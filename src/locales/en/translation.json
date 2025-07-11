@@ -1135,7 +1135,7 @@
   "__PROFILE_PAGE_PASSWORD_ACCORDION_LABEL": "Password settings",
   "__PROFILE_PAGE_ROLE_REQUIRED_ERROR": "Role is required",
   "__PROFILE_PAGE_SURNAME_REQUIRED_ERROR": "Surname is required",
-  "__PROFILE_PAGE_TITLE": "Profile",
+  "__PROFILE_PAGE_TITLE": "My Profile",
   "__PROFILE_PAGE_TOAST_ERROR_INVALID_CURRENT_PASSWORD": "Invalid current password. Please try again.",
   "__PROFILE_PAGE_TOAST_ERROR_UPDATING_PASSWORD": "An error occurred while updating the password. Please try again.",
   "__PROFILE_PAGE_TOAST_ERROR_UPDATING_PROFILE": "An error occurred while updating your profile. Please try again.",
