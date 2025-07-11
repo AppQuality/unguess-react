@@ -13,6 +13,8 @@ const initialState: UserState = {
     customer_role: 'Not set',
     tryber_wp_user_id: 0,
     unguess_wp_user_id: 0,
+    first_name: '',
+    last_name: '',
   },
 };
 
