@@ -31,10 +31,9 @@ import { DragPreview } from './DragPreview';
 
 const StyledDraggableContent = styled(Draggable.Content)`
   min-width: 0;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  gap: ${({ theme }) => theme.space.sm};
+  display: grid;
+  grid-template-columns: 16px 1fr;
+  column-gap: ${({ theme }) => theme.space.sm};
 `;
 
 const StyledDraggableListItem = styled(DraggableList.Item)`
@@ -220,7 +219,7 @@ const TaskItemNav = ({ task, index }: { task: TTask; index: number }) => {
             {hasErrors && (
               <Message
                 validation="error"
-                style={{ marginTop: appTheme.space.sm }}
+                style={{ marginTop: appTheme.space.sm, gridColumn: 'span 2' }}
               >
                 {t('__PLAN_PAGE_MODULE_TASKS_GENERIC_TASK_ERROR')}
               </Message>

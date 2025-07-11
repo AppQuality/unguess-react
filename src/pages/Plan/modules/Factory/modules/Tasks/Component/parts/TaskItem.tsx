@@ -16,7 +16,6 @@ import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as LinkIcon } from 'src/assets/icons/link-stroke.svg';
 import { ReactComponent as TrashIcon } from 'src/assets/icons/trash-stroke.svg';
-import { components } from 'src/common/schema';
 import { useModuleConfiguration } from 'src/features/modules/useModuleConfiguration';
 import { TTask, useModuleTasks } from '../hooks';
 import { getIconFromTaskOutput } from '../utils';
@@ -72,7 +71,7 @@ const TaskItem = ({ task, index }: TaskItemProps) => {
         role="listitem"
       >
         <AccordionNew.Section>
-          <AccordionNew.Header icon={getIconFromTaskOutput(task, index)}>
+          <AccordionNew.Header icon={getIconFromTaskOutput(task)}>
             <AccordionNew.Label
               label={`${index}. ${
                 hasPlaceholder

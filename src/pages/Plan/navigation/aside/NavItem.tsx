@@ -13,6 +13,7 @@ import { appTheme } from 'src/app/theme';
 import { components } from 'src/common/schema';
 import styled from 'styled-components';
 import { getModuleBySlug } from '../../modules/Factory';
+import { div } from 'motion/dist/react-client';
 
 const StyledCard = styled(Card)`
   background-color: transparent;
@@ -22,12 +23,15 @@ const StyledCard = styled(Card)`
 `;
 
 const StyledContainerInner = styled.div`
+  grid-column: span 2;
   min-width: 0;
   padding-left: ${({ theme }) => theme.space.sm};
 `;
 
 const StyledContainerOuter = styled.div`
-  display: flex;
+  display: grid;
+  grid-template-columns: 16px 1fr;
+  column-gap: ${({ theme }) => theme.space.sm};
   align-items: flex-start;
   padding-left: ${({ theme }) => theme.space.md};
   padding-right: ${({ theme }) => theme.space.md};
@@ -106,22 +110,24 @@ const NavItem = ({
       >
         <StyledContainerOuter>
           <ModuleIcon type={type} />
+          <div style={{ marginBottom: children ? appTheme.space.sm : 0 }}>
+            <MD isBold color={appTheme.palette.blue[600]}>
+              <Ellipsis title={titleType}>{titleType}</Ellipsis>
+            </MD>
+            <SM style={{ color: appTheme.palette.grey[600] }}>
+              <Span>{oldSubtitle}</Span>
+            </SM>
+          </div>
           <StyledContainerInner
             style={{ marginBottom: children ? appTheme.space.xxs : 0 }}
           >
-            <div style={{ marginBottom: children ? appTheme.space.sm : 0 }}>
-              <MD isBold color={appTheme.palette.blue[600]}>
-                <Ellipsis title={titleType}>{titleType}</Ellipsis>
-              </MD>
-              <SM style={{ color: appTheme.palette.grey[600] }}>
-                <Span>{oldSubtitle}</Span>
-              </SM>
-            </div>
             {children && children}
             {hasErrors && (
-              <Message validation="error">
-                {t('__PLAN_PAGE_NAV_GENERIC_MODULE_ERROR')}
-              </Message>
+              <div style={{ marginTop: appTheme.space.xs }}>
+                <Message validation="error">
+                  {t('__PLAN_PAGE_NAV_GENERIC_MODULE_ERROR')}
+                </Message>
+              </div>
             )}
           </StyledContainerInner>
         </StyledContainerOuter>
