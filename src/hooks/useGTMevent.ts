@@ -13,22 +13,19 @@ interface GTMEventData {
   target?: string;
 }
 
-const { data: userData } = useGetUsersMeQuery();
-
-if (!userData) {
-  throw new Error('User data is not available');
-}
 export const useSendGTMevent = ({
   loggedUser = true,
 }: { loggedUser?: boolean } = {}) => {
+  const { data: userData } = useGetUsersMeQuery();
+
   const user = useAppSelector(
     () => ({
-      role: userData.role,
-      customer_role: userData.customer_role,
-      tryber_wp_user_id: userData.tryber_wp_user_id,
-      id: userData.id,
-      name: userData.name,
-      email: userData.email,
+      role: userData?.role,
+      customer_role: userData?.customer_role,
+      tryber_wp_user_id: userData?.tryber_wp_user_id,
+      id: userData?.id,
+      name: userData?.name,
+      email: userData?.email,
     }),
     shallowEqual
   );
