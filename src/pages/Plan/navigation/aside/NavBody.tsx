@@ -15,12 +15,12 @@ const BodyContainer = styled.div`
   max-height: calc(100vh - ${({ theme }) => theme.space.xxl});
   overflow-y: auto;
   margin-bottom: ${({ theme }) => theme.space.md};
+  margin-top: -${({ theme }) => theme.space.xs};
 `;
 
 const ChildrenContainer = styled.div`
   max-height: 300px;
   overflow-y: auto;
-  padding-right: ${({ theme }) => theme.space.xs};
   padding-top: ${({ theme }) => theme.space.xs};
 `;
 
