@@ -3,7 +3,7 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useGetCampaignWithWorkspaceQuery } from 'src/features/api/customEndpoints/getCampaignWithWorkspace';
 import { Page } from 'src/features/templates/Page';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
-import { useAppDispatch, useAppSelector } from 'src/app/hooks';
+import { useAppDispatch } from 'src/app/hooks';
 import { useCampaignAnalytics } from 'src/hooks/useCampaignAnalytics';
 import { useEffect } from 'react';
 import {
@@ -12,6 +12,7 @@ import {
   setWorkspace,
 } from 'src/features/navigation/navigationSlice';
 import { FEATURE_FLAG_TAGGING_TOOL } from 'src/constants';
+import { useGetUsersMeQuery } from 'src/features/api';
 import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
 import InsightsPageContent from './Content';
 import InsightsPageHeader from './PageHeader';
@@ -24,7 +25,12 @@ const InsightsPage = () => {
   const { campaignId } = useParams();
   const dispatch = useAppDispatch();
   const location = useLocation();
-  const { status } = useAppSelector((state) => state.user);
+  const {
+    isLoading: isUserLoading,
+    isFetching: isUserFetching,
+    data: userData,
+  } = useGetUsersMeQuery();
+
   const { hasFeatureFlag } = useFeatureFlag();
 
   const hasTaggingToolFeature = hasFeatureFlag(FEATURE_FLAG_TAGGING_TOOL);
@@ -67,14 +73,14 @@ const InsightsPage = () => {
   }
 
   useEffect(() => {
-    if (status === 'idle' || status === 'loading') return;
+    if (isUserFetching || isUserLoading) return;
 
-    if (!hasTaggingToolFeature && status === 'logged') {
+    if (!hasTaggingToolFeature && userData) {
       navigate(notFoundRoute, {
         state: { from: location.pathname },
       });
     }
-  }, [status, hasTaggingToolFeature]);
+  }, [isUserFetching, isUserLoading, userData, hasTaggingToolFeature]);
 
   return (
     <InsightContextProvider>

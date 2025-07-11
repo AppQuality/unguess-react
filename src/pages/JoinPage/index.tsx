@@ -2,7 +2,6 @@ import { Col, Grid, Logo, Row } from '@appquality/unguess-design-system';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
-import { useAppSelector } from 'src/app/hooks';
 import joinBg from 'src/assets/join-bg-1.png';
 import joingBgwebp from 'src/assets/join-bg-1.webp';
 import joinBg2 from 'src/assets/join-bg-2.png';
@@ -10,7 +9,10 @@ import joinBg2webp from 'src/assets/join-bg-2.webp';
 import joinBg3 from 'src/assets/join-bg-3.png';
 import joinBg3webp from 'src/assets/join-bg-3.webp';
 import { Track } from 'src/common/Track';
-import { useGetInvitesByProfileAndTokenQuery } from 'src/features/api';
+import {
+  useGetInvitesByProfileAndTokenQuery,
+  useGetUsersMeQuery,
+} from 'src/features/api';
 import styled from 'styled-components';
 import { FormProvider } from './FormProvider';
 import { ImagesColumn } from './ImagesColumn';
@@ -82,11 +84,15 @@ const LogoWrapper = styled.div`
 const JoinPage = () => {
   const { t } = useTranslation();
   const [searchParams] = useSearchParams();
-  const { status } = useAppSelector((state) => state.user);
+  const {
+    isLoading: isUserLoading,
+    isFetching: isUserFetching,
+    data: userData,
+  } = useGetUsersMeQuery();
   const navigate = useNavigate();
   const { profile, token } = useParams();
   const shouldSkipQuery =
-    status === 'logged' || status === 'loading' || !(profile && token);
+    !!userData || isUserLoading || isUserFetching || !(profile && token);
 
   const { isLoading, data, error } = useGetInvitesByProfileAndTokenQuery(
     {
@@ -99,10 +105,10 @@ const JoinPage = () => {
   );
 
   useEffect(() => {
-    if (status === 'logged') {
+    if (userData) {
       navigate(searchParams.get('redirectTo') || '/');
     }
-  }, [navigate, status, searchParams]);
+  }, [navigate, userData, searchParams]);
 
   if (isLoading || (shouldSkipQuery && profile && token)) {
     return <JoinPageLoading />;

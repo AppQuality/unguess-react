@@ -1,11 +1,22 @@
 import { shallowEqual } from 'react-redux';
 import { useAppSelector } from 'src/app/hooks';
+import { useGetUsersMeQuery } from 'src/features/api';
 
 export const useFeatureFlag = () => {
+  const {
+    data: userData,
+    isLoading: isUserDataLoading,
+    isError,
+  } = useGetUsersMeQuery();
+
+  if (isUserDataLoading || isError || !userData) {
+    return { hasFeatureFlag: () => false };
+  }
+
   const { role, features } = useAppSelector(
-    (state) => ({
-      role: state.user.userData.role,
-      features: state.user.userData.features,
+    () => ({
+      role: userData.role,
+      features: userData.features,
     }),
     shallowEqual
   );
