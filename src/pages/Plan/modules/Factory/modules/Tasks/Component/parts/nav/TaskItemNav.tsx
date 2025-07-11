@@ -28,6 +28,7 @@ import { getTaskData, isTaskData, TTask, useModuleTasks } from '../../hooks';
 import { getIconFromTaskOutput } from '../../utils';
 import { DragPreview } from './DragPreview';
 import { DropIndicator } from './drop-indicator';
+import { useModuleConfiguration } from 'src/features/modules/useModuleConfiguration';
 
 const StyledDraggableContent = styled(Draggable.Content)`
   min-width: 0; // Ensures that the content does not overflow
@@ -82,9 +83,13 @@ const TaskItemNav = ({ task, index }: { task: TTask; index: number }) => {
   const [state, setState] = useState<TaskState>(idle);
   const { t } = useTranslation();
   const { error } = useModuleTasks();
+  const { getPlanStatus } = useModuleConfiguration();
   const ref = useRef(null);
 
   useEffect(() => {
+    if (getPlanStatus() !== 'draft') {
+      return undefined;
+    }
     const element = ref.current;
     if (!element) {
       return undefined;
@@ -198,7 +203,9 @@ const TaskItemNav = ({ task, index }: { task: TTask; index: number }) => {
           data-task-id={task.id}
           $dragging={state.type === 'is-dragging'}
         >
-          <Draggable.Grip style={{ cursor: 'grab' }} />
+          {getPlanStatus() === 'draft' && (
+            <Draggable.Grip style={{ cursor: 'grab' }} />
+          )}
           <StyledDraggableContent>
             {getIconFromTaskOutput(task)}
             <MD color={appTheme.palette.blue[600]} style={{ minWidth: '10px' }}>

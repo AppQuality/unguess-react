@@ -37,16 +37,16 @@ const TaskItem = ({ task, index }: TaskItemProps) => {
   const { id, kind, title, description } = task;
 
   const titleError =
-    error && typeof error === 'object' && `tasks.${index}.title` in error
-      ? error[`tasks.${index}.title`]
+    error && typeof error === 'object' && `tasks.${id}.title` in error
+      ? error[`tasks.${id}.title`]
       : false;
   const descriptionError =
-    error && typeof error === 'object' && `tasks.${index}.description` in error
-      ? error[`tasks.${index}.description`]
+    error && typeof error === 'object' && `tasks.${id}.description` in error
+      ? error[`tasks.${id}.description`]
       : false;
   const invalidUrlError =
-    error && typeof error === 'object' && `tasks.${index}.url` in error
-      ? error[`tasks.${index}.url`]
+    error && typeof error === 'object' && `tasks.${id}.url` in error
+      ? error[`tasks.${id}.url`]
       : false;
 
   const hasError = titleError || descriptionError || invalidUrlError;
