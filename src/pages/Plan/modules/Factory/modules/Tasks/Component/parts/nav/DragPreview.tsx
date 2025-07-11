@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { TTask } from '../../hooks';
+import { useTranslation } from 'react-i18next';
 
 const Style = styled.div`
   padding: 8px;
@@ -10,9 +11,13 @@ const Style = styled.div`
 `;
 
 export const DragPreview = ({ task }: { task: TTask }) => {
+  const { t } = useTranslation();
   return (
     <Style>
-      <span>{task.title}</span>
+      <span>
+        {task.title ||
+          t('__PLAN_PAGE_MODULE_TASKS_TASK_TITLE_PLACEHOLDER_EMPTY')}
+      </span>
     </Style>
   );
 };

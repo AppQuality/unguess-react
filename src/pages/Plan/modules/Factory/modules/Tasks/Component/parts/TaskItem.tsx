@@ -73,7 +73,7 @@ const TaskItem = ({ task, index }: TaskItemProps) => {
         <AccordionNew.Section>
           <AccordionNew.Header icon={getIconFromTaskOutput(task)}>
             <AccordionNew.Label
-              label={`${index}. ${
+              label={`${index + 1}. ${
                 hasPlaceholder
                   ? t('__PLAN_PAGE_MODULE_TASKS_TASK_TITLE_PLACEHOLDER_EMPTY')
                   : title

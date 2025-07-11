@@ -28,10 +28,6 @@ const StyledCard = styled(ContainerCard)`
   margin-bottom: ${({ theme }) => theme.space.md};
 `;
 
-const TasksContainer = styled.div`
-  padding: 0 ${({ theme }) => theme.space.xs};
-`;
-
 const HeaderContainer = styled.div<{
   hasErrors?: boolean;
 }>`

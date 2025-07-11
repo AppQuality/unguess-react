@@ -30,9 +30,11 @@ import { createPortal } from 'react-dom';
 import { DragPreview } from './DragPreview';
 
 const StyledDraggableContent = styled(Draggable.Content)`
-  min-width: 0;
+  min-width: 0; // Ensures that the content does not overflow
   display: grid;
   grid-template-columns: 16px 1fr;
+  grid-template-rows: 20px;
+  align-items: center;
   column-gap: ${({ theme }) => theme.space.sm};
 `;
 
@@ -62,8 +64,8 @@ const TaskItemNavLink = styled(Link)`
 const ModuleIconContainer = styled.div`
   display: flex;
   align-items: center;
-  padding-top: 2px;
 `;
+
 type TaskState =
   | {
       type: 'idle';
@@ -203,9 +205,7 @@ const TaskItemNav = ({ task, index }: { task: TTask; index: number }) => {
         >
           <Draggable.Grip style={{ cursor: 'grab' }} />
           <StyledDraggableContent>
-            <ModuleIconContainer>
-              {getIconFromTaskOutput(task)}
-            </ModuleIconContainer>
+            {getIconFromTaskOutput(task)}
             <MD color={appTheme.palette.blue[600]} style={{ minWidth: '10px' }}>
               <Ellipsis title={task.title}>
                 {index + 1}.{' '}
