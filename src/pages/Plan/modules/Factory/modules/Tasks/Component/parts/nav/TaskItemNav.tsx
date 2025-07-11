@@ -185,7 +185,7 @@ const TaskItemNav = ({ task, index }: { task: TTask; index: number }) => {
   const hasPlaceholder = !task.title;
 
   return (
-    <StyledDraggableListItem key={task.id} data-qa="task-item-nav">
+    <StyledDraggableListItem data-qa="task-item-nav">
       <TaskItemNavLink
         to={task.id}
         containerId="main"

@@ -13,30 +13,27 @@ import { appTheme } from 'src/app/theme';
 import { components } from 'src/common/schema';
 import styled from 'styled-components';
 import { getModuleBySlug } from '../../modules/Factory';
-import { div } from 'motion/dist/react-client';
 
 const StyledCard = styled(Card)`
   background-color: transparent;
-  padding: 0;
-  margin-top: ${({ theme }) => theme.space.xs};
+  padding: ${({ theme }) => theme.space.sm};
   margin-bottom: ${({ theme }) => theme.space.xs};
+  &:not(.first-of-type) {
+    margin-top: ${({ theme }) => theme.space.xs};
+  }
 `;
 
 const StyledContainerInner = styled.div`
-  grid-column: span 2;
   min-width: 0;
-  padding-left: ${({ theme }) => theme.space.sm};
 `;
 
-const StyledContainerOuter = styled.div`
+const TitleContainer = styled.div`
   display: grid;
   grid-template-columns: 16px 1fr;
+  grid-template-rows: 20px;
+  align-items: center;
   column-gap: ${({ theme }) => theme.space.sm};
-  align-items: flex-start;
-  padding-left: ${({ theme }) => theme.space.md};
-  padding-right: ${({ theme }) => theme.space.md};
-  padding-top: ${({ theme }) => theme.space.sm};
-  padding-bottom: ${({ theme }) => theme.space.sm};
+  padding: ${({ theme }) => theme.space.xs};
 `;
 
 const NavItemLink = styled(Link)`
@@ -49,24 +46,6 @@ const NavItemLink = styled(Link)`
   }
 `;
 
-const ModuleIconContainer = styled.div`
-  display: flex;
-  align-items: center;
-  padding-top: 2px;
-`;
-
-const ModuleIcon = ({
-  type,
-}: {
-  type: components['schemas']['Module']['type'];
-}) => {
-  const Icon = getModuleBySlug(type).useIcon?.();
-
-  return (
-    <ModuleIconContainer className="module-icon">{Icon}</ModuleIconContainer>
-  );
-};
-
 const NavItem = ({
   type,
   children,
@@ -76,7 +55,7 @@ const NavItem = ({
 }) => {
   const { t } = useTranslation();
   const { errors } = useAppSelector((state) => state.planModules);
-
+  const Icon = getModuleBySlug(type).useIcon?.();
   const titleType = getModuleBySlug(type)?.useTitle?.();
   const oldSubtitle = getModuleBySlug(type)?.useSubtitle?.() || '';
 
@@ -108,29 +87,27 @@ const NavItem = ({
           className: 'no-children',
         })}
       >
-        <StyledContainerOuter>
-          <ModuleIcon type={type} />
-          <div style={{ marginBottom: children ? appTheme.space.sm : 0 }}>
-            <MD isBold color={appTheme.palette.blue[600]}>
-              <Ellipsis title={titleType}>{titleType}</Ellipsis>
-            </MD>
+        <TitleContainer>
+          {Icon}
+          <MD isBold color={appTheme.palette.blue[600]}>
+            <Ellipsis title={titleType}>{titleType}</Ellipsis>
+          </MD>
+          {oldSubtitle && (
             <SM style={{ color: appTheme.palette.grey[600] }}>
               <Span>{oldSubtitle}</Span>
             </SM>
-          </div>
-          <StyledContainerInner
-            style={{ marginBottom: children ? appTheme.space.xxs : 0 }}
-          >
-            {children && children}
-            {hasErrors && (
-              <div style={{ marginTop: appTheme.space.xs }}>
-                <Message validation="error">
-                  {t('__PLAN_PAGE_NAV_GENERIC_MODULE_ERROR')}
-                </Message>
-              </div>
-            )}
-          </StyledContainerInner>
-        </StyledContainerOuter>
+          )}
+        </TitleContainer>
+        <StyledContainerInner>
+          {children && children}
+          {hasErrors && (
+            <div style={{ marginTop: appTheme.space.xs }}>
+              <Message validation="error">
+                {t('__PLAN_PAGE_NAV_GENERIC_MODULE_ERROR')}
+              </Message>
+            </div>
+          )}
+        </StyledContainerInner>
       </StyledCard>
     </NavItemLink>
   );
