@@ -42,7 +42,7 @@ export const UserItem = ({
   showRemoveConfirm?: boolean;
 }) => {
   const { t } = useTranslation();
-  const { data: userData, isLoading, error: dataError } = useGetUsersMeQuery();
+  const { data: userData, isLoading, isSuccess } = useGetUsersMeQuery();
 
   const [showRemoveConfirmModal, setShowRemoveConfirmModal] = useState(false);
 
@@ -54,7 +54,7 @@ export const UserItem = ({
 
   return (
     !isLoading &&
-    !dataError &&
+    isSuccess &&
     userData && (
       <>
         <UserListItem key={`profile_${user.profile_id}`}>
