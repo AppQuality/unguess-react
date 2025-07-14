@@ -283,7 +283,7 @@ unguessApi.enhanceEndpoints({
             // add an id to each task for better identification
             const mappedTasks = taskModule.output.map((task) => ({
               ...task,
-              id: uuid.v4(), // generate a new UUID for each task
+              id: task.id || uuid.v4(), // generate a new UUID for each task
             }));
             taskModule.output = mappedTasks;
             // now we can safely return the response

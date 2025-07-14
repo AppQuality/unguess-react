@@ -68,7 +68,6 @@ const TaskItem = ({ task, index }: TaskItemProps) => {
         key={id}
         hasBorder
         type={hasError ? 'danger' : 'default'}
-        role="listitem"
       >
         <AccordionNew.Section>
           <AccordionNew.Header icon={getIconFromTaskOutput(task)}>
