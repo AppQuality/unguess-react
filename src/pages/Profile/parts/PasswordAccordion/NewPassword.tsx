@@ -27,7 +27,7 @@ const NewPassword = () => {
       {({ field, meta }: FieldProps) => {
         const hasError = meta.touched && Boolean(meta.error);
         return (
-          <FormField>
+          <FormField style={{ marginBottom: appTheme.space.sm }}>
             <Label>
               {t('__PAGE_PROFILE_NEW_PASSWORD_LABEL')}
               <Span style={{ color: appTheme.palette.red[600] }}>*</Span>

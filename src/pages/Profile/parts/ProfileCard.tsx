@@ -106,7 +106,7 @@ export const ProfileCard = () => {
         </Col>
       </Row>
       <Row style={{ marginBottom: appTheme.space.xs }}>
-        <Col style={{ marginBottom: appTheme.space.sm }}>
+        <Col style={{ marginBottom: appTheme.space.md }}>
           <Field name="email">
             {({ field }: FieldProps) => (
               <FormField>

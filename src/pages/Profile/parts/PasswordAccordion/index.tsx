@@ -46,6 +46,7 @@ export const PasswordAccordion = () => {
     >
       <StyledAccordionSection>
         <AccordionNew.Header
+          style={{ marginBottom: appTheme.space.base }}
           icon={
             <KeyIcon
               style={{
@@ -63,23 +64,23 @@ export const PasswordAccordion = () => {
             label={t('__PROFILE_PAGE_PASSWORD_ACCORDION_LABEL')}
           />
         </AccordionNew.Header>
-        <AccordionNew.Panel>
+        <AccordionNew.Panel style={{ paddingBottom: appTheme.space.md }}>
           <div style={{ padding: '0px 2px' }}>
             <Row>
-              <Col xs={12}>
+              <Col xs={12} style={{ marginBottom: appTheme.space.md }}>
                 <CurrentPassword />
               </Col>
-              <Col xs={12} md={6}>
+              <Col xs={12} md={6} style={{ marginBottom: '16px' }}>
                 <Row>
-                  <Col xs={12}>
+                  <Col xs={12} style={{ marginBottom: appTheme.space.sm }}>
                     <NewPassword />
                   </Col>
-                  <Col xs={12}>
+                  <Col xs={12} style={{ marginBottom: 0 }}>
                     <PasswordRequirements />
                   </Col>
                 </Row>
               </Col>
-              <Col xs={12} md={6}>
+              <Col xs={12} md={6} style={{ marginBottom: 0 }}>
                 <ConfirmPassword />
               </Col>
             </Row>
