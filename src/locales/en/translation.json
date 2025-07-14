@@ -1332,7 +1332,7 @@
   "PASSWORD_VALIDATOR_CONTAIN_AN_UPPERCASE_LETTER": "One uppercase character",
   "PASSWORD_VALIDATOR_MINIMUM_OF_6_CHARACTERS": "Contain\u00a06 characters minimum",
   "PASSWORD_VALIDATOR_PASSWORD_REQUIREMENTS": "Your password must:",
-  "PASSWORD_VALIDATOR_PASSWORDS_DO_NOT_MATCH": "Passwords do not match. Confirm that both passwords are the same.",
+  "PASSWORD_VALIDATOR_PASSWORDS_DO_NOT_MATCH": "Confirm that both passwords are the same.",
   "PLAN_GLOBAL_ALERT_APPROVED_STATE_MESSAGE": "You will be notified when the first data is available on your dashboard",
   "PLAN_GLOBAL_ALERT_APPROVED_STATE_TITLE": "The activity has been successfully launched!",
   "PLAN_GLOBAL_ALERT_AWATING_STATE_MESSAGE": "Review details and confirm to launch.",
