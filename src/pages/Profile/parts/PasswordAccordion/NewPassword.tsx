@@ -2,7 +2,6 @@ import {
   FormField,
   Label,
   Span,
-  Input,
   Message,
   MediaInput,
 } from '@appquality/unguess-design-system';
