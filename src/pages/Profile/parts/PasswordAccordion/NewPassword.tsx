@@ -17,7 +17,7 @@ import { useState } from 'react';
 const NewPassword = () => {
   const { t } = useTranslation();
 
-  const [inputType, setInputType] = useState('newPassword');
+  const [inputType, setInputType] = useState('password');
   const handleChangeInputType = () => {
     setInputType((prev) => (prev === 'password' ? 'text' : 'password'));
   };

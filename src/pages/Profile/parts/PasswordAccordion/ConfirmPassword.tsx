@@ -17,7 +17,7 @@ import { appTheme } from 'src/app/theme';
 const ConfirmPassword = () => {
   const { t } = useTranslation();
 
-  const [inputType, setInputType] = useState('confirmPassword');
+  const [inputType, setInputType] = useState('password');
   const handleChangeInputType = () => {
     setInputType((prev) => (prev === 'password' ? 'text' : 'password'));
   };
