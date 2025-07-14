@@ -40,13 +40,13 @@ const CurrentPassword = () => {
                 title="Current Password"
                 end={
                   inputType === 'password' ? (
-                    <Eye
+                    <EyeHide
                       style={{ cursor: 'pointer' }}
                       onClick={handleChangeInputType}
                       title={t('__PAGE_PROFILE_FORM_CURRENT_PASSWORD_SHOW')}
                     />
                   ) : (
-                    <EyeHide
+                    <Eye
                       style={{ cursor: 'pointer' }}
                       onClick={handleChangeInputType}
                       title={t('__PAGE_PROFILE_FORM_CURRENT_PASSWORD_HIDE')}
