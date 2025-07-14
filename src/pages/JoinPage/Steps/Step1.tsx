@@ -138,13 +138,13 @@ export const Step1 = () => {
                 title="Password"
                 end={
                   inputType === 'password' ? (
-                    <Eye
+                    <EyeHide
                       style={{ cursor: 'pointer' }}
                       onClick={handleChangeInputType}
                       title={t('SIGNUP_FORM_PASSWORD_SHOW')}
                     />
                   ) : (
-                    <EyeHide
+                    <Eye
                       style={{ cursor: 'pointer' }}
                       onClick={handleChangeInputType}
                       title={t('SIGNUP_FORM_PASSWORD_HIDE')}
