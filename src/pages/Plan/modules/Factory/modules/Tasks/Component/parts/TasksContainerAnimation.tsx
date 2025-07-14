@@ -22,7 +22,7 @@ const TasksContainerAnimation = ({ tasks }: TasksContainerAnimationProps) => (
   <StyledWrapper>
     <motion.ul role="list" layout transition={spring}>
       {tasks.map((task, index) => (
-        <motion.li key={task.id} layout>
+        <motion.li role="listitem" key={task.id} id={task.id} layout>
           <TaskItem task={task} index={index} />
         </motion.li>
       ))}

@@ -62,13 +62,7 @@ const TaskItem = ({ task, index }: TaskItemProps) => {
 
   return (
     <>
-      <AccordionNew
-        level={3}
-        id={id}
-        key={id}
-        hasBorder
-        type={hasError ? 'danger' : 'default'}
-      >
+      <AccordionNew level={3} hasBorder type={hasError ? 'danger' : 'default'}>
         <AccordionNew.Section>
           <AccordionNew.Header icon={getIconFromTaskOutput(task)}>
             <AccordionNew.Label
