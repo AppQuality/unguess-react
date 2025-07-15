@@ -6,8 +6,10 @@ import {
 } from '@appquality/unguess-design-system';
 import { Formik } from 'formik';
 import { useTranslation } from 'react-i18next';
+import { useModule } from 'src/features/modules/useModule';
 import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
 import * as yup from 'yup';
+import { usePlanContext } from '../../context/planContext';
 import { FormStep } from './FormStep';
 import { SuccessStep } from './SuccessStep';
 import { useSaveTemplate } from './useSaveTemplate';
@@ -105,22 +107,16 @@ const FormModal = ({ onQuit }: { onQuit: () => void }) => {
   );
 };
 
-const SaveAsTemplateModal = ({
-  planId,
-  planTitle,
-  onQuit,
-}: {
-  planId: string;
-  planTitle: string;
-  onQuit: () => void;
-}) => {
+const SaveAsTemplateModal = ({ planId }: { planId: string }) => {
   const { reset } = useSaveTemplate();
+  const { value: planTitle } = useModule('title');
+  const { setIsSaveTemplateModalOpen } = usePlanContext();
 
   return (
-    <FormProvider planId={planId} title={planTitle}>
+    <FormProvider planId={planId} title={planTitle?.output ?? ''}>
       <FormModal
         onQuit={() => {
-          onQuit();
+          setIsSaveTemplateModalOpen(false);
           reset();
         }}
       />
