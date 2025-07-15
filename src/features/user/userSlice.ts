@@ -7,6 +7,8 @@ const initialState: UserState = {
   userData: {
     id: 0,
     email: '',
+    first_name: '',
+    last_name: '',
     role: 'none',
     name: '',
     profile_id: 0,
