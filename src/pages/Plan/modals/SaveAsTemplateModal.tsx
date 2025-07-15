@@ -12,15 +12,18 @@ import {
   Span,
   Textarea,
   useToast,
+  XL,
   XXL,
 } from '@appquality/unguess-design-system';
 import { Field, FieldProps, Formik, useFormikContext } from 'formik';
 import { Trans, useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
 import { usePostWorkspacesByWidTemplatesMutation } from 'src/features/api';
 import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
 import { styled } from 'styled-components';
 import * as yup from 'yup';
+import { ReactComponent as SuccessImage } from './SaveAsTemplateSuccess.svg';
 
 const MUTATION_CACHE_KEY = 'shared-save-plan-as-template';
 
@@ -28,6 +31,14 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${({ theme }) => theme.space.sm};
+`;
+
+const Wrapper2 = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: ${({ theme }) => theme.space.sm} 0;
+  gap: ${({ theme }) => theme.space.md};
 `;
 
 const FormProvider = ({
@@ -104,9 +115,12 @@ const FormProvider = ({
 const FormModal = ({ onQuit }: { onQuit: () => void }) => {
   const { t } = useTranslation();
   const { handleSubmit } = useFormikContext();
-  const [, result] = usePostWorkspacesByWidTemplatesMutation({
-    fixedCacheKey: MUTATION_CACHE_KEY,
-  });
+  const [, { data, reset, ...rest1 }, ...rest2] =
+    usePostWorkspacesByWidTemplatesMutation({
+      fixedCacheKey: MUTATION_CACHE_KEY,
+    });
+  const navigate = useNavigate();
+  const isSubmitSuccessful = Boolean(data);
 
   return (
     <Modal onClose={onQuit} role="dialog" data-qa="save-plan-modal">
@@ -114,83 +128,121 @@ const FormModal = ({ onQuit }: { onQuit: () => void }) => {
         {t('__PLAN_PAGE_SAVE_AS_TEMPLATE_MODAL_TITLE')}
       </Modal.Header>
       <Modal.Body>
-        {JSON.stringify(result)}
-        <Wrapper>
-          <div>
-            <Trans
-              i18nKey="__PLAN_PAGE_SAVE_AS_TEMPLATE_MODAL_HEADER"
-              components={{
-                xxl: <XXL isBold style={{ marginBottom: appTheme.space.sm }} />,
-                md: <MD />,
-              }}
-              defaults=""
-            />
-          </div>
-          <Field name="templateName">
-            {({ field, meta }: FieldProps) => {
-              const hasError = Boolean(meta.touched && meta.error);
-              return (
-                <FormField>
-                  <Label>
-                    {t('SAVE_AS_TEMPLATE_FORM_TITLE')}
-                    <Span style={{ color: appTheme.palette.red[600] }}>*</Span>
-                  </Label>
-                  <Input
-                    {...field}
-                    placeholder={t('SAVE_AS_TEMPLATE_FORM_TITLE_PLACEHOLDER')}
-                  />
-                  {hasError && (
-                    <Message validation="error">{meta.error}</Message>
-                  )}
-                </FormField>
-              );
-            }}
-          </Field>
-          <Field name="templateDescription">
-            {({ field, meta }: FieldProps) => {
-              const hasError = Boolean(meta.touched && meta.error);
-              return (
-                <FormField>
-                  <Label>
-                    <Trans
-                      i18nKey="SAVE_AS_TEMPLATE_FORM_DESCRIPTION"
-                      components={{
-                        sub: (
-                          <MD
-                            as="span"
-                            style={{ color: appTheme.palette.grey[600] }}
-                          />
-                        ),
-                      }}
-                      defaults=""
+        {!isSubmitSuccessful && (
+          <Wrapper>
+            <div>
+              <Trans
+                i18nKey="__PLAN_PAGE_SAVE_AS_TEMPLATE_MODAL_HEADER"
+                components={{
+                  xxl: (
+                    <XXL isBold style={{ marginBottom: appTheme.space.sm }} />
+                  ),
+                  md: <MD />,
+                }}
+                defaults=""
+              />
+            </div>
+            <Field name="templateName">
+              {({ field, meta }: FieldProps) => {
+                const hasError = Boolean(meta.touched && meta.error);
+                return (
+                  <FormField>
+                    <Label>
+                      {t('SAVE_AS_TEMPLATE_FORM_TITLE')}
+                      <Span style={{ color: appTheme.palette.red[600] }}>
+                        *
+                      </Span>
+                    </Label>
+                    <Input
+                      {...field}
+                      placeholder={t('SAVE_AS_TEMPLATE_FORM_TITLE_PLACEHOLDER')}
                     />
-                  </Label>
-                  <Textarea
-                    {...field}
-                    placeholder={t(
-                      'SAVE_AS_TEMPLATE_FORM_DESCRIPTION_PLACEHOLDER'
+                    {hasError && (
+                      <Message validation="error">{meta.error}</Message>
                     )}
-                  />
-                  {hasError && (
-                    <Message validation="error">{meta.error}</Message>
-                  )}
-                </FormField>
-              );
-            }}
-          </Field>
-        </Wrapper>
+                  </FormField>
+                );
+              }}
+            </Field>
+            <Field name="templateDescription">
+              {({ field, meta }: FieldProps) => {
+                const hasError = Boolean(meta.touched && meta.error);
+                return (
+                  <FormField>
+                    <Label>
+                      <Trans
+                        i18nKey="SAVE_AS_TEMPLATE_FORM_DESCRIPTION"
+                        components={{
+                          sub: (
+                            <MD
+                              as="span"
+                              style={{ color: appTheme.palette.grey[600] }}
+                            />
+                          ),
+                        }}
+                        defaults=""
+                      />
+                    </Label>
+                    <Textarea
+                      {...field}
+                      placeholder={t(
+                        'SAVE_AS_TEMPLATE_FORM_DESCRIPTION_PLACEHOLDER'
+                      )}
+                    />
+                    {hasError && (
+                      <Message validation="error">{meta.error}</Message>
+                    )}
+                  </FormField>
+                );
+              }}
+            </Field>
+          </Wrapper>
+        )}
+        {isSubmitSuccessful && (
+          <Wrapper2>
+            <XL isBold>{t('SAVE_AS_TEMPLATE_SUCCESS_TITLE')}</XL>
+            <SuccessImage />
+            <MD isBold>{t('SAVE_AS_TEMPLATE_SUCCESS_TEXT_1')}</MD>
+            <MD>{t('SAVE_AS_TEMPLATE_SUCCESS_TEXT_2')}</MD>
+          </Wrapper2>
+        )}
       </Modal.Body>
       <Modal.Footer>
-        <FooterItem>
-          <Button isBasic onClick={onQuit}>
-            {t('__PLAN_PAGE_SAVE_AS_TEMPLATE_MODAL_BUTTON_CANCEL')}
-          </Button>
-        </FooterItem>
-        <FooterItem>
-          <Button isAccent isPrimary onClick={() => handleSubmit()}>
-            {t('__PLAN_PAGE_SAVE_AS_TEMPLATE_MODAL_BUTTON_CONFIRM')}
-          </Button>
-        </FooterItem>
+        {!isSubmitSuccessful && (
+          <>
+            <FooterItem>
+              <Button isBasic onClick={onQuit}>
+                {t('__PLAN_PAGE_SAVE_AS_TEMPLATE_MODAL_BUTTON_CANCEL')}
+              </Button>
+            </FooterItem>
+            <FooterItem>
+              <Button isAccent isPrimary onClick={() => handleSubmit()}>
+                {t('__PLAN_PAGE_SAVE_AS_TEMPLATE_MODAL_BUTTON_CONFIRM')}
+              </Button>
+            </FooterItem>
+          </>
+        )}
+        {isSubmitSuccessful && (
+          <>
+            <FooterItem>
+              <Button isBasic onClick={() => navigate('/templates')}>
+                {t('__PLAN_PAGE_SAVE_AS_TEMPLATE_MODAL_BUTTON_VIEW_TEMPLATES')}
+              </Button>
+            </FooterItem>
+            <FooterItem>
+              <Button
+                isAccent
+                isPrimary
+                onClick={() => {
+                  onQuit();
+                  reset();
+                }}
+              >
+                {t('__PLAN_PAGE_SAVE_AS_TEMPLATE_MODAL_BUTTON_CONTINUE_SETUP')}
+              </Button>
+            </FooterItem>
+          </>
+        )}
       </Modal.Footer>
       <ModalClose />
     </Modal>
