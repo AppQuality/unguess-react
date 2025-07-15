@@ -224,7 +224,13 @@ const FormModal = ({ onQuit }: { onQuit: () => void }) => {
         {isSubmitSuccessful && (
           <>
             <FooterItem>
-              <Button isBasic onClick={() => navigate('/templates')}>
+              <Button
+                isBasic
+                onClick={() => {
+                  reset();
+                  navigate('/templates');
+                }}
+              >
                 {t('__PLAN_PAGE_SAVE_AS_TEMPLATE_MODAL_BUTTON_VIEW_TEMPLATES')}
               </Button>
             </FooterItem>
