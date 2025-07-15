@@ -3,9 +3,6 @@ import styled from 'styled-components';
 
 export const StyledFooter = styled.div`
   text-align: right;
-  button {
-    width: 248px;
-  }
 `;
 
 export const StyledCardHeader = styled.div`
