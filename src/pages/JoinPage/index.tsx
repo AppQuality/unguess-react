@@ -84,41 +84,53 @@ const LogoWrapper = styled.div`
 const JoinPage = () => {
   const { t } = useTranslation();
   const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
+  const { profile, token } = useParams();
+
   const {
     isLoading: isUserLoading,
     isFetching: isUserFetching,
     data: userData,
+    isSuccess: isUserSuccess,
+    isError: isUserError,
   } = useGetUsersMeQuery();
-  const navigate = useNavigate();
-  const { profile, token } = useParams();
-  const shouldSkipQuery =
-    !!userData || isUserLoading || isUserFetching || !(profile && token);
 
-  const { isLoading, data, error } = useGetInvitesByProfileAndTokenQuery(
-    {
-      profile: profile || '',
-      token: token || '',
-    },
-    {
-      skip: shouldSkipQuery,
-    }
+  const {
+    isLoading: isInvitesLoading,
+    data: invitesData,
+    error: invitesError,
+    isError: isInvitesError,
+  } = useGetInvitesByProfileAndTokenQuery(
+    { profile: profile || '', token: token || '' },
+    { skip: !profile || !token || !!userData }
   );
 
+  // 2. Redirect se l’utente è già loggato
   useEffect(() => {
-    if (userData) {
+    if (userData && isUserSuccess) {
       navigate(searchParams.get('redirectTo') || '/');
     }
-  }, [navigate, userData, searchParams]);
+  }, [navigate, userData, isUserSuccess, searchParams]);
 
-  if (isLoading || (shouldSkipQuery && profile && token)) {
+  if (isUserLoading || isUserFetching || isInvitesLoading) {
     return <JoinPageLoading />;
   }
 
-  if (error) return <JoinPageError />;
+  if (!profile || !token || isUserError || isInvitesError) {
+    return <JoinPageError />;
+  }
+
+  if (invitesError) {
+    return <JoinPageError />;
+  }
+
+  if (!invitesData) {
+    return <JoinPageError />;
+  }
 
   return (
     <Track title={t('__PAGE_TITLE_JOIN')}>
-      <FormProvider {...data}>
+      <FormProvider {...invitesData}>
         {({ isSubmitting, values: { step } }) => (
           <Background step={step.toString()}>
             <CenteredXYContainer>
