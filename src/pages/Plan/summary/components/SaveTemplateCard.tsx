@@ -1,6 +1,14 @@
-import { Button, ContainerCard, MD } from '@appquality/unguess-design-system';
+import {
+  Button,
+  ContainerCard,
+  MD,
+  UnorderedList,
+} from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
+import { useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
+import { useGetWorkspacesByWidTemplatesQuery } from 'src/features/api';
+import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
 import styled from 'styled-components';
 import { usePlanContext } from '../../context/planContext';
 import { ReactComponent as ApprovedImage } from '../assets/saveTemplate.svg';
@@ -27,6 +35,17 @@ const ContentRow = styled.div`
 export const SaveTemplateCard = () => {
   const { t } = useTranslation();
   const { setIsSaveTemplateModalOpen } = usePlanContext();
+  const { planId } = useParams();
+  const { activeWorkspace } = useActiveWorkspace();
+
+  const { data } = useGetWorkspacesByWidTemplatesQuery({
+    wid: activeWorkspace?.id.toString() || '',
+    filterBy: {
+      sourcePlan: planId || '',
+    },
+  });
+
+  const templateFromPlan = data?.items || [];
 
   return (
     <ContainerCard>
@@ -35,16 +54,41 @@ export const SaveTemplateCard = () => {
           <ApprovedImage />
         </ImageItem>
         <ContentItem>
-          <Title
-            style={{
-              marginBottom: appTheme.space.xs,
-            }}
-          >
-            {t('__PLAN_PAGE_SUMMARY_TAB_SAVE_TEMPLATE_CARD_TITLE')}
-          </Title>
-          <MD style={{ marginBottom: appTheme.space.lg }}>
-            {t('__PLAN_PAGE_SUMMARY_TAB_SAVE_TEMPLATE_CARD_DESCRIPTION')}
-          </MD>
+          <div style={{ marginBottom: appTheme.space.lg }}>
+            <Title
+              style={{
+                marginBottom: appTheme.space.xs,
+              }}
+            >
+              {t('__PLAN_PAGE_SUMMARY_TAB_SAVE_TEMPLATE_CARD_TITLE')}
+            </Title>
+            <MD>
+              {t('__PLAN_PAGE_SUMMARY_TAB_SAVE_TEMPLATE_CARD_DESCRIPTION')}
+            </MD>
+            {templateFromPlan.length > 0 && (
+              <>
+                <MD
+                  isBold
+                  color={appTheme.palette.grey[700]}
+                  style={{
+                    marginTop: appTheme.space.md,
+                    marginBottom: appTheme.space.sm,
+                  }}
+                >
+                  {t(
+                    '__PLAN_PAGE_SUMMARY_TAB_SAVE_TEMPLATE_TEMPLATE_LIST_TITLE'
+                  )}
+                </MD>
+                <UnorderedList>
+                  {templateFromPlan.map((template) => (
+                    <UnorderedList.Item key={template.id}>
+                      {template.name}
+                    </UnorderedList.Item>
+                  ))}
+                </UnorderedList>
+              </>
+            )}
+          </div>
 
           <Button onClick={() => setIsSaveTemplateModalOpen(true)}>
             {t('__PLAN_PAGE_SUMMARY_TAB_CONFIRMATION_CARD_SAVE_TEMPLATE_CTA')}
