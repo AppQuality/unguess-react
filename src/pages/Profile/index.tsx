@@ -57,7 +57,16 @@ const Profile = () => {
             <Col xs={12} lg={10}>
               <Grid gutters="xl" columns={12} id="main">
                 <Row>
-                  <Col xs={12} lg={9} style={{ margin: 0 }}>
+                  <Col
+                    xs={12}
+                    lg={9}
+                    style={{
+                      margin: 0,
+                      display: 'flex',
+                      flexDirection: 'column',
+                      gap: theme.space.xxl,
+                    }}
+                  >
                     <FormProfile />
                     <FormPassword />
                   </Col>

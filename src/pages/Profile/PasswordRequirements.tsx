@@ -12,7 +12,7 @@ const PasswordRequirement = ({
   check: () => boolean;
   children: React.ReactNode;
 }) => (
-  <li style={{ display: 'flex', alignItems: 'center' }}>
+  <li style={{ display: 'flex' }}>
     {check() ? (
       <Check aria-hidden="true" fontSize={16} color={theme.palette.grey[500]} />
     ) : (
@@ -34,7 +34,7 @@ const PasswordRequirements = () => {
   const { t } = useTranslation();
 
   return (
-    <div data-qa="password-requirements" className="aq-mb-3">
+    <div data-qa="password-requirements">
       <MD>{t('PASSWORD_VALIDATOR_PASSWORD_REQUIREMENTS')}</MD>
       <ul>
         <PasswordRequirement

@@ -724,6 +724,7 @@
   "__PAGE_PROFILE_FORM_NEW_PASSWORD_SHOW": "",
   "__PAGE_PROFILE_NEW_PASSWORD_LABEL": "New password",
   "__PAGE_PROFILE_NEW_PASSWORD_PLACEHOLDER": "Enter your new password",
+  "__PAGE_PROFILE_SAVE_CHANGES_BUTTON": "Save changes",
   "__PAGE_TITLE_BUGS_COLLECTION": "Bug collection",
   "__PAGE_TITLE_JOIN": "join page",
   "__PAGE_TITLE_LOGIN": "Log in",

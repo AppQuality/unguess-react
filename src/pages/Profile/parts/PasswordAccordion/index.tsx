@@ -2,6 +2,7 @@ import {
   AccordionNew,
   Button,
   Col,
+  ContainerCard,
   Row,
 } from '@appquality/unguess-design-system';
 
@@ -13,15 +14,60 @@ import { styled } from 'styled-components';
 
 import { PasswordRequirements } from '../../PasswordRequirements';
 import { PasswordFormValues } from '../../valuesType';
-import { StyledFooter } from '../common';
+import { CardInnerPanel, FieldExtraContent, StyledFooter } from '../common';
 import ConfirmPassword from './ConfirmPassword';
 import CurrentPassword from './CurrentPassword';
 import NewPassword from './NewPassword';
 
 const StyledAccordionSection = styled(AccordionNew.Section)`
-  box-shadow: none;
-  border: 1px solid ${({ theme }) => theme.palette.grey[200]};
-  border-radius: ${({ theme }) => theme.borderRadii.xl};
+  // workaround for the accordion panel overflow hidden that cuts off the input selected shadow
+  #accordions.step_inner_panel {
+    margin-left: -5px;
+    margin-right: -5px;
+  }
+`;
+
+const AccordionPanel = styled(CardInnerPanel)`
+  container-type: inline-size;
+  container-name: passwordSettings;
+  // workaround for the accordion panel overflow hidden that cuts off the input selected shadow
+  padding-left: 5px;
+  padding-right: 5px;
+`;
+
+const AccordionHeader = styled(AccordionNew.Header)`
+  padding: ${({ theme }) => theme.space.md};
+`;
+
+const NewPasswordContainer = styled.div`
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-areas:
+    'newPassword'
+    'passwordRequirements'
+    'confirmPassword';
+
+  .newPassword {
+    grid-area: newPassword;
+  }
+  .passwordRequirements {
+    grid-area: passwordRequirements;
+    margin-bottom: ${({ theme }) => theme.space.md};
+  }
+  .confirmPassword {
+    grid-area: confirmPassword;
+  }
+
+  @container passwordSettings (min-width: 600px) {
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+      'newPassword confirmPassword'
+      'passwordRequirements passwordRequirements';
+    column-gap: ${({ theme }) => theme.space.md};
+    .passwordRequirements {
+      margin-bottom: 0; // no margin at the bottom in this case
+    }
+  }
 `;
 
 export const PasswordAccordion = () => {
@@ -36,72 +82,68 @@ export const PasswordAccordion = () => {
   const isOpen = false; // Temporary, as the context is not fully implemented yet
 
   return (
-    <AccordionNew
-      level={3}
-      id="anchor-password-id"
-      data-qa="password-accordion"
-      key={`password_accordion_${isOpen}`}
-      hasBorder
-      defaultExpandedSections={isOpen ? [0, 1] : []}
-    >
-      <StyledAccordionSection>
-        <AccordionNew.Header
-          style={{ marginBottom: appTheme.space.base }}
-          icon={
-            <KeyIcon
+    <ContainerCard style={{ padding: 0 }}>
+      <AccordionNew
+        level={3}
+        id="anchor-password-id"
+        data-qa="password-accordion"
+        key={`password_accordion_${isOpen}`}
+        defaultExpandedSections={isOpen ? [0, 1] : []}
+      >
+        <StyledAccordionSection>
+          <AccordionHeader
+            icon={
+              <KeyIcon
+                style={{
+                  width: appTheme.iconSizes.md,
+                  height: appTheme.iconSizes.md,
+                  color: appTheme.palette.blue[600],
+                }}
+              />
+            }
+          >
+            <AccordionNew.Label
               style={{
-                width: appTheme.iconSizes.md,
-                height: appTheme.iconSizes.md,
-                color: appTheme.palette.blue[600],
+                color: appTheme.palette.grey[800],
               }}
+              label={t('__PROFILE_PAGE_PASSWORD_ACCORDION_LABEL')}
             />
-          }
-        >
-          <AccordionNew.Label
-            style={{
-              color: appTheme.palette.grey[800],
-            }}
-            label={t('__PROFILE_PAGE_PASSWORD_ACCORDION_LABEL')}
-          />
-        </AccordionNew.Header>
-        <AccordionNew.Panel style={{ paddingBottom: appTheme.space.md }}>
-          <div style={{ padding: '0px 2px' }}>
-            <Row>
-              <Col xs={12} style={{ marginBottom: appTheme.space.md }}>
-                <CurrentPassword />
-              </Col>
-              <Col xs={12} md={6} style={{ marginBottom: '16px' }}>
-                <Row>
-                  <Col xs={12} style={{ marginBottom: appTheme.space.sm }}>
-                    <NewPassword />
-                  </Col>
-                  <Col xs={12} style={{ marginBottom: 0 }}>
+          </AccordionHeader>
+          <AccordionNew.Panel>
+            <AccordionPanel>
+              <CurrentPassword />
+              <NewPasswordContainer>
+                <div className="newPassword">
+                  <NewPassword />
+                </div>
+                <div className="passwordRequirements">
+                  <FieldExtraContent>
                     <PasswordRequirements />
-                  </Col>
-                </Row>
-              </Col>
-              <Col xs={12} md={6} style={{ marginBottom: 0 }}>
-                <ConfirmPassword />
-              </Col>
-            </Row>
-          </div>
-          <StyledFooter style={{ marginTop: appTheme.space.sm }}>
-            <Button
-              isAccent
-              isPrimary
-              disabled={
-                isSubmitting ||
-                !formValues.currentPassword ||
-                !formValues.newPassword ||
-                !formValues.confirmPassword
-              }
-              onClick={submitForm}
-            >
-              Save changes
-            </Button>
-          </StyledFooter>
-        </AccordionNew.Panel>
-      </StyledAccordionSection>
-    </AccordionNew>
+                  </FieldExtraContent>
+                </div>
+                <div className="confirmPassword">
+                  <ConfirmPassword />
+                </div>
+              </NewPasswordContainer>
+              <StyledFooter>
+                <Button
+                  isAccent
+                  isPrimary
+                  disabled={
+                    isSubmitting ||
+                    !formValues.currentPassword ||
+                    !formValues.newPassword ||
+                    !formValues.confirmPassword
+                  }
+                  onClick={submitForm}
+                >
+                  {t('__PAGE_PROFILE_SAVE_CHANGES_BUTTON')}
+                </Button>
+              </StyledFooter>
+            </AccordionPanel>
+          </AccordionNew.Panel>
+        </StyledAccordionSection>
+      </AccordionNew>
+    </ContainerCard>
   );
 };
