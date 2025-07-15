@@ -13,6 +13,7 @@ import { ConfirmationCard } from './components/ConfirmationCard';
 import { DetailsCard } from './components/DetailsCard';
 import { GoToDashboardCard } from './components/GoToDashboard';
 import { IntroductionCard } from './components/IntroductionCard';
+import { SaveTemplateCard } from './components/SaveTemplateCard';
 
 const StyledDiv = styled.div`
   display: flex;
@@ -40,6 +41,7 @@ const SummaryBody = () => {
           <IntroductionCard />
           <ActivityInfo />
           <ConfirmationCard />
+          <SaveTemplateCard />
           <GoToDashboardCard />
         </StyledDiv>
         <Button
