@@ -1,6 +1,4 @@
 import { useCallback } from 'react';
-import { shallowEqual } from 'react-redux';
-import { useAppSelector } from 'src/app/hooks';
 import { useGetUsersMeQuery } from 'src/features/api';
 import { useAnalytics } from 'use-analytics';
 import { useActiveWorkspace } from './useActiveWorkspace';
@@ -17,20 +15,17 @@ export const useSendGTMevent = ({
   loggedUser = true,
 }: { loggedUser?: boolean } = {}) => {
   const { data: userData } = useGetUsersMeQuery();
-
-  const user = useAppSelector(
-    () => ({
-      role: userData?.role,
-      customer_role: userData?.customer_role,
-      tryber_wp_user_id: userData?.tryber_wp_user_id,
-      id: userData?.id,
-      name: userData?.name,
-      email: userData?.email,
-    }),
-    shallowEqual
-  );
   const { activeWorkspace } = useActiveWorkspace();
   const { track } = useAnalytics();
+
+  const user = userData || {
+    role: undefined,
+    customer_role: undefined,
+    tryber_wp_user_id: undefined,
+    id: undefined,
+    name: undefined,
+    email: undefined,
+  };
 
   const callback = useCallback(
     (data: GTMEventData) => {
