@@ -29,13 +29,13 @@ const NewPassword = () => {
           <FormField>
             <Label>
               {t('__PAGE_PROFILE_NEW_PASSWORD_LABEL')}
-              <Span style={{ color: appTheme.palette.red[600] }}>*</Span>
+              <Span style={{ color: appTheme.palette.red[600] }}> *</Span>
             </Label>
 
             <MediaInput
               type={inputType}
               role="textbox"
-              title="New Password"
+              title={t('__PAGE_PROFILE_NEW_PASSWORD_LABEL')}
               placeholder={t('__PAGE_PROFILE_NEW_PASSWORD_PLACEHOLDER')}
               end={
                 inputType === 'password' ? (

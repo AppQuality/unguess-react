@@ -29,13 +29,12 @@ const ConfirmPassword = () => {
           <FormField>
             <Label>
               {t('__PAGE_PROFILE_CONFIRM_PASSWORD_LABEL')}
-              <Span style={{ color: appTheme.palette.red[600] }}>*</Span>
+              <Span style={{ color: appTheme.palette.red[600] }}> *</Span>
             </Label>
 
             <MediaInput
               type={inputType}
               role="textbox"
-              title="Current Password"
               placeholder={t('__PAGE_PROFILE_CONFIRM_PASSWORD_PLACEHOLDER')}
               end={
                 inputType === 'password' ? (

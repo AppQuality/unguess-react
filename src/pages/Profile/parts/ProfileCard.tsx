@@ -15,7 +15,6 @@ import { useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as UserIcon } from 'src/assets/icons/user.svg';
-import { Divider } from 'src/common/components/divider';
 import { useGetUsersRolesQuery } from 'src/features/api';
 import { ProfileFormValues } from '../valuesType';
 import { Loader } from './cardLoader';
