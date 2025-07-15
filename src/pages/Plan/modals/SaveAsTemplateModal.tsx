@@ -115,10 +115,9 @@ const FormProvider = ({
 const FormModal = ({ onQuit }: { onQuit: () => void }) => {
   const { t } = useTranslation();
   const { handleSubmit } = useFormikContext();
-  const [, { data, reset, ...rest1 }, ...rest2] =
-    usePostWorkspacesByWidTemplatesMutation({
-      fixedCacheKey: MUTATION_CACHE_KEY,
-    });
+  const [, { data, reset }] = usePostWorkspacesByWidTemplatesMutation({
+    fixedCacheKey: MUTATION_CACHE_KEY,
+  });
   const navigate = useNavigate();
   const isSubmitSuccessful = Boolean(data);
 
