@@ -25,7 +25,7 @@ const Wrapper = styled.div`
 `;
 
 const QuoteWrapper = styled.div`
-  background-color: ${({ theme }) => theme.palette.blue[50]};
+  background-color: ${({ theme }) => theme.palette.grey[100]};
   padding: ${({ theme }) => theme.space.md};
 `;
 
