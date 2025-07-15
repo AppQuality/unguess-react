@@ -59,7 +59,10 @@ const NewPasswordContainer = styled.div`
   }
 
   @container passwordSettings (min-width: 600px) {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(
+      2,
+      calc(50% - ${({ theme }) => theme.space.md})
+    );
     grid-template-areas:
       'newPassword confirmPassword'
       'passwordRequirements passwordRequirements';

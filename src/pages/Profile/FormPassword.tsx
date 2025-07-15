@@ -23,14 +23,27 @@ export const FormPassword = () => {
   if (isLoading) return <Loader />;
 
   const schema = Yup.object().shape({
-    newPassword: Yup.string().required(
+    newPassword: Yup.string()
+      .min(6, t('SIGNUP_FORM_PASSWORD_MUST_BE_AT_LEAST_6_CHARACTER_LONG'))
+      .matches(
+        /[0-9]/,
+        t('SIGNUP_FORM_PASSWORD_MUST_CONTAIN_AT_LEAST_A_NUMBER')
+      )
+      .matches(
+        /[A-Z]/,
+        t('SIGNUP_FORM_PASSWORD_MUST_CONTAIN_AT_LEAST_AN_UPPERCASE_LETTER')
+      )
+      .matches(
+        /[a-z]/,
+        t('SIGNUP_FORM_PASSWORD_MUST_CONTAIN_AT_LEAST_A_LOWERCASE_LETTER')
+      )
+      .required(t('__PROFILE_PAGE_NEW_PASSWORD_REQUIRED_ERROR')),
+    currentPassword: Yup.string().required(
       t('__PROFILE_PAGE_NEW_PASSWORD_REQUIRED_ERROR')
     ),
-    currentPassword: Yup.string().required(
-      t('__PROFILE_PAGE_CURRENT_PASSWORD_REQUIRED_ERROR')
-    ),
-    confirmPassword: Yup.string().required(
-      t('__PROFILE_PAGE_CONFIRM_PASSWORD_REQUIRED_ERROR')
+    confirmPassword: Yup.string().oneOf(
+      [Yup.ref('newPassword'), null],
+      t('__PROFILE_PAGE_CONFIRM_PASSWORD_MUST_MATCH_NEW_PASSWORD')
     ),
   });
 
