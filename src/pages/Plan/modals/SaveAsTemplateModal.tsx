@@ -1,6 +1,5 @@
 import {
   Button,
-  Dots,
   FooterItem,
   FormField,
   Input,
@@ -15,13 +14,15 @@ import {
   useToast,
   XXL,
 } from '@appquality/unguess-design-system';
-import { Field, FieldProps, Formik } from 'formik';
+import { Field, FieldProps, Formik, useFormikContext } from 'formik';
 import { Trans, useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
-import { useDeletePlansByPidMutation } from 'src/features/api';
+import { usePostWorkspacesByWidTemplatesMutation } from 'src/features/api';
+import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
 import { styled } from 'styled-components';
 import * as yup from 'yup';
+
+const MUTATION_CACHE_KEY = 'shared-save-plan-as-template';
 
 const Wrapper = styled.div`
   display: flex;
@@ -31,16 +32,24 @@ const Wrapper = styled.div`
 
 const FormProvider = ({
   title,
+  planId,
   children,
 }: {
   title: string;
+  planId: string;
   children: React.ReactNode;
 }) => {
   const { t } = useTranslation();
+  const { activeWorkspace } = useActiveWorkspace();
   const initialValues = {
     templateName: `${title} - Copy`,
     templateDescription: '',
   };
+  const { addToast } = useToast();
+  const [savePlanAsTemplate, { isLoading }] =
+    usePostWorkspacesByWidTemplatesMutation({
+      fixedCacheKey: MUTATION_CACHE_KEY,
+    });
   const validationSchema = yup.object().shape({
     templateName: yup
       .string()
@@ -56,117 +65,56 @@ const FormProvider = ({
       enableReinitialize
       initialValues={initialValues}
       validationSchema={validationSchema}
-      onSubmit={() => {}}
+      onSubmit={async (values) => {
+        if (!activeWorkspace) return;
+        try {
+          await savePlanAsTemplate({
+            wid: activeWorkspace.id.toString(),
+            body: {
+              name: values.templateName,
+              description: values.templateDescription,
+              from_plan: Number(planId),
+            },
+          });
+        } catch (error) {
+          addToast(
+            ({ close }) => (
+              <Notification
+                onClose={close}
+                type="error"
+                message={
+                  error instanceof Error && error.message
+                    ? error.message
+                    : t('__PLAN_PAGE_SAVE_PLAN_MODAL_ERROR')
+                }
+                closeText={t('__TOAST_CLOSE_TEXT')}
+                isPrimary
+              />
+            ),
+            { placement: 'top' }
+          );
+        }
+      }}
     >
       {() => children}
     </Formik>
   );
 };
 
-const Form = () => {
+const FormModal = ({ onQuit }: { onQuit: () => void }) => {
   const { t } = useTranslation();
-  return (
-    <>
-      <Field name="templateName">
-        {({ field, meta }: FieldProps) => {
-          const hasError = Boolean(meta.touched && meta.error);
-          return (
-            <FormField>
-              <Label>
-                {t('SAVE_AS_TEMPLATE_FORM_TITLE')}
-                <Span style={{ color: appTheme.palette.red[600] }}>*</Span>
-              </Label>
-              <Input
-                {...field}
-                placeholder={t('SAVE_AS_TEMPLATE_FORM_TITLE_PLACEHOLDER')}
-              />
-              {hasError && <Message validation="error">{meta.error}</Message>}
-            </FormField>
-          );
-        }}
-      </Field>
-      <Field name="templateDescription">
-        {({ field, meta }: FieldProps) => {
-          const hasError = Boolean(meta.touched && meta.error);
-          return (
-            <FormField>
-              <Label>
-                <Trans
-                  i18nKey="SAVE_AS_TEMPLATE_FORM_DESCRIPTION"
-                  components={{
-                    sub: (
-                      <MD
-                        as="span"
-                        style={{ color: appTheme.palette.grey[600] }}
-                      />
-                    ),
-                  }}
-                  defaults=""
-                />
-              </Label>
-              <Textarea
-                {...field}
-                placeholder={t('SAVE_AS_TEMPLATE_FORM_DESCRIPTION_PLACEHOLDER')}
-              />
-              {hasError && <Message validation="error">{meta.error}</Message>}
-            </FormField>
-          );
-        }}
-      </Field>
-    </>
-  );
-};
-
-const SaveAsTemplateModal = ({
-  planId,
-  planTitle,
-  onQuit,
-}: {
-  planId: string;
-  planTitle: string;
-  onQuit: () => void;
-}) => {
-  const { t } = useTranslation();
-  const { addToast } = useToast();
-  const navigate = useNavigate();
-
-  const [deletePlan, { isLoading }] = useDeletePlansByPidMutation();
-
-  const showDeleteErrorToast = (error: Error) => {
-    addToast(
-      ({ close }) => (
-        <Notification
-          onClose={close}
-          type="error"
-          message={
-            error instanceof Error && error.message
-              ? error.message
-              : t('__PLAN_PAGE_DELETE_PLAN_MODAL_ERROR')
-          }
-          closeText={t('__TOAST_CLOSE_TEXT')}
-          isPrimary
-        />
-      ),
-      { placement: 'top' }
-    );
-  };
-
-  const handleConfirm = async () => {
-    try {
-      await deletePlan({ pid: planId });
-      navigate(`/`);
-    } catch (e) {
-      showDeleteErrorToast(e as unknown as Error);
-    }
-    onQuit();
-  };
+  const { handleSubmit } = useFormikContext();
+  const [, result] = usePostWorkspacesByWidTemplatesMutation({
+    fixedCacheKey: MUTATION_CACHE_KEY,
+  });
 
   return (
-    <Modal onClose={onQuit} role="dialog" data-qa="delete-plan-modal">
+    <Modal onClose={onQuit} role="dialog" data-qa="save-plan-modal">
       <Modal.Header>
         {t('__PLAN_PAGE_SAVE_AS_TEMPLATE_MODAL_TITLE')}
       </Modal.Header>
       <Modal.Body>
+        {JSON.stringify(result)}
         <Wrapper>
           <div>
             <Trans
@@ -178,28 +126,68 @@ const SaveAsTemplateModal = ({
               defaults=""
             />
           </div>
-          <FormProvider title={planTitle}>
-            <Form />
-          </FormProvider>
+          <Field name="templateName">
+            {({ field, meta }: FieldProps) => {
+              const hasError = Boolean(meta.touched && meta.error);
+              return (
+                <FormField>
+                  <Label>
+                    {t('SAVE_AS_TEMPLATE_FORM_TITLE')}
+                    <Span style={{ color: appTheme.palette.red[600] }}>*</Span>
+                  </Label>
+                  <Input
+                    {...field}
+                    placeholder={t('SAVE_AS_TEMPLATE_FORM_TITLE_PLACEHOLDER')}
+                  />
+                  {hasError && (
+                    <Message validation="error">{meta.error}</Message>
+                  )}
+                </FormField>
+              );
+            }}
+          </Field>
+          <Field name="templateDescription">
+            {({ field, meta }: FieldProps) => {
+              const hasError = Boolean(meta.touched && meta.error);
+              return (
+                <FormField>
+                  <Label>
+                    <Trans
+                      i18nKey="SAVE_AS_TEMPLATE_FORM_DESCRIPTION"
+                      components={{
+                        sub: (
+                          <MD
+                            as="span"
+                            style={{ color: appTheme.palette.grey[600] }}
+                          />
+                        ),
+                      }}
+                      defaults=""
+                    />
+                  </Label>
+                  <Textarea
+                    {...field}
+                    placeholder={t(
+                      'SAVE_AS_TEMPLATE_FORM_DESCRIPTION_PLACEHOLDER'
+                    )}
+                  />
+                  {hasError && (
+                    <Message validation="error">{meta.error}</Message>
+                  )}
+                </FormField>
+              );
+            }}
+          </Field>
         </Wrapper>
       </Modal.Body>
       <Modal.Footer>
         <FooterItem>
-          <Button isBasic disabled={isLoading} onClick={onQuit}>
-            {isLoading ? (
-              <Dots />
-            ) : (
-              t('__PLAN_PAGE_SAVE_AS_TEMPLATE_MODAL_BUTTON_CANCEL')
-            )}
+          <Button isBasic onClick={onQuit}>
+            {t('__PLAN_PAGE_SAVE_AS_TEMPLATE_MODAL_BUTTON_CANCEL')}
           </Button>
         </FooterItem>
         <FooterItem>
-          <Button
-            isAccent
-            isPrimary
-            disabled={isLoading}
-            onClick={handleConfirm}
-          >
+          <Button isAccent isPrimary onClick={() => handleSubmit()}>
             {t('__PLAN_PAGE_SAVE_AS_TEMPLATE_MODAL_BUTTON_CONFIRM')}
           </Button>
         </FooterItem>
@@ -208,5 +196,19 @@ const SaveAsTemplateModal = ({
     </Modal>
   );
 };
+
+const SaveAsTemplateModal = ({
+  planId,
+  planTitle,
+  onQuit,
+}: {
+  planId: string;
+  planTitle: string;
+  onQuit: () => void;
+}) => (
+  <FormProvider planId={planId} title={planTitle}>
+    <FormModal onQuit={onQuit} />
+  </FormProvider>
+);
 
 export { SaveAsTemplateModal };
