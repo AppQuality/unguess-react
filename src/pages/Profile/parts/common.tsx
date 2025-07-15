@@ -1,4 +1,5 @@
-import { ContainerCard } from '@appquality/unguess-design-system';
+import { ContainerCard, FormField } from '@appquality/unguess-design-system';
+import { Field } from 'formik';
 import { appTheme } from 'src/app/theme';
 import styled from 'styled-components';
 
@@ -17,4 +18,9 @@ export const StyledCardHeader = styled.div`
 `;
 export const StyledContainerCard = styled(ContainerCard)`
   padding: ${({ theme }) => theme.space.md};
+`;
+
+export const ProfileField = styled(FormField)`
+  margin-bottom: ${({ theme }) => theme.space.sm};
+  width: 100%;
 `;

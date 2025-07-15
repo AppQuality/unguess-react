@@ -1,10 +1,12 @@
 import {
-  FormField,
+  Anchor,
   Label,
   Span,
   MediaInput,
   Message,
   Button,
+  TextLabel,
+  MD,
 } from '@appquality/unguess-design-system';
 import { Field, FieldProps } from 'formik';
 import { ReactComponent as Eye } from '@zendeskgarden/svg-icons/src/16/eye-fill.svg';
@@ -13,6 +15,7 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { isDev } from 'src/common/isDevEnvironment';
+import { ProfileField } from '../common';
 
 const CurrentPassword = () => {
   const { t } = useTranslation();
@@ -28,7 +31,7 @@ const CurrentPassword = () => {
         {({ field, meta }: FieldProps) => {
           const hasError = meta.touched && Boolean(meta.error);
           return (
-            <FormField>
+            <ProfileField>
               <Label>
                 {t('__PAGE_PROFILE_CURRENT_PASSWORD_LABEL')}
                 <Span style={{ color: appTheme.palette.red[600] }}> *</Span>
@@ -66,28 +69,18 @@ const CurrentPassword = () => {
                   {meta.error}
                 </Message>
               )}
-            </FormField>
+            </ProfileField>
           );
         }}
       </Field>
-      <div>
-        <Button
-          style={{
-            marginTop: appTheme.space.sm,
-            marginRight: 0,
-            color: appTheme.palette.grey[600],
-          }}
-          isLink
-          className="header-integration-center"
-          onClick={() => {
-            window.location.href = `https://${
-              isDev() ? 'dev' : 'app'
-            }.unguess.io/wp-login.php?action=lostpassword`;
-          }}
-        >
-          <div>Forgot password?</div>
-        </Button>
-      </div>
+      <Anchor
+        href={`${window.location.origin}/wp-login.php?action=lostpassword`}
+        isExternal
+        externalIconLabel={t('__PAGE_PROFILE_FORGOT_PASSWORD')}
+        style={{ color: appTheme.palette.grey[600] }}
+      >
+        {t('__PAGE_PROFILE_FORGOT_PASSWORD')}
+      </Anchor>
     </>
   );
 };
