@@ -4,8 +4,10 @@ import {
   FormField,
   Input,
   Label,
+  LG,
   MD,
   Message,
+  SM,
   Span,
   Textarea,
   XXL,
@@ -14,6 +16,7 @@ import { Field, FieldProps, useFormikContext } from 'formik';
 import { Trans, useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import styled from 'styled-components';
+import { useApprovedQuote } from './useApprovedQuote';
 
 const Wrapper = styled.div`
   display: flex;
@@ -21,8 +24,28 @@ const Wrapper = styled.div`
   gap: ${({ theme }) => theme.space.md};
 `;
 
+const QuoteWrapper = styled.div`
+  background-color: ${({ theme }) => theme.palette.blue[50]};
+  padding: ${({ theme }) => theme.space.md};
+`;
+
+const QuoteBox = () => {
+  const { t } = useTranslation();
+
+  const { quote } = useApprovedQuote();
+  return (
+    <QuoteWrapper>
+      <MD>{t('__PLAN_PAGE_SAVE_AS_TEMPLATE_QUOTE_TITLE')}</MD>
+      <LG style={{ marginBottom: appTheme.space.sm }}>{quote?.value}*</LG>
+      <SM>* {t('__PLAN_PAGE_SAVE_AS_TEMPLATE_QUOTE_DISCLAIMER')}</SM>
+    </QuoteWrapper>
+  );
+};
+
 const FormStep = () => {
   const { t } = useTranslation();
+  const { hasApprovedQuote } = useApprovedQuote();
+
   return (
     <Wrapper>
       <div>
@@ -81,6 +104,7 @@ const FormStep = () => {
           );
         }}
       </Field>
+      {hasApprovedQuote && <QuoteBox />}
     </Wrapper>
   );
 };

@@ -1049,6 +1049,8 @@
   "__PLAN_PAGE_SAVE_AS_TEMPLATE_MODAL_NAME_MAX": "This name is a bit long. We advise you to stay within 64 characters including spaces.",
   "__PLAN_PAGE_SAVE_AS_TEMPLATE_MODAL_NAME_REQUIRED": "Choose a name before saving the template",
   "__PLAN_PAGE_SAVE_AS_TEMPLATE_MODAL_TITLE": "Save as template",
+  "__PLAN_PAGE_SAVE_AS_TEMPLATE_QUOTE_DISCLAIMER": "The final price may vary based on your activities settings",
+  "__PLAN_PAGE_SAVE_AS_TEMPLATE_QUOTE_TITLE": "STARTING PRICE",
   "__PLAN_PAGE_SAVE_PLAN_MODAL_ERROR": "The plan could not be saved: please try again later.",
   "__PLAN_PAGE_SUMMARY_TAB_ACTIVITY_INFO_APPROVED_DESCRIPTION": "The quotation are currently being processed. Some details may vary or need confirmation",
   "__PLAN_PAGE_SUMMARY_TAB_ACTIVITY_INFO_AWAITING_DESCRIPTION": "Your request has been processed. Please review and confirm these details.",
