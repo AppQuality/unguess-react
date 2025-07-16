@@ -29,9 +29,7 @@ test.describe('A Plan page in approved state', () => {
       moduleBuilderPage.elements().confirmActivityCTA()
     ).not.toBeVisible();
     await expect(moduleBuilderPage.elements().goToDashboardCTA()).toBeEnabled();
-    await expect(
-      moduleBuilderPage.elements().extraActionsMenu()
-    ).not.toBeVisible();
+    await expect(moduleBuilderPage.elements().extraActionsMenu()).toBeVisible();
     await expect(
       page
         .getByRole('status')
