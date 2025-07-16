@@ -35,7 +35,7 @@ const QuoteBox = () => {
 
   const { quote } = useApprovedQuote();
   return (
-    <QuoteWrapper>
+    <QuoteWrapper data-qa="save-as-template-quote-box">
       <SM>{t('__PLAN_PAGE_SAVE_AS_TEMPLATE_QUOTE_TITLE')}</SM>
       <LG
         isBold
@@ -54,7 +54,7 @@ const FormStep = () => {
   const { hasApprovedQuote } = useApprovedQuote();
 
   return (
-    <Wrapper>
+    <Wrapper data-qa="save-as-template-form-step">
       <div>
         <Trans
           i18nKey="__PLAN_PAGE_SAVE_AS_TEMPLATE_MODAL_HEADER"

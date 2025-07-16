@@ -48,7 +48,7 @@ export const SaveTemplateCard = () => {
   const templateFromPlan = data?.items || [];
 
   return (
-    <ContainerCard>
+    <ContainerCard data-qa="save-template-card">
       <ContentRow>
         <ImageItem>
           <ApprovedImage />

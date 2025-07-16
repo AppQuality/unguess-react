@@ -16,7 +16,7 @@ const Wrapper = styled.div`
 const SuccessStep = () => {
   const { t } = useTranslation();
   return (
-    <Wrapper>
+    <Wrapper data-qa="save-as-template-success-step">
       <XL isBold>{t('SAVE_AS_TEMPLATE_SUCCESS_TITLE')}</XL>
       <SuccessImage />
       <MD isBold>{t('SAVE_AS_TEMPLATE_SUCCESS_TEXT_1')}</MD>
