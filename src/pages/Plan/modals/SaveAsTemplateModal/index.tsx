@@ -57,7 +57,7 @@ const FormProvider = ({
               description: values.templateDescription,
               from_plan: Number(planId),
             },
-          });
+          }).unwrap();
         } catch (error) {
           addToast(
             ({ close }) => (
