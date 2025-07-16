@@ -4,10 +4,12 @@ import { useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
 import { useGetPlansByPidQuery } from 'src/features/api';
-import { getPlanStatus } from 'src/pages/Dashboard/hooks/getPlanStatus';
 import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
+import { getPlanStatus } from 'src/pages/Dashboard/hooks/getPlanStatus';
 import styled from 'styled-components';
+import { usePlanContext } from '../../context/planContext';
 import { Controls } from '../../Controls';
+import { SaveAsTemplateModal } from '../../modals/SaveAsTemplateModal';
 import { BreadCrumbTabs } from './BreadCrumbTabs';
 import { TitleGroup } from './TitleGroup';
 
@@ -38,6 +40,7 @@ const PlanPageHeader = () => {
   const { t } = useTranslation();
   const { activeWorkspace } = useActiveWorkspace();
   const { planId } = useParams();
+  const { isSaveTemplateModalOpen } = usePlanContext();
   const { data: plan } = useGetPlansByPidQuery(
     {
       pid: Number(planId).toString(),
@@ -105,6 +108,10 @@ const PlanPageHeader = () => {
           </PageHeader.Main>
         </PageHeader>
       </StickyLayoutWrapper>
+
+      {isSaveTemplateModalOpen && planId && (
+        <SaveAsTemplateModal planId={planId} />
+      )}
       {getGlobalAlert()}
     </>
   );

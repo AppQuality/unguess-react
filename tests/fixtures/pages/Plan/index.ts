@@ -4,6 +4,7 @@ import { AgeModule } from './Module_age';
 import { BankModule } from './Module_bank';
 import { DigitalLiteracyModule } from './Module_digital_literacy';
 import { ElectricityModule } from './Module_electricity';
+import { GasModule } from './Module_gas';
 import { GenderModule } from './Module_gender';
 import { GoalModule } from './Module_goal';
 import { IncomeModule } from './Module_income';
@@ -12,7 +13,6 @@ import { LocalityModule } from './Module_locality';
 import { OutOfScopeModule } from './Module_out_of_scope';
 import { TargetModule } from './Module_target';
 import { TasksModule } from './Module_tasks';
-import { GasModule } from './Module_gas';
 
 interface TabModule {
   expectToBeReadonly(): Promise<void>;
@@ -74,9 +74,22 @@ export class PlanPage extends UnguessPage {
             ),
           }),
       deletePlanActionItem: () => this.page.getByTestId('delete-action-item'),
+      saveTemplateCard: () => this.page.getByTestId('save-template-card'),
+      saveTemplateModalQuoteBox: () =>
+        this.elements()
+          .savePlanModal()
+          .getByTestId('save-as-template-quote-box'),
+      saveTemplateCardCTA: () =>
+        this.elements().saveTemplateCard().getByRole('button'),
+      savePlanActionItem: () =>
+        this.page.getByTestId('save-template-action-item'),
       deletePlanModal: () =>
         this.page.getByRole('dialog', {
           name: this.i18n.t('__PLAN_PAGE_DELETE_PLAN_MODAL_TITLE'),
+        }),
+      savePlanModal: () =>
+        this.page.getByRole('dialog', {
+          name: this.i18n.t('__PLAN_PAGE_SAVE_AS_TEMPLATE_MODAL_TITLE'),
         }),
       deletePlanModalCancelCTA: () =>
         this.elements()
@@ -84,16 +97,54 @@ export class PlanPage extends UnguessPage {
           .getByText(
             this.i18n.t('__PLAN_PAGE_DELETE_PLAN_MODAL_BUTTON_CANCEL')
           ),
+      savePlanModalCancelCTA: () =>
+        this.elements()
+          .savePlanModal()
+          .getByText(
+            this.i18n.t('__PLAN_PAGE_SAVE_AS_TEMPLATE_MODAL_BUTTON_CANCEL')
+          ),
       deletePlanModalConfirmCTA: () =>
         this.elements()
           .deletePlanModal()
           .getByRole('button', {
             name: this.i18n.t('__PLAN_PAGE_DELETE_PLAN_MODAL_BUTTON_CONFIRM'),
           }),
+      savePlanModalConfirmCTA: () =>
+        this.elements()
+          .savePlanModal()
+          .getByRole('button', {
+            name: this.i18n.t(
+              '__PLAN_PAGE_SAVE_AS_TEMPLATE_MODAL_BUTTON_CONFIRM'
+            ),
+          }),
+      savePlanModalContinueSetupCTA: () =>
+        this.elements()
+          .savePlanModal()
+          .getByRole('button', {
+            name: this.i18n.t(
+              '__PLAN_PAGE_SAVE_AS_TEMPLATE_MODAL_BUTTON_CONTINUE_SETUP'
+            ),
+          }),
+      savePlanModalGoToTemplatesCTA: () =>
+        this.elements()
+          .savePlanModal()
+          .getByRole('button', {
+            name: this.i18n.t(
+              '__PLAN_PAGE_SAVE_AS_TEMPLATE_MODAL_BUTTON_VIEW_TEMPLATES'
+            ),
+          }),
       deletePlanModalTitle: () =>
         this.elements()
           .deletePlanModal()
           .getByText(this.i18n.t('__PLAN_PAGE_DELETE_PLAN_MODAL_TITLE')),
+      savePlanModalTitle: () =>
+        this.elements()
+          .savePlanModal()
+          .getByText(this.i18n.t('SAVE_AS_TEMPLATE_FORM_TITLE')),
+      saveAsTemplateFormStep: () =>
+        this.page.getByTestId('save-as-template-form-step'),
+      saveAsTemplateSuccessStep: () =>
+        this.page.getByTestId('save-as-template-success-step'),
       descriptionModule: () => this.page.getByTestId('description-module'),
       extraActionsMenu: () => this.page.getByTestId('extra-actions-menu'),
       pageHeader: () => this.page.getByTestId('plan-page-header'),
@@ -270,6 +321,18 @@ export class PlanPage extends UnguessPage {
   async mockPatchPlan() {
     await this.page.route('*/**/api/plans/1', async (route) => {
       if (route.request().method() === 'PATCH') {
+        await route.fulfill({
+          body: JSON.stringify({}),
+        });
+      } else {
+        await route.fallback();
+      }
+    });
+  }
+
+  async mockSaveTemplate() {
+    await this.page.route('*/**/api/workspaces/*/templates', async (route) => {
+      if (route.request().method() === 'POST') {
         await route.fulfill({
           body: JSON.stringify({}),
         });

@@ -1,6 +1,7 @@
 import { Button, FooterItem, MD, XL } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
+import { appTheme } from 'src/app/theme';
 import styled from 'styled-components';
 import { ReactComponent as SuccessImage } from './SaveAsTemplateSuccess.svg';
 import { useSaveTemplate } from './useSaveTemplate';
@@ -9,6 +10,7 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  text-align: center;
   padding: ${({ theme }) => theme.space.sm} 0;
   gap: ${({ theme }) => theme.space.md};
 `;
@@ -16,11 +18,15 @@ const Wrapper = styled.div`
 const SuccessStep = () => {
   const { t } = useTranslation();
   return (
-    <Wrapper>
+    <Wrapper data-qa="save-as-template-success-step">
       <XL isBold>{t('SAVE_AS_TEMPLATE_SUCCESS_TITLE')}</XL>
       <SuccessImage />
-      <MD isBold>{t('SAVE_AS_TEMPLATE_SUCCESS_TEXT_1')}</MD>
-      <MD>{t('SAVE_AS_TEMPLATE_SUCCESS_TEXT_2')}</MD>
+      <div>
+        <MD isBold style={{ marginBottom: appTheme.space.xs }}>
+          {t('SAVE_AS_TEMPLATE_SUCCESS_TEXT_1')}
+        </MD>
+        <MD>{t('SAVE_AS_TEMPLATE_SUCCESS_TEXT_2')}</MD>
+      </div>
     </Wrapper>
   );
 };

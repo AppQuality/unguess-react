@@ -29,6 +29,20 @@
         "variant": "default"
       },
       {
+        "output": [
+          {
+            "isOther": 0,
+            "name": "Enel Energia"
+          },
+          {
+            "isOther": 1,
+            "name": "Other Gas"
+          }
+        ],
+        "type": "gas_supply",
+        "variant": "default"
+      },
+      {
         "output": "en",
         "type": "language",
         "variant": "default"
@@ -155,20 +169,6 @@
           }
         ],
         "type": "elettricity_supply",
-        "variant": "default"
-      },
-      {
-        "output": [
-          {
-            "isOther": 0,
-            "name": "Enel Energia"
-          },
-          {
-            "isOther": 1,
-            "name": "Other Gas"
-          }
-        ],
-        "type": "gas_supply",
         "variant": "default"
       },
       {

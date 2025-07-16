@@ -25,7 +25,6 @@ import { getPlanStatus } from '../Dashboard/hooks/getPlanStatus';
 import { usePlanContext } from './context/planContext';
 import { usePlan } from './hooks/usePlan';
 import { DeletePlanModal } from './modals/DeletePlanModal';
-import { SaveAsTemplateModal } from './modals/SaveAsTemplateModal';
 import { SendRequestModal } from './modals/SendRequestModal';
 
 const StyledPipe = styled(Pipe)`
@@ -40,8 +39,7 @@ export const Controls = () => {
   const { addToast } = useToast();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const { isSaveTemplateModalOpen, setIsSaveTemplateModalOpen } =
-    usePlanContext();
+  const { setIsSaveTemplateModalOpen } = usePlanContext();
   const { planId } = useParams();
   const { plan } = usePlan(planId);
   const { handleSubmit: submitModuleConfiguration, isLoading: isSubmitting } =
@@ -207,16 +205,6 @@ export const Controls = () => {
           planId={planId}
           planTitle={titleValue?.output ?? ''}
           onQuit={handleQuitDeletePlanModal}
-        />
-      )}
-
-      {isSaveTemplateModalOpen && planId && (
-        <SaveAsTemplateModal
-          planId={planId}
-          planTitle={titleValue?.output ?? ''}
-          onQuit={() => {
-            setIsSaveTemplateModalOpen(false);
-          }}
         />
       )}
 
