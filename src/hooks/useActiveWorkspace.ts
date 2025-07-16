@@ -6,10 +6,11 @@ import {
   saveWorkspaceToLs,
 } from 'src/features/navigation/cachedStorage';
 
-export const useActiveWorkspace = () => {
-  const { data: workspaces, isLoading } = useGetWorkspacesQuery({
-    orderBy: 'company',
-  });
+export const useActiveWorkspace = ({ skip = false } = {}) => {
+  const { data: workspaces, isLoading } = useGetWorkspacesQuery(
+    { orderBy: 'company' },
+    { skip }
+  );
 
   const activeWorkspaceFromRedux = useAppSelector(
     (state) => state.navigation.activeWorkspace
