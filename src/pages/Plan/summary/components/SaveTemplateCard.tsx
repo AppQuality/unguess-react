@@ -80,12 +80,22 @@ export const SaveTemplateCard = () => {
                   )}
                 </MD>
                 <UnorderedList>
-                  {templateFromPlan.map((template) => (
+                  {templateFromPlan.slice(0, 3).map((template) => (
                     <UnorderedList.Item key={template.id}>
                       {template.name}
                     </UnorderedList.Item>
                   ))}
                 </UnorderedList>
+                {templateFromPlan.length > 3 && (
+                  <MD style={{ marginTop: appTheme.space.sm }}>
+                    {t(
+                      '__PLAN_PAGE_SUMMARY_TAB_SAVE_TEMPLATE_TEMPLATE_LIST_MORE',
+                      {
+                        count: templateFromPlan.length - 3,
+                      }
+                    )}
+                  </MD>
+                )}
               </>
             )}
           </div>
