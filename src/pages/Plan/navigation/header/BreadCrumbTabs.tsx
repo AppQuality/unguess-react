@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useAppSelector } from 'src/app/hooks';
 import { useModuleConfiguration } from 'src/features/modules/useModuleConfiguration';
 import styled from 'styled-components';
-import { usePlanTab } from '../../context/planContext';
+import { usePlanContext } from '../../context/planContext';
 import { getModulesByTab } from '../../modules/Factory';
 
 const StyledBreadcrumb = styled(Breadcrumb)`
@@ -14,7 +14,7 @@ const StyledBreadcrumb = styled(Breadcrumb)`
 
 export const BreadCrumbTabs = () => {
   const { t } = useTranslation();
-  const { activeTab, setActiveTab } = usePlanTab();
+  const { activeTab, setActiveTab } = usePlanContext();
   const { errors } = useAppSelector((state) => state.planModules);
   const { getPlanStatus } = useModuleConfiguration();
 

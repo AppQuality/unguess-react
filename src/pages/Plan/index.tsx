@@ -14,14 +14,14 @@ import { setWorkspace } from 'src/features/navigation/navigationSlice';
 import { Page } from 'src/features/templates/Page';
 import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
-import { PlanProvider, usePlanTab } from './context/planContext';
+import { PlanProvider, usePlanContext } from './context/planContext';
 import PlanPageHeader from './navigation/header/Header';
 import { PlanBody } from './PlanBody';
 import { formatModuleDate } from './utils/formatModuleDate';
 
 const PlanPage = ({ plan }: { plan: GetPlansByPidApiResponse | undefined }) => {
   const { t } = useTranslation();
-  const { activeTab, setActiveTab } = usePlanTab();
+  const { activeTab, setActiveTab } = usePlanContext();
 
   useEffect(() => {
     if (!plan) return;

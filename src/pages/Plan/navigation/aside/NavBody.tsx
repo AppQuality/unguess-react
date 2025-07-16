@@ -5,7 +5,7 @@ import { appTheme } from 'src/app/theme';
 import { useModuleConfiguration } from 'src/features/modules/useModuleConfiguration';
 import styled from 'styled-components';
 import { NavContainer } from '../../common/NavContainer';
-import { usePlanTab } from '../../context/planContext';
+import { usePlanContext } from '../../context/planContext';
 import { getModuleBySlug, getModulesByTab } from '../../modules/Factory';
 import { AddBlockButton } from './AddBlockButton';
 import { AddBlockModal } from './modal/AddBlockModal';
@@ -24,7 +24,7 @@ const ChildrenContainer = styled.div`
 `;
 
 const NavBody = () => {
-  const { activeTab } = usePlanTab();
+  const { activeTab } = usePlanContext();
   const availableModules = getModulesByTab(activeTab);
   const { getPlanStatus } = useModuleConfiguration();
   const { currentModules } = useAppSelector((state) => state.planModules);
