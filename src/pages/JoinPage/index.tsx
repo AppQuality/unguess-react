@@ -84,53 +84,44 @@ const LogoWrapper = styled.div`
 const JoinPage = () => {
   const { t } = useTranslation();
   const [searchParams] = useSearchParams();
-  const navigate = useNavigate();
-  const { profile, token } = useParams();
-
   const {
     isLoading: isUserLoading,
+    isSuccess: isLogged,
+    data: UserData,
     isFetching: isUserFetching,
-    data: userData,
-    isSuccess: isUserSuccess,
-    isError: isUserError,
   } = useGetUsersMeQuery();
+  const navigate = useNavigate();
+  const { profile, token } = useParams();
+  const shouldSkipQuery =
+    isLogged || isUserLoading || isUserFetching || !(profile && token);
 
-  const {
-    isLoading: isInvitesLoading,
-    data: invitesData,
-    error: invitesError,
-    isError: isInvitesError,
-  } = useGetInvitesByProfileAndTokenQuery(
-    { profile: profile || '', token: token || '' },
-    { skip: !profile || !token || !!userData }
+  console.log('🚀 ~ JoinPage ~ UserData:', UserData);
+
+  const { isLoading, data, error } = useGetInvitesByProfileAndTokenQuery(
+    {
+      profile: profile || '',
+      token: token || '',
+    },
+    {
+      skip: shouldSkipQuery,
+    }
   );
 
-  // 2. Redirect se l’utente è già loggato
   useEffect(() => {
-    if (userData && isUserSuccess) {
+    if (isLogged) {
       navigate(searchParams.get('redirectTo') || '/');
     }
-  }, [navigate, userData, isUserSuccess, searchParams]);
+  }, [navigate, isLogged, searchParams]);
 
-  if (isUserLoading || isUserFetching || isInvitesLoading) {
+  if (isLoading || (shouldSkipQuery && profile && token)) {
     return <JoinPageLoading />;
   }
 
-  if (!profile || !token || isUserError || isInvitesError) {
-    return <JoinPageError />;
-  }
-
-  if (invitesError) {
-    return <JoinPageError />;
-  }
-
-  if (!invitesData) {
-    return <JoinPageError />;
-  }
+  if (error) return <JoinPageError />;
 
   return (
     <Track title={t('__PAGE_TITLE_JOIN')}>
-      <FormProvider {...invitesData}>
+      <FormProvider {...data}>
         {({ isSubmitting, values: { step } }) => (
           <Background step={step.toString()}>
             <CenteredXYContainer>

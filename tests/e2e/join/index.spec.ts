@@ -11,6 +11,7 @@ test.describe('The Join page first step - case new user', () => {
 
   test.beforeEach(async ({ page }) => {
     join = new Join(page);
+    await join.notLoggedIn();
     step1 = new Step1(page);
     step2 = new Step2(page);
     await join.open();
@@ -104,6 +105,7 @@ test.describe('The Join page second step', () => {
 
   test.beforeEach(async ({ page }) => {
     join = new Join(page);
+    await join.notLoggedIn();
     step1 = new Step1(page);
     step2 = new Step2(page);
     step3 = new Step3(page);
@@ -152,6 +154,7 @@ test.describe('The Join page third step', () => {
 
   test.beforeEach(async ({ page }) => {
     join = new Join(page);
+    await join.notLoggedIn();
     step1 = new Step1(page);
     step2 = new Step2(page);
     step3 = new Step3(page);

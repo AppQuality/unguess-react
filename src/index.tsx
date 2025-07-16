@@ -1,14 +1,12 @@
-import { getWorkspaces } from 'src/features/workspaces/actions';
 import { createRoot } from 'react-dom/client';
+import { getWorkspaces } from 'src/features/workspaces/actions';
 import App from './app/App';
 import { store } from './app/store';
-import { fetchUser } from './features/user/actions/fetchUser';
 import reportWebVitals from './reportWebVitals';
 
 const container = document.getElementById('root');
 const root = createRoot(container!); // createRoot(container!) if you use TypeScript
 
-store.dispatch(fetchUser());
 store.dispatch(getWorkspaces());
 
 root.render(<App />);
