@@ -1,6 +1,5 @@
 import { type Page } from '@playwright/test';
 import { UnguessPage } from '../UnguessPage';
-import { profile } from 'console';
 
 export class Profile extends UnguessPage {
   readonly page: Page;
@@ -81,7 +80,7 @@ export class Profile extends UnguessPage {
     await this.page.route('*/**/api/users/me', async (route) => {
       if (route.request().method() === 'PATCH') {
         await route.fulfill({
-          status: status,
+          status,
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(body),
         });

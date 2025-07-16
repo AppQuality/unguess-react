@@ -16,6 +16,7 @@ test.describe('The profile page', () => {
     page,
     i18n,
   }) => {
+    // profile card
     await expect(profile.elements().profileCardName()).toHaveValue('Luca');
     await expect(profile.elements().profileCardSurname()).toHaveValue(
       'Cannarozzo'
@@ -23,13 +24,23 @@ test.describe('The profile page', () => {
     await expect(profile.elements().profileCardEmail()).toHaveValue(
       'luca.cannarozzo@unguess.io'
     );
+    await expect(profile.elements().profileCardEmail()).toBeDisabled();
     await expect(profile.elements().profileCardRole()).toHaveText('Designer');
+    await expect(profile.elements().profileCardSubmitButton()).toBeVisible();
+    await expect(profile.elements().profileCardSubmitButton()).toBeDisabled();
+
+    // password settings card
     await expect(profile.elements().passwordSettingsCard()).toBeVisible();
     await profile.openPasswordSettings();
     await expect(profile.elements().passwordSettingCurrent()).toBeVisible();
     await expect(profile.elements().passwordSettingNew()).toBeVisible();
     await expect(profile.elements().passwordRequirements()).toBeVisible();
     await expect(profile.elements().passwordSettingConfirm()).toBeVisible();
-    await expect(profile.elements().passwordSettingConfirm()).toBeVisible();
+    await expect(
+      profile.elements().passwordSettingsSubmitButton()
+    ).toBeVisible();
+    await expect(
+      profile.elements().passwordSettingsSubmitButton()
+    ).toBeDisabled();
   });
 });
