@@ -1045,7 +1045,7 @@
   "__PLAN_PAGE_SAVE_AS_TEMPLATE_MODAL_BUTTON_CONTINUE_SETUP": "Continue setup",
   "__PLAN_PAGE_SAVE_AS_TEMPLATE_MODAL_BUTTON_VIEW_TEMPLATES": "View templates",
   "__PLAN_PAGE_SAVE_AS_TEMPLATE_MODAL_DESCRIPTION_MAX": "This description is a bit long. We advise you to stay within 512 characters including spaces.",
-  "__PLAN_PAGE_SAVE_AS_TEMPLATE_MODAL_HEADER": "<xxl>Did you find the perfect match?</xxl><md>This template will help you launch similar activities more quickly.</md>",
+  "__PLAN_PAGE_SAVE_AS_TEMPLATE_MODAL_HEADER": "<title>Did you find the perfect match?</title><md>This template will help you launch similar activities more quickly.</md>",
   "__PLAN_PAGE_SAVE_AS_TEMPLATE_MODAL_NAME_MAX": "This name is a bit long. We advise you to stay within 64 characters including spaces.",
   "__PLAN_PAGE_SAVE_AS_TEMPLATE_MODAL_NAME_REQUIRED": "Choose a name before saving the template",
   "__PLAN_PAGE_SAVE_AS_TEMPLATE_MODAL_TITLE": "Save as template",

@@ -10,7 +10,7 @@ import {
   SM,
   Span,
   Textarea,
-  XXL,
+  XL,
 } from '@appquality/unguess-design-system';
 import { Field, FieldProps, useFormikContext } from 'formik';
 import { Trans, useTranslation } from 'react-i18next';
@@ -27,6 +27,7 @@ const Wrapper = styled.div`
 const QuoteWrapper = styled.div`
   background-color: ${({ theme }) => theme.palette.grey[100]};
   padding: ${({ theme }) => theme.space.md};
+  border-radius: ${({ theme }) => theme.borderRadii.lg};
 `;
 
 const QuoteBox = () => {
@@ -35,8 +36,14 @@ const QuoteBox = () => {
   const { quote } = useApprovedQuote();
   return (
     <QuoteWrapper>
-      <MD>{t('__PLAN_PAGE_SAVE_AS_TEMPLATE_QUOTE_TITLE')}</MD>
-      <LG style={{ marginBottom: appTheme.space.sm }}>{quote?.value}*</LG>
+      <SM>{t('__PLAN_PAGE_SAVE_AS_TEMPLATE_QUOTE_TITLE')}</SM>
+      <LG
+        isBold
+        color={appTheme.palette.blue[600]}
+        style={{ marginBottom: appTheme.space.sm }}
+      >
+        {quote?.value}*
+      </LG>
       <SM>* {t('__PLAN_PAGE_SAVE_AS_TEMPLATE_QUOTE_DISCLAIMER')}</SM>
     </QuoteWrapper>
   );
@@ -52,7 +59,7 @@ const FormStep = () => {
         <Trans
           i18nKey="__PLAN_PAGE_SAVE_AS_TEMPLATE_MODAL_HEADER"
           components={{
-            xxl: <XXL isBold style={{ marginBottom: appTheme.space.sm }} />,
+            title: <XL isBold style={{ marginBottom: appTheme.space.sm }} />,
             md: <MD />,
           }}
           defaults=""
@@ -69,6 +76,7 @@ const FormStep = () => {
               </Label>
               <Input
                 {...field}
+                validation={hasError ? 'error' : undefined}
                 placeholder={t('SAVE_AS_TEMPLATE_FORM_TITLE_PLACEHOLDER')}
               />
               {hasError && <Message validation="error">{meta.error}</Message>}
@@ -97,6 +105,7 @@ const FormStep = () => {
               </Label>
               <Textarea
                 {...field}
+                validation={hasError ? 'error' : undefined}
                 placeholder={t('SAVE_AS_TEMPLATE_FORM_DESCRIPTION_PLACEHOLDER')}
               />
               {hasError && <Message validation="error">{meta.error}</Message>}

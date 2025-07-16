@@ -5,5 +5,5 @@ import styled from 'styled-components';
 export const Title = styled((props: ComponentProps<typeof XL>) => (
   <XL isBold {...props} />
 ))`
-  color: ${({ theme }) => theme.palette.blue[600]};
+  color: ${({ theme }) => theme.palette.grey[800]};
 `;
