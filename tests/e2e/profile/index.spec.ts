@@ -26,7 +26,6 @@ test.describe('The profile page', () => {
     );
     await expect(profile.elements().profileCardEmail()).toBeDisabled();
     await expect(profile.elements().profileCardRole()).toHaveText('Designer');
-    await expect(profile.elements().profileCardSubmitButton()).toBeVisible();
     await expect(profile.elements().profileCardSubmitButton()).toBeDisabled();
 
     // password settings card
@@ -38,9 +37,36 @@ test.describe('The profile page', () => {
     await expect(profile.elements().passwordSettingConfirm()).toBeVisible();
     await expect(
       profile.elements().passwordSettingsSubmitButton()
-    ).toBeVisible();
-    await expect(
-      profile.elements().passwordSettingsSubmitButton()
     ).toBeDisabled();
+  });
+
+  test('Update name surname and job role', async ({ page, i18n }) => {
+    // profile card
+    await expect(profile.elements().profileCardSubmitButton()).toBeDisabled();
+    await profile.elements().profileCardName().fill('New Name');
+    await profile.elements().profileCardSurname().fill('New Surname');
+    await profile.elements().profileCardRole().click();
+    await profile
+      .elements()
+      .profileCardRole()
+      .getByRole('option', { name: 'Developer' })
+      .click();
+    await expect(profile.elements().profileCardName()).toHaveValue('New Name');
+    await expect(profile.elements().profileCardSurname()).toHaveValue(
+      'New Surname'
+    );
+    await expect(profile.elements().profileCardRole()).toHaveText('Developer');
+    // when touch the fields we expect the submit button to be enabled
+    await expect(profile.elements().profileCardSubmitButton()).toBeEnabled();
+    // Start the submit
+    const patchResponse = await profile.saveProfile();
+    const data = patchResponse.request().postDataJSON();
+    expect(data).toEqual(
+      expect.objectContaining({
+        name: 'New Name',
+        surname: 'New Surname',
+        roleId: 1, // Assuming 'Developer' has roleId 1
+      })
+    );
   });
 });

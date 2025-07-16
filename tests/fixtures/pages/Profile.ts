@@ -76,6 +76,17 @@ export class Profile extends UnguessPage {
     await this.elements().passwordAccordionHeader().click();
   }
 
+  async saveProfile() {
+    const patchPromise = this.page.waitForResponse(
+      (response) =>
+        /\/api\/users\/me/.test(response.url()) &&
+        response.status() === 200 &&
+        response.request().method() === 'PATCH'
+    );
+    await this.elements().profileCardSubmitButton().click();
+    return patchPromise;
+  }
+
   async mockPatchUserMe(status = 200, body = {}) {
     await this.page.route('*/**/api/users/me', async (route) => {
       if (route.request().method() === 'PATCH') {
