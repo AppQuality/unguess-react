@@ -57,7 +57,7 @@ export const TableList = () => {
       isReadOnly
       groups={groupesCampaigns}
       columns={columns}
-      style={{ backgroundColor: 'white' }}
+      style={{ backgroundColor: 'white', overflowWrap: 'break-word' }}
     />
   );
 };
