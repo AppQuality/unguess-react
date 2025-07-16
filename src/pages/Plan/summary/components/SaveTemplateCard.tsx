@@ -20,13 +20,6 @@ const ImageItem = styled.div`
   align-items: flex-start;
 `;
 
-const ContentItem = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  flex: 1 0 0;
-`;
-
 const ContentRow = styled.div`
   display: flex;
   gap: ${({ theme }) => theme.space.md};
@@ -53,7 +46,7 @@ export const SaveTemplateCard = () => {
         <ImageItem>
           <ApprovedImage />
         </ImageItem>
-        <ContentItem>
+        <div>
           <div style={{ marginBottom: appTheme.space.lg }}>
             <Title
               style={{
@@ -103,7 +96,7 @@ export const SaveTemplateCard = () => {
           <Button onClick={() => setIsSaveTemplateModalOpen(true)}>
             {t('__PLAN_PAGE_SUMMARY_TAB_CONFIRMATION_CARD_SAVE_TEMPLATE_CTA')}
           </Button>
-        </ContentItem>
+        </div>
       </ContentRow>
     </ContainerCard>
   );
