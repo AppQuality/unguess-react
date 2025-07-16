@@ -14,8 +14,12 @@ interface GTMEventData {
 export const useSendGTMevent = ({
   loggedUser = true,
 }: { loggedUser?: boolean } = {}) => {
-  const { data: userData } = useGetUsersMeQuery();
-  const { activeWorkspace } = useActiveWorkspace();
+  const { data: userData } = useGetUsersMeQuery(undefined, {
+    skip: !loggedUser,
+  });
+  const { activeWorkspace } = useActiveWorkspace({
+    skip: !loggedUser,
+  });
   const { track } = useAnalytics();
 
   const user = userData || {
