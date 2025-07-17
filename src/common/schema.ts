@@ -1523,8 +1523,6 @@ export interface components {
       role: string;
       tryber_wp_user_id: number;
       unguess_wp_user_id: number;
-      first_name: string;
-      last_name: string;
     };
     /** UserPreference */
     UserPreference: {
@@ -3581,8 +3579,8 @@ export interface operations {
         content: {
           "application/json": {
             name?: string;
-            surname?: string;
             role?: string;
+            surname?: string;
           };
         };
       };
@@ -3593,12 +3591,12 @@ export interface operations {
       content: {
         "application/json": {
           name?: string;
-          surname?: string;
           password?: {
             current: string;
             new: string;
           };
           roleId?: number;
+          surname?: string;
         };
       };
     };

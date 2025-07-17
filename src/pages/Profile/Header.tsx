@@ -1,4 +1,4 @@
-import { MD, PageHeader, theme } from '@appquality/unguess-design-system';
+import { PageHeader } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
 import { PageTitle } from 'src/common/components/PageTitle';

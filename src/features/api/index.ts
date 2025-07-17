@@ -1625,18 +1625,18 @@ export type GetUsersMeApiResponse = /** status 200  */ User;
 export type GetUsersMeApiArg = void;
 export type PatchUsersMeApiResponse = /** status 200 OK */ {
   name?: string;
-  surname?: string;
   role?: string;
+  surname?: string;
 };
 export type PatchUsersMeApiArg = {
   body: {
     name?: string;
-    surname?: string;
     password?: {
       current: string;
       new: string;
     };
     roleId?: number;
+    surname?: string;
   };
 };
 export type GetUsersMePreferencesApiResponse = /** status 200 OK */ {
@@ -2736,8 +2736,6 @@ export type User = {
   role: string;
   tryber_wp_user_id: number;
   unguess_wp_user_id: number;
-  first_name: string;
-  last_name: string;
 };
 export type UserPreference = {
   name: string;
