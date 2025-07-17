@@ -52,9 +52,10 @@ export class Step1 {
   }
 
   async fillValidPassword() {
-    const passwordInput = this.elements().passwordInput();
-    await passwordInput.fill('ValidPassword123');
-    await passwordInput.blur();
+    await this.elements().passwordInput().waitFor({ state: 'visible' });
+    await this.elements().passwordInput().waitFor({ state: 'attached' });
+    await this.elements().passwordInput().fill('ValidPassword123');
+    await this.elements().passwordInput().blur();
   }
 
   async fillEmail(email: string) {
