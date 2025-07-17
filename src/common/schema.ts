@@ -1513,10 +1513,8 @@ export interface components {
       /** Format: email */
       email: string;
       features?: components["schemas"]["Feature"][];
-      first_name: string;
       /** @description This is the main id of the user. Currently is equal to tryber_wp_user_id */
       id: number;
-      last_name: string;
       name: string;
       picture?: string;
       profile_id: number;
