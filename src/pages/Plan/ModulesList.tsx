@@ -1,14 +1,13 @@
 import { AnimatePresence, motion } from 'motion/react';
+import { useEffect, useRef } from 'react';
 import { useAppSelector } from 'src/app/hooks';
 import styled from 'styled-components';
-import { useEffect, useRef, useState } from 'react';
 import { ModulesBottomNavigation } from './common/ModulesBottomNavigation';
 import { TabTitle } from './common/TabTitle';
 import { usePlanContext } from './context/planContext';
 import { getModuleBySlug, getModulesByTab } from './modules/Factory';
-import { i } from 'motion/dist/react-client';
 
-const ModuleItem = styled.div<{
+const ModuleItem = styled(motion.div)<{
   $isTasksOrTarget: boolean;
   $isVisible: boolean;
 }>`
@@ -50,22 +49,26 @@ export const ModulesList = () => {
         transition={{ duration: 0.15 }}
       >
         <TabTitle />
-        {currentModules.map((type) => {
-          const isVisible = availableModules.includes(type);
-          const isTasksOrTarget = type === 'tasks' || type === 'target';
-          const Component = getModuleBySlug(type)?.Component;
-          if (!Component) return null;
-          return (
-            <ModuleItem
-              key={`module-${type}`}
-              id={`module-${type}`}
-              $isTasksOrTarget={isTasksOrTarget}
-              $isVisible={isVisible}
-            >
-              <Component id={type} />
-            </ModuleItem>
-          );
-        })}
+        <AnimatePresence>
+          {currentModules.map((type) => {
+            const isVisible = availableModules.includes(type);
+            const isTasksOrTarget = type === 'tasks' || type === 'target';
+            const Component = getModuleBySlug(type)?.Component;
+            if (!Component) return null;
+            return (
+              <ModuleItem
+                key={`module-${type}`}
+                id={`module-${type}`}
+                $isTasksOrTarget={isTasksOrTarget}
+                $isVisible={isVisible}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+              >
+                <Component id={type} />
+              </ModuleItem>
+            );
+          })}
+        </AnimatePresence>
         {activeTab.name !== 'summary' && <ModulesBottomNavigation />}
         <div
           className="scroll-spacer"

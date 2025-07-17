@@ -25,7 +25,7 @@ const AddBlockModal = () => {
   const { t } = useTranslation();
   const { modalRef, setModalRef } = usePlanNavContext();
   const { activeTab } = usePlanContext();
-  const availableModules = getModulesByTab(activeTab);
+  const availableModules = getModulesByTab(activeTab.name);
   const { currentModules } = useAppSelector((state) => state.planModules);
 
   const items = availableModules.map((module_type) => {

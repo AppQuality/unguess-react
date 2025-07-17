@@ -1,7 +1,7 @@
+import { AnimatePresence, motion } from 'motion/react';
 import { useTranslation } from 'react-i18next';
 import { usePlanContext } from '../context/planContext';
 import { SectionTitle } from './SectionTitle';
-import { AnimatePresence, motion } from 'motion/react';
 
 export const TabTitle = () => {
   const { t } = useTranslation();

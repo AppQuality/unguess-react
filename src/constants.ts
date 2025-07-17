@@ -62,10 +62,3 @@ export const DEFAULT_NOT_A_BUG_CUSTOM_STATUS = {
     name: 'working',
   },
 };
-
-export const MODULE_TABS_ORDER: PlanTab[] = [
-  'setup',
-  'target',
-  'instructions',
-  'summary',
-]; // ordered from left to right, based on current design
