@@ -27,6 +27,14 @@ import styled from 'styled-components';
 import PercentageInput from './GenderPercentageInput';
 import { useIconWithValidation } from './useIcon';
 
+const PercentageInputRow = styled(Row)`
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding-right: ${appTheme.space.sm};
+  margin-bottom: ${appTheme.space.sm};
+`;
+
 const Gender = () => {
   type GenderTypes =
     components['schemas']['OutputModuleGender'][number]['gender'];
@@ -56,14 +64,6 @@ const Gender = () => {
   );
 
   const checkIsPercentageVariant = () => value?.variant === 'percentage';
-
-  const PercentageInputRow = styled(Row)`
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    padding-right: ${appTheme.space.sm};
-    margin-bottom: ${appTheme.space.sm};
-  `;
 
   const { t } = useTranslation();
 

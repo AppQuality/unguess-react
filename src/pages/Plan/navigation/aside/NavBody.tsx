@@ -26,7 +26,7 @@ const ChildrenContainer = styled.div`
 
 const NavBody = () => {
   const { activeTab } = usePlanContext();
-  const availableModules = getModulesByTab(activeTab);
+  const availableModules = getModulesByTab(activeTab.name);
   const { getPlanStatus } = useModuleConfiguration();
   const { currentModules } = useAppSelector((state) => state.planModules);
   const { t } = useTranslation();
@@ -39,7 +39,7 @@ const NavBody = () => {
       >
         {t('__PLAN_ASIDE_NAVIGATION_MODULES_TITLE')}
       </MD>
-      <BodyContainer data-qa={`plans-nav-${activeTab}`}>
+      <BodyContainer data-qa={`plans-nav-${activeTab.name}`}>
         {currentModules
           .filter((module) => availableModules.includes(module))
           .map((module) => {

@@ -1,39 +1,24 @@
 import { useTranslation } from 'react-i18next';
-import { PlanTab } from '../context/planContext';
+import { usePlanContext } from '../context/planContext';
 import { SectionTitle } from './SectionTitle';
+import { AnimatePresence, motion } from 'motion/react';
 
-export const TabTitle = ({ tabId }: { tabId: PlanTab }) => {
+export const TabTitle = () => {
   const { t } = useTranslation();
+  const { activeTab } = usePlanContext();
 
-  if (tabId === 'setup') {
-    return (
-      <SectionTitle isBold>{t('__PLAN_PAGE_TAB_SETUP_TAB_TITLE')}</SectionTitle>
-    );
-  }
-
-  if (tabId === 'target') {
-    return (
-      <SectionTitle isBold>
-        {t('__PLAN_PAGE_TAB_TARGET_TAB_TITLE')}
-      </SectionTitle>
-    );
-  }
-
-  if (tabId === 'instructions') {
-    return (
-      <SectionTitle isBold>
-        {t('__PLAN_PAGE_TAB_INSTRUCTIONS_TAB_TITLE')}
-      </SectionTitle>
-    );
-  }
-
-  if (tabId === 'summary') {
-    return (
-      <SectionTitle isBold>
-        {t('__PLAN_PAGE_TAB_SUMMARY_TAB_TITLE')}
-      </SectionTitle>
-    );
-  }
-
-  return null;
+  if (!activeTab.title) return null;
+  return (
+    <AnimatePresence mode="wait">
+      <motion.span
+        key={activeTab.name}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.1 }}
+      >
+        <SectionTitle isBold>{t(activeTab.title)}</SectionTitle>
+      </motion.span>
+    </AnimatePresence>
+  );
 };

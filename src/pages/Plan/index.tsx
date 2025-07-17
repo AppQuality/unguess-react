@@ -14,7 +14,7 @@ import { setWorkspace } from 'src/features/navigation/navigationSlice';
 import { Page } from 'src/features/templates/Page';
 import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
-import { PlanProvider, usePlanContext } from './context/planContext';
+import { PlanProvider, usePlanContext, PLAN_TABS } from './context/planContext';
 import PlanPageHeader from './navigation/header/Header';
 import { PlanBody } from './PlanBody';
 import { formatModuleDate } from './utils/formatModuleDate';
@@ -26,10 +26,10 @@ const PlanPage = ({ plan }: { plan: GetPlansByPidApiResponse | undefined }) => {
   useEffect(() => {
     if (!plan) return;
 
-    if (activeTab !== 'summary' && plan.status !== 'draft') {
-      setActiveTab('summary');
+    if (activeTab.name !== 'summary' && plan.status !== 'draft') {
+      setActiveTab(PLAN_TABS.find((tab) => tab.name === 'summary')!);
     }
-  }, [plan]);
+  }, [plan?.status, activeTab, setActiveTab]);
 
   return (
     <Page
