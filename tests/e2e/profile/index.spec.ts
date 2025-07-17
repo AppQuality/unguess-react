@@ -7,6 +7,9 @@ test.describe('The profile page', () => {
   test.beforeEach(async ({ page }) => {
     profile = new Profile(page);
     await profile.loggedIn();
+
+    await profile.mockWorkspacesList();
+
     await profile.mockPatchUserMe();
     await profile.mockGetRoles();
     await profile.open();
