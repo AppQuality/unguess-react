@@ -30,10 +30,22 @@ export class UnguessPage {
     }
     userResponse.features = [...userResponse.features, ...addFeatures];
     await this.page.route('*/**/api/users/me', async (route) => {
+      if (route.request().method() === 'GET') {
+        await route.fulfill({
+          status: 200,
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(userResponse),
+        });
+      } else {
+        await route.fallback();
+      }
+    });
+  }
+
+  async mockGetRoles() {
+    await this.page.route('*/**/api/users/roles', async (route) => {
       await route.fulfill({
-        status: 200,
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(userResponse),
+        path: 'tests/api/users/roles/_get/200_Example_1.json',
       });
     });
   }

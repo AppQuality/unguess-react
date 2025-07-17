@@ -16,10 +16,10 @@ import { Field, FieldProps, useFormikContext } from 'formik';
 import { useEffect, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
+import { PasswordRequirements } from 'src/common/components/PasswordRequirements';
 import { useSendGTMevent } from 'src/hooks/useGTMevent';
 import { JoinFormValues } from '../valuesType';
 import { ButtonContainer } from './ButtonContainer';
-import { PasswordRequirements } from './PasswordRequirements';
 
 export const Step1 = () => {
   const { setFieldValue, validateForm, setTouched, status, values } =
@@ -138,13 +138,13 @@ export const Step1 = () => {
                 title="Password"
                 end={
                   inputType === 'password' ? (
-                    <Eye
+                    <EyeHide
                       style={{ cursor: 'pointer' }}
                       onClick={handleChangeInputType}
                       title={t('SIGNUP_FORM_PASSWORD_SHOW')}
                     />
                   ) : (
-                    <EyeHide
+                    <Eye
                       style={{ cursor: 'pointer' }}
                       onClick={handleChangeInputType}
                       title={t('SIGNUP_FORM_PASSWORD_HIDE')}
@@ -164,7 +164,7 @@ export const Step1 = () => {
           );
         }}
       </Field>
-      <PasswordRequirements />
+      <PasswordRequirements password={values.password} />
       <ButtonContainer style={{ marginBottom: appTheme.space.sm }}>
         <Button onClick={goToNextStep} isAccent isPrimary isStretched>
           {t('SIGNUP_FORM_GO_TO_STEP_2')}

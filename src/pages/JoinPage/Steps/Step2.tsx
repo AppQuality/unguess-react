@@ -122,6 +122,7 @@ export const Step2 = () => {
           return (
             <div ref={selectRef}>
               <Select
+                placeholder={t('SIGNUP_FORM_ROLE_PLACEHOLDER')}
                 data-qa="roleId-select"
                 {...field}
                 renderValue={(value) =>

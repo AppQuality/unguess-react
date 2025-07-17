@@ -415,6 +415,8 @@ export interface paths {
   };
   "/users/me": {
     get: operations["get-users-me"];
+    /** Update one or multiple user data */
+    patch: operations["patch-users-me"];
   };
   "/users/me/preferences": {
     get: operations["get-users-me-preferences"];
@@ -3567,6 +3569,36 @@ export interface operations {
       };
       403: components["responses"]["Error"];
       500: components["responses"]["Error"];
+    };
+  };
+  /** Update one or multiple user data */
+  "patch-users-me": {
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          "application/json": {
+            name?: string;
+            role?: string;
+            surname?: string;
+          };
+        };
+      };
+      401: components["responses"]["Error"];
+      403: components["responses"]["Error"];
+    };
+    requestBody: {
+      content: {
+        "application/json": {
+          name?: string;
+          password?: {
+            current: string;
+            new: string;
+          };
+          roleId?: number;
+          surname?: string;
+        };
+      };
     };
   };
   "get-users-me-preferences": {

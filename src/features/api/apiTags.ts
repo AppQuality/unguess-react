@@ -92,8 +92,14 @@ unguessApi.enhanceEndpoints({
     deleteCampaignsByCidBugsAndBidCommentsCmid: {
       invalidatesTags: ['BugComments'],
     },
+    getUsersMe: {
+      providesTags: ['Users'],
+    },
     getUsersMePreferences: {
       providesTags: ['Preferences'],
+    },
+    patchUsersMe: {
+      invalidatesTags: ['Users'],
     },
     putUsersMePreferencesBySlug: {
       invalidatesTags: ['Preferences'],
