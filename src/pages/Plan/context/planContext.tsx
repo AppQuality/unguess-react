@@ -7,6 +7,8 @@ interface PlanContextProps {
   setActiveTab: (tab: PlanTab) => void;
   setIsSaveTemplateModalOpen: (isOpen: boolean) => void;
   isSaveTemplateModalOpen: boolean;
+  setIsDeleteModalOpen: (isOpen: boolean) => void;
+  isDeleteModalOpen: boolean;
 }
 
 const PlanContext = createContext<PlanContextProps | null>(null);
@@ -14,6 +16,7 @@ const PlanContext = createContext<PlanContextProps | null>(null);
 export const PlanProvider = ({ children }: { children: ReactNode }) => {
   const [activeTab, setActiveTab] = useState<PlanTab>('setup');
   const [isSaveTemplateModalOpen, setIsSaveTemplateModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   const planContextValue = useMemo(
     () => ({
@@ -21,12 +24,16 @@ export const PlanProvider = ({ children }: { children: ReactNode }) => {
       setActiveTab,
       setIsSaveTemplateModalOpen,
       isSaveTemplateModalOpen,
+      setIsDeleteModalOpen,
+      isDeleteModalOpen,
     }),
     [
       activeTab,
       setActiveTab,
       setIsSaveTemplateModalOpen,
       isSaveTemplateModalOpen,
+      setIsDeleteModalOpen,
+      isDeleteModalOpen,
     ]
   );
 
