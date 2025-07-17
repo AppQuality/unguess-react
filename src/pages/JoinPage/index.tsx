@@ -92,10 +92,7 @@ const JoinPage = () => {
   } = useGetUsersMeQuery();
   const navigate = useNavigate();
   const { profile, token } = useParams();
-  const shouldSkipQuery =
-    isLogged || isUserLoading || isUserFetching || !(profile && token);
-
-  console.log('🚀 ~ JoinPage ~ UserData:', UserData);
+  const shouldSkipQuery = isLogged || !(profile && token);
 
   const { isLoading, data, error } = useGetInvitesByProfileAndTokenQuery(
     {
