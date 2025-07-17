@@ -54,65 +54,61 @@ export const FormPassword = () => {
       enableReinitialize
       validateOnChange
       onSubmit={async (values, actions) => {
-        if (values) {
-          actions.setSubmitting(true);
-
-          await updateProfile({
-            body: {
-              password: {
-                current: values.currentPassword,
-                new: values.newPassword,
-              },
+        actions.setSubmitting(true);
+        updateProfile({
+          body: {
+            password: {
+              current: values.currentPassword,
+              new: values.newPassword,
             },
+          },
+        })
+          .unwrap()
+          .then(() => {
+            addToast(
+              ({ close }) => (
+                <Notification
+                  onClose={close}
+                  type="success"
+                  message={t('__PROFILE_PAGE_TOAST_SUCCESS_PASSWORD_UPDATED')}
+                  isPrimary
+                />
+              ),
+              { placement: 'top' }
+            );
           })
-            .unwrap()
-            .then(() => {
+          .catch((error) => {
+            if (error.status === 417) {
               addToast(
                 ({ close }) => (
                   <Notification
                     onClose={close}
-                    type="success"
-                    message={t('__PROFILE_PAGE_TOAST_SUCCESS_PASSWORD_UPDATED')}
+                    type="error"
+                    message={t(
+                      '__PROFILE_PAGE_TOAST_ERROR_INVALID_CURRENT_PASSWORD'
+                    )}
                     isPrimary
                   />
                 ),
                 { placement: 'top' }
               );
-            })
-            .catch((error) => {
-              if (error.status === 417) {
-                addToast(
-                  ({ close }) => (
-                    <Notification
-                      onClose={close}
-                      type="error"
-                      message={t(
-                        '__PROFILE_PAGE_TOAST_ERROR_INVALID_CURRENT_PASSWORD'
-                      )}
-                      isPrimary
-                    />
-                  ),
-                  { placement: 'top' }
-                );
-              } else {
-                addToast(
-                  ({ close }) => (
-                    <Notification
-                      onClose={close}
-                      type="error"
-                      message={t(
-                        '__PROFILE_PAGE_TOAST_ERROR_UPDATING_PASSWORD'
-                      )}
-                      isPrimary
-                    />
-                  ),
-                  { placement: 'top' }
-                );
-              }
-            });
-
-          actions.setSubmitting(false);
-        }
+            } else {
+              addToast(
+                ({ close }) => (
+                  <Notification
+                    onClose={close}
+                    type="error"
+                    message={t('__PROFILE_PAGE_TOAST_ERROR_UPDATING_PASSWORD')}
+                    isPrimary
+                  />
+                ),
+                { placement: 'top' }
+              );
+            }
+          })
+          .finally(() => {
+            actions.setSubmitting(false);
+          });
       }}
     >
       <PasswordAccordion />

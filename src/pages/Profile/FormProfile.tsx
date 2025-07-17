@@ -15,7 +15,6 @@ export const FormProfile = () => {
   const [updateProfile] = usePatchUsersMeMutation();
 
   const initialValues: ProfileFormValues = {
-    role: data?.role || '',
     roleId: data?.roleId || 0,
     name: data?.name || '',
     surname: data?.surname || '',
@@ -39,46 +38,45 @@ export const FormProfile = () => {
       enableReinitialize
       validateOnChange
       onSubmit={async (values, actions) => {
-        if (values) {
-          actions.setSubmitting(true);
+        actions.setSubmitting(true);
 
-          await updateProfile({
-            body: {
-              name: values.name,
-              surname: values.surname,
-              roleId: values.roleId,
-            },
+        updateProfile({
+          body: {
+            name: values.name,
+            surname: values.surname,
+            roleId: values.roleId,
+          },
+        })
+          .unwrap()
+          .then(() => {
+            addToast(
+              ({ close }) => (
+                <Notification
+                  onClose={close}
+                  type="success"
+                  message={t('__PROFILE_PAGE_UPDATE_SUCCESS')}
+                  isPrimary
+                />
+              ),
+              { placement: 'top' }
+            );
           })
-            .unwrap()
-            .then(() => {
-              addToast(
-                ({ close }) => (
-                  <Notification
-                    onClose={close}
-                    type="success"
-                    message={t('__PROFILE_PAGE_UPDATE_SUCCESS')}
-                    isPrimary
-                  />
-                ),
-                { placement: 'top' }
-              );
-            })
-            .catch(() => {
-              addToast(
-                ({ close }) => (
-                  <Notification
-                    onClose={close}
-                    type="error"
-                    message={t('__PROFILE_PAGE_TOAST_ERROR_UPDATING_PROFILE')}
-                    isPrimary
-                  />
-                ),
-                { placement: 'top' }
-              );
-            });
-
-          actions.setSubmitting(false);
-        }
+          .catch(() => {
+            addToast(
+              ({ close }) => (
+                <Notification
+                  onClose={close}
+                  type="error"
+                  message={t('__PROFILE_PAGE_TOAST_ERROR_UPDATING_PROFILE')}
+                  isPrimary
+                />
+              ),
+              { placement: 'top' }
+            );
+          })
+          .finally(() => {
+            actions.setSubmitting(false);
+          });
       }}
     >
       <ProfileCard />

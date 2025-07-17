@@ -1,18 +1,14 @@
 import {
   AccordionNew,
   Button,
-  Col,
   ContainerCard,
-  Row,
 } from '@appquality/unguess-design-system';
-
 import { useFormikContext } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as KeyIcon } from 'src/assets/icons/key.svg';
 import { styled } from 'styled-components';
-
-import { PasswordRequirements } from '../../PasswordRequirements';
+import { PasswordRequirements } from 'src/common/components/PasswordRequirements';
 import { PasswordFormValues } from '../../valuesType';
 import { CardInnerPanel, FieldExtraContent, StyledFooter } from '../common';
 import ConfirmPassword from './ConfirmPassword';
@@ -121,7 +117,7 @@ export const PasswordAccordion = () => {
                 </div>
                 <div className="passwordRequirements">
                   <FieldExtraContent>
-                    <PasswordRequirements />
+                    <PasswordRequirements password={formValues.newPassword} />
                   </FieldExtraContent>
                 </div>
                 <div className="confirmPassword">

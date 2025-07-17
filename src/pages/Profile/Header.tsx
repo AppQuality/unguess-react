@@ -13,16 +13,9 @@ const ProfilePageHeader = ({ pageTitle }: { pageTitle?: string }) => {
           <PageHeader.Title>
             <PageTitle>{pageTitle || 'Profile'}</PageTitle>
           </PageHeader.Title>
-          <PageHeader.Meta style={{ justifyContent: 'space-between' }} />
-          <MD
-            style={{
-              gap: '8px',
-              display: 'flex',
-              color: theme.palette.grey[600],
-            }}
-          >
+          <PageHeader.Description style={{ whiteSpace: 'pre-wrap' }}>
             {t('_PAGE_PROFILE_HEADER_TEXT')}
-          </MD>
+          </PageHeader.Description>
         </PageHeader.Main>
       </PageHeader>
     </LayoutWrapper>
