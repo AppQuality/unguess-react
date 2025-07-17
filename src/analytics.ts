@@ -1,5 +1,6 @@
 import Analytics from 'analytics';
 import googleTagManager from '@analytics/google-tag-manager';
+import segmentPlugin from '@analytics/segment';
 import { isDev } from './common/isDevEnvironment';
 
 const analytics = Analytics({
@@ -11,6 +12,11 @@ const analytics = Analytics({
         auth: 'HjeAxSQB9e685mi-_8YiDw',
         preview: 'env-4',
       }),
+    }),
+    segmentPlugin({
+      writeKey: isDev()
+        ? 'AxHbacd31w50NwjDM8tadsP82hSwTz4Z'
+        : 'oxd3W7coKxDdzq99F88doV5VvQrESbJh',
     }),
   ],
 });
