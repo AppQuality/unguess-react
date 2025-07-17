@@ -270,29 +270,6 @@ export const AppSidebar = (props: PropsWithChildren<SidebarProps>) => {
             </NavItemText>
           </NavItem>
         )}
-
-        {/** Profile */}
-        {/* <NavItem
-          role="menuitem"
-          className="sidebar-first-level-item"
-          title="Profile"
-          isExpanded={isSidebarOpen}
-          isCurrent={route === `profile`}
-          onClick={() => navigateTo(`profile`)}
-          style={{ marginBottom: '16px' }}
-        >
-          <NavItemIcon isStyled>
-            {route === `profile` ? <UserIconActive /> : <UserIcon />}
-          </NavItemIcon>
-          <NavItemText>
-            {t('__APP_SIDEBAR_PROFILE_ITEM_LABEL')}
-            <div>
-              <SM style={{ color: getColor(theme.colors.neutralHue, 500) }}>
-                {t('__SIDEBAR_PROFILE_LABEL')}
-              </SM>
-            </div>
-          </NavItemText>
-        </NavItem> */}
       </ScrollingContainer>
       {/* Footer Logo */}
       <NavItem
