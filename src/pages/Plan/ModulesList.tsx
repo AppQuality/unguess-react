@@ -6,6 +6,7 @@ import { ModulesBottomNavigation } from './common/ModulesBottomNavigation';
 import { TabTitle } from './common/TabTitle';
 import { usePlanContext } from './context/planContext';
 import { getModuleBySlug, getModulesByTab } from './modules/Factory';
+import { appTheme } from 'src/app/theme';
 
 const ModuleItem = styled(motion.div)<{
   $isTasksOrTarget: boolean;
@@ -17,6 +18,9 @@ const ModuleItem = styled(motion.div)<{
   padding-right: ${({ $isTasksOrTarget, theme }) =>
     $isTasksOrTarget ? 0 : theme.space.xs};
   display: ${({ $isVisible }) => ($isVisible ? 'block' : 'none')};
+  [data-garden-id='accordions.section'] {
+    background-color: var(--backgroundColor, ${appTheme.palette.white});
+  }
 `;
 
 export const ModulesList = () => {
@@ -61,8 +65,19 @@ export const ModulesList = () => {
                 id={`module-${type}`}
                 $isTasksOrTarget={isTasksOrTarget}
                 $isVisible={isVisible}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
+                initial={{ '--backgroundColor': appTheme.palette.white }}
+                animate={{
+                  '--backgroundColor': [
+                    appTheme.palette.yellow[200],
+                    appTheme.palette.yellow[100],
+                    appTheme.palette.yellow[100],
+                    appTheme.palette.white,
+                  ],
+                }}
+                transition={{
+                  duration: 2,
+                  times: [0, 0.2, 0.8, 1],
+                }}
               >
                 <Component id={type} />
               </ModuleItem>
