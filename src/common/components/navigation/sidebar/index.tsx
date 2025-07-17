@@ -27,8 +27,6 @@ import { useCanAccessToActiveWorkspace } from 'src/hooks/useCanAccessToActiveWor
 import useWindowSize from 'src/hooks/useWindowSize';
 import i18n from 'src/i18n';
 import styled, { useTheme } from 'styled-components';
-// import { ReactComponent as UserIcon } from 'src/assets/icons/user.svg';
-// import { ReactComponent as UserIconActive } from './icons/user-active.svg';
 import { WorkspacesDropdown } from '../workspacesDropdown';
 import { ReactComponent as ArchiveIconActive } from './icons/archive-active.svg';
 import { ReactComponent as ArchiveIcon } from './icons/archive.svg';
