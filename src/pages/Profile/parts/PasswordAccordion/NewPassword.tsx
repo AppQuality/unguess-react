@@ -42,13 +42,13 @@ const NewPassword = () => {
                   <EyeHide
                     style={{ cursor: 'pointer' }}
                     onClick={handleChangeInputType}
-                    title={t('__PAGE_PROFILE_FORM_NEW_PASSWORD_SHOW')}
+                    title="hide-new-password"
                   />
                 ) : (
                   <Eye
                     style={{ cursor: 'pointer' }}
                     onClick={handleChangeInputType}
-                    title={t('__PAGE_PROFILE_FORM_NEW_PASSWORD_HIDE')}
+                    title="show-new-password"
                   />
                 )
               }

@@ -43,13 +43,13 @@ const CurrentPassword = () => {
                     <EyeHide
                       style={{ cursor: 'pointer' }}
                       onClick={handleChangeInputType}
-                      title={t('__PAGE_PROFILE_FORM_CURRENT_PASSWORD_SHOW')}
+                      title="hide-current-password"
                     />
                   ) : (
                     <Eye
                       style={{ cursor: 'pointer' }}
                       onClick={handleChangeInputType}
-                      title={t('__PAGE_PROFILE_FORM_CURRENT_PASSWORD_HIDE')}
+                      title="show-current-password"
                     />
                   )
                 }

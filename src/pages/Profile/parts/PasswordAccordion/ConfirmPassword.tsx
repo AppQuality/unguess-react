@@ -40,13 +40,13 @@ const ConfirmPassword = () => {
                   <EyeHide
                     style={{ cursor: 'pointer' }}
                     onClick={handleChangeInputType}
-                    title={t('__PAGE_PROFILE_FORM_CONFIRM_PASSWORD_SHOW')}
+                    title="show-confirm-password"
                   />
                 ) : (
                   <Eye
                     style={{ cursor: 'pointer' }}
                     onClick={handleChangeInputType}
-                    title={t('__PAGE_PROFILE_FORM_CONFIRM_PASSWORD_HIDE')}
+                    title="hide-confirm-password"
                   />
                 )
               }
