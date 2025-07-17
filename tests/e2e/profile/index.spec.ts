@@ -12,6 +12,7 @@ test.describe('The profile page', () => {
 
     await profile.mockPatchUserMe();
     await profile.mockGetRoles();
+    await profile.mockPreferences();
     await profile.open();
   });
 
