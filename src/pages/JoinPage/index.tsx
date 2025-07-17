@@ -84,12 +84,7 @@ const LogoWrapper = styled.div`
 const JoinPage = () => {
   const { t } = useTranslation();
   const [searchParams] = useSearchParams();
-  const {
-    isLoading: isUserLoading,
-    isSuccess: isLogged,
-    data: UserData,
-    isFetching: isUserFetching,
-  } = useGetUsersMeQuery();
+  const { isSuccess: isLogged } = useGetUsersMeQuery();
   const navigate = useNavigate();
   const { profile, token } = useParams();
   const shouldSkipQuery = isLogged || !(profile && token);
