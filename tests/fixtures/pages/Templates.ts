@@ -61,7 +61,7 @@ export class Templates extends UnguessPage {
           path: 'tests/api/workspaces/wid/templates/_get/200_global_and_private_templates.json',
         });
       } else {
-        await route.continue();
+        await route.fallback();
       }
     });
   }
