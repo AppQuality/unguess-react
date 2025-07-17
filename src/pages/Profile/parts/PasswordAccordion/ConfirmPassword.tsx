@@ -1,9 +1,9 @@
 import {
-  Label,
-  Span,
-  Message,
-  MediaInput,
   FormField,
+  Label,
+  MediaInput,
+  Message,
+  Span,
 } from '@appquality/unguess-design-system';
 
 import { ReactComponent as Eye } from '@zendeskgarden/svg-icons/src/16/eye-fill.svg';
@@ -12,7 +12,6 @@ import { Field, FieldProps } from 'formik';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
-import { FieldExtraContent } from '../common';
 
 const ConfirmPassword = () => {
   const { t } = useTranslation();
