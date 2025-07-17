@@ -51,9 +51,10 @@ test.describe('When the defult querystring is present in the Bug Page url', () =
 
   test('The pagination works', async ({ page }) => {
     // Click on next page
+    await expect(bugPage.elements().paginationPrevious()).toBeDisabled();
     await bugPage.elements().paginationNext().click();
-    await expect(bugPage.elements().paginationPrevious()).not.toBeDisabled();
-    await expect(bugPage.elements().paginationNext()).not.toBeDisabled();
+    await expect(bugPage.elements().paginationPrevious()).toBeEnabled();
+    await expect(bugPage.elements().paginationNext()).toBeEnabled();
     expect(page.url()).toContain(
       `${bugPage.getUrl(bugPage.bugIds.default2)}${
         bugPage.querystrings.default
@@ -62,7 +63,7 @@ test.describe('When the defult querystring is present in the Bug Page url', () =
     // click back to the first page
     await bugPage.elements().paginationPrevious().click();
     await expect(bugPage.elements().paginationPrevious()).toBeDisabled();
-    await expect(bugPage.elements().paginationNext()).not.toBeDisabled();
+    await expect(bugPage.elements().paginationNext()).toBeEnabled();
     expect(page.url()).toContain(
       `${bugPage.getUrl(bugPage.bugIds.default)}${bugPage.querystrings.default}`
     );
