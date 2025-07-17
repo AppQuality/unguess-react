@@ -1125,7 +1125,7 @@
   "__PROFILE_MODAL_NOTIFICATIONS_TOGGLE_TITLE": "Allow notifications",
   "__PROFILE_MODAL_NOTIFICATIONS_UPDATED": "Changes saved",
   "__PROFILE_MODAL_PRIVACY_ITEM_LABEL": "Privacy settings",
-  "__PROFILE_PAGE_CONFIRM_PASSWORD_MUST_MATCH_NEW_PASSWORD": "",
+  "__PROFILE_PAGE_CONFIRM_PASSWORD_MUST_MATCH_NEW_PASSWORD": "The confirmation password must match the new password",
   "__PROFILE_PAGE_NAME_REQUIRED_ERROR": "Name is required",
   "__PROFILE_PAGE_NAV_ITEM_PASSWORD": "Password settings",
   "__PROFILE_PAGE_NAV_ITEM_PROFILE": "Profile settings",
