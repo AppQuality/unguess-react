@@ -54,4 +54,12 @@ export class Step2 {
     await this.fillValidFields();
     await this.elements().buttonGoToStep3().click();
   }
+
+  async mockGetRoles() {
+    await this.page.route('*/**/api/users/roles', async (route) => {
+      await route.fulfill({
+        path: 'tests/api/users/roles/_get/200_Example_1.json',
+      });
+    });
+  }
 }
