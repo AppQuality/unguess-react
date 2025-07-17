@@ -73,7 +73,7 @@ export class Profile extends UnguessPage {
   }
 
   async openPasswordSettings() {
-    await this.elements().passwordAccordionHeader().click({ timeout: 15000 });
+    await this.elements().passwordAccordionHeader().click();
   }
 
   async saveProfile() {
