@@ -22,12 +22,7 @@ const ChevronButton = styled(IconButton)`
 export const ProfileAvatar = () => {
   const dispatch = useAppDispatch();
 
-  const {
-    data: user,
-    isLoading,
-    isError,
-    error: dataError,
-  } = useGetUsersMeQuery();
+  const { data: user, isLoading, isError } = useGetUsersMeQuery();
 
   const { isProfileModalOpen } = useAppSelector((state) => state.navigation);
 
@@ -35,34 +30,28 @@ export const ProfileAvatar = () => {
     dispatch(toggleProfileModal());
   };
 
-  if (!user || isLoading || isError) return null;
-
   return (
-    !isLoading &&
-    user &&
-    !dataError && (
-      <HeaderItem isRound onClick={toggleProfileModalState}>
-        <HeaderItemIcon>
-          {!user ? (
-            <Skeleton
-              width="32px"
-              height="32px"
-              style={{ borderRadius: '100%' }}
-            />
-          ) : (
-            <>
-              <Avatar avatarType={user.picture ? 'image' : 'text'}>
-                {user.picture
-                  ? prepareGravatar(user.picture, 64)
-                  : getInitials(user.name)}
-              </Avatar>
-              <ChevronButton size="small" isRotated={isProfileModalOpen}>
-                <ChevronIcon />
-              </ChevronButton>
-            </>
-          )}
-        </HeaderItemIcon>
-      </HeaderItem>
-    )
+    <HeaderItem isRound onClick={toggleProfileModalState}>
+      <HeaderItemIcon>
+        {!user || isLoading || isError ? (
+          <Skeleton
+            width="32px"
+            height="32px"
+            style={{ borderRadius: '100%' }}
+          />
+        ) : (
+          <>
+            <Avatar avatarType={user.picture ? 'image' : 'text'}>
+              {user.picture
+                ? prepareGravatar(user.picture, 64)
+                : getInitials(user.name)}
+            </Avatar>
+            <ChevronButton size="small" isRotated={isProfileModalOpen}>
+              <ChevronIcon />
+            </ChevronButton>
+          </>
+        )}
+      </HeaderItemIcon>
+    </HeaderItem>
   );
 };
