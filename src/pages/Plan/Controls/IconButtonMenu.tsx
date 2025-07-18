@@ -25,7 +25,7 @@ const OptionalTooltip = ({
     return children;
   }
   return (
-    <Tooltip placement="start" type="light" size="small" content={content}>
+    <Tooltip placement="start" type="light" size="large" content={content}>
       {children}
     </Tooltip>
   );
