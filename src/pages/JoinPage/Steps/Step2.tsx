@@ -128,7 +128,6 @@ export const Step2 = () => {
               <Select
                 placeholder={t('SIGNUP_FORM_ROLE_PLACEHOLDER')}
                 data-qa="roleId-select"
-                placeholder={t('SIGNUP_FORM_ROLE_PLACEHOLDER')}
                 {...field}
                 isCompact
                 inputValue={
