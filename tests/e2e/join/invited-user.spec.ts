@@ -9,6 +9,7 @@ test.describe('The Join page if the get invites respond 400', () => {
 
   test.beforeEach(async ({ page }) => {
     join = new Join(page);
+    await join.notLoggedIn();
     await join.mockGetInvitedUserError();
     await page.goto(join.urlInvitedUser);
   });
@@ -23,6 +24,7 @@ test.describe('The Join page first step - case valid invited user only', () => {
 
   test.beforeEach(async ({ page }) => {
     join = new Join(page);
+    await join.notLoggedIn();
     step1 = new Step1(page);
 
     await join.mockGetInvitedUser();
@@ -60,9 +62,10 @@ test.describe('The Join page second step - case invited user only', () => {
   let step1: Step1;
   test.beforeEach(async ({ page }) => {
     join = new Join(page);
-    step2 = new Step2(page);
     step1 = new Step1(page);
+    step2 = new Step2(page);
 
+    await join.notLoggedIn();
     await join.mockGetInvitedUser();
     await step2.mockGetRoles();
     await page.goto(join.urlInvitedUser);
@@ -87,6 +90,7 @@ test.describe('The Join page third step - case invited user only', () => {
   let step3: Step3;
   test.beforeEach(async ({ page }) => {
     join = new Join(page);
+    await join.notLoggedIn();
     step2 = new Step2(page);
     step1 = new Step1(page);
     step3 = new Step3(page);

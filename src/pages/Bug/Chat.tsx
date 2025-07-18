@@ -9,12 +9,12 @@ import {
 } from '@appquality/unguess-design-system';
 import { t } from 'i18next';
 import { useEffect, useRef, useState } from 'react';
-import { useAppSelector } from 'src/app/hooks';
 import defaultBkg from 'src/assets/bg-chat.svg';
 import { getInitials } from 'src/common/components/navigation/header/utils';
 import {
   useDeleteCampaignsByCidBugsAndBidCommentsCmidMutation,
   useGetCampaignsByCidBugsAndBidCommentsQuery,
+  useGetUsersMeQuery,
 } from 'src/features/api';
 import i18n from 'src/i18n';
 import { styled } from 'styled-components';
@@ -59,7 +59,13 @@ export const ChatBox = ({
   setIsSubmitting: (state: boolean) => void;
 }) => {
   const { triggerSave, editor, clearInput } = useChatContext();
-  const { userData: user } = useAppSelector((state) => state.user);
+  const {
+    data: user,
+    isLoading: userDataLoading,
+    isSuccess,
+    isError: isUserError,
+  } = useGetUsersMeQuery();
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [commentToDelete, setCommentToDelete] = useState<string>('');
   const { addToast } = useToast();
@@ -127,6 +133,8 @@ export const ChatBox = ({
     };
   }, [comments]);
 
+  if (!user || isUserError || userDataLoading) return null;
+
   return (
     <>
       <Chat>
@@ -171,16 +179,17 @@ export const ChatBox = ({
                     <>
                       <br />
                       {(comment.creator.id === user.profile_id ||
-                        user.role === 'administrator') && (
-                        <Button
-                          isPill
-                          isBasic
-                          isDanger
-                          onClick={() => openModal(`${comment.id}`)}
-                        >
-                          {t('__BUG_COMMENTS_CHAT_DELETE__')}
-                        </Button>
-                      )}
+                        user.role === 'administrator') &&
+                        isSuccess && (
+                          <Button
+                            isPill
+                            isBasic
+                            isDanger
+                            onClick={() => openModal(`${comment.id}`)}
+                          >
+                            {t('__BUG_COMMENTS_CHAT_DELETE__')}
+                          </Button>
+                        )}
                     </>
                   </Comment>
                 ))}

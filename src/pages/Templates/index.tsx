@@ -2,10 +2,12 @@ import { Col, Grid, Row } from '@appquality/unguess-design-system';
 import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useAppSelector } from 'src/app/hooks';
 import { PageLoader } from 'src/common/components/PageLoader';
 import PlanCreationInterface from 'src/common/components/PlanCreationInterface';
-import { useGetWorkspacesByWidTemplatesQuery } from 'src/features/api';
+import {
+  useGetUsersMeQuery,
+  useGetWorkspacesByWidTemplatesQuery,
+} from 'src/features/api';
 import { Page } from 'src/features/templates/Page';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
 import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
@@ -50,7 +52,8 @@ const Templates = () => {
   const notFoundRoute = useLocalizeRoute('oops');
   const location = useLocation();
   const { activeWorkspace } = useActiveWorkspace();
-  const { status } = useAppSelector((state) => state.user);
+  const { isLoading: isUserLoading, isFetching: isUserFetching } =
+    useGetUsersMeQuery();
 
   const { isLoading, isError } = useGetWorkspacesByWidTemplatesQuery(
     {
@@ -69,7 +72,7 @@ const Templates = () => {
     });
   }
 
-  if (isLoading || status === 'loading') {
+  if (isLoading || isUserFetching || isUserLoading) {
     return <PageLoader />;
   }
 

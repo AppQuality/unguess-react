@@ -6,13 +6,11 @@ import bugsPageReducer from '../features/bugsPage/bugsPageSlice';
 import filterReducer from '../features/campaignsFilter/campaignsFilterSlice';
 import navigationReducer from '../features/navigation/navigationSlice';
 import planModulesReducer from '../features/planModules';
-import userReducer from '../features/user/userSlice';
 import uxFilterReducer from '../features/uxFilters';
 import workspaceReducer from '../features/workspaces/workspaceSlice';
 
 export const store = configureStore({
   reducer: {
-    user: userReducer,
     navigation: navigationReducer,
     workspaces: workspaceReducer,
     filters: filterReducer,

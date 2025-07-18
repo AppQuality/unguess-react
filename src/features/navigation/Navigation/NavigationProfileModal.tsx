@@ -11,6 +11,7 @@ import { prepareGravatar } from 'src/common/utils';
 import WPAPI from 'src/common/wpapi';
 import {
   useGetUsersMePreferencesQuery,
+  useGetUsersMeQuery,
   usePutUsersMePreferencesBySlugMutation,
 } from 'src/features/api';
 import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
@@ -21,7 +22,8 @@ export const NavigationProfileModal = () => {
   const isProfileModalOpen = useAppSelector(
     (state) => state.navigation.isProfileModalOpen
   );
-  const { userData: user } = useAppSelector((state) => state.user);
+  const { data: user, isLoading, error: dataError } = useGetUsersMeQuery();
+
   const { activeWorkspace } = useActiveWorkspace();
 
   const { addToast } = useToast();
@@ -63,6 +65,8 @@ export const NavigationProfileModal = () => {
         );
       });
   };
+
+  if (dataError || !user || isLoading) return null;
 
   const profileModal = {
     user: {

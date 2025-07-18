@@ -12,6 +12,7 @@ test.describe('Save template from plan', () => {
     await moduleBuilderPage.mockWorkspace();
     await moduleBuilderPage.mockWorkspacesList();
     await moduleBuilderPage.mockSaveTemplate();
+    await moduleBuilderPage.mockGetTemplates();
   });
 
   test.describe('Draft', () => {
