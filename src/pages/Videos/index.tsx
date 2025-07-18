@@ -42,20 +42,14 @@ const VideosPage = () => {
   }
 
   useEffect(() => {
-    if (!userData || isUserFetching || isUserLoading) return;
+    if (isUserFetching || isUserLoading) return;
 
-    if (!hasTaggingToolFeature && isSuccess && userData) {
+    if (!hasTaggingToolFeature && isSuccess) {
       navigate(notFoundRoute, {
         state: { from: location.pathname },
       });
     }
-  }, [
-    isUserFetching,
-    isUserLoading,
-    userData,
-    isSuccess,
-    hasTaggingToolFeature,
-  ]);
+  }, [isUserFetching, isUserLoading, isSuccess, hasTaggingToolFeature]);
 
   useCampaignAnalytics(campaignId);
 
