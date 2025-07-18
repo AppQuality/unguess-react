@@ -94,8 +94,31 @@ export class Profile extends UnguessPage {
         response.status() === 200 &&
         response.request().method() === 'PATCH'
     );
+    const destroySessionsPromise = this.page.waitForResponse(
+      (response) =>
+        /\/wp-admin\/admin-ajax.php\?action=destroy_other_sessions/.test(
+          response.url()
+        ) &&
+        response.status() === 200 &&
+        response.request().method() === 'GET'
+    );
     await this.elements().passwordSettingsSubmitButton().click();
-    return patchPromise;
+    return { patchPromise, destroySessionsPromise };
+  }
+
+  async mockWpDestroyOtherSessions() {
+    await this.page.route(
+      '*/**/wp-admin/admin-ajax.php?action=destroy_other_sessions',
+      async (route) => {
+        if (route.request().method() === 'GET') {
+          await route.fulfill({
+            status: 200,
+          });
+        } else {
+          await route.fallback();
+        }
+      }
+    );
   }
 
   async mockPatchUserMe(status = 200, body = {}) {

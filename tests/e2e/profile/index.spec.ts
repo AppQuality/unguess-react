@@ -7,10 +7,9 @@ test.describe('The profile page', () => {
   test.beforeEach(async ({ page }) => {
     profile = new Profile(page);
     await profile.loggedIn();
-
     await profile.mockWorkspacesList();
-
     await profile.mockPatchUserMe();
+    await profile.mockWpDestroyOtherSessions();
     await profile.mockGetRoles();
     await profile.open();
   });
@@ -96,7 +95,9 @@ test.describe('The profile page', () => {
       profile.elements().passwordSettingsSubmitButton()
     ).toBeEnabled();
     // Start the submit
-    const patchResponse = await profile.saveNewPassword();
+    const { patchPromise, destroySessionsPromise } =
+      await profile.saveNewPassword();
+    const patchResponse = await patchPromise;
     const data = patchResponse.request().postDataJSON();
     expect(data).toEqual(
       expect.objectContaining({
@@ -106,5 +107,7 @@ test.describe('The profile page', () => {
         }),
       })
     );
+    const destroySessionsResponse = await destroySessionsPromise;
+    expect(destroySessionsResponse.status()).toBe(200);
   });
 });
