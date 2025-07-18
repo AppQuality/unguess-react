@@ -1,4 +1,8 @@
-import { ButtonMenu, IconButton } from '@appquality/unguess-design-system';
+import {
+  ButtonMenu,
+  IconButton,
+  Tooltip,
+} from '@appquality/unguess-design-system';
 import { ReactComponent as DotsIcon } from '@zendeskgarden/svg-icons/src/16/overflow-vertical-stroke.svg';
 import { ReactComponent as TrashIcon } from '@zendeskgarden/svg-icons/src/16/trash-stroke.svg';
 import { useTranslation } from 'react-i18next';
@@ -7,6 +11,25 @@ import { ReactComponent as SaveTemplateIcon } from 'src/assets/icons/template.sv
 import { Divider } from 'src/common/components/divider';
 import { usePlanContext } from '../context/planContext';
 import { usePlan } from '../hooks/usePlan';
+
+const OptionalTooltip = ({
+  children,
+  content,
+  show,
+}: {
+  children: React.ReactElement;
+  content: string;
+  show: boolean;
+}) => {
+  if (!show) {
+    return children;
+  }
+  return (
+    <Tooltip placement="start" type="light" size="small" content={content}>
+      {children}
+    </Tooltip>
+  );
+};
 
 const IconButtonMenu = () => {
   const { t } = useTranslation();
@@ -43,15 +66,20 @@ const IconButtonMenu = () => {
         {t('__PLAN_SAVE_TEMPLATE_CTA')}
       </ButtonMenu.Item>
       <Divider />
-      <ButtonMenu.Item
-        data-qa="delete-action-item"
-        type="danger"
-        value="delete"
-        isDisabled={plan?.status !== 'draft'}
-        icon={<TrashIcon />}
+      <OptionalTooltip
+        show={plan?.status !== 'draft'}
+        content={t('__PLAN_DELETE_PLAN_TOOLTIP')}
       >
-        {t('__PLAN_DELETE_PLAN_CTA')}
-      </ButtonMenu.Item>
+        <ButtonMenu.Item
+          data-qa="delete-action-item"
+          type="danger"
+          value="delete"
+          isDisabled={plan?.status !== 'draft'}
+          icon={<TrashIcon />}
+        >
+          {t('__PLAN_DELETE_PLAN_CTA')}
+        </ButtonMenu.Item>
+      </OptionalTooltip>
     </ButtonMenu>
   );
 };
