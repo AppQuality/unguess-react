@@ -178,7 +178,7 @@ export const ChatBox = ({
                   >
                     <>
                       <br />
-                      {((user && comment.creator.id === user.profile_id) ||
+                      {(comment.creator.id === user.profile_id ||
                         user.role === 'administrator') &&
                         isSuccess && (
                           <Button
