@@ -77,14 +77,14 @@ const VideoPage = () => {
   }
 
   useEffect(() => {
-    if (!userData || isUserFetching || isUserLoading) return;
+    if (isUserFetching || isUserLoading) return;
 
-    if (!hasTaggingToolFeature && isSuccess && userData) {
+    if (!hasTaggingToolFeature && isSuccess) {
       navigate(notFoundRoute, {
         state: { from: location.pathname },
       });
     }
-  }, [isSuccess, userData, hasTaggingToolFeature]);
+  }, [isSuccess, isUserFetching, isUserLoading, hasTaggingToolFeature]);
 
   return (
     <Page
