@@ -39,7 +39,7 @@ interface NavigationState {
 const LoginPage = () => {
   const { t } = useTranslation();
   const [cta, setCta] = useState<string>(t('__LOGIN_FORM_CTA'));
-  const { data: userData, isSuccess } = useGetUsersMeQuery();
+  const { isSuccess } = useGetUsersMeQuery();
   const navigate = useNavigate();
   const { state: locationState } = useLocation();
 

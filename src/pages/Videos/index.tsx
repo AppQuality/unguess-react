@@ -26,7 +26,6 @@ const VideosPage = () => {
   const dispatch = useAppDispatch();
   const location = useLocation();
   const {
-    data: userData,
     isLoading: isUserLoading,
     isFetching: isUserFetching,
     isSuccess,
