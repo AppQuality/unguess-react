@@ -1,6 +1,7 @@
 import { useToast, Notification } from '@appquality/unguess-design-system';
 import { Formik } from 'formik';
 import { useTranslation } from 'react-i18next';
+import WPAPI from 'src/common/wpapi';
 import { usePatchUsersMeMutation } from 'src/features/api';
 import * as Yup from 'yup';
 import { Loader } from './parts/cardLoader';
@@ -65,6 +66,7 @@ export const FormPassword = () => {
         })
           .unwrap()
           .then(() => {
+            WPAPI.destroyOtherSessions();
             addToast(
               ({ close }) => (
                 <Notification
