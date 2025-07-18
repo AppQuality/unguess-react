@@ -1,16 +1,18 @@
 import {
   Button,
-  DotsMenu,
+  ButtonMenu,
   IconButton,
   MD,
   Skeleton,
   Tooltip,
 } from '@appquality/unguess-design-system';
 import { ReactComponent as InsightsIcon } from '@zendeskgarden/svg-icons/src/16/lightbulb-stroke.svg';
+import { ReactComponent as ExternalLinkIcon } from '@zendeskgarden/svg-icons/src/16/new-window-stroke.svg';
+import { ReactComponent as DotsIcon } from '@zendeskgarden/svg-icons/src/16/overflow-vertical-stroke.svg';
 import { ReactComponent as VideoListIcon } from '@zendeskgarden/svg-icons/src/16/play-circle-stroke.svg';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as EditRedoStroke } from 'src/assets/icons/move-icon.svg';
 import { ReactComponent as InboxFill } from 'src/assets/icons/project-archive.svg';
@@ -23,6 +25,7 @@ import { FEATURE_FLAG_TAGGING_TOOL } from 'src/constants';
 import {
   CampaignWithOutput,
   useGetCampaignsByCidMetaQuery,
+  useGetCampaignsByCidQuery,
 } from 'src/features/api';
 import { useActiveWorkspaceProjects } from 'src/hooks/useActiveWorkspaceProjects';
 import { useCanAccessToActiveWorkspace } from 'src/hooks/useCanAccessToActiveWorkspace';
@@ -96,6 +99,7 @@ export const Metas = ({
   const videoDashboardRoute = useLocalizeRoute(
     `campaigns/${campaign.id}/videos`
   );
+  const navigate = useNavigate();
   const insightsRoute = useLocalizeRoute(`campaigns/${campaign.id}/insights`);
   const hasWorkspaceAccess = useCanAccessToActiveWorkspace();
 
@@ -104,6 +108,10 @@ export const Metas = ({
     isLoading,
     isFetching,
   } = useGetCampaignsByCidMetaQuery({ cid: campaign.id.toString() });
+  const { data: campaignData } = useGetCampaignsByCidQuery({
+    cid: campaign.id.toString(),
+  });
+  const plan = campaignData?.plan;
   const {
     sorted: videos,
     isLoading: isLoadingVideos,
@@ -206,42 +214,50 @@ export const Metas = ({
             !isLoadingProjects &&
             !isFetchingProjects &&
             !isArchived && (
-              <DotsMenu
-                style={{
-                  zIndex: appTheme.levels.front,
-                  padding: appTheme.space.sm,
-                }}
-              >
-                <Button
-                  style={{ width: '100%' }}
-                  disabled={!(filteredProjects && filteredProjects.length > 0)}
-                  isBasic
-                  isPill={false}
-                  onClick={() => {
+              <ButtonMenu
+                onSelect={(value) => {
+                  if (value === 'move_campaign') {
                     setIsMoveModalOpen(true);
-                  }}
-                >
-                  <Button.StartIcon>
-                    <EditRedoStroke />
-                  </Button.StartIcon>
-                  {t('__CAMPAIGN_PAGE_DOTS_MENU_MOVE_CAMPAIGN_BUTTON')}
-                </Button>
-                <Divider />
-                <Button
-                  style={{ width: '100%' }}
-                  disabled={campaign.status.id !== 2}
-                  isBasic
-                  isPill={false}
-                  onClick={() => {
+                  } else if (value === 'archive_campaign') {
                     setIsArchiveModalOpen(true);
-                  }}
+                  } else if (value === 'go_to_plan') {
+                    navigate(`/plans/${plan}`);
+                  }
+                }}
+                label={(props) => (
+                  <IconButton data-qa="extra-actions-menu" {...props}>
+                    <DotsIcon />
+                  </IconButton>
+                )}
+              >
+                <ButtonMenu.Item
+                  isDisabled={
+                    !(filteredProjects && filteredProjects.length > 0)
+                  }
+                  value="move_campaign"
+                  icon={<EditRedoStroke />}
                 >
-                  <Button.StartIcon>
-                    <InboxFill />
-                  </Button.StartIcon>
+                  {t('__CAMPAIGN_PAGE_DOTS_MENU_MOVE_CAMPAIGN_BUTTON')}
+                </ButtonMenu.Item>
+                <ButtonMenu.Item
+                  isDisabled={campaign.status.id !== 2}
+                  value="archive_campaign"
+                  icon={<InboxFill />}
+                >
                   {t('__CAMPAIGN_PAGE_DOTS_MENU_ARCHIVE_CAMPAIGN_BUTTON')}
-                </Button>
-              </DotsMenu>
+                </ButtonMenu.Item>
+                {!!plan && (
+                  <>
+                    <Divider />
+                    <ButtonMenu.Item
+                      value="go_to_plan"
+                      icon={<ExternalLinkIcon />}
+                    >
+                      {t('__CAMPAIGN_PAGE_DOTS_MENU_GO_TO_PLAN_BUTTON')}
+                    </ButtonMenu.Item>
+                  </>
+                )}
+              </ButtonMenu>
             )}
         </ButtonWrapper>
       </FooterContainer>
