@@ -1,21 +1,18 @@
 import { expect, test } from '../../fixtures/app';
 import { PlanPage } from '../../fixtures/pages/Plan';
-import { Templates } from '../../fixtures/pages/Templates';
 
 test.describe('Save template from plan', () => {
   let moduleBuilderPage: PlanPage;
-  let templatesPage: Templates;
 
   test.beforeEach(async ({ page }) => {
     moduleBuilderPage = new PlanPage(page);
-    templatesPage = new Templates(page);
 
     await moduleBuilderPage.loggedIn();
     await moduleBuilderPage.mockPreferences();
     await moduleBuilderPage.mockWorkspace();
     await moduleBuilderPage.mockWorkspacesList();
     await moduleBuilderPage.mockSaveTemplate();
-    await templatesPage.mockGetTemplates();
+    await moduleBuilderPage.mockGetTemplates();
   });
 
   test.describe('Draft', () => {
