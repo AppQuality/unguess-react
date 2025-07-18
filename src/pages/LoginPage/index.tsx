@@ -46,7 +46,7 @@ const LoginPage = () => {
   const from = (locationState as NavigationState)?.from || '/';
 
   useEffect(() => {
-    if (userData && isSuccess) {
+    if (isSuccess) {
       navigate(from || '/');
     }
   }, [navigate, isSuccess]);
