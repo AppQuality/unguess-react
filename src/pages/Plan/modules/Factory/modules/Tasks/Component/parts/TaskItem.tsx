@@ -16,38 +16,37 @@ import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as LinkIcon } from 'src/assets/icons/link-stroke.svg';
 import { ReactComponent as TrashIcon } from 'src/assets/icons/trash-stroke.svg';
-import { components } from 'src/common/schema';
 import { useModuleConfiguration } from 'src/features/modules/useModuleConfiguration';
-import { useModuleTasks } from '../hooks';
+import { TTask, useModuleTasks } from '../hooks';
 import { getIconFromTaskOutput } from '../utils';
 import { DeleteTaskConfirmationModal } from './modal/DeleteTaskConfirmationModal';
 
-const TaskItem = ({
-  task,
-}: {
-  task: components['schemas']['OutputModuleTask'] & { key: number };
-}) => {
+type TaskItemProps = {
+  task: TTask;
+  index: number;
+};
+
+const TaskItem = ({ task, index }: TaskItemProps) => {
   const { t } = useTranslation();
   const { update, validate, error } = useModuleTasks();
   const { getPlanStatus } = useModuleConfiguration();
   const confirmationState = useState<{
     isOpen: boolean;
-    taskKey: number;
-  }>({ isOpen: false, taskKey: 0 });
-  const { key, kind, title, description } = task;
-  const index = key + 1;
+    taskId: string;
+  }>({ isOpen: false, taskId: '' });
+  const { id, kind, title, description } = task;
 
   const titleError =
-    error && typeof error === 'object' && `tasks.${key}.title` in error
-      ? error[`tasks.${key}.title`]
+    error && typeof error === 'object' && `tasks.${id}.title` in error
+      ? error[`tasks.${id}.title`]
       : false;
   const descriptionError =
-    error && typeof error === 'object' && `tasks.${key}.description` in error
-      ? error[`tasks.${key}.description`]
+    error && typeof error === 'object' && `tasks.${id}.description` in error
+      ? error[`tasks.${id}.description`]
       : false;
   const invalidUrlError =
-    error && typeof error === 'object' && `tasks.${key}.url` in error
-      ? error[`tasks.${key}.url`]
+    error && typeof error === 'object' && `tasks.${id}.url` in error
+      ? error[`tasks.${id}.url`]
       : false;
 
   const hasError = titleError || descriptionError || invalidUrlError;
@@ -63,18 +62,11 @@ const TaskItem = ({
 
   return (
     <>
-      <AccordionNew
-        level={3}
-        id={`task-${index}`}
-        key={`task-${index}`}
-        hasBorder
-        type={hasError ? 'danger' : 'default'}
-        role="listitem"
-      >
+      <AccordionNew level={3} hasBorder type={hasError ? 'danger' : 'default'}>
         <AccordionNew.Section>
           <AccordionNew.Header icon={getIconFromTaskOutput(task)}>
             <AccordionNew.Label
-              label={`${index}. ${
+              label={`${index + 1}. ${
                 hasPlaceholder
                   ? t('__PLAN_PAGE_MODULE_TASKS_TASK_TITLE_PLACEHOLDER_EMPTY')
                   : title
@@ -89,7 +81,7 @@ const TaskItem = ({
                   onClick={(e) => {
                     confirmationState[1]({
                       isOpen: true,
-                      taskKey: key,
+                      taskId: id,
                     });
                     e.stopPropagation();
                   }}
@@ -117,7 +109,9 @@ const TaskItem = ({
                     type="text"
                     readOnly={getPlanStatus() !== 'draft'}
                     value={title}
-                    onChange={(e) => update(key, { title: e.target.value })}
+                    onChange={(e) => {
+                      update(id, { title: e.target.value });
+                    }}
                     placeholder={t(
                       '__PLAN_PAGE_MODULE_TASKS_TASK_TITLE_PLACEHOLDER'
                     )}
@@ -156,7 +150,7 @@ const TaskItem = ({
                       '__PLAN_PAGE_MODULE_TASKS_TASK_DESCRIPTION_EDITOR_HEADER_TITLE'
                     )}
                     onUpdate={(value) =>
-                      update(key, { description: value.editor.getHTML() })
+                      update(id, { description: value.editor.getHTML() })
                     }
                     hasInlineMenu
                     placeholderOptions={{
@@ -194,7 +188,7 @@ const TaskItem = ({
                     start={<LinkIcon />}
                     value={task.url}
                     onBlur={handleBlur}
-                    onChange={(e) => update(key, { url: e.target.value })}
+                    onChange={(e) => update(id, { url: e.target.value })}
                     placeholder={t(
                       '__PLAN_PAGE_MODULE_TASKS_TASK_LINK_PLACEHOLDER'
                     )}

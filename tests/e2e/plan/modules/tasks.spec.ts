@@ -16,6 +16,7 @@ test.describe('The tasks module defines a list of activities.', () => {
     await moduleBuilderPage.loggedIn();
     await moduleBuilderPage.mockPreferences();
     await moduleBuilderPage.mockWorkspace();
+    await moduleBuilderPage.mockPatchPlan();
     await moduleBuilderPage.mockWorkspacesList();
     await moduleBuilderPage.mockGetDraftWithOnlyMandatoryModulesPlan();
     await moduleBuilderPage.open();
@@ -81,6 +82,65 @@ test.describe('The tasks module defines a list of activities.', () => {
     await tasksModule.elements().addTaskModalFunctionalBugHunting().click();
     await expect(tasksModule.elements().taskListItem()).toHaveCount(
       tasks.length + 1
+    );
+  });
+
+  test('Tasks can be reordered', async ({ page }) => {
+    // asserting initial list sizes
+    await expect(
+      page.getByTestId('task-item-nav').locator('[draggable="true"]')
+    ).toHaveCount(2);
+    // asserting initial order of the main task list
+    await expect(tasksModule.elements().taskListItem().first()).toHaveAttribute(
+      'id',
+      'bug-1'
+    );
+    await expect(tasksModule.elements().taskListItem().nth(1)).toHaveAttribute(
+      'id',
+      'video-1'
+    );
+    await page
+      .locator('[data-task-id="video-1"]')
+      .dragTo(page.locator('[data-task-id="bug-1"]'));
+    // asserting the first item is now the video task
+    await expect(
+      page.getByTestId('task-item-nav').locator('[draggable="true"]').first()
+    ).toHaveAttribute('data-task-id', 'video-1');
+    // asserting the second item is now the bug task
+    await expect(
+      page.getByTestId('task-item-nav').locator('[draggable="true"]').nth(1)
+    ).toHaveAttribute('data-task-id', 'bug-1');
+    // asserting the main task list is updated as well
+    await expect(tasksModule.elements().taskListItem()).toHaveCount(2);
+    await expect(tasksModule.elements().taskListItem().first()).toHaveAttribute(
+      'id',
+      'video-1'
+    );
+    await expect(tasksModule.elements().taskListItem().nth(1)).toHaveAttribute(
+      'id',
+      'bug-1'
+    );
+    // let's save the plan and check the order is sent to the api
+    const response = await moduleBuilderPage.saveConfiguration();
+    const data = response.request().postDataJSON();
+    expect(data.config.modules).toContainEqual(
+      expect.objectContaining({
+        type: 'tasks',
+        output: [
+          {
+            id: 'video-1',
+            kind: 'video',
+            title: 'Think aloud',
+            description: 'description kind video',
+          },
+          {
+            id: 'bug-1',
+            kind: 'bug',
+            title: 'Search for bugs',
+            description: 'description kind bug',
+          },
+        ],
+      })
     );
   });
 });
