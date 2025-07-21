@@ -1,12 +1,15 @@
 import { AnimatePresence, motion } from 'motion/react';
 import { useEffect, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useAppSelector } from 'src/app/hooks';
+import { appTheme } from 'src/app/theme';
 import styled from 'styled-components';
+import { MODULE_GROUPS } from './common/constants';
+import { GroupTitle } from './common/GroupTitle';
 import { ModulesBottomNavigation } from './common/ModulesBottomNavigation';
 import { TabTitle } from './common/TabTitle';
 import { usePlanContext } from './context/planContext';
 import { getModuleBySlug, getModulesByTab } from './modules/Factory';
-import { appTheme } from 'src/app/theme';
 
 const ModuleItem = styled(motion.div)<{
   $isTasksOrTarget: boolean;
@@ -23,11 +26,20 @@ const ModuleItem = styled(motion.div)<{
   }
 `;
 
+const GroupsWrapper = styled.div`
+  > div {
+    &:not(:last-child) {
+      border-bottom: 1px solid ${appTheme.palette.grey['200']};
+    }
+  }
+`;
+
 export const ModulesList = () => {
   const currentModules = useAppSelector(
     (state) => state.planModules.currentModules
   );
   const { activeTab } = usePlanContext();
+  const { t } = useTranslation();
   const availableModules = getModulesByTab(activeTab.name);
 
   // Use a ref to track previous order and calculate direction synchronously
@@ -43,6 +55,8 @@ export const ModulesList = () => {
     return null;
   }
 
+  const groupConfig = MODULE_GROUPS[activeTab.name] || [];
+
   return (
     <AnimatePresence mode="wait">
       <motion.div
@@ -53,37 +67,53 @@ export const ModulesList = () => {
         transition={{ duration: 0.15 }}
       >
         <TabTitle />
-        <AnimatePresence>
-          {currentModules.map((type) => {
-            const isVisible = availableModules.includes(type);
-            const isTasksOrTarget = type === 'tasks' || type === 'target';
-            const Component = getModuleBySlug(type)?.Component;
-            if (!Component) return null;
+        <GroupsWrapper>
+          {groupConfig.map((group) => {
+            const groupModules = group.modules.filter((module) =>
+              currentModules.includes(module)
+            );
+            if (groupModules.length === 0) return null;
             return (
-              <ModuleItem
-                key={`module-${type}`}
-                id={`module-${type}`}
-                $isTasksOrTarget={isTasksOrTarget}
-                $isVisible={isVisible}
-                initial={{ '--backgroundColor': appTheme.palette.white }}
-                animate={{
-                  '--backgroundColor': [
-                    appTheme.palette.yellow[200],
-                    appTheme.palette.yellow[100],
-                    appTheme.palette.yellow[100],
-                    appTheme.palette.white,
-                  ],
-                }}
-                transition={{
-                  duration: 2,
-                  times: [0, 0.2, 0.8, 1],
-                }}
-              >
-                <Component id={type} />
-              </ModuleItem>
+              <div key={group.id}>
+                <GroupTitle>{t(group.title)}</GroupTitle>
+                <AnimatePresence>
+                  {groupModules.map((type) => {
+                    const isVisible = availableModules.includes(type);
+                    const isTasksOrTarget =
+                      type === 'tasks' || type === 'target';
+                    const Component = getModuleBySlug(type)?.Component;
+                    if (!Component) return null;
+                    return (
+                      <ModuleItem
+                        key={`module-${type}`}
+                        id={`module-${type}`}
+                        $isTasksOrTarget={isTasksOrTarget}
+                        $isVisible={isVisible}
+                        initial={{
+                          '--backgroundColor': appTheme.palette.white,
+                        }}
+                        animate={{
+                          '--backgroundColor': [
+                            appTheme.palette.yellow[200],
+                            appTheme.palette.yellow[100],
+                            appTheme.palette.yellow[100],
+                            appTheme.palette.white,
+                          ],
+                        }}
+                        transition={{
+                          duration: 2,
+                          times: [0, 0.2, 0.8, 1],
+                        }}
+                      >
+                        <Component id={type} />
+                      </ModuleItem>
+                    );
+                  })}
+                </AnimatePresence>
+              </div>
             );
           })}
-        </AnimatePresence>
+        </GroupsWrapper>
         {activeTab.name !== 'summary' && <ModulesBottomNavigation />}
         <div
           className="scroll-spacer"

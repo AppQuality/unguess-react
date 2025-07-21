@@ -1,19 +1,5 @@
 import { createContext, ReactNode, useContext, useMemo, useState } from 'react';
-
-export type PlanTabName = 'setup' | 'target' | 'instructions' | 'summary';
-export type PlanTab = { name: PlanTabName; order: number; title: string };
-
-// keep order updated for animations and navigation
-export const PLAN_TABS: PlanTab[] = [
-  { name: 'setup', order: 0, title: '__PLAN_PAGE_TAB_SETUP_TAB_TITLE' },
-  { name: 'target', order: 1, title: '__PLAN_PAGE_TAB_TARGET_TAB_TITLE' },
-  {
-    name: 'instructions',
-    order: 2,
-    title: '__PLAN_PAGE_TAB_INSTRUCTIONS_TAB_TITLE',
-  },
-  { name: 'summary', order: 3, title: '__PLAN_PAGE_TAB_SUMMARY_TAB_TITLE' },
-];
+import { PlanTabName, PlanTab, PLAN_TABS } from '../common/constants';
 
 interface PlanContextProps {
   activeTab: PlanTab;

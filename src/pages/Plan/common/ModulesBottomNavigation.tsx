@@ -4,7 +4,8 @@ import { ReactComponent as ChevronRightIcon } from '@zendeskgarden/svg-icons/src
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { useModuleConfiguration } from 'src/features/modules/useModuleConfiguration';
-import { PLAN_TABS, usePlanContext } from '../context/planContext';
+import { usePlanContext } from '../context/planContext';
+import { PLAN_TABS } from './constants';
 
 export const ModulesBottomNavigation = () => {
   const { setActiveTab, activeTab } = usePlanContext();
