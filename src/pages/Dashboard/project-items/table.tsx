@@ -34,7 +34,11 @@ export const TableList = ({
   return (
     <Table
       isReadOnly
-      style={{ backgroundColor: 'white' }}
+      style={{
+        whiteSpace: 'normal',
+        wordBreak: 'break-word',
+        backgroundColor: 'white',
+      }}
       role="table"
       title="project-campaigns-table"
     >
