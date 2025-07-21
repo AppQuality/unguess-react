@@ -59,7 +59,7 @@ export const TableList = () => {
       columns={columns}
       style={{
         backgroundColor: 'white',
-        overflowWrap: 'break-word',
+        wordBreak: 'break-word',
         whiteSpace: 'normal',
       }}
     />
