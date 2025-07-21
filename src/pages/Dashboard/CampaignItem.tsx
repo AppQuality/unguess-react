@@ -25,6 +25,7 @@ export const CampaignItem = ({
 
   return (
     <CampaignCard
+      style={{ whiteSpace: 'normal', wordBreak: 'break-word' }}
       className="suggested-campaign-card"
       // isNew={campaign?.isNew} TODO: need an API update
       date={format(new Date(campaign.start_date), 'dd/MM/y')}
