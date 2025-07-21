@@ -10,6 +10,8 @@ const CardsGrid = styled.div`
   padding: ${appTheme.space.xl} 0;
   display: grid;
   grid-template-columns: 1fr;
+  white-space: normal;
+  word-break: break-word;
   row-gap: ${appTheme.space.lg};
   column-gap: ${appTheme.space.md};
   @container cardsWrapper (min-width: 450px) {
