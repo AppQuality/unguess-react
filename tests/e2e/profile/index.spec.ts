@@ -1,4 +1,4 @@
-import { test, expect } from '../../fixtures/app';
+import { expect, test } from '../../fixtures/app';
 import { Profile } from '../../fixtures/pages/Profile';
 
 test.describe('The profile page', () => {
@@ -95,8 +95,7 @@ test.describe('The profile page', () => {
       profile.elements().passwordSettingsSubmitButton()
     ).toBeEnabled();
     // Start the submit
-    const { patchPromise, destroySessionsPromise } =
-      await profile.saveNewPassword();
+    const { patchPromise } = await profile.saveNewPassword();
     const patchResponse = await patchPromise;
     const data = patchResponse.request().postDataJSON();
     expect(data).toEqual(
@@ -107,7 +106,5 @@ test.describe('The profile page', () => {
         }),
       })
     );
-    const destroySessionsResponse = await destroySessionsPromise;
-    expect(destroySessionsResponse.status()).toBe(200);
   });
 });

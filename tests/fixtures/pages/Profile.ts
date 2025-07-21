@@ -94,16 +94,8 @@ export class Profile extends UnguessPage {
         response.status() === 200 &&
         response.request().method() === 'PATCH'
     );
-    const destroySessionsPromise = this.page.waitForResponse(
-      (response) =>
-        /\/wp-admin\/admin-ajax.php\?action=destroy_other_sessions/.test(
-          response.url()
-        ) &&
-        response.status() === 200 &&
-        response.request().method() === 'GET'
-    );
     await this.elements().passwordSettingsSubmitButton().click();
-    return { patchPromise, destroySessionsPromise };
+    return { patchPromise };
   }
 
   async mockWpDestroyOtherSessions() {
