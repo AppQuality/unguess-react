@@ -82,6 +82,7 @@ const TouchpointsList = () => {
           {hasFeatureFlag(FEATURE_FLAG_CHANGE_MODULES_VARIANTS) &&
             getPlanStatus() === 'draft' && (
               <Button
+                data-qa="remove-module-button"
                 isBasic
                 isDanger
                 size="small"

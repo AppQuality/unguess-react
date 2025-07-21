@@ -103,6 +103,7 @@ const planModuleSlice = createSlice({
       state.currentModules = state.currentModules.filter(
         (module) => module !== action.payload
       );
+      // Remove errors related to the removed module
       const newErrors = { ...state.errors };
       Object.keys(newErrors).forEach((key) => {
         if (key.startsWith(`${action.payload}.`) || key === action.payload) {
@@ -110,6 +111,10 @@ const planModuleSlice = createSlice({
         }
       });
       state.errors = newErrors;
+      // remove the validation function for the removed module
+      if (state.validationFunctions[action.payload]) {
+        delete state.validationFunctions[action.payload];
+      }
     },
     setStatus: (state, action: PayloadAction<string>) => {
       state.status = action.payload;

@@ -1,16 +1,19 @@
 import examplePatch from '../../api/plans/pid/_patch/request_Example_1.json';
 import { expect, test } from '../../fixtures/app';
 import { PlanPage } from '../../fixtures/pages/Plan';
+import { TouchpointsModule } from '../../fixtures/pages/Plan/Module_touchpoints';
 import { RequestQuotationModal } from '../../fixtures/pages/Plan/RequestQuotationModal';
 
 test.describe('The module builder', () => {
   let planPage: PlanPage;
   let requestQuotationModal: RequestQuotationModal;
+  let touchpointsModule: TouchpointsModule;
 
   test.beforeEach(async ({ page }, testinfo) => {
     testinfo.setTimeout(60000);
     planPage = new PlanPage(page);
     requestQuotationModal = new RequestQuotationModal(page);
+    touchpointsModule = new TouchpointsModule(page);
     await planPage.loggedIn();
     await planPage.mockPreferences();
     await planPage.mockWorkspace();
@@ -71,6 +74,18 @@ test.describe('The module builder', () => {
     const response = await requestQuotationModal.submitRequest();
     const data = response.request().postDataJSON();
     expect(data).toEqual({ status: 'pending_review' });
+  });
+
+  test("it's possible to add a module, and remove it without triggering validation errors", async () => {
+    await touchpointsModule.addModule();
+    await expect(touchpointsModule.elements().module()).toBeVisible();
+    await touchpointsModule.removeModule();
+    await expect(touchpointsModule.elements().module()).not.toBeVisible();
+    // Try to request a quote for the plan (should not throw validation error for deleted module)
+    await planPage.elements().requestQuotationCTA().click();
+    await requestQuotationModal.submitRequest();
+    // If the validation function was not pruned, this would throw or fail to PATCH
+    // No assertion needed: test will fail if validation error is thrown
   });
 });
 

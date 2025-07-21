@@ -13,6 +13,7 @@ import { LocalityModule } from './Module_locality';
 import { OutOfScopeModule } from './Module_out_of_scope';
 import { TargetModule } from './Module_target';
 import { TasksModule } from './Module_tasks';
+import { TouchpointsModule } from './Module_touchpoints';
 
 interface TabModule {
   expectToBeReadonly(): Promise<void>;
@@ -26,6 +27,7 @@ export class PlanPage extends UnguessPage {
   constructor(page: Page) {
     super(page);
     this.modules = {
+      touchpoints: new TouchpointsModule(page),
       age: new AgeModule(page),
       gender: new GenderModule(page),
       outOfScope: new OutOfScopeModule(page),

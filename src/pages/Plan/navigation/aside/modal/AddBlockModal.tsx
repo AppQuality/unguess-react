@@ -50,6 +50,8 @@ const AddBlockModal = () => {
 
   return (
     <TooltipModal
+      role="dialog"
+      data-qa="plans-nav-add-block-dialog"
       referenceElement={modalRef}
       onClose={() => setModalRef(null)}
       placement="top-start"
