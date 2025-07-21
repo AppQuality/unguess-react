@@ -1,5 +1,5 @@
 import { components } from 'src/common/schema';
-import { PlanTabName } from '../../context/planContext';
+import { PlanTabName } from '../../common/constants';
 
 type ModuleSchemaMap = {
   [M in components['schemas']['Module'] as M['type']]: {

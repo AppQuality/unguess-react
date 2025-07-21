@@ -6,7 +6,7 @@ import { useModuleConfiguration } from 'src/features/modules/useModuleConfigurat
 import styled from 'styled-components';
 import { NavContainer } from '../../common/NavContainer';
 import { usePlanContext } from '../../context/planContext';
-import { getModuleBySlug, getModulesByTab } from '../../modules/Factory';
+import { getModuleBySlug } from '../../modules/Factory';
 import { AddBlockButton } from './AddBlockButton';
 import { AddBlockModal } from './modal/AddBlockModal';
 import { NavItem } from './NavItem';
@@ -28,7 +28,6 @@ const ChildrenContainer = styled.div`
 
 const NavBody = () => {
   const { activeTab } = usePlanContext();
-  const availableModules = getModulesByTab(activeTab.name);
   // Sort availableModules according to group/order structure
   const groupConfig = MODULE_GROUPS[activeTab.name] || [];
   const { getPlanStatus } = useModuleConfiguration();

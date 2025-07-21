@@ -54,7 +54,7 @@ export const MODULE_GROUPS: Record<PlanTabName, ModuleGroup[]> = {
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const i18nPlanTitles = () => {
   // Only for i18n extraction tools, do not use in runtime
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  // eslint-disable-next-line @typescript-eslint/no-var-requires, global-require
   const { t } = require('react-i18next');
   // Group titles
   t('__PLAN_PAGE_GROUP_TITLE_ESSENTIALS');
