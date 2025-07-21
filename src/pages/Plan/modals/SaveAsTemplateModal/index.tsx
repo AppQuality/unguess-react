@@ -7,6 +7,8 @@ import {
 import { Formik } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { useModule } from 'src/features/modules/useModule';
+import { useSubmit } from 'src/features/modules/useModuleConfiguration';
+import { useValidateForm } from 'src/features/planModules';
 import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
 import * as yup from 'yup';
 import { usePlanContext } from '../../context/planContext';
@@ -31,6 +33,9 @@ const FormProvider = ({
   };
   const { addToast } = useToast();
   const { save: savePlanAsTemplate } = useSaveTemplate();
+  const { validateForm } = useValidateForm();
+  const { handleSubmit: submitModuleConfiguration, isLoading: isSubmitting } =
+    useSubmit(planId || '');
   const validationSchema = yup.object().shape({
     templateName: yup
       .string()
@@ -50,6 +55,9 @@ const FormProvider = ({
         if (!activeWorkspace) return;
         setSubmitting(true);
         try {
+          await validateForm();
+          await submitModuleConfiguration();
+
           await savePlanAsTemplate({
             wid: activeWorkspace.id.toString(),
             body: {
