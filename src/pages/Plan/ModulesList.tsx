@@ -47,9 +47,29 @@ export const ModulesList = () => {
   // Calculate direction before updating ref
   const initialX = activeTab.order > prevOrderRef.current ? 10 : -10;
 
+  // Track previous modules to detect additions
+  const prevModulesRef = useRef<string[]>(currentModules);
+  // Refs for each module type
+  const moduleRefs = useRef<Record<string, HTMLDivElement | null>>({});
+
   useEffect(() => {
     prevOrderRef.current = activeTab.order;
   }, [activeTab.order]);
+
+  useEffect(() => {
+    // Find newly added module
+    const prev = prevModulesRef.current;
+    if (currentModules.length > prev.length) {
+      const newModule = currentModules.find((m) => !prev.includes(m));
+      if (newModule && moduleRefs.current[newModule]) {
+        moduleRefs.current[newModule]?.scrollIntoView({
+          behavior: 'smooth',
+          block: 'center',
+        });
+      }
+    }
+    prevModulesRef.current = currentModules;
+  }, [currentModules]);
 
   if (!availableModules.length) {
     return null;
@@ -76,7 +96,7 @@ export const ModulesList = () => {
             return (
               <div key={group.id}>
                 <GroupTitle>{t(group.title)}</GroupTitle>
-                <AnimatePresence>
+                <AnimatePresence initial={false}>
                   {groupModules.map((type) => {
                     const isVisible = availableModules.includes(type);
                     const isTasksOrTarget =
@@ -87,6 +107,9 @@ export const ModulesList = () => {
                       <ModuleItem
                         key={`module-${type}`}
                         id={`module-${type}`}
+                        ref={(el) => {
+                          moduleRefs.current[type] = el;
+                        }}
                         $isTasksOrTarget={isTasksOrTarget}
                         $isVisible={isVisible}
                         initial={{

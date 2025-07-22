@@ -8,6 +8,11 @@ export type PlanTab = { name: PlanTabName; order: number; title: string };
 export const MODULE_GROUPS: Record<PlanTabName, ModuleGroup[]> = {
   setup: [
     {
+      id: 'beforeStartingSetup',
+      title: '__PLAN_PAGE_GROUP_TITLE_BEFORE_STARTING',
+      modules: ['setup_note'],
+    },
+    {
       id: 'essentials',
       title: '__PLAN_PAGE_GROUP_TITLE_ESSENTIALS',
       modules: ['goal'],
@@ -20,9 +25,21 @@ export const MODULE_GROUPS: Record<PlanTabName, ModuleGroup[]> = {
   ],
   target: [
     {
+      id: 'beforeStartingTargeting',
+      title: '__PLAN_PAGE_GROUP_TITLE_BEFORE_STARTING',
+      modules: ['target_note'],
+    },
+    {
       id: 'demographicCriteria',
       title: '__PLAN_PAGE_GROUP_TITLE_DEMOGRAPHIC_CRITERIA',
-      modules: ['language', 'locality', 'gender', 'age'],
+      modules: [
+        'language',
+        'locality',
+        'gender',
+        'age',
+        'target',
+        'annual_income_range',
+      ],
     },
     {
       id: 'behaviouralData',
@@ -30,12 +47,28 @@ export const MODULE_GROUPS: Record<PlanTabName, ModuleGroup[]> = {
       modules: ['literacy'],
     },
     {
+      id: 'utilityCriteria',
+      title: '__PLAN_PAGE_GROUP_TITLE_UTILITY_CRITERIA',
+      modules: [
+        'bank',
+        'home_internet',
+        'mobile_internet',
+        'elettricity_supply',
+        'gas_supply',
+      ],
+    },
+    {
       id: 'advancedCriteria',
       title: '__PLAN_PAGE_GROUP_TITLE_ADVANCED_CRITERIA',
-      modules: ['target_note'],
+      modules: ['additional_target'],
     },
   ],
   instructions: [
+    {
+      id: 'beforeStartingInstructions',
+      title: '__PLAN_PAGE_GROUP_TITLE_BEFORE_STARTING',
+      modules: ['instruction_note'],
+    },
     {
       id: 'activityScope',
       title: '__PLAN_PAGE_GROUP_TITLE_ACTIVITY_SCOPE',
@@ -57,6 +90,8 @@ const i18nPlanTitles = () => {
   // eslint-disable-next-line @typescript-eslint/no-var-requires, global-require
   const { t } = require('react-i18next');
   // Group titles
+  t('__PLAN_PAGE_GROUP_TITLE_UTILITY_CRITERIA');
+  t('__PLAN_PAGE_GROUP_TITLE_BEFORE_STARTING');
   t('__PLAN_PAGE_GROUP_TITLE_ESSENTIALS');
   t('__PLAN_PAGE_GROUP_TITLE_TECHNICAL_REQUIREMENTS');
   t('__PLAN_PAGE_GROUP_TITLE_DEMOGRAPHIC_CRITERIA');
