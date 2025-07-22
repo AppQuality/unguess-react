@@ -41,12 +41,7 @@ const AddBlockModal = () => {
     };
   });
 
-  // Check if there is at least one enabled item in any group
-  const hasEnabled = groupedItems.some((group) =>
-    group.items.some((item) => item.enabled)
-  );
-
-  if (!modalRef || !hasEnabled) {
+  if (!modalRef) {
     return null;
   }
 
