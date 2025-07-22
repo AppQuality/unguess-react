@@ -11,18 +11,24 @@ import { TabTitle } from './common/TabTitle';
 import { usePlanContext } from './context/planContext';
 import { getModuleBySlug, getModulesByTab } from './modules/Factory';
 
-const ModuleItem = styled(motion.div)<{
+const ModuleItem = styled.div<{
   $isTasksOrTarget: boolean;
-  $isVisible: boolean;
 }>`
   margin-bottom: ${({ theme }) => theme.space.lg};
   padding-left: ${({ $isTasksOrTarget, theme }) =>
     $isTasksOrTarget ? 0 : theme.space.xs};
   padding-right: ${({ $isTasksOrTarget, theme }) =>
     $isTasksOrTarget ? 0 : theme.space.xs};
-  display: ${({ $isVisible }) => ($isVisible ? 'block' : 'none')};
-  [data-garden-id='accordions.section'] {
-    background-color: var(--backgroundColor, ${appTheme.palette.white});
+  [data-garden-id='accordions.section'],
+  [data-garden-id='notifications.well'] {
+    background-color: ${appTheme.palette.white};
+    border: 1px solid ${appTheme.palette.grey['300']};
+  }
+  &.newly-added-module {
+    [data-garden-id='accordions.section'],
+    [data-garden-id='notifications.well'] {
+      animation: highlight 3.4s ease-out;
+    }
   }
 `;
 
@@ -30,6 +36,20 @@ const GroupsWrapper = styled.div`
   > div {
     &:not(:last-child) {
       border-bottom: 1px solid ${appTheme.palette.grey['200']};
+    }
+  }
+  @keyframes highlight {
+    0% {
+      background-color: ${appTheme.palette.yellow[100]};
+      border-color: ${appTheme.palette.yellow['500']};
+    }
+    30% {
+      background-color: ${appTheme.palette.yellow[100]};
+      border-color: ${appTheme.palette.yellow['500']};
+    }
+    100% {
+      background-color: ${appTheme.palette.white};
+      border-color: ${appTheme.palette.grey['300']};
     }
   }
 `;
@@ -56,16 +76,24 @@ export const ModulesList = () => {
     prevOrderRef.current = activeTab.order;
   }, [activeTab.order]);
 
+  // Find newly added module
   useEffect(() => {
-    // Find newly added module
     const prev = prevModulesRef.current;
     if (currentModules.length > prev.length) {
       const newModule = currentModules.find((m) => !prev.includes(m));
-      if (newModule && moduleRefs.current[newModule]) {
-        moduleRefs.current[newModule]?.scrollIntoView({
+
+      if (newModule && moduleRefs.current[`${newModule}`]) {
+        moduleRefs.current[`${newModule}`]?.scrollIntoView({
           behavior: 'smooth',
           block: 'center',
         });
+        // add here a class to highlight the newly added module with an animation
+        moduleRefs.current[`${newModule}`]?.classList.add('newly-added-module');
+        setTimeout(() => {
+          moduleRefs.current[`${newModule}`]?.classList.remove(
+            'newly-added-module'
+          );
+        }, 3500); // Remove highlight after 2.5 seconds
       }
     }
     prevModulesRef.current = currentModules;
@@ -75,7 +103,7 @@ export const ModulesList = () => {
     return null;
   }
 
-  const groupConfig = MODULE_GROUPS[activeTab.name] || [];
+  const groupConfig = MODULE_GROUPS[`${activeTab.name}`] || [];
 
   return (
     <AnimatePresence mode="wait">
@@ -96,43 +124,23 @@ export const ModulesList = () => {
             return (
               <div key={group.id}>
                 <GroupTitle>{t(group.title)}</GroupTitle>
-                <AnimatePresence initial={false}>
-                  {groupModules.map((type) => {
-                    const isVisible = availableModules.includes(type);
-                    const isTasksOrTarget =
-                      type === 'tasks' || type === 'target';
-                    const Component = getModuleBySlug(type)?.Component;
-                    if (!Component) return null;
-                    return (
-                      <ModuleItem
-                        key={`module-${type}`}
-                        id={`module-${type}`}
-                        ref={(el) => {
-                          moduleRefs.current[type] = el;
-                        }}
-                        $isTasksOrTarget={isTasksOrTarget}
-                        $isVisible={isVisible}
-                        initial={{
-                          '--backgroundColor': appTheme.palette.white,
-                        }}
-                        animate={{
-                          '--backgroundColor': [
-                            appTheme.palette.yellow[200],
-                            appTheme.palette.yellow[100],
-                            appTheme.palette.yellow[100],
-                            appTheme.palette.white,
-                          ],
-                        }}
-                        transition={{
-                          duration: 2,
-                          times: [0, 0.2, 0.8, 1],
-                        }}
-                      >
-                        <Component id={type} />
-                      </ModuleItem>
-                    );
-                  })}
-                </AnimatePresence>
+                {groupModules.map((type) => {
+                  const isTasksOrTarget = type === 'tasks' || type === 'target';
+                  const Component = getModuleBySlug(type)?.Component;
+                  if (!Component) return null;
+                  return (
+                    <ModuleItem
+                      key={`module-${type}`}
+                      id={`module-${type}`}
+                      ref={(el) => {
+                        moduleRefs.current[`${type}`] = el;
+                      }}
+                      $isTasksOrTarget={isTasksOrTarget}
+                    >
+                      <Component id={type} />
+                    </ModuleItem>
+                  );
+                })}
               </div>
             );
           })}

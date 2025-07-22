@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useAppSelector } from 'src/app/hooks';
 import { appTheme } from 'src/app/theme';
 import { components } from 'src/common/schema';
-import { getModulesByTab } from 'src/pages/Plan/modules/Factory';
+import { MODULE_GROUPS } from 'src/pages/Plan/common/constants';
 import styled from 'styled-components';
 import { usePlanContext } from '../../../context/planContext';
 import { usePlanNavContext } from '../context';
@@ -25,26 +25,28 @@ const AddBlockModal = () => {
   const { t } = useTranslation();
   const { modalRef, setModalRef } = usePlanNavContext();
   const { activeTab } = usePlanContext();
-  const availableModules = getModulesByTab(activeTab.name);
   const { currentModules } = useAppSelector((state) => state.planModules);
+  const groupConfig = MODULE_GROUPS[activeTab.name] || [];
 
-  const items = availableModules.map((module_type) => {
-    if (currentModules.find((module) => module === module_type)) {
-      return {
-        type: module_type as components['schemas']['Module']['type'],
-        enabled: false,
-      };
-    }
-
-    return {
+  // Build grouped items with enabled/disabled state
+  const groupedItems = groupConfig.map((group) => {
+    const items = group.modules.map((module_type) => ({
       type: module_type as components['schemas']['Module']['type'],
-      enabled: true,
+      enabled: !currentModules.includes(module_type),
+    }));
+    return {
+      id: group.id,
+      title: group.title,
+      items,
     };
   });
 
-  const disabled = items.filter((item) => item.enabled).length === 0;
+  // Check if there is at least one enabled item in any group
+  const hasEnabled = groupedItems.some((group) =>
+    group.items.some((item) => item.enabled)
+  );
 
-  if (!modalRef || disabled) {
+  if (!modalRef || !hasEnabled) {
     return null;
   }
 
@@ -65,11 +67,18 @@ const AddBlockModal = () => {
         </SM>
       </TooltipModal.Title>
       <TooltipModal.Body style={{ maxHeight: '75vh', overflowY: 'auto' }}>
-        <ButtonsContainer>
-          {items.map((item) => (
-            <AddBlockModalItem key={item.type} item={item} />
-          ))}
-        </ButtonsContainer>
+        {groupedItems.map((group) => (
+          <div key={group.id} style={{ marginBottom: appTheme.space.md }}>
+            <MD isBold style={{ marginBottom: appTheme.space.xs }}>
+              {t(group.title)}
+            </MD>
+            <ButtonsContainer>
+              {group.items.map((item) => (
+                <AddBlockModalItem key={item.type} item={item} />
+              ))}
+            </ButtonsContainer>
+          </div>
+        ))}
       </TooltipModal.Body>
     </TooltipModal>
   );

@@ -20,7 +20,7 @@ export const MODULE_GROUPS: Record<PlanTabName, ModuleGroup[]> = {
     {
       id: 'technicalRequirements',
       title: '__PLAN_PAGE_GROUP_TITLE_TECHNICAL_REQUIREMENTS',
-      modules: ['touchpoints', 'browser'],
+      modules: ['browser', 'touchpoints'],
     },
   ],
   target: [
@@ -33,12 +33,13 @@ export const MODULE_GROUPS: Record<PlanTabName, ModuleGroup[]> = {
       id: 'demographicCriteria',
       title: '__PLAN_PAGE_GROUP_TITLE_DEMOGRAPHIC_CRITERIA',
       modules: [
-        'language',
-        'locality',
-        'gender',
-        'age',
-        'target',
         'annual_income_range',
+        'age',
+        'employment',
+        'gender',
+        'locality',
+        'language',
+        'target',
       ],
     },
     {
