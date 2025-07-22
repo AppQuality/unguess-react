@@ -132,29 +132,17 @@
           {
             "description": "description kind bug",
             "kind": "bug",
-            "title": "Search for bugs"
+            "title": "Search for bugs",
+            "id": "bug-1"
           },
           {
-            "description": "description kind bug",
+            "description": "description kind video",
             "kind": "video",
-            "title": "Think aloud"
+            "title": "Think aloud",
+            "id": "video-1"
           }
         ],
         "type": "tasks",
-        "variant": "default"
-      },
-      {
-        "output": [
-          {
-            "isOther": 0,
-            "name": "Enel Energia"
-          },
-          {
-            "isOther": 1,
-            "name": "Other Energia"
-          }
-        ],
-        "type": "elettricity_supply",
         "variant": "default"
       },
       {
@@ -169,6 +157,20 @@
           }
         ],
         "type": "gas_supply",
+        "variant": "default"
+      },
+      {
+        "output": [
+          {
+            "isOther": 0,
+            "name": "Enel Energia"
+          },
+          {
+            "isOther": 1,
+            "name": "Other Energia"
+          }
+        ],
+        "type": "elettricity_supply",
         "variant": "default"
       },
       {

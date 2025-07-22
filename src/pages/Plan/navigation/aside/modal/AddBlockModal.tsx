@@ -5,7 +5,7 @@ import { appTheme } from 'src/app/theme';
 import { components } from 'src/common/schema';
 import { getModulesByTab } from 'src/pages/Plan/modules/Factory';
 import styled from 'styled-components';
-import { usePlanTab } from '../../../context/planContext';
+import { usePlanContext } from '../../../context/planContext';
 import { usePlanNavContext } from '../context';
 import { AddBlockModalItem } from './AddBlockModalItem';
 
@@ -24,7 +24,7 @@ const ButtonsContainer = styled.div`
 const AddBlockModal = () => {
   const { t } = useTranslation();
   const { modalRef, setModalRef } = usePlanNavContext();
-  const { activeTab } = usePlanTab();
+  const { activeTab } = usePlanContext();
   const availableModules = getModulesByTab(activeTab);
   const { currentModules } = useAppSelector((state) => state.planModules);
 
@@ -50,6 +50,8 @@ const AddBlockModal = () => {
 
   return (
     <TooltipModal
+      role="dialog"
+      data-qa="plans-nav-add-block-dialog"
       referenceElement={modalRef}
       onClose={() => setModalRef(null)}
       placement="top-start"

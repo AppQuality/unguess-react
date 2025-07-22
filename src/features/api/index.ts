@@ -541,6 +541,13 @@ const injectedRtkApi = api.injectEndpoints({
     getUsersMe: build.query<GetUsersMeApiResponse, GetUsersMeApiArg>({
       query: () => ({ url: `/users/me` }),
     }),
+    patchUsersMe: build.mutation<PatchUsersMeApiResponse, PatchUsersMeApiArg>({
+      query: (queryArg) => ({
+        url: `/users/me`,
+        method: 'PATCH',
+        body: queryArg.body,
+      }),
+    }),
     getUsersMePreferences: build.query<
       GetUsersMePreferencesApiResponse,
       GetUsersMePreferencesApiArg
@@ -745,6 +752,16 @@ const injectedRtkApi = api.injectEndpoints({
           order: queryArg.order,
           filterBy: queryArg.filterBy,
         },
+      }),
+    }),
+    postWorkspacesByWidTemplates: build.mutation<
+      PostWorkspacesByWidTemplatesApiResponse,
+      PostWorkspacesByWidTemplatesApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/workspaces/${queryArg.wid}/templates`,
+        method: 'POST',
+        body: queryArg.body,
       }),
     }),
     deleteWorkspacesByWidTemplatesAndTid: build.mutation<
@@ -1606,6 +1623,22 @@ export type HeadUsersByEmailByEmailApiArg = {
 };
 export type GetUsersMeApiResponse = /** status 200  */ User;
 export type GetUsersMeApiArg = void;
+export type PatchUsersMeApiResponse = /** status 200 OK */ {
+  name?: string;
+  role?: string;
+  surname?: string;
+};
+export type PatchUsersMeApiArg = {
+  body: {
+    name?: string;
+    password?: {
+      current: string;
+      new: string;
+    };
+    roleId?: number;
+    surname?: string;
+  };
+};
 export type GetUsersMePreferencesApiResponse = /** status 200 OK */ {
   items?: UserPreference[];
 };
@@ -1861,6 +1894,19 @@ export type GetWorkspacesByWidTemplatesApiArg = {
   order?: string;
   /** filterBy[<fieldName>]=<fieldValue> */
   filterBy?: any;
+};
+export type PostWorkspacesByWidTemplatesApiResponse =
+  /** status 201 Created */ {
+    id: number;
+  };
+export type PostWorkspacesByWidTemplatesApiArg = {
+  /** Workspace (company, customer) id */
+  wid: string;
+  body: {
+    description?: string;
+    from_plan: number;
+    name: string;
+  };
 };
 export type DeleteWorkspacesByWidTemplatesAndTidApiResponse =
   /** status 200 OK */ {};
@@ -2375,36 +2421,42 @@ export type ModuleDate = {
 };
 export type SubcomponentTaskVideo = {
   description?: string;
+  id?: string;
   kind: 'video';
   title: string;
   url?: string;
 };
 export type SubcomponentTaskBug = {
   description?: string;
+  id?: string;
   kind: 'bug';
   title: string;
   url?: string;
 };
 export type SubcomponentTaskSurvey = {
   description?: string;
+  id?: string;
   kind: 'survey';
   title: string;
   url?: string;
 };
 export type OutputModuleTaskModerateVideo = {
   description?: string;
+  id?: string;
   kind: 'moderate-video';
   title: string;
   url?: string;
 };
 export type OutputModuleTaskExplorativeBug = {
   description?: string;
+  id?: string;
   kind: 'explorative-bug';
   title: string;
   url?: string;
 };
 export type OutputModuleTaskAccessibility = {
   description?: string;
+  id?: string;
   kind: 'accessibility';
   title: string;
   url?: string;
@@ -2674,8 +2726,10 @@ export type User = {
   customer_role: string;
   email: string;
   features?: Feature[];
+  first_name: string;
   /** This is the main id of the user. Currently is equal to tryber_wp_user_id */
   id: number;
+  last_name: string;
   name: string;
   picture?: string;
   profile_id: number;
@@ -2832,6 +2886,7 @@ export const {
   usePostUsersMutation,
   useHeadUsersByEmailByEmailMutation,
   useGetUsersMeQuery,
+  usePatchUsersMeMutation,
   useGetUsersMePreferencesQuery,
   usePutUsersMePreferencesBySlugMutation,
   useGetUsersRolesQuery,
@@ -2854,6 +2909,7 @@ export const {
   useGetWorkspacesByWidProjectsAndPidQuery,
   useGetWorkspacesByWidProjectsAndPidCampaignsQuery,
   useGetWorkspacesByWidTemplatesQuery,
+  usePostWorkspacesByWidTemplatesMutation,
   useDeleteWorkspacesByWidTemplatesAndTidMutation,
   useGetWorkspacesByWidTemplatesAndTidQuery,
   useDeleteWorkspacesByWidUsersMutation,

@@ -5,25 +5,24 @@ import { ReactComponent as ExploratoryTaskIcon } from 'src/assets/icons/explorat
 import { ReactComponent as FunctionalTaskIcon } from 'src/assets/icons/functional-task-icon.svg';
 import { ReactComponent as SurveyTaskIcon } from 'src/assets/icons/survey-task-icon.svg';
 import { ReactComponent as ThinkingAloudTaskIcon } from 'src/assets/icons/thinking-aloud-task-icon.svg';
-import { components } from 'src/common/schema';
-import { useModuleTasks } from '../hooks';
 
-const getIconColor = (
-  task: components['schemas']['OutputModuleTask'] & { key: number }
-) => {
-  const { key } = task;
+import { TTask, useModuleTasks } from '../hooks';
+
+const getIconColor = (task: TTask) => {
   const { error } = useModuleTasks();
   const titleError =
-    error && typeof error === 'object' && `tasks.${key}.title` in error
-      ? error[`tasks.${key}.title`]
+    error && typeof error === 'object' && `tasks.${task.id}.title` in error
+      ? error[`tasks.${task.id}.title`]
       : false;
   const descriptionError =
-    error && typeof error === 'object' && `tasks.${key}.description` in error
-      ? error[`tasks.${key}.description`]
+    error &&
+    typeof error === 'object' &&
+    `tasks.${task.id}.description` in error
+      ? error[`tasks.${task.id}.description`]
       : false;
   const invalidUrlError =
-    error && typeof error === 'object' && `tasks.${key}.url` in error
-      ? error[`tasks.${key}.url`]
+    error && typeof error === 'object' && `tasks.${task.id}.url` in error
+      ? error[`tasks.${task.id}.url`]
       : false;
 
   const hasErrors = titleError || descriptionError || invalidUrlError;
@@ -34,9 +33,7 @@ const getIconColor = (
   return getColor(appTheme.colors.primaryHue, 600);
 };
 
-const getIconFromTaskOutput = (
-  task: components['schemas']['OutputModuleTask'] & { key: number }
-) => {
+const getIconFromTaskOutput = (task: TTask) => {
   const { kind } = task;
   const color = getIconColor(task);
 

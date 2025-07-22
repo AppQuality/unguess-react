@@ -6,13 +6,14 @@ import { appTheme } from 'src/app/theme';
 import styled from 'styled-components';
 import { StickyCol } from '../common/StickyCol';
 import { TabTitle } from '../common/TabTitle';
-import { usePlanTab } from '../context/planContext';
+import { usePlanContext } from '../context/planContext';
 import { usePlan } from '../hooks/usePlan';
 import { ActivityInfo } from './components/ActivityInfo';
 import { ConfirmationCard } from './components/ConfirmationCard';
 import { DetailsCard } from './components/DetailsCard';
 import { GoToDashboardCard } from './components/GoToDashboard';
 import { IntroductionCard } from './components/IntroductionCard';
+import { SaveTemplateCard } from './components/SaveTemplateCard';
 
 const StyledDiv = styled.div`
   display: flex;
@@ -24,7 +25,7 @@ const SummaryBody = () => {
   const { t } = useTranslation();
   const { planId } = useParams();
   const { plan } = usePlan(planId);
-  const { setActiveTab } = usePlanTab();
+  const { setActiveTab } = usePlanContext();
   if (!plan) return null;
 
   if (plan.status === 'draft') {
@@ -40,6 +41,7 @@ const SummaryBody = () => {
           <IntroductionCard />
           <ActivityInfo />
           <ConfirmationCard />
+          <SaveTemplateCard />
           <GoToDashboardCard />
         </StyledDiv>
         <Button

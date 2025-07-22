@@ -23,6 +23,7 @@ import Manual from 'src/pages/Manual';
 import MediaNotFound from 'src/pages/NotFound/MediaNotFound';
 import NotFound from 'src/pages/NotFound/NotFound';
 import Plan from 'src/pages/Plan';
+import Profile from 'src/pages/Profile';
 import Template from 'src/pages/Template';
 import Templates from 'src/pages/Templates';
 import Video from 'src/pages/Video';
@@ -45,7 +46,11 @@ const Pages = () => {
                 <Route
                   path={`/${langPrefix}`}
                   key={`react-router-${langPrefix}`}
-                  errorElement={<ErrorBoundaryPage />}
+                  errorElement={
+                    process.env.NODE_ENV === 'development' ? undefined : (
+                      <ErrorBoundaryPage />
+                    )
+                  }
                 >
                   <Route
                     path={`/${langPrefix}/campaigns/:campaignId`}
@@ -116,6 +121,10 @@ const Pages = () => {
                   />
                   <Route path={`/${langPrefix}/oops`} element={<NotFound />} />
                   <Route index element={<Dashboard />} />
+                  <Route
+                    path={`/${langPrefix}/profile`}
+                    element={<Profile />}
+                  />
                 </Route>
               ))}
 

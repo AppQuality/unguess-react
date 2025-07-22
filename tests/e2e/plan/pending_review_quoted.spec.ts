@@ -1,4 +1,4 @@
-import { test, expect } from '../../fixtures/app';
+import { expect, test } from '../../fixtures/app';
 import { PlanPage } from '../../fixtures/pages/Plan';
 
 test.describe('A Plan page in pending request with a quote from us', () => {
@@ -30,9 +30,7 @@ test.describe('A Plan page in pending request with a quote from us', () => {
     await expect(
       moduleBuilderPage.elements().goToDashboardCTA()
     ).not.toBeVisible();
-    await expect(
-      moduleBuilderPage.elements().extraActionsMenu()
-    ).not.toBeVisible();
+    await expect(moduleBuilderPage.elements().extraActionsMenu()).toBeVisible();
     await expect(
       page
         .getByRole('status')

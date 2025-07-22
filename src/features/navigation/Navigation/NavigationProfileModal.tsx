@@ -4,12 +4,14 @@ import {
   useToast,
 } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
 import { isDev } from 'src/common/isDevEnvironment';
 import { prepareGravatar } from 'src/common/utils';
 import WPAPI from 'src/common/wpapi';
 import {
   useGetUsersMePreferencesQuery,
+  useGetUsersMeQuery,
   usePutUsersMePreferencesBySlugMutation,
 } from 'src/features/api';
 import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
@@ -20,12 +22,14 @@ export const NavigationProfileModal = () => {
   const isProfileModalOpen = useAppSelector(
     (state) => state.navigation.isProfileModalOpen
   );
-  const { userData: user } = useAppSelector((state) => state.user);
+  const { data: user, isLoading, error: dataError } = useGetUsersMeQuery();
+
   const { activeWorkspace } = useActiveWorkspace();
 
   const { addToast } = useToast();
   const { t, i18n } = useTranslation();
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const { data: preferences } = useGetUsersMePreferencesQuery();
 
@@ -62,6 +66,8 @@ export const NavigationProfileModal = () => {
       });
   };
 
+  if (dataError || !user || isLoading) return null;
+
   const profileModal = {
     user: {
       name: user.name,
@@ -90,6 +96,13 @@ export const NavigationProfileModal = () => {
     currentLanguage: i18n.language,
     feedbackTitle: t('__PROFILE_MODAL_FEEDBACK_TITLE'),
     feedbackSubTitle: t('__PROFILE_MODAL_FEEDBACK_SUBTITLE'),
+    profile: {
+      title: t('__PROFILE_MODAL_GO_TO_PROFILE'),
+      onClick: () => {
+        navigate('/profile');
+        dispatch(setProfileModalOpen(false));
+      },
+    },
     csmTitle: t('__PROFILE_MODAL_CSM_TITLE'),
     csmContactLabel: t('__PROFILE_MODAL_CSM_CONTACT_LABEL'),
     languageTitle: t('__PROFILE_MODAL_LANGUAGES_TITLE'),

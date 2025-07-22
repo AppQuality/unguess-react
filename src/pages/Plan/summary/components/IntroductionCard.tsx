@@ -1,4 +1,5 @@
-import { ContainerCard } from '@appquality/unguess-design-system';
+import { ContainerCard, XXL } from '@appquality/unguess-design-system';
+import { ComponentProps } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
@@ -7,7 +8,12 @@ import { ReactComponent as ApprovedImage } from '../assets/approved.svg';
 import { ReactComponent as AwaitingImage } from '../assets/awaiting.svg';
 import { ReactComponent as SubmittedImage } from '../assets/submitted.svg';
 import { Description } from './typography/Description';
-import { Title } from './typography/Title';
+
+const Title = styled((props: ComponentProps<typeof XXL>) => (
+  <XXL isBold {...props} />
+))`
+  color: ${({ theme }) => theme.palette.blue[600]};
+`;
 
 const ContentRow = styled.div`
   display: flex;
@@ -49,7 +55,7 @@ export const IntroductionCard = () => {
               <SubmittedImage />
             </ImageItem>
             <ContentItem>
-              <Title isBold>
+              <Title>
                 {t('__PLAN_PAGE_INTRODUCTION_CARD_SUBMITTED_TITLE')}
               </Title>
               <Description>
@@ -66,7 +72,7 @@ export const IntroductionCard = () => {
               <AwaitingImage />
             </ImageItem>
             <ContentItem>
-              <Title isBold>
+              <Title>
                 {t('__PLAN_PAGE_INTRODUCTION_CARD_AWAITING_REVIEW_TITLE')}
               </Title>
               <Description>
@@ -83,9 +89,7 @@ export const IntroductionCard = () => {
               <ApprovedImage />
             </ImageItem>
             <ContentItem>
-              <Title isBold>
-                {t('__PLAN_PAGE_INTRODUCTION_CARD_APPROVED_TITLE')}
-              </Title>
+              <Title>{t('__PLAN_PAGE_INTRODUCTION_CARD_APPROVED_TITLE')}</Title>
               <Description>
                 {t('__PLAN_PAGE_INTRODUCTION_CARD_APPROVED_DESCRIPTION')}
               </Description>

@@ -5,7 +5,7 @@ import { appTheme } from 'src/app/theme';
 import { useModuleConfiguration } from 'src/features/modules/useModuleConfiguration';
 import styled from 'styled-components';
 import { NavContainer } from '../../common/NavContainer';
-import { usePlanTab } from '../../context/planContext';
+import { usePlanContext } from '../../context/planContext';
 import { getModuleBySlug, getModulesByTab } from '../../modules/Factory';
 import { AddBlockButton } from './AddBlockButton';
 import { AddBlockModal } from './modal/AddBlockModal';
@@ -15,16 +15,17 @@ const BodyContainer = styled.div`
   max-height: calc(100vh - ${({ theme }) => theme.space.xxl});
   overflow-y: auto;
   margin-bottom: ${({ theme }) => theme.space.md};
+  margin-top: -${({ theme }) => theme.space.xs};
 `;
 
 const ChildrenContainer = styled.div`
   max-height: 300px;
   overflow-y: auto;
-  padding-right: ${({ theme }) => theme.space.xs};
+  padding-top: ${({ theme }) => theme.space.md};
 `;
 
 const NavBody = () => {
-  const { activeTab } = usePlanTab();
+  const { activeTab } = usePlanContext();
   const availableModules = getModulesByTab(activeTab);
   const { getPlanStatus } = useModuleConfiguration();
   const { currentModules } = useAppSelector((state) => state.planModules);

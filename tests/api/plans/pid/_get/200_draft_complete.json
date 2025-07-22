@@ -19,6 +19,20 @@
         "variant": "default"
       },
       {
+        "output": [
+          {
+            "isOther": 0,
+            "name": "Enel Energia"
+          },
+          {
+            "isOther": 1,
+            "name": "Other Gas"
+          }
+        ],
+        "type": "gas_supply",
+        "variant": "default"
+      },
+      {
         "output": 5,
         "type": "target",
         "variant": "default"
@@ -105,20 +119,6 @@
       {
         "output": [
           {
-            "isOther": 0,
-            "name": "Enel Energia"
-          },
-          {
-            "isOther": 1,
-            "name": "Other Gas"
-          }
-        ],
-        "type": "gas_supply",
-        "variant": "default"
-      },
-      {
-        "output": [
-          {
             "name": "Chrome",
             "percentage": 0
           }
@@ -155,12 +155,14 @@
           {
             "description": "description kind bug",
             "kind": "bug",
-            "title": "Search for bugs"
+            "title": "Search for bugs",
+            "id": "bug-1"
           },
           {
             "description": "description kind bug",
             "kind": "video",
-            "title": "Think aloud"
+            "title": "Think aloud",
+            "id": "video-1"
           }
         ],
         "type": "tasks",
