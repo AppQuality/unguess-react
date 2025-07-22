@@ -1,6 +1,7 @@
 import { Notification, useToast } from '@appquality/unguess-design-system';
 import { Formik } from 'formik';
 import { useTranslation } from 'react-i18next';
+import WPAPI from 'src/common/wpapi';
 import { usePatchUsersMeMutation } from 'src/features/api';
 import * as Yup from 'yup';
 import { Loader } from './parts/cardLoader';
@@ -11,7 +12,7 @@ import { PasswordFormValues } from './valuesType';
 export const FormPassword = () => {
   const { t } = useTranslation();
   const { addToast } = useToast();
-  const { isLoading } = useProfileData();
+  const { data, isLoading } = useProfileData();
   const [updateProfile] = usePatchUsersMeMutation();
 
   const initialValues: PasswordFormValues = {
@@ -55,60 +56,66 @@ export const FormPassword = () => {
       validateOnChange
       onSubmit={async (values, actions) => {
         actions.setSubmitting(true);
-        updateProfile({
-          body: {
-            password: {
-              current: values.currentPassword,
-              new: values.newPassword,
+        try {
+          await updateProfile({
+            body: {
+              password: {
+                current: values.currentPassword,
+                new: values.newPassword,
+              },
             },
-          },
-        })
-          .unwrap()
-          .then(() => {
+          }).unwrap();
+
+          const nonce = await WPAPI.getNonce();
+          await WPAPI.login({
+            username: data?.email || '',
+            password: values.newPassword,
+            security: nonce,
+          });
+
+          addToast(
+            ({ close }) => (
+              <Notification
+                onClose={close}
+                type="success"
+                message={t('__PROFILE_PAGE_TOAST_SUCCESS_PASSWORD_UPDATED')}
+                isPrimary
+              />
+            ),
+            { placement: 'top' }
+          );
+        } catch (e) {
+          const error = e as { status: number; data: { message: string } };
+          if (error.status === 417) {
             addToast(
               ({ close }) => (
                 <Notification
                   onClose={close}
-                  type="success"
-                  message={t('__PROFILE_PAGE_TOAST_SUCCESS_PASSWORD_UPDATED')}
+                  type="error"
+                  message={t(
+                    '__PROFILE_PAGE_TOAST_ERROR_INVALID_CURRENT_PASSWORD'
+                  )}
                   isPrimary
                 />
               ),
               { placement: 'top' }
             );
-          })
-          .catch((error) => {
-            if (error.status === 417) {
-              addToast(
-                ({ close }) => (
-                  <Notification
-                    onClose={close}
-                    type="error"
-                    message={t(
-                      '__PROFILE_PAGE_TOAST_ERROR_INVALID_CURRENT_PASSWORD'
-                    )}
-                    isPrimary
-                  />
-                ),
-                { placement: 'top' }
-              );
-            } else {
-              addToast(
-                ({ close }) => (
-                  <Notification
-                    onClose={close}
-                    type="error"
-                    message={t('__PROFILE_PAGE_TOAST_ERROR_UPDATING_PASSWORD')}
-                    isPrimary
-                  />
-                ),
-                { placement: 'top' }
-              );
-            }
-          })
-          .finally(() => {
-            actions.setSubmitting(false);
-          });
+          } else {
+            addToast(
+              ({ close }) => (
+                <Notification
+                  onClose={close}
+                  type="error"
+                  message={t('__PROFILE_PAGE_TOAST_ERROR_UPDATING_PASSWORD')}
+                  isPrimary
+                />
+              ),
+              { placement: 'top' }
+            );
+          }
+        } finally {
+          actions.setSubmitting(false);
+        }
       }}
     >
       <PasswordAccordion />
