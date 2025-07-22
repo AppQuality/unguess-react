@@ -313,6 +313,12 @@ unguessApi.enhanceEndpoints({
     deleteProjectsByPid: {
       invalidatesTags: ['Projects'],
     },
+    postWorkspacesByWidTemplates: {
+      invalidatesTags: ['Templates'],
+    },
+    getWorkspacesByWidTemplates: {
+      providesTags: ['Templates'],
+    },
   },
 });
 
