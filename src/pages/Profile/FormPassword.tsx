@@ -64,11 +64,8 @@ export const FormPassword = () => {
                 new: values.newPassword,
               },
             },
-          })
-            .unwrap()
-            .then(() => {
-              WPAPI.destroyOtherSessions();
-            });
+          }).unwrap();
+          await WPAPI.destroyOtherSessions();
 
           const nonce = await WPAPI.getNonce();
           await WPAPI.login({
