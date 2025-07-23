@@ -26,6 +26,8 @@ import { DeleteModuleConfirmationModal } from 'src/pages/Plan/modules/modal/Dele
 import styled from 'styled-components';
 import PercentageInput from './GenderPercentageInput';
 import { useIconWithValidation } from './useIcon';
+import { output } from 'motion/dist/react-client';
+import { set } from 'date-fns';
 
 const PercentageInputRow = styled(Row)`
   display: flex;
@@ -41,27 +43,13 @@ const Gender = () => {
   const { getPlanStatus } = useModuleConfiguration();
   const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false);
   const { value, setOutput, setVariant, remove } = useModule('gender');
-  const initialFemale =
-    value?.output?.find((g) => g.gender === 'female')?.percentage ?? 0;
-  const initialMale =
-    value?.output?.find((g) => g.gender === 'male')?.percentage ?? 0;
-  const initialVariant = value?.variant ?? 'default';
-  const [isAddPercentageClicked, setIsAddPercentageClicked] = useState(
-    initialVariant === 'percentage'
-  );
-  const [femalePercentage, setFemalePercentage] = useState(initialFemale);
-  const [malePercentage, setMalePercentage] = useState(initialMale);
+  console.log('value', value);
   const Icon = useIconWithValidation();
 
   const moduleOutputContainsGender = (gender: GenderTypes) =>
     value?.output?.some((g) => g.gender === gender);
 
   const genderTypes: GenderTypes[] = ['male', 'female'];
-
-  // Initialize desiredGenders from value.output or as an empty array
-  const [desiredGenders, setDesiredGenders] = useState<GenderTypes[]>(
-    value?.output?.map((g) => g.gender) || genderTypes
-  );
 
   const checkIsPercentageVariant = () => value?.variant === 'percentage';
 
@@ -72,13 +60,13 @@ const Gender = () => {
     checkIsPercentageVariant() &&
     value?.output.some(
       (g) =>
-        (g.gender === 'male' && malePercentage === 0) ||
-        (g.gender === 'female' && femalePercentage === 0)
+        (g.gender === 'male' && g.percentage === 0) ||
+        (g.gender === 'female' && g.percentage === 0)
     ) &&
     value?.output.length > 0;
 
   const percentageError =
-    desiredGenders.length > 0 &&
+    (value?.output?.length ?? 0) > 0 &&
     checkIsPercentageVariant() &&
     (value?.output?.find((g) => g.gender === 'male')?.percentage ?? 0) +
       (value?.output?.find((g) => g.gender === 'female')?.percentage ?? 0) !==
@@ -128,66 +116,33 @@ const Gender = () => {
     }
   };
 
-  const updateOutput = () => {
-    if (!desiredGenders?.length) {
-      setOutput([]);
-      return;
-    }
-
-    const output = desiredGenders.map((gender) => {
-      if (value?.variant === 'default') {
-        return { gender, percentage: 0 };
-      }
-
-      const percentage =
-        gender === 'female' ? femalePercentage : malePercentage;
-
-      return { gender, percentage };
-    });
-
-    setOutput(output);
-  };
-
-  // This effect initializes the percentages from fetched data on first load,
-  // but resets to 50/50 split if both genders are re-selected after any change.
   useEffect(() => {
     // If variant is default, always reset percentages to 0
     if (value?.variant === 'default') {
-      setMalePercentage(0);
-      setFemalePercentage(0);
-      return;
+      setOutput(
+        value?.output?.map((g) => ({
+          gender: g.gender,
+          percentage: g.percentage || 0, // Ensure percentage is set to 0 if not already defined
+        }))
+      );
     }
-
-    const hasMale = moduleOutputContainsGender('male');
-    const hasFemale = moduleOutputContainsGender('female');
-
-    if (hasMale && hasFemale) {
-      // If the number of selected genders just changed to 2 (from 1 or 0), reset to 50/50
-      // Otherwise, on first load, use the initial values from fetched data
-      if (
-        desiredGenders.length === 2 &&
-        (value?.output?.length === 2 || value?.output?.length === 0)
-      ) {
-        // On first load, use fetched values
-        setMalePercentage(initialMale);
-        setFemalePercentage(initialFemale);
-      } else {
-        // If user re-selects both genders after a change, split 50/50
-        setMalePercentage(50);
-        setFemalePercentage(50);
-      }
-    } else if (hasMale) {
-      setMalePercentage(100);
-      setFemalePercentage(0);
-    } else if (hasFemale) {
-      setMalePercentage(0);
-      setFemalePercentage(100);
+    if (value?.variant === 'percentage') {
+      // If variant is percentage, set percentages based on current output
+      setOutput(
+        value?.output.map((g) => ({
+          ...g,
+          percentage:
+            value?.output && value.output.length > 0 // output can be empty, so we need to handle that case
+              ? Number(100 / value.output.length)
+              : 0,
+        }))
+      );
     }
-  }, [value?.variant, desiredGenders]);
+  }, [value?.variant]);
 
-  useEffect(() => {
-    setVariant(isAddPercentageClicked ? 'percentage' : 'default');
-  }, [isAddPercentageClicked]);
+  const handleChangeVariant = () => {
+    setVariant(value?.variant === 'default' ? 'percentage' : 'default');
+  };
 
   const handleDelete = () => {
     setIsOpenDeleteModal(true);
@@ -197,29 +152,9 @@ const Gender = () => {
     validate();
   }, [value?.output]);
 
-  useEffect(() => {
-    if (
-      value?.variant === 'percentage' &&
-      desiredGenders.length > 0 &&
-      value?.output?.length === 1
-    ) {
-      setFemalePercentage(Number(100 / desiredGenders.length));
-      setMalePercentage(Number(100 / desiredGenders.length));
-    }
-    if (
-      value?.variant === 'percentage' &&
-      desiredGenders.length === 1 &&
-      value?.output?.length > 1
-    ) {
-      if (value.output[0].gender === 'male') setMalePercentage(100);
-      else setFemalePercentage(100);
-    }
-    updateOutput();
-  }, [desiredGenders, femalePercentage, malePercentage]);
-
   const totalPercentage =
-    (moduleOutputContainsGender('female') ? femalePercentage : 0) +
-    (moduleOutputContainsGender('male') ? malePercentage : 0);
+    (value?.output?.find((g) => g.gender === 'female')?.percentage ?? 0) +
+    (value?.output?.find((g) => g.gender === 'male')?.percentage ?? 0);
 
   return (
     <div>
@@ -270,11 +205,9 @@ const Gender = () => {
                       aria-label="change-variant"
                       size="small"
                       disabled={getPlanStatus() !== 'draft'}
-                      onClick={() =>
-                        setIsAddPercentageClicked(!isAddPercentageClicked)
-                      }
+                      onClick={handleChangeVariant}
                     >
-                      {!isAddPercentageClicked && (
+                      {value?.variant === 'default' ? (
                         <>
                           <Button.StartIcon>
                             <PlusIcon />
@@ -283,8 +216,7 @@ const Gender = () => {
                             '__PLAN_PAGE_MODULE_GENDER_ADD_PERCENTAGE_BUTTON_LABEL'
                           )}
                         </>
-                      )}
-                      {checkIsPercentageVariant() && (
+                      ) : (
                         <>
                           <Button.StartIcon>
                             <XIcon />
@@ -308,16 +240,20 @@ const Gender = () => {
                       name="gender-all"
                       disabled={getPlanStatus() !== 'draft'}
                       // checked if all genders are selected
-                      checked={genderTypes.every((gender) =>
-                        desiredGenders.some(
-                          (item) => item === gender.toLowerCase()
-                        )
-                      )}
+                      checked={value?.output?.length === genderTypes.length}
                       onChange={(e) => {
                         if (e.target.checked) {
-                          setDesiredGenders(genderTypes);
+                          setOutput(
+                            genderTypes.map((gender) => ({
+                              gender,
+                              percentage:
+                                value?.variant === 'percentage'
+                                  ? 100 / genderTypes.length
+                                  : 0,
+                            }))
+                          );
                         } else {
-                          setDesiredGenders([]);
+                          setOutput([]);
                         }
                       }}
                     >
@@ -365,24 +301,35 @@ const Gender = () => {
                           value={gender.toLowerCase()}
                           name={`gender-${gender}`}
                           disabled={getPlanStatus() !== 'draft'}
-                          checked={desiredGenders.some(
-                            (item) => item === gender.toLowerCase()
+                          checked={value?.output?.some(
+                            (item) => item.gender === gender.toLowerCase()
                           )}
                           onChange={(e) => {
-                            const previousGenders =
-                              desiredGenders.map((item) => item) || [];
-                            let updatedGenders: GenderTypes[] = [];
                             if (e.target.checked) {
-                              updatedGenders = [
-                                ...previousGenders,
-                                e.target.value as GenderTypes,
-                              ];
+                              setOutput([
+                                ...(value?.output ?? []),
+                                {
+                                  gender: gender,
+                                  percentage:
+                                    value?.variant === 'percentage'
+                                      ? 100 -
+                                        (value?.output?.find(
+                                          (item) =>
+                                            item.gender ===
+                                            (gender === 'male'
+                                              ? 'female'
+                                              : 'male')
+                                        )?.percentage ?? 0)
+                                      : 0,
+                                },
+                              ]);
                             } else {
-                              updatedGenders = previousGenders
-                                .filter((item) => item !== e.target.value)
-                                .map((item) => item as GenderTypes);
+                              setOutput(
+                                (value?.output ?? []).filter(
+                                  (item) => item.gender !== gender
+                                )
+                              );
                             }
-                            setDesiredGenders(updatedGenders);
                           }}
                         >
                           <Label
@@ -400,7 +347,7 @@ const Gender = () => {
                     ))}
                   </div>
                 </Col>
-                {isAddPercentageClicked && (
+                {value?.variant === 'percentage' && (
                   <Col size={6} style={{ marginBottom: appTheme.space.xxs }}>
                     <PercentageInputRow>
                       <PercentageInput
@@ -409,15 +356,14 @@ const Gender = () => {
                         disabled={!moduleOutputContainsGender('male')}
                         readOnly={
                           !moduleOutputContainsGender('female') &&
-                          malePercentage === 100
+                          value?.output?.find((item) => item.gender === 'male')
+                            ?.percentage === 100
                         }
                         gender="male"
                         value={
-                          moduleOutputContainsGender('male')
-                            ? malePercentage
-                            : 0
+                          value?.output?.find((item) => item.gender === 'male')
+                            ?.percentage || 0
                         } // defaults to 0 only frontend but not added to output
-                        onChange={setMalePercentage}
                       />
                     </PercentageInputRow>
                     <PercentageInputRow>
@@ -427,21 +373,22 @@ const Gender = () => {
                         disabled={!moduleOutputContainsGender('female')}
                         readOnly={
                           !moduleOutputContainsGender('male') &&
-                          femalePercentage === 100
+                          value?.output?.find(
+                            (item) => item.gender === 'female'
+                          )?.percentage === 100
                         }
                         gender="female"
                         value={
-                          moduleOutputContainsGender('female')
-                            ? femalePercentage
-                            : 0
+                          value?.output?.find(
+                            (item) => item.gender === 'female'
+                          )?.percentage || 0
                         } // defaults to 0 only frontend but not added to output
-                        onChange={setFemalePercentage}
                       />
                     </PercentageInputRow>
                   </Col>
                 )}
               </Row>
-              {isAddPercentageClicked && (
+              {value?.variant === 'percentage' && (
                 <>
                   <Divider style={{ marginBottom: appTheme.space.md }} />
                   <Row>
@@ -483,7 +430,6 @@ const Gender = () => {
                   style={{
                     display: 'flex',
                     alignItems: 'center',
-
                     marginTop: appTheme.space.sm,
                   }}
                 >
