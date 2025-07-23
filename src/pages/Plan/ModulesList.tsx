@@ -93,7 +93,7 @@ export const ModulesList = () => {
           moduleRefs.current[`${newModule}`]?.classList.remove(
             'newly-added-module'
           );
-        }, 3500); // Remove highlight after 2.5 seconds
+        }, 3500); // Remove highlight after 3.5 seconds
       }
     }
     prevModulesRef.current = currentModules;
