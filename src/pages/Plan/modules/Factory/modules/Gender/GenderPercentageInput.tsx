@@ -1,7 +1,6 @@
 import { IconButton, Input } from '@appquality/unguess-design-system';
 import { ReactComponent as MinusButtonIcon } from '@zendeskgarden/svg-icons/src/16/dash-stroke.svg';
 import { ReactComponent as PlusButtonIcon } from '@zendeskgarden/svg-icons/src/16/plus-stroke.svg';
-import { useState } from 'react';
 import { useModule } from 'src/features/modules/useModule';
 
 interface PercentageInputProps {
@@ -22,12 +21,13 @@ const PercentageInput = ({
   const { value: moduleValue, setOutput } = useModule('gender');
 
   const handleChangePercentage = (newValue: number) => {
-    if (newValue < 0) newValue = 0;
-    if (newValue > 100) newValue = 100;
+    let updatedValue = newValue;
+    if (newValue < 0) updatedValue = 0;
+    if (newValue > 100) updatedValue = 100;
 
     const updatedOutput = (moduleValue?.output ?? []).map((g) => {
       if (g.gender === gender) {
-        return { ...g, percentage: newValue };
+        return { ...g, percentage: updatedValue };
       }
       return g;
     });

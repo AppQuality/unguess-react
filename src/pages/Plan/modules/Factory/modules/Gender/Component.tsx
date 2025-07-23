@@ -26,8 +26,6 @@ import { DeleteModuleConfirmationModal } from 'src/pages/Plan/modules/modal/Dele
 import styled from 'styled-components';
 import PercentageInput from './GenderPercentageInput';
 import { useIconWithValidation } from './useIcon';
-import { output } from 'motion/dist/react-client';
-import { set } from 'date-fns';
 
 const PercentageInputRow = styled(Row)`
   display: flex;
@@ -43,7 +41,7 @@ const Gender = () => {
   const { getPlanStatus } = useModuleConfiguration();
   const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false);
   const { value, setOutput, setVariant, remove } = useModule('gender');
-  console.log('value', value);
+
   const Icon = useIconWithValidation();
 
   const moduleOutputContainsGender = (gender: GenderTypes) =>
@@ -309,7 +307,7 @@ const Gender = () => {
                               setOutput([
                                 ...(value?.output ?? []),
                                 {
-                                  gender: gender,
+                                  gender,
                                   percentage:
                                     value?.variant === 'percentage'
                                       ? 100 -
