@@ -10,6 +10,7 @@ import {
 import ErrorBoundaryPage from 'src/common/components/ErrorBoundary/ErrorBoundaryPage';
 import SentryWrapper from 'src/features/SentryWrapper';
 import Bug from 'src/pages/Bug';
+import PublicBugPage from 'src/pages/Bug/PublicBugPage';
 import BugForm from 'src/pages/Bugform';
 import Bugs from 'src/pages/Bugs';
 import Campaign from 'src/pages/Campaign';
@@ -175,6 +176,11 @@ const Pages = () => {
                   />
                 }
                 errorElement={<ErrorBoundaryPage />}
+              />
+
+              <Route
+                path="/share/bug/:campaignId/:bugId"
+                element={<PublicBugPage />}
               />
 
               <Route path="*" element={<Navigate replace to="/oops" />} />
