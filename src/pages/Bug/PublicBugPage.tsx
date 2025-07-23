@@ -94,7 +94,7 @@ const PublicBugPage = () => {
           justifyContent: 'flex-start',
         }}
       >
-        <BrandLogo size="full" />
+        <BrandLogo redirect="/join" size="full" />
       </UgHeader>
       <LayoutWrapper
         isNotBoxed
