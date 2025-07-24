@@ -96,15 +96,12 @@ const PublicBugPage = () => {
       >
         <BrandLogo redirect="/join" size="full" />
       </UgHeader>
-      <LayoutWrapper
-        isNotBoxed
-        {...(!hideActions && { style: { paddingRight: 0 } })}
-      >
+      <LayoutWrapper isNotBoxed>
         <BugContainer isFetching={isFetching}>
           <Grid gutters="xxl">
             <Row style={{ marginRight: 0 }}>
               <Col lg={12} style={{ marginBottom: 0 }}>
-                <Content bug={bug} campaignId={campaignId} />
+                <Content isPublicShared bug={bug} campaignId={campaignId} />
               </Col>
             </Row>
           </Grid>

@@ -13,13 +13,14 @@ import BugHeader from './components/BugHeader';
 interface Props {
   bug: Exclude<GetCampaignsByCidBugsAndBidApiResponse, undefined>;
   campaignId: string;
+  isPublicShared?: boolean;
 }
 const Container = styled(ContainerCard)`
   color: ${({ theme }) => theme.colors.foreground};
   margin: ${({ theme }) => theme.space.xxl} 0;
 `;
 
-export const Content = ({ bug, campaignId }: Props) => (
+export const Content = ({ bug, campaignId, isPublicShared = false }: Props) => (
   <Container>
     <BugPreviewContextProvider>
       <BugHeader bug={bug} />
@@ -28,7 +29,9 @@ export const Content = ({ bug, campaignId }: Props) => (
       <BugDescription bug={bug} />
       <BugDetails bug={bug} />
       {bug.media && bug.media.length ? <BugAttachments bug={bug} /> : null}
-      <BugDuplicates cid={parseInt(campaignId, 10)} bugId={bug.id} />
+      {!isPublicShared && (
+        <BugDuplicates cid={parseInt(campaignId, 10)} bugId={bug.id} />
+      )}
     </BugPreviewContextProvider>
   </Container>
 );
