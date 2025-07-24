@@ -10,7 +10,6 @@ import { ModulesBottomNavigation } from './common/ModulesBottomNavigation';
 import { TabTitle } from './common/TabTitle';
 import { usePlanContext } from './context/planContext';
 import { getModuleBySlug, getModulesByTab } from './modules/Factory';
-import { p } from 'motion/dist/react-client';
 
 const ModuleItem = styled.div<{
   $isTasksOrTarget: boolean;
