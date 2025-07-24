@@ -67,6 +67,7 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({
         url: `/campaigns/${queryArg.cid}/bugs/${queryArg.bid}`,
+        headers: { public_bug_token: queryArg.publicBugToken },
       }),
     }),
     patchCampaignsByCidBugsAndBid: build.mutation<
@@ -522,6 +523,14 @@ const injectedRtkApi = api.injectEndpoints({
         body: queryArg.body,
       }),
     }),
+    getPublicBugsByDefectIdTokensAndToken: build.query<
+      GetPublicBugsByDefectIdTokensAndTokenApiResponse,
+      GetPublicBugsByDefectIdTokensAndTokenApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/public/bugs/${queryArg.defectId}/tokens/${queryArg.token}`,
+      }),
+    }),
     postUsers: build.mutation<PostUsersApiResponse, PostUsersApiArg>({
       query: (queryArg) => ({
         url: `/users`,
@@ -909,6 +918,7 @@ export type GetCampaignsByCidBugsAndBidApiArg = {
   cid: string;
   /** Defines an identifier for the bug object (BUG ID) */
   bid: string;
+  publicBugToken?: string;
 };
 export type PatchCampaignsByCidBugsAndBidApiResponse = /** status 200 OK */ {
   custom_status?: BugCustomStatus;
@@ -1601,6 +1611,16 @@ export type PostProjectsByPidUsersApiArg = {
     redirect_url?: string;
     surname?: string;
   };
+};
+export type GetPublicBugsByDefectIdTokensAndTokenApiResponse =
+  /** status 200 OK */ {
+    bugId: number;
+    campaignId: number;
+  };
+export type GetPublicBugsByDefectIdTokensAndTokenApiArg = {
+  /** Public bug link id */
+  defectId: number;
+  token: string;
 };
 export type PostUsersApiResponse = /** status 201 Created */ {
   projectId?: number;
@@ -2883,6 +2903,7 @@ export const {
   useDeleteProjectsByPidUsersMutation,
   useGetProjectsByPidUsersQuery,
   usePostProjectsByPidUsersMutation,
+  useGetPublicBugsByDefectIdTokensAndTokenQuery,
   usePostUsersMutation,
   useHeadUsersByEmailByEmailMutation,
   useGetUsersMeQuery,

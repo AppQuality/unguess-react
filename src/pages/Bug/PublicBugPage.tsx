@@ -7,11 +7,15 @@ import {
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
-import { useGetCampaignsByCidBugsAndBidQuery } from 'src/features/api';
+import {
+  useGetCampaignsByCidBugsAndBidQuery,
+  useGetPublicBugsByDefectIdTokensAndTokenQuery,
+} from 'src/features/api';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import styled from 'styled-components';
 import { BrandLogo } from 'src/common/components/navigation/header/brandLogo';
 
+import { useEffect } from 'react';
 import { Content } from './Content';
 import { LoadingSkeleton } from './LoadingSkeleton';
 
@@ -25,17 +29,12 @@ const BugContainer = styled.div<{ isFetching?: boolean }>`
 `;
 
 const PublicBugPage = () => {
-  const { campaignId, bugId } = useParams();
+  const { defectId, token } = useParams();
   const navigate = useNavigate();
   const notFoundRoute = useLocalizeRoute('oops');
   const location = useLocation();
 
-  if (
-    !campaignId ||
-    Number.isNaN(Number(campaignId)) ||
-    !bugId ||
-    Number.isNaN(Number(bugId))
-  ) {
+  if (!defectId || Number.isNaN(Number(defectId)) || !token) {
     navigate(notFoundRoute, {
       state: { from: location.pathname },
     });
@@ -43,27 +42,60 @@ const PublicBugPage = () => {
   }
 
   const {
+    data: bugIdAndCampaign,
+    error: bugIdAndCampaignError,
+    isLoading: isLoadingBugIdAndCampaign,
+  } = useGetPublicBugsByDefectIdTokensAndTokenQuery({
+    defectId: Number(defectId),
+    token,
+  });
+
+  const bugId = bugIdAndCampaign?.bugId;
+  const campaignId = bugIdAndCampaign?.campaignId;
+
+  useEffect(() => {
+    if (bugId && campaignId) {
+      console.log('campaignId', campaignId);
+      console.log('bugId', bugId);
+    }
+  }, [bugId, campaignId]);
+
+  const {
     data: bug,
-    isLoading,
+    isLoading: isLoadingBug,
     isFetching,
-    isError,
+    isError: isErrorBug,
   } = useGetCampaignsByCidBugsAndBidQuery(
     {
-      cid: campaignId,
-      bid: bugId,
+      cid: campaignId?.toString() ?? '',
+      bid: bugId?.toString() ?? '',
+      publicBugToken: `${defectId}:${token}`,
     },
-    { pollingInterval: 1200000 }
+    {
+      pollingInterval: 1200000,
+      skip: !bugId || !campaignId,
+    }
   );
 
-  if (isLoading) {
+  if (
+    isLoadingBugIdAndCampaign ||
+    !bugIdAndCampaign ||
+    !bugId ||
+    !campaignId ||
+    isLoadingBug
+  ) {
     return <LoadingSkeleton />;
   }
 
-  if (isError || typeof bug === 'undefined') {
+  if (bugIdAndCampaignError || isErrorBug) {
     navigate(notFoundRoute, {
       state: { from: location.pathname },
     });
     return null;
+  }
+
+  if (typeof bug === 'undefined') {
+    return <LoadingSkeleton />;
   }
 
   return (
@@ -82,7 +114,11 @@ const PublicBugPage = () => {
           <Grid gutters="xxl">
             <Row style={{ marginRight: 0 }}>
               <Col lg={12} style={{ marginBottom: 0 }}>
-                <Content isPublicShared bug={bug} campaignId={campaignId} />
+                <Content
+                  isPublicShared
+                  bug={bug}
+                  campaignId={String(campaignId)}
+                />
               </Col>
             </Row>
           </Grid>
