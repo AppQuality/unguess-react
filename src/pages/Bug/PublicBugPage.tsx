@@ -1,23 +1,23 @@
 import {
   Col,
   Grid,
-  Row,
   Header as UgHeader,
+  Row,
 } from '@appquality/unguess-design-system';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
+import { BrandLogo } from 'src/common/components/navigation/header/brandLogo';
 import {
   useGetCampaignsByCidBugsAndBidQuery,
   useGetPublicBugsByDefectIdTokensAndTokenQuery,
 } from 'src/features/api';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import styled from 'styled-components';
-import { BrandLogo } from 'src/common/components/navigation/header/brandLogo';
 
 import { useEffect } from 'react';
 import { Content } from './Content';
-import { LoadingSkeleton } from './LoadingSkeleton';
+import { LoadingSkeletonContent } from './LoadingSkeletonContent';
 
 const BugContainer = styled.div<{ isFetching?: boolean }>`
   ${(p) =>
@@ -44,6 +44,7 @@ const PublicBugPage = () => {
   const {
     data: bugIdAndCampaign,
     error: bugIdAndCampaignError,
+    isError: isErrorBugIdAndCampaign,
     isLoading: isLoadingBugIdAndCampaign,
   } = useGetPublicBugsByDefectIdTokensAndTokenQuery({
     defectId: Number(defectId),
@@ -54,11 +55,12 @@ const PublicBugPage = () => {
   const campaignId = bugIdAndCampaign?.campaignId;
 
   useEffect(() => {
-    if (bugId && campaignId) {
-      console.log('campaignId', campaignId);
-      console.log('bugId', bugId);
+    if (isErrorBugIdAndCampaign) {
+      navigate(notFoundRoute, {
+        state: { from: location.pathname },
+      });
     }
-  }, [bugId, campaignId]);
+  }, [isErrorBugIdAndCampaign]);
 
   const {
     data: bug,
@@ -72,7 +74,6 @@ const PublicBugPage = () => {
       publicBugToken: `${defectId}:${token}`,
     },
     {
-      pollingInterval: 1200000,
       skip: !bugId || !campaignId,
     }
   );
@@ -84,7 +85,7 @@ const PublicBugPage = () => {
     !campaignId ||
     isLoadingBug
   ) {
-    return <LoadingSkeleton />;
+    return <LoadingSkeletonContent />;
   }
 
   if (bugIdAndCampaignError || isErrorBug) {
@@ -95,7 +96,7 @@ const PublicBugPage = () => {
   }
 
   if (typeof bug === 'undefined') {
-    return <LoadingSkeleton />;
+    return <LoadingSkeletonContent />;
   }
 
   return (
