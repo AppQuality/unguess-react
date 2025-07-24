@@ -10,19 +10,24 @@ import { ModulesBottomNavigation } from './common/ModulesBottomNavigation';
 import { TabTitle } from './common/TabTitle';
 import { usePlanContext } from './context/planContext';
 import { getModuleBySlug, getModulesByTab } from './modules/Factory';
+import { p } from 'motion/dist/react-client';
 
 const ModuleItem = styled.div<{
   $isTasksOrTarget: boolean;
 }>`
-  margin-bottom: ${({ theme }) => theme.space.lg};
   padding-left: ${({ $isTasksOrTarget, theme }) =>
     $isTasksOrTarget ? 0 : theme.space.xs};
   padding-right: ${({ $isTasksOrTarget, theme }) =>
     $isTasksOrTarget ? 0 : theme.space.xs};
   [data-garden-id='accordions.section'],
   [data-garden-id='notifications.well'] {
-    background-color: ${appTheme.palette.white};
-    border: 1px solid ${appTheme.palette.grey['300']};
+    background-color: ${(p) => p.theme.palette.white};
+    border: 1px solid ${(p) => p.theme.palette.grey['300']};
+    margin-bottom: ${(p) =>
+      p.theme.space.md}; // override internal component default margin
+    &:last-child {
+      margin-bottom: ${(p) => p.theme.space.xl};
+    }
   }
   &.newly-added-module {
     [data-garden-id='accordions.section'],
@@ -33,10 +38,8 @@ const ModuleItem = styled.div<{
 `;
 
 const GroupsWrapper = styled.div`
-  > div {
-    &:not(:last-child) {
-      border-bottom: 1px solid ${appTheme.palette.grey['200']};
-    }
+  > div:not(:first-child) {
+    border-top: 1px solid ${appTheme.palette.grey['200']};
   }
   @keyframes highlight {
     0% {
@@ -58,7 +61,7 @@ export const ModulesList = () => {
   const currentModules = useAppSelector(
     (state) => state.planModules.currentModules
   );
-  const { activeTab } = usePlanContext();
+  const { activeTab, newModule, setNewModule } = usePlanContext();
   const { t } = useTranslation();
   const availableModules = getModulesByTab(activeTab.name);
 
@@ -67,8 +70,6 @@ export const ModulesList = () => {
   // Calculate direction before updating ref
   const initialX = activeTab.order > prevOrderRef.current ? 10 : -10;
 
-  // Track previous modules to detect additions
-  const prevModulesRef = useRef<string[]>(currentModules);
   // Refs for each module type
   const moduleRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
@@ -76,28 +77,22 @@ export const ModulesList = () => {
     prevOrderRef.current = activeTab.order;
   }, [activeTab.order]);
 
-  // Find newly added module
+  // Scroll and highlight when newModule is set in context
   useEffect(() => {
-    const prev = prevModulesRef.current;
-    if (currentModules.length > prev.length) {
-      const newModule = currentModules.find((m) => !prev.includes(m));
-
-      if (newModule && moduleRefs.current[`${newModule}`]) {
-        moduleRefs.current[`${newModule}`]?.scrollIntoView({
-          behavior: 'smooth',
-          block: 'center',
-        });
-        // add here a class to highlight the newly added module with an animation
-        moduleRefs.current[`${newModule}`]?.classList.add('newly-added-module');
-        setTimeout(() => {
-          moduleRefs.current[`${newModule}`]?.classList.remove(
-            'newly-added-module'
-          );
-        }, 3500); // Remove highlight after 3.5 seconds
-      }
+    if (newModule && moduleRefs.current[`${newModule}`]) {
+      moduleRefs.current[`${newModule}`]?.scrollIntoView({
+        behavior: 'smooth',
+        block: 'center',
+      });
+      moduleRefs.current[`${newModule}`]?.classList.add('newly-added-module');
+      setTimeout(() => {
+        moduleRefs.current[`${newModule}`]?.classList.remove(
+          'newly-added-module'
+        );
+        setNewModule(null);
+      }, 3500);
     }
-    prevModulesRef.current = currentModules;
-  }, [currentModules]);
+  }, [newModule, setNewModule]);
 
   if (!availableModules.length) {
     return null;

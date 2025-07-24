@@ -1,5 +1,5 @@
 import { createContext, ReactNode, useContext, useMemo, useState } from 'react';
-import { PlanTabName, PlanTab, PLAN_TABS } from '../common/constants';
+import { PLAN_TABS, PlanTab, PlanTabName } from '../common/constants';
 
 interface PlanContextProps {
   activeTab: PlanTab;
@@ -8,12 +8,15 @@ interface PlanContextProps {
   isSaveTemplateModalOpen: boolean;
   setIsDeleteModalOpen: (isOpen: boolean) => void;
   isDeleteModalOpen: boolean;
+  newModule: string | null;
+  setNewModule: (module: string | null) => void;
 }
 
 const PlanContext = createContext<PlanContextProps | null>(null);
 
 export const PlanProvider = ({ children }: { children: ReactNode }) => {
   const [activeTab, setActiveTabState] = useState<PlanTab>(PLAN_TABS[0]);
+  const [newModule, setNewModule] = useState<string | null>(null);
 
   // Overloaded setActiveTab function
   const setActiveTab = (tab: PlanTab | PlanTabName) => {
@@ -35,6 +38,8 @@ export const PlanProvider = ({ children }: { children: ReactNode }) => {
       isSaveTemplateModalOpen,
       setIsDeleteModalOpen,
       isDeleteModalOpen,
+      newModule,
+      setNewModule,
     }),
     [
       activeTab,
@@ -42,6 +47,8 @@ export const PlanProvider = ({ children }: { children: ReactNode }) => {
       isSaveTemplateModalOpen,
       setIsDeleteModalOpen,
       isDeleteModalOpen,
+      newModule,
+      setNewModule,
     ]
   );
 
