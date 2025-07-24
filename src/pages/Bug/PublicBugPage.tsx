@@ -4,21 +4,16 @@ import {
   Row,
   Header as UgHeader,
 } from '@appquality/unguess-design-system';
-import { useEffect, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { useAppDispatch } from 'src/app/hooks';
 import { appTheme } from 'src/app/theme';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
 import { useGetCampaignsByCidBugsAndBidQuery } from 'src/features/api';
-import { setCustomStatusDrawerOpen } from 'src/features/bugsPage/bugsPageSlice';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
-import useWindowSize from 'src/hooks/useWindowSize';
 import styled from 'styled-components';
 import { BrandLogo } from 'src/common/components/navigation/header/brandLogo';
 
 import { Content } from './Content';
 import { LoadingSkeleton } from './LoadingSkeleton';
-import { useSetFilters } from './useSetFilters';
 
 const BugContainer = styled.div<{ isFetching?: boolean }>`
   ${(p) =>
@@ -32,16 +27,8 @@ const BugContainer = styled.div<{ isFetching?: boolean }>`
 const PublicBugPage = () => {
   const { campaignId, bugId } = useParams();
   const navigate = useNavigate();
-  const dispatch = useAppDispatch();
   const notFoundRoute = useLocalizeRoute('oops');
   const location = useLocation();
-  const { width } = useWindowSize();
-  const breakpointSm = parseInt(appTheme.breakpoints.sm, 10);
-  const breakpointLg = parseInt(appTheme.breakpoints.lg, 10);
-
-  const [hideDrawer, setHideDrawer] = useState(width < breakpointSm);
-  const [hideActions, setHideActions] = useState(width < breakpointLg);
-  useSetFilters({ campaignId: campaignId || '0' });
 
   if (
     !campaignId ||
@@ -67,12 +54,6 @@ const PublicBugPage = () => {
     },
     { pollingInterval: 1200000 }
   );
-
-  useEffect(() => {
-    if (hideDrawer) dispatch(setCustomStatusDrawerOpen(false));
-    setHideDrawer(width < breakpointSm);
-    setHideActions(width < breakpointLg);
-  }, [width]);
 
   if (isLoading) {
     return <LoadingSkeleton />;
