@@ -179,7 +179,7 @@ const Pages = () => {
               />
 
               <Route
-                path="/share/bug/:defectId/:token"
+                path="/defect/:defectId/:token"
                 element={<PublicBugPage />}
               />
 
