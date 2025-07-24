@@ -37,7 +37,7 @@ const SummaryBody = () => {
     <Row>
       <Col sm="6" offsetSm={3}>
         <StyledDiv>
-          <TabTitle tabId="summary" />
+          <TabTitle />
           <IntroductionCard />
           <ActivityInfo />
           <ConfirmationCard />

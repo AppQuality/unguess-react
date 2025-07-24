@@ -1,20 +1,32 @@
 import { createContext, ReactNode, useContext, useMemo, useState } from 'react';
-
-export type PlanTab = 'setup' | 'target' | 'instructions' | 'summary';
+import { PLAN_TABS, PlanTab, PlanTabName } from '../common/constants';
 
 interface PlanContextProps {
   activeTab: PlanTab;
-  setActiveTab: (tab: PlanTab) => void;
+  setActiveTab: (tab: PlanTab | PlanTabName) => void;
   setIsSaveTemplateModalOpen: (isOpen: boolean) => void;
   isSaveTemplateModalOpen: boolean;
   setIsDeleteModalOpen: (isOpen: boolean) => void;
   isDeleteModalOpen: boolean;
+  newModule: string | null;
+  setNewModule: (module: string | null) => void;
 }
 
 const PlanContext = createContext<PlanContextProps | null>(null);
 
 export const PlanProvider = ({ children }: { children: ReactNode }) => {
-  const [activeTab, setActiveTab] = useState<PlanTab>('setup');
+  const [activeTab, setActiveTabState] = useState<PlanTab>(PLAN_TABS[0]);
+  const [newModule, setNewModule] = useState<string | null>(null);
+
+  // Overloaded setActiveTab function
+  const setActiveTab = (tab: PlanTab | PlanTabName) => {
+    if (typeof tab === 'string') {
+      const foundTab = PLAN_TABS.find((t) => t.name === tab);
+      if (foundTab) setActiveTabState(foundTab);
+    } else {
+      setActiveTabState(tab);
+    }
+  };
   const [isSaveTemplateModalOpen, setIsSaveTemplateModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
@@ -26,14 +38,17 @@ export const PlanProvider = ({ children }: { children: ReactNode }) => {
       isSaveTemplateModalOpen,
       setIsDeleteModalOpen,
       isDeleteModalOpen,
+      newModule,
+      setNewModule,
     }),
     [
       activeTab,
-      setActiveTab,
       setIsSaveTemplateModalOpen,
       isSaveTemplateModalOpen,
       setIsDeleteModalOpen,
       isDeleteModalOpen,
+      newModule,
+      setNewModule,
     ]
   );
 

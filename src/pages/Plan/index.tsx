@@ -26,10 +26,10 @@ const PlanPage = ({ plan }: { plan: GetPlansByPidApiResponse | undefined }) => {
   useEffect(() => {
     if (!plan) return;
 
-    if (activeTab !== 'summary' && plan.status !== 'draft') {
+    if (activeTab.name !== 'summary' && plan.status !== 'draft') {
       setActiveTab('summary');
     }
-  }, [plan]);
+  }, [plan?.status]);
 
   return (
     <Page

@@ -18,7 +18,7 @@ export const PlanBody = () => {
   return (
     <LayoutWrapper>
       <Grid style={{ padding: appTheme.space.md }}>
-        {activeTab === 'summary' ? (
+        {activeTab.name === 'summary' ? (
           <SummaryBody />
         ) : (
           <Row>
@@ -26,7 +26,7 @@ export const PlanBody = () => {
               <Nav />
             </StickyCol>
             <Col sm="6">
-              <ModulesList tabId={activeTab} />
+              <ModulesList />
             </Col>
             <Col sm="3">{debug && <PlanDetails />}</Col>
           </Row>

@@ -6,10 +6,12 @@ import { useModuleConfiguration } from 'src/features/modules/useModuleConfigurat
 import styled from 'styled-components';
 import { NavContainer } from '../../common/NavContainer';
 import { usePlanContext } from '../../context/planContext';
-import { getModuleBySlug, getModulesByTab } from '../../modules/Factory';
+import { getModuleBySlug } from '../../modules/Factory';
 import { AddBlockButton } from './AddBlockButton';
 import { AddBlockModal } from './modal/AddBlockModal';
 import { NavItem } from './NavItem';
+import { MODULE_GROUPS } from '../../common/constants';
+import { GroupTitle } from '../../common/GroupTitle';
 
 const BodyContainer = styled.div`
   max-height: calc(100vh - ${({ theme }) => theme.space.xxl});
@@ -26,7 +28,8 @@ const ChildrenContainer = styled.div`
 
 const NavBody = () => {
   const { activeTab } = usePlanContext();
-  const availableModules = getModulesByTab(activeTab);
+  // Sort availableModules according to group/order structure
+  const groupConfig = MODULE_GROUPS[activeTab.name] || [];
   const { getPlanStatus } = useModuleConfiguration();
   const { currentModules } = useAppSelector((state) => state.planModules);
   const { t } = useTranslation();
@@ -39,23 +42,33 @@ const NavBody = () => {
       >
         {t('__PLAN_ASIDE_NAVIGATION_MODULES_TITLE')}
       </MD>
-      <BodyContainer data-qa={`plans-nav-${activeTab}`}>
-        {currentModules
-          .filter((module) => availableModules.includes(module))
-          .map((module) => {
-            const { NavChildren } = getModuleBySlug(module);
-            return (
-              <div key={module}>
-                <NavItem type={module}>
-                  {NavChildren && (
-                    <ChildrenContainer>
-                      <NavChildren />
-                    </ChildrenContainer>
-                  )}
-                </NavItem>
-              </div>
-            );
-          })}
+      <BodyContainer data-qa={`plans-nav-${activeTab.name}`}>
+        {groupConfig.map((group) => {
+          // Get modules in this group that are present in currentModules
+          const groupModules = group.modules.filter((module) =>
+            currentModules.includes(module)
+          );
+          if (groupModules.length === 0) return null;
+          return (
+            <div key={group.id}>
+              <GroupTitle>{t(group.title)}</GroupTitle>
+              {groupModules.map((module) => {
+                const { NavChildren } = getModuleBySlug(module);
+                return (
+                  <div key={module}>
+                    <NavItem type={module}>
+                      {NavChildren && (
+                        <ChildrenContainer>
+                          <NavChildren />
+                        </ChildrenContainer>
+                      )}
+                    </NavItem>
+                  </div>
+                );
+              })}
+            </div>
+          );
+        })}
       </BodyContainer>
       {getPlanStatus() === 'draft' && (
         <div style={{ marginTop: 'auto' }}>

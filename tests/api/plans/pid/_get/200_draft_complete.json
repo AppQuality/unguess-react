@@ -82,7 +82,7 @@
         "output": [
           {
             "gender": "female",
-            "percentage": 100
+            "percentage": 0
           }
         ],
         "type": "gender",

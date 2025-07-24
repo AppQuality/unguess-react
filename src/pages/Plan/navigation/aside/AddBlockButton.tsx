@@ -22,7 +22,7 @@ const AddBlockButton = () => {
   const { setModalRef } = usePlanNavContext();
   const { getPlanStatus } = useModuleConfiguration();
   const { activeTab } = usePlanContext();
-  const availableModules = getModulesByTab(activeTab);
+  const availableModules = getModulesByTab(activeTab.name);
   const { currentModules } = useAppSelector((state) => state.planModules);
 
   const items = availableModules.filter((module_type) => {
