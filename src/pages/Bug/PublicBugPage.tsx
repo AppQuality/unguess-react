@@ -13,7 +13,6 @@ import {
   useGetCampaignsByCidBugsAndBidQuery,
   useGetPublicBugsByDefectIdTokensAndTokenQuery,
 } from 'src/features/api';
-import { ReactComponent as FatherIcon } from 'src/assets/icons/bug-type-unique.svg';
 
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import styled from 'styled-components';
@@ -21,6 +20,15 @@ import styled from 'styled-components';
 import { useEffect } from 'react';
 import { Content } from './Content';
 import { LoadingSkeletonContent } from './LoadingSkeletonContent';
+
+const CampaignTitleContainer = styled.div`
+  width: 100%;
+  max-width: ${({ theme }) => theme.breakpoints.xxl};
+  margin-top: ${({ theme }) => theme.space.xxl};
+  @media (min-width: ${({ theme }) => theme.breakpoints.sm}) {
+    padding: 0 ${({ theme }) => theme.space.xxl};
+  }
+`;
 
 const BugContainer = styled.div<{ isFetching?: boolean }>`
   ${(p) =>
@@ -115,12 +123,12 @@ const PublicBugPage = () => {
       >
         <BrandLogo redirect="/join" size="full" />
       </UgHeader>
-      <Tag isPill={false} isRegular hue="rgba(0,0,0,0)">
-        ActivityID: {campaignId}
-        <Tag.SecondaryText isBold>
-          CampaignName: {campaignTitle}
-        </Tag.SecondaryText>
-      </Tag>
+      <CampaignTitleContainer>
+        <Tag isPill={false} isRegular hue="rgba(0,0,0,0)">
+          Activity ID: {campaignId} -
+          <Tag.SecondaryText isBold>{campaignTitle}</Tag.SecondaryText>
+        </Tag>
+      </CampaignTitleContainer>
       <LayoutWrapper>
         <BugContainer isFetching={isFetching}>
           <Grid gutters="xxl">
