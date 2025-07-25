@@ -110,7 +110,7 @@ const PublicBugPage = () => {
       >
         <BrandLogo redirect="/join" size="full" />
       </UgHeader>
-      <LayoutWrapper isNotBoxed>
+      <LayoutWrapper isNotBoxed={false}>
         <BugContainer isFetching={isFetching}>
           <Grid gutters="xxl">
             <Row style={{ marginRight: 0 }}>

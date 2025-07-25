@@ -25,7 +25,7 @@ export const Content = ({ bug, campaignId, isPublicShared = false }: Props) => (
     <BugPreviewContextProvider>
       <BugHeader bug={bug} />
       <BugMeta bug={bug} />
-      <AnchorButtons bug={bug} />
+      <AnchorButtons isPublicShared bug={bug} />
       <BugDescription bug={bug} />
       <BugDetails bug={bug} />
       {bug.media && bug.media.length ? <BugAttachments bug={bug} /> : null}
