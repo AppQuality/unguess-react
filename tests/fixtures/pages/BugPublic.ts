@@ -29,23 +29,23 @@ export class PublicBugPage extends UnguessPage {
     };
   }
 
-  async mockBug() {
+  async mockGetPublicBugData() {
     await this.page.route(
-      '*/**/api/campaigns/4997/bugs/274852',
+      `*/**/api/public/bugs/${this.defectId}/tokens/${this.token}`,
       async (route) => {
         await route.fulfill({
-          path: 'tests/api/campaigns/cid/bugs/bid/_get/200_274852.json',
+          path: 'tests/api/public/bugs/defectId/tokens/token/_get/200_Example_1.json',
         });
       }
     );
   }
 
-  async mockGetPublicBugData() {
+  async mockBug() {
     await this.page.route(
-      `*/**/api/public/bugs/${this.defectId}/token/${this.token}`,
+      '*/**/api/campaigns/22222/bugs/11111',
       async (route) => {
         await route.fulfill({
-          path: 'tests/api/public/bugs/defectId/tokens/token/_get/200_Example_1.json',
+          path: 'tests/api/campaigns/cid/bugs/bid/_get/200_274852.json',
         });
       }
     );
