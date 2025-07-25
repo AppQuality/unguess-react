@@ -116,9 +116,11 @@ const PublicBugPage = () => {
     <div style={{ backgroundColor: appTheme.palette.grey[100] }}>
       <UgHeader
         isStandalone
+        data-qa="public-bug-page-header"
         style={{
           zIndex: appTheme.levels.front,
           justifyContent: 'flex-start',
+          paddingLeft: appTheme.space.md,
         }}
       >
         <BrandLogo redirect="/join" size="full" />
@@ -130,7 +132,10 @@ const PublicBugPage = () => {
         </Tag>
       </CampaignTitleContainer>
       <LayoutWrapper>
-        <BugContainer isFetching={isFetching}>
+        <BugContainer
+          isFetching={isFetching}
+          data-qa="public-bug-container-card"
+        >
           <Grid gutters="xxl">
             <Row style={{ marginRight: 0 }}>
               <Col lg={8} style={{ marginBottom: 0 }}>
