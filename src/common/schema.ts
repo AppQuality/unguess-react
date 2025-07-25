@@ -3545,6 +3545,7 @@ export interface operations {
           "application/json": {
             bugId: number;
             campaignId: number;
+            campaignTitle: string;
           };
         };
       };

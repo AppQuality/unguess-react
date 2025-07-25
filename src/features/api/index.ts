@@ -1616,6 +1616,7 @@ export type GetPublicBugsByDefectIdTokensAndTokenApiResponse =
   /** status 200 OK */ {
     bugId: number;
     campaignId: number;
+    campaignTitle: string;
   };
 export type GetPublicBugsByDefectIdTokensAndTokenApiArg = {
   /** Public bug link id */
