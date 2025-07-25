@@ -25,6 +25,7 @@ export class PublicBugPage extends UnguessPage {
       ...super.elements(),
       pageHeader: () => this.page.getByTestId('public-bug-page-header'),
       bugContainer: () => this.page.getByTestId('public-bug-container-card'),
+      campaignInfo: () => this.page.getByTestId('public-bug-campaign-info'),
     };
   }
 

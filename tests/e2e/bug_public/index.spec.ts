@@ -17,6 +17,16 @@ test.describe('Public Bug page - logged in', () => {
     await expect(publicBugPage.elements().pageHeader()).toBeVisible();
     await expect(publicBugPage.elements().bugContainer()).toBeVisible();
   });
+  test('Renders properly campaigns Id and title', async () => {
+    // Campaign ID
+    await expect(publicBugPage.elements().campaignInfo()).toContainText(
+      'Activity ID: 11111'
+    );
+    // Campaign Title
+    await expect(publicBugPage.elements().campaignInfo()).toContainText(
+      'Meet Accessibility Compliance'
+    );
+  });
 });
 
 test.describe('Public Bug page - logged out', () => {
@@ -32,5 +42,16 @@ test.describe('Public Bug page - logged out', () => {
   test('Shows the page header and bug container card', async () => {
     await expect(publicBugPage.elements().pageHeader()).toBeVisible();
     await expect(publicBugPage.elements().bugContainer()).toBeVisible();
+  });
+
+  test('Renders properly campaigns Id and title', async () => {
+    // Campaign ID
+    await expect(publicBugPage.elements().campaignInfo()).toContainText(
+      'Activity ID: 11111'
+    );
+    // Campaign Title
+    await expect(publicBugPage.elements().campaignInfo()).toContainText(
+      'Meet Accessibility Compliance'
+    );
   });
 });

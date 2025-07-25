@@ -125,7 +125,7 @@ const PublicBugPage = () => {
       >
         <BrandLogo redirect="/join" size="full" />
       </UgHeader>
-      <CampaignTitleContainer>
+      <CampaignTitleContainer data-qa="public-bug-campaign-info">
         <Tag isPill={false} isRegular hue="rgba(0,0,0,0)">
           Activity ID: {campaignId} -
           <Tag.SecondaryText isBold>{campaignTitle}</Tag.SecondaryText>
