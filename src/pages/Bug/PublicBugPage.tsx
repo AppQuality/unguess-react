@@ -55,6 +55,7 @@ const PublicBugPage = () => {
   });
 
   const bugId = bugIdAndCampaign?.bugId;
+  const campaignTitle = bugIdAndCampaign?.campaignTitle;
   const campaignId = bugIdAndCampaign?.campaignId;
 
   useEffect(() => {
@@ -86,6 +87,7 @@ const PublicBugPage = () => {
     !bugIdAndCampaign ||
     !bugId ||
     !campaignId ||
+    !campaignTitle ||
     isLoadingBug
   ) {
     return <LoadingSkeletonContent />;
@@ -114,18 +116,10 @@ const PublicBugPage = () => {
         <BrandLogo redirect="/join" size="full" />
       </UgHeader>
       <Tag isPill={false} isRegular hue="rgba(0,0,0,0)">
-        {!bug.duplicated_of_id && (
-          <Tag.Avatar>
-            <FatherIcon
-              style={{
-                color: appTheme.palette.grey[500],
-                marginRight: appTheme.space.xxs,
-              }}
-            />
-          </Tag.Avatar>
-        )}
-        {campaignId}
-        <Tag.SecondaryText isBold>{bugId}</Tag.SecondaryText>
+        ActivityID: {campaignId}
+        <Tag.SecondaryText isBold>
+          CampaignName: {campaignTitle}
+        </Tag.SecondaryText>
       </Tag>
       <LayoutWrapper>
         <BugContainer isFetching={isFetching}>
