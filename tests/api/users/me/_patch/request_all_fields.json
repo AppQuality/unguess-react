@@ -1,0 +1,9 @@
+{
+  "name": "Jhon",
+  "password": {
+    "current": "oldPassword",
+    "new": "newPassword"
+  },
+  "roleId": 6,
+  "surname": "Doe"
+}
