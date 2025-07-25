@@ -3,6 +3,7 @@ import {
   Grid,
   Header as UgHeader,
   Row,
+  Tag,
 } from '@appquality/unguess-design-system';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
@@ -12,6 +13,8 @@ import {
   useGetCampaignsByCidBugsAndBidQuery,
   useGetPublicBugsByDefectIdTokensAndTokenQuery,
 } from 'src/features/api';
+import { ReactComponent as FatherIcon } from 'src/assets/icons/bug-type-unique.svg';
+
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import styled from 'styled-components';
 
@@ -100,7 +103,7 @@ const PublicBugPage = () => {
   }
 
   return (
-    <>
+    <div style={{ backgroundColor: appTheme.palette.grey[100] }}>
       <UgHeader
         isStandalone
         style={{
@@ -110,11 +113,25 @@ const PublicBugPage = () => {
       >
         <BrandLogo redirect="/join" size="full" />
       </UgHeader>
-      <LayoutWrapper isNotBoxed={false}>
+      <Tag isPill={false} isRegular hue="rgba(0,0,0,0)">
+        {!bug.duplicated_of_id && (
+          <Tag.Avatar>
+            <FatherIcon
+              style={{
+                color: appTheme.palette.grey[500],
+                marginRight: appTheme.space.xxs,
+              }}
+            />
+          </Tag.Avatar>
+        )}
+        {campaignId}
+        <Tag.SecondaryText isBold>{bugId}</Tag.SecondaryText>
+      </Tag>
+      <LayoutWrapper>
         <BugContainer isFetching={isFetching}>
           <Grid gutters="xxl">
             <Row style={{ marginRight: 0 }}>
-              <Col lg={12} style={{ marginBottom: 0 }}>
+              <Col lg={8} style={{ marginBottom: 0 }}>
                 <Content
                   isPublicShared
                   bug={bug}
@@ -125,7 +142,7 @@ const PublicBugPage = () => {
           </Grid>
         </BugContainer>
       </LayoutWrapper>
-    </>
+    </div>
   );
 };
 
