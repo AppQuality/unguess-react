@@ -18,8 +18,8 @@ import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import styled from 'styled-components';
 
 import { useEffect } from 'react';
-import { Content } from './Content';
-import { LoadingSkeletonContent } from './LoadingSkeletonContent';
+import { Content } from '../Bug/Content';
+import { LoadingSkeletonContent } from '../Bug/LoadingSkeletonContent';
 
 const CampaignTitleContainer = styled.div`
   width: 100%;

@@ -10,7 +10,7 @@ import {
 import ErrorBoundaryPage from 'src/common/components/ErrorBoundary/ErrorBoundaryPage';
 import SentryWrapper from 'src/features/SentryWrapper';
 import Bug from 'src/pages/Bug';
-import PublicBugPage from 'src/pages/Bug/PublicBugPage';
+import PublicBugPage from 'src/pages/BugPublic/PublicBugPage';
 import BugForm from 'src/pages/Bugform';
 import Bugs from 'src/pages/Bugs';
 import Campaign from 'src/pages/Campaign';
