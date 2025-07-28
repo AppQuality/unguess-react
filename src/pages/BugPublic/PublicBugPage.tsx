@@ -23,11 +23,8 @@ import { LoadingSkeletonContent } from '../Bug/LoadingSkeletonContent';
 
 const CampaignTitleContainer = styled.div`
   width: 100%;
-  max-width: ${({ theme }) => theme.breakpoints.xxl};
-  margin-top: ${({ theme }) => theme.space.xxl};
-  @media (min-width: ${({ theme }) => theme.breakpoints.sm}) {
-    padding: 0 ${({ theme }) => theme.space.xxl};
-  }
+  padding: ${({ theme }) => theme.space.xxl} 0 0 0;
+  margin-bottom: ${({ theme }) => theme.space.md};
 `;
 
 const BugContainer = styled.div<{ isFetching?: boolean }>`
@@ -113,7 +110,11 @@ const PublicBugPage = () => {
   }
 
   return (
-    <div style={{ backgroundColor: appTheme.palette.grey[100] }}>
+    <div
+      style={{
+        backgroundColor: appTheme.palette.grey[100],
+      }}
+    >
       <UgHeader
         isStandalone
         data-qa="public-bug-page-header"
@@ -125,29 +126,29 @@ const PublicBugPage = () => {
       >
         <BrandLogo redirect="/join" size="full" />
       </UgHeader>
-      <CampaignTitleContainer data-qa="public-bug-campaign-info">
-        <Tag isPill={false} isRegular hue="rgba(0,0,0,0)">
-          Activity ID: {campaignId} -
-          <Tag.SecondaryText isBold>{campaignTitle}</Tag.SecondaryText>
-        </Tag>
-      </CampaignTitleContainer>
       <LayoutWrapper>
-        <BugContainer
-          isFetching={isFetching}
-          data-qa="public-bug-container-card"
-        >
-          <Grid gutters="xxl">
-            <Row style={{ marginRight: 0 }}>
-              <Col lg={8} style={{ marginBottom: 0 }}>
+        <Grid gutters="xxl">
+          <Row style={{ marginRight: 0, justifyContent: 'center' }}>
+            <Col lg={8} style={{ marginBottom: 0 }}>
+              <CampaignTitleContainer data-qa="public-bug-campaign-info">
+                <Tag isPill={false} isRegular hue="rgba(0,0,0,0)">
+                  Activity ID: {campaignId} -
+                  <Tag.SecondaryText isBold>{campaignTitle}</Tag.SecondaryText>
+                </Tag>
+              </CampaignTitleContainer>
+              <BugContainer
+                isFetching={isFetching}
+                data-qa="public-bug-container-card"
+              >
                 <Content
                   isPublicShared
                   bug={bug}
                   campaignId={String(campaignId)}
                 />
-              </Col>
-            </Row>
-          </Grid>
-        </BugContainer>
+              </BugContainer>
+            </Col>
+          </Row>
+        </Grid>
       </LayoutWrapper>
     </div>
   );
