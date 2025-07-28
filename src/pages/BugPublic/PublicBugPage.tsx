@@ -12,6 +12,7 @@ import { BrandLogo } from 'src/common/components/navigation/header/brandLogo';
 import {
   useGetCampaignsByCidBugsAndBidQuery,
   useGetPublicBugsByDefectIdTokensAndTokenQuery,
+  useGetUsersMeQuery,
 } from 'src/features/api';
 
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
@@ -40,6 +41,9 @@ const PublicBugPage = () => {
   const { defectId, token } = useParams();
   const navigate = useNavigate();
   const notFoundRoute = useLocalizeRoute('oops');
+  let redirectUrl;
+
+  const { data: user } = useGetUsersMeQuery();
   const location = useLocation();
 
   if (!defectId || Number.isNaN(Number(defectId)) || !token) {
@@ -87,6 +91,14 @@ const PublicBugPage = () => {
     }
   );
 
+  useEffect(() => {
+    if (typeof user === 'undefined') {
+      redirectUrl = '/join';
+    } else {
+      redirectUrl = '/';
+    }
+  }, [user]);
+
   if (
     isLoadingBugIdAndCampaign ||
     !bugIdAndCampaign ||
@@ -124,7 +136,7 @@ const PublicBugPage = () => {
           paddingLeft: appTheme.space.md,
         }}
       >
-        <BrandLogo redirect="/join" size="full" />
+        <BrandLogo redirect={redirectUrl} size="full" />
       </UgHeader>
       <LayoutWrapper>
         <Grid gutters="xxl">
