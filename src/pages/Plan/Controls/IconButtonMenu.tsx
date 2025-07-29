@@ -53,7 +53,7 @@ const IconButtonMenu = () => {
         handleMenuClick(value ?? '');
       }}
       label={(props) => (
-        <IconButton data-qa="extra-actions-menu" {...props}>
+        <IconButton data-qa="plan_page_header_iconbutton" {...props}>
           <DotsIcon />
         </IconButton>
       )}
