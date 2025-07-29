@@ -4,6 +4,8 @@ import {
   Header as UgHeader,
   Row,
   Tag,
+  Main,
+  Chrome,
 } from '@appquality/unguess-design-system';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
@@ -36,6 +38,20 @@ const BugContainer = styled.div<{ isFetching?: boolean }>`
   pointer-events: none;
 `}
 `;
+
+// without this wrapper, the anchor buttons seem not work properly
+const PublicBugWrapper: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => (
+  <Chrome isFluid hue={appTheme.palette.white}>
+    <Main
+      style={{ margin: 0, backgroundColor: appTheme.palette.grey[100] }}
+      id="main"
+    >
+      {children}
+    </Main>
+  </Chrome>
+);
 
 const PublicBugPage = () => {
   const { defectId, token } = useParams();
@@ -122,11 +138,7 @@ const PublicBugPage = () => {
   }
 
   return (
-    <div
-      style={{
-        backgroundColor: appTheme.palette.grey[100],
-      }}
-    >
+    <PublicBugWrapper>
       <UgHeader
         isStandalone
         data-qa="public-bug-page-header"
@@ -162,7 +174,7 @@ const PublicBugPage = () => {
           </Row>
         </Grid>
       </LayoutWrapper>
-    </div>
+    </PublicBugWrapper>
   );
 };
 
