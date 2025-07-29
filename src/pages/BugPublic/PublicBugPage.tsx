@@ -43,14 +43,16 @@ const BugContainer = styled.div<{ isFetching?: boolean }>`
 const PublicBugWrapper: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => (
-  <Chrome isFluid hue={appTheme.palette.white}>
-    <Main
-      style={{ margin: 0, backgroundColor: appTheme.palette.grey[100] }}
-      id="main"
-    >
-      {children}
-    </Main>
-  </Chrome>
+  <Main
+    style={{
+      height: '100vh',
+      margin: 0,
+      backgroundColor: appTheme.palette.grey[100],
+    }}
+    id="main"
+  >
+    {children}
+  </Main>
 );
 
 const PublicBugPage = () => {
