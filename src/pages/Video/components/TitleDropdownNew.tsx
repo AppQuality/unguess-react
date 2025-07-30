@@ -37,6 +37,7 @@ export const TitleDropdown = ({
   return (
     <Field>
       <Autocomplete
+        listboxAppendToNode={document.querySelector('main') || undefined}
         isCreatable
         renderValue={({ selection }) => {
           if (!selection) return '';
