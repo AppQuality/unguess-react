@@ -40,7 +40,7 @@ const BugContainer = styled.div<{ isFetching?: boolean }>`
 `}
 `;
 
-// without this wrapper, the anchor buttons seem not work properly
+// Without this wrapper, the anchor buttons do not work properly.
 const PublicBugWrapper: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => (
