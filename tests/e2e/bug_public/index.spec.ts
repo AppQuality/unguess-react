@@ -20,7 +20,7 @@ test.describe('Public Bug page - logged in', () => {
   test('Renders properly campaigns Id and title', async () => {
     // Campaign ID
     await expect(publicBugPage.elements().campaignInfo()).toContainText(
-      'Activity ID: 22222'
+      'Activity ID 22222'
     );
     // Campaign Title
     await expect(publicBugPage.elements().campaignInfo()).toContainText(
