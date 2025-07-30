@@ -3,9 +3,9 @@ import {
   Grid,
   Header as UgHeader,
   Row,
-  Tag,
   Main,
-  Chrome,
+  Span,
+  SM,
 } from '@appquality/unguess-design-system';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
@@ -19,6 +19,7 @@ import {
 
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import styled from 'styled-components';
+import { useTranslation } from 'react-i18next';
 
 import { useEffect } from 'react';
 import { Content } from '../Bug/Content';
@@ -56,6 +57,7 @@ const PublicBugWrapper: React.FC<{ children: React.ReactNode }> = ({
 );
 
 const PublicBugPage = () => {
+  const { t } = useTranslation();
   const { defectId, token } = useParams();
   const navigate = useNavigate();
   const notFoundRoute = useLocalizeRoute('oops');
@@ -157,10 +159,10 @@ const PublicBugPage = () => {
           <Row style={{ marginRight: 0, justifyContent: 'center' }}>
             <Col lg={8} style={{ marginBottom: 0 }}>
               <CampaignTitleContainer data-qa="public-bug-campaign-info">
-                <Tag isPill={false} isRegular hue="rgba(0,0,0,0)">
-                  Activity ID: {campaignId} -
-                  <Tag.SecondaryText isBold>{campaignTitle}</Tag.SecondaryText>
-                </Tag>
+                <SM>
+                  {t('__PUBLIC_BUG_PAGE_TITLE')}
+                  <Span isBold>{campaignId}</Span> - {campaignTitle}
+                </SM>
               </CampaignTitleContainer>
               <BugContainer
                 isFetching={isFetching}
