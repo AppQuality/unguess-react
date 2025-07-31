@@ -401,6 +401,19 @@ export interface paths {
       };
     };
   };
+  "/public/bugs/{defectId}/tokens/{token}": {
+    get: operations["get-public-bugs-defectId-tokens-token"];
+    parameters: {
+      path: {
+        /** Public bug link id */
+        defectId: number;
+        token: string;
+      };
+    };
+  };
+  "/templates/categories": {
+    get: operations["get-templates-categories"];
+  };
   "/users": {
     post: operations["post-users"];
     parameters: {};
@@ -846,6 +859,7 @@ export interface components {
     };
     /** CpReqTemplate */
     CpReqTemplate: {
+      category_id: number;
       config: string;
       description?: string;
       id: number;
@@ -2063,6 +2077,9 @@ export interface operations {
         cid: components["parameters"]["cid"];
         /** Defines an identifier for the bug object (BUG ID) */
         bid: components["parameters"]["bid"];
+      };
+      header: {
+        public_bug_token?: string;
       };
     };
     responses: {
@@ -3513,6 +3530,43 @@ export interface operations {
           include_shared?: boolean;
           /** @description Tryber WP USER ID */
           user_id: number;
+        };
+      };
+    };
+  };
+  "get-public-bugs-defectId-tokens-token": {
+    parameters: {
+      path: {
+        /** Public bug link id */
+        defectId: number;
+        token: string;
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          "application/json": {
+            bugId: number;
+            campaignId: number;
+            campaignTitle: string;
+          };
+        };
+      };
+      /** Forbidden */
+      403: unknown;
+    };
+  };
+  "get-templates-categories": {
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          "application/json": {
+            description?: string;
+            id: number;
+            name: string;
+          }[];
         };
       };
     };

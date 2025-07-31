@@ -67,6 +67,7 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({
         url: `/campaigns/${queryArg.cid}/bugs/${queryArg.bid}`,
+        headers: { public_bug_token: queryArg.publicBugToken },
       }),
     }),
     patchCampaignsByCidBugsAndBid: build.mutation<
@@ -522,6 +523,20 @@ const injectedRtkApi = api.injectEndpoints({
         body: queryArg.body,
       }),
     }),
+    getPublicBugsByDefectIdTokensAndToken: build.query<
+      GetPublicBugsByDefectIdTokensAndTokenApiResponse,
+      GetPublicBugsByDefectIdTokensAndTokenApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/public/bugs/${queryArg.defectId}/tokens/${queryArg.token}`,
+      }),
+    }),
+    getTemplatesCategories: build.query<
+      GetTemplatesCategoriesApiResponse,
+      GetTemplatesCategoriesApiArg
+    >({
+      query: () => ({ url: `/templates/categories` }),
+    }),
     postUsers: build.mutation<PostUsersApiResponse, PostUsersApiArg>({
       query: (queryArg) => ({
         url: `/users`,
@@ -909,6 +924,7 @@ export type GetCampaignsByCidBugsAndBidApiArg = {
   cid: string;
   /** Defines an identifier for the bug object (BUG ID) */
   bid: string;
+  publicBugToken?: string;
 };
 export type PatchCampaignsByCidBugsAndBidApiResponse = /** status 200 OK */ {
   custom_status?: BugCustomStatus;
@@ -1602,6 +1618,23 @@ export type PostProjectsByPidUsersApiArg = {
     surname?: string;
   };
 };
+export type GetPublicBugsByDefectIdTokensAndTokenApiResponse =
+  /** status 200 OK */ {
+    bugId: number;
+    campaignId: number;
+    campaignTitle: string;
+  };
+export type GetPublicBugsByDefectIdTokensAndTokenApiArg = {
+  /** Public bug link id */
+  defectId: number;
+  token: string;
+};
+export type GetTemplatesCategoriesApiResponse = /** status 200 OK */ {
+  description?: string;
+  id: number;
+  name: string;
+}[];
+export type GetTemplatesCategoriesApiArg = void;
 export type PostUsersApiResponse = /** status 201 Created */ {
   projectId?: number;
   workspaceId: number;
@@ -2814,6 +2847,7 @@ export type StrapiTemplate = {
   };
 };
 export type CpReqTemplate = {
+  category_id: number;
   config: string;
   description?: string;
   id: number;
@@ -2883,6 +2917,8 @@ export const {
   useDeleteProjectsByPidUsersMutation,
   useGetProjectsByPidUsersQuery,
   usePostProjectsByPidUsersMutation,
+  useGetPublicBugsByDefectIdTokensAndTokenQuery,
+  useGetTemplatesCategoriesQuery,
   usePostUsersMutation,
   useHeadUsersByEmailByEmailMutation,
   useGetUsersMeQuery,
