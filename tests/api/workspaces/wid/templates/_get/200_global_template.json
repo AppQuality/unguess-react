@@ -1,6 +1,7 @@
 {
   "items": [
     {
+      "category_id": 10,
       "config": "{ \"modules\": [{\"type\": \"title\", \"variant\": \"default\", \"output\": \"cp-title\"}]}",
       "description": "Description of global template 1",
       "id": 1,
