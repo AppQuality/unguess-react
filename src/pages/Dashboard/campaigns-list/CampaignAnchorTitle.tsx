@@ -1,17 +1,13 @@
 import { Anchor, Span, theme } from '@appquality/unguess-design-system';
 import { CampaignWithOutput } from 'src/features/api';
-import { getLocalizeDashboardRoute } from 'src/hooks/useLocalizeDashboardUrl';
+import { getLocalizeoFirstLevelDashboardRoute } from 'src/hooks/useLocalizeDashboardUrl';
 
 export const CampaignAnchorTitle = ({
   campaign,
 }: {
   campaign: CampaignWithOutput;
 }) => {
-  const cpUrl = getLocalizeDashboardRoute({
-    campaignId: campaign.id,
-    cpFamily: campaign.family.name,
-    outputs: campaign.outputs || [],
-  });
+  const cpUrl = getLocalizeoFirstLevelDashboardRoute(campaign.id);
 
   return (
     <Anchor href={cpUrl}>
