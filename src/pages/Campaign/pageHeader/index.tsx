@@ -54,7 +54,7 @@ const CampaignPageHeader = ({ campaignId }: { campaignId: number }) => {
       )}
       <LayoutWrapper>
         <PageHeader>
-          <PageHeader.Breadcrumbs>
+          <PageHeader.Breadcrumbs data-qa="campaign_pageHeader_breadCrumb">
             {project.hasAccess ? (
               <Anchor
                 id="breadcrumb-parent"
@@ -67,7 +67,7 @@ const CampaignPageHeader = ({ campaignId }: { campaignId: number }) => {
             )}
           </PageHeader.Breadcrumbs>
           <PageHeader.Main mainTitle={campaign.customer_title}>
-            <PageHeader.Title>
+            <PageHeader.Title data-qa="campaign_pageHeader_title">
               <EditableTitle campaignId={campaignId} />
             </PageHeader.Title>
             <PageHeader.Meta>

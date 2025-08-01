@@ -148,7 +148,8 @@ export class PlanPage extends UnguessPage {
       saveAsTemplateSuccessStep: () =>
         this.page.getByTestId('save-as-template-success-step'),
       descriptionModule: () => this.page.getByTestId('description-module'),
-      extraActionsMenu: () => this.page.getByTestId('extra-actions-menu'),
+      extraActionsMenu: () =>
+        this.page.getByTestId('plan_page_header_iconbutton'),
       pageHeader: () => this.page.getByTestId('plan-page-header'),
       removeModuleModal: () =>
         this.page.getByRole('dialog', {

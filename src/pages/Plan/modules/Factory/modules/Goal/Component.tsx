@@ -70,7 +70,7 @@ const Goal = () => {
   return (
     <>
       <AccordionNew
-        data-qa="goal-module"
+        data-qa="plan_page_module_goal"
         level={3}
         hasBorder
         type={error ? 'danger' : 'default'}

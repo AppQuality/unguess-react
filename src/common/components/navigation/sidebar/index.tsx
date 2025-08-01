@@ -159,6 +159,7 @@ export const AppSidebar = (props: PropsWithChildren<SidebarProps>) => {
           isExpanded={isSidebarOpen}
           isCurrent={route === ''}
           onClick={() => navigateTo('home')}
+          data-qa="global_sidebar_navItem_myActivities"
         >
           <NavItemIcon>
             {route === '' ? <CampaignsIconActive /> : <CampaignsIcon />}
@@ -178,6 +179,7 @@ export const AppSidebar = (props: PropsWithChildren<SidebarProps>) => {
             defaultExpandedSections={[0]}
             isExpanded={isSidebarOpen}
             isAnimated={false}
+            data-qa="global_sidebar_navItem_projects"
           >
             <NavAccordionItem.Section>
               <NavAccordionItem.Header>
@@ -228,6 +230,7 @@ export const AppSidebar = (props: PropsWithChildren<SidebarProps>) => {
             isExpanded={isSidebarOpen}
             isCurrent={route === 'templates'}
             onClick={() => navigateTo('templates')}
+            data-qa="global_sidebar_navItem_templates"
           >
             <NavItemIcon>
               {route === 'templates' ? (
@@ -250,6 +253,7 @@ export const AppSidebar = (props: PropsWithChildren<SidebarProps>) => {
             isCurrent={route === `projects/${archiveId}`}
             onClick={() => navigateTo(`projects/${archiveId}`)}
             style={{ marginBottom: '16px' }}
+            data-qa="global_sidebar_navItem_archive"
           >
             <NavItemIcon isStyled>
               {route === `projects/${archiveId}` ? (

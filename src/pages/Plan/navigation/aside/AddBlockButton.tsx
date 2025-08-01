@@ -33,6 +33,7 @@ const AddBlockButton = () => {
   return (
     <ButtonContainer>
       <Button
+        data-qa="plan_page_button_additem"
         isPrimary
         isPill={false}
         ref={triggerRef}

@@ -148,7 +148,7 @@ export const Metas = ({
   return (
     <>
       <FooterContainer>
-        <PageMeta>
+        <PageMeta data-qa="campaign_pageHeader_meta">
           <StatusMeta status={family.name.toLowerCase() as CampaignStatus}>
             {type.name}
           </StatusMeta>
@@ -167,7 +167,9 @@ export const Metas = ({
           ) : null}
         </PageMeta>
         <ButtonWrapper>
-          {!isArchived && hasWorkspaceAccess && <CampaignSettings />}
+          {!isArchived && hasWorkspaceAccess && (
+            <CampaignSettings dataQa="campaign_pageHeader_shareButton" />
+          )}
           {outputs?.includes('bugs') && (
             <Link to={functionalDashboardRoute}>
               <Button id="button-bugs-list-header" isPrimary isAccent>
@@ -225,7 +227,10 @@ export const Metas = ({
                   }
                 }}
                 label={(props) => (
-                  <IconButton data-qa="extra-actions-menu" {...props}>
+                  <IconButton
+                    data-qa="campaign_pageHeader_kebabMenu"
+                    {...props}
+                  >
                     <DotsIcon />
                   </IconButton>
                 )}

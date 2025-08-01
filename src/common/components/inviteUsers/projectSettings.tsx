@@ -239,7 +239,11 @@ export const ProjectSettings = () => {
 
   return (
     <>
-      <Button onClick={() => setIsModalOpen(true)} isBasic>
+      <Button
+        onClick={() => setIsModalOpen(true)}
+        isBasic
+        data-qa="project_pageHeader_shareButton"
+      >
         <Button.StartIcon>
           <UsersIcon />
         </Button.StartIcon>
