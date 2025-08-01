@@ -125,7 +125,8 @@ const PublicBugPage = () => {
     !bugId ||
     !campaignId ||
     !campaignTitle ||
-    isLoadingBug
+    isLoadingBug ||
+    typeof bug === 'undefined'
   ) {
     return <LoadingSkeletonContent />;
   }
@@ -135,10 +136,6 @@ const PublicBugPage = () => {
       state: { from: location.pathname },
     });
     return null;
-  }
-
-  if (typeof bug === 'undefined') {
-    return <LoadingSkeletonContent />;
   }
 
   return (
