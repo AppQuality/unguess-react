@@ -15,15 +15,15 @@ interface Props {
   campaignId: string;
   isPublicShared?: boolean;
 }
-const Container = styled(ContainerCard)<{ isPublicShared?: boolean }>`
+const Container = styled(ContainerCard)<{ $isPublicShared?: boolean }>`
   color: ${({ theme }) => theme.colors.foreground};
   margin: ${({ theme }) => theme.space.xxl} 0;
-  margin-top: ${({ theme, isPublicShared }) =>
-    isPublicShared ? theme.space.md : theme.space.xxl};
+  margin-top: ${({ theme, $isPublicShared }) =>
+    $isPublicShared ? theme.space.md : theme.space.xxl};
 `;
 
 export const Content = ({ bug, campaignId, isPublicShared = false }: Props) => (
-  <Container isPublicShared={isPublicShared}>
+  <Container $isPublicShared={isPublicShared}>
     <BugPreviewContextProvider>
       <BugHeader bug={bug} />
       <BugMeta bug={bug} />
