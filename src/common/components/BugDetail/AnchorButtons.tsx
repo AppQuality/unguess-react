@@ -20,9 +20,11 @@ const FlexComponent = styled.div`
 export const AnchorButtons = ({
   bug,
   scrollerBoxId,
+  isPublicShared = false,
 }: {
   bug: GetCampaignsByCidBugsAndBidApiResponse;
   scrollerBoxId?: string;
+  isPublicShared?: boolean;
 }) => {
   const { media } = bug;
   const { openAccordions, setOpenAccordions } = useBugPreviewContext();
@@ -79,30 +81,32 @@ export const AnchorButtons = ({
         </Tooltip>
       </Link>
 
-      <Link
-        to="bug-preview-duplicates"
-        containerId={scrollerBoxId || 'main'}
-        smooth
-        duration={500}
-        offset={0}
-        onClick={() => {
-          setOpenAccordions([...openAccordions, 'duplicates']);
-        }}
-      >
-        <Tooltip
-          content={t('__BUGS_PREVIEW_RELATED_BUGS_TOOLTIP_TEXT')}
-          placement="bottom"
-          type="light"
-          size="medium"
-          onClick={(e: any) => {
-            e.stopPropagation();
+      {isPublicShared === false && (
+        <Link
+          to="bug-preview-duplicates"
+          containerId={scrollerBoxId || 'main'}
+          smooth
+          duration={500}
+          offset={0}
+          onClick={() => {
+            setOpenAccordions([...openAccordions, 'duplicates']);
           }}
         >
-          <IconButton size="small">
-            <LinkIcon />
-          </IconButton>
-        </Tooltip>
-      </Link>
+          <Tooltip
+            content={t('__BUGS_PREVIEW_RELATED_BUGS_TOOLTIP_TEXT')}
+            placement="bottom"
+            type="light"
+            size="medium"
+            onClick={(e: any) => {
+              e.stopPropagation();
+            }}
+          >
+            <IconButton size="small">
+              <LinkIcon />
+            </IconButton>
+          </Tooltip>
+        </Link>
+      )}
     </FlexComponent>
   );
 };
