@@ -19,20 +19,32 @@ test.describe('Templates page', () => {
     await templates.open();
   });
 
-  test('Should contain a number of cards equal to the number of templates. Divided by tailored and suggested by us', async () => {
-    await expect(templates.elements().templateCard()).toHaveCount(
-      getTemplates.items.length
-    );
+  test('Should contain a number of cards equal to the number of templates plus the promo templates. Divided by tailored, suggested by us, and categories', async () => {
+    await expect(templates.elements().templateCard()).toHaveCount(14);
     await expect(templates.elements().tailoredSection()).toBeVisible();
+    await expect(templates.elements().unguessSection()).toBeVisible();
+
     await expect(
       templates.elements().tailoredSection().getByRole('listitem')
-    ).toHaveCount(getTemplates.items.filter((t) => 'workspace_id' in t).length);
-    await expect(templates.elements().unguessSection()).toBeVisible();
+    ).toHaveCount(4);
     await expect(
       templates.elements().unguessSection().getByRole('listitem')
-    ).toHaveCount(
-      getTemplates.items.filter((t) => !('workspace_id' in t)).length
-    );
+    ).toHaveCount(3);
+
+    // Check category sections
+    const categories = [10, 20, 30];
+    const expectedCounts = { 10: 2, 20: 2, 30: 1 }; // from the mock data
+
+    for (const categoryId of categories) {
+      const section = templates
+        .elements()
+        .categories()
+        .getByTestId(`category-section-${categoryId}`);
+      await expect(section).toBeVisible();
+      await expect(section.getByRole('listitem')).toHaveCount(
+        expectedCounts[categoryId]
+      );
+    }
   });
 
   test('Once a card is clicked a creation interface shoud appear', async ({
@@ -151,11 +163,3 @@ test.describe("If i don't have workspace access", () => {
     await expect(page).toHaveURL(/\/oops/);
   });
 });
-
-/**
- *
- * - se ho accesso di livello workspace vedo la lista altrimenti Oops (anche la voce di menù)
- * - elenco di card divise per tue e globali, potresti non avere le tue
- * - i globali sono quelli senza workspace id, gli altri sono tailored
- * - il tag user prende i dati dalla config, modulo target (opzionale)
- */

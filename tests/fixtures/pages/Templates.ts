@@ -22,6 +22,7 @@ export class Templates extends UnguessPage {
         this.page.getByTitle(
           this.i18n.t('__TEMPLATES_PAGE_UNGUESS_LIST_TITLE')
         ),
+      categories: () => this.page.getByTestId('template-categories'),
       planCreationInterface: () =>
         this.page.getByTestId('plan-creation-interface'),
       projectDropdown: () => this.page.getByTestId('project-dropdown'),
@@ -57,9 +58,16 @@ export class Templates extends UnguessPage {
   async mockGetTemplates() {
     await this.page.route('*/**/api/workspaces/1/templates*', async (route) => {
       if (route.request().method() === 'GET') {
-        await route.fulfill({
-          path: 'tests/api/workspaces/wid/templates/_get/200_global_and_private_templates.json',
-        });
+        const url = route.request().url();
+        if (url.includes('[isPromo]=1')) {
+          await route.fulfill({
+            path: 'tests/api/workspaces/wid/templates/_get/200_promo.json',
+          });
+        } else {
+          await route.fulfill({
+            path: 'tests/api/workspaces/wid/templates/_get/200_global_and_private_templates.json',
+          });
+        }
       } else {
         await route.fallback();
       }
