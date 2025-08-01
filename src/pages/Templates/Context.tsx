@@ -9,6 +9,8 @@ import {
 } from 'react';
 import {
   CpReqTemplate,
+  GetTemplatesCategoriesApiResponse,
+  useGetTemplatesCategoriesQuery,
   useGetWorkspacesByWidTemplatesQuery,
 } from 'src/features/api';
 import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
@@ -16,10 +18,12 @@ import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
 interface TemplatesContextProps {
   isDrawerOpen: boolean;
   setIsDrawerOpen: Dispatch<SetStateAction<boolean>>;
+  categories?: GetTemplatesCategoriesApiResponse;
   templatesByCategory: {
     tailored: CpReqTemplate[];
-    unguess: CpReqTemplate[];
+    categories: Record<number, CpReqTemplate[]>;
   };
+  promoTemplates?: CpReqTemplate[];
   selectedTemplate?: CpReqTemplate;
   setSelectedTemplate: Dispatch<SetStateAction<CpReqTemplate | undefined>>;
 }
@@ -47,23 +51,42 @@ export const TemplatesContextProvider = ({
       skip: !activeWorkspace,
     }
   );
+  const { data: promoData } = useGetWorkspacesByWidTemplatesQuery(
+    {
+      wid: activeWorkspace?.id.toString() || '',
+      orderBy: 'order',
+      order: 'asc',
+      filterBy: {
+        isPromo: 1,
+      },
+    },
+    {
+      skip: !activeWorkspace,
+    }
+  );
+
+  const { data: categories } = useGetTemplatesCategoriesQuery(undefined, {
+    skip: !activeWorkspace,
+  });
 
   const templatesByCategory = useMemo(() => {
-    if (!data) return { tailored: [], unguess: [] };
-    return data.items.reduce<TemplatesContextProps['templatesByCategory']>(
-      (acc, template) => {
-        if (
-          'workspace_id' in template &&
-          typeof template.workspace_id === 'number'
-        ) {
-          acc.tailored.push(template);
-        } else {
-          acc.unguess.push(template);
+    if (!data) return { tailored: [], unguess: [], categories: {} };
+    const result: TemplatesContextProps['templatesByCategory'] = {
+      tailored: [],
+      categories: {},
+    };
+    for (const template of data.items) {
+      if (typeof template.workspace_id === 'number') {
+        result.tailored.push(template);
+      }
+      if (typeof template.category_id === 'number') {
+        if (!result.categories[template.category_id]) {
+          result.categories[template.category_id] = [];
         }
-        return acc;
-      },
-      { tailored: [], unguess: [] }
-    );
+        result.categories[template.category_id].push(template);
+      }
+    }
+    return result;
   }, [data]);
 
   const templatesContextValue = useMemo(
@@ -71,13 +94,17 @@ export const TemplatesContextProvider = ({
       isDrawerOpen,
       setIsDrawerOpen,
       templatesByCategory,
+      categories,
+      promoTemplates: promoData?.items || [],
       selectedTemplate,
       setSelectedTemplate,
     }),
     [
       isDrawerOpen,
       setIsDrawerOpen,
+      categories,
       templatesByCategory,
+      promoData,
       selectedTemplate,
       setSelectedTemplate,
     ]
