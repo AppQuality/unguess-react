@@ -9,7 +9,7 @@ const CategoriesNav = () => {
   const { templatesByCategory, promoTemplates, tailoredTemplates } =
     useTemplatesContext();
   const { t } = useTranslation();
-  console.log('templatesByCategory', templatesByCategory);
+
   return (
     <AsideNav containerId="main" data-qa="templates-nav">
       {tailoredTemplates.length > 0 && (

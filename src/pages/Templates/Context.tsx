@@ -10,7 +10,6 @@ import {
 } from 'react';
 import {
   CpReqTemplate,
-  GetTemplatesCategoriesApiResponse,
   useGetTemplatesCategoriesQuery,
   useGetWorkspacesByWidTemplatesQuery,
 } from 'src/features/api';
@@ -89,7 +88,6 @@ export const TemplatesContextProvider = ({
     Record<number, CpReqTemplate[]>
   >({});
 
-  console.log('rawTemplatesByCategory', rawTemplatesByCategory);
   // Set raw tailored templates and categorized templates based on the fetched data
   useEffect(() => {
     if (!data) {
@@ -129,15 +127,26 @@ export const TemplatesContextProvider = ({
       .filter((cat) => cat.templates.length > 0); // Only include categories with at least one template
   }, [categories, rawTemplatesByCategory]);
 
-  const templatesContextValue = {
-    isDrawerOpen,
-    setIsDrawerOpen,
-    templatesByCategory,
-    promoTemplates,
-    tailoredTemplates,
-    selectedTemplate,
-    setSelectedTemplate,
-  };
+  const templatesContextValue = useMemo(
+    () => ({
+      isDrawerOpen,
+      setIsDrawerOpen,
+      templatesByCategory,
+      promoTemplates,
+      tailoredTemplates,
+      selectedTemplate,
+      setSelectedTemplate,
+    }),
+    [
+      isDrawerOpen,
+      setIsDrawerOpen,
+      templatesByCategory,
+      promoTemplates,
+      tailoredTemplates,
+      selectedTemplate,
+      setSelectedTemplate,
+    ]
+  );
 
   return (
     <TemplatesContext.Provider value={templatesContextValue}>
