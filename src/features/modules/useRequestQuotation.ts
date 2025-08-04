@@ -5,7 +5,8 @@ import { useAppSelector } from 'src/app/hooks';
 import { usePatchPlansByPidStatusMutation } from '../api';
 import { useModuleConfiguration, useSubmit } from './useModuleConfiguration';
 
-export const REQUIRED_MODULES = ['title', 'dates', 'tasks'] as const;
+const REQUIRED_MODULES = ['title', 'dates', 'tasks'] as const;
+
 export const useRequestQuotation = () => {
   const [error, setError] = useState<string | null>(null);
   const { planId } = useParams();

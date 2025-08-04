@@ -17,13 +17,14 @@ import { Trans, useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { useRequestQuotation } from 'src/features/modules/useRequestQuotation';
 import { useValidateForm } from 'src/features/planModules';
-import { Dates } from '../modules/Dates';
-import { Title } from '../modules/Title';
+import { getModuleBySlug } from '../modules/Factory';
 
 const SendRequestModal = ({ onQuit }: { onQuit: () => void }) => {
   const { t } = useTranslation();
   const { isRequestingQuote, handleQuoteRequest } = useRequestQuotation();
   const { addToast } = useToast();
+  const Title = getModuleBySlug('title').Component;
+  const Dates = getModuleBySlug('dates').Component;
 
   const { validateForm } = useValidateForm();
 
@@ -37,6 +38,8 @@ const SendRequestModal = ({ onQuit }: { onQuit: () => void }) => {
           <Notification
             onClose={close}
             type="error"
+            role="alert"
+            title={t('__PLAN_PAGE_MODAL_SEND_REQUEST_TOAST_ERROR')}
             message={
               e instanceof Error && e.message
                 ? e.message
@@ -90,7 +93,7 @@ const SendRequestModal = ({ onQuit }: { onQuit: () => void }) => {
   }
 
   return (
-    <Modal onClose={onQuit} role="dialog" data-qa="request-quotation-modal">
+    <Modal onClose={onQuit} role="dialog">
       <Modal.Header>{t('__PLAN_PAGE_MODAL_SEND_REQUEST_TITLE')}</Modal.Header>
       <Modal.Body style={{ overflow: 'visible' }}>
         <XL isBold>{t('__PLAN_PAGE_MODAL_SEND_REQUEST_BODY_TITLE')}</XL>

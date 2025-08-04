@@ -1,0 +1,8 @@
+{
+  "campaigns_count": 4,
+  "description": "An archived project with some campaigns",
+  "id": 1,
+  "is_archive": 1,
+  "name": "My archived project",
+  "workspaceId": 1
+}

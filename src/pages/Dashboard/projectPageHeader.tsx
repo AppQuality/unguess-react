@@ -1,23 +1,27 @@
 import {
   Button,
+  IconButton,
   LG,
   PageHeader,
   Skeleton,
   XXXL,
 } from '@appquality/unguess-design-system';
+import { ReactComponent as DeleteIcon } from '@zendeskgarden/svg-icons/src/16/trash-stroke.svg';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useAppSelector } from 'src/app/hooks';
 import { appTheme } from 'src/app/theme';
 import { ProjectSettings } from 'src/common/components/inviteUsers/projectSettings';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
-import { useGetProjectsByPidQuery } from 'src/features/api';
+import { useGetProjectsByPidQuery, useGetUsersMeQuery } from 'src/features/api';
 import { useCanAccessToActiveWorkspace } from 'src/hooks/useCanAccessToActiveWorkspace';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import styled from 'styled-components';
 import { Counters } from './Counters';
 import { EditableDescription } from './EditableDescription';
 import { EditableTitle } from './EditableTitle';
+import { useProjectPlans } from './hooks/useProjectPlans';
+import { DeleteProjectModal } from './Modals/DeleteProjectModal';
 
 const StyledPageHeaderMeta = styled(PageHeader.Meta)`
   justify-content: space-between;
@@ -38,6 +42,7 @@ const StyledPageHeaderMeta = styled(PageHeader.Meta)`
 
 const StyledDiv = styled.div`
   display: flex;
+  gap: ${({ theme }) => theme.space.xs};
 `;
 
 export const ProjectPageHeader = ({ projectId }: { projectId: number }) => {
@@ -45,8 +50,15 @@ export const ProjectPageHeader = ({ projectId }: { projectId: number }) => {
   const navigate = useNavigate();
   const notFoundRoute = useLocalizeRoute('oops');
   const location = useLocation();
-  const { status } = useAppSelector((state) => state.user);
+  const { isLoading: isUserLoading, isFetching: isUserFetching } =
+    useGetUsersMeQuery();
+
   const templatesRoute = useLocalizeRoute('templates');
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+
+  const { items: plans, isLoading: isLoadingPlans } = useProjectPlans({
+    projectId: projectId || 0,
+  });
 
   const {
     isLoading,
@@ -82,15 +94,29 @@ export const ProjectPageHeader = ({ projectId }: { projectId: number }) => {
     <LayoutWrapper>
       <PageHeader>
         <PageHeader.Main mainTitle={project?.name || ''}>
-          <PageHeader.Title style={{ minHeight: '62px' }}>
-            {isLoading || isFetching || status === 'loading' ? (
+          <PageHeader.Title
+            style={{ minHeight: '62px' }}
+            data-qa="project_pageHeader_title"
+          >
+            {isLoading ||
+            isLoadingPlans ||
+            isFetching ||
+            isUserLoading ||
+            isUserFetching ? (
               <Skeleton width="60%" height="44px" />
             ) : (
               titleContent
             )}
           </PageHeader.Title>
-          <PageHeader.Description style={{ width: '100%' }}>
-            {isLoading || isFetching || status === 'loading' ? (
+          <PageHeader.Description
+            style={{ width: '100%' }}
+            data-qa="project_pageHeader_description"
+          >
+            {isLoading ||
+            isLoadingPlans ||
+            isFetching ||
+            isUserLoading ||
+            isUserFetching ? (
               <Skeleton width="60%" height="44px" />
             ) : (
               descriptionContent
@@ -100,7 +126,7 @@ export const ProjectPageHeader = ({ projectId }: { projectId: number }) => {
             <StyledPageHeaderMeta>
               <Counters />
               <StyledDiv>
-                <ProjectSettings />
+                {hasWorksPacePermission && <ProjectSettings />}
                 {hasWorksPacePermission && (
                   <Button
                     isAccent
@@ -112,8 +138,21 @@ export const ProjectPageHeader = ({ projectId }: { projectId: number }) => {
                     {t('__DASHBOARD_CTA_NEW_ACTIVITY')}
                   </Button>
                 )}
+                {hasWorksPacePermission &&
+                  project?.campaigns_count === 0 &&
+                  plans.length === 0 && (
+                    <IconButton onClick={() => setDeleteModalOpen(true)}>
+                      <DeleteIcon color={appTheme.palette.blue[600]} />
+                    </IconButton>
+                  )}
               </StyledDiv>
             </StyledPageHeaderMeta>
+          )}
+          {deleteModalOpen && (
+            <DeleteProjectModal
+              projectId={projectId}
+              onQuit={() => setDeleteModalOpen(false)}
+            />
           )}
         </PageHeader.Main>
       </PageHeader>

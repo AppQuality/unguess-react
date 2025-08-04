@@ -5,6 +5,8 @@ interface ToolsContextType {
   setIsOpen: (isOpen: boolean) => void;
   language: string;
   setLanguage: (lang: string) => void;
+  showSentiment: boolean;
+  setShowSentiment: (showSentiment: boolean) => void;
 }
 
 const ToolsContext = createContext<ToolsContextType | null>(null);
@@ -16,6 +18,7 @@ export const ToolsContextProvider = ({
 }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [language, setLanguage] = useState<string>('');
+  const [showSentiment, setShowSentiment] = useState<boolean>(true);
 
   const toolsContextValue = useMemo(
     () => ({
@@ -23,8 +26,10 @@ export const ToolsContextProvider = ({
       setLanguage,
       isOpen,
       setIsOpen,
+      showSentiment,
+      setShowSentiment,
     }),
-    [language, setLanguage, isOpen, setIsOpen]
+    [language, setLanguage, isOpen, setIsOpen, showSentiment, setShowSentiment]
   );
 
   return (

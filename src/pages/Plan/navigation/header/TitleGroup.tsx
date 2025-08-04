@@ -2,8 +2,8 @@ import { Anchor, Breadcrumb, Logo } from '@appquality/unguess-design-system';
 import { Link, useParams } from 'react-router-dom';
 import { useGetPlansByPidQuery } from 'src/features/api';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
+import { getModuleBySlug } from 'src/pages/Plan/modules/Factory';
 import styled from 'styled-components';
-import { Title } from '../../modules/Title';
 
 const StyledDiv = styled.div`
   display: flex;
@@ -21,6 +21,7 @@ export const TitleGroup = () => {
   const projectRoute = useLocalizeRoute(`projects/${plan?.project.id ?? 0}`);
   const homeRoute = useLocalizeRoute('');
 
+  const Title = getModuleBySlug('title').Component;
   if (!plan) return null;
 
   return (

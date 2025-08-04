@@ -1,13 +1,13 @@
 {
   "items": [
     {
-      "preference_id": 1,
       "name": "notifications_enabled",
+      "preference_id": 1,
       "value": "1"
     },
     {
-      "preference_id": 2,
       "name": "translations_language",
+      "preference_id": 2,
       "value": "it"
     }
   ]

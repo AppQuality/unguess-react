@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { GoogleTagManager } from 'src/common/GoogleTagManager';
+import { Track } from 'src/common/Track';
 import { useNavigate } from 'react-router-dom';
 import i18n from 'src/i18n';
 import { Logged } from './Logged';
@@ -40,7 +40,7 @@ export const Page = ({
   }, [language]);
 
   return (
-    <GoogleTagManager title={title}>
+    <Track title={title}>
       <ErrorBoundary>
         <Logged route={route} pageHeader={pageHeader} isMinimal={isMinimal}>
           <Container
@@ -53,6 +53,6 @@ export const Page = ({
           </Container>
         </Logged>
       </ErrorBoundary>
-    </GoogleTagManager>
+    </Track>
   );
 };

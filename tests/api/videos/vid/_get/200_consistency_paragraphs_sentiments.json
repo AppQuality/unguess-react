@@ -1,0 +1,131 @@
+{
+  "duration": 0,
+  "id": 0,
+  "language": "string",
+  "poster": "string",
+  "sentiment": {
+    "paragraphs": [
+      {
+        "end": 2.01,
+        "reason": "very negative",
+        "start": 1,
+        "value": 1
+      },
+      {
+        "end": 10,
+        "reason": "negative",
+        "start": 2.01,
+        "value": 2
+      },
+      {
+        "end": 20,
+        "reason": "neutral",
+        "start": 10.01,
+        "value": 3
+      },
+      {
+        "end": 30,
+        "reason": "positive",
+        "start": 20.01,
+        "value": 4
+      },
+      {
+        "end": 40,
+        "reason": "very positive",
+        "start": 30.01,
+        "value": 5
+      }
+    ],
+    "reason": "string",
+    "value": 2
+  },
+  "streamUrl": "string",
+  "tester": {
+    "device": {
+      "type": "smartphone"
+    },
+    "id": 0,
+    "name": "string",
+    "surname": "string"
+  },
+  "transcript": {
+    "paragraphs": [
+      {
+        "end": 2.01,
+        "speaker": 0,
+        "start": 1,
+        "text": "ciao",
+        "words": [
+          {
+            "end": 2.01,
+            "speaker": 0,
+            "start": 1,
+            "word": "ciao"
+          }
+        ]
+      },
+      {
+        "end": 10,
+        "speaker": 0,
+        "start": 2.01,
+        "text": "ciao2",
+        "words": [
+          {
+            "end": 10,
+            "speaker": 0,
+            "start": 2.01,
+            "word": "ciao2"
+          }
+        ]
+      },
+      {
+        "end": 20,
+        "speaker": 0,
+        "start": 10.01,
+        "text": "ciao3",
+        "words": [
+          {
+            "end": 20,
+            "speaker": 0,
+            "start": 10.01,
+            "word": "ciao3"
+          }
+        ]
+      },
+      {
+        "end": 30,
+        "speaker": 0,
+        "start": 20.01,
+        "text": "ciao4",
+        "words": [
+          {
+            "end": 30,
+            "speaker": 0,
+            "start": 20.01,
+            "word": "ciao4"
+          }
+        ]
+      },
+      {
+        "end": 40,
+        "speaker": 0,
+        "start": 30.01,
+        "text": "ciao5",
+        "words": [
+          {
+            "end": 40,
+            "speaker": 0,
+            "start": 30.01,
+            "word": "ciao5"
+          }
+        ]
+      }
+    ],
+    "speakers": 0
+  },
+  "url": "string",
+  "usecase": {
+    "id": 0,
+    "name": "string"
+  }
+}

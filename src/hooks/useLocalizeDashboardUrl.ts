@@ -88,3 +88,13 @@ export const getLocalizedCampaignUrl = (
     ? `${protocol}//${host}/campaigns/${aCampaignId}`
     : `${protocol}//${host}/it/campaigns/${aCampaignId}`;
 };
+
+export const getLocalizedPlanUrl = (
+  aPlanId: number,
+  aLanguage: string
+): string => {
+  const { host, protocol } = window.location;
+  return aLanguage === 'en'
+    ? `${protocol}//${host}/plans/${aPlanId}`
+    : `${protocol}//${host}/it/plans/${aPlanId}`;
+};

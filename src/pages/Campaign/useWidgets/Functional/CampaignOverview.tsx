@@ -1,10 +1,12 @@
 import { useTranslation } from 'react-i18next';
 import { Campaign } from 'src/features/api';
-import BugDistributionCard from './widgets/BugDistributionCard';
-import { Progress } from './widgets/Progress';
-import { UniqueBugs } from './widgets/UniqueBugs';
-import { Suggestions } from './widgets/Reccomendations';
+import { useHasOnlyUniqueBugs } from '../../useHasOnlyUniqueBugs';
 import { WidgetSectionNew } from '../../WidgetSection';
+import BugDistributionCard from './widgets/BugDistributionCard';
+import { OnlyUniqueBugs } from './widgets/OnlyUniqueBugs';
+import { Progress } from './widgets/Progress';
+import { Suggestions } from './widgets/Reccomendations';
+import { UniqueBugs } from './widgets/UniqueBugs';
 
 export const CampaignOverview = ({
   id,
@@ -14,13 +16,19 @@ export const CampaignOverview = ({
   campaign: Campaign;
 }) => {
   const { t } = useTranslation();
+  const hasOnlyUniqueBugs = useHasOnlyUniqueBugs(campaign.id);
+
   return (
     <WidgetSectionNew
       id={id}
       title={t('__CAMPAIGN_PAGE_NAVIGATION_BUG_ITEM_OVERVIEW_LABEL')}
     >
       <Progress campaign={campaign} />
-      <UniqueBugs campaignId={campaign ? campaign.id : 0} />
+      {hasOnlyUniqueBugs ? (
+        <OnlyUniqueBugs campaignId={campaign ? campaign.id : 0} />
+      ) : (
+        <UniqueBugs campaignId={campaign ? campaign.id : 0} />
+      )}
       <BugDistributionCard campaignId={campaign ? campaign.id : 0} />
       <Suggestions campaignId={campaign.id.toString()} />
     </WidgetSectionNew>

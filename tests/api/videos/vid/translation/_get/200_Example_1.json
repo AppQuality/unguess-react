@@ -3,9 +3,9 @@
   "processing": 0,
   "sentences": [
     {
-      "text": "string",
+      "end": 0,
       "start": 0,
-      "end": 0
+      "text": "string"
     }
   ]
 }

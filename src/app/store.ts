@@ -4,20 +4,16 @@ import { unguessApiSlice } from 'src/features/api/apiTags';
 import { strapiSlice } from '../features/backoffice/strapi';
 import bugsPageReducer from '../features/bugsPage/bugsPageSlice';
 import filterReducer from '../features/campaignsFilter/campaignsFilterSlice';
-import expressReducer from '../features/express/expressSlice';
 import navigationReducer from '../features/navigation/navigationSlice';
 import planModulesReducer from '../features/planModules';
-import userReducer from '../features/user/userSlice';
 import uxFilterReducer from '../features/uxFilters';
 import workspaceReducer from '../features/workspaces/workspaceSlice';
 
 export const store = configureStore({
   reducer: {
-    user: userReducer,
     navigation: navigationReducer,
     workspaces: workspaceReducer,
     filters: filterReducer,
-    express: expressReducer,
     bugsPage: bugsPageReducer,
     uxFilters: uxFilterReducer,
     planModules: planModulesReducer,

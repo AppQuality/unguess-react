@@ -1,7 +1,7 @@
 [
   {
+    "color": "string",
     "custom_status_id": 0,
-    "name": "string",
-    "color": "string"
+    "name": "string"
   }
 ]

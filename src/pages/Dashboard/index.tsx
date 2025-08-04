@@ -1,8 +1,9 @@
 import { Grid } from '@appquality/unguess-design-system';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useAppDispatch, useAppSelector } from 'src/app/hooks';
+import { useAppDispatch } from 'src/app/hooks';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
+import { useGetUsersMeQuery } from 'src/features/api';
 import { resetFilters } from 'src/features/campaignsFilter/campaignsFilterSlice';
 import { Page } from 'src/features/templates/Page';
 import { useSendGTMevent } from 'src/hooks/useGTMevent';
@@ -16,10 +17,11 @@ import { SuggestedCampaigns } from './SuggestedCampaigns';
 const Dashboard = () => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
-  const { status } = useAppSelector((state) => state.user);
+  const { data: userData, isLoading, isFetching } = useGetUsersMeQuery();
+
   const sendGTMEvent = useSendGTMevent();
 
-  if (status === 'logged') dispatch(resetFilters()); // Reset filters
+  if (!isFetching && !isLoading && userData) dispatch(resetFilters()); // Reset filters
 
   const [openCreateProjectModal, setOpenCreateProjectModal] = useState(false);
 

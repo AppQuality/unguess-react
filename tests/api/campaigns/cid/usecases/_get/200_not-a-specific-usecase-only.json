@@ -1,12 +1,12 @@
 [
   {
+    "bugs": 10,
+    "completion": 62.5,
+    "description": "string",
+    "id": 1220,
     "title": {
       "full": "UC1 asd"
     },
-    "description": "string",
-    "bugs": 10,
-    "uniqueBugs": 8,
-    "id": 1220,
-    "completion": 62.5
+    "uniqueBugs": 8
   }
 ]

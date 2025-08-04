@@ -50,7 +50,9 @@ export const Header = ({
     )}
     <div style={{ order: '1', display: 'flex' }}>
       <Changelog />
-      {loggedIn && <ProfileAvatar />}
+      {loggedIn && (
+        <ProfileAvatar data-qa="global_header_navItem_profile_avatar" />
+      )}
     </div>
   </UgHeader>
 );

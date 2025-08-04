@@ -1,23 +1,40 @@
-import { createContext, useContext, useState, ReactNode, useMemo } from 'react';
+import { createContext, ReactNode, useContext, useMemo, useState } from 'react';
 
 export type PlanTab = 'setup' | 'target' | 'instructions' | 'summary';
 
-interface TabContextProps {
+interface PlanContextProps {
   activeTab: PlanTab;
   setActiveTab: (tab: PlanTab) => void;
+  setIsSaveTemplateModalOpen: (isOpen: boolean) => void;
+  isSaveTemplateModalOpen: boolean;
+  setIsDeleteModalOpen: (isOpen: boolean) => void;
+  isDeleteModalOpen: boolean;
 }
 
-const PlanContext = createContext<TabContextProps | null>(null);
+const PlanContext = createContext<PlanContextProps | null>(null);
 
 export const PlanProvider = ({ children }: { children: ReactNode }) => {
   const [activeTab, setActiveTab] = useState<PlanTab>('setup');
+  const [isSaveTemplateModalOpen, setIsSaveTemplateModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   const planContextValue = useMemo(
     () => ({
       activeTab,
       setActiveTab,
+      setIsSaveTemplateModalOpen,
+      isSaveTemplateModalOpen,
+      setIsDeleteModalOpen,
+      isDeleteModalOpen,
     }),
-    [activeTab, setActiveTab]
+    [
+      activeTab,
+      setActiveTab,
+      setIsSaveTemplateModalOpen,
+      isSaveTemplateModalOpen,
+      setIsDeleteModalOpen,
+      isDeleteModalOpen,
+    ]
   );
 
   return (
@@ -27,7 +44,7 @@ export const PlanProvider = ({ children }: { children: ReactNode }) => {
   );
 };
 
-export const usePlanTab = () => {
+export const usePlanContext = () => {
   const context = useContext(PlanContext);
   if (!context) {
     throw new Error('useTab must be used within a PlanProvider');

@@ -39,6 +39,10 @@ test.describe('project page', () => {
     );
   });
 
+  test('the invite users button should be visible', async () => {
+    await expect(project.elements().inviteUsersButton()).toBeVisible();
+  });
+
   test('should open the create plan interface when clicking on a promo item, preselected project in dropdown and a more info should go to the single template', async ({
     page,
   }) => {
@@ -94,6 +98,28 @@ test.describe('project page', () => {
     await expect(page).toHaveURL(
       `/plans/${planCreationInterface.postPlans.id}`
     );
+  });
+});
+
+test.describe('project page on a shared workspace', () => {
+  let project: Project;
+
+  test.beforeEach(async ({ page }) => {
+    project = new Project(page);
+
+    await project.loggedIn();
+    await project.mockPreferences();
+    await project.mockWorkspace();
+    await project.mockworkspacesPlans();
+    await project.mockworkspacesCampaigns();
+    await project.mockProject();
+    await project.mockProjectCampaigns();
+    await project.mocksharedWorkspacesList();
+    await project.open();
+  });
+
+  test('should hide the invite users button', async () => {
+    await expect(project.elements().inviteUsersButton()).not.toBeVisible();
   });
 });
 

@@ -1,6 +1,6 @@
 {
-  "id": 0,
-  "name": "string",
+  "campaignsCounter": 0,
   "description": "string",
-  "campaignsCounter": 0
+  "id": 0,
+  "name": "string"
 }

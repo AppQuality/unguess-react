@@ -1,33 +1,34 @@
-import { useAppSelector } from 'src/app/hooks';
-import { FEATURE_FLAG_CHANGE_MODULES_VARIANTS } from 'src/constants';
-import { useModuleConfiguration } from 'src/features/modules/useModuleConfiguration';
-import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
-import styled from 'styled-components';
-import { appTheme } from 'src/app/theme';
 import { MD } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
+import { useAppSelector } from 'src/app/hooks';
+import { appTheme } from 'src/app/theme';
+import { useModuleConfiguration } from 'src/features/modules/useModuleConfiguration';
+import styled from 'styled-components';
 import { NavContainer } from '../../common/NavContainer';
-import { usePlanTab } from '../../context/planContext';
-import { MODULES_BY_TAB } from '../../modulesMap';
+import { usePlanContext } from '../../context/planContext';
+import { getModuleBySlug, getModulesByTab } from '../../modules/Factory';
 import { AddBlockButton } from './AddBlockButton';
-import { MODULES_WITH_OUTPUT } from './const';
 import { AddBlockModal } from './modal/AddBlockModal';
 import { NavItem } from './NavItem';
-import { NavItemChildren } from './NavItemChildren';
 
 const BodyContainer = styled.div`
   max-height: calc(100vh - ${({ theme }) => theme.space.xxl});
   overflow-y: auto;
   margin-bottom: ${({ theme }) => theme.space.md};
+  margin-top: -${({ theme }) => theme.space.xs};
+`;
+
+const ChildrenContainer = styled.div`
+  max-height: 300px;
+  overflow-y: auto;
+  padding-top: ${({ theme }) => theme.space.md};
 `;
 
 const NavBody = () => {
-  const { activeTab } = usePlanTab();
-  const availableModules =
-    MODULES_BY_TAB[activeTab as keyof typeof MODULES_BY_TAB] || [];
+  const { activeTab } = usePlanContext();
+  const availableModules = getModulesByTab(activeTab);
   const { getPlanStatus } = useModuleConfiguration();
   const { currentModules } = useAppSelector((state) => state.planModules);
-  const { hasFeatureFlag } = useFeatureFlag();
   const { t } = useTranslation();
 
   return (
@@ -41,21 +42,27 @@ const NavBody = () => {
       <BodyContainer data-qa={`plans-nav-${activeTab}`}>
         {currentModules
           .filter((module) => availableModules.includes(module))
-          .map((module) => (
-            <NavItem type={module}>
-              {MODULES_WITH_OUTPUT.includes(module) && (
-                <NavItemChildren key={module} type={module} />
-              )}
-            </NavItem>
-          ))}
+          .map((module) => {
+            const { NavChildren } = getModuleBySlug(module);
+            return (
+              <div key={module}>
+                <NavItem type={module}>
+                  {NavChildren && (
+                    <ChildrenContainer>
+                      <NavChildren />
+                    </ChildrenContainer>
+                  )}
+                </NavItem>
+              </div>
+            );
+          })}
       </BodyContainer>
-      {getPlanStatus() === 'draft' &&
-        hasFeatureFlag(FEATURE_FLAG_CHANGE_MODULES_VARIANTS) && (
-          <div style={{ marginTop: 'auto' }}>
-            <AddBlockButton />
-            <AddBlockModal />
-          </div>
-        )}
+      {getPlanStatus() === 'draft' && (
+        <div style={{ marginTop: 'auto' }}>
+          <AddBlockButton />
+          <AddBlockModal />
+        </div>
+      )}
     </NavContainer>
   );
 };

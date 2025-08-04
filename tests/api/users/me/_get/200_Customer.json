@@ -1,0 +1,24 @@
+{
+  "email": "customer@example.com",
+  "features": [
+    {
+      "name": "Exploratory Express",
+      "slug": "exploratory-express"
+    },
+    {
+      "name": "Catalog pages",
+      "slug": "catalog-pages"
+    },
+    {
+      "name": "UX Tagging Tool",
+      "slug": "tagging-tool"
+    }
+  ],
+  "id": 10,
+  "name": "customer",
+  "picture": "https://www.gravatar.com/avatar/04c5df6d27d87476fe9dee853e1142bd",
+  "profile_id": 10,
+  "role": "customer",
+  "tryber_wp_user_id": 10,
+  "unguess_wp_user_id": 10
+}

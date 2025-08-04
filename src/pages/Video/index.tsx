@@ -1,20 +1,21 @@
+import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useAppDispatch } from 'src/app/hooks';
+import { FEATURE_FLAG_TAGGING_TOOL } from 'src/constants';
+import { useGetUsersMeQuery } from 'src/features/api';
 import { useGetCampaignWithWorkspaceQuery } from 'src/features/api/customEndpoints/getCampaignWithWorkspace';
-import { Page } from 'src/features/templates/Page';
-import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
-import { useAppDispatch, useAppSelector } from 'src/app/hooks';
-import { useCampaignAnalytics } from 'src/hooks/useCampaignAnalytics';
-import { useEffect } from 'react';
 import {
   setCampaignId,
   setPermissionSettingsTitle,
   setWorkspace,
 } from 'src/features/navigation/navigationSlice';
-import { FEATURE_FLAG_TAGGING_TOOL } from 'src/constants';
+import { Page } from 'src/features/templates/Page';
+import { useCampaignAnalytics } from 'src/hooks/useCampaignAnalytics';
 import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
-import VideoPageContent from './Content';
+import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import VideoPageHeader from './components/PageHeader';
+import VideoPageContent from './Content';
 
 const VideoPage = () => {
   const { t } = useTranslation();
@@ -23,7 +24,11 @@ const VideoPage = () => {
   const { campaignId } = useParams();
   const dispatch = useAppDispatch();
   const location = useLocation();
-  const { status } = useAppSelector((state) => state.user);
+  const {
+    isLoading: isUserLoading,
+    isFetching: isUserFetching,
+    isSuccess,
+  } = useGetUsersMeQuery();
   const { hasFeatureFlag } = useFeatureFlag();
 
   const hasTaggingToolFeature = hasFeatureFlag(FEATURE_FLAG_TAGGING_TOOL);
@@ -71,14 +76,14 @@ const VideoPage = () => {
   }
 
   useEffect(() => {
-    if (status === 'idle' || status === 'loading') return;
+    if (isUserFetching || isUserLoading) return;
 
-    if (!hasTaggingToolFeature && status === 'logged') {
+    if (!hasTaggingToolFeature && isSuccess) {
       navigate(notFoundRoute, {
         state: { from: location.pathname },
       });
     }
-  }, [status, hasTaggingToolFeature]);
+  }, [isSuccess, isUserFetching, isUserLoading, hasTaggingToolFeature]);
 
   return (
     <Page

@@ -31,6 +31,7 @@ import { appTheme } from 'src/app/theme';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { FEATURE_FLAG_TAGGING_TOOL } from 'src/constants';
 import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
+import { useCanAccessToActiveWorkspace } from 'src/hooks/useCanAccessToActiveWorkspace';
 import { getAllSeverityTags } from './utils/getSeverityTagsWithCount';
 
 const ButtonWrapper = styled.div`
@@ -99,6 +100,7 @@ export const Metas = ({
   const { t } = useTranslation();
   const { addToast } = useToast();
   const { hasFeatureFlag } = useFeatureFlag();
+  const hasWorkspaceAccess = useCanAccessToActiveWorkspace();
 
   const hasTaggingToolFeature = hasFeatureFlag(FEATURE_FLAG_TAGGING_TOOL);
 
@@ -245,7 +247,7 @@ export const Metas = ({
         <StatusMeta status={status.name as CampaignStatus} />
       </PageMeta>
       <ButtonWrapper>
-        {!campaign.isArchived && <CampaignSettings />}
+        {!campaign.isArchived && hasWorkspaceAccess && <CampaignSettings />}
         <>
           <MD color={appTheme.palette.blue[600]}>
             {' '}

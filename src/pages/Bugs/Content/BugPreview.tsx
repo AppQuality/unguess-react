@@ -1,5 +1,7 @@
 import { Skeleton } from '@appquality/unguess-design-system';
 import { useEffect, useMemo, useRef } from 'react';
+import { createSearchParams } from 'react-router-dom';
+import { useAppSelector } from 'src/app/hooks';
 import { AnchorButtons } from 'src/common/components/BugDetail/AnchorButtons';
 import BugAttachments from 'src/common/components/BugDetail/Attachments';
 import { BugDuplicates } from 'src/common/components/BugDetail/BugDuplicates';
@@ -18,13 +20,11 @@ import {
   getSelectedBugId,
 } from 'src/features/bugsPage/bugsPageSlice';
 import styled from 'styled-components';
-import { useAppSelector } from 'src/app/hooks';
-import { createSearchParams } from 'react-router-dom';
 import { BugCommentsDetail } from './components/BugCommentsDetails';
 import BugHeader from './components/BugHeader';
 import { BugPreviewContextProvider } from './context/BugPreviewContext';
 
-export const filtersHeight = 56;
+const filtersHeight = 56;
 
 const DetailContainer = styled.div<{
   isFetching?: boolean;
@@ -206,6 +206,7 @@ export const BugPreview = ({
           </GridWrapper>
           <BugTags bug={bug} refetchBugTags={refetch} />
           <BugDescription bug={bug} />
+          <BugDetails bug={bug} />
           {media && media.length ? <BugAttachments bug={bug} /> : null}
           <BugCommentsDetail
             commentsCount={comments?.items.length ?? 0}
@@ -213,7 +214,6 @@ export const BugPreview = ({
             campaignId={campaignId}
             searchParams={searchParams}
           />
-          <BugDetails bug={bug} />
           {currentBugId && (
             <BugDuplicates cid={campaignId} bugId={currentBugId} />
           )}

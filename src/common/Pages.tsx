@@ -10,6 +10,7 @@ import {
 import ErrorBoundaryPage from 'src/common/components/ErrorBoundary/ErrorBoundaryPage';
 import SentryWrapper from 'src/features/SentryWrapper';
 import Bug from 'src/pages/Bug';
+import PublicBugPage from 'src/pages/BugPublic/PublicBugPage';
 import BugForm from 'src/pages/Bugform';
 import Bugs from 'src/pages/Bugs';
 import Campaign from 'src/pages/Campaign';
@@ -17,13 +18,13 @@ import CampaignPreview from 'src/pages/Campaign/preview';
 import Dashboard from 'src/pages/Dashboard';
 import Project from 'src/pages/Dashboard/Project';
 import InsightsPage from 'src/pages/Insights';
+import JoinPage from 'src/pages/JoinPage';
 import LoginPage from 'src/pages/LoginPage';
 import Manual from 'src/pages/Manual';
 import MediaNotFound from 'src/pages/NotFound/MediaNotFound';
 import NotFound from 'src/pages/NotFound/NotFound';
 import Plan from 'src/pages/Plan';
-import Service from 'src/pages/Service';
-import Catalog from 'src/pages/Services';
+import Profile from 'src/pages/Profile';
 import Template from 'src/pages/Template';
 import Templates from 'src/pages/Templates';
 import Video from 'src/pages/Video';
@@ -46,7 +47,11 @@ const Pages = () => {
                 <Route
                   path={`/${langPrefix}`}
                   key={`react-router-${langPrefix}`}
-                  errorElement={<ErrorBoundaryPage />}
+                  errorElement={
+                    process.env.NODE_ENV === 'development' ? undefined : (
+                      <ErrorBoundaryPage />
+                    )
+                  }
                 >
                   <Route
                     path={`/${langPrefix}/campaigns/:campaignId`}
@@ -68,6 +73,12 @@ const Pages = () => {
                     path={`/${langPrefix}/login`}
                     element={<LoginPage />}
                   />
+                  <Route path={`/${langPrefix}/join`} element={<JoinPage />} />
+                  <Route
+                    path={`/${langPrefix}/join/invites/:profile/:token`}
+                    element={<JoinPage />}
+                  />
+
                   <Route
                     path={`/${langPrefix}/projects/:projectId`}
                     element={<Project />}
@@ -79,14 +90,6 @@ const Pages = () => {
                   <Route
                     path={`/${langPrefix}/campaigns/:campaignId/bugs/:bugId`}
                     element={<Bug />}
-                  />
-                  <Route
-                    path={`/${langPrefix}/services`}
-                    element={<Catalog />}
-                  />
-                  <Route
-                    path={`/${langPrefix}/services/:templateId`}
-                    element={<Service />}
                   />
                   <Route
                     path={`/${langPrefix}/templates`}
@@ -119,6 +122,10 @@ const Pages = () => {
                   />
                   <Route path={`/${langPrefix}/oops`} element={<NotFound />} />
                   <Route index element={<Dashboard />} />
+                  <Route
+                    path={`/${langPrefix}/profile`}
+                    element={<Profile />}
+                  />
                 </Route>
               ))}
 
@@ -156,6 +163,26 @@ const Pages = () => {
                 }
                 errorElement={<ErrorBoundaryPage />}
               />
+
+              <Route
+                path="/join"
+                element={
+                  <Redirect
+                    url={({ searchParams }) => {
+                      if (!searchParams || !searchParams.get('redirect'))
+                        return '/oops';
+                      return `/campaigns/${searchParams.get('cid')}/bugform`;
+                    }}
+                  />
+                }
+                errorElement={<ErrorBoundaryPage />}
+              />
+
+              <Route
+                path="/defect/:defectId/:token"
+                element={<PublicBugPage />}
+              />
+
               <Route path="*" element={<Navigate replace to="/oops" />} />
             </>
           )

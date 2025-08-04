@@ -1,12 +1,12 @@
 [
   {
-    "id": 0,
-    "name": "string",
     "color": "string",
+    "id": 0,
+    "is_default": 0,
+    "name": "string",
     "phase": {
       "id": 0,
       "name": "string"
-    },
-    "is_default": 0
+    }
   }
 ]

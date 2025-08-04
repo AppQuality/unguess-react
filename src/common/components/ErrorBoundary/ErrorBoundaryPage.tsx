@@ -1,24 +1,32 @@
 import {
+  Button,
   Col,
   Grid,
+  MD,
+  Paragraph,
   Row,
   theme,
   XXL,
-  MD,
-  Paragraph,
-  Button,
 } from '@appquality/unguess-design-system';
-import { ReactComponent as Illustration } from 'src/assets/errorBoundaryPage.svg';
 import { useTranslation } from 'react-i18next';
+import { ReactComponent as Illustration } from 'src/assets/errorBoundaryPage.svg';
+import { Track } from 'src/common/Track';
 import { Logged } from 'src/features/templates/Logged';
-import { Container } from 'src/pages/ExpressWizard/wizardHeader';
-import { GoogleTagManager } from 'src/common/GoogleTagManager';
+import styled from 'styled-components';
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+`;
 
 const ErrorBoundaryPage = () => {
   const { t } = useTranslation();
 
   return (
-    <GoogleTagManager title={t('__ERROR_PAGE_TITLE')}>
+    <Track title={t('__ERROR_PAGE_TITLE')}>
       <Logged route="">
         <Container id="error-container" style={{ height: '100%' }}>
           <Grid>
@@ -48,7 +56,7 @@ const ErrorBoundaryPage = () => {
           </Grid>
         </Container>
       </Logged>
-    </GoogleTagManager>
+    </Track>
   );
 };
 

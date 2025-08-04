@@ -10,7 +10,7 @@ const FlipButton = styled(IconButton)`
   margin-left: ${(p) => p.theme.space.xs};
 `;
 
-export const FlipButtonContainer = styled.div<{ breakpoint: number }>`
+const FlipButtonContainer = styled.div<{ breakpoint: number }>`
   display: none;
   @container (min-width: ${(p) => p.breakpoint}px) {
     display: flex;

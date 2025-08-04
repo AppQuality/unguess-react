@@ -177,7 +177,7 @@ export const DetailsCard = () => {
           <MD isBold style={{ color: getColor(appTheme.palette.grey, 800) }}>
             {t('__PLAN_PAGE_SUMMARY_TAB_ACTIVITY_INFO_TITLE')}
           </MD>
-          <PlanTag {...getPlanStatus(plan, t)} />
+          {status !== 'approved' && <PlanTag {...getPlanStatus(plan, t)} />}
         </>
       </WidgetSpecialCard.Meta>
       <Divider />

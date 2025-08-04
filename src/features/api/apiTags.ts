@@ -1,4 +1,5 @@
-import { unguessApi } from '.';
+import * as uuid from 'uuid';
+import { GetPlansByPidApiResponse, ModuleTask, unguessApi } from '.';
 
 unguessApi.enhanceEndpoints({
   endpoints: {
@@ -29,9 +30,6 @@ unguessApi.enhanceEndpoints({
     patchProjectsByPid: {
       invalidatesTags: ['Projects'],
     },
-    postCampaigns: {
-      invalidatesTags: ['Campaigns'],
-    },
     patchCampaignsByCid: {
       invalidatesTags: ['Campaigns', 'Projects', 'Archive', 'Users'],
     },
@@ -52,9 +50,6 @@ unguessApi.enhanceEndpoints({
     },
     getWorkspacesByWidCoins: {
       providesTags: ['Workspaces'],
-    },
-    getTemplates: {
-      providesTags: ['Templates'],
     },
     getCampaignsByCidReports: {
       providesTags: ['Reports'],
@@ -98,8 +93,19 @@ unguessApi.enhanceEndpoints({
     deleteCampaignsByCidBugsAndBidCommentsCmid: {
       invalidatesTags: ['BugComments'],
     },
+    getUsersMe: {
+      providesTags: ['Users'],
+    },
     getUsersMePreferences: {
       providesTags: ['Preferences'],
+    },
+    patchUsersMe: {
+      onQueryStarted: async (arg, { dispatch, queryFulfilled }) => {
+        await queryFulfilled;
+        if (!arg?.body?.password) {
+          dispatch(unguessApi.util.invalidateTags(['Users']));
+        }
+      },
     },
     putUsersMePreferencesBySlug: {
       invalidatesTags: ['Preferences'],
@@ -171,7 +177,9 @@ unguessApi.enhanceEndpoints({
           );
           dispatch(unguessApi.util.invalidateTags(['VideoTags', 'Insights']));
         } catch {
-          dispatch(unguessApi.util.invalidateTags(['Observations']));
+          dispatch(
+            unguessApi.util.invalidateTags(['Observations', 'Insights'])
+          );
         }
       },
     },
@@ -270,6 +278,33 @@ unguessApi.enhanceEndpoints({
     },
     getPlansByPid: {
       providesTags: ['Plans'],
+      transformResponse: (response: GetPlansByPidApiResponse) => {
+        if (response && response.config) {
+          // find the task module if any
+          const taskModule = response.config.modules.find(
+            (module) => module.type === 'tasks'
+          ) as ModuleTask | undefined;
+          if (taskModule && taskModule?.output) {
+            // add an id to each task for better identification
+            const mappedTasks = taskModule.output.map((task) => ({
+              ...task,
+              id: task.id || uuid.v4(), // generate a new UUID for each task
+            }));
+            taskModule.output = mappedTasks;
+            // now we can safely return the response
+            response.config.modules = response.config.modules.map((module) => {
+              if (module.type === 'tasks') {
+                return {
+                  ...module,
+                  output: mappedTasks,
+                };
+              }
+              return module;
+            });
+          }
+        }
+        return response;
+      },
     },
     patchPlansByPid: {
       invalidatesTags: ['Plans'],
@@ -278,7 +313,16 @@ unguessApi.enhanceEndpoints({
       invalidatesTags: ['Plans'],
     },
     patchPlansByPidStatus: {
-      invalidatesTags: ['Plans'],
+      invalidatesTags: ['Plans', 'Projects'],
+    },
+    deleteProjectsByPid: {
+      invalidatesTags: ['Projects'],
+    },
+    postWorkspacesByWidTemplates: {
+      invalidatesTags: ['Templates'],
+    },
+    getWorkspacesByWidTemplates: {
+      providesTags: ['Templates'],
     },
   },
 });

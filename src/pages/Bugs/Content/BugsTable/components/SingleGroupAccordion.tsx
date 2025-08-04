@@ -97,7 +97,7 @@ const SingleGroupAccordion = ({
                       style={{ marginRight: appTheme.space.xs }}
                     />
                     {t('__BUGS_PAGE_TABLE_SEE_ALL', 'see all')}
-                    {` (${item.bugs.length})`}
+                    {` (${item.bugs.length - 3})`}
                   </>
                 ) : (
                   <>

@@ -2,13 +2,15 @@ import { Col, Grid, Row } from '@appquality/unguess-design-system';
 import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useAppSelector } from 'src/app/hooks';
 import { PageLoader } from 'src/common/components/PageLoader';
 import PlanCreationInterface from 'src/common/components/PlanCreationInterface';
-import { useGetWorkspacesByWidTemplatesQuery } from 'src/features/api';
+import {
+  useGetUsersMeQuery,
+  useGetWorkspacesByWidTemplatesQuery,
+} from 'src/features/api';
 import { Page } from 'src/features/templates/Page';
+import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
 import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
-import { useCanAccessToActiveWorkspace } from 'src/hooks/useCanAccessToActiveWorkspace';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import Body from './Body';
 import { CategoriesNav } from './CategoriesNav';
@@ -22,7 +24,7 @@ const PageInner = () => {
     setIsDrawerOpen(false);
   }, [setIsDrawerOpen]);
   return (
-    <>
+    <LayoutWrapper>
       <Grid>
         <Row>
           <Col xs={12} lg={2} style={{ margin: 0 }}>
@@ -40,7 +42,7 @@ const PageInner = () => {
           template={selectedTemplate}
         />
       )}
-    </>
+    </LayoutWrapper>
   );
 };
 
@@ -50,26 +52,28 @@ const Templates = () => {
   const notFoundRoute = useLocalizeRoute('oops');
   const location = useLocation();
   const { activeWorkspace } = useActiveWorkspace();
-  const { status } = useAppSelector((state) => state.user);
-  const canViewTemplates = useCanAccessToActiveWorkspace();
+  const { isLoading: isUserLoading, isFetching: isUserFetching } =
+    useGetUsersMeQuery();
 
-  const { data, isLoading, isError } = useGetWorkspacesByWidTemplatesQuery(
+  const { isLoading, isError } = useGetWorkspacesByWidTemplatesQuery(
     {
       wid: activeWorkspace?.id.toString() || '',
+      orderBy: 'order',
+      order: 'asc',
     },
     {
       skip: !activeWorkspace,
     }
   );
 
-  if (!data || isLoading || status === 'loading') {
-    return <PageLoader />;
-  }
-
-  if (!canViewTemplates || isError) {
+  if (isError) {
     navigate(notFoundRoute, {
       state: { from: location.pathname },
     });
+  }
+
+  if (isLoading || isUserFetching || isUserLoading) {
+    return <PageLoader />;
   }
 
   return (

@@ -16,7 +16,7 @@ const DeleteModuleConfirmationModal = ({
   const { t } = useTranslation();
 
   return (
-    <Modal onClose={onQuit}>
+    <Modal role="dialog" onClose={onQuit}>
       <Modal.Header isDanger>
         {t('__PLAN_PAGE_MODUL_GENERAL_REMOVE_MODAL_TITLE')}
       </Modal.Header>

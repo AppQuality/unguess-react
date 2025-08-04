@@ -1,9 +1,10 @@
 import { Button, PageHeader } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { useAppSelector } from 'src/app/hooks';
+import { appTheme } from 'src/app/theme';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
 import { PageTitle } from 'src/common/components/PageTitle';
+import { useGetUsersMeQuery } from 'src/features/api';
 import { useCanAccessToActiveWorkspace } from 'src/hooks/useCanAccessToActiveWorkspace';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { Counters } from './Counters';
@@ -16,12 +17,14 @@ export const DashboardHeaderContent = ({
   handleOpenModal: () => void;
 }) => {
   const { t } = useTranslation();
-  const { status } = useAppSelector((state) => state.user);
+  const { isLoading: isUserLoading, isFetching: isUserFetching } =
+    useGetUsersMeQuery();
+
   const hasWorksPacePermission = useCanAccessToActiveWorkspace();
   const navigate = useNavigate();
   const templatesRoute = useLocalizeRoute('templates');
 
-  return status === 'idle' || status === 'loading' ? null : (
+  return isUserFetching || isUserLoading ? null : (
     <LayoutWrapper>
       <PageHeader>
         <PageHeader.Main mainTitle={pageTitle || 'My Dashboard'}>
@@ -31,7 +34,7 @@ export const DashboardHeaderContent = ({
           <PageHeader.Meta style={{ justifyContent: 'space-between' }}>
             <Counters />
             {hasWorksPacePermission && (
-              <div>
+              <div style={{ gap: appTheme.space.xs, display: 'flex' }}>
                 <Button isBasic onClick={handleOpenModal}>
                   {t('__DASHBOARD_CREATE_NEW_PROJECT')}
                 </Button>

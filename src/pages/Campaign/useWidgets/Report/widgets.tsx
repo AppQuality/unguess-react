@@ -4,10 +4,12 @@ import {
   useGetCampaignsByCidQuery,
   useGetCampaignsByCidReportsQuery,
 } from 'src/features/api';
+import { getLocalizedPlanUrl } from 'src/hooks/useLocalizeDashboardUrl';
+import { ExternalLink } from '../../ExternalLink';
 import { ReportRow } from './ReportRow';
 
 export const widgets = ({ campaignId }: { campaignId: number }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { data: campaign } = useGetCampaignsByCidQuery({
     cid: campaignId.toString(),
   });
@@ -49,5 +51,21 @@ export const widgets = ({ campaignId }: { campaignId: number }) => {
       type: 'item' as const,
       title: t('__CAMPAIGN_PAGE_NAVIGATION_BUG_ITEM_OTHER_REPORTS_LABEL'),
     },
+    ...(campaign?.plan
+      ? [
+          {
+            id: 'anchor-plan-navigation',
+            content: (
+              <ExternalLink
+                id="anchor-plan-navigation"
+                url={getLocalizedPlanUrl(campaign.plan, i18n.language)}
+              >
+                {t('__CAMPAIGN_PAGE_NAVIGATION_PLAN_EXTERNAL_LINK_LABEL')}
+              </ExternalLink>
+            ),
+            type: 'footer' as const,
+          },
+        ]
+      : []),
   ];
 };

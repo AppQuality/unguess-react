@@ -65,7 +65,7 @@ export const Counters = () => {
   return isLoading || isFetching ? (
     <Skeleton width="30%" height="32px" />
   ) : (
-    <PageMeta>
+    <PageMeta data-qa="project_pageHeader_counters">
       <StatusMeta counter={completed} status="completed" />
       <StatusMeta counter={running} status="running" />
       <StatusMeta counter={inComing} status="incoming" />

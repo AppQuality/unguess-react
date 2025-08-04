@@ -3,8 +3,8 @@ import { useTranslation } from 'react-i18next';
 import { useAppSelector } from 'src/app/hooks';
 import { useModuleConfiguration } from 'src/features/modules/useModuleConfiguration';
 import styled from 'styled-components';
-import { usePlanTab } from '../../context/planContext';
-import { MODULES_BY_TAB } from '../../modulesMap';
+import { usePlanContext } from '../../context/planContext';
+import { getModulesByTab } from '../../modules/Factory';
 
 const StyledBreadcrumb = styled(Breadcrumb)`
   ol {
@@ -14,15 +14,13 @@ const StyledBreadcrumb = styled(Breadcrumb)`
 
 export const BreadCrumbTabs = () => {
   const { t } = useTranslation();
-  const { activeTab, setActiveTab } = usePlanTab();
+  const { activeTab, setActiveTab } = usePlanContext();
   const { errors } = useAppSelector((state) => state.planModules);
   const { getPlanStatus } = useModuleConfiguration();
 
-  const availableModules = MODULES_BY_TAB;
-
-  const setupModules = availableModules.setup || [];
-  const targetModules = availableModules.target || [];
-  const instructionsModules = availableModules.instructions || [];
+  const setupModules = getModulesByTab('setup');
+  const targetModules = getModulesByTab('target');
+  const instructionsModules = getModulesByTab('instructions');
 
   const hasSetupErrors = setupModules.some(
     (module_type) =>
@@ -49,7 +47,10 @@ export const BreadCrumbTabs = () => {
   );
 
   return (
-    <StyledBreadcrumb showLastArrow={false}>
+    <StyledBreadcrumb
+      showLastArrow={false}
+      data-qa="plan_page_header_navigation"
+    >
       <Button
         isBasic
         size="small"

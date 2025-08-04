@@ -1,82 +1,82 @@
 [
   {
+    "color": "ffffff",
     "id": 1,
+    "is_default": 1,
     "name": "to do",
     "phase": {
       "id": 1,
       "name": "working"
-    },
-    "color": "ffffff",
-    "is_default": 1
+    }
   },
   {
+    "color": "c2c8cc",
     "id": 2,
+    "is_default": 1,
     "name": "pending",
     "phase": {
       "id": 1,
       "name": "working"
-    },
-    "color": "c2c8cc",
-    "is_default": 1
+    }
   },
   {
+    "color": "4cA4de",
     "id": 3,
+    "is_default": 1,
     "name": "to be imported",
     "phase": {
       "id": 1,
       "name": "working"
-    },
-    "color": "4cA4de",
-    "is_default": 1
+    }
   },
   {
+    "color": "4cA4de",
     "id": 4,
+    "is_default": 1,
     "name": "open",
     "phase": {
       "id": 1,
       "name": "working"
-    },
-    "color": "4cA4de",
-    "is_default": 1
+    }
   },
   {
+    "color": "ffb65a",
     "id": 5,
+    "is_default": 1,
     "name": "to be retested",
     "phase": {
       "id": 1,
       "name": "working"
-    },
-    "color": "ffb65a",
-    "is_default": 1
+    }
   },
   {
+    "color": "2f3941",
     "id": 8,
+    "is_default": 1,
     "name": "under IT analysis",
     "phase": {
       "id": 1,
       "name": "working"
-    },
-    "color": "2f3941",
-    "is_default": 1
+    }
   },
   {
+    "color": "00a073",
     "id": 6,
+    "is_default": 1,
     "name": "solved",
     "phase": {
       "id": 2,
       "name": "completed"
-    },
-    "color": "00a073",
-    "is_default": 1
+    }
   },
   {
+    "color": "68737d",
     "id": 7,
+    "is_default": 1,
     "name": "not a bug",
     "phase": {
       "id": 2,
       "name": "completed"
-    },
-    "color": "68737d",
-    "is_default": 1
+    }
   }
 ]

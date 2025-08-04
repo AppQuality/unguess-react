@@ -1,41 +1,43 @@
 {
+  "config": {
+    "modules": [
+      {
+        "output": "My Plan",
+        "type": "title",
+        "variant": "default"
+      },
+      {
+        "output": {
+          "start": "2041-12-17T08:00:00.000Z"
+        },
+        "type": "dates",
+        "variant": "default"
+      },
+      {
+        "output": [
+          {
+            "description": "description kind bug",
+            "kind": "bug",
+            "title": "Search for bugs",
+            "id": "bug-1"
+          },
+          {
+            "description": "description kind video",
+            "kind": "video",
+            "title": "Think aloud",
+            "id": "video-1"
+          }
+        ],
+        "type": "tasks",
+        "variant": "default"
+      }
+    ]
+  },
   "id": 13,
-  "workspace_id": 1,
-  "status": "pending_review",
   "project": {
     "id": 90,
     "name": "MyProject"
   },
-  "config": {
-    "modules": [
-      {
-        "type": "title",
-        "variant": "default",
-        "output": "My Plan"
-      },
-      {
-        "type": "dates",
-        "variant": "default",
-        "output": {
-          "start": "2041-12-17T08:00:00.000Z"
-        }
-      },
-      {
-        "type": "tasks",
-        "variant": "default",
-        "output": [
-          {
-            "kind": "bug",
-            "title": "Search for bugs",
-            "description": "description kind bug"
-          },
-          {
-            "kind": "video",
-            "title": "Think aloud",
-            "description": "description kind video"
-          }
-        ]
-      }
-    ]
-  }
+  "status": "pending_review",
+  "workspace_id": 1
 }

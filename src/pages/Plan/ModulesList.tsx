@@ -3,15 +3,14 @@ import { appTheme } from 'src/app/theme';
 import { ModulesBottomNavigation } from './common/ModulesBottomNavigation';
 import { TabTitle } from './common/TabTitle';
 import { PlanTab } from './context/planContext';
-import { modulesMap, MODULES_BY_TAB } from './modulesMap';
+import { getModuleBySlug, getModulesByTab } from './modules/Factory';
 
 export const ModulesList = ({ tabId }: { tabId: PlanTab }) => {
   const currentModules = useAppSelector(
     (state) => state.planModules.currentModules
   );
 
-  const availableModules =
-    MODULES_BY_TAB[tabId as keyof typeof MODULES_BY_TAB] || [];
+  const availableModules = getModulesByTab(tabId);
 
   if (!availableModules.length) {
     return null;
@@ -23,13 +22,17 @@ export const ModulesList = ({ tabId }: { tabId: PlanTab }) => {
       {currentModules.map((type) => {
         const isVisible = availableModules.includes(type);
 
-        const Component = modulesMap[`${type}`];
+        const Component = getModuleBySlug(type)?.Component;
         if (!Component) return null;
         return (
           <div
             id={`module-${type}`}
             style={{
               marginBottom: appTheme.space.lg,
+              paddingLeft:
+                type === 'tasks' || type === 'target' ? 0 : appTheme.space.xs,
+              paddingRight:
+                type === 'tasks' || type === 'target' ? 0 : appTheme.space.xs,
               display: isVisible ? 'block' : 'none',
             }}
           >
@@ -37,8 +40,13 @@ export const ModulesList = ({ tabId }: { tabId: PlanTab }) => {
           </div>
         );
       })}
-      <div className="scroll-spacer" style={{ height: '100px' }} />
       {tabId !== 'summary' && <ModulesBottomNavigation tabId={tabId} />}
+      <div
+        className="scroll-spacer"
+        style={{
+          height: `calc(100vh - 510px)`,
+        }}
+      />
     </>
   );
 };

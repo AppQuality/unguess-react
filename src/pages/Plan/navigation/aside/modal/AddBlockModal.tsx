@@ -3,9 +3,9 @@ import { useTranslation } from 'react-i18next';
 import { useAppSelector } from 'src/app/hooks';
 import { appTheme } from 'src/app/theme';
 import { components } from 'src/common/schema';
+import { getModulesByTab } from 'src/pages/Plan/modules/Factory';
 import styled from 'styled-components';
-import { usePlanTab } from '../../../context/planContext';
-import { MODULES_BY_TAB } from '../../../modulesMap';
+import { usePlanContext } from '../../../context/planContext';
 import { usePlanNavContext } from '../context';
 import { AddBlockModalItem } from './AddBlockModalItem';
 
@@ -24,9 +24,8 @@ const ButtonsContainer = styled.div`
 const AddBlockModal = () => {
   const { t } = useTranslation();
   const { modalRef, setModalRef } = usePlanNavContext();
-  const { activeTab } = usePlanTab();
-  const availableModules =
-    MODULES_BY_TAB[activeTab as keyof typeof MODULES_BY_TAB] || [];
+  const { activeTab } = usePlanContext();
+  const availableModules = getModulesByTab(activeTab);
   const { currentModules } = useAppSelector((state) => state.planModules);
 
   const items = availableModules.map((module_type) => {
@@ -51,10 +50,13 @@ const AddBlockModal = () => {
 
   return (
     <TooltipModal
+      role="dialog"
+      data-qa="plans-nav-add-block-dialog"
       referenceElement={modalRef}
       onClose={() => setModalRef(null)}
       placement="top-start"
       hasArrow={false}
+      appendToNode={document.body}
     >
       <TooltipModal.Title>
         <MD isBold>{t('__PLAN_PAGE_ADD_MODULE_BLOCK_MODAL_TITLE')}</MD>
@@ -62,7 +64,7 @@ const AddBlockModal = () => {
           {t('__PLAN_PAGE_ADD_MODULE_BLOCK_MODAL_SUBTITLE')}
         </SM>
       </TooltipModal.Title>
-      <TooltipModal.Body>
+      <TooltipModal.Body style={{ maxHeight: '75vh', overflowY: 'auto' }}>
         <ButtonsContainer>
           {items.map((item) => (
             <AddBlockModalItem key={item.type} item={item} />

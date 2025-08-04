@@ -1,29 +1,31 @@
 {
+  "config": {
+    "modules": [
+      {
+        "output": [
+          {
+            "description": "description kind bug",
+            "kind": "bug",
+            "title": "Search for bugs",
+            "id": "bug-1"
+          },
+          {
+            "description": "description kind bug",
+            "kind": "video",
+            "title": "Think aloud",
+            "id": "video-1"
+          }
+        ],
+        "type": "tasks",
+        "variant": "default"
+      }
+    ]
+  },
   "id": 13,
-  "workspace_id": 1,
   "project": {
     "id": 90,
     "name": "MyProject"
   },
   "status": "draft",
-  "config": {
-    "modules": [
-      {
-        "type": "tasks",
-        "variant": "default",
-        "output": [
-          {
-            "kind": "bug",
-            "title": "Search for bugs",
-            "description": "description kind bug"
-          },
-          {
-            "kind": "video",
-            "title": "Think aloud",
-            "description": "description kind bug"
-          }
-        ]
-      }
-    ]
-  }
+  "workspace_id": 1
 }

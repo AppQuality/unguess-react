@@ -61,6 +61,21 @@ export class Templates extends UnguessPage {
           path: 'tests/api/workspaces/wid/templates/_get/200_global_and_private_templates.json',
         });
       } else {
+        await route.fallback();
+      }
+    });
+  }
+
+  async mockGetTemplatesWithoutPermissions() {
+    await this.page.route('*/**/api/workspaces/1/templates*', async (route) => {
+      if (route.request().method() === 'GET') {
+        await route.fulfill({
+          status: 403,
+          body: JSON.stringify({
+            message: "Workspace doesn't exist or not accessible",
+          }),
+        });
+      } else {
         await route.continue();
       }
     });

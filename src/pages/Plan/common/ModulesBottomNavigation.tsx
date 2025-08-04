@@ -5,10 +5,10 @@ import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { MODULE_TABS_ORDER } from 'src/constants';
 import { useModuleConfiguration } from 'src/features/modules/useModuleConfiguration';
-import { PlanTab, usePlanTab } from '../context/planContext';
+import { PlanTab, usePlanContext } from '../context/planContext';
 
 export const ModulesBottomNavigation = ({ tabId }: { tabId: PlanTab }) => {
-  const { setActiveTab } = usePlanTab();
+  const { setActiveTab } = usePlanContext();
   const { t } = useTranslation();
   const { getPlanStatus } = useModuleConfiguration();
   let leftLabel = '';
@@ -68,6 +68,7 @@ export const ModulesBottomNavigation = ({ tabId }: { tabId: PlanTab }) => {
       <Button
         isBasic
         size="small"
+        data-qa={`modules-bottom-navigation-${nextTab}`}
         onClick={() => {
           setActiveTab(nextTab);
           if (main) {

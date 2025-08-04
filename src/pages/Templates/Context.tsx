@@ -40,6 +40,8 @@ export const TemplatesContextProvider = ({
   const { data } = useGetWorkspacesByWidTemplatesQuery(
     {
       wid: activeWorkspace?.id.toString() || '',
+      orderBy: 'order',
+      order: 'asc',
     },
     {
       skip: !activeWorkspace,

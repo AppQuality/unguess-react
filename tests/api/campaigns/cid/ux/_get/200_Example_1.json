@@ -1,33 +1,41 @@
 {
-  "goal": "string",
-  "users": 0,
   "findings": [
     {
-      "id": 0,
-      "title": "string",
-      "description": "string",
-      "comment": "string",
-      "severity": {
-        "id": 0,
-        "name": "string",
-        "style": "string"
-      },
       "cluster": [
         {
           "id": 0,
           "name": "string"
         }
       ],
+      "comment": "string",
+      "description": "string",
+      "id": 0,
+      "severity": {
+        "id": 0,
+        "name": "string",
+        "style": "string"
+      },
+      "title": "string",
       "video": [
         {
-          "url": "string",
-          "streamUrl": "string",
+          "description": "string",
+          "end": 0,
           "poster": "string",
           "start": 0,
-          "end": 0,
-          "description": "string"
+          "streamUrl": "string",
+          "url": "string"
         }
       ]
+    }
+  ],
+  "goal": "string",
+  "methodology": {
+    "description": "string",
+    "type": "string"
+  },
+  "questions": [
+    {
+      "text": "string"
     }
   ],
   "sentiment": [
@@ -36,17 +44,9 @@
         "id": 0,
         "name": "string"
       },
-      "value": 0,
-      "comment": "string"
+      "comment": "string",
+      "value": 0
     }
   ],
-  "methodology": {
-    "type": "string",
-    "description": "string"
-  },
-  "questions": [
-    {
-      "text": "string"
-    }
-  ]
+  "users": 0
 }

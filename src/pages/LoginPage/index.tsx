@@ -5,8 +5,9 @@ import WPAPI from 'src/common/wpapi';
 import { FormikHelpers } from 'formik';
 import styled from 'styled-components';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useAppSelector } from 'src/app/hooks';
-import { GoogleTagManager } from 'src/common/GoogleTagManager';
+import { useGetUsersMeQuery } from 'src/features/api';
+
+import { Track } from 'src/common/Track';
 import { LoginFormFields } from './type';
 
 const StyledLogo = styled(Logo)`
@@ -21,6 +22,8 @@ const StyledLogo = styled(Logo)`
 const CenteredXYContainer = styled.div`
   display: flex;
   align-items: center;
+  justify-content: center;
+  text-align: center;
   flex-direction: column;
   height: 100vh;
 
@@ -36,17 +39,17 @@ interface NavigationState {
 const LoginPage = () => {
   const { t } = useTranslation();
   const [cta, setCta] = useState<string>(t('__LOGIN_FORM_CTA'));
-  const { status } = useAppSelector((state) => state.user);
+  const { isSuccess } = useGetUsersMeQuery();
   const navigate = useNavigate();
   const { state: locationState } = useLocation();
 
   const from = (locationState as NavigationState)?.from || '/';
 
   useEffect(() => {
-    if (status === 'logged') {
+    if (isSuccess) {
       navigate(from || '/');
     }
-  }, [navigate, status]);
+  }, [navigate, isSuccess]);
 
   const loginUser = async (
     values: LoginFormFields,
@@ -99,8 +102,6 @@ const LoginPage = () => {
 
       if (!values.password) {
         errors.password = t('__FORM_FIELD_REQUIRED_MESSAGE');
-      } else if (values.password.length < 5) {
-        errors.password = t('__LOGIN_FORM_PASSWORD_FIELD_LENGTH_INVALID');
       }
 
       return errors;
@@ -123,12 +124,12 @@ const LoginPage = () => {
   };
 
   return (
-    <GoogleTagManager title={t('__PAGE_TITLE_LOGIN')}>
+    <Track title={t('__PAGE_TITLE_LOGIN')}>
       <CenteredXYContainer>
         <StyledLogo type="vertical" size={200} />
         <LoginForm {...defaultArgs} />
       </CenteredXYContainer>
-    </GoogleTagManager>
+    </Track>
   );
 };
 

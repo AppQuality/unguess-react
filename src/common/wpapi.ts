@@ -98,6 +98,16 @@ const WPAPI = {
         console.error('error', error);
       });
   },
+  destroyOtherSessions: () =>
+    fetch(
+      `${process.env.REACT_APP_CROWD_WP_URL}/wp-admin/admin-ajax.php?action=destroy_other_sessions`,
+      {
+        method: 'GET',
+      }
+    ).catch((e) => {
+      // eslint-disable-next-line no-console
+      console.error(e.message);
+    }),
 };
 
 export default WPAPI;

@@ -10,13 +10,15 @@ const CardsGrid = styled.div`
   padding: ${appTheme.space.xl} 0;
   display: grid;
   grid-template-columns: 1fr;
+  white-space: normal;
+  word-break: break-word;
   row-gap: ${appTheme.space.lg};
   column-gap: ${appTheme.space.md};
   @container cardsWrapper (min-width: 450px) {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
   @container cardsWrapper (min-width: 900px) {
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 `;
 
@@ -61,7 +63,7 @@ export const TemplateCardsGrid = ({
               {'price' in template && typeof template.price === 'string' && (
                 <TemplateCard.PriceTag text={template.price} />
               )}
-              {targetModule?.output && (
+              {targetModule?.output && Number(targetModule.output) > 0 && (
                 <TemplateCard.UserTag text={targetModule.output} />
               )}
 

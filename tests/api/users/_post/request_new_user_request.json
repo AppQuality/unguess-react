@@ -1,0 +1,9 @@
+{
+  "email": "jhon.doe@example.com",
+  "name": "string",
+  "password": "string",
+  "roleId": 0,
+  "surname": "string",
+  "type": "new",
+  "workspace": "My new Workspace"
+}
