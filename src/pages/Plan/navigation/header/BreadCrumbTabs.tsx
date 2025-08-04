@@ -47,7 +47,10 @@ export const BreadCrumbTabs = () => {
   );
 
   return (
-    <StyledBreadcrumb showLastArrow={false}>
+    <StyledBreadcrumb
+      showLastArrow={false}
+      data-qa="plan_page_header_navigation"
+    >
       <Button
         isBasic
         size="small"

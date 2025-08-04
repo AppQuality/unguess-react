@@ -14,6 +14,7 @@ const RequestQuotationButton = ({ onClick }: { onClick: () => void }) => {
       size="small"
       disabled={isRequestQuoteCTADisabled()}
       onClick={onClick}
+      data-qa="plan_page_header_button_submit_request"
     >
       {t('__PLAN_REQUEST_QUOTATION_CTA')}
     </Button>

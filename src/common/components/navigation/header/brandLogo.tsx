@@ -41,7 +41,10 @@ export const BrandLogo = ({
   if (size === 'full') return <LogoFullComponent onClick={handleLogoClick} />;
   return (
     <LogoIconContainer hasLogo>
-      <HeaderItemIcon onClick={handleLogoClick}>
+      <HeaderItemIcon
+        onClick={handleLogoClick}
+        data-qa="global_header_navItem_logo"
+      >
         <Logo type="icon" size={150} />
       </HeaderItemIcon>
     </LogoIconContainer>

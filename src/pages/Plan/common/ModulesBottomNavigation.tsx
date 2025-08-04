@@ -68,6 +68,7 @@ export const ModulesBottomNavigation = ({ tabId }: { tabId: PlanTab }) => {
       <Button
         isBasic
         size="small"
+        data-qa={`modules-bottom-navigation-${nextTab}`}
         onClick={() => {
           setActiveTab(nextTab);
           if (main) {
