@@ -401,6 +401,16 @@ export interface paths {
       };
     };
   };
+  "/public/bugs/{defectId}/tokens/{token}": {
+    get: operations["get-public-bugs-defectId-tokens-token"];
+    parameters: {
+      path: {
+        /** Public bug link id */
+        defectId: number;
+        token: string;
+      };
+    };
+  };
   "/users": {
     post: operations["post-users"];
     parameters: {};
@@ -2064,6 +2074,9 @@ export interface operations {
         /** Defines an identifier for the bug object (BUG ID) */
         bid: components["parameters"]["bid"];
       };
+      header: {
+        public_bug_token?: string;
+      };
     };
     responses: {
       /** OK */
@@ -3515,6 +3528,29 @@ export interface operations {
           user_id: number;
         };
       };
+    };
+  };
+  "get-public-bugs-defectId-tokens-token": {
+    parameters: {
+      path: {
+        /** Public bug link id */
+        defectId: number;
+        token: string;
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          "application/json": {
+            bugId: number;
+            campaignId: number;
+            campaignTitle: string;
+          };
+        };
+      };
+      /** Forbidden */
+      403: unknown;
     };
   };
   "post-users": {
