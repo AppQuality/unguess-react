@@ -6,6 +6,7 @@ import {
   useContext,
   useMemo,
   useState,
+  useEffect,
 } from 'react';
 import {
   CpReqTemplate,
@@ -15,18 +16,26 @@ import {
 } from 'src/features/api';
 import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
 
+interface CategoryWithTemplates {
+  id: number;
+  name: string;
+  description?: string;
+  templates: CpReqTemplate[];
+}
+
 interface TemplatesContextProps {
   isDrawerOpen: boolean;
   setIsDrawerOpen: Dispatch<SetStateAction<boolean>>;
-  categories?: GetTemplatesCategoriesApiResponse;
-  templatesByCategory: {
-    tailored: CpReqTemplate[];
-    categories: Record<number, CpReqTemplate[]>;
-  };
-  promoTemplates?: CpReqTemplate[];
+  templatesByCategory: CategoryWithTemplates[];
+  tailoredTemplates: CpReqTemplate[];
+  promoTemplates: CpReqTemplate[];
   selectedTemplate?: CpReqTemplate;
   setSelectedTemplate: Dispatch<SetStateAction<CpReqTemplate | undefined>>;
 }
+
+// Helper function to determine if a template is tailored
+const isTailoredTemplate = (template: CpReqTemplate) =>
+  typeof template.workspace_id === 'number';
 
 const TemplatesContext = createContext<TemplatesContextProps | null>(null);
 
@@ -69,46 +78,66 @@ export const TemplatesContextProvider = ({
     skip: !activeWorkspace,
   });
 
-  const templatesByCategory = useMemo(() => {
-    if (!data) return { tailored: [], unguess: [], categories: {} };
-    const result: TemplatesContextProps['templatesByCategory'] = {
-      tailored: [],
-      categories: {},
-    };
-    for (const template of data.items) {
-      if (typeof template.workspace_id === 'number') {
-        result.tailored.push(template);
-      }
-      if (typeof template.category_id === 'number') {
-        if (!result.categories[template.category_id]) {
-          result.categories[template.category_id] = [];
-        }
-        result.categories[template.category_id].push(template);
-      }
+  const [tailoredTemplates, setTailoredTemplates] = useState<CpReqTemplate[]>(
+    []
+  );
+  const [promoTemplates, setPromoTemplates] = useState<CpReqTemplate[]>([]);
+
+  // State to hold raw templates categorized by category ID
+  // This will be then used to build the templatesByCategory array
+  const [rawTemplatesByCategory, setRawTemplatesByCategory] = useState<
+    Record<number, CpReqTemplate[]>
+  >({});
+
+  console.log('rawTemplatesByCategory', rawTemplatesByCategory);
+  // Set raw tailored templates and categorized templates based on the fetched data
+  useEffect(() => {
+    if (!data) {
+      setTailoredTemplates([]);
+      setRawTemplatesByCategory({});
+      return;
     }
-    return result;
+    setTailoredTemplates(data.items.filter(isTailoredTemplate));
+    setRawTemplatesByCategory(
+      data.items.reduce((result: Record<number, CpReqTemplate[]>, template) => {
+        if (!isTailoredTemplate(template)) {
+          if (!result[template.category_id]) {
+            result[template.category_id] = [];
+          }
+          result[template.category_id].push(template);
+        }
+        return result;
+      }, {})
+    );
   }, [data]);
 
-  const templatesContextValue = useMemo(
-    () => ({
-      isDrawerOpen,
-      setIsDrawerOpen,
-      templatesByCategory,
-      categories,
-      promoTemplates: promoData?.items || [],
-      selectedTemplate,
-      setSelectedTemplate,
-    }),
-    [
-      isDrawerOpen,
-      setIsDrawerOpen,
-      categories,
-      templatesByCategory,
-      promoData,
-      selectedTemplate,
-      setSelectedTemplate,
-    ]
-  );
+  // Set promo templates when promoData changes
+  useEffect(() => {
+    setPromoTemplates(promoData?.items || []);
+  }, [promoData]);
+
+  // Build array of categories with templates for the frontend
+  const templatesByCategory = useMemo(() => {
+    if (!categories) return [];
+    return categories
+      .map((cat) => ({
+        id: cat.id,
+        name: cat.name,
+        description: cat.description,
+        templates: rawTemplatesByCategory[cat.id] || [],
+      }))
+      .filter((cat) => cat.templates.length > 0); // Only include categories with at least one template
+  }, [categories, rawTemplatesByCategory]);
+
+  const templatesContextValue = {
+    isDrawerOpen,
+    setIsDrawerOpen,
+    templatesByCategory,
+    promoTemplates,
+    tailoredTemplates,
+    selectedTemplate,
+    setSelectedTemplate,
+  };
 
   return (
     <TemplatesContext.Provider value={templatesContextValue}>

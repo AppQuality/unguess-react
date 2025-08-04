@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import { useTemplatesContext } from './Context';
 import { TemplateCardsGrid } from './TemplateCardsGrid';
-import { useGetTemplatesCategoriesQuery } from 'src/features/api';
 
 const StyledSection = styled.section`
   margin-bottom: ${(p) => p.theme.space.xxl};
@@ -19,11 +18,11 @@ const StyledSection = styled.section`
 
 const Body = () => {
   const { t } = useTranslation();
-  const { templatesByCategory, promoTemplates, categories } =
+  const { templatesByCategory, promoTemplates, tailoredTemplates } =
     useTemplatesContext();
   return (
     <>
-      {templatesByCategory.tailored.length > 0 && (
+      {tailoredTemplates.length > 0 && (
         <StyledSection
           id={t('__TEMPLATES_PAGE_TAILORED_LIST_TITLE')}
           title={t('__TEMPLATES_PAGE_TAILORED_LIST_TITLE')}
@@ -31,10 +30,10 @@ const Body = () => {
           <XXL>{t('__TEMPLATES_PAGE_TAILORED_LIST_TITLE')}</XXL>
           <MD>{t('__TEMPLATES_PAGE_TAILORED_LIST_SUBTITLE')}</MD>
           <Separator />
-          <TemplateCardsGrid templates={templatesByCategory.tailored} />
+          <TemplateCardsGrid templates={tailoredTemplates} />
         </StyledSection>
       )}
-      {promoTemplates && promoTemplates.length > 0 && (
+      {promoTemplates.length > 0 && (
         <StyledSection
           id={t('__TEMPLATES_PAGE_UNGUESS_LIST_TITLE')}
           title={t('__TEMPLATES_PAGE_UNGUESS_LIST_TITLE')}
@@ -45,30 +44,26 @@ const Body = () => {
           <TemplateCardsGrid templates={promoTemplates} />
         </StyledSection>
       )}
-      {templatesByCategory.categories &&
-        Object.keys(templatesByCategory.categories).length > 0 && (
-          <>
-            {Object.entries(templatesByCategory.categories).map(
-              ([categoryId, templates]) => {
-                const category = categories?.find(
-                  (cat) => cat.id.toString() === categoryId
-                );
-                return (
-                  <StyledSection
-                    key={categoryId}
-                    id={categoryId}
-                    title={category?.name || `Category ${categoryId}`}
-                  >
-                    <XXL>{category?.name}</XXL>
-                    <MD>{category?.description}</MD>
-                    <Separator />
-                    <TemplateCardsGrid templates={templates} />
-                  </StyledSection>
-                );
-              }
-            )}
-          </>
-        )}
+      {templatesByCategory.length > 0 && (
+        <>
+          {templatesByCategory.map((category) => {
+            const categoryId = category.id.toString();
+            return (
+              <StyledSection
+                key={categoryId}
+                id={categoryId}
+                data-qa={`category-section-${categoryId}`}
+                title={category.name || `Category ${categoryId}`}
+              >
+                <XXL>{category.name}</XXL>
+                <MD>{category.description}</MD>
+                <Separator />
+                <TemplateCardsGrid templates={category.templates} />
+              </StyledSection>
+            );
+          })}
+        </>
+      )}
     </>
   );
 };
