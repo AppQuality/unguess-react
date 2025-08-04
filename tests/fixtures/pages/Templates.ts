@@ -22,7 +22,6 @@ export class Templates extends UnguessPage {
         this.page.getByTitle(
           this.i18n.t('__TEMPLATES_PAGE_UNGUESS_LIST_TITLE')
         ),
-      categories: () => this.page.getByTestId('template-categories'),
       planCreationInterface: () =>
         this.page.getByTestId('plan-creation-interface'),
       projectDropdown: () => this.page.getByTestId('project-dropdown'),
@@ -44,14 +43,19 @@ export class Templates extends UnguessPage {
         this.elements()
           .mainNavigation()
           .getByRole('menuitem', { name: this.i18n.t('Templates') }),
+      pageNavigation: () => this.page.getByTestId('templates-nav'),
     };
   }
 
   async mockGetProjects() {
     await this.page.route('*/**/api/workspaces/1/projects*', async (route) => {
-      await route.fulfill({
-        path: 'tests/api/workspaces/wid/projects/_get/200_Example_1.json',
-      });
+      if (route.request().method() === 'GET') {
+        await route.fulfill({
+          path: 'tests/api/workspaces/wid/projects/_get/200_Example_1.json',
+        });
+      } else {
+        await route.fallback();
+      }
     });
   }
 
@@ -84,7 +88,19 @@ export class Templates extends UnguessPage {
           }),
         });
       } else {
-        await route.continue();
+        await route.fallback();
+      }
+    });
+  }
+
+  async mockGetCategories() {
+    await this.page.route('*/**/api/templates/categories', async (route) => {
+      if (route.request().method() === 'GET') {
+        await route.fulfill({
+          path: 'tests/api/templates/categories/_get/200_Example_1.json',
+        });
+      } else {
+        await route.fallback();
       }
     });
   }
@@ -96,7 +112,7 @@ export class Templates extends UnguessPage {
           path: 'tests/api/workspaces/wid/plans/_post/201_Example_1.json',
         });
       } else {
-        await route.continue();
+        await route.fallback();
       }
     });
   }

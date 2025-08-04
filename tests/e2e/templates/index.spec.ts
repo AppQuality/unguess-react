@@ -14,12 +14,15 @@ test.describe('Templates page', () => {
     await templates.mockWorkspace();
     await templates.mockWorkspacesList();
     await templates.mockGetTemplates();
+    await templates.mockGetCategories();
     await templates.mockGetProjects();
     await templates.mockPostPlans();
     await templates.open();
   });
 
-  test('Should contain a number of cards equal to the number of templates plus the promo templates. Divided by tailored, suggested by us, and categories', async () => {
+  test('Should contain a number of cards equal to the number of templates plus the promo templates. Divided by tailored, suggested by us, and categories', async ({
+    page,
+  }) => {
     await expect(templates.elements().templateCard()).toHaveCount(14);
     await expect(templates.elements().tailoredSection()).toBeVisible();
     await expect(templates.elements().unguessSection()).toBeVisible();
@@ -29,22 +32,25 @@ test.describe('Templates page', () => {
     ).toHaveCount(4);
     await expect(
       templates.elements().unguessSection().getByRole('listitem')
-    ).toHaveCount(3);
+    ).toHaveCount(5);
 
     // Check category sections
     const categories = [10, 20, 30];
     const expectedCounts = { 10: 2, 20: 2, 30: 1 }; // from the mock data
 
     for (const categoryId of categories) {
-      const section = templates
-        .elements()
-        .categories()
-        .getByTestId(`category-section-${categoryId}`);
+      const section = page.getByTestId(`category-section-${categoryId}`);
       await expect(section).toBeVisible();
       await expect(section.getByRole('listitem')).toHaveCount(
         expectedCounts[categoryId]
       );
     }
+
+    // check navigation
+    await expect(templates.elements().pageNavigation()).toBeVisible();
+    await expect(
+      templates.elements().pageNavigation().getByRole('link')
+    ).toHaveCount(5);
   });
 
   test('Once a card is clicked a creation interface shoud appear', async ({
