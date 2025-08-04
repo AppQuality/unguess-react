@@ -35,16 +35,16 @@ test.describe('Templates page', () => {
     ).toHaveCount(5);
 
     // Check category sections
-    const categories = [10, 20, 30];
-    const expectedCounts = { 10: 2, 20: 2, 30: 1 }; // from the mock data
+    const section1 = page.getByTestId(`category-section-10`);
+    const section2 = page.getByTestId(`category-section-20`);
+    const section3 = page.getByTestId(`category-section-30`);
 
-    for (const categoryId of categories) {
-      const section = page.getByTestId(`category-section-${categoryId}`);
-      await expect(section).toBeVisible();
-      await expect(section.getByRole('listitem')).toHaveCount(
-        expectedCounts[categoryId]
-      );
-    }
+    await expect(section1).toBeVisible();
+    await expect(section1.getByRole('listitem')).toHaveCount(2);
+    await expect(section2).toBeVisible();
+    await expect(section2.getByRole('listitem')).toHaveCount(2);
+    await expect(section3).toBeVisible();
+    await expect(section3.getByRole('listitem')).toHaveCount(1);
 
     // check navigation
     await expect(templates.elements().pageNavigation()).toBeVisible();
