@@ -1,7 +1,7 @@
 {
   "__404_PAGE_BUTTON": "Torna alla dashboard",
   "__404_PAGE_DESCRIPTION": "La direzione giusta ora è solo una.",
-  "__404_PAGE_SUB_TITLE MAX:80": "L’abbiamo cercata ovunque ma non è disponibile.",
+  "__404_PAGE_SUB_TITLE MAX:80": "L'abbiamo cercata ovunque ma non è disponibile.",
   "__404_PAGE_TITLE MAX:10": "Non troviamo questa pagina.",
   "__AGE_ERROR_REQUIRED": "",
   "__APP_DAYS_LABEL_one": "giorno",
@@ -1194,7 +1194,6 @@
   "__PROJECT_PAGE_UPDATE_PROJECT_DESCRIPTION_PLACEHOLDER": "Aggiungi una descrizione",
   "__PROJECT_PAGE_UPDATE_PROJECT_NAME_ERROR": "Il nome del progetto è già in uso. Scegline un altro.",
   "__PROJECT_SETTINGS_CTA_TEXT": "Invita",
-  "__PUBLIC_BUG_PAGE_TITLE": "",
   "__PUBLIC_MANUAL_CTA_GOTO_BUG_FORM": "Compila il bug form",
   "__PUBLIC_MANUAL_HELP_MODAL_BUTTON_SUPPORT_CENTER": "Vai al support center",
   "__PUBLIC_MANUAL_HELP_MODAL_CONTENT": "Scopri il nostro Support Center! Migliora le tue competenze nel caricare i bug sulla piattaforma, contribuendo a ottimizzare il processo di sviluppo e offrire un'esperienza sempre migliore agli utenti. Leggi i nostri articoli.",
