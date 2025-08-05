@@ -44,6 +44,10 @@ export class Templates extends UnguessPage {
           .mainNavigation()
           .getByRole('menuitem', { name: this.i18n.t('Templates') }),
       pageNavigation: () => this.page.getByTestId('templates-nav'),
+      searchBox: () =>
+        this.page.getByRole('searchbox', {
+          name: this.i18n.t('__TEMPLATES_PAGE_SEARCH_PLACEHOLDER'),
+        }),
     };
   }
 
