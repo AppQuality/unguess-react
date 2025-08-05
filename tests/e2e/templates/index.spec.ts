@@ -53,6 +53,21 @@ test.describe('Templates page', () => {
     ).toHaveCount(5);
   });
 
+  test('The page should have search box that filters templates', async ({}) => {
+    await expect(templates.elements().searchBox()).toBeVisible();
+    await expect(templates.elements().searchBox()).toHaveAttribute(
+      'placeholder',
+      templates.i18n.t('__TEMPLATES_PAGE_SEARCH_PLACEHOLDER')
+    );
+    await templates.elements().searchBox().fill('bug hunting');
+    await expect(templates.elements().templateCard()).toHaveCount(1);
+    await templates.elements().searchBox().fill('non existing template');
+    await expect(templates.elements().templateCard()).toHaveCount(0);
+    // clear search box
+    await templates.elements().searchBox().fill('');
+    await expect(templates.elements().templateCard()).toHaveCount(14);
+  });
+
   test('Once a card is clicked a creation interface shoud appear', async ({
     page,
   }) => {
