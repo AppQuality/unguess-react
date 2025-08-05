@@ -100,7 +100,11 @@ const Body = () => {
                   }}
                 />
               </XXL>
-              <TemplateCardsGrid singleColumn templates={searchResults} />
+              <TemplateCardsGrid
+                singleColumn
+                templates={searchResults}
+                highlight={searchQuery}
+              />
             </StyledSection>
           </motion.div>
         ) : (

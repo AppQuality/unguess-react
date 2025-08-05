@@ -1,4 +1,4 @@
-import { Tag, TemplateCard } from '@appquality/unguess-design-system';
+import { Span, Tag, TemplateCard } from '@appquality/unguess-design-system';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
@@ -32,12 +32,33 @@ const CardsGrid = styled.div<{ $singleColumn?: boolean }>`
 export const TemplateCardsGrid = ({
   templates,
   singleColumn = false,
+  highlight,
 }: {
   templates: CpReqTemplate[];
   singleColumn?: boolean;
+  highlight?: string;
 }) => {
   const { setIsDrawerOpen, setSelectedTemplate } = useTemplatesContext();
   const { t } = useTranslation();
+
+  // Helper to highlight matches
+  const highlightText = (text: string, query?: string) => {
+    if (!query) return text;
+    const regex = new RegExp(
+      `(${query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`,
+      'gi'
+    );
+    const parts = text.split(regex);
+    return parts.map((part, i) =>
+      regex.test(part) ? (
+        <Span key={i} style={{ backgroundColor: appTheme.palette.talk[600] }}>
+          {part}
+        </Span>
+      ) : (
+        part
+      )
+    );
+  };
 
   return (
     <CardsGrid role="list" $singleColumn={singleColumn}>
@@ -69,11 +90,18 @@ export const TemplateCardsGrid = ({
                 isTailored={isTemplateTailored(template)}
                 isFast={!!template.price}
                 thumbUrl={template.strapi?.image}
-                title={template.strapi?.title || template.name}
-                superTitle={template.strapi?.pre_title}
-                description={
-                  template.strapi?.description || template.description || ''
-                }
+                templateTitle={highlightText(
+                  template.strapi?.title || template.name,
+                  highlight
+                )}
+                superTitle={highlightText(
+                  template.strapi?.pre_title || '',
+                  highlight
+                )}
+                description={highlightText(
+                  template.strapi?.description || template.description || '',
+                  highlight
+                )}
                 onClick={handleClick}
               >
                 <TemplateCard.Footer>
