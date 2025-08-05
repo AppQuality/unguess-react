@@ -32,8 +32,7 @@ const FormProvider = ({
   };
   const { addToast } = useToast();
   const { save: savePlanAsTemplate } = useSaveTemplate();
-  const { handleSubmit: submitModuleConfiguration, isLoading: isSubmitting } =
-    useSubmit(planId || '');
+  const { handleSubmit: submitModuleConfiguration } = useSubmit(planId || '');
   const validationSchema = yup.object().shape({
     templateName: yup
       .string()
