@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import {
   AsideNav,
+  StickyNavItemLabel,
   StickyNavItem,
 } from 'src/common/components/navigation/asideNav';
 import { useTemplatesContext } from './Context';
@@ -25,17 +26,20 @@ const CategoriesNav = () => {
           {t('__TEMPLATES_PAGE_TAILORED_LIST_TITLE')}
         </StickyNavItem>
       )}
+      <StickyNavItemLabel>
+        {t('__TEMPLATES_PAGE_UNGUESS_LIST_TITLE')}
+      </StickyNavItemLabel>
       {promoTemplates.length > 0 && (
         <StickyNavItem
           role="link"
-          to={t('__TEMPLATES_PAGE_UNGUESS_LIST_TITLE')}
+          to={t('__TEMPLATES_PAGE_PROMO_LIST_TITLE')}
           containerId="main"
           spy
           smooth
           duration={500}
           offset={-350}
         >
-          {t('__TEMPLATES_PAGE_UNGUESS_LIST_TITLE')}
+          {t('__TEMPLATES_PAGE_PROMO_LIST_TITLE')}
         </StickyNavItem>
       )}
       {templatesByCategory.map((category) => (
