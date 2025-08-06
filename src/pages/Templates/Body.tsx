@@ -13,6 +13,7 @@ const StyledSection = styled.section`
   }
   ${MD} {
     margin-bottom: ${(p) => p.theme.space.md};
+    color: ${(p) => p.theme.palette.grey[700]};
   }
 `;
 
@@ -27,7 +28,7 @@ const Body = () => {
           id={t('__TEMPLATES_PAGE_TAILORED_LIST_TITLE')}
           title={t('__TEMPLATES_PAGE_TAILORED_LIST_TITLE')}
         >
-          <XXL>{t('__TEMPLATES_PAGE_TAILORED_LIST_TITLE')}</XXL>
+          <XXL isBold>{t('__TEMPLATES_PAGE_TAILORED_LIST_TITLE')}</XXL>
           <MD>{t('__TEMPLATES_PAGE_TAILORED_LIST_SUBTITLE')}</MD>
           <Separator />
           <TemplateCardsGrid templates={tailoredTemplates} />
@@ -35,10 +36,10 @@ const Body = () => {
       )}
       {promoTemplates.length > 0 && (
         <StyledSection
-          id={t('__TEMPLATES_PAGE_UNGUESS_LIST_TITLE')}
-          title={t('__TEMPLATES_PAGE_UNGUESS_LIST_TITLE')}
+          id={t('__TEMPLATES_PAGE_PROMO_LIST_TITLE')}
+          title={t('__TEMPLATES_PAGE_PROMO_LIST_TITLE')}
         >
-          <XXL>{t('__TEMPLATES_PAGE_UNGUESS_LIST_TITLE')}</XXL>
+          <XXL isBold>{t('__TEMPLATES_PAGE_PROMO_LIST_TITLE')}</XXL>
           <MD>{t('__TEMPLATES_PAGE_UNGUESS_LIST_SUBTITLE')}</MD>
           <Separator />
           <TemplateCardsGrid templates={promoTemplates} />
@@ -55,7 +56,7 @@ const Body = () => {
                 data-qa={`category-section-${categoryId}`}
                 title={category.name || `Category ${categoryId}`}
               >
-                <XXL>{category.name}</XXL>
+                <XXL isBold>{category.name}</XXL>
                 <MD>{category.description}</MD>
                 <Separator />
                 <TemplateCardsGrid templates={category.templates} />
