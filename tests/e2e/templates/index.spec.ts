@@ -25,13 +25,13 @@ test.describe('Templates page', () => {
   }) => {
     await expect(templates.elements().templateCard()).toHaveCount(14);
     await expect(templates.elements().tailoredSection()).toBeVisible();
-    await expect(templates.elements().unguessSection()).toBeVisible();
+    await expect(templates.elements().promoSection()).toBeVisible();
 
     await expect(
       templates.elements().tailoredSection().getByRole('listitem')
     ).toHaveCount(4);
     await expect(
-      templates.elements().unguessSection().getByRole('listitem')
+      templates.elements().promoSection().getByRole('listitem')
     ).toHaveCount(5);
 
     // Check category sections
