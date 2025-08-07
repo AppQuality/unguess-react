@@ -49,6 +49,10 @@ const Body = () => {
     setSearchQuery(debouncedValue);
   }, [debouncedValue]);
 
+  useEffect(() => {
+    setInputValue(searchQuery);
+  }, [searchQuery]);
+
   return (
     <div
       style={{
