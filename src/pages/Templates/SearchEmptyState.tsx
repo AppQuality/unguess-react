@@ -1,9 +1,9 @@
+import { Button, MD, Span, XL } from '@appquality/unguess-design-system';
+import { t } from 'i18next';
+import { Trans } from 'react-i18next';
+import { appTheme } from 'src/app/theme';
 import { ReactComponent as EmptyImage } from 'src/assets/empty-template-search.svg';
 import { useTemplatesContext } from './Context';
-import { Button, MD, Span, XL } from '@appquality/unguess-design-system';
-import { Trans } from 'react-i18next';
-import { t } from 'i18next';
-import { appTheme } from 'src/app/theme';
 
 const SearchEmptyState = () => {
   const { searchQuery, setSearchQuery } = useTemplatesContext();
