@@ -7,9 +7,9 @@ import {
 import styled from 'styled-components';
 import { useTemplatesContext } from './Context';
 
-const DisabledNavWrapper = styled.div<{ disabled: boolean }>`
-  opacity: ${({ disabled }) => (disabled ? 0.5 : 1)};
-  pointer-events: ${({ disabled }) => (disabled ? 'none' : 'auto')};
+const StyledAsideNav = styled(AsideNav)<{ $disabled: boolean }>`
+  opacity: ${({ $disabled }) => ($disabled ? 0.5 : 1)};
+  pointer-events: ${({ $disabled }) => ($disabled ? 'none' : 'auto')};
 `;
 
 const CategoriesNav = () => {
@@ -24,55 +24,57 @@ const CategoriesNav = () => {
   const isDisabled = !!searchQuery;
 
   return (
-    <DisabledNavWrapper disabled={isDisabled}>
-      <AsideNav containerId="main" data-qa="templates-nav">
-        {tailoredTemplates.length > 0 && (
-          <StickyNavItem
-            role="link"
-            to={t('__TEMPLATES_PAGE_TAILORED_LIST_TITLE')}
-            containerId="main"
-            spy
-            smooth
-            duration={500}
-            offset={-350}
-            disabled={isDisabled}
-          >
-            {t('__TEMPLATES_PAGE_TAILORED_LIST_TITLE')}
-          </StickyNavItem>
-        )}
-        <StickyNavItemLabel>
-          {t('__TEMPLATES_PAGE_UNGUESS_LIST_TITLE')}
-        </StickyNavItemLabel>
-        {promoTemplates.length > 0 && (
-          <StickyNavItem
-            role="link"
-            to={t('__TEMPLATES_PAGE_PROMO_LIST_TITLE')}
-            containerId="main"
-            spy
-            smooth
-            duration={500}
-            offset={-350}
-          >
-            {t('__TEMPLATES_PAGE_PROMO_LIST_TITLE')}
-          </StickyNavItem>
-        )}
-        {templatesByCategory.map((category) => (
-          <StickyNavItem
-            role="link"
-            key={category.id}
-            to={category.id.toString()}
-            containerId="main"
-            spy
-            smooth
-            duration={500}
-            offset={-350}
-            disabled={isDisabled}
-          >
-            {category.name || `Category ${category.id}`}
-          </StickyNavItem>
-        ))}
-      </AsideNav>
-    </DisabledNavWrapper>
+    <StyledAsideNav
+      containerId="main"
+      data-qa="templates-nav"
+      $disabled={isDisabled}
+    >
+      {tailoredTemplates.length > 0 && (
+        <StickyNavItem
+          role="link"
+          to={t('__TEMPLATES_PAGE_TAILORED_LIST_TITLE')}
+          containerId="main"
+          spy
+          smooth
+          duration={500}
+          offset={-40}
+          disabled={isDisabled}
+        >
+          {t('__TEMPLATES_PAGE_TAILORED_LIST_TITLE')}
+        </StickyNavItem>
+      )}
+      <StickyNavItemLabel>
+        {t('__TEMPLATES_PAGE_UNGUESS_LIST_TITLE')}
+      </StickyNavItemLabel>
+      {promoTemplates.length > 0 && (
+        <StickyNavItem
+          role="link"
+          to={t('__TEMPLATES_PAGE_PROMO_LIST_TITLE')}
+          containerId="main"
+          spy
+          smooth
+          duration={500}
+          offset={-40}
+        >
+          {t('__TEMPLATES_PAGE_PROMO_LIST_TITLE')}
+        </StickyNavItem>
+      )}
+      {templatesByCategory.map((category) => (
+        <StickyNavItem
+          role="link"
+          key={category.id}
+          to={category.id.toString()}
+          containerId="main"
+          spy
+          smooth
+          duration={500}
+          offset={-40}
+          disabled={isDisabled}
+        >
+          {category.name || `Category ${category.id}`}
+        </StickyNavItem>
+      ))}
+    </StyledAsideNav>
   );
 };
 
