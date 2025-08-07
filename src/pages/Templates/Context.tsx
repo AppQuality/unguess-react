@@ -136,8 +136,11 @@ export const TemplatesContextProvider = ({
   const searchResults = useMemo(() => {
     if (!data?.items || !normalizedSearch) return [];
     return data.items.filter((template) => {
-      const name = template.name?.toLowerCase() || '';
-      const description = template.description?.toLowerCase() || '';
+      const name =
+        (template.strapi?.title || template.name)?.toLowerCase() || '';
+      const description =
+        (template.strapi?.description || template.description)?.toLowerCase() ||
+        '';
       const pre = template.strapi?.pre_title?.toLowerCase() || '';
       return (
         name.includes(normalizedSearch) ||
