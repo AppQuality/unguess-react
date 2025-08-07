@@ -1,5 +1,6 @@
 import { Span, Tag, TemplateCard } from '@appquality/unguess-design-system';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence } from 'motion/react';
+import * as motion from 'motion/react-client';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { isTemplateTailored } from 'src/common/isTemplateTailored';
@@ -44,14 +45,13 @@ export const TemplateCardsGrid = ({
   // Helper to highlight matches
   const highlightText = (text: string, query?: string) => {
     if (!query) return text;
-    const regex = new RegExp(
-      `(${query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`,
-      'gi'
-    );
+    const escapedQuery = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    // eslint-disable-next-line security/detect-non-literal-regexp
+    const regex = new RegExp(`(${escapedQuery})`, 'gi');
     const parts = text.split(regex);
-    return parts.map((part, i) =>
+    return parts.map((part) =>
       regex.test(part) ? (
-        <Span key={i} style={{ backgroundColor: appTheme.palette.talk[600] }}>
+        <Span style={{ backgroundColor: appTheme.palette.talk[600] }}>
           {part}
         </Span>
       ) : (

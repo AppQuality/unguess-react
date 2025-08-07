@@ -53,7 +53,7 @@ test.describe('Templates page', () => {
     ).toHaveCount(5);
   });
 
-  test('The page should have search box that filters templates', async ({}) => {
+  test('The page should have search box that filters templates', async () => {
     await expect(templates.elements().searchBox()).toBeVisible();
     await expect(templates.elements().searchBox()).toHaveAttribute(
       'placeholder',

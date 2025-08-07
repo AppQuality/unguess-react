@@ -1,12 +1,12 @@
 import {
-  IconButton,
   MD,
   MediaInput,
   Separator,
   Span,
   XXL,
 } from '@appquality/unguess-design-system';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence } from 'motion/react';
+import * as motion from 'motion/react-client';
 import { useEffect, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
@@ -46,7 +46,6 @@ const Body = () => {
 
   useEffect(() => {
     setSearchQuery(debouncedValue);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debouncedValue]);
 
   return (
