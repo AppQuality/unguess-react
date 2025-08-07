@@ -18,10 +18,8 @@ export class Templates extends UnguessPage {
         this.page.getByTitle(
           this.i18n.t('__TEMPLATES_PAGE_TAILORED_LIST_TITLE')
         ),
-      unguessSection: () =>
-        this.page.getByTitle(
-          this.i18n.t('__TEMPLATES_PAGE_UNGUESS_LIST_TITLE')
-        ),
+      promoSection: () =>
+        this.page.getByTitle(this.i18n.t('__TEMPLATES_PAGE_PROMO_LIST_TITLE')),
       planCreationInterface: () =>
         this.page.getByTestId('plan-creation-interface'),
       projectDropdown: () => this.page.getByTestId('project-dropdown'),
