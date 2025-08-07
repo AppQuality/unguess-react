@@ -531,6 +531,12 @@ const injectedRtkApi = api.injectEndpoints({
         url: `/public/bugs/${queryArg.defectId}/tokens/${queryArg.token}`,
       }),
     }),
+    getTemplatesCategories: build.query<
+      GetTemplatesCategoriesApiResponse,
+      GetTemplatesCategoriesApiArg
+    >({
+      query: () => ({ url: `/templates/categories` }),
+    }),
     postUsers: build.mutation<PostUsersApiResponse, PostUsersApiArg>({
       query: (queryArg) => ({
         url: `/users`,
@@ -1623,6 +1629,12 @@ export type GetPublicBugsByDefectIdTokensAndTokenApiArg = {
   defectId: number;
   token: string;
 };
+export type GetTemplatesCategoriesApiResponse = /** status 200 OK */ {
+  description?: string;
+  id: number;
+  name: string;
+}[];
+export type GetTemplatesCategoriesApiArg = void;
 export type PostUsersApiResponse = /** status 201 Created */ {
   projectId?: number;
   workspaceId: number;
@@ -2835,6 +2847,7 @@ export type StrapiTemplate = {
   };
 };
 export type CpReqTemplate = {
+  category_id: number;
   config: string;
   description?: string;
   id: number;
@@ -2905,6 +2918,7 @@ export const {
   useGetProjectsByPidUsersQuery,
   usePostProjectsByPidUsersMutation,
   useGetPublicBugsByDefectIdTokensAndTokenQuery,
+  useGetTemplatesCategoriesQuery,
   usePostUsersMutation,
   useHeadUsersByEmailByEmailMutation,
   useGetUsersMeQuery,

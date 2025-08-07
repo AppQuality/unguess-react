@@ -10,38 +10,61 @@ const StyledSection = styled.section`
   container-name: cardsWrapper;
   ${XXL} {
     margin-bottom: ${(p) => p.theme.space.xs};
+    color: ${(p) => p.theme.palette.blue[600]};
   }
   ${MD} {
     margin-bottom: ${(p) => p.theme.space.md};
+    color: ${(p) => p.theme.palette.grey[700]};
   }
 `;
 
 const Body = () => {
   const { t } = useTranslation();
-  const { templatesByCategory } = useTemplatesContext();
+  const { templatesByCategory, promoTemplates, tailoredTemplates } =
+    useTemplatesContext();
   return (
     <>
-      {templatesByCategory.tailored.length > 0 && (
+      {tailoredTemplates.length > 0 && (
         <StyledSection
           id={t('__TEMPLATES_PAGE_TAILORED_LIST_TITLE')}
           title={t('__TEMPLATES_PAGE_TAILORED_LIST_TITLE')}
         >
-          <XXL>{t('__TEMPLATES_PAGE_TAILORED_LIST_TITLE')}</XXL>
+          <XXL isBold>{t('__TEMPLATES_PAGE_TAILORED_LIST_TITLE')}</XXL>
           <MD>{t('__TEMPLATES_PAGE_TAILORED_LIST_SUBTITLE')}</MD>
           <Separator />
-          <TemplateCardsGrid templates={templatesByCategory.tailored} />
+          <TemplateCardsGrid templates={tailoredTemplates} />
         </StyledSection>
       )}
-      {templatesByCategory.unguess.length > 0 && (
+      {promoTemplates.length > 0 && (
         <StyledSection
-          id={t('__TEMPLATES_PAGE_UNGUESS_LIST_TITLE')}
-          title={t('__TEMPLATES_PAGE_UNGUESS_LIST_TITLE')}
+          id={t('__TEMPLATES_PAGE_PROMO_LIST_TITLE')}
+          title={t('__TEMPLATES_PAGE_PROMO_LIST_TITLE')}
         >
-          <XXL>{t('__TEMPLATES_PAGE_UNGUESS_LIST_TITLE')}</XXL>
+          <XXL isBold>{t('__TEMPLATES_PAGE_PROMO_LIST_TITLE')}</XXL>
           <MD>{t('__TEMPLATES_PAGE_UNGUESS_LIST_SUBTITLE')}</MD>
           <Separator />
-          <TemplateCardsGrid templates={templatesByCategory.unguess} />
+          <TemplateCardsGrid templates={promoTemplates} />
         </StyledSection>
+      )}
+      {templatesByCategory.length > 0 && (
+        <>
+          {templatesByCategory.map((category) => {
+            const categoryId = category.id.toString();
+            return (
+              <StyledSection
+                key={categoryId}
+                id={categoryId}
+                data-qa={`category-section-${categoryId}`}
+                title={category.name || `Category ${categoryId}`}
+              >
+                <XXL isBold>{category.name}</XXL>
+                <MD>{category.description}</MD>
+                <Separator />
+                <TemplateCardsGrid templates={category.templates} />
+              </StyledSection>
+            );
+          })}
+        </>
       )}
     </>
   );

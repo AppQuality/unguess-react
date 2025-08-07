@@ -14,25 +14,43 @@ test.describe('Templates page', () => {
     await templates.mockWorkspace();
     await templates.mockWorkspacesList();
     await templates.mockGetTemplates();
+    await templates.mockGetCategories();
     await templates.mockGetProjects();
     await templates.mockPostPlans();
     await templates.open();
   });
 
-  test('Should contain a number of cards equal to the number of templates. Divided by tailored and suggested by us', async () => {
-    await expect(templates.elements().templateCard()).toHaveCount(
-      getTemplates.items.length
-    );
+  test('Should contain a number of cards equal to the number of templates plus the promo templates. Divided by tailored, suggested by us, and categories', async ({
+    page,
+  }) => {
+    await expect(templates.elements().templateCard()).toHaveCount(14);
     await expect(templates.elements().tailoredSection()).toBeVisible();
+    await expect(templates.elements().promoSection()).toBeVisible();
+
     await expect(
       templates.elements().tailoredSection().getByRole('listitem')
-    ).toHaveCount(getTemplates.items.filter((t) => 'workspace_id' in t).length);
-    await expect(templates.elements().unguessSection()).toBeVisible();
+    ).toHaveCount(4);
     await expect(
-      templates.elements().unguessSection().getByRole('listitem')
-    ).toHaveCount(
-      getTemplates.items.filter((t) => !('workspace_id' in t)).length
-    );
+      templates.elements().promoSection().getByRole('listitem')
+    ).toHaveCount(5);
+
+    // Check category sections
+    const section1 = page.getByTestId(`category-section-10`);
+    const section2 = page.getByTestId(`category-section-20`);
+    const section3 = page.getByTestId(`category-section-30`);
+
+    await expect(section1).toBeVisible();
+    await expect(section1.getByRole('listitem')).toHaveCount(2);
+    await expect(section2).toBeVisible();
+    await expect(section2.getByRole('listitem')).toHaveCount(2);
+    await expect(section3).toBeVisible();
+    await expect(section3.getByRole('listitem')).toHaveCount(1);
+
+    // check navigation
+    await expect(templates.elements().pageNavigation()).toBeVisible();
+    await expect(
+      templates.elements().pageNavigation().getByRole('link')
+    ).toHaveCount(5);
   });
 
   test('Once a card is clicked a creation interface shoud appear', async ({
@@ -151,11 +169,3 @@ test.describe("If i don't have workspace access", () => {
     await expect(page).toHaveURL(/\/oops/);
   });
 });
-
-/**
- *
- * - se ho accesso di livello workspace vedo la lista altrimenti Oops (anche la voce di menù)
- * - elenco di card divise per tue e globali, potresti non avere le tue
- * - i globali sono quelli senza workspace id, gli altri sono tailored
- * - il tag user prende i dati dalla config, modulo target (opzionale)
- */
