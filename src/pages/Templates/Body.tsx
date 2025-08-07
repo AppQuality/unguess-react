@@ -10,6 +10,7 @@ const StyledSection = styled.section`
   container-name: cardsWrapper;
   ${XXL} {
     margin-bottom: ${(p) => p.theme.space.xs};
+    color: ${(p) => p.theme.palette.blue[600]};
   }
   ${MD} {
     margin-bottom: ${(p) => p.theme.space.md};
