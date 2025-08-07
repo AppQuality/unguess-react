@@ -16,6 +16,7 @@ import useDebounce from 'src/hooks/useDebounce';
 import styled from 'styled-components';
 import { useTemplatesContext } from './Context';
 import { TemplateCardsGrid } from './TemplateCardsGrid';
+import { SearchEmptyState } from './SearchEmptyState';
 
 const StyledSection = styled.section`
   margin-bottom: ${(p) => p.theme.space.xxl};
@@ -82,29 +83,33 @@ const Body = () => {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
           >
-            <StyledSection
-              data-qa="filtered-templates"
-              title={`Showing results for “${searchQuery}”`}
-            >
-              <XXL isBold>
-                <Trans
-                  i18nKey="__TEMPLATES_PAGE_SEARCH_RESULTS_TITLE"
-                  values={{ query: searchQuery, count: searchResults.length }}
-                  count={searchResults.length}
-                  defaultValue="Showing <span>2 results</span> for “<span>accessibility</span>”"
-                  components={{
-                    span: (
-                      <Span style={{ color: appTheme.palette.blue[500] }} />
-                    ),
-                  }}
+            {searchResults.length === 0 ? (
+              <SearchEmptyState />
+            ) : (
+              <StyledSection
+                data-qa="filtered-templates"
+                title={`Showing results for “${searchQuery}”`}
+              >
+                <XXL isBold>
+                  <Trans
+                    i18nKey="__TEMPLATES_PAGE_SEARCH_RESULTS_TITLE"
+                    values={{ query: searchQuery, count: searchResults.length }}
+                    count={searchResults.length}
+                    defaultValue="Showing <span>2 results</span> for “<span>accessibility</span>”"
+                    components={{
+                      span: (
+                        <Span style={{ color: appTheme.palette.blue[500] }} />
+                      ),
+                    }}
+                  />
+                </XXL>
+                <TemplateCardsGrid
+                  singleColumn
+                  templates={searchResults}
+                  highlight={searchQuery}
                 />
-              </XXL>
-              <TemplateCardsGrid
-                singleColumn
-                templates={searchResults}
-                highlight={searchQuery}
-              />
-            </StyledSection>
+              </StyledSection>
+            )}
           </motion.div>
         ) : (
           <motion.div
