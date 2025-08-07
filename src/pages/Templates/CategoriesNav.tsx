@@ -1,11 +1,11 @@
 import { useTranslation } from 'react-i18next';
 import {
   AsideNav,
-  StickyNavItemLabel,
   StickyNavItem,
+  StickyNavItemLabel,
 } from 'src/common/components/navigation/asideNav';
-import { useTemplatesContext } from './Context';
 import styled from 'styled-components';
+import { useTemplatesContext } from './Context';
 
 const DisabledNavWrapper = styled.div<{ disabled: boolean }>`
   opacity: ${({ disabled }) => (disabled ? 0.5 : 1)};
