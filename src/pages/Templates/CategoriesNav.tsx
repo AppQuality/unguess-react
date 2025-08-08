@@ -1,18 +1,34 @@
 import { useTranslation } from 'react-i18next';
 import {
   AsideNav,
-  StickyNavItemLabel,
   StickyNavItem,
+  StickyNavItemLabel,
 } from 'src/common/components/navigation/asideNav';
+import styled from 'styled-components';
 import { useTemplatesContext } from './Context';
 
+const StyledAsideNav = styled(AsideNav)<{ $disabled: boolean }>`
+  opacity: ${({ $disabled }) => ($disabled ? 0.5 : 1)};
+  pointer-events: ${({ $disabled }) => ($disabled ? 'none' : 'auto')};
+`;
+
 const CategoriesNav = () => {
-  const { templatesByCategory, promoTemplates, tailoredTemplates } =
-    useTemplatesContext();
+  const {
+    templatesByCategory,
+    promoTemplates,
+    tailoredTemplates,
+    searchQuery,
+  } = useTemplatesContext();
   const { t } = useTranslation();
 
+  const isDisabled = !!searchQuery;
+
   return (
-    <AsideNav containerId="main" data-qa="templates-nav">
+    <StyledAsideNav
+      containerId="main"
+      data-qa="templates-nav"
+      $disabled={isDisabled}
+    >
       {tailoredTemplates.length > 0 && (
         <StickyNavItem
           role="link"
@@ -21,7 +37,8 @@ const CategoriesNav = () => {
           spy
           smooth
           duration={500}
-          offset={-350}
+          offset={-40}
+          disabled={isDisabled}
         >
           {t('__TEMPLATES_PAGE_TAILORED_LIST_TITLE')}
         </StickyNavItem>
@@ -37,7 +54,7 @@ const CategoriesNav = () => {
           spy
           smooth
           duration={500}
-          offset={-350}
+          offset={-40}
         >
           {t('__TEMPLATES_PAGE_PROMO_LIST_TITLE')}
         </StickyNavItem>
@@ -51,12 +68,13 @@ const CategoriesNav = () => {
           spy
           smooth
           duration={500}
-          offset={-350}
+          offset={-40}
+          disabled={isDisabled}
         >
           {category.name || `Category ${category.id}`}
         </StickyNavItem>
       ))}
-    </AsideNav>
+    </StyledAsideNav>
   );
 };
 

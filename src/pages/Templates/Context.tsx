@@ -30,6 +30,9 @@ interface TemplatesContextProps {
   promoTemplates: CpReqTemplate[];
   selectedTemplate?: CpReqTemplate;
   setSelectedTemplate: Dispatch<SetStateAction<CpReqTemplate | undefined>>;
+  searchQuery: string;
+  setSearchQuery: Dispatch<SetStateAction<string>>;
+  searchResults: CpReqTemplate[];
 }
 
 // Helper function to determine if a template is tailored
@@ -81,6 +84,7 @@ export const TemplatesContextProvider = ({
     []
   );
   const [promoTemplates, setPromoTemplates] = useState<CpReqTemplate[]>([]);
+  const [searchQuery, setSearchQuery] = useState<string>('');
 
   // State to hold raw templates categorized by category ID
   // This will be then used to build the templatesByCategory array
@@ -124,8 +128,27 @@ export const TemplatesContextProvider = ({
         description: cat.description,
         templates: rawTemplatesByCategory[cat.id] || [],
       }))
-      .filter((cat) => cat.templates.length > 0); // Only include categories with at least one template
+      .filter((cat) => cat.templates.length > 0);
   }, [categories, rawTemplatesByCategory]);
+
+  // Search results: flat array from data.items
+  const normalizedSearch = searchQuery.trim().toLowerCase();
+  const searchResults = useMemo(() => {
+    if (!data?.items || !normalizedSearch) return [];
+    return data.items.filter((template) => {
+      const name =
+        (template.strapi?.title || template.name)?.toLowerCase() || '';
+      const description =
+        (template.strapi?.description || template.description)?.toLowerCase() ||
+        '';
+      const pre = template.strapi?.pre_title?.toLowerCase() || '';
+      return (
+        name.includes(normalizedSearch) ||
+        description.includes(normalizedSearch) ||
+        pre.includes(normalizedSearch)
+      );
+    });
+  }, [data, normalizedSearch]);
 
   const templatesContextValue = useMemo(
     () => ({
@@ -136,6 +159,9 @@ export const TemplatesContextProvider = ({
       tailoredTemplates,
       selectedTemplate,
       setSelectedTemplate,
+      searchQuery,
+      setSearchQuery,
+      searchResults,
     }),
     [
       isDrawerOpen,
@@ -145,6 +171,8 @@ export const TemplatesContextProvider = ({
       tailoredTemplates,
       selectedTemplate,
       setSelectedTemplate,
+      searchQuery,
+      searchResults,
     ]
   );
 
