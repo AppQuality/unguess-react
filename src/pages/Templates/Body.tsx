@@ -156,7 +156,7 @@ const Body = () => {
                       data-qa={`category-section-${categoryId}`}
                       title={category.name || `Category ${categoryId}`}
                     >
-                      <XXL>{category.name}</XXL>
+                      <XXL isBold>{category.name}</XXL>
                       <MD>{category.description}</MD>
                       <Separator />
                       <TemplateCardsGrid templates={category.templates} />
