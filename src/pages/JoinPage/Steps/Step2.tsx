@@ -129,7 +129,6 @@ export const Step2 = () => {
                 placeholder={t('SIGNUP_FORM_ROLE_PLACEHOLDER')}
                 data-qa="roleId-select"
                 {...field}
-                isCompact
                 inputValue={
                   field.value
                     ? data?.find((role) => role.id === Number(field.value))
