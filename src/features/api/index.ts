@@ -2949,4 +2949,5 @@ export const {
   useDeleteWorkspacesByWidUsersMutation,
   useGetWorkspacesByWidUsersQuery,
   usePostWorkspacesByWidUsersMutation,
+  useGetCompaniesSizesQuery,
 } = injectedRtkApi;
