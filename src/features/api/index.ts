@@ -824,6 +824,12 @@ const injectedRtkApi = api.injectEndpoints({
         body: queryArg.body,
       }),
     }),
+    getCompaniesSizes: build.query<
+      GetCompaniesSizesApiResponse,
+      GetCompaniesSizesApiArg
+    >({
+      query: () => ({ url: `/companies/sizes` }),
+    }),
   }),
   overrideExisting: false,
 });
@@ -1629,6 +1635,7 @@ export type PostUsersApiResponse = /** status 201 Created */ {
 };
 export type PostUsersApiArg = {
   body: {
+    companySizeId: number;
     name: string;
     password: string;
     roleId: number;
@@ -1998,6 +2005,11 @@ export type PostWorkspacesByWidUsersApiArg = {
     surname?: string;
   };
 };
+export type GetCompaniesSizesApiResponse = /** status 200 OK */ {
+  id: number;
+  name: string;
+}[];
+export type GetCompaniesSizesApiArg = void;
 export type Error = {
   code: number;
   error: boolean;
