@@ -33,13 +33,13 @@ export const MODULE_GROUPS: Record<PlanTabName, ModuleGroup[]> = {
       id: 'demographicCriteria',
       title: '__PLAN_PAGE_GROUP_TITLE_DEMOGRAPHIC_CRITERIA',
       modules: [
-        'annual_income_range',
+        'target',
+        'language',
         'age',
-        'employment',
         'gender',
         'locality',
-        'language',
-        'target',
+        'employment',
+        'annual_income_range',
       ],
     },
     {
@@ -52,10 +52,10 @@ export const MODULE_GROUPS: Record<PlanTabName, ModuleGroup[]> = {
       title: '__PLAN_PAGE_GROUP_TITLE_UTILITY_CRITERIA',
       modules: [
         'bank',
-        'home_internet',
-        'mobile_internet',
-        'elettricity_supply',
         'gas_supply',
+        'elettricity_supply',
+        'mobile_internet',
+        'home_internet',
       ],
     },
     {
