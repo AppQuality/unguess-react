@@ -11,7 +11,10 @@ import { Field, FieldProps, useFormikContext } from 'formik';
 import { useEffect, useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
-import { useGetUsersRolesQuery } from 'src/features/api';
+import {
+  useGetUsersRolesQuery,
+  useGetCompaniesSizesQuery,
+} from 'src/features/api';
 import { useSendGTMevent } from 'src/hooks/useGTMevent';
 import { JoinFormValues } from '../valuesType';
 import { ButtonContainer } from './ButtonContainer';
@@ -21,7 +24,10 @@ export const Step2 = () => {
     useFormikContext<JoinFormValues>();
   const { t } = useTranslation();
   const sendGTMevent = useSendGTMevent({ loggedUser: false });
-  const { data, isLoading } = useGetUsersRolesQuery();
+  const { data: dataRoles, isLoading: isLoadingRoles } =
+    useGetUsersRolesQuery();
+  const { data: dataCompanySizes, isLoading: isLoadingCompanySizes } =
+    useGetCompaniesSizesQuery();
   const selectRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -34,10 +40,10 @@ export const Step2 = () => {
 
   const renderRolesOptions = useMemo(
     () =>
-      isLoading || !data ? (
+      isLoadingRoles || !dataRoles ? (
         <Select.Option value="loading">loading...</Select.Option>
       ) : (
-        data?.map((role) => (
+        dataRoles?.map((role) => (
           <Select.Option
             key={role.id}
             value={role.id.toString()}
@@ -47,14 +53,14 @@ export const Step2 = () => {
           </Select.Option>
         ))
       ),
-    [data]
+    [dataRoles]
   );
   const renderCompanySizes = useMemo(
     () =>
-      isLoading || !data ? (
+      isLoadingCompanySizes || !dataCompanySizes ? (
         <Select.Option value="loading">loading...</Select.Option>
       ) : (
-        data?.map((size) => (
+        dataCompanySizes?.map((size) => (
           <Select.Option
             key={size.id}
             value={size.id.toString()}
@@ -64,7 +70,7 @@ export const Step2 = () => {
           </Select.Option>
         ))
       ),
-    [data]
+    [dataCompanySizes]
   );
   const goToNextStep = async () => {
     await setTouched({
@@ -148,7 +154,7 @@ export const Step2 = () => {
                 {...field}
                 inputValue={
                   field.value
-                    ? data?.find((role) => role.id === Number(field.value))
+                    ? dataRoles?.find((role) => role.id === Number(field.value))
                         ?.name || ''
                     : ''
                 }
@@ -190,8 +196,9 @@ export const Step2 = () => {
                 {...field}
                 inputValue={
                   field.value
-                    ? data?.find((size) => size.id === Number(field.value))
-                        ?.name || ''
+                    ? dataCompanySizes?.find(
+                        (size) => size.id === Number(field.value)
+                      )?.name || ''
                     : ''
                 }
                 selectionValue={field.value ? field.value.toString() : ''}
@@ -232,3 +239,6 @@ export const Step2 = () => {
     </>
   );
 };
+function useGetCompanySizesQuery(): { data: any; isLoading: any } {
+  throw new Error('Function not implemented.');
+}

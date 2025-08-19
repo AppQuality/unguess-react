@@ -6,4 +6,5 @@ export type JoinFormValues = {
   surname: string;
   workspace: string;
   roleId: number;
+  companySizeId: number;
 };
