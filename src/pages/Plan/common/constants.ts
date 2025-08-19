@@ -20,7 +20,7 @@ export const MODULE_GROUPS: Record<PlanTabName, ModuleGroup[]> = {
     {
       id: 'technicalRequirements',
       title: '__PLAN_PAGE_GROUP_TITLE_TECHNICAL_REQUIREMENTS',
-      modules: ['browser', 'touchpoints'],
+      modules: ['touchpoints', 'browser'],
     },
   ],
   target: [
