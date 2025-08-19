@@ -21,12 +21,17 @@ const ModuleItem = styled.div<{
   [data-garden-id='accordions.section'],
   [data-garden-id='notifications.well'] {
     background-color: var(--highlight-final-bg);
-    border: 1px solid ${(p) => p.theme.palette.grey['300']};
+    border-width: 1px;
+    border-style: solid;
+    border-color: ${(p) => p.theme.palette.grey['300']};
     margin-bottom: ${(p) =>
       p.theme.space.md}; // override internal component default margin
     &:last-child {
       margin-bottom: ${(p) => p.theme.space.xl};
     }
+  }
+  [data-garden-id='accordions.section'] {
+    border-color: var(--semantic-color);
   }
   [data-garden-id='accordions.section'],
   [data-garden-id='notifications.well'] {
