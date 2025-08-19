@@ -1358,6 +1358,7 @@
   "SAVE_AS_TEMPLATE_SUCCESS_TITLE": "Template saved successfully!",
   "Severity ({{count}})_one": "Severity ({{count}})",
   "Severity ({{count}})_other": "Severities ({{count}})",
+  "SIGNUP_FORM_COMPANY_SIZE_IS_REQUIRED": "This field is required",
   "SIGNUP_FORM_COMPANY_SIZE_LABEL": "Company size",
   "SIGNUP_FORM_COMPANY_SIZE_PLACEHOLDER": "Select company size",
   "SIGNUP_FORM_CTA_RETURN_TO_UNGUESS_LANDING": "Go to the UNGUESS website",

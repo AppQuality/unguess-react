@@ -1398,6 +1398,7 @@
   "Severity ({{count}})_one": "Gravità ({{count}})",
   "Severity ({{count}})_many": "",
   "Severity ({{count}})_other": "Gravità ({{count}})",
+  "SIGNUP_FORM_COMPANY_SIZE_IS_REQUIRED": "",
   "SIGNUP_FORM_COMPANY_SIZE_LABEL": "",
   "SIGNUP_FORM_COMPANY_SIZE_PLACEHOLDER": "",
   "SIGNUP_FORM_CTA_RETURN_TO_UNGUESS_LANDING": "",

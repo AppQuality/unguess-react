@@ -77,6 +77,7 @@ export const Step2 = () => {
       name: true,
       surname: true,
       roleId: true,
+      companySizeId: true,
     });
     const errors = await validateForm();
     if (Object.keys(errors).length > 0) {
@@ -220,7 +221,7 @@ export const Step2 = () => {
                 {renderCompanySizes}
               </Select>
               {hasError && (
-                <Message data-qa="signup-role-error" validation="error">
+                <Message data-qa="signup-company-size-error" validation="error">
                   {meta.error}
                 </Message>
               )}

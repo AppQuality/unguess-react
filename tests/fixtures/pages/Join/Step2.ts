@@ -2,6 +2,7 @@ import { Page } from '@playwright/test';
 import { i18n } from 'i18next';
 import { getI18nInstance } from 'playwright-i18next-fixture';
 import roles from '../../../api/users/roles/_get/200_Example_1.json';
+import companySizes from '../../../api/companies/sizes/_get/200_Example_1.json';
 
 export class Step2 {
   readonly page: Page;
@@ -13,6 +14,8 @@ export class Step2 {
   readonly surname = 'Doe';
 
   readonly roleId = roles[0].id;
+
+  readonly companySizeId = companySizes[0].id;
 
   constructor(page: Page) {
     this.page = page;
@@ -31,6 +34,13 @@ export class Step2 {
       roleSelect: () => this.page.getByTestId('roleId-select'),
       roleSelectOptions: () => this.elements().roleSelect().getByRole('option'),
       roleSelectError: () => this.page.getByTestId('signup-role-error'),
+
+      companySizeSelect: () => this.page.getByTestId('companySizeId-select'),
+      companySizeSelectOptions: () =>
+        this.elements().companySizeSelect().getByRole('option'),
+      companySizeSelectError: () =>
+        this.page.getByTestId('signup-company-size-error'),
+
       buttonBackToStep1: () =>
         this.page.getByRole('button', {
           name: this.i18n.t('SIGNUP_FORM_RETURN_TO_STEP_1'),
@@ -45,6 +55,7 @@ export class Step2 {
   async fillValidFields() {
     await this.elements().roleSelect().click();
     await this.elements().roleSelectOptions().first().click();
+    await this.elements().companySizeSelect().first().click();
     await this.elements().surnameInput().fill(this.surname);
     await this.elements().nameInput().fill(this.name);
     await this.elements().nameInput().blur();
@@ -59,6 +70,14 @@ export class Step2 {
     await this.page.route('*/**/api/users/roles', async (route) => {
       await route.fulfill({
         path: 'tests/api/users/roles/_get/200_Example_1.json',
+      });
+    });
+  }
+
+  async mockGetCompanySizes() {
+    await this.page.route('*/**/api/companies/sizes', async (route) => {
+      await route.fulfill({
+        path: 'tests/api/companies/sizes/_get/200_Example_1.json',
       });
     });
   }
