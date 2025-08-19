@@ -8,6 +8,7 @@ import styled from 'styled-components';
 import { usePlanContext } from '../../../context/planContext';
 import { usePlanNavContext } from '../context';
 import { AddBlockModalItem } from './AddBlockModalItem';
+import { Divider } from 'src/common/components/divider';
 
 const ButtonsContainer = styled.div`
   display: flex;
@@ -61,7 +62,10 @@ const AddBlockModal = () => {
           {t('__PLAN_PAGE_ADD_MODULE_BLOCK_MODAL_SUBTITLE')}
         </SM>
       </TooltipModal.Title>
-      <TooltipModal.Body style={{ maxHeight: '75vh', overflowY: 'auto' }}>
+      <Divider style={{ marginTop: appTheme.space.md, marginBottom: 0 }} />
+      <TooltipModal.Body
+        style={{ maxHeight: '75vh', overflowY: 'auto', paddingTop: 0 }}
+      >
         {groupedItems.map((group) => (
           <div key={group.id} style={{ marginBottom: appTheme.space.md }}>
             <SM
