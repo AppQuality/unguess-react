@@ -68,6 +68,7 @@ test.describe('The Join page second step - case invited user only', () => {
     await join.notLoggedIn();
     await join.mockGetInvitedUser();
     await step2.mockGetRoles();
+    await step2.mockGetCompanySizes();
     await page.goto(join.urlInvitedUser);
     await step1.goToNextStepAsInvitedUser();
   });
@@ -97,6 +98,7 @@ test.describe('The Join page third step - case invited user only', () => {
 
     await join.mockGetInvitedUser();
     await step2.mockGetRoles();
+    await step2.mockGetCompanySizes();
     await page.goto(join.urlInvitedUser);
     await step1.goToNextStepAsInvitedUser();
     await step2.elements().roleSelect().click();
