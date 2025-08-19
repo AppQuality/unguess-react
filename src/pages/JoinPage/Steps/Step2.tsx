@@ -32,7 +32,7 @@ export const Step2 = () => {
     });
   }, []);
 
-  const renderOptions = useMemo(
+  const renderRolesOptions = useMemo(
     () =>
       isLoading || !data ? (
         <Select.Option value="loading">loading...</Select.Option>
@@ -44,6 +44,23 @@ export const Step2 = () => {
             label={role.name}
           >
             {role.name}
+          </Select.Option>
+        ))
+      ),
+    [data]
+  );
+  const renderCompanySizes = useMemo(
+    () =>
+      isLoading || !data ? (
+        <Select.Option value="loading">loading...</Select.Option>
+      ) : (
+        data?.map((size) => (
+          <Select.Option
+            key={size.id}
+            value={size.id.toString()}
+            label={size.name}
+          >
+            {size.name}
           </Select.Option>
         ))
       ),
@@ -151,7 +168,49 @@ export const Step2 = () => {
                   )?.blur();
                 }}
               >
-                {renderOptions}
+                {renderRolesOptions}
+              </Select>
+              {hasError && (
+                <Message data-qa="signup-role-error" validation="error">
+                  {meta.error}
+                </Message>
+              )}
+            </div>
+          );
+        }}
+      </Field>
+      <Field name="companySizeId">
+        {({ field, meta }: FieldProps) => {
+          const hasError = meta.touched && Boolean(meta.error);
+          return (
+            <div ref={selectRef}>
+              <Select
+                placeholder={t('SIGNUP_FORM_COMPANY_SIZE_PLACEHOLDER')}
+                data-qa="companySizeId-select"
+                {...field}
+                inputValue={
+                  field.value
+                    ? data?.find((size) => size.id === Number(field.value))
+                        ?.name || ''
+                    : ''
+                }
+                selectionValue={field.value ? field.value.toString() : ''}
+                label={
+                  <>
+                    {t('SIGNUP_FORM_COMPANY_SIZE_LABEL')}
+                    <Span style={{ color: appTheme.palette.red[600] }}>*</Span>
+                  </>
+                }
+                onSelect={(companySizeId) => {
+                  setFieldValue('companySizeId', Number(companySizeId));
+                  (
+                    selectRef.current?.querySelector(
+                      '[role="combobox"]'
+                    ) as HTMLElement | null
+                  )?.blur();
+                }}
+              >
+                {renderCompanySizes}
               </Select>
               {hasError && (
                 <Message data-qa="signup-role-error" validation="error">

@@ -1358,6 +1358,8 @@
   "SAVE_AS_TEMPLATE_SUCCESS_TITLE": "Template saved successfully!",
   "Severity ({{count}})_one": "Severity ({{count}})",
   "Severity ({{count}})_other": "Severities ({{count}})",
+  "SIGNUP_FORM_COMPANY_SIZE_LABEL": "Company size",
+  "SIGNUP_FORM_COMPANY_SIZE_PLACEHOLDER": "Select company size",
   "SIGNUP_FORM_CTA_RETURN_TO_UNGUESS_LANDING": "Go to the UNGUESS website",
   "SIGNUP_FORM_EMAIL_ALREADY_TAKEN": "Error: User with provided email already exists",
   "SIGNUP_FORM_EMAIL_ERROR_SERVER_MAIL_CHECK": "Oops! Check your email format",
