@@ -239,6 +239,3 @@ export const Step2 = () => {
     </>
   );
 };
-function useGetCompanySizesQuery(): { data: any; isLoading: any } {
-  throw new Error('Function not implemented.');
-}
