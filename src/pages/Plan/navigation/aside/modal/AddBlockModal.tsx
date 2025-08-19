@@ -64,9 +64,16 @@ const AddBlockModal = () => {
       <TooltipModal.Body style={{ maxHeight: '75vh', overflowY: 'auto' }}>
         {groupedItems.map((group) => (
           <div key={group.id} style={{ marginBottom: appTheme.space.md }}>
-            <MD isBold style={{ marginBottom: appTheme.space.xs }}>
+            <SM
+              isBold
+              color={appTheme.palette.grey[600]}
+              style={{
+                marginBottom: appTheme.space.xs,
+                textTransform: 'uppercase',
+              }}
+            >
               {t(group.title)}
-            </MD>
+            </SM>
             <ButtonsContainer>
               {group.items.map((item) => (
                 <AddBlockModalItem key={item.type} item={item} />
