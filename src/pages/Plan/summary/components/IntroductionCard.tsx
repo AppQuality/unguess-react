@@ -2,6 +2,7 @@ import { ContainerCard, XXL } from '@appquality/unguess-design-system';
 import { ComponentProps } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
+import { useGetPlansByPidCheckoutItemQuery } from 'src/features/api';
 import styled from 'styled-components';
 import { usePlan } from '../../hooks/usePlan';
 import { ReactComponent as ApprovedImage } from '../assets/approved.svg';
@@ -45,58 +46,80 @@ export const IntroductionCard = () => {
 
   if (plan.status === 'draft') return null;
 
+  const { data: checkoutItemData, isLoading: isCheckoutItemLoading } =
+    useGetPlansByPidCheckoutItemQuery({ pid: plan.id.toString() });
+
   return (
-    <ContainerCard>
-      <ContentRow>
-        {/* PLAN SUBMITTED */}
-        {(!plan.quote || plan.quote.status === 'pending') && (
-          <>
-            <ImageItem>
-              <SubmittedImage />
-            </ImageItem>
-            <ContentItem>
-              <Title>
-                {t('__PLAN_PAGE_INTRODUCTION_CARD_SUBMITTED_TITLE')}
-              </Title>
-              <Description>
-                {t('__PLAN_PAGE_INTRODUCTION_CARD_SUBMITTED_DESCRIPTION')}
-              </Description>
-            </ContentItem>
-          </>
-        )}
+    !isCheckoutItemLoading && (
+      <ContainerCard>
+        <ContentRow>
+          {/* PLAN SUBMITTED */}
+          {(!plan.quote || plan.quote.status === 'pending') && (
+            <>
+              <ImageItem>
+                <SubmittedImage />
+              </ImageItem>
+              <ContentItem>
+                <Title>
+                  {t('__PLAN_PAGE_INTRODUCTION_CARD_SUBMITTED_TITLE')}
+                </Title>
+                <Description>
+                  {t('__PLAN_PAGE_INTRODUCTION_CARD_SUBMITTED_DESCRIPTION')}
+                </Description>
+              </ContentItem>
+            </>
+          )}
 
-        {/* PLAN AWAITING REVIEW */}
-        {plan.quote && plan.quote.status === 'proposed' && (
-          <>
-            <ImageItem>
-              <AwaitingImage />
-            </ImageItem>
-            <ContentItem>
-              <Title>
-                {t('__PLAN_PAGE_INTRODUCTION_CARD_AWAITING_REVIEW_TITLE')}
-              </Title>
-              <Description>
-                {t('__PLAN_PAGE_INTRODUCTION_CARD_AWAITING_REVIEW_DESCRIPTION')}
-              </Description>
-            </ContentItem>
-          </>
-        )}
+          {/* PLAN AWAITING REVIEW */}
+          {plan.quote && plan.quote.status === 'proposed' && (
+            <>
+              <ImageItem>
+                <AwaitingImage />
+              </ImageItem>
+              <ContentItem>
+                <Title>
+                  {t('__PLAN_PAGE_INTRODUCTION_CARD_AWAITING_REVIEW_TITLE')}
+                </Title>
+                <Description>
+                  {t(
+                    '__PLAN_PAGE_INTRODUCTION_CARD_AWAITING_REVIEW_DESCRIPTION'
+                  )}
+                </Description>
+              </ContentItem>
+            </>
+          )}
 
-        {/* PLAN APPROVED */}
-        {plan.quote && plan.quote.status === 'approved' && (
-          <>
-            <ImageItem>
-              <ApprovedImage />
-            </ImageItem>
-            <ContentItem>
-              <Title>{t('__PLAN_PAGE_INTRODUCTION_CARD_APPROVED_TITLE')}</Title>
-              <Description>
-                {t('__PLAN_PAGE_INTRODUCTION_CARD_APPROVED_DESCRIPTION')}
-              </Description>
-            </ContentItem>
-          </>
-        )}
-      </ContentRow>
-    </ContainerCard>
+          {/* PLAN APPROVED */}
+          {plan.quote && plan.quote.status === 'approved' && (
+            <>
+              <ImageItem>
+                <ApprovedImage />
+              </ImageItem>
+              <ContentItem>
+                <Title>
+                  {t('__PLAN_PAGE_INTRODUCTION_CARD_APPROVED_TITLE')}
+                </Title>
+                <Description>
+                  {t('__PLAN_PAGE_INTRODUCTION_CARD_APPROVED_DESCRIPTION')}
+                </Description>
+              </ContentItem>
+            </>
+          )}
+
+          {/* PLAN PURCHASABLE */}
+          {checkoutItemData && plan.status === 'pending_review' && (
+            <>
+              <ImageItem>
+                <ApprovedImage />
+              </ImageItem>
+              <ContentItem>
+                <Title>PLAN PURCHASABLE</Title>
+                <Description>SGANCIA I SOLDI</Description>
+              </ContentItem>
+            </>
+          )}
+        </ContentRow>
+      </ContainerCard>
+    )
   );
 };

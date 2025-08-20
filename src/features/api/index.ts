@@ -23,6 +23,13 @@ const injectedRtkApi = api.injectEndpoints({
         body: queryArg.body,
       }),
     }),
+    postBuy: build.mutation<PostBuyApiResponse, PostBuyApiArg>({
+      query: (queryArg) => ({
+        url: `/buy`,
+        method: 'POST',
+        body: queryArg.body,
+      }),
+    }),
     getCampaignsByCid: build.query<
       GetCampaignsByCidApiResponse,
       GetCampaignsByCidApiArg
@@ -366,6 +373,13 @@ const injectedRtkApi = api.injectEndpoints({
         params: { s: queryArg.s, updateTrend: queryArg.updateTrend },
       }),
     }),
+    postCheckout: build.mutation<PostCheckoutApiResponse, PostCheckoutApiArg>({
+      query: (queryArg) => ({
+        url: `/checkout`,
+        method: 'POST',
+        body: queryArg.body,
+      }),
+    }),
     deleteInsightsByIid: build.mutation<
       DeleteInsightsByIidApiResponse,
       DeleteInsightsByIidApiArg
@@ -432,6 +446,12 @@ const injectedRtkApi = api.injectEndpoints({
         method: 'PATCH',
         body: queryArg.body,
       }),
+    }),
+    getPlansByPidCheckoutItem: build.query<
+      GetPlansByPidCheckoutItemApiResponse,
+      GetPlansByPidCheckoutItemApiArg
+    >({
+      query: (queryArg) => ({ url: `/plans/${queryArg.pid}/checkoutItem` }),
     }),
     patchPlansByPidStatus: build.mutation<
       PatchPlansByPidStatusApiResponse,
@@ -854,6 +874,28 @@ export type PostAuthenticateApiArg = {
   body: {
     password: string;
     username: string;
+  };
+};
+export type PostBuyApiResponse = /** status 200 OK */ void;
+export type PostBuyApiArg = {
+  body: {
+    api_version?: string;
+    created?: number;
+    data: {
+      object: {
+        /** Checkout id */
+        id: string;
+        metadata: {
+          iv: string;
+          key: string;
+          tag: string;
+        };
+      };
+    };
+    type:
+      | 'checkout.session.completed'
+      | 'checkout.session.async_payment_failed'
+      | 'checkout.session.expired';
   };
 };
 export type GetCampaignsByCidApiResponse =
@@ -1439,6 +1481,16 @@ export type GetCampaignsByCidWidgetsApiArg = {
   /** should update bug trend after request resolves? */
   updateTrend?: boolean;
 };
+export type PostCheckoutApiResponse = /** status 201 Created */ {
+  id: string;
+  url: string;
+};
+export type PostCheckoutApiArg = {
+  body: {
+    meta?: string;
+    price_id: string;
+  };
+};
 export type DeleteInsightsByIidApiResponse = /** status 200 OK */ void;
 export type DeleteInsightsByIidApiArg = {
   /** Insight id */
@@ -1495,6 +1547,7 @@ export type GetPlansByPidApiResponse = /** status 200 OK */ {
     modules: Module[];
   };
   id: number;
+  is_frozen?: number;
   project: {
     id: number;
     name: string;
@@ -1518,6 +1571,14 @@ export type PatchPlansByPidApiArg = {
       modules: Module[];
     };
   };
+};
+export type GetPlansByPidCheckoutItemApiResponse = /** status 200 OK */ {
+  metadata?: object;
+  price_id: string;
+  status: string;
+};
+export type GetPlansByPidCheckoutItemApiArg = {
+  pid: string;
 };
 export type PatchPlansByPidStatusApiResponse = /** status 200 OK */ {};
 export type PatchPlansByPidStatusApiArg = {
@@ -2872,6 +2933,7 @@ export const {
   use$getQuery,
   usePostAnalyticsViewsCampaignsByCidMutation,
   usePostAuthenticateMutation,
+  usePostBuyMutation,
   useGetCampaignsByCidQuery,
   usePatchCampaignsByCidMutation,
   useGetCampaignsByCidBugTypesQuery,
@@ -2911,6 +2973,7 @@ export const {
   usePostCampaignsByCidVideoTagsMutation,
   useGetCampaignsByCidVideosQuery,
   useGetCampaignsByCidWidgetsQuery,
+  usePostCheckoutMutation,
   useDeleteInsightsByIidMutation,
   useGetInsightsByIidQuery,
   usePatchInsightsByIidMutation,
@@ -2920,6 +2983,7 @@ export const {
   useDeletePlansByPidMutation,
   useGetPlansByPidQuery,
   usePatchPlansByPidMutation,
+  useGetPlansByPidCheckoutItemQuery,
   usePatchPlansByPidStatusMutation,
   usePostProjectsMutation,
   useDeleteProjectsByPidMutation,

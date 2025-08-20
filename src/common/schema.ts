@@ -22,6 +22,15 @@ export interface paths {
     /** A request to login with your username and password */
     post: operations["post-authenticate"];
   };
+  "/buy": {
+    /**
+     * Stripe webhook destination, listen three event types:
+     * - charge.failed,
+     * - checkout.session.completed
+     * - checkout.session.expired
+     */
+    post: operations["post-buy"];
+  };
   "/campaigns/{cid}": {
     get: operations["get-campaign"];
     patch: operations["patch-campaigns"];
@@ -305,6 +314,10 @@ export interface paths {
       };
     };
   };
+  "/checkout": {
+    /** Start a checkout Session */
+    post: operations["post-checkout"];
+  };
   "/insights/{iid}": {
     get: operations["get-insights-iid"];
     delete: operations["delete-insights-iid"];
@@ -347,6 +360,14 @@ export interface paths {
     get: operations["get-workspaces-wid-plans-pid"];
     delete: operations["delete-workspaces-wid-plans-pid"];
     patch: operations["patch-workspaces-wid-plans-pid"];
+    parameters: {
+      path: {
+        pid: string;
+      };
+    };
+  };
+  "/plans/{pid}/checkoutItem": {
+    get: operations["get-plans-pid-checkoutItem"];
     parameters: {
       path: {
         pid: string;
@@ -1860,9 +1881,7 @@ export interface components {
           is_public?: number;
           languages?: string[];
           outOfScope?: string;
-          /** @description Da togliere */
           page_manual_id?: number;
-          /** @description Da togliere */
           page_preview_id?: number;
           platforms: components["schemas"]["Platform"][];
           pm_id: number;
@@ -1958,6 +1977,46 @@ export interface operations {
       500: components["responses"]["Error"];
     };
     requestBody: components["requestBodies"]["Credentials"];
+  };
+  /**
+   * Stripe webhook destination, listen three event types:
+   * - charge.failed,
+   * - checkout.session.completed
+   * - checkout.session.expired
+   */
+  "post-buy": {
+    responses: {
+      /** OK */
+      200: unknown;
+      400: components["responses"]["Error"];
+      404: components["responses"]["Error"];
+      406: components["responses"]["Error"];
+      500: components["responses"]["Error"];
+    };
+    requestBody: {
+      content: {
+        "application/json": {
+          api_version?: string;
+          created?: number;
+          data: {
+            object: {
+              /** @description Checkout id */
+              id: string;
+              metadata: {
+                iv: string;
+                key: string;
+                tag: string;
+              };
+            };
+          };
+          /** @enum {undefined} */
+          type:
+            | "checkout.session.completed"
+            | "checkout.session.async_payment_failed"
+            | "checkout.session.expired";
+        };
+      };
+    };
   };
   "get-campaign": {
     parameters: {
@@ -3107,6 +3166,28 @@ export interface operations {
       500: components["responses"]["Error"];
     };
   };
+  /** Start a checkout Session */
+  "post-checkout": {
+    responses: {
+      /** Created */
+      201: {
+        content: {
+          "application/json": {
+            id: string;
+            url: string;
+          };
+        };
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": {
+          meta?: string;
+          price_id: string;
+        };
+      };
+    };
+  };
   "get-insights-iid": {
     parameters: {
       path: {
@@ -3248,6 +3329,7 @@ export interface operations {
               modules: components["schemas"]["Module"][];
             };
             id: number;
+            is_frozen?: number;
             project: {
               id: number;
               name: string;
@@ -3298,6 +3380,29 @@ export interface operations {
           };
         };
       };
+    };
+  };
+  "get-plans-pid-checkoutItem": {
+    parameters: {
+      path: {
+        pid: string;
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          "application/json": {
+            metadata?: { [key: string]: unknown };
+            price_id: string;
+            status: string;
+          };
+        };
+      };
+      403: components["responses"]["Error"];
+      404: components["responses"]["Error"];
+      405: components["responses"]["Error"];
+      500: components["responses"]["Error"];
     };
   };
   /**  */
