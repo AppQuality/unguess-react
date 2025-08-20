@@ -2,13 +2,13 @@ import { MD, SM, TooltipModal } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { useAppSelector } from 'src/app/hooks';
 import { appTheme } from 'src/app/theme';
+import { Divider } from 'src/common/components/divider';
 import { components } from 'src/common/schema';
 import { MODULE_GROUPS } from 'src/pages/Plan/common/constants';
 import styled from 'styled-components';
 import { usePlanContext } from '../../../context/planContext';
 import { usePlanNavContext } from '../context';
 import { AddBlockModalItem } from './AddBlockModalItem';
-import { Divider } from 'src/common/components/divider';
 
 const ButtonsContainer = styled.div`
   display: flex;
