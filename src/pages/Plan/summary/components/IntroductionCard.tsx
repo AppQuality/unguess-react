@@ -54,7 +54,7 @@ export const IntroductionCard = () => {
   const { data: checkoutItemData, isLoading: isCheckoutItemLoading } =
     useGetPlansByPidCheckoutItemQuery(
       { pid: plan.id.toString() },
-      { pollingInterval: isPaymentInProgress ? 1000 : 0 }
+      { pollingInterval: isPaymentInProgress ? 1500 : 0 }
     );
 
   useEffect(() => {
