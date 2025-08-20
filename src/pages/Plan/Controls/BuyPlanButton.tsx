@@ -1,5 +1,4 @@
 import { Button } from '@appquality/unguess-design-system';
-import { th } from 'date-fns/locale';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
@@ -9,10 +8,13 @@ import {
   usePostCheckoutMutation,
 } from 'src/features/api';
 import { getPlanStatus } from 'src/pages/Dashboard/hooks/getPlanStatus';
+import { usePlanContext } from '../context/planContext';
 import { usePlan } from '../hooks/usePlan';
 
 const BuyPlanButton = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
+
+  const { setIsPaymentInProgress } = usePlanContext();
   const [patchStatus] = usePatchPlansByPidStatusMutation();
 
   const { planId } = useParams();
@@ -39,6 +41,8 @@ const BuyPlanButton = () => {
       disabled={status === 'approved'}
       onClick={async () => {
         setIsSubmitted(true);
+        setIsPaymentInProgress(true);
+
         patchStatus({
           pid: planId?.toString() ?? '',
           body: { status: 'pending_review' },

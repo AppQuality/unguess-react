@@ -1,9 +1,11 @@
 import { ContainerCard, XXL } from '@appquality/unguess-design-system';
-import { ComponentProps } from 'react';
+import { ComponentProps, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { useGetPlansByPidCheckoutItemQuery } from 'src/features/api';
 import styled from 'styled-components';
+import { usePlanContext } from '../../context/planContext';
+import { PaymentInProgressModal } from '../../Controls/PaymentInProgressModal';
 import { usePlan } from '../../hooks/usePlan';
 import { ReactComponent as ApprovedImage } from '../assets/approved.svg';
 import { ReactComponent as AwaitingImage } from '../assets/awaiting.svg';
@@ -42,6 +44,8 @@ export const IntroductionCard = () => {
 
   const { plan } = usePlan(planId);
 
+  const { isPaymentInProgress } = usePlanContext();
+
   if (!plan) return null;
 
   if (plan.status === 'draft') return null;
@@ -50,76 +54,83 @@ export const IntroductionCard = () => {
     useGetPlansByPidCheckoutItemQuery({ pid: plan.id.toString() });
 
   return (
-    !isCheckoutItemLoading && (
-      <ContainerCard>
-        <ContentRow>
-          {/* PLAN SUBMITTED */}
-          {(!plan.quote || plan.quote.status === 'pending') && (
-            <>
+    <ContainerCard>
+      <ContentRow>
+        {isPaymentInProgress ? (
+          <PaymentInProgressModal />
+        ) : (
+          <>
+            {/* PLAN SUBMITTED */}
+            {(!plan.quote || plan.quote.status === 'pending') && (
               <ImageItem>
                 <SubmittedImage />
               </ImageItem>
-              <ContentItem>
-                <Title>
-                  {t('__PLAN_PAGE_INTRODUCTION_CARD_SUBMITTED_TITLE')}
-                </Title>
-                <Description>
-                  {t('__PLAN_PAGE_INTRODUCTION_CARD_SUBMITTED_DESCRIPTION')}
-                </Description>
-              </ContentItem>
-            </>
-          )}
-
-          {/* PLAN AWAITING REVIEW */}
-          {plan.quote && plan.quote.status === 'proposed' && (
-            <>
-              <ImageItem>
-                <AwaitingImage />
-              </ImageItem>
-              <ContentItem>
-                <Title>
-                  {t('__PLAN_PAGE_INTRODUCTION_CARD_AWAITING_REVIEW_TITLE')}
-                </Title>
-                <Description>
-                  {t(
-                    '__PLAN_PAGE_INTRODUCTION_CARD_AWAITING_REVIEW_DESCRIPTION'
-                  )}
-                </Description>
-              </ContentItem>
-            </>
-          )}
-
-          {/* PLAN APPROVED */}
-          {plan.quote && plan.quote.status === 'approved' && (
-            <>
-              <ImageItem>
-                <ApprovedImage />
-              </ImageItem>
-              <ContentItem>
-                <Title>
-                  {t('__PLAN_PAGE_INTRODUCTION_CARD_APPROVED_TITLE')}
-                </Title>
-                <Description>
-                  {t('__PLAN_PAGE_INTRODUCTION_CARD_APPROVED_DESCRIPTION')}
-                </Description>
-              </ContentItem>
-            </>
-          )}
-
-          {/* PLAN PURCHASABLE */}
-          {checkoutItemData && plan.status === 'pending_review' && (
-            <>
-              <ImageItem>
-                <ApprovedImage />
-              </ImageItem>
-              <ContentItem>
-                <Title>PLAN PURCHASABLE</Title>
-                <Description>SGANCIA I SOLDI</Description>
-              </ContentItem>
-            </>
-          )}
-        </ContentRow>
-      </ContainerCard>
-    )
+            )}
+            {/* PLAN AWAITING REVIEW */}
+            {plan.quote && plan.quote.status === 'proposed' && (
+              <>
+                <ImageItem>
+                  <AwaitingImage />
+                </ImageItem>
+                <ContentItem>
+                  <Title>
+                    {t('__PLAN_PAGE_INTRODUCTION_CARD_AWAITING_REVIEW_TITLE')}
+                  </Title>
+                  <Description>
+                    {t('__PLAN_PAGE_INTRODUCTION_CARD_SUBMITTED_DESCRIPTION')}
+                  </Description>
+                </ContentItem>
+              </>
+            )}
+            {/* PLAN AWAITING REVIEW */}
+            {plan.quote && plan.quote.status === 'proposed' && (
+              <>
+                <ImageItem>
+                  <AwaitingImage />
+                </ImageItem>
+                <ContentItem>
+                  <Title>
+                    {t('__PLAN_PAGE_INTRODUCTION_CARD_AWAITING_REVIEW_TITLE')}
+                  </Title>
+                  <Description>
+                    {t(
+                      '__PLAN_PAGE_INTRODUCTION_CARD_AWAITING_REVIEW_DESCRIPTION'
+                    )}
+                  </Description>
+                </ContentItem>
+              </>
+            )}
+            {/* PLAN APPROVED */}
+            {plan.quote && plan.quote.status === 'approved' && (
+              <>
+                <ImageItem>
+                  <ApprovedImage />
+                </ImageItem>
+                <ContentItem>
+                  <Title>
+                    {t('__PLAN_PAGE_INTRODUCTION_CARD_APPROVED_TITLE')}
+                  </Title>
+                  <Description>
+                    {t('__PLAN_PAGE_INTRODUCTION_CARD_APPROVED_DESCRIPTION')}
+                  </Description>
+                </ContentItem>
+              </>
+            )}
+            {/* PLAN PURCHASABLE */}
+            {checkoutItemData && plan.status === 'pending_review' && (
+              <>
+                <ImageItem>
+                  <ApprovedImage />
+                </ImageItem>
+                <ContentItem>
+                  <Title>PLAN PURCHASABLE</Title>
+                  <Description>SGANCIA I SOLDI</Description>
+                </ContentItem>
+              </>
+            )}
+          </>
+        )}
+      </ContentRow>
+    </ContainerCard>
   );
 };

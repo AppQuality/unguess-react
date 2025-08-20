@@ -10,6 +10,8 @@ interface PlanContextProps {
   isDeleteModalOpen: boolean;
   newModule: string | null;
   setNewModule: (module: string | null) => void;
+  setIsPaymentInProgress: (isInProgress: boolean) => void;
+  isPaymentInProgress: boolean;
 }
 
 const PlanContext = createContext<PlanContextProps | null>(null);
@@ -30,6 +32,8 @@ export const PlanProvider = ({ children }: { children: ReactNode }) => {
   const [isSaveTemplateModalOpen, setIsSaveTemplateModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
+  const [isPaymentInProgress, setIsPaymentInProgress] = useState(false);
+
   const planContextValue = useMemo(
     () => ({
       activeTab,
@@ -40,6 +44,8 @@ export const PlanProvider = ({ children }: { children: ReactNode }) => {
       isDeleteModalOpen,
       newModule,
       setNewModule,
+      setIsPaymentInProgress,
+      isPaymentInProgress,
     }),
     [
       activeTab,
@@ -49,6 +55,8 @@ export const PlanProvider = ({ children }: { children: ReactNode }) => {
       isDeleteModalOpen,
       newModule,
       setNewModule,
+      setIsPaymentInProgress,
+      isPaymentInProgress,
     ]
   );
 
