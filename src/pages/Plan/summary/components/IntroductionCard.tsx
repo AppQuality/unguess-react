@@ -1,5 +1,5 @@
 import { ContainerCard, XXL } from '@appquality/unguess-design-system';
-import { ComponentProps, useState } from 'react';
+import { ComponentProps, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { useGetPlansByPidCheckoutItemQuery } from 'src/features/api';
@@ -44,14 +44,25 @@ export const IntroductionCard = () => {
 
   const { plan } = usePlan(planId);
 
-  const { isPaymentInProgress } = usePlanContext();
+  const { isPaymentInProgress, setIsPaymentInProgress } = usePlanContext();
 
   if (!plan) return null;
 
   if (plan.status === 'draft') return null;
 
+  // If there is a checkout item, it means the plan is purchasable
   const { data: checkoutItemData, isLoading: isCheckoutItemLoading } =
-    useGetPlansByPidCheckoutItemQuery({ pid: plan.id.toString() });
+    useGetPlansByPidCheckoutItemQuery(
+      { pid: plan.id.toString() },
+      { pollingInterval: isPaymentInProgress ? 1000 : 0 }
+    );
+
+  useEffect(() => {
+    if (isPaymentInProgress && checkoutItemData?.status === 'completed') {
+      setIsPaymentInProgress(false);
+      window.location.reload();
+    }
+  }, [isPaymentInProgress, checkoutItemData]);
 
   return (
     <ContainerCard>
