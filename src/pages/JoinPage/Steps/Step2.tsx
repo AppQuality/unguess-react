@@ -11,7 +11,10 @@ import { Field, FieldProps, useFormikContext } from 'formik';
 import { useEffect, useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
-import { useGetUsersRolesQuery } from 'src/features/api';
+import {
+  useGetUsersRolesQuery,
+  useGetCompaniesSizesQuery,
+} from 'src/features/api';
 import { useSendGTMevent } from 'src/hooks/useGTMevent';
 import { JoinFormValues } from '../valuesType';
 import { ButtonContainer } from './ButtonContainer';
@@ -21,7 +24,10 @@ export const Step2 = () => {
     useFormikContext<JoinFormValues>();
   const { t } = useTranslation();
   const sendGTMevent = useSendGTMevent({ loggedUser: false });
-  const { data, isLoading } = useGetUsersRolesQuery();
+  const { data: dataRoles, isLoading: isLoadingRoles } =
+    useGetUsersRolesQuery();
+  const { data: dataCompanySizes, isLoading: isLoadingCompanySizes } =
+    useGetCompaniesSizesQuery();
   const selectRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -32,12 +38,12 @@ export const Step2 = () => {
     });
   }, []);
 
-  const renderOptions = useMemo(
+  const renderRolesOptions = useMemo(
     () =>
-      isLoading || !data ? (
+      isLoadingRoles || !dataRoles ? (
         <Select.Option value="loading">loading...</Select.Option>
       ) : (
-        data?.map((role) => (
+        dataRoles?.map((role) => (
           <Select.Option
             key={role.id}
             value={role.id.toString()}
@@ -47,13 +53,31 @@ export const Step2 = () => {
           </Select.Option>
         ))
       ),
-    [data]
+    [dataRoles]
+  );
+  const renderCompanySizes = useMemo(
+    () =>
+      isLoadingCompanySizes || !dataCompanySizes ? (
+        <Select.Option value="loading">loading...</Select.Option>
+      ) : (
+        dataCompanySizes?.map((size) => (
+          <Select.Option
+            key={size.id}
+            value={size.id.toString()}
+            label={size.name}
+          >
+            {size.name}
+          </Select.Option>
+        ))
+      ),
+    [dataCompanySizes]
   );
   const goToNextStep = async () => {
     await setTouched({
       name: true,
       surname: true,
       roleId: true,
+      companySizeId: true,
     });
     const errors = await validateForm();
     if (Object.keys(errors).length > 0) {
@@ -129,10 +153,9 @@ export const Step2 = () => {
                 placeholder={t('SIGNUP_FORM_ROLE_PLACEHOLDER')}
                 data-qa="roleId-select"
                 {...field}
-                isCompact
                 inputValue={
                   field.value
-                    ? data?.find((role) => role.id === Number(field.value))
+                    ? dataRoles?.find((role) => role.id === Number(field.value))
                         ?.name || ''
                     : ''
                 }
@@ -152,10 +175,53 @@ export const Step2 = () => {
                   )?.blur();
                 }}
               >
-                {renderOptions}
+                {renderRolesOptions}
               </Select>
               {hasError && (
                 <Message data-qa="signup-role-error" validation="error">
+                  {meta.error}
+                </Message>
+              )}
+            </div>
+          );
+        }}
+      </Field>
+      <Field name="companySizeId">
+        {({ field, meta }: FieldProps) => {
+          const hasError = meta.touched && Boolean(meta.error);
+          return (
+            <div ref={selectRef}>
+              <Select
+                placeholder={t('SIGNUP_FORM_COMPANY_SIZE_PLACEHOLDER')}
+                data-qa="companySizeId-select"
+                {...field}
+                inputValue={
+                  field.value
+                    ? dataCompanySizes?.find(
+                        (size) => size.id === Number(field.value)
+                      )?.name || ''
+                    : ''
+                }
+                selectionValue={field.value ? field.value.toString() : ''}
+                label={
+                  <>
+                    {t('SIGNUP_FORM_COMPANY_SIZE_LABEL')}
+                    <Span style={{ color: appTheme.palette.red[600] }}>*</Span>
+                  </>
+                }
+                onSelect={(companySizeId) => {
+                  setFieldValue('companySizeId', Number(companySizeId));
+                  (
+                    selectRef.current?.querySelector(
+                      '[role="combobox"]'
+                    ) as HTMLElement | null
+                  )?.blur();
+                }}
+              >
+                {renderCompanySizes}
+              </Select>
+              {hasError && (
+                <Message data-qa="signup-company-size-error" validation="error">
                   {meta.error}
                 </Message>
               )}

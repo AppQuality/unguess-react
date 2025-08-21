@@ -26,6 +26,7 @@ export const FormProvider = ({
     name: name || '',
     surname: surname || '',
     roleId: 0,
+    companySizeId: 0,
     workspace: workspace || '',
   };
 

@@ -620,6 +620,9 @@ export interface paths {
       };
     };
   };
+  "/companies/sizes": {
+    get: operations["get-companies-sizes"];
+  };
 }
 
 export interface components {
@@ -3570,6 +3573,7 @@ export interface operations {
     requestBody: {
       content: {
         "application/json": {
+          companySizeId: number;
           name: string;
           password: string;
           roleId: number;
@@ -4406,6 +4410,19 @@ export interface operations {
           include_shared?: boolean;
           /** @description Tryber WP USER ID */
           user_id: number;
+        };
+      };
+    };
+  };
+  "get-companies-sizes": {
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          "application/json": {
+            id: number;
+            name: string;
+          }[];
         };
       };
     };
