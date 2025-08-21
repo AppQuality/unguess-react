@@ -411,6 +411,9 @@ export interface paths {
       };
     };
   };
+  "/templates/categories": {
+    get: operations["get-templates-categories"];
+  };
   "/users": {
     post: operations["post-users"];
     parameters: {};
@@ -859,6 +862,7 @@ export interface components {
     };
     /** CpReqTemplate */
     CpReqTemplate: {
+      category_id: number;
       config: string;
       description?: string;
       id: number;
@@ -3554,6 +3558,20 @@ export interface operations {
       };
       /** Forbidden */
       403: unknown;
+    };
+  };
+  "get-templates-categories": {
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          "application/json": {
+            description?: string;
+            id: number;
+            name: string;
+          }[];
+        };
+      };
     };
   };
   "post-users": {
