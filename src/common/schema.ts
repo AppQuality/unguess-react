@@ -305,6 +305,9 @@ export interface paths {
       };
     };
   };
+  "/companies/sizes": {
+    get: operations["get-companies-sizes"];
+  };
   "/insights/{iid}": {
     get: operations["get-insights-iid"];
     delete: operations["delete-insights-iid"];
@@ -622,9 +625,6 @@ export interface paths {
         wid: components["parameters"]["wid"];
       };
     };
-  };
-  "/companies/sizes": {
-    get: operations["get-companies-sizes"];
   };
 }
 
@@ -1526,6 +1526,7 @@ export interface components {
     };
     /** User */
     User: {
+      company_size: string;
       customer_role: string;
       /** Format: email */
       email: string;
@@ -3107,6 +3108,19 @@ export interface operations {
       500: components["responses"]["Error"];
     };
   };
+  "get-companies-sizes": {
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          "application/json": {
+            id: number;
+            name: string;
+          }[];
+        };
+      };
+    };
+  };
   "get-insights-iid": {
     parameters: {
       path: {
@@ -3636,6 +3650,7 @@ export interface operations {
       200: {
         content: {
           "application/json": {
+            companySize?: string;
             name?: string;
             role?: string;
             surname?: string;
@@ -3648,6 +3663,7 @@ export interface operations {
     requestBody: {
       content: {
         "application/json": {
+          companySizeId?: number;
           name?: string;
           password?: {
             current: string;
@@ -4428,19 +4444,6 @@ export interface operations {
           include_shared?: boolean;
           /** @description Tryber WP USER ID */
           user_id: number;
-        };
-      };
-    };
-  };
-  "get-companies-sizes": {
-    responses: {
-      /** OK */
-      200: {
-        content: {
-          "application/json": {
-            id: number;
-            name: string;
-          }[];
         };
       };
     };

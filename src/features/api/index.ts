@@ -1664,12 +1664,14 @@ export type HeadUsersByEmailByEmailApiArg = {
 export type GetUsersMeApiResponse = /** status 200  */ User;
 export type GetUsersMeApiArg = void;
 export type PatchUsersMeApiResponse = /** status 200 OK */ {
+  companySize?: string;
   name?: string;
   role?: string;
   surname?: string;
 };
 export type PatchUsersMeApiArg = {
   body: {
+    companySizeId?: number;
     name?: string;
     password?: {
       current: string;
@@ -2768,6 +2770,7 @@ export type Feature = {
   slug?: string;
 };
 export type User = {
+  company_size: string;
   customer_role: string;
   email: string;
   features?: Feature[];
