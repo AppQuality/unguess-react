@@ -103,6 +103,8 @@ test.describe('The Join page third step - case invited user only', () => {
     await step1.goToNextStepAsInvitedUser();
     await step2.elements().roleSelect().click();
     await step2.elements().roleSelectOptions().first().click();
+    await step2.elements().companySizeSelect().click();
+    await step2.elements().companySizeSelectOptions().first().click();
     await step2.elements().buttonGoToStep3().click();
   });
 
