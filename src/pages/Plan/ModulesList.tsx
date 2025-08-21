@@ -20,13 +20,25 @@ const ModuleItem = styled.div<{
     $isTasksOrTarget ? 0 : theme.space.xs};
   [data-garden-id='accordions.section'],
   [data-garden-id='notifications.well'] {
-    background-color: ${(p) => p.theme.palette.white};
-    border: 1px solid ${(p) => p.theme.palette.grey['300']};
+    background-color: var(--ug-plan-modules-highlight-final-bg);
+    border-width: 1px;
+    border-style: solid;
+    border-color: ${(p) => p.theme.palette.grey['300']};
     margin-bottom: ${(p) =>
       p.theme.space.md}; // override internal component default margin
     &:last-child {
       margin-bottom: ${(p) => p.theme.space.xl};
     }
+  }
+  [data-garden-id='accordions.section'] {
+    border-color: var(--semantic-color);
+  }
+  [data-garden-id='accordions.section'],
+  [data-garden-id='notifications.well'] {
+    --ug-plan-modules-highlight-final-bg: ${(p) => p.theme.palette.white};
+  }
+  .neutral-bg {
+    --ug-plan-modules-highlight-final-bg: ${(p) => p.theme.palette.grey[100]};
   }
   &.newly-added-module {
     [data-garden-id='accordions.section'],
@@ -50,7 +62,7 @@ const GroupsWrapper = styled.div`
       border-color: ${appTheme.palette.yellow['500']};
     }
     100% {
-      background-color: ${appTheme.palette.white};
+      background-color: var(--ug-plan-modules-highlight-final-bg);
       border-color: ${appTheme.palette.grey['300']};
     }
   }

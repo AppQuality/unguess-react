@@ -65,6 +65,7 @@ const TasksList = () => {
     <>
       <StyledCard
         data-qa="tasks-module"
+        className="neutral-bg"
         {...(error && { style: { borderColor: appTheme.palette.red[900] } })}
       >
         <HeaderContainer hasErrors={!!error}>

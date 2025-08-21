@@ -2,6 +2,7 @@ import { MD, SM, TooltipModal } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { useAppSelector } from 'src/app/hooks';
 import { appTheme } from 'src/app/theme';
+import { Divider } from 'src/common/components/divider';
 import { components } from 'src/common/schema';
 import { MODULE_GROUPS } from 'src/pages/Plan/common/constants';
 import styled from 'styled-components';
@@ -61,12 +62,22 @@ const AddBlockModal = () => {
           {t('__PLAN_PAGE_ADD_MODULE_BLOCK_MODAL_SUBTITLE')}
         </SM>
       </TooltipModal.Title>
-      <TooltipModal.Body style={{ maxHeight: '75vh', overflowY: 'auto' }}>
+      <Divider style={{ marginTop: appTheme.space.md, marginBottom: 0 }} />
+      <TooltipModal.Body
+        style={{ maxHeight: '75vh', overflowY: 'auto', paddingTop: 0 }}
+      >
         {groupedItems.map((group) => (
           <div key={group.id} style={{ marginBottom: appTheme.space.md }}>
-            <MD isBold style={{ marginBottom: appTheme.space.xs }}>
+            <SM
+              isBold
+              color={appTheme.palette.grey[600]}
+              style={{
+                marginBottom: appTheme.space.xs,
+                textTransform: 'uppercase',
+              }}
+            >
               {t(group.title)}
-            </MD>
+            </SM>
             <ButtonsContainer>
               {group.items.map((item) => (
                 <AddBlockModalItem key={item.type} item={item} />
