@@ -76,7 +76,7 @@ const InstructionsNote = () => {
 
   return (
     <>
-      <StyledCard>
+      <StyledCard data-qa="plan_page_module_instruction_note">
         <StyledCardHeader>
           <div
             style={{

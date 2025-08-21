@@ -2,7 +2,7 @@ import { test, expect } from '../../../fixtures/app';
 import { PlanPage } from '../../../fixtures/pages/Plan';
 import { GenderModule } from '../../../fixtures/pages/Plan/Module_gender';
 
-test.describe('The gender module defines the user gender.', () => {
+test.describe('The gender module defines the panel gender distribution.', () => {
   let moduleBuilderPage: PlanPage;
   let genderModule: GenderModule;
 
@@ -39,25 +39,6 @@ test.describe('The gender module defines the user gender.', () => {
     await expect(modulepercentageInput()).not.toBeVisible();
   });
 
-  test('It should show the correct button to change the variant', async () => {
-    // TODO: update the api example for mockGetDraftPlan fixing the variant to run this test successfully
-    /*
-    - initial state of the plan is only female checked 100%
-    - the button to change the variant should be visible
-    - the button should have the text 'Remove custom percentage'
-    - if the button is clicked, the text in the button should change to "Add custom percentage"
-    */
-    const { module, moduleChangeVariantButton } = genderModule.elements();
-    await expect(module()).toBeVisible();
-    await expect(moduleChangeVariantButton()).toBeVisible();
-    /* await expect(moduleChangeVariantButton()).toContainText(
-      i18n.t('__PLAN_PAGE_MODULE_GENDER_REMOVE_PERCENTAGE_BUTTON_LABEL')
-    );
-    await moduleChangeVariantButton().click();
-    await expect(moduleChangeVariantButton()).toContainText(
-      i18n.t('__PLAN_PAGE_MODULE_GENDER_ADD_PERCENTAGE_BUTTON_LABEL')
-    ); */
-  });
   test('It should have an output of an array of objects with gender and percentage, in the default variant percentages are 0', async () => {
     /*
     this testcase test the following:
@@ -92,14 +73,12 @@ test.describe('The gender module defines the user gender.', () => {
     - initial state of the plan is only female checked (100%)
     - click on percentage variant
     - click on male checkbox
-    - both input values should be set to 50
-    - click on male percentage input and set it to 100 and female to 0
-    - an error should be shown to the user to prompt to set the percentage for female
-    - click on female percentage input and set it to 50
-    - an error should be shown to the user to prompt to set the percentage sum to 100
-    - input into male percentage input 50
-    - the output should be male female with 50 percentages (explicit percentage choice) and variant percentage and without any error
-    */
+    - female percentage input should be 100, male should be 0
+    - an error should be shown because male percentage is unassigned
+    - set female percentage to 50, error should be shown because total is not 100
+    - set male percentage to 50, errors should disappear
+    - output should be male and female with 50 percentages each, variant set to percentage, and no errors
+   */
 
     const {
       module,
@@ -126,12 +105,10 @@ test.describe('The gender module defines the user gender.', () => {
     expect(femaleCheckbox).toBeChecked();
     await moduleChangeVariantButton().click();
     await module().locator('label[for="gender-male"]').check();
-    await expect(modulePercentageError()).not.toBeVisible();
-    expect(await moduleFemalePercentageInput().inputValue()).toBe('50');
-    expect(await moduleMalePercentageInput().inputValue()).toBe('50');
-    await genderModule.fillFemalePercentageInput('0');
-    await genderModule.fillMalePercentageInput('100');
+    expect(await moduleFemalePercentageInput().inputValue()).toBe('100');
+    expect(await moduleMalePercentageInput().inputValue()).toBe('0');
     await expect(moduleUnassignedPercentageError()).toBeVisible();
+    await expect(modulePercentageError()).not.toBeVisible();
     await genderModule.fillFemalePercentageInput('50');
     await expect(modulePercentageError()).toBeVisible();
     await genderModule.fillMalePercentageInput('50');
@@ -189,15 +166,5 @@ test.describe('The gender module defines the user gender.', () => {
     expect(data.config.modules).not.toContainEqual(
       expect.objectContaining({ type: 'gender' })
     );
-  });
-  test('It should be possible to add the module at the plan if is not already', async () => {
-    /*
-    this testcase test the following:
-    - initial state of the plan is only female checked (100%)
-    - click on remove module button
-    - click on add module button
-    - the module should be visible with default values
-    - the output should ????
-    */
   });
 });

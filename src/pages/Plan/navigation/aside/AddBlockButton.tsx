@@ -22,7 +22,7 @@ const AddBlockButton = () => {
   const { setModalRef } = usePlanNavContext();
   const { getPlanStatus } = useModuleConfiguration();
   const { activeTab } = usePlanContext();
-  const availableModules = getModulesByTab(activeTab);
+  const availableModules = getModulesByTab(activeTab.name);
   const { currentModules } = useAppSelector((state) => state.planModules);
 
   const items = availableModules.filter((module_type) => {
@@ -33,6 +33,7 @@ const AddBlockButton = () => {
   return (
     <ButtonContainer>
       <Button
+        data-qa="plan_page_button_additem"
         isPrimary
         isPill={false}
         ref={triggerRef}

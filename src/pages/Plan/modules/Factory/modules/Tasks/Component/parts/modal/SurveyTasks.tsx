@@ -11,7 +11,7 @@ const SurveyTasks = () => {
 
   return (
     <>
-      <TaskTypeTitle isBold>
+      <TaskTypeTitle>
         {t(
           '__PLAN_PAGE_MODULE_TASKS_ADD_TASK_MODAL_SURVEY_TASKS_LABEL'
         ).toUpperCase()}

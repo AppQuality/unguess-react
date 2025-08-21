@@ -14,7 +14,7 @@ export class GoalModule {
 
   elements() {
     return {
-      module: () => this.page.getByTestId('goal-module'),
+      module: () => this.page.getByTestId('plan_page_module_goal'),
       tab: () => this.page.getByTestId('setup-tab'),
       moduleError: () => this.elements().module().getByTestId('goal-error'),
       moduleInput: () => this.elements().module().getByRole('textbox'),

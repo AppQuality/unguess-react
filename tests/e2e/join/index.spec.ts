@@ -111,10 +111,11 @@ test.describe('The Join page second step', () => {
     step3 = new Step3(page);
 
     await step2.mockGetRoles();
+    await step2.mockGetCompanySizes();
     await join.open();
     await step1.goToNextStep();
   });
-  test('display required inputs for name, surname and a job role dropdown populated from api userRole', async ({
+  test('display required inputs for name, surname, job role and company size dropdowns populated from api userRole and companySize', async ({
     i18n,
   }) => {
     await expect(step2.elements().nameInput()).toBeVisible();
@@ -122,7 +123,13 @@ test.describe('The Join page second step', () => {
     await expect(step2.elements().roleSelect()).toBeVisible();
     await step2.elements().roleSelect().click();
     await expect(step2.elements().roleSelectOptions()).toHaveCount(3);
+
+    await expect(step2.elements().companySizeSelect()).toBeVisible();
+    await step2.elements().companySizeSelect().click();
+    await expect(step2.elements().companySizeSelectOptions()).toHaveCount(3);
+
     await step2.elements().buttonGoToStep3().click();
+
     await expect(step2.elements().nameError()).toHaveText(
       i18n.t('SIGNUP_FORM_NAME_IS_REQUIRED')
     );
@@ -132,6 +139,10 @@ test.describe('The Join page second step', () => {
     await expect(step2.elements().roleSelectError()).toHaveText(
       i18n.t('SIGNUP_FORM_ROLE_IS_REQUIRED')
     );
+    await expect(step2.elements().companySizeSelectError()).toHaveText(
+      i18n.t('SIGNUP_FORM_COMPANY_SIZE_IS_REQUIRED')
+    );
+
     await step2.fillValidFields();
     await expect(step2.elements().nameError()).not.toBeVisible();
     await expect(step2.elements().surnameError()).not.toBeVisible();
@@ -198,6 +209,7 @@ test.describe('The Join page third step', () => {
         name: step2.name,
         surname: step2.surname,
         roleId: step2.roleId,
+        companySizeId: step2.companySizeId,
         workspace: step3.workspace,
       })
     );

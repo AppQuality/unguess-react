@@ -3,7 +3,7 @@ import { format } from 'date-fns';
 import { HTMLAttributes } from 'react';
 import { useTranslation } from 'react-i18next';
 import { CampaignWithOutput } from 'src/features/api';
-import { getLocalizeDashboardRoute } from 'src/hooks/useLocalizeDashboardUrl';
+import { getLocalizeoFirstLevelDashboardRoute } from 'src/hooks/useLocalizeDashboardUrl';
 import { CAMPAING_STATUSES } from './types';
 
 export const CampaignItem = ({
@@ -17,15 +17,10 @@ export const CampaignItem = ({
   const { type, project, family } = campaign;
   const isFunctional = family.name.toLowerCase() === 'functional';
   const title = campaign.customer_title ?? campaign.title;
-  const targetUrl = getLocalizeDashboardRoute({
-    campaignId: campaign.id,
-    cpFamily: campaign.family.name,
-    outputs: campaign.outputs || [],
-  });
+  const targetUrl = getLocalizeoFirstLevelDashboardRoute(campaign.id);
 
   return (
     <CampaignCard
-      style={{ whiteSpace: 'normal', wordBreak: 'break-word' }}
       className="suggested-campaign-card"
       // isNew={campaign?.isNew} TODO: need an API update
       date={format(new Date(campaign.start_date), 'dd/MM/y')}

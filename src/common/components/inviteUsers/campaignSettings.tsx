@@ -41,7 +41,7 @@ import {
 } from './styled';
 import { UserItem } from './userItem';
 
-export const CampaignSettings = () => {
+export const CampaignSettings = ({ dataQa }: { dataQa?: string }) => {
   const { permissionSettingsTitle, campaignId } = useAppSelector(
     (state) => state.navigation
   );
@@ -265,7 +265,11 @@ export const CampaignSettings = () => {
 
   return (
     <>
-      <Button onClick={() => setIsModalOpen(true)} isBasic>
+      <Button
+        onClick={() => setIsModalOpen(true)}
+        isBasic
+        data-qa={dataQa || 'pageHeader_shareButton'}
+      >
         <Button.StartIcon>
           <UsersIcon style={{ height: appTheme.iconSizes.lg }} />
         </Button.StartIcon>

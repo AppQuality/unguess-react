@@ -94,7 +94,10 @@ export const ProjectPageHeader = ({ projectId }: { projectId: number }) => {
     <LayoutWrapper>
       <PageHeader>
         <PageHeader.Main mainTitle={project?.name || ''}>
-          <PageHeader.Title style={{ minHeight: '62px' }}>
+          <PageHeader.Title
+            style={{ minHeight: '62px' }}
+            data-qa="project_pageHeader_title"
+          >
             {isLoading ||
             isLoadingPlans ||
             isFetching ||
@@ -105,7 +108,10 @@ export const ProjectPageHeader = ({ projectId }: { projectId: number }) => {
               titleContent
             )}
           </PageHeader.Title>
-          <PageHeader.Description style={{ width: '100%' }}>
+          <PageHeader.Description
+            style={{ width: '100%' }}
+            data-qa="project_pageHeader_description"
+          >
             {isLoading ||
             isLoadingPlans ||
             isFetching ||

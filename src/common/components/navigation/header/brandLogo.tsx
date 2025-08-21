@@ -25,17 +25,26 @@ const LogoFullComponent = styled(LogoFull)`
   height: 32px;
 `;
 
-export const BrandLogo = ({ size }: { size: 'simple' | 'full' }) => {
+export const BrandLogo = ({
+  size,
+  redirect = '/',
+}: {
+  size: 'simple' | 'full';
+  redirect?: string;
+}) => {
   const navigate = useNavigate();
 
   const handleLogoClick = () => {
-    navigate('/'); // Navigate to the root route
+    navigate(redirect);
   };
 
   if (size === 'full') return <LogoFullComponent onClick={handleLogoClick} />;
   return (
     <LogoIconContainer hasLogo>
-      <HeaderItemIcon onClick={handleLogoClick}>
+      <HeaderItemIcon
+        onClick={handleLogoClick}
+        data-qa="global_header_navItem_logo"
+      >
         <Logo type="icon" size={150} />
       </HeaderItemIcon>
     </LogoIconContainer>

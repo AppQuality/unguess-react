@@ -3,24 +3,28 @@ import { ReactComponent as ChevronLeftIcon } from '@zendeskgarden/svg-icons/src/
 import { ReactComponent as ChevronRightIcon } from '@zendeskgarden/svg-icons/src/12/chevron-right-stroke.svg';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
-import { MODULE_TABS_ORDER } from 'src/constants';
 import { useModuleConfiguration } from 'src/features/modules/useModuleConfiguration';
-import { PlanTab, usePlanContext } from '../context/planContext';
+import { usePlanContext } from '../context/planContext';
+import { PLAN_TABS } from './constants';
 
-export const ModulesBottomNavigation = ({ tabId }: { tabId: PlanTab }) => {
-  const { setActiveTab } = usePlanContext();
+export const ModulesBottomNavigation = () => {
+  const { setActiveTab, activeTab } = usePlanContext();
   const { t } = useTranslation();
   const { getPlanStatus } = useModuleConfiguration();
   let leftLabel = '';
   let rightLabel = '';
-  const previousTab = MODULE_TABS_ORDER[MODULE_TABS_ORDER.indexOf(tabId) - 1];
-  const nextTab = MODULE_TABS_ORDER[MODULE_TABS_ORDER.indexOf(tabId) + 1];
-  const isFirstTab = MODULE_TABS_ORDER.indexOf(tabId) === 0;
+  // Find current tab index
+  const currentIndex = PLAN_TABS.findIndex(
+    (tab) => tab.name === activeTab.name
+  );
+  const previousTab = PLAN_TABS[currentIndex - 1];
+  const nextTab = PLAN_TABS[currentIndex + 1];
+  const isFirstTab = currentIndex === 0;
   const isInstructionsTabRightButtonDisabled =
-    getPlanStatus() === 'draft' && tabId === ('instructions' as PlanTab);
+    getPlanStatus() === 'draft' && activeTab.name === 'instructions';
   const main = document.getElementById('main');
 
-  switch (tabId) {
+  switch (activeTab.name) {
     case 'setup':
       rightLabel = t('__MODULES_BOTTOM_NAVIGATION_SETUP_TAB_RIGHT_LABEL');
       break;
@@ -68,6 +72,7 @@ export const ModulesBottomNavigation = ({ tabId }: { tabId: PlanTab }) => {
       <Button
         isBasic
         size="small"
+        data-qa={`modules-bottom-navigation-${nextTab}`}
         onClick={() => {
           setActiveTab(nextTab);
           if (main) {

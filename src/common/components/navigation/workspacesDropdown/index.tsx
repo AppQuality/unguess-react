@@ -118,12 +118,15 @@ export const WorkspacesDropdown = () => {
   if (!activeWorkspace) return null;
 
   if (isSingle)
-    return <BrandName>{`${activeWorkspace?.company}'s Workspace`}</BrandName>;
+    return (
+      <BrandName data-qa="global_header_navItem_workspace_name">{`${activeWorkspace?.company}'s Workspace`}</BrandName>
+    );
 
   return (
     <Wrapper ref={ref} isExpanded={isExpanded}>
       <DropdownFieldNew>
         <Autocomplete
+          data-qa="global_header_navItem_workspace_dropdown"
           onClick={() => {
             setIsExpanded(!isExpanded);
           }}

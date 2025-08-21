@@ -47,11 +47,14 @@ export const BreadCrumbTabs = () => {
   );
 
   return (
-    <StyledBreadcrumb showLastArrow={false}>
+    <StyledBreadcrumb
+      showLastArrow={false}
+      data-qa="plan_page_header_navigation"
+    >
       <Button
         isBasic
         size="small"
-        isPrimary={activeTab === 'setup'}
+        isPrimary={activeTab.name === 'setup'}
         onClick={() => setActiveTab('setup')}
         data-qa="setup-tab"
         {...(hasSetupErrors && { isDanger: true })}
@@ -61,7 +64,7 @@ export const BreadCrumbTabs = () => {
       <Button
         isBasic
         size="small"
-        isPrimary={activeTab === 'target'}
+        isPrimary={activeTab.name === 'target'}
         onClick={() => setActiveTab('target')}
         data-qa="target-tab"
         {...(hasTargetErrors && { isDanger: true })}
@@ -71,7 +74,7 @@ export const BreadCrumbTabs = () => {
       <Button
         isBasic
         size="small"
-        isPrimary={activeTab === 'instructions'}
+        isPrimary={activeTab.name === 'instructions'}
         onClick={() => setActiveTab('instructions')}
         data-qa="instructions-tab"
         {...(hasInstructionsErrors && { isDanger: true })}
@@ -81,7 +84,7 @@ export const BreadCrumbTabs = () => {
       <Button
         isBasic
         size="small"
-        isPrimary={activeTab === 'summary'}
+        isPrimary={activeTab.name === 'summary'}
         disabled={getPlanStatus() === 'draft'}
         onClick={() => setActiveTab('summary')}
         data-qa="summary-tab"

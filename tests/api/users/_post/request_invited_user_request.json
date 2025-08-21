@@ -3,6 +3,7 @@
   "password": "string",
   "profileId": 11111,
   "roleId": 0,
+  "companySizeId": 3,
   "surname": "string",
   "token": "th1s1s4f4k3t0k3n",
   "type": "invite"

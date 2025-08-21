@@ -2,8 +2,9 @@ import { MD, SM, TooltipModal } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { useAppSelector } from 'src/app/hooks';
 import { appTheme } from 'src/app/theme';
+import { Divider } from 'src/common/components/divider';
 import { components } from 'src/common/schema';
-import { getModulesByTab } from 'src/pages/Plan/modules/Factory';
+import { MODULE_GROUPS } from 'src/pages/Plan/common/constants';
 import styled from 'styled-components';
 import { usePlanContext } from '../../../context/planContext';
 import { usePlanNavContext } from '../context';
@@ -25,26 +26,23 @@ const AddBlockModal = () => {
   const { t } = useTranslation();
   const { modalRef, setModalRef } = usePlanNavContext();
   const { activeTab } = usePlanContext();
-  const availableModules = getModulesByTab(activeTab);
   const { currentModules } = useAppSelector((state) => state.planModules);
+  const groupConfig = MODULE_GROUPS[activeTab.name] || [];
 
-  const items = availableModules.map((module_type) => {
-    if (currentModules.find((module) => module === module_type)) {
-      return {
-        type: module_type as components['schemas']['Module']['type'],
-        enabled: false,
-      };
-    }
-
-    return {
+  // Build grouped items with enabled/disabled state
+  const groupedItems = groupConfig.map((group) => {
+    const items = group.modules.map((module_type) => ({
       type: module_type as components['schemas']['Module']['type'],
-      enabled: true,
+      enabled: !currentModules.includes(module_type),
+    }));
+    return {
+      id: group.id,
+      title: group.title,
+      items,
     };
   });
 
-  const disabled = items.filter((item) => item.enabled).length === 0;
-
-  if (!modalRef || disabled) {
+  if (!modalRef) {
     return null;
   }
 
@@ -64,12 +62,29 @@ const AddBlockModal = () => {
           {t('__PLAN_PAGE_ADD_MODULE_BLOCK_MODAL_SUBTITLE')}
         </SM>
       </TooltipModal.Title>
-      <TooltipModal.Body style={{ maxHeight: '75vh', overflowY: 'auto' }}>
-        <ButtonsContainer>
-          {items.map((item) => (
-            <AddBlockModalItem key={item.type} item={item} />
-          ))}
-        </ButtonsContainer>
+      <Divider style={{ marginTop: appTheme.space.md, marginBottom: 0 }} />
+      <TooltipModal.Body
+        style={{ maxHeight: '75vh', overflowY: 'auto', paddingTop: 0 }}
+      >
+        {groupedItems.map((group) => (
+          <div key={group.id} style={{ marginBottom: appTheme.space.md }}>
+            <SM
+              isBold
+              color={appTheme.palette.grey[600]}
+              style={{
+                marginBottom: appTheme.space.xs,
+                textTransform: 'uppercase',
+              }}
+            >
+              {t(group.title)}
+            </SM>
+            <ButtonsContainer>
+              {group.items.map((item) => (
+                <AddBlockModalItem key={item.type} item={item} />
+              ))}
+            </ButtonsContainer>
+          </div>
+        ))}
       </TooltipModal.Body>
     </TooltipModal>
   );
