@@ -1,5 +1,6 @@
 import { MD, Tabs, TooltipModal } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
+import { appTheme } from 'src/app/theme';
 import { Divider } from 'src/common/components/divider';
 import { components } from 'src/common/schema';
 import { FEATURE_FLAG_CHANGE_MODULES_VARIANTS } from 'src/constants';
@@ -76,7 +77,7 @@ const TouchpointsModal = () => {
             )}
           >
             <WebTouchpoints />
-            <Divider />
+            <Divider style={{ marginBottom: appTheme.space.md }} />
             <AppTouchpoints />
           </Tabs.Panel>
           <Tabs.Panel

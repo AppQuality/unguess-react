@@ -16,7 +16,7 @@ export const TranscriptTheme = Theme.configure({
   sentimentWrapper: SentimentWrapper,
   searchStyleWrapper: styled.div`
     .search-result {
-      background-color: ${({ theme }) => theme.palette.product.talk};
+      background-color: ${({ theme }) => theme.palette.talk[600]};
     }
     word {
       display: inline-block;

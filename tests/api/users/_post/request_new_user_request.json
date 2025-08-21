@@ -3,6 +3,7 @@
   "name": "string",
   "password": "string",
   "roleId": 0,
+  "companySizeId": 3,
   "surname": "string",
   "type": "new",
   "workspace": "My new Workspace"

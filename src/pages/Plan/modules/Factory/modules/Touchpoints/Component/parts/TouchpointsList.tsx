@@ -70,6 +70,7 @@ const TouchpointsList = () => {
     <>
       <StyledCard
         data-qa="touchpoints-module"
+        className="neutral-bg"
         {...(error && { style: { borderColor: appTheme.palette.red[900] } })}
       >
         <HeaderContainer hasErrors={!!error}>

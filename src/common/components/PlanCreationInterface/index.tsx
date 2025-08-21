@@ -61,13 +61,13 @@ const RequirementsContainer = styled.div`
 interface PlanCreationProps {
   isOpen: boolean;
   onClose: () => void;
-  template: CpReqTemplate;
+  template: Omit<CpReqTemplate, 'category_id'>;
 }
 
 const firstLetterUpperCase = (str: string) =>
   str.charAt(0).toUpperCase() + str.slice(1);
 
-interface ExtendedTemplate extends CpReqTemplate {
+interface ExtendedTemplate extends Omit<CpReqTemplate, 'category_id'> {
   isTailored: boolean;
   requirementsItems?: { value: string; id: string }[];
 }
@@ -141,7 +141,11 @@ const DrawerFooter = ({
   );
 };
 
-const TemplateContent = ({ data }: { data: CpReqTemplate }) => {
+const TemplateContent = ({
+  data,
+}: {
+  data: Omit<CpReqTemplate, 'category_id'>;
+}) => {
   const { t } = useTranslation();
 
   const taskModule: ModuleTask | undefined = JSON.parse(

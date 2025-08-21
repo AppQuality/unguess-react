@@ -1,8 +1,9 @@
 import { Button, SM } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
+import { appTheme } from 'src/app/theme';
 import { ReactComponent as WebDesktopIcon } from 'src/assets/icons/touchpoint-web-desktop-icon.svg';
-import { ReactComponent as WebTabletIcon } from 'src/assets/icons/touchpoint-web-tablet-icon.svg';
 import { ReactComponent as WebSmartphoneIcon } from 'src/assets/icons/touchpoint-web-smartphone-icon.svg';
+import { ReactComponent as WebTabletIcon } from 'src/assets/icons/touchpoint-web-tablet-icon.svg';
 import { useHandleModalItemClick } from '../../utils';
 import { ButtonsContainer } from './ButtonsContainer';
 
@@ -12,10 +13,10 @@ const WebTouchpoints = () => {
 
   return (
     <>
-      <SM isBold>
+      <SM color={appTheme.palette.grey[600]}>
         {t(
           '__PLAN_PAGE_MODULE_TOUCHPOINTS_ADD_TOUCHPOINT_MODAL_TOUCHPOINT_WEB_LABEL'
-        )}
+        ).toUpperCase()}
       </SM>
       <ButtonsContainer>
         <Button
