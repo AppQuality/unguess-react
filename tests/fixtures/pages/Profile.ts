@@ -29,6 +29,8 @@ export class Profile extends UnguessPage {
           .getByLabel(this.i18n.t('__PROFILE_PAGE_USER_CARD_EMAIL_LABEL')),
       profileCardRole: () =>
         this.elements().profileCard().getByTestId('roleId-select'),
+      profileCardCompanySize: () =>
+        this.elements().profileCard().getByTestId('companySizeId-select'),
       profileCardSubmitButton: () =>
         this.elements()
           .profileCard()
