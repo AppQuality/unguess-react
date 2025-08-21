@@ -20,7 +20,7 @@ const ModuleItem = styled.div<{
     $isTasksOrTarget ? 0 : theme.space.xs};
   [data-garden-id='accordions.section'],
   [data-garden-id='notifications.well'] {
-    background-color: var(--highlight-final-bg);
+    background-color: var(--ug-plan-modules-highlight-final-bg);
     border-width: 1px;
     border-style: solid;
     border-color: ${(p) => p.theme.palette.grey['300']};
@@ -35,10 +35,10 @@ const ModuleItem = styled.div<{
   }
   [data-garden-id='accordions.section'],
   [data-garden-id='notifications.well'] {
-    --highlight-final-bg: ${(p) => p.theme.palette.white};
+    --ug-plan-modules-highlight-final-bg: ${(p) => p.theme.palette.white};
   }
   .neutral-bg {
-    --highlight-final-bg: ${(p) => p.theme.palette.grey[100]};
+    --ug-plan-modules-highlight-final-bg: ${(p) => p.theme.palette.grey[100]};
   }
   &.newly-added-module {
     [data-garden-id='accordions.section'],
@@ -62,7 +62,7 @@ const GroupsWrapper = styled.div`
       border-color: ${appTheme.palette.yellow['500']};
     }
     100% {
-      background-color: var(--highlight-final-bg);
+      background-color: var(--ug-plan-modules-highlight-final-bg);
       border-color: ${appTheme.palette.grey['300']};
     }
   }
