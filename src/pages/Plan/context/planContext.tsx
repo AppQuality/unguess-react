@@ -1,4 +1,5 @@
 import { createContext, ReactNode, useContext, useMemo, useState } from 'react';
+import { GetPlansByPidCheckoutItemApiResponse } from 'src/features/api';
 import { PLAN_TABS, PlanTab, PlanTabName } from '../common/constants';
 
 interface PlanContextProps {
@@ -10,6 +11,10 @@ interface PlanContextProps {
   isDeleteModalOpen: boolean;
   newModule: string | null;
   setNewModule: (module: string | null) => void;
+  setCheckoutItem: (checkoutItem: GetPlansByPidCheckoutItemApiResponse) => void;
+  checkoutItem: GetPlansByPidCheckoutItemApiResponse;
+  setIsPaymentInProgress: (isInProgress: boolean) => void;
+  isPaymentInProgress: boolean;
 }
 
 const PlanContext = createContext<PlanContextProps | null>(null);
@@ -17,6 +22,12 @@ const PlanContext = createContext<PlanContextProps | null>(null);
 export const PlanProvider = ({ children }: { children: ReactNode }) => {
   const [activeTab, setActiveTabState] = useState<PlanTab>(PLAN_TABS[0]);
   const [newModule, setNewModule] = useState<string | null>(null);
+  const [checkoutItem, setCheckoutItem] =
+    useState<GetPlansByPidCheckoutItemApiResponse>(
+      {} as GetPlansByPidCheckoutItemApiResponse
+    );
+
+  const [isPaymentInProgress, setIsPaymentInProgress] = useState(false);
 
   // Overloaded setActiveTab function
   const setActiveTab = (tab: PlanTab | PlanTabName) => {
@@ -40,6 +51,10 @@ export const PlanProvider = ({ children }: { children: ReactNode }) => {
       isDeleteModalOpen,
       newModule,
       setNewModule,
+      setCheckoutItem,
+      checkoutItem,
+      setIsPaymentInProgress,
+      isPaymentInProgress,
     }),
     [
       activeTab,
@@ -49,6 +64,10 @@ export const PlanProvider = ({ children }: { children: ReactNode }) => {
       isDeleteModalOpen,
       newModule,
       setNewModule,
+      setCheckoutItem,
+      checkoutItem,
+      setIsPaymentInProgress,
+      isPaymentInProgress,
     ]
   );
 

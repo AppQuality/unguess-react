@@ -1,6 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import {
+  useLocation,
+  useNavigate,
+  useParams,
+  useSearchParams,
+} from 'react-router-dom';
 import { useAppDispatch } from 'src/app/hooks';
 import { PLAN_MINIMUM_DATE } from 'src/constants';
 import {
@@ -22,6 +27,7 @@ import { formatModuleDate } from './utils/formatModuleDate';
 const PlanPage = ({ plan }: { plan: GetPlansByPidApiResponse | undefined }) => {
   const { t } = useTranslation();
   const { activeTab, setActiveTab } = usePlanContext();
+  const [search] = useSearchParams();
 
   useEffect(() => {
     if (!plan) return;
@@ -30,6 +36,15 @@ const PlanPage = ({ plan }: { plan: GetPlansByPidApiResponse | undefined }) => {
       setActiveTab('summary');
     }
   }, [plan?.status]);
+
+  useEffect(() => {
+    if (search && search.get('payment') === 'success') {
+      alert('Urrà');
+    }
+
+    const url = window.location.origin + window.location.pathname;
+    window.history.replaceState({}, '', url);
+  }, []);
 
   return (
     <Page

@@ -1,8 +1,10 @@
 import { Button, Col, Row } from '@appquality/unguess-design-system';
 import { ReactComponent as ChevronLeftIcon } from '@zendeskgarden/svg-icons/src/12/chevron-left-stroke.svg';
+import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useParams } from 'react-router-dom';
+import { useParams, useSearchParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
+import { usePatchPlansByPidStatusMutation } from 'src/features/api';
 import styled from 'styled-components';
 import { StickyCol } from '../common/StickyCol';
 import { TabTitle } from '../common/TabTitle';
@@ -13,6 +15,7 @@ import { ConfirmationCard } from './components/ConfirmationCard';
 import { DetailsCard } from './components/DetailsCard';
 import { GoToDashboardCard } from './components/GoToDashboard';
 import { IntroductionCard } from './components/IntroductionCard';
+import { PaymentLoader } from './components/PaymentLoader';
 import { SaveTemplateCard } from './components/SaveTemplateCard';
 
 const StyledDiv = styled.div`
@@ -25,13 +28,39 @@ const SummaryBody = () => {
   const { t } = useTranslation();
   const { planId } = useParams();
   const { plan } = usePlan(planId);
-  const { setActiveTab } = usePlanContext();
+  const { setActiveTab, isPaymentInProgress } = usePlanContext();
+  const [patchStatus] = usePatchPlansByPidStatusMutation();
+  const [search] = useSearchParams();
+
   if (!plan) return null;
 
   if (plan.status === 'draft') {
     setActiveTab('setup');
     return null;
   }
+
+  useEffect(() => {
+    if (search && search.get('payment') === 'failed') {
+      patchStatus({
+        pid: planId?.toString() ?? '',
+        body: {
+          status: 'draft',
+        },
+      })
+        .unwrap()
+        .then(() => {
+          const url = window.location.origin + window.location.pathname;
+          window.history.replaceState({}, '', url);
+          window.location.reload();
+        })
+        .catch((err) => {
+          console.error(
+            'Error updating plan status after payment failure',
+            err
+          );
+        });
+    }
+  }, [search]);
 
   return (
     <Row>
@@ -40,7 +69,7 @@ const SummaryBody = () => {
           <TabTitle />
           <IntroductionCard />
           <ActivityInfo />
-          <ConfirmationCard />
+          {!plan.isPurchasable && <ConfirmationCard />}
           <SaveTemplateCard />
           <GoToDashboardCard />
         </StyledDiv>
@@ -61,6 +90,7 @@ const SummaryBody = () => {
       <StickyCol sm="3">
         <DetailsCard />
       </StickyCol>
+      {isPaymentInProgress && <PaymentLoader />}
     </Row>
   );
 };

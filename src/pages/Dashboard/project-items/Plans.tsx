@@ -59,9 +59,16 @@ export const Plans = ({ projectId }: { projectId: number }) => {
         {plans.map((plan) => (
           <Col size={4} xs={12} md={6} lg={4}>
             <PlanCard
-              status={getPlanStatus(plan, t).status}
+              status={
+                getPlanStatus({ planStatus: plan.status, quote: plan.quote, t })
+                  .status
+              }
               i18n={{
-                statusLabel: getPlanStatus(plan, t).statusLabel,
+                statusLabel: getPlanStatus({
+                  planStatus: plan.status,
+                  quote: plan.quote,
+                  t,
+                }).statusLabel,
               }}
               onClick={() => {
                 window.location.href = `/plans/${plan.id}`;

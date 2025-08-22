@@ -46,9 +46,19 @@ export const SuggestedCampaigns = () => {
           items.plans.map((plan) => (
             <ScrollingGrid.Item key={`suggested_plan_${plan.id}`}>
               <PlanCard
-                status={getPlanStatus(plan, t).status}
+                status={
+                  getPlanStatus({
+                    planStatus: plan.status,
+                    quote: plan.quote,
+                    t,
+                  }).status
+                }
                 i18n={{
-                  statusLabel: getPlanStatus(plan, t).statusLabel,
+                  statusLabel: getPlanStatus({
+                    planStatus: plan.status,
+                    quote: plan.quote,
+                    t,
+                  }).statusLabel,
                 }}
                 onClick={() => {
                   window.location.href = `/plans/${plan.id}`;
