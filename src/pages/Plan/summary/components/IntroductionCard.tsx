@@ -45,6 +45,24 @@ export const IntroductionCard = () => {
 
   if (plan.status === 'draft') return null;
 
+  if (plan.isPurchasable) {
+    return (
+      <ContainerCard>
+        <ContentRow>
+          <>
+            <ImageItem>
+              <ApprovedImage />
+            </ImageItem>
+            <ContentItem>
+              <Title>PLAN PURCHASABLE</Title>
+              <Description>SGANCIA I SOLDI</Description>
+            </ContentItem>
+          </>
+        </ContentRow>
+      </ContainerCard>
+    );
+  }
+
   return (
     <ContainerCard>
       <ContentRow>

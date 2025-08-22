@@ -1,4 +1,7 @@
-import { useGetPlansByPidQuery } from 'src/features/api';
+import {
+  useGetPlansByPidCheckoutItemQuery,
+  useGetPlansByPidQuery,
+} from 'src/features/api';
 import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
 
 const usePlan = (planId?: string) => {
@@ -16,11 +19,35 @@ const usePlan = (planId?: string) => {
     }
   );
 
+  const {
+    data: ci,
+    isLoading: isCiLoading,
+    isFetching: isCiFetching,
+  } = useGetPlansByPidCheckoutItemQuery(
+    {
+      pid: planId ?? '',
+    },
+    {
+      skip: !activeWorkspace || !planId,
+    }
+  );
+
+  if (!plan) {
+    return {
+      isLoading: isLoading || isCiLoading,
+      isFetching: isFetching || isCiFetching,
+      activeWorkspace,
+      plan: undefined,
+      checkoutItem: ci,
+    };
+  }
+
   return {
-    isLoading,
-    isFetching,
+    isLoading: isLoading || isCiLoading,
+    isFetching: isFetching || isCiFetching,
     activeWorkspace,
-    plan,
+    plan: { ...plan, isPurchasable: !!ci },
+    checkoutItem: ci,
   };
 };
 

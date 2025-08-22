@@ -27,7 +27,11 @@ const PlanContentDiv = styled.div`
   margin-bottom: ${({ theme }) => theme.space.md};
 `;
 
-const ActivityDescription = ({ plan }: { plan: GetPlansByPidApiResponse }) => {
+interface IPlan extends GetPlansByPidApiResponse {
+  isPurchasable?: boolean;
+}
+
+const ActivityDescription = ({ plan }: { plan: IPlan }) => {
   const { t } = useTranslation();
 
   if (!plan.quote || plan.quote.status === 'pending')

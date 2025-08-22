@@ -33,7 +33,11 @@ export const Controls = () => {
 
   if (!plan) return null;
 
-  const { status } = getPlanStatus(plan, t);
+  const { status } = getPlanStatus({
+    planStatus: plan.status,
+    quote: plan.quote,
+    t,
+  });
 
   return (
     <div
