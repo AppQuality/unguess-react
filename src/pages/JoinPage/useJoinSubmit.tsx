@@ -28,6 +28,7 @@ export function useJoinSubmit(isInvited: boolean) {
         surname: values.surname,
         roleId: values.roleId,
         companySizeId: values.companySizeId,
+        templateId: searchParams.get('template'),
       };
       sendGTMevent({
         event: 'sign-up-flow',
