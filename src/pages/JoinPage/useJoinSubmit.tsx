@@ -15,10 +15,15 @@ export function useJoinSubmit(isInvited: boolean) {
   const { token, profile } = useParams();
   const sendGTMevent = useSendGTMevent({ loggedUser: false });
 
-  const templateId = Number(searchParams.get('template'));
+  const templateParam = searchParams.get('template');
+  let templateId: number | undefined;
 
-  if (!Number.isInteger(templateId)) {
-    throw new Error('Template must be an integer');
+  if (templateParam !== null) {
+    const parsed = Number(templateParam);
+    if (!Number.isInteger(parsed)) {
+      throw new Error('Template must be an integer');
+    }
+    templateId = parsed;
   }
 
   const onSubmit = useCallback(
@@ -34,8 +39,9 @@ export function useJoinSubmit(isInvited: boolean) {
         surname: values.surname,
         roleId: values.roleId,
         companySizeId: values.companySizeId,
-        templateId,
+        ...(templateId !== undefined && { templateId }),
       };
+
       sendGTMevent({
         event: 'sign-up-flow',
         category: `is invited: ${isInvited}`,
