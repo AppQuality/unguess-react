@@ -1,6 +1,11 @@
 import { TFunction } from 'i18next';
 
-type IPlanStatus = 'draft' | 'submitted' | 'pending_quote_review' | 'approved';
+type IPlanStatus =
+  | 'draft'
+  | 'submitted'
+  | 'pending_quote_review'
+  | 'approved'
+  | 'paying';
 export const getPlanStatus = ({
   planStatus,
   quote,
@@ -29,14 +34,14 @@ export const getPlanStatus = ({
   if (planStatus === 'approved')
     return {
       status: 'approved' as IPlanStatus,
-      statusLabel: t('__DASHBOARD_CARD_PLAN_STATUS_PAYING'),
+      statusLabel: t('__DASHBOARD_CARD_PLAN_STATUS_APPROVED'),
     };
 
-  // if (planStatus === 'paying')
-  //   return {
-  //     status: 'paying' as IPlanStatus,
-  //     statusLabel: t('__DASHBOARD_CARD_PLAN_STATUS_APPROVED'),
-  //   };
+  if (planStatus === 'paying')
+    return {
+      status: 'paying' as IPlanStatus,
+      statusLabel: t('__DASHBOARD_CARD_PLAN_STATUS_PAYING'),
+    };
 
   return {
     status: 'draft' as IPlanStatus,

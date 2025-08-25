@@ -49,7 +49,8 @@ const SummaryBody = () => {
       })
         .unwrap()
         .then(() => {
-          search.delete('payment');
+          const url = window.location.origin + window.location.pathname;
+          window.history.replaceState({}, '', url);
           window.location.reload();
         })
         .catch((err) => {

@@ -22,7 +22,12 @@ import styled from 'styled-components';
 import { usePlan } from '../../hooks/usePlan';
 import { BuyButton } from './BuyButton';
 
-type IPlanStatus = 'draft' | 'submitted' | 'pending_quote_review' | 'approved';
+type IPlanStatus =
+  | 'draft'
+  | 'submitted'
+  | 'pending_quote_review'
+  | 'approved'
+  | 'paying';
 
 const StyledDiv = styled.div`
   display: flex;
