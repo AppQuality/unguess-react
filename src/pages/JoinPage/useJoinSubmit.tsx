@@ -21,7 +21,10 @@ export function useJoinSubmit(isInvited: boolean) {
   if (templateParam !== null) {
     const parsed = Number(templateParam);
     if (!Number.isInteger(parsed)) {
-      throw new Error('Template must be an integer');
+      searchParams.delete('template');
+      const url = window.location.origin + window.location.pathname;
+      window.history.replaceState({}, '', url);
+      window.location.reload();
     }
     templateId = parsed;
   }
