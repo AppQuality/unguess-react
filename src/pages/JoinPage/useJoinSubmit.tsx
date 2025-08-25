@@ -15,6 +15,12 @@ export function useJoinSubmit(isInvited: boolean) {
   const { token, profile } = useParams();
   const sendGTMevent = useSendGTMevent({ loggedUser: false });
 
+  const templateId = Number(searchParams.get('template'));
+
+  if (!Number.isInteger(templateId)) {
+    throw new Error('Template must be an integer');
+  }
+
   const onSubmit = useCallback(
     async (
       values: JoinFormValues,
@@ -28,7 +34,7 @@ export function useJoinSubmit(isInvited: boolean) {
         surname: values.surname,
         roleId: values.roleId,
         companySizeId: values.companySizeId,
-        templateId: searchParams.get('template'),
+        templateId,
       };
       sendGTMevent({
         event: 'sign-up-flow',
