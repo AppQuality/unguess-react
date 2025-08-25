@@ -49,8 +49,8 @@ const BuyButton = ({ isStretched }: { isStretched?: boolean }) => {
           body: {
             meta: JSON.stringify(checkoutItemData?.metadata),
             price_id: checkoutItemData?.price_id ?? '',
-            cancel_url: `${baseUrl}/plan/${planId}?payment=failed`,
-            success_url: `${baseUrl}/plan/${planId}?payment=success`,
+            cancel_url: `${baseUrl}/plans/${planId}?payment=failed`,
+            success_url: `${baseUrl}/plans/${planId}?payment=success`,
           },
         })
           .unwrap()
