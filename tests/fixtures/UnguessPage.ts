@@ -60,6 +60,14 @@ export class UnguessPage {
     });
   }
 
+  async mockGetCompanySizes() {
+    await this.page.route('*/**/api/companies/sizes', async (route) => {
+      await route.fulfill({
+        path: 'tests/api/companies/sizes/_get/200_Example_1.json',
+      });
+    });
+  }
+
   async mockWorkspace() {
     await this.page.route('*/**/api/workspaces/1', async (route) => {
       await route.fulfill({
