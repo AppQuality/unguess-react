@@ -32,7 +32,8 @@ export const ProfileCard = () => {
     useGetUsersRolesQuery();
   const { data: userCompanySizesData, isLoading: userCompanySizesIsLoading } =
     useGetCompaniesSizesQuery();
-  const selectRef = useRef<HTMLDivElement>(null);
+  const selectRoleRef = useRef<HTMLDivElement>(null);
+  const selectCompanyRef = useRef<HTMLDivElement>(null);
   const { setFieldValue, touched, isSubmitting, submitForm } =
     useFormikContext<ProfileFormValues>();
 
@@ -130,7 +131,7 @@ export const ProfileCard = () => {
           {({ field, meta }: FieldProps) => {
             const hasError = meta.touched && Boolean(meta.error);
             return (
-              <div ref={selectRef}>
+              <div ref={selectRoleRef}>
                 <Select
                   placeholder={t('__PROFILE_PAGE_USER_CARD_ROLE_PLACEHOLDER')}
                   data-qa="roleId-select"
@@ -158,7 +159,7 @@ export const ProfileCard = () => {
                   onSelect={(role) => {
                     setFieldValue('roleId', Number.parseInt(role, 10));
                     (
-                      selectRef.current?.querySelector(
+                      selectRoleRef.current?.querySelector(
                         '[role="combobox"]'
                       ) as HTMLElement | null
                     )?.blur();
@@ -187,7 +188,7 @@ export const ProfileCard = () => {
           {({ field, meta }: FieldProps) => {
             const hasError = meta.touched && Boolean(meta.error);
             return (
-              <div ref={selectRef}>
+              <div ref={selectCompanyRef}>
                 <Select
                   placeholder={t(
                     '__PROFILE_PAGE_USER_CARD_COMPANY_SIZE_PLACEHOLDER'
@@ -221,7 +222,7 @@ export const ProfileCard = () => {
                       Number.parseInt(companySize, 10)
                     );
                     (
-                      selectRef.current?.querySelector(
+                      selectCompanyRef.current?.querySelector(
                         '[role="combobox"]'
                       ) as HTMLElement | null
                     )?.blur();

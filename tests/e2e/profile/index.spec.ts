@@ -51,6 +51,7 @@ test.describe('The profile page', () => {
       .profileCardRole()
       .getByRole('option', { name: 'Developer' })
       .click();
+    await profile.elements().profileCardCompanySize().click();
     await profile
       .elements()
       .profileCardCompanySize()
