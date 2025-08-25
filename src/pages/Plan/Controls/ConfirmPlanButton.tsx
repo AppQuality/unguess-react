@@ -5,6 +5,7 @@ import { useParams } from 'react-router-dom';
 import { usePatchPlansByPidStatusMutation } from 'src/features/api';
 import { getPlanStatus } from 'src/pages/Dashboard/hooks/getPlanStatus';
 import { usePlan } from '../hooks/usePlan';
+import { BuyButton } from '../summary/components/BuyButton';
 
 const ConfirmPlanButton = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -15,7 +16,15 @@ const ConfirmPlanButton = () => {
   const { t } = useTranslation();
 
   if (!plan) return null;
-  const { status } = getPlanStatus(plan, t);
+  const { status } = getPlanStatus({
+    planStatus: plan.status,
+    quote: plan.quote,
+    t,
+  });
+
+  if (plan.isPurchasable) {
+    return <BuyButton />;
+  }
 
   return (
     <Button
