@@ -43,8 +43,11 @@ export const SuggestedCampaigns = () => {
       </Row>
       <ScrollingGrid id="suggested-campaigns-scrolling-grid">
         {!!items.plans.length &&
-          items.plans.map((plan) => (
-            <ScrollingGrid.Item key={`suggested_plan_${plan.id}`}>
+          items.plans.map((plan, i) => (
+            <ScrollingGrid.Item
+              key={`suggested_plan_${plan.id}`}
+              data-qa={`tracked-activity-${i}`}
+            >
               <PlanCard
                 status={getPlanStatus(plan, t).status}
                 i18n={{
