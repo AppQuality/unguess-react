@@ -28,7 +28,7 @@ const ServiceTiles = ({ onClick, promoTemplates }: ServiceTilesProps) => {
         role="list"
         title="promo-templates"
       >
-        {promoTemplates.map((template) => {
+        {promoTemplates.map((template, i) => {
           if (!template.strapi) return null;
           const { title, price, tags, image, background, pre_title } =
             template.strapi;
@@ -36,7 +36,7 @@ const ServiceTiles = ({ onClick, promoTemplates }: ServiceTilesProps) => {
             const { text, icon } = output;
             return (
               <AdditionalInfoTag
-                key={text}
+                key={text.toLowerCase().replace(/\s+/g, '_')}
                 color={appTheme.palette.grey[700]}
                 hue="#ffff"
                 isPill
@@ -53,7 +53,12 @@ const ServiceTiles = ({ onClick, promoTemplates }: ServiceTilesProps) => {
           };
 
           return (
-            <ScrollingGrid.Item key={template.id} role="listitem" title={title}>
+            <ScrollingGrid.Item
+              key={template.id}
+              role="listitem"
+              title={title}
+              data-qa={`service-tile-${i}`}
+            >
               <ServiceTile
                 title={title}
                 description={pre_title}
