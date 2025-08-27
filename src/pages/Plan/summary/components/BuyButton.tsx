@@ -60,6 +60,7 @@ const BuyButton = ({ isStretched }: { isStretched?: boolean }) => {
           }
         } catch (error) {
           setIsPaymentInProgress(false);
+          console.error(`Error while checkout process: ${error}`);
         }
       }}
     >
