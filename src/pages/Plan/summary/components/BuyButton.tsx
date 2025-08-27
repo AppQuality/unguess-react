@@ -61,7 +61,7 @@ const BuyButton = ({ isStretched }: { isStretched?: boolean }) => {
           });
       }}
     >
-      BUY NOW
+      {t('__PLAN_PAGE_BUY_BUTTON_LABEL')}
     </Button>
   );
 };
