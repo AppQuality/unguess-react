@@ -44,21 +44,23 @@ const BuyButton = ({ isStretched }: { isStretched?: boolean }) => {
       disabled={status === 'approved'}
       onClick={async () => {
         setIsPaymentInProgress(true);
-
-        await postCheckout({
-          body: {
-            meta: JSON.stringify(checkoutItemData?.metadata),
-            price_id: checkoutItemData?.price_id ?? '',
-            cancel_url: `${baseUrl}/plans/${planId}?payment=failed`,
-            success_url: `${baseUrl}/plans/${planId}?payment=success`,
-          },
-        })
-          .unwrap()
-          .then((response) => {
-            if (response.url) {
-              window.location.href = response.url;
-            }
-          });
+        try {
+          const response = await postCheckout({
+            body: {
+              meta: JSON.stringify(checkoutItemData?.metadata),
+              price_id: checkoutItemData?.price_id ?? '',
+              cancel_url: `${baseUrl}/plans/${planId}?payment=failed`,
+              success_url: `${baseUrl}/plans/${planId}?payment=success`,
+            },
+          }).unwrap();
+          if (response.url) {
+            window.location.href = response.url;
+          } else {
+            setIsPaymentInProgress(false);
+          }
+        } catch (error) {
+          setIsPaymentInProgress(false);
+        }
       }}
     >
       {t('__PLAN_PAGE_BUY_BUTTON_LABEL')}
