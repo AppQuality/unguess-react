@@ -1,4 +1,3 @@
-import { log } from 'console';
 import { test, expect } from '../fixtures/app';
 import { Login } from '../fixtures/pages/Login';
 

@@ -1,16 +1,16 @@
-import { useEffect, useState } from 'react';
 import {
   LoginForm,
   Logo,
   Notification,
   useToast,
 } from '@appquality/unguess-design-system';
-import { useTranslation } from 'react-i18next';
-import WPAPI from 'src/common/wpapi';
 import { FormikHelpers } from 'formik';
-import styled from 'styled-components';
+import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
+import WPAPI from 'src/common/wpapi';
 import { useGetUsersMeQuery } from 'src/features/api';
+import styled from 'styled-components';
 
 import { Track } from 'src/common/Track';
 import { LoginFormFields } from './type';
