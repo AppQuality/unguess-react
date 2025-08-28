@@ -66,9 +66,16 @@ export const Plans = ({ projectId }: { projectId: number }) => {
             data-qa={`setup-activity-${i}`}
           >
             <PlanCard
-              status={getPlanStatus(plan, t).status}
+              status={
+                getPlanStatus({ planStatus: plan.status, quote: plan.quote, t })
+                  .status
+              }
               i18n={{
-                statusLabel: getPlanStatus(plan, t).statusLabel,
+                statusLabel: getPlanStatus({
+                  planStatus: plan.status,
+                  quote: plan.quote,
+                  t,
+                }).statusLabel,
               }}
               onClick={() => {
                 window.location.href = `/plans/${plan.id}`;

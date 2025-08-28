@@ -52,7 +52,11 @@ const PlanPageHeader = () => {
 
   const getGlobalAlert = () => {
     if (!plan) return null;
-    const { status: planStatus } = getPlanStatus(plan, t);
+    const { status: planStatus } = getPlanStatus({
+      planStatus: plan.status,
+      quote: plan.quote,
+      t,
+    });
     switch (planStatus) {
       case 'submitted':
         return (
