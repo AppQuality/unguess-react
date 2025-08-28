@@ -17,7 +17,7 @@ test.describe('Login page', () => {
     await login.fillValidInputs();
     await login.submit();
     await expect(login.elements().errorToast()).toContainText(
-      'Get Nonce: ' + i18n.t('__TOAST_GENERIC_ERROR_MESSAGE')
+      `Get Nonce: ${i18n.t('__TOAST_GENERIC_ERROR_MESSAGE')}`
     );
   });
   test('shows a generic error toast whenever wpapi login responds with a 403', async ({
@@ -28,7 +28,7 @@ test.describe('Login page', () => {
     await login.fillValidInputs();
     await login.submit();
     await expect(login.elements().errorToast()).toContainText(
-      'Login: ' + i18n.t('__TOAST_GENERIC_ERROR_MESSAGE')
+      `Login: ${i18n.t('__TOAST_GENERIC_ERROR_MESSAGE')}`
     );
   });
 });

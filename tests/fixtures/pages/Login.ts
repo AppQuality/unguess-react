@@ -1,6 +1,5 @@
 import { type Page } from '@playwright/test';
 import { UnguessPage } from '../UnguessPage';
-import { error } from 'console';
 
 export class Login extends UnguessPage {
   readonly page: Page;
