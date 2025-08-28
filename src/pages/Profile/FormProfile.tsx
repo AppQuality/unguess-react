@@ -16,6 +16,7 @@ export const FormProfile = () => {
 
   const initialValues: ProfileFormValues = {
     roleId: data?.roleId || 0,
+    companySizeId: data?.companySizeId || 0,
     name: data?.name || '',
     surname: data?.surname || '',
     email: data?.email || '',
@@ -29,6 +30,9 @@ export const FormProfile = () => {
     roleId: Yup.number()
       .min(1, t('__PROFILE_PAGE_ROLE_REQUIRED_ERROR'))
       .required(t('__PROFILE_PAGE_ROLE_REQUIRED_ERROR')),
+    companySizeId: Yup.number()
+      .min(1, t('__PROFILE_PAGE_COMPANY_SIZE_REQUIRED_ERROR'))
+      .required(t('__PROFILE_PAGE_COMPANY_SIZE_REQUIRED_ERROR')),
   });
 
   return (
@@ -45,6 +49,7 @@ export const FormProfile = () => {
             name: values.name,
             surname: values.surname,
             roleId: values.roleId,
+            companySizeId: values.companySizeId,
           },
         })
           .unwrap()

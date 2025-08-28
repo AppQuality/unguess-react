@@ -13,7 +13,10 @@ import { useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as UserIcon } from 'src/assets/icons/user.svg';
-import { useGetUsersRolesQuery } from 'src/features/api';
+import {
+  useGetUsersRolesQuery,
+  useGetCompaniesSizesQuery,
+} from 'src/features/api';
 import { ProfileFormValues } from '../valuesType';
 import { Loader } from './cardLoader';
 import {
@@ -25,12 +28,16 @@ import {
 
 export const ProfileCard = () => {
   const { t } = useTranslation();
-  const { data, isLoading } = useGetUsersRolesQuery();
-  const selectRef = useRef<HTMLDivElement>(null);
+  const { data: userRolesData, isLoading: userRoleIsLoading } =
+    useGetUsersRolesQuery();
+  const { data: userCompanySizesData, isLoading: userCompanySizesIsLoading } =
+    useGetCompaniesSizesQuery();
+  const selectRoleRef = useRef<HTMLDivElement>(null);
+  const selectCompanyRef = useRef<HTMLDivElement>(null);
   const { setFieldValue, touched, isSubmitting, submitForm } =
     useFormikContext<ProfileFormValues>();
 
-  if (isLoading) return <Loader />;
+  if (userRoleIsLoading || userCompanySizesIsLoading) return <Loader />;
 
   return (
     <StyledContainerCard
@@ -124,7 +131,7 @@ export const ProfileCard = () => {
           {({ field, meta }: FieldProps) => {
             const hasError = meta.touched && Boolean(meta.error);
             return (
-              <div ref={selectRef}>
+              <div ref={selectRoleRef}>
                 <Select
                   placeholder={t('__PROFILE_PAGE_USER_CARD_ROLE_PLACEHOLDER')}
                   data-qa="roleId-select"
@@ -132,7 +139,7 @@ export const ProfileCard = () => {
                   inputValue={field.value}
                   selectionValue={field.value}
                   renderValue={(value) =>
-                    data?.find(
+                    userRolesData?.find(
                       (role) =>
                         role.id === Number.parseInt(value.inputValue ?? '', 10)
                     )?.name
@@ -152,13 +159,13 @@ export const ProfileCard = () => {
                   onSelect={(role) => {
                     setFieldValue('roleId', Number.parseInt(role, 10));
                     (
-                      selectRef.current?.querySelector(
+                      selectRoleRef.current?.querySelector(
                         '[role="combobox"]'
                       ) as HTMLElement | null
                     )?.blur();
                   }}
                 >
-                  {data?.map((role) => (
+                  {userRolesData?.map((role) => (
                     <Select.Option key={role.id} value={role.id.toString()}>
                       {role.name}
                     </Select.Option>
@@ -167,6 +174,72 @@ export const ProfileCard = () => {
                 {hasError && (
                   <Message
                     data-qa="update-profile-role-error"
+                    validation="error"
+                  >
+                    {meta.error}
+                  </Message>
+                )}
+              </div>
+            );
+          }}
+        </Field>
+
+        <Field name="companySizeId">
+          {({ field, meta }: FieldProps) => {
+            const hasError = meta.touched && Boolean(meta.error);
+            return (
+              <div ref={selectCompanyRef}>
+                <Select
+                  placeholder={t(
+                    '__PROFILE_PAGE_USER_CARD_COMPANY_SIZE_PLACEHOLDER'
+                  )}
+                  data-qa="companySizeId-select"
+                  {...field}
+                  inputValue={field.value}
+                  selectionValue={field.value}
+                  renderValue={(value) =>
+                    userCompanySizesData?.find(
+                      (companySize) =>
+                        companySize.id ===
+                        Number.parseInt(value.inputValue ?? '', 10)
+                    )?.name
+                  }
+                  label={
+                    <>
+                      {t('__PROFILE_PAGE_USER_CARD_COMPANY_SIZE_LABEL')}
+                      <Span
+                        style={{
+                          color: appTheme.palette.red[600],
+                        }}
+                      >
+                        *
+                      </Span>
+                    </>
+                  }
+                  onSelect={(companySize) => {
+                    setFieldValue(
+                      'companySizeId',
+                      Number.parseInt(companySize, 10)
+                    );
+                    (
+                      selectCompanyRef.current?.querySelector(
+                        '[role="combobox"]'
+                      ) as HTMLElement | null
+                    )?.blur();
+                  }}
+                >
+                  {userCompanySizesData?.map((companySize) => (
+                    <Select.Option
+                      key={companySize.id}
+                      value={companySize.id.toString()}
+                    >
+                      {companySize.name}
+                    </Select.Option>
+                  ))}
+                </Select>
+                {hasError && (
+                  <Message
+                    data-qa="update-profile-companySizeId-error"
                     validation="error"
                   >
                     {meta.error}

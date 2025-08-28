@@ -11,6 +11,7 @@ test.describe('The profile page', () => {
     await profile.mockPatchUserMe();
     await profile.mockWpDestroyOtherSessions();
     await profile.mockGetRoles();
+    await profile.mockGetCompanySizes();
     await profile.open();
   });
 
@@ -39,7 +40,7 @@ test.describe('The profile page', () => {
     ).toBeDisabled();
   });
 
-  test('Update name surname and job role', async () => {
+  test('Update name surname, job role and company size', async () => {
     // profile card
     await expect(profile.elements().profileCardSubmitButton()).toBeDisabled();
     await profile.elements().profileCardName().fill('New Name');
@@ -50,11 +51,20 @@ test.describe('The profile page', () => {
       .profileCardRole()
       .getByRole('option', { name: 'Developer' })
       .click();
+    await profile.elements().profileCardCompanySize().click();
+    await profile
+      .elements()
+      .profileCardCompanySize()
+      .getByRole('option', { name: '0-10' })
+      .click();
     await expect(profile.elements().profileCardName()).toHaveValue('New Name');
     await expect(profile.elements().profileCardSurname()).toHaveValue(
       'New Surname'
     );
     await expect(profile.elements().profileCardRole()).toHaveText('Developer');
+    await expect(profile.elements().profileCardCompanySize()).toHaveText(
+      '0-10'
+    );
     // when touch the fields we expect the submit button to be enabled
     await expect(profile.elements().profileCardSubmitButton()).toBeEnabled();
     // Start the submit
@@ -65,6 +75,7 @@ test.describe('The profile page', () => {
         name: 'New Name',
         surname: 'New Surname',
         roleId: 1, // Assuming 'Developer' has roleId 1
+        companySizeId: 1,
       })
     );
   });

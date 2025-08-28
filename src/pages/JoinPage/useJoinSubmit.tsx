@@ -15,6 +15,20 @@ export function useJoinSubmit(isInvited: boolean) {
   const { token, profile } = useParams();
   const sendGTMevent = useSendGTMevent({ loggedUser: false });
 
+  const templateParam = searchParams.get('template');
+  let templateId: number | undefined;
+
+  if (templateParam !== null) {
+    const parsed = Number(templateParam);
+    if (!Number.isInteger(parsed)) {
+      searchParams.delete('template');
+      const url = window.location.origin + window.location.pathname;
+      window.history.replaceState({}, '', url);
+      window.location.reload();
+    }
+    templateId = parsed;
+  }
+
   const onSubmit = useCallback(
     async (
       values: JoinFormValues,
@@ -28,7 +42,9 @@ export function useJoinSubmit(isInvited: boolean) {
         surname: values.surname,
         roleId: values.roleId,
         companySizeId: values.companySizeId,
+        ...(templateId !== undefined && { templateId }),
       };
+
       sendGTMevent({
         event: 'sign-up-flow',
         category: `is invited: ${isInvited}`,

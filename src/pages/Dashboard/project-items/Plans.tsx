@@ -56,8 +56,15 @@ export const Plans = ({ projectId }: { projectId: number }) => {
       </Row>
       <Separator style={{ margin: `${appTheme.space.md} 0` }} />
       <Row>
-        {plans.map((plan) => (
-          <Col size={4} xs={12} md={6} lg={4}>
+        {plans.map((plan, i) => (
+          <Col
+            size={4}
+            xs={12}
+            md={6}
+            lg={4}
+            key={`project_plan_${plan.id}`}
+            data-qa={`setup-activity-${i}`}
+          >
             <PlanCard
               status={getPlanStatus(plan, t).status}
               i18n={{

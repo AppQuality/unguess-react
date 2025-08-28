@@ -4,6 +4,8 @@ export type ProfileFormValues = {
   roleId: number;
   email?: string;
   role?: string;
+  companySize?: string;
+  companySizeId: number;
 };
 
 export type PasswordFormValues = {
