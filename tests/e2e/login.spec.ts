@@ -18,17 +18,18 @@ test.describe('Login page', () => {
     await login.fillValidInputs();
     await login.submit();
     await expect(login.elements().errorToast()).toContainText(
-      i18n.t('__TOAST_GENERIC_ERROR_MESSAGE')
+      'Get Nonce: ' + i18n.t('__TOAST_GENERIC_ERROR_MESSAGE')
     );
   });
   test('shows a generic error toast whenever wpapi login responds with a 403', async ({
     i18n,
   }) => {
+    await login.mockGetNonce200();
     await login.mockLogin403();
     await login.fillValidInputs();
     await login.submit();
     await expect(login.elements().errorToast()).toContainText(
-      i18n.t('__TOAST_GENERIC_ERROR_MESSAGE')
+      'Login: ' + i18n.t('__TOAST_GENERIC_ERROR_MESSAGE')
     );
   });
 });

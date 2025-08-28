@@ -46,7 +46,21 @@ export class Login extends UnguessPage {
       if (postData && postData.includes('action=ug_get_nonce')) {
         await route.fulfill({ status: 403 });
       } else {
-        await route.continue();
+        await route.fallback();
+      }
+    });
+  }
+
+  async mockGetNonce200() {
+    await this.page.route('**/wp-admin/admin-ajax.php', async (route) => {
+      const postData = route.request().postData();
+      if (postData && postData.includes('action=ug_get_nonce')) {
+        await route.fulfill({
+          status: 200,
+          body: JSON.stringify({ success: true, data: 'bss68915f2' }),
+        });
+      } else {
+        await route.fallback();
       }
     });
   }
@@ -57,7 +71,35 @@ export class Login extends UnguessPage {
       if (postData && postData.includes('action=ajaxlogin')) {
         await route.fulfill({ status: 403 });
       } else {
-        await route.continue();
+        await route.fallback();
+      }
+    });
+  }
+
+  async mockLoginInvalid() {
+    await this.page.route('**/wp-admin/admin-ajax.php', async (route) => {
+      const postData = route.request().postData();
+      if (postData && postData.includes('action=ajaxlogin')) {
+        await route.fulfill({
+          status: 200,
+          body: JSON.stringify({ success: false, data: { type: 'invalid' } }),
+        });
+      } else {
+        await route.fallback();
+      }
+    });
+  }
+
+  async mockLogin200() {
+    await this.page.route('**/wp-admin/admin-ajax.php', async (route) => {
+      const postData = route.request().postData();
+      if (postData && postData.includes('action=ajaxlogin')) {
+        await route.fulfill({
+          status: 200,
+          body: JSON.stringify({ success: true }),
+        });
+      } else {
+        await route.fallback();
       }
     });
   }
