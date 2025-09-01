@@ -53,6 +53,7 @@ export const Track = ({
         name: userData.name,
         email: userData.email,
         company: activeWorkspace.company,
+        workspace: activeWorkspace,
       });
 
       track(
@@ -68,8 +69,8 @@ export const Track = ({
         },
         {
           plugins: {
-            // disable track event for segment
-            segment: false,
+            // disable userpilot for this event
+            userpilot: false,
           },
         }
       );

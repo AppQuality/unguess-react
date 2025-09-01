@@ -1,6 +1,6 @@
-import Analytics from 'analytics';
 import googleTagManager from '@analytics/google-tag-manager';
-import segmentPlugin from '@analytics/segment';
+import Analytics from 'analytics';
+import userpilot from './common/analytics-plugins/userpilot';
 import { isDev } from './common/isDevEnvironment';
 
 const analytics = Analytics({
@@ -13,10 +13,8 @@ const analytics = Analytics({
         preview: 'env-4',
       }),
     }),
-    segmentPlugin({
-      writeKey: isDev()
-        ? 'AxHbacd31w50NwjDM8tadsP82hSwTz4Z'
-        : 'oxd3W7coKxDdzq99F88doV5VvQrESbJh',
+    userpilot({
+      token: isDev() ? 'STG-NX-54e88e10' : 'NX-54e88e10',
     }),
   ],
 });
