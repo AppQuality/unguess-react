@@ -1,11 +1,16 @@
-import { useEffect, useState } from 'react';
-import { LoginForm, Logo } from '@appquality/unguess-design-system';
-import { useTranslation } from 'react-i18next';
-import WPAPI from 'src/common/wpapi';
+import {
+  LoginForm,
+  Logo,
+  Notification,
+  useToast,
+} from '@appquality/unguess-design-system';
 import { FormikHelpers } from 'formik';
-import styled from 'styled-components';
+import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
+import WPAPI from 'src/common/wpapi';
 import { useGetUsersMeQuery } from 'src/features/api';
+import styled from 'styled-components';
 
 import { Track } from 'src/common/Track';
 import { LoginFormFields } from './type';
@@ -42,6 +47,7 @@ const LoginPage = () => {
   const { isSuccess } = useGetUsersMeQuery();
   const navigate = useNavigate();
   const { state: locationState } = useLocation();
+  const { addToast } = useToast();
 
   const from = (locationState as NavigationState)?.from || '/';
 
@@ -51,12 +57,36 @@ const LoginPage = () => {
     }
   }, [navigate, isSuccess]);
 
+  const showGenericErrorToast = (title?: string) => {
+    addToast(
+      ({ close }) => (
+        <Notification
+          onClose={close}
+          type="error"
+          message={`${title}${t('__TOAST_GENERIC_ERROR_MESSAGE')}`}
+          closeText={t('__TOAST_CLOSE_TEXT')}
+          isPrimary
+        />
+      ),
+      { placement: 'top' }
+    );
+  };
+
   const loginUser = async (
     values: LoginFormFields,
     { setSubmitting, setStatus }: FormikHelpers<LoginFormFields>
   ) => {
+    let nonce;
     try {
-      const nonce = await WPAPI.getNonce();
+      nonce = await WPAPI.getNonce();
+    } catch (err: any) {
+      if (err?.status !== 200) {
+        showGenericErrorToast('Get Nonce: ');
+        setSubmitting(false);
+        return;
+      }
+    }
+    try {
       await WPAPI.login({
         username: values.email,
         password: values.password,
@@ -65,14 +95,19 @@ const LoginPage = () => {
 
       setCta(`${t('__LOGIN_FORM_CTA_REDIRECT_STATE')}`);
       document.location.href = from || '/';
-    } catch (e: unknown) {
+    } catch (e: any) {
+      if (e?.status !== 200) {
+        showGenericErrorToast('Login: ');
+        setSubmitting(false);
+        return;
+      }
       const { message } = e as Error;
       const error = JSON.parse(message);
 
       if (error.type === 'invalid') {
         setStatus({ message: `${t('__LOGIN_FORM_FAILED_INVALID')}` });
       } else {
-        document.location.href = from || '/';
+        showGenericErrorToast();
       }
     }
 
