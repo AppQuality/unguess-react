@@ -72,8 +72,17 @@ const Background = styled.div<{ step: string }>`
   padding: ${({ theme }) => theme.space.xl} 0 ${({ theme }) => theme.space.md};
 `;
 
-const StyledCol = styled(Col)`
+const StyledCol = styled(Col)<{ $hideOnMobile?: boolean }>`
   margin-bottom: 0;
+  ${({ theme, $hideOnMobile }) =>
+    $hideOnMobile &&
+    `
+    display: none;
+    @media (min-width: ${theme.breakpoints.xl}) {
+      display: block;
+    }
+  `}    
+  }
 `;
 
 const LogoWrapper = styled.div`
@@ -128,7 +137,7 @@ const JoinPage = () => {
                       </LogoWrapper>
                       <JoinForm />
                     </StyledCol>
-                    <StyledCol xs={0} xl={7}>
+                    <StyledCol xs={0} xl={7} $hideOnMobile>
                       <ImagesColumn />
                     </StyledCol>
                   </Row>

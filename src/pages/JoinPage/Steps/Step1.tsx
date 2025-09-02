@@ -4,9 +4,11 @@ import {
   FormField,
   Input,
   Label,
+  MD,
   MediaInput,
   Message,
   Paragraph,
+  SM,
   Span,
 } from '@appquality/unguess-design-system';
 import { ReactComponent as LinkIcon } from '@zendeskgarden/svg-icons/src/16/chevron-left-stroke.svg';
@@ -15,6 +17,7 @@ import { ReactComponent as EyeHide } from '@zendeskgarden/svg-icons/src/16/eye-h
 import { Field, FieldProps, useFormikContext } from 'formik';
 import { useEffect, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
 import { PasswordRequirements } from 'src/common/components/PasswordRequirements';
 import { useSendGTMevent } from 'src/hooks/useGTMevent';
@@ -30,6 +33,7 @@ export const Step1 = () => {
   const handleChangeInputType = () => {
     setInputType((prev) => (prev === 'password' ? 'text' : 'password'));
   };
+  const navigate = useNavigate();
 
   useEffect(() => {
     sendGTMevent({
@@ -202,19 +206,37 @@ export const Step1 = () => {
       <div
         style={{
           display: 'flex',
+          flexDirection: 'column',
           alignItems: 'center',
           gap: appTheme.space.xs,
         }}
       >
-        <LinkIcon color={appTheme.palette.grey[600]} />
-        <Anchor
-          style={{ color: appTheme.palette.blue[600] }}
-          target="_blank"
-          title="UNGUESS Home Page"
-          href="https://www.unguess.io"
-        >
-          {t('SIGNUP_FORM_CTA_RETURN_TO_UNGUESS_LANDING')}
+        <MD style={{ marginBottom: appTheme.space.xxs }}>
+          {t('__JOIN_FORM_ALREADY_HAVE_ACCOUNT_LABEL')}
+        </MD>
+        <Anchor style={{ marginBottom: appTheme.space.xs }} href="/login">
+          <MD color={appTheme.palette.blue[600]}>
+            {t('__JOIN_FORM_SIGNIN_CTA')}
+          </MD>
         </Anchor>
+      </div>
+      <div
+        style={{
+          display: 'flex',
+
+          gap: appTheme.space.xs,
+        }}
+      >
+        <LinkIcon color={appTheme.palette.grey[600]} />
+        <SM color={appTheme.palette.blue[600]}>
+          <Anchor
+            target="_blank"
+            title="UNGUESS Home Page"
+            href="https://www.unguess.io"
+          >
+            {t('SIGNUP_FORM_CTA_RETURN_TO_UNGUESS_LANDING')}
+          </Anchor>
+        </SM>
       </div>
     </>
   );
