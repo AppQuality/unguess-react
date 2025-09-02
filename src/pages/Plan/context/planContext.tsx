@@ -1,5 +1,5 @@
 import { createContext, ReactNode, useContext, useMemo, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useSearchParams } from 'react-router-dom';
 import { GetPlansByPidCheckoutItemApiResponse } from 'src/features/api';
 import { PLAN_TABS, PlanTab, PlanTabName } from '../common/constants';
 
@@ -21,13 +21,15 @@ interface PlanContextProps {
 const PlanContext = createContext<PlanContextProps | null>(null);
 
 export const PlanProvider = ({ children }: { children: ReactNode }) => {
-  const location = useLocation();
-  const initialTabName = location.hash.replace('#', '');
+  const [searchParams, setSearchParams] = useSearchParams();
+  const initialTabName = searchParams.get('tab');
   let initialTab = PLAN_TABS.find((t) => t.name === initialTabName);
-
   if (!initialTab) {
     [initialTab] = PLAN_TABS;
-    window.location.hash = `#${initialTab.name}`;
+    setSearchParams({
+      ...Object.fromEntries(searchParams.entries()),
+      tab: initialTab.name,
+    });
   }
   const [activeTab, setActiveTabState] = useState<PlanTab>(initialTab);
   const [newModule, setNewModule] = useState<string | null>(null);
@@ -48,7 +50,10 @@ export const PlanProvider = ({ children }: { children: ReactNode }) => {
     }
     if (tabObj) {
       setActiveTabState(tabObj);
-      window.location.hash = `#${tabObj.name}`;
+      setSearchParams({
+        ...Object.fromEntries(searchParams.entries()),
+        tab: tabObj.name,
+      });
     }
   };
   const [isSaveTemplateModalOpen, setIsSaveTemplateModalOpen] = useState(false);
