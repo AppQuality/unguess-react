@@ -1,4 +1,5 @@
 import { createContext, ReactNode, useContext, useMemo, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import { GetPlansByPidCheckoutItemApiResponse } from 'src/features/api';
 import { PLAN_TABS, PlanTab, PlanTabName } from '../common/constants';
 
@@ -20,7 +21,15 @@ interface PlanContextProps {
 const PlanContext = createContext<PlanContextProps | null>(null);
 
 export const PlanProvider = ({ children }: { children: ReactNode }) => {
-  const [activeTab, setActiveTabState] = useState<PlanTab>(PLAN_TABS[0]);
+  let location = useLocation();
+  const initialTabName = location.hash.replace('#', '');
+  let initialTab = PLAN_TABS.find((t) => t.name === initialTabName);
+
+  if (!initialTab) {
+    initialTab = PLAN_TABS[0];
+    window.location.hash = `#${initialTab.name}`;
+  }
+  const [activeTab, setActiveTabState] = useState<PlanTab>(initialTab);
   const [newModule, setNewModule] = useState<string | null>(null);
   const [checkoutItem, setCheckoutItem] =
     useState<GetPlansByPidCheckoutItemApiResponse>(
@@ -31,11 +40,15 @@ export const PlanProvider = ({ children }: { children: ReactNode }) => {
 
   // Overloaded setActiveTab function
   const setActiveTab = (tab: PlanTab | PlanTabName) => {
+    let tabObj: PlanTab | undefined;
     if (typeof tab === 'string') {
-      const foundTab = PLAN_TABS.find((t) => t.name === tab);
-      if (foundTab) setActiveTabState(foundTab);
+      tabObj = PLAN_TABS.find((t) => t.name === tab);
     } else {
-      setActiveTabState(tab);
+      tabObj = tab;
+    }
+    if (tabObj) {
+      setActiveTabState(tabObj);
+      window.location.hash = `#${tabObj.name}`;
     }
   };
   const [isSaveTemplateModalOpen, setIsSaveTemplateModalOpen] = useState(false);
