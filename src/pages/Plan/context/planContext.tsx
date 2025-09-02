@@ -21,12 +21,12 @@ interface PlanContextProps {
 const PlanContext = createContext<PlanContextProps | null>(null);
 
 export const PlanProvider = ({ children }: { children: ReactNode }) => {
-  let location = useLocation();
+  const location = useLocation();
   const initialTabName = location.hash.replace('#', '');
   let initialTab = PLAN_TABS.find((t) => t.name === initialTabName);
 
   if (!initialTab) {
-    initialTab = PLAN_TABS[0];
+    [initialTab] = PLAN_TABS;
     window.location.hash = `#${initialTab.name}`;
   }
   const [activeTab, setActiveTabState] = useState<PlanTab>(initialTab);
