@@ -108,6 +108,11 @@ const JoinPage = () => {
     }
   );
 
+  const meta = [
+    { name: 'og:description', content: t('__PAGE_JOIN_DESCRIPTION') },
+    { name: 'robots', content: 'index, follow' },
+  ];
+
   useEffect(() => {
     if (isLogged) {
       navigate(searchParams.get('redirectTo') || '/');
@@ -121,7 +126,11 @@ const JoinPage = () => {
   if (error) return <JoinPageError />;
 
   return (
-    <Track title={t('__PAGE_TITLE_JOIN')}>
+    <Track
+      title={t('__PAGE_JOIN_TITLE')}
+      description={t('__PAGE_JOIN_DESCRIPTION')}
+      metaTags={meta}
+    >
       <FormProvider {...data}>
         {({ isSubmitting, values: { step } }) => (
           <Background step={step.toString()}>

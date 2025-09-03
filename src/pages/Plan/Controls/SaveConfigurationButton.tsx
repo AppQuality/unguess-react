@@ -23,7 +23,11 @@ const SaveConfigurationButton = () => {
 
   if (!plan) return null;
 
-  const { status } = getPlanStatus(plan, t);
+  const { status } = getPlanStatus({
+    planStatus: plan.status,
+    quote: plan.quote,
+    t,
+  });
 
   const handleSaveConfiguration = async () => {
     validateForm();

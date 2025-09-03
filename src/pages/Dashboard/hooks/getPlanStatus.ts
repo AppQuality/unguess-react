@@ -1,16 +1,25 @@
-import { GetWorkspacesByWidPlansApiResponse } from 'src/features/api';
 import { TFunction } from 'i18next';
 
-type IPlanStatus = 'draft' | 'submitted' | 'pending_quote_review' | 'approved';
-export const getPlanStatus = (
-  plan: Omit<GetWorkspacesByWidPlansApiResponse[number], 'title' | 'project'>,
-  t: TFunction
-): {
+type IPlanStatus =
+  | 'draft'
+  | 'submitted'
+  | 'pending_quote_review'
+  | 'approved'
+  | 'paying';
+export const getPlanStatus = ({
+  planStatus,
+  quote,
+  t,
+}: {
+  planStatus: string;
+  quote?: { status: string } | null;
+  t: TFunction;
+}): {
   status: IPlanStatus;
   statusLabel: string;
 } => {
-  if (plan.status === 'pending_review') {
-    if (!plan.quote || plan.quote.status === 'pending')
+  if (planStatus === 'pending_review') {
+    if (!quote || quote.status === 'pending')
       return {
         status: 'submitted' as IPlanStatus,
         statusLabel: t('__DASHBOARD_CARD_PLAN_STATUS_SUBMITTED'),
@@ -22,10 +31,16 @@ export const getPlanStatus = (
     };
   }
 
-  if (plan.status === 'approved')
+  if (planStatus === 'approved')
     return {
       status: 'approved' as IPlanStatus,
       statusLabel: t('__DASHBOARD_CARD_PLAN_STATUS_APPROVED'),
+    };
+
+  if (planStatus === 'paying')
+    return {
+      status: 'paying' as IPlanStatus,
+      statusLabel: t('__DASHBOARD_CARD_PLAN_STATUS_PAYING'),
     };
 
   return {
