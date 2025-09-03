@@ -14,6 +14,7 @@ import { OutOfScopeModule } from './Module_out_of_scope';
 import { TargetModule } from './Module_target';
 import { TasksModule } from './Module_tasks';
 import { TouchpointsModule } from './Module_touchpoints';
+import { BrowserModule } from './Module_browser';
 
 interface TabModule {
   expectToBeReadonly(): Promise<void>;
@@ -27,11 +28,12 @@ export class PlanPage extends UnguessPage {
   constructor(page: Page) {
     super(page);
     this.modules = {
+      goal: new GoalModule(page),
       touchpoints: new TouchpointsModule(page),
+      browser: new BrowserModule(page),
       age: new AgeModule(page),
       gender: new GenderModule(page),
       outOfScope: new OutOfScopeModule(page),
-      goal: new GoalModule(page),
       digitalLiteracy: new DigitalLiteracyModule(page),
       language: new LanguageModule(page),
       target: new TargetModule(page),
@@ -207,28 +209,41 @@ export class PlanPage extends UnguessPage {
     return patchPromise;
   }
 
+  /*
+   * We group expectToBeReadonly calls by max three modules at a time using Promise.all.
+   * This balances parallel execution for speed, while limiting resource contention and improving error visibility.
+   * Running too many in parallel can cause UI flakiness and make debugging harder.
+   */
   async expectAllModulesToBeReadonly() {
     // tab setup
-    this.elements().tabSetup().click();
-    await Promise.all([this.modules.goal.expectToBeReadonly()]);
+    await this.elements().tabSetup().click();
+    await Promise.all([
+      this.modules.goal.expectToBeReadonly(),
+      this.modules.touchpoints.expectToBeReadonly(),
+      this.modules.browser.expectToBeReadonly(),
+    ]);
 
     // tab target
-    this.elements().tabTarget().click();
+    await this.elements().tabTarget().click();
     await Promise.all([
       this.modules.target.expectToBeReadonly(),
       this.modules.age.expectToBeReadonly(),
       this.modules.gender.expectToBeReadonly(),
+    ]);
+    await Promise.all([
       this.modules.digitalLiteracy.expectToBeReadonly(),
       this.modules.language.expectToBeReadonly(),
       this.modules.locality.expectToBeReadonly(),
+    ]);
+    await Promise.all([
       this.modules.income.expectToBeReadonly(),
       this.modules.bank.expectToBeReadonly(),
       this.modules.electricity.expectToBeReadonly(),
-      this.modules.gas.expectToBeReadonly(),
     ]);
+    await Promise.all([this.modules.gas.expectToBeReadonly()]);
 
     // tab instructions
-    this.elements().tabInstructions().click();
+    await this.elements().tabInstructions().click();
     await Promise.all([
       this.modules.outOfScope.expectToBeReadonly(),
       this.modules.tasks.expectToBeReadonly(),
@@ -326,6 +341,18 @@ export class PlanPage extends UnguessPage {
       if (route.request().method() === 'GET') {
         await route.fulfill({
           path: 'tests/api/plans/pid/_get/200_approved.json',
+        });
+      } else {
+        await route.fallback();
+      }
+    });
+  }
+
+  async mockGetPayingPlan() {
+    await this.page.route('*/**/api/plans/1', async (route) => {
+      if (route.request().method() === 'GET') {
+        await route.fulfill({
+          path: 'tests/api/plans/pid/_get/200_paying.json',
         });
       } else {
         await route.fallback();
