@@ -1553,8 +1553,12 @@ export type GetPlansByPidApiResponse = /** status 200 OK */ {
   config: {
     modules: Module[];
   };
+  from_template?: {
+    id: number;
+    title: string;
+  };
   id: number;
-  is_frozen?: number;
+  price?: string;
   project: {
     id: number;
     name: string;

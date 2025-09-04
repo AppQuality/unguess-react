@@ -3344,8 +3344,12 @@ export interface operations {
             config: {
               modules: components["schemas"]["Module"][];
             };
+            from_template?: {
+              id: number;
+              title: string;
+            };
             id: number;
-            is_frozen?: number;
+            price?: string;
             project: {
               id: number;
               name: string;
