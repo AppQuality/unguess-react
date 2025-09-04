@@ -4,20 +4,17 @@ import {
   FormField,
   Input,
   Label,
-  MD,
   MediaInput,
   Message,
   Paragraph,
   SM,
   Span,
 } from '@appquality/unguess-design-system';
-import { ReactComponent as LinkIcon } from '@zendeskgarden/svg-icons/src/16/chevron-left-stroke.svg';
 import { ReactComponent as Eye } from '@zendeskgarden/svg-icons/src/16/eye-fill.svg';
 import { ReactComponent as EyeHide } from '@zendeskgarden/svg-icons/src/16/eye-hide-fill.svg';
 import { Field, FieldProps, useFormikContext } from 'formik';
 import { useEffect, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
 import { PasswordRequirements } from 'src/common/components/PasswordRequirements';
 import { useSendGTMevent } from 'src/hooks/useGTMevent';
@@ -33,7 +30,6 @@ export const Step1 = () => {
   const handleChangeInputType = () => {
     setInputType((prev) => (prev === 'password' ? 'text' : 'password'));
   };
-  const navigate = useNavigate();
 
   useEffect(() => {
     sendGTMevent({
