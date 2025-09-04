@@ -1,7 +1,9 @@
 import {
+  Anchor,
   LoginForm,
   Logo,
   Notification,
+  SM,
   useToast,
 } from '@appquality/unguess-design-system';
 import { FormikHelpers } from 'formik';
@@ -12,6 +14,7 @@ import WPAPI from 'src/common/wpapi';
 import { useGetUsersMeQuery } from 'src/features/api';
 import styled from 'styled-components';
 
+import { appTheme } from 'src/app/theme';
 import { Track } from 'src/common/Track';
 import { LoginFormFields } from './type';
 
@@ -162,7 +165,17 @@ const LoginPage = () => {
     <Track title={t('__PAGE_TITLE_LOGIN')}>
       <CenteredXYContainer>
         <StyledLogo type="vertical" size={200} />
-        <LoginForm {...defaultArgs} />
+        <LoginForm
+          {...defaultArgs}
+          registerCta={
+            <>
+              <SM style={{ marginBottom: appTheme.space.md }}>
+                {t('__LOGIN_FORM_NO_ACCOUNT_LABEL')}
+              </SM>
+              <Anchor href="/join">{t('__LOGIN_FORM_SIGNUP_CTA')}</Anchor>
+            </>
+          }
+        />
       </CenteredXYContainer>
     </Track>
   );

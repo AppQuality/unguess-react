@@ -1,4 +1,4 @@
-import { Paragraph, XL } from '@appquality/unguess-design-system';
+import { Paragraph, Span, XL } from '@appquality/unguess-design-system';
 import { useFormikContext } from 'formik';
 import { Trans, useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
@@ -39,6 +39,12 @@ export const JoinForm = () => {
           {step === 3 && t('SIGNUP_FORM_STEP_3_TITLE')}
         </XL>
         <Paragraph>
+          {step === 1 && (
+            <Trans
+              i18nKey="SIGNUP_FORM_STEP_1_DESCRIPTION"
+              components={{ bold: <Span isBold />, br: <br /> }}
+            />
+          )}
           {step === 2 && t('SIGNUP_FORM_STEP_2_DESCRIPTION')}
           {step === 3 && t('SIGNUP_FORM_STEP_3_DESCRIPTION')}
         </Paragraph>
