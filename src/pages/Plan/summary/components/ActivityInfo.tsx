@@ -34,6 +34,13 @@ interface IPlan extends GetPlansByPidApiResponse {
 const ActivityDescription = ({ plan }: { plan: IPlan }) => {
   const { t } = useTranslation();
 
+  if (plan.status === 'paying')
+    return (
+      <Description>
+        {t('__PLAN_PAGE_SUMMARY_TAB_ACTIVITY_INFO_DATE_LABEL_PAYING')}
+      </Description>
+    );
+
   if (!plan.quote || plan.quote.status === 'pending')
     return (
       <Description>
@@ -56,6 +63,39 @@ const ActivityDescription = ({ plan }: { plan: IPlan }) => {
     );
 
   return null;
+};
+
+const ActivityNotes = () => {
+  const { t } = useTranslation();
+  return (
+    <Notes style={{ cursor: 'default' }}>
+      <Trans i18nKey="__PLAN_PAGE_SUMMARY_TAB_ACTIVITY_INFO_NOTES_CARD_DESCRIPTION">
+        <MD
+          isBold
+          style={{
+            marginBottom: appTheme.space.xs,
+            color: appTheme.palette.grey[800],
+          }}
+        >
+          Factors that can affect the price and start date:
+        </MD>
+        <UnorderedList>
+          <UnorderedList.Item>
+            Number and complexity of tasks
+          </UnorderedList.Item>
+          <UnorderedList.Item>
+            Timeline and urgency requirements
+          </UnorderedList.Item>
+          <UnorderedList.Item>
+            User incentives and recruitment needs
+          </UnorderedList.Item>
+          <UnorderedList.Item>Research activities scope</UnorderedList.Item>
+          <UnorderedList.Item>Project management activities</UnorderedList.Item>
+          <UnorderedList.Item>Additional customizations</UnorderedList.Item>
+        </UnorderedList>
+      </Trans>
+    </Notes>
+  );
 };
 
 export const ActivityInfo = () => {
@@ -152,35 +192,7 @@ export const ActivityInfo = () => {
         </div>
       </PlanContentDiv>
 
-      <Notes style={{ cursor: 'default' }}>
-        <Trans i18nKey="__PLAN_PAGE_SUMMARY_TAB_ACTIVITY_INFO_NOTES_CARD_DESCRIPTION">
-          <MD
-            isBold
-            style={{
-              marginBottom: appTheme.space.xs,
-              color: appTheme.palette.grey[800],
-            }}
-          >
-            Factors that can affect the price and start date:
-          </MD>
-          <UnorderedList>
-            <UnorderedList.Item>
-              Number and complexity of tasks
-            </UnorderedList.Item>
-            <UnorderedList.Item>
-              Timeline and urgency requirements
-            </UnorderedList.Item>
-            <UnorderedList.Item>
-              User incentives and recruitment needs
-            </UnorderedList.Item>
-            <UnorderedList.Item>Research activities scope</UnorderedList.Item>
-            <UnorderedList.Item>
-              Project management activities
-            </UnorderedList.Item>
-            <UnorderedList.Item>Additional customizations</UnorderedList.Item>
-          </UnorderedList>
-        </Trans>
-      </Notes>
+      {plan.status !== 'paying' && <ActivityNotes />}
     </ContainerCard>
   );
 };

@@ -160,7 +160,7 @@ const Browser = () => {
                       key={`browser-${br.toLowerCase()}`}
                       value={`${br.toLowerCase()}`}
                       name={`browser-${br.toLowerCase()}`}
-                      disabled={getPlanStatus() === 'pending_review'}
+                      disabled={getPlanStatus() !== 'draft'}
                       checked={value?.output.some((item) => item.name === br)}
                       onChange={(e) => {
                         const previousBrowsers = value?.output.map(
