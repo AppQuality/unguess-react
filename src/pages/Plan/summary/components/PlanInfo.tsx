@@ -23,7 +23,7 @@ const PlanContentDiv = styled.div`
   display: flex;
   flex-direction: column;
   margin-top: ${({ theme }) => theme.space.md};
-  gap: ${({ theme }) => theme.space.lg};
+  gap: ${({ theme }) => theme.space.sm};
   margin-bottom: ${({ theme }) => theme.space.md};
 `;
 
@@ -63,14 +63,30 @@ export const PlanInfo = () => {
 
       <PlanContentDiv>
         <div>
-          <MD>Template Type</MD>
-          <Label>{plan.from_template.title} </Label>
+          <MD>{t('__PLAN_PAGE_DRAFT_ACTIVITY_INFO_TEMPLATE_TYPE')}</MD>
+          <Label
+            style={{
+              color: appTheme.palette.blue[600],
+              fontSize: appTheme.fontSizes.lg,
+            }}
+          >
+            {plan.from_template.title}{' '}
+          </Label>
         </div>
         <div>
-          <MD>Starting Price</MD>
-          <Label>{plan.price}</Label>
-          <Message validation="warning">Price may vary</Message>
+          <MD>{t('__PLAN_PAGE_DRAFT_ACTIVITY_INFO_STARTING_PRICE')}</MD>
+          <Label
+            style={{
+              color: appTheme.palette.blue[600],
+              fontSize: appTheme.fontSizes.lg,
+            }}
+          >
+            {plan.price}
+          </Label>
         </div>
+        <Message validation="warning">
+          {t('__PLAN_PAGE_DRAFT_ACTIVITY_INFO_PRICE_WARNING')}
+        </Message>
       </PlanContentDiv>
     </ContainerCard>
   );
