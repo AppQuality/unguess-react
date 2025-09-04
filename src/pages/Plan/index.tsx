@@ -1,6 +1,12 @@
+import { useToast, Notification } from '@appquality/unguess-design-system';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import {
+  useLocation,
+  useNavigate,
+  useParams,
+  useSearchParams,
+} from 'react-router-dom';
 import { useAppDispatch } from 'src/app/hooks';
 import { PLAN_MINIMUM_DATE } from 'src/constants';
 import {
@@ -22,6 +28,8 @@ import { formatModuleDate } from './utils/formatModuleDate';
 const PlanPage = ({ plan }: { plan: GetPlansByPidApiResponse | undefined }) => {
   const { t } = useTranslation();
   const { activeTab, setActiveTab } = usePlanContext();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const { addToast } = useToast();
 
   useEffect(() => {
     if (!plan) return;
@@ -30,6 +38,24 @@ const PlanPage = ({ plan }: { plan: GetPlansByPidApiResponse | undefined }) => {
       setActiveTab('summary');
     }
   }, [plan?.status]);
+
+  useEffect(() => {
+    if (searchParams.get('payment') === 'success') {
+      addToast(
+        ({ close }) => (
+          <Notification
+            onClose={close}
+            type="success"
+            message={t('__PLAN_PAGE_PURCHASE_SUCCESS')}
+            isPrimary
+          />
+        ),
+        { placement: 'top' }
+      );
+      searchParams.delete('payment');
+      setSearchParams(searchParams);
+    }
+  }, []);
 
   return (
     <Page

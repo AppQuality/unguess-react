@@ -20,8 +20,14 @@ import { WidgetSpecialCard } from 'src/pages/Campaign/widgetCards/common/StyledS
 import { getPlanStatus } from 'src/pages/Dashboard/hooks/getPlanStatus';
 import styled from 'styled-components';
 import { usePlan } from '../../hooks/usePlan';
+import { BuyButton } from './BuyButton';
 
-type IPlanStatus = 'draft' | 'submitted' | 'pending_quote_review' | 'approved';
+type IPlanStatus =
+  | 'draft'
+  | 'submitted'
+  | 'pending_quote_review'
+  | 'approved'
+  | 'paying';
 
 const StyledDiv = styled.div`
   display: flex;
@@ -168,7 +174,11 @@ export const DetailsCard = () => {
     return value?.output.start ? new Date(value.output.start) : new Date(); // Add check with cp startDate
   };
 
-  const { status } = getPlanStatus(plan, t);
+  const { status } = getPlanStatus({
+    planStatus: plan.status,
+    quote: plan.quote,
+    t,
+  });
 
   return (
     <WidgetSpecialCard style={{ height: 'auto' }}>
@@ -177,28 +187,40 @@ export const DetailsCard = () => {
           <MD isBold style={{ color: getColor(appTheme.palette.grey, 800) }}>
             {t('__PLAN_PAGE_SUMMARY_TAB_ACTIVITY_INFO_TITLE')}
           </MD>
-          {status !== 'approved' && <PlanTag {...getPlanStatus(plan, t)} />}
+          {status !== 'approved' && (
+            <PlanTag
+              {...getPlanStatus({
+                planStatus: plan.status,
+                quote: plan.quote,
+                t,
+              })}
+            />
+          )}
         </>
       </WidgetSpecialCard.Meta>
       <Divider />
       <Content date={planDate()} quote={plan?.quote?.value} status={status} />
       <Footer>
-        <Cta
-          isSubmitted={isSubmitted}
-          onClick={() => {
-            setIsSubmitted(true);
-            patchStatus({
-              pid: planId?.toString() ?? '',
-              body: { status: 'approved' },
-            })
-              .unwrap()
-              .then(() => {
-                setIsSubmitted(false);
-              });
-          }}
-          status={status}
-          campaignId={plan?.campaign?.id ?? 0}
-        />
+        {!plan.isPurchasable ? (
+          <Cta
+            isSubmitted={isSubmitted}
+            onClick={() => {
+              setIsSubmitted(true);
+              patchStatus({
+                pid: planId?.toString() ?? '',
+                body: { status: 'approved' },
+              })
+                .unwrap()
+                .then(() => {
+                  setIsSubmitted(false);
+                });
+            }}
+            status={status}
+            campaignId={plan?.campaign?.id ?? 0}
+          />
+        ) : (
+          <BuyButton isStretched />
+        )}
       </Footer>
     </WidgetSpecialCard>
   );

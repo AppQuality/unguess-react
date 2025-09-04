@@ -1,4 +1,4 @@
-import { MD, theme } from '@appquality/unguess-design-system';
+import { SM, theme } from '@appquality/unguess-design-system';
 import { ReactComponent as X } from 'src/assets/icons/password-check-x.svg';
 import { ReactComponent as Check } from 'src/assets/icons/password-check-v.svg';
 import { useTranslation } from 'react-i18next';
@@ -16,14 +16,14 @@ const PasswordRequirement = ({
     ) : (
       <X aria-hidden="true" fontSize={16} />
     )}
-    <MD
+    <SM
       isBold={!check()}
       style={{
         color: `${check() ? theme.palette.grey[500] : theme.palette.grey[700]}`,
       }}
     >
       {children}
-    </MD>
+    </SM>
   </li>
 );
 
@@ -32,7 +32,7 @@ const PasswordRequirements = ({ password }: { password: string }) => {
 
   return (
     <div data-qa="password-requirements" className="aq-mb-3">
-      <MD>{t('PASSWORD_VALIDATOR_PASSWORD_REQUIREMENTS')}</MD>
+      <SM>{t('PASSWORD_VALIDATOR_PASSWORD_REQUIREMENTS')}</SM>
       <ul>
         <PasswordRequirement check={() => password.length >= 6}>
           {t('PASSWORD_VALIDATOR_MINIMUM_OF_6_CHARACTERS')}

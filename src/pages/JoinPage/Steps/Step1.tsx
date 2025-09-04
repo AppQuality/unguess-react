@@ -7,9 +7,9 @@ import {
   MediaInput,
   Message,
   Paragraph,
+  SM,
   Span,
 } from '@appquality/unguess-design-system';
-import { ReactComponent as LinkIcon } from '@zendeskgarden/svg-icons/src/16/chevron-left-stroke.svg';
 import { ReactComponent as Eye } from '@zendeskgarden/svg-icons/src/16/eye-fill.svg';
 import { ReactComponent as EyeHide } from '@zendeskgarden/svg-icons/src/16/eye-hide-fill.svg';
 import { Field, FieldProps, useFormikContext } from 'formik';
@@ -165,56 +165,77 @@ export const Step1 = () => {
         }}
       </Field>
       <PasswordRequirements password={values.password} />
-      <ButtonContainer style={{ marginBottom: appTheme.space.sm }}>
+      <ButtonContainer>
         <Button onClick={goToNextStep} isAccent isPrimary isStretched>
           {t('SIGNUP_FORM_GO_TO_STEP_2')}
         </Button>
+        <Paragraph>
+          <SM>
+            <Trans
+              i18nKey="SIGNUP_FORM_TERMS_AND_CONDITIONS"
+              components={{
+                'terms-link': (
+                  <Anchor
+                    style={{
+                      fontStyle: 'italic',
+                      color: appTheme.palette.blue[600],
+                    }}
+                    href="https://unguess.io/terms-and-conditions/"
+                    target="_blank"
+                    title="Terms and Conditions"
+                  />
+                ),
+                'privacy-link': (
+                  <Anchor
+                    style={{
+                      fontStyle: 'italic',
+                      color: appTheme.palette.blue[600],
+                    }}
+                    href="https://unguess.io/privacy-policy/"
+                    target="_blank"
+                    title="Privacy Policy"
+                  />
+                ),
+              }}
+            />
+          </SM>
+        </Paragraph>
       </ButtonContainer>
-      <Paragraph>
-        <Trans
-          i18nKey="SIGNUP_FORM_TERMS_AND_CONDITIONS"
-          components={{
-            'terms-link': (
-              <Anchor
-                style={{
-                  fontStyle: 'italic',
-                  color: appTheme.palette.azure[600],
-                }}
-                href="https://unguess.io/terms-and-conditions/"
-                target="_blank"
-                title="Terms and Conditions"
-              />
-            ),
-            'privacy-link': (
-              <Anchor
-                style={{
-                  fontStyle: 'italic',
-                  color: appTheme.palette.azure[600],
-                }}
-                href="https://unguess.io/privacy-policy/"
-                target="_blank"
-                title="Privacy Policy"
-              />
-            ),
-          }}
-        />
-      </Paragraph>
       <div
         style={{
           display: 'flex',
-          alignItems: 'center',
+          flexDirection: 'column',
           gap: appTheme.space.xs,
+          paddingTop: appTheme.space.sm,
         }}
       >
-        <LinkIcon color={appTheme.palette.grey[600]} />
-        <Anchor
-          style={{ color: appTheme.palette.blue[600] }}
-          target="_blank"
-          title="UNGUESS Home Page"
-          href="https://www.unguess.io"
-        >
-          {t('SIGNUP_FORM_CTA_RETURN_TO_UNGUESS_LANDING')}
-        </Anchor>
+        <SM style={{ marginBottom: appTheme.space.xxs }}>
+          {t('__JOIN_FORM_ALREADY_HAVE_ACCOUNT_LABEL')}{' '}
+          <Anchor
+            style={{
+              marginBottom: appTheme.space.xs,
+              color: appTheme.palette.blue[600],
+            }}
+            href="/login"
+          >
+            {t('__JOIN_FORM_SIGNIN_CTA')}
+          </Anchor>
+        </SM>
+        <SM color={appTheme.palette.blue[600]}>
+          <Trans
+            i18nKey="SIGNUP_FORM_CTA_RETURN_TO_UNGUESS_LANDING"
+            components={{
+              'unguess-link': (
+                <Anchor
+                  target="_blank"
+                  title="UNGUESS Home Page"
+                  href="https://www.unguess.io"
+                  color={appTheme.palette.blue[600]}
+                />
+              ),
+            }}
+          />
+        </SM>
       </div>
     </>
   );

@@ -83,7 +83,7 @@ test.describe('Save template from plan', () => {
       await expect(
         moduleBuilderPage.elements().saveAsTemplateFormStep()
       ).not.toBeVisible();
-      await expect(page).toHaveURL('/plans/1');
+      await expect(page).toHaveURL('/plans/1?tab=setup');
     });
     test('After saving a template, you can click on go to templates', async ({
       page,
