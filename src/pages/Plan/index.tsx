@@ -37,7 +37,7 @@ const PlanPage = ({ plan }: { plan: GetPlansByPidApiResponse | undefined }) => {
     if (activeTab.name !== 'summary' && plan.status !== 'draft') {
       setActiveTab('summary');
     }
-  }, [plan?.status, activeTab.name]);
+  }, [plan?.status]);
 
   useEffect(() => {
     if (search && search.get('payment') === 'success') {
