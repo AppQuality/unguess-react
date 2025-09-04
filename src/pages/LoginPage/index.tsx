@@ -1,10 +1,9 @@
 import {
   Anchor,
-  Button,
   LoginForm,
   Logo,
-  SM,
   Notification,
+  SM,
   useToast,
 } from '@appquality/unguess-design-system';
 import { FormikHelpers } from 'formik';
