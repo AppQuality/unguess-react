@@ -9,7 +9,6 @@
     "@atlaskit/pragmatic-drag-and-drop": "^1.7.4",
     "@atlaskit/pragmatic-drag-and-drop-flourish": "^2.0.3",
     "@atlaskit/pragmatic-drag-and-drop-hitbox": "^1.1.0",
-    "@emotion/is-prop-valid": "^1.4.0",
     "@headwayapp/react-widget": "^0.0.4",
     "@reduxjs/toolkit": "^1.8.0",
     "@sentry/react": "^8.32.0",
