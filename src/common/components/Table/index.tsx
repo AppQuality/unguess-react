@@ -37,11 +37,11 @@ type TableProps<T extends TableData, K extends keyof T> = {
   emptyState?: JSX.Element;
 };
 
-const TableWrapper = styled.div<{ maxHeight?: string }>`
+const TableWrapper = styled.div<{ $maxHeight?: string }>`
   width: 100%;
   padding-bottom: ${({ theme }) => theme.space.sm};
-  ${({ maxHeight }) =>
-    maxHeight && `max-height: ${maxHeight}; overflow-y: auto;`}
+  ${({ $maxHeight }) =>
+    $maxHeight && `max-height: ${$maxHeight}; overflow-y: auto;`}
 `;
 
 const StyledHead = styled(Head)<{ isSticky?: boolean }>`
@@ -65,7 +65,7 @@ const Table = <T extends TableData, K extends keyof T>({
     return emptyState || null;
   }
   return (
-    <TableWrapper maxHeight={maxHeight} style={style}>
+    <TableWrapper $maxHeight={maxHeight} style={style}>
       <ZendeskTable>
         <StyledHead isSticky={isSticky}>
           <HeaderRow>
