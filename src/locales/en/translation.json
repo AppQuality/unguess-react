@@ -774,6 +774,8 @@
   "__PLAN_PAGE_DELETE_PLAN_MODAL_BUTTON_CONFIRM": "Delete permanently",
   "__PLAN_PAGE_DELETE_PLAN_MODAL_ERROR": "We couldn't delete your draft: please try again later.",
   "__PLAN_PAGE_DELETE_PLAN_MODAL_TITLE": "Delete this draft?",
+  "__PLAN_PAGE_DRAFT_ACTIVITY_INFO_CURRENT_SETUP": "CURRENT SET UP",
+  "__PLAN_PAGE_DRAFT_ACTIVITY_INFO_CURRENT_SETUP_VALUE": "Fixed price with instant launch",
   "__PLAN_PAGE_DRAFT_ACTIVITY_INFO_PRICE_WARNING": "Need further customization?",
   "__PLAN_PAGE_DRAFT_ACTIVITY_INFO_PRICE_WARNING_LINK_TEXT": "More info",
   "__PLAN_PAGE_DRAFT_ACTIVITY_INFO_PRICE_WARNING_MESSAGE": "We'll create a custom quote if you need features beyond our standard package",
