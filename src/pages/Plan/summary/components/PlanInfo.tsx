@@ -1,4 +1,4 @@
-import { Label, MD, Message } from '@appquality/unguess-design-system';
+import { Label, MD, Alert, Message } from '@appquality/unguess-design-system';
 import { WidgetSpecialCard } from 'src/pages/Campaign/widgetCards/common/StyledSpecialCard';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
@@ -71,9 +71,9 @@ export const PlanInfo = () => {
             {plan.price}
           </Label>
         </div>
-        <Message validation="warning">
+        <Alert type="info">
           {t('__PLAN_PAGE_DRAFT_ACTIVITY_INFO_PRICE_WARNING')}
-        </Message>
+        </Alert>
       </PlanContentDiv>
     </WidgetSpecialCard>
   );
