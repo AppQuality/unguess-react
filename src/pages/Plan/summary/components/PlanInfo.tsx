@@ -3,20 +3,14 @@ import {
   Label,
   MD,
   Message,
-  UnorderedList,
 } from '@appquality/unguess-design-system';
-import { isSameDay } from 'date-fns';
-import { useMemo } from 'react';
-import { Trans, useTranslation } from 'react-i18next';
+
+import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
 import { Divider } from 'src/common/components/divider';
-import { GetPlansByPidApiResponse } from 'src/features/api';
-import { useModule } from 'src/features/modules/useModule';
-import { Notes } from 'src/common/components/NotesCard';
 import styled from 'styled-components';
 import { usePlan } from '../../hooks/usePlan';
-import { Description } from './typography/Description';
 import { Title } from './typography/Title';
 
 const PlanContentDiv = styled.div`
@@ -27,13 +21,9 @@ const PlanContentDiv = styled.div`
   margin-bottom: ${({ theme }) => theme.space.md};
 `;
 
-interface IPlan extends GetPlansByPidApiResponse {
-  isPurchasable?: boolean;
-}
-
 export const PlanInfo = () => {
   const { planId } = useParams();
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
 
   const { plan } = usePlan(planId);
 
@@ -44,7 +34,14 @@ export const PlanInfo = () => {
   }
 
   return (
-    <ContainerCard>
+    <ContainerCard
+      style={{
+        paddingLeft: appTheme.space.md,
+        paddingRight: appTheme.space.md,
+        paddingTop: appTheme.space.md,
+        paddingBottom: appTheme.space.md,
+      }}
+    >
       <Title
         isBold
         style={{
@@ -52,7 +49,7 @@ export const PlanInfo = () => {
           color: appTheme.palette.grey[800],
         }}
       >
-        {t('__PLAN_PAGE_SUMMARY_TAB_ACTIVITY_INFO_TITLE')}
+        {t('__PLAN_PAGE_DRAFT_ACTIVITY_INFO_TITLE')}
       </Title>
       <Divider
         style={{
@@ -65,17 +62,19 @@ export const PlanInfo = () => {
         <div>
           <MD>{t('__PLAN_PAGE_DRAFT_ACTIVITY_INFO_TEMPLATE_TYPE')}</MD>
           <Label
+            data-qa="template-type-value"
             style={{
               color: appTheme.palette.blue[600],
               fontSize: appTheme.fontSizes.lg,
             }}
           >
-            {plan.from_template.title}{' '}
+            {plan.from_template.title}
           </Label>
         </div>
         <div>
           <MD>{t('__PLAN_PAGE_DRAFT_ACTIVITY_INFO_STARTING_PRICE')}</MD>
           <Label
+            data-qa="starting-price-value"
             style={{
               color: appTheme.palette.blue[600],
               fontSize: appTheme.fontSizes.lg,
