@@ -108,7 +108,11 @@ export const PlanInfo = () => {
                   rel="noreferrer"
                   target="_blank"
                 >
-                  <LinkText>More info</LinkText>
+                  <LinkText>
+                    {t(
+                      '__PLAN_PAGE_DRAFT_ACTIVITY_INFO_PRICE_WARNING_LINK_TEXT'
+                    )}
+                  </LinkText>
                   <LinkIcon />
                 </ExternalLink>
               </div>
