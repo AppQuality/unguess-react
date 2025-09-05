@@ -6,6 +6,7 @@ import { usePlanContext } from './context/planContext';
 import { ModulesList } from './ModulesList';
 import { Nav } from './navigation/aside';
 import { PlanDetails } from './navigation/header/PlanDetails';
+import { PlanInfo } from './summary/components/PlanInfo';
 import SummaryBody from './summary';
 
 export const PlanBody = () => {
@@ -27,6 +28,9 @@ export const PlanBody = () => {
             </StickyCol>
             <Col sm="6">
               <ModulesList />
+            </Col>
+            <Col sm="3">
+              <PlanInfo />
             </Col>
             <Col sm="3">{debug && <PlanDetails />}</Col>
           </Row>

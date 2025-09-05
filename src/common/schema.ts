@@ -377,6 +377,15 @@ export interface paths {
       };
     };
   };
+  "/plans/{pid}/rules-evaluation": {
+    /** Usefull endpoint when a purchasable plan have some failed rules */
+    get: operations["get-plans-pid-rules-evaluation"];
+    parameters: {
+      path: {
+        pid: string;
+      };
+    };
+  };
   "/plans/{pid}/status": {
     /**  */
     patch: operations["patch-workspaces-wid-plans-pid-status"];
@@ -1424,6 +1433,16 @@ export interface components {
       name: string;
       workspaceId: number;
     };
+    /**
+     * PurchasablePlanRules
+     * @enum {string}
+     */
+    PurchasablePlanRules:
+      | "number_of_modules"
+      | "module_type"
+      | "number_of_testers"
+      | "number_of_tasks"
+      | "task_type";
     /** Report */
     Report: {
       creation_date?: string;
@@ -3344,8 +3363,12 @@ export interface operations {
             config: {
               modules: components["schemas"]["Module"][];
             };
+            from_template?: {
+              id: number;
+              title: string;
+            };
             id: number;
-            is_frozen?: number;
+            price?: string;
             project: {
               id: number;
               name: string;
@@ -3419,6 +3442,24 @@ export interface operations {
       404: components["responses"]["Error"];
       405: components["responses"]["Error"];
       500: components["responses"]["Error"];
+    };
+  };
+  /** Usefull endpoint when a purchasable plan have some failed rules */
+  "get-plans-pid-rules-evaluation": {
+    parameters: {
+      path: {
+        pid: string;
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          "application/json": {
+            failed: components["schemas"]["PurchasablePlanRules"][];
+          };
+        };
+      };
     };
   };
   /**  */
