@@ -91,6 +91,18 @@ export const PlanInfo = () => {
             {plan.price}
           </Label>
         </div>
+        <div>
+          <MD>{t('__PLAN_PAGE_DRAFT_ACTIVITY_INFO_CURRENT_SETUP')}</MD>
+          <Label
+            data-qa="current-setup-value"
+            style={{
+              color: appTheme.palette.blue[600],
+              fontSize: appTheme.fontSizes.lg,
+            }}
+          >
+            {t('__PLAN_PAGE_DRAFT_ACTIVITY_INFO_CURRENT_SETUP_VALUE')}
+          </Label>
+        </div>
         <GlobalAlert
           title={t('__PLAN_PAGE_DRAFT_ACTIVITY_INFO_PRICE_WARNING')}
           message={
