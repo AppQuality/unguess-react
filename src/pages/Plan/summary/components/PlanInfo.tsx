@@ -1,10 +1,5 @@
-import {
-  ContainerCard,
-  Label,
-  MD,
-  Message,
-} from '@appquality/unguess-design-system';
-
+import { Label, MD, Message } from '@appquality/unguess-design-system';
+import { WidgetSpecialCard } from 'src/pages/Campaign/widgetCards/common/StyledSpecialCard';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
@@ -34,14 +29,7 @@ export const PlanInfo = () => {
   }
 
   return (
-    <ContainerCard
-      style={{
-        paddingLeft: appTheme.space.md,
-        paddingRight: appTheme.space.md,
-        paddingTop: appTheme.space.md,
-        paddingBottom: appTheme.space.md,
-      }}
-    >
+    <WidgetSpecialCard style={{ height: 'auto' }}>
       <Title
         isBold
         style={{
@@ -87,6 +75,6 @@ export const PlanInfo = () => {
           {t('__PLAN_PAGE_DRAFT_ACTIVITY_INFO_PRICE_WARNING')}
         </Message>
       </PlanContentDiv>
-    </ContainerCard>
+    </WidgetSpecialCard>
   );
 };
