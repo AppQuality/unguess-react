@@ -3,6 +3,7 @@ import {
   MD,
   GlobalAlert,
   Span,
+  LG,
 } from '@appquality/unguess-design-system';
 import { WidgetSpecialCard } from 'src/pages/Campaign/widgetCards/common/StyledSpecialCard';
 import { ReactComponent as NewWindowIcon } from '@zendeskgarden/svg-icons/src/16/new-window-stroke.svg';
@@ -26,10 +27,15 @@ const ExternalLink = styled.a`
   display: inline-flex;
   align-items: baseline;
   gap: ${({ theme }) => theme.space.xs};
+  text-decoration: none !important;
 `;
 
 const LinkText = styled(MD)`
   display: inline;
+
+  &:hover {
+    text-decoration: underline;
+  }
 `;
 
 const LinkIcon = styled(NewWindowIcon)`
@@ -49,8 +55,8 @@ export const PlanInfo = () => {
   }
 
   return (
-    <WidgetSpecialCard style={{ height: 'auto' }}>
-      <Title
+    <WidgetSpecialCard style={{ height: 'auto', position: '-webkit-sticky' }}>
+      <LG
         isBold
         style={{
           marginBottom: appTheme.space.xs,
@@ -58,7 +64,7 @@ export const PlanInfo = () => {
         }}
       >
         {t('__PLAN_PAGE_DRAFT_ACTIVITY_INFO_TITLE')}
-      </Title>
+      </LG>
       <Divider
         style={{
           marginBottom: appTheme.space.xs,
@@ -90,6 +96,11 @@ export const PlanInfo = () => {
           >
             {plan.price}
           </Label>
+        </div>
+        <div>
+          <MD isBold style={{ fontStyle: 'italic' }}>
+            {t('__PLAN_PAGE_DRAFT_ACTIVITY_INFO_STARTING_PRICE_INFO')}
+          </MD>
         </div>
         <div>
           <MD>{t('__PLAN_PAGE_DRAFT_ACTIVITY_INFO_CURRENT_SETUP')}</MD>
