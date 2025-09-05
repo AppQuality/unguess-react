@@ -25,7 +25,11 @@ import PlanPageHeader from './navigation/header/Header';
 import { PlanBody } from './PlanBody';
 import { formatModuleDate } from './utils/formatModuleDate';
 
-const PlanPage = ({ plan }: { plan: GetPlansByPidApiResponse | undefined }) => {
+const PlanPageContent = ({
+  plan,
+}: {
+  plan: GetPlansByPidApiResponse | undefined;
+}) => {
   const { t } = useTranslation();
   const { activeTab, setActiveTab } = usePlanContext();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -58,17 +62,10 @@ const PlanPage = ({ plan }: { plan: GetPlansByPidApiResponse | undefined }) => {
   }, []);
 
   return (
-    <Page
-      title={t('__PLAN_PAGE_TITLE')}
-      className="plan-page"
-      route="plan"
-      isMinimal
-      excludeMarginTop
-      excludeMarginBottom
-    >
+    <>
       <PlanPageHeader />
       <PlanBody />
-    </Page>
+    </>
   );
 };
 
@@ -95,6 +92,7 @@ const Plan = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { planId } = useParams();
+  const { t } = useTranslation();
   const { isError, data: plan } = useGetPlansByPidQuery(
     {
       pid: Number(planId).toString(),
@@ -145,11 +143,20 @@ const Plan = () => {
   }
 
   return (
-    <FormProvider initialValues={initialValues}>
-      <PlanProvider>
-        <PlanPage plan={plan} />
-      </PlanProvider>
-    </FormProvider>
+    <Page
+      title={t('__PLAN_PAGE_TITLE')}
+      className="plan-page"
+      route="plan"
+      isMinimal
+      excludeMarginTop
+      excludeMarginBottom
+    >
+      <FormProvider initialValues={initialValues}>
+        <PlanProvider>
+          <PlanPageContent plan={plan} />
+        </PlanProvider>
+      </FormProvider>
+    </Page>
   );
 };
 
