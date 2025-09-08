@@ -13,7 +13,6 @@ import { appTheme } from 'src/app/theme';
 import { Divider } from 'src/common/components/divider';
 import styled from 'styled-components';
 import { usePlan } from '../../hooks/usePlan';
-import { Title } from './typography/Title';
 
 const PlanContentDiv = styled.div`
   display: flex;
@@ -55,7 +54,7 @@ export const PlanInfo = () => {
   }
 
   return (
-    <WidgetSpecialCard style={{ height: 'auto', position: '-webkit-sticky' }}>
+    <WidgetSpecialCard style={{ height: 'auto' }}>
       <LG
         isBold
         style={{
