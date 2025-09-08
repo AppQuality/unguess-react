@@ -73,7 +73,9 @@ export const PlanInfo = () => {
 
       <PlanContentDiv>
         <div>
-          <MD>{t('__PLAN_PAGE_DRAFT_ACTIVITY_INFO_TEMPLATE_TYPE')}</MD>
+          <MD data-qa="plan-page-template-type-title">
+            {t('__PLAN_PAGE_DRAFT_ACTIVITY_INFO_TEMPLATE_TYPE')}
+          </MD>
           <Label
             data-qa="template-type-value"
             style={{
@@ -114,6 +116,7 @@ export const PlanInfo = () => {
           </Label>
         </div>
         <GlobalAlert
+          data-qa="plan-page-price-warning-global-alert"
           title={t('__PLAN_PAGE_DRAFT_ACTIVITY_INFO_PRICE_WARNING')}
           message={
             <>

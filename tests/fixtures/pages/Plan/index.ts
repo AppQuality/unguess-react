@@ -181,9 +181,7 @@ export class PlanPage extends UnguessPage {
             this.i18n.t('__PLAN_PAGE_DRAFT_ACTIVITY_INFO_TITLE')
           ),
         templateType: () =>
-          this.page.getByText(
-            this.i18n.t('__PLAN_PAGE_DRAFT_ACTIVITY_INFO_TEMPLATE_TYPE')
-          ),
+          this.page.getByTestId('plan-page-template-type-title'),
         templateTypeValue: () => this.page.getByTestId('template-type-value'),
         startingPrice: () =>
           this.page.getByText(
@@ -191,9 +189,7 @@ export class PlanPage extends UnguessPage {
           ),
         startingPriceValue: () => this.page.getByTestId('starting-price-value'),
         priceWarning: () =>
-          this.page.getByText(
-            this.i18n.t('__PLAN_PAGE_DRAFT_ACTIVITY_INFO_PRICE_WARNING')
-          ),
+          this.page.getByTestId('plan-page-price-warning-global-alert'),
       }),
     };
   }
