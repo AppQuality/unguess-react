@@ -66,7 +66,6 @@ export const Controls = () => {
         ),
         { placement: 'top' }
       );
-      return;
     }
   };
 

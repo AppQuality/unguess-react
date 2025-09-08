@@ -1,5 +1,5 @@
 import { createContext, ReactNode, useContext, useMemo, useState } from 'react';
-import { useLocation, useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import { GetPlansByPidCheckoutItemApiResponse } from 'src/features/api';
 import { PLAN_TABS, PlanTab, PlanTabName } from '../common/constants';
 
