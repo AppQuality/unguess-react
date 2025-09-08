@@ -3,7 +3,6 @@ import styled from 'styled-components';
 export const ButtonContainer = styled.div`
   display: flex;
   gap: ${(p) => p.theme.space.sm};
-  align-items: center;
-  justify-content: flex-end;
+  flex-direction: column;
   padding-top: ${(p) => p.theme.space.md};
 `;

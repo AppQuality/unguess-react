@@ -72,8 +72,17 @@ const Background = styled.div<{ step: string }>`
   padding: ${({ theme }) => theme.space.xl} 0 ${({ theme }) => theme.space.md};
 `;
 
-const StyledCol = styled(Col)`
+const StyledCol = styled(Col)<{ $hideOnMobile?: boolean }>`
   margin-bottom: 0;
+  ${({ theme, $hideOnMobile }) =>
+    $hideOnMobile &&
+    `
+    display: none;
+    @media (min-width: ${theme.breakpoints.xl}) {
+      display: block;
+    }
+  `}    
+  }
 `;
 
 const LogoWrapper = styled.div`
@@ -99,6 +108,11 @@ const JoinPage = () => {
     }
   );
 
+  const meta = [
+    { name: 'og:description', content: t('__PAGE_JOIN_DESCRIPTION') },
+    { name: 'robots', content: 'index, follow' },
+  ];
+
   useEffect(() => {
     if (isLogged) {
       navigate(searchParams.get('redirectTo') || '/');
@@ -112,7 +126,11 @@ const JoinPage = () => {
   if (error) return <JoinPageError />;
 
   return (
-    <Track title={t('__PAGE_TITLE_JOIN')}>
+    <Track
+      title={t('__PAGE_JOIN_TITLE')}
+      description={t('__PAGE_JOIN_DESCRIPTION')}
+      metaTags={meta}
+    >
       <FormProvider {...data}>
         {({ isSubmitting, values: { step } }) => (
           <Background step={step.toString()}>
@@ -128,7 +146,7 @@ const JoinPage = () => {
                       </LogoWrapper>
                       <JoinForm />
                     </StyledCol>
-                    <StyledCol xs={0} xl={7}>
+                    <StyledCol xs={0} xl={7} $hideOnMobile>
                       <ImagesColumn />
                     </StyledCol>
                   </Row>

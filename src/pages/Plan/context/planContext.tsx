@@ -1,4 +1,6 @@
 import { createContext, ReactNode, useContext, useMemo, useState } from 'react';
+import { useLocation, useSearchParams } from 'react-router-dom';
+import { GetPlansByPidCheckoutItemApiResponse } from 'src/features/api';
 import { PLAN_TABS, PlanTab, PlanTabName } from '../common/constants';
 
 interface PlanContextProps {
@@ -10,21 +12,48 @@ interface PlanContextProps {
   isDeleteModalOpen: boolean;
   newModule: string | null;
   setNewModule: (module: string | null) => void;
+  setCheckoutItem: (checkoutItem: GetPlansByPidCheckoutItemApiResponse) => void;
+  checkoutItem: GetPlansByPidCheckoutItemApiResponse;
+  setIsPaymentInProgress: (isInProgress: boolean) => void;
+  isPaymentInProgress: boolean;
 }
 
 const PlanContext = createContext<PlanContextProps | null>(null);
 
 export const PlanProvider = ({ children }: { children: ReactNode }) => {
-  const [activeTab, setActiveTabState] = useState<PlanTab>(PLAN_TABS[0]);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const initialTabName = searchParams.get('tab');
+  let initialTab = PLAN_TABS.find((t) => t.name === initialTabName);
+  if (!initialTab) {
+    [initialTab] = PLAN_TABS;
+    setSearchParams({
+      ...Object.fromEntries(searchParams.entries()),
+      tab: initialTab.name,
+    });
+  }
+  const [activeTab, setActiveTabState] = useState<PlanTab>(initialTab);
   const [newModule, setNewModule] = useState<string | null>(null);
+  const [checkoutItem, setCheckoutItem] =
+    useState<GetPlansByPidCheckoutItemApiResponse>(
+      {} as GetPlansByPidCheckoutItemApiResponse
+    );
+
+  const [isPaymentInProgress, setIsPaymentInProgress] = useState(false);
 
   // Overloaded setActiveTab function
   const setActiveTab = (tab: PlanTab | PlanTabName) => {
+    let tabObj: PlanTab | undefined;
     if (typeof tab === 'string') {
-      const foundTab = PLAN_TABS.find((t) => t.name === tab);
-      if (foundTab) setActiveTabState(foundTab);
+      tabObj = PLAN_TABS.find((t) => t.name === tab);
     } else {
-      setActiveTabState(tab);
+      tabObj = tab;
+    }
+    if (tabObj) {
+      setActiveTabState(tabObj);
+      setSearchParams({
+        ...Object.fromEntries(searchParams.entries()),
+        tab: tabObj.name,
+      });
     }
   };
   const [isSaveTemplateModalOpen, setIsSaveTemplateModalOpen] = useState(false);
@@ -40,6 +69,10 @@ export const PlanProvider = ({ children }: { children: ReactNode }) => {
       isDeleteModalOpen,
       newModule,
       setNewModule,
+      setCheckoutItem,
+      checkoutItem,
+      setIsPaymentInProgress,
+      isPaymentInProgress,
     }),
     [
       activeTab,
@@ -49,6 +82,10 @@ export const PlanProvider = ({ children }: { children: ReactNode }) => {
       isDeleteModalOpen,
       newModule,
       setNewModule,
+      setCheckoutItem,
+      checkoutItem,
+      setIsPaymentInProgress,
+      isPaymentInProgress,
     ]
   );
 
