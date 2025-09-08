@@ -1,3 +1,4 @@
+import { useToast, Notification } from '@appquality/unguess-design-system';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
@@ -5,6 +6,7 @@ import { appTheme } from 'src/app/theme';
 import { Pipe } from 'src/common/components/Pipe';
 import { useModule } from 'src/features/modules/useModule';
 import styled from 'styled-components';
+import { useSubmit } from '../../../features/modules/useModuleConfiguration';
 import { getPlanStatus } from '../../Dashboard/hooks/getPlanStatus';
 import { usePlanContext } from '../context/planContext';
 import { usePlan } from '../hooks/usePlan';
@@ -30,6 +32,8 @@ export const Controls = () => {
   const { planId } = useParams();
   const { plan } = usePlan(planId);
   const { value: titleValue } = useModule('title'); // to use the current changed title value (also if plan is not saved) in delete modal
+  const { addToast } = useToast();
+  const { handleSubmit } = useSubmit(planId || '');
 
   if (!plan) return null;
 
@@ -38,6 +42,33 @@ export const Controls = () => {
     quote: plan.quote,
     t,
   });
+
+  const handleRequestQuotation = async () => {
+    try {
+      await handleSubmit();
+      setRequestQuotationModalOpen(true);
+    } catch (e) {
+      addToast(
+        ({ close }) => (
+          <Notification
+            onClose={close}
+            type="error"
+            role="alert"
+            title={t('__PLAN_PAGE_MODAL_SEND_REQUEST_TOAST_ERROR')}
+            message={
+              e instanceof Error && e.message
+                ? e.message
+                : t('__PLAN_PAGE_MODAL_SEND_REQUEST_TOAST_ERROR')
+            }
+            closeText={t('__TOAST_CLOSE_TEXT')}
+            isPrimary
+          />
+        ),
+        { placement: 'top' }
+      );
+      return;
+    }
+  };
 
   return (
     <div
@@ -49,9 +80,7 @@ export const Controls = () => {
         <>
           <SaveConfigurationButton />
           <StyledPipe />
-          <RequestQuotationButton
-            onClick={() => setRequestQuotationModalOpen(true)}
-          />
+          <RequestQuotationButton onClick={handleRequestQuotation} />
         </>
       )}
 
