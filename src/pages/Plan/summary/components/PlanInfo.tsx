@@ -4,6 +4,7 @@ import {
   GlobalAlert,
   Span,
   LG,
+  Anchor,
 } from '@appquality/unguess-design-system';
 import { WidgetSpecialCard } from 'src/pages/Campaign/widgetCards/common/StyledSpecialCard';
 import { ReactComponent as NewWindowIcon } from '@zendeskgarden/svg-icons/src/16/new-window-stroke.svg';
@@ -88,15 +89,15 @@ export const PlanInfo = () => {
         </div>
         <div>
           <MD>{t('__PLAN_PAGE_DRAFT_ACTIVITY_INFO_STARTING_PRICE')}</MD>
-          <Label
+          <LG
+            isBold
             data-qa="starting-price-value"
             style={{
               color: appTheme.palette.blue[600],
-              fontSize: appTheme.fontSizes.lg,
             }}
           >
             {plan.price}
-          </Label>
+          </LG>
         </div>
         <div>
           <MD isBold style={{ fontStyle: 'italic' }}>
@@ -105,15 +106,15 @@ export const PlanInfo = () => {
         </div>
         <div>
           <MD>{t('__PLAN_PAGE_DRAFT_ACTIVITY_INFO_CURRENT_SETUP')}</MD>
-          <Label
+          <LG
+            isBold
             data-qa="current-setup-value"
             style={{
               color: appTheme.palette.blue[600],
-              fontSize: appTheme.fontSizes.lg,
             }}
           >
             {t('__PLAN_PAGE_DRAFT_ACTIVITY_INFO_CURRENT_SETUP_VALUE')}
-          </Label>
+          </LG>
         </div>
         <GlobalAlert
           data-qa="plan-page-price-warning-global-alert"
@@ -128,7 +129,8 @@ export const PlanInfo = () => {
                   marginTop: appTheme.space.sm,
                 }}
               >
-                <ExternalLink
+                <Anchor
+                  isExternal
                   href="https://google.com"
                   rel="noreferrer"
                   target="_blank"
@@ -138,8 +140,7 @@ export const PlanInfo = () => {
                       '__PLAN_PAGE_DRAFT_ACTIVITY_INFO_PRICE_WARNING_LINK_TEXT'
                     )}
                   </LinkText>
-                  <LinkIcon />
-                </ExternalLink>
+                </Anchor>
               </div>
             </>
           }
