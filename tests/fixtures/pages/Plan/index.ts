@@ -350,6 +350,18 @@ export class PlanPage extends UnguessPage {
     });
   }
 
+  async mockGetDraftPlanWithTemplateWithoutPrice() {
+    await this.page.route('*/**/api/plans/1', async (route) => {
+      if (route.request().method() === 'GET') {
+        await route.fulfill({
+          path: 'tests/api/plans/pid/_get/200_draft_only_template_no_price.json',
+        });
+      } else {
+        await route.fallback();
+      }
+    });
+  }
+
   async mockGetApprovedPlan() {
     await this.page.route('*/**/api/plans/1', async (route) => {
       if (route.request().method() === 'GET') {

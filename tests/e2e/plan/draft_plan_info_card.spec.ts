@@ -3,7 +3,68 @@ import { PlanPage } from '../../fixtures/pages/Plan';
 import { TouchpointsModule } from '../../fixtures/pages/Plan/Module_touchpoints';
 import { RequestQuotationModal } from '../../fixtures/pages/Plan/RequestQuotationModal';
 
-test.describe('The draft plan info card', () => {
+test.describe('A plan without a price but only template', () => {
+  let planPage: PlanPage;
+  test.beforeEach(async ({ page }, testinfo) => {
+    testinfo.setTimeout(60000);
+    planPage = new PlanPage(page);
+
+    await planPage.loggedIn();
+    await planPage.mockPreferences();
+    await planPage.mockWorkspace();
+    await planPage.mockWorkspacesList();
+    await planPage.mockGetDraftPlanWithTemplateWithoutPrice();
+    await planPage.mockPatchPlan();
+
+    await planPage.open();
+  });
+
+  test('does not show the info plan card', async () => {
+    await expect(
+      planPage.elements().draftPlanCardInfo().title()
+    ).not.toBeVisible();
+    await expect(
+      planPage.elements().draftPlanCardInfo().templateType()
+    ).not.toBeVisible();
+    await expect(
+      planPage.elements().draftPlanCardInfo().startingPrice()
+    ).not.toBeVisible();
+    await expect(
+      planPage.elements().draftPlanCardInfo().priceWarning()
+    ).not.toBeVisible();
+  });
+});
+test.describe('A plan without a template and price', () => {
+  let planPage: PlanPage;
+  test.beforeEach(async ({ page }, testinfo) => {
+    testinfo.setTimeout(60000);
+    planPage = new PlanPage(page);
+
+    await planPage.loggedIn();
+    await planPage.mockPreferences();
+    await planPage.mockWorkspace();
+    await planPage.mockWorkspacesList();
+    await planPage.mockGetDraftPlan();
+    await planPage.mockPatchPlan();
+
+    await planPage.open();
+  });
+  test('does not show the info plan card', async () => {
+    await expect(
+      planPage.elements().draftPlanCardInfo().title()
+    ).not.toBeVisible();
+    await expect(
+      planPage.elements().draftPlanCardInfo().templateType()
+    ).not.toBeVisible();
+    await expect(
+      planPage.elements().draftPlanCardInfo().startingPrice()
+    ).not.toBeVisible();
+    await expect(
+      planPage.elements().draftPlanCardInfo().priceWarning()
+    ).not.toBeVisible();
+  });
+});
+test.describe('A plan with template and price', () => {
   let planPage: PlanPage;
   let requestQuotationModal: RequestQuotationModal;
   let touchpointsModule: TouchpointsModule;
