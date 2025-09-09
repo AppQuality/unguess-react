@@ -1,4 +1,4 @@
-import { useToast, Notification } from '@appquality/unguess-design-system';
+import { Notification, useToast } from '@appquality/unguess-design-system';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
@@ -93,7 +93,10 @@ export const Controls = () => {
       )}
 
       {isRequestQuotationModalOpen && (
-        <SendRequestModal onQuit={() => setRequestQuotationModalOpen(false)} />
+        <SendRequestModal
+          isPurchasable={plan.isPurchasable}
+          onQuit={() => setRequestQuotationModalOpen(false)}
+        />
       )}
     </div>
   );
