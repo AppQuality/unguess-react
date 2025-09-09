@@ -14,12 +14,12 @@ import {
   XL,
 } from '@appquality/unguess-design-system';
 import { Trans, useTranslation } from 'react-i18next';
+import { useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
+import { useGetPlansByPidRulesEvaluationQuery } from 'src/features/api';
 import { useRequestQuotation } from 'src/features/modules/useRequestQuotation';
 import { useValidateForm } from 'src/features/planModules';
 import { getModuleBySlug } from '../modules/Factory';
-import { useGetPlansByPidRulesEvaluationQuery } from 'src/features/api';
-import { useParams } from 'react-router-dom';
 import { PurchasablePlanRulesGuide } from './PurchasablePlanRules';
 
 const SendRequestModal = ({
@@ -32,7 +32,7 @@ const SendRequestModal = ({
   const { planId } = useParams();
   const { t } = useTranslation();
   const { isRequestingQuote, handleQuoteRequest } = useRequestQuotation();
-  const { data, isLoading, isError } = useGetPlansByPidRulesEvaluationQuery({
+  const { data, isLoading } = useGetPlansByPidRulesEvaluationQuery({
     pid: planId || '',
   });
 

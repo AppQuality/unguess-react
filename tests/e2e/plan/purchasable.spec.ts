@@ -31,7 +31,7 @@ test.describe('The module builder', () => {
         response.request().method() === 'GET'
     );
     await planPage.elements().requestQuotationCTA().click();
-    const response = await getEval;
+    await getEval;
   });
   test('if evaluation rules are empty just show the buy modal', async () => {
     await planPage.elements().requestQuotationCTA().click();
