@@ -181,7 +181,7 @@ export const DetailsCard = () => {
   });
 
   return (
-    <WidgetSpecialCard style={{ height: 'auto' }} data-qa="widget-special-card">
+    <WidgetSpecialCard style={{ height: 'auto' }}>
       <WidgetSpecialCard.Meta justifyContent="space-between">
         <>
           <MD isBold style={{ color: getColor(appTheme.palette.grey, 800) }}>
