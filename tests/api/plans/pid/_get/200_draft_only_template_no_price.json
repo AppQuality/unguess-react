@@ -1,0 +1,196 @@
+{
+  "config": {
+    "modules": [
+      {
+        "output": "My Plan",
+        "type": "title",
+        "variant": "default"
+      },
+      {
+        "output": {
+          "start": "2041-12-17T08:00:00.000Z"
+        },
+        "type": "dates",
+        "variant": "default"
+      },
+      {
+        "output": "Out of scope",
+        "type": "out_of_scope",
+        "variant": "default"
+      },
+      {
+        "output": [
+          {
+            "isOther": 0,
+            "name": "Enel Energia"
+          },
+          {
+            "isOther": 1,
+            "name": "Other Gas"
+          }
+        ],
+        "type": "gas_supply",
+        "variant": "default"
+      },
+      {
+        "output": 5,
+        "type": "target",
+        "variant": "default"
+      },
+      {
+        "output": "en",
+        "type": "language",
+        "variant": "default"
+      },
+      {
+        "output": [
+          {
+            "level": "intermediate",
+            "percentage": 100
+          }
+        ],
+        "type": "literacy",
+        "variant": "default"
+      },
+      {
+        "output": [
+          {
+            "max": 24,
+            "min": 16,
+            "percentage": 50
+          },
+          {
+            "max": 70,
+            "min": 55,
+            "percentage": 50
+          }
+        ],
+        "type": "age",
+        "variant": "default"
+      },
+      {
+        "output": "This is a Goal",
+        "type": "goal",
+        "variant": "default"
+      },
+      {
+        "output": ["EMPLOYEE", "STUDENT"],
+        "type": "employment",
+        "variant": "default"
+      },
+      {
+        "output": [
+          {
+            "gender": "female",
+            "percentage": 100
+          }
+        ],
+        "type": "gender",
+        "variant": "default"
+      },
+      {
+        "output": [
+          {
+            "isOther": 0,
+            "name": "ING"
+          },
+          {
+            "isOther": 1,
+            "name": "ImportantBank"
+          }
+        ],
+        "type": "bank",
+        "variant": "default"
+      },
+      {
+        "output": [
+          {
+            "isOther": 0,
+            "name": "Enel Energia"
+          },
+          {
+            "isOther": 1,
+            "name": "Other Energia"
+          }
+        ],
+        "type": "elettricity_supply",
+        "variant": "default"
+      },
+      {
+        "output": [
+          {
+            "name": "Chrome",
+            "percentage": 0
+          }
+        ],
+        "type": "browser",
+        "variant": "default"
+      },
+      {
+        "output": [
+          {
+            "form_factor": "smartphone",
+            "kind": "app",
+            "os": {
+              "android": "https://example.com"
+            }
+          }
+        ],
+        "type": "touchpoints",
+        "variant": "default"
+      },
+      {
+        "output": [
+          {
+            "max": 25000,
+            "min": 0,
+            "percentage": 0
+          }
+        ],
+        "type": "annual_income_range",
+        "variant": "default"
+      },
+      {
+        "output": [
+          {
+            "description": "description kind bug",
+            "kind": "bug",
+            "title": "Search for bugs"
+          },
+          {
+            "description": "description kind bug",
+            "kind": "video",
+            "title": "Think aloud"
+          }
+        ],
+        "type": "tasks",
+        "variant": "default"
+      },
+      {
+        "output": [
+          {
+            "type": "country",
+            "values": ["IT"]
+          },
+          {
+            "type": "region",
+            "values": ["Lombardia"]
+          }
+        ],
+        "type": "locality",
+        "variant": "default"
+      }
+    ]
+  },
+  "from_template": {
+    "id": 1,
+    "title": "Professional template"
+  },
+  "id": 13,
+  "project": {
+    "id": 90,
+    "name": "MyProject"
+  },
+  "status": "draft",
+  "workspace_id": 1
+}
