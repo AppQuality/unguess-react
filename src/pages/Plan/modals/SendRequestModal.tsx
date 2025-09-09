@@ -18,10 +18,17 @@ import { appTheme } from 'src/app/theme';
 import { useRequestQuotation } from 'src/features/modules/useRequestQuotation';
 import { useValidateForm } from 'src/features/planModules';
 import { getModuleBySlug } from '../modules/Factory';
+import { useGetPlansByPidRulesEvaluationQuery } from 'src/features/api';
+import { useParams } from 'react-router-dom';
 
 const SendRequestModal = ({ onQuit }: { onQuit: () => void }) => {
+  const { planId } = useParams();
   const { t } = useTranslation();
   const { isRequestingQuote, handleQuoteRequest } = useRequestQuotation();
+  const { data, isLoading, isError } = useGetPlansByPidRulesEvaluationQuery(
+    { pid: planId || '' },
+    { skip: !planId }
+  );
   const { addToast } = useToast();
   const Title = getModuleBySlug('title').Component;
   const Dates = getModuleBySlug('dates').Component;
@@ -90,6 +97,16 @@ const SendRequestModal = ({ onQuit }: { onQuit: () => void }) => {
         />
       </Modal>
     );
+  }
+
+  if (isLoading || !data) {
+    return null;
+    // todo: use skeleton to wait
+    // <Skeleton />
+  }
+
+  if (data && data.failed.length > 0) {
+    return;
   }
 
   return (

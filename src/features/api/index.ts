@@ -459,6 +459,12 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({ url: `/plans/${queryArg.pid}/checkoutItem` }),
     }),
+    getPlansByPidRulesEvaluation: build.query<
+      GetPlansByPidRulesEvaluationApiResponse,
+      GetPlansByPidRulesEvaluationApiArg
+    >({
+      query: (queryArg) => ({ url: `/plans/${queryArg.pid}/rules-evaluation` }),
+    }),
     patchPlansByPidStatus: build.mutation<
       PatchPlansByPidStatusApiResponse,
       PatchPlansByPidStatusApiArg
@@ -1553,8 +1559,12 @@ export type GetPlansByPidApiResponse = /** status 200 OK */ {
   config: {
     modules: Module[];
   };
+  from_template?: {
+    id: number;
+    title: string;
+  };
   id: number;
-  is_frozen?: number;
+  price?: string;
   project: {
     id: number;
     name: string;
@@ -1585,6 +1595,12 @@ export type GetPlansByPidCheckoutItemApiResponse = /** status 200 OK */ {
   status: string;
 };
 export type GetPlansByPidCheckoutItemApiArg = {
+  pid: string;
+};
+export type GetPlansByPidRulesEvaluationApiResponse = /** status 200 OK */ {
+  failed: PurchasablePlanRules[];
+};
+export type GetPlansByPidRulesEvaluationApiArg = {
   pid: string;
 };
 export type PatchPlansByPidStatusApiResponse = /** status 200 OK */ {};
@@ -2811,6 +2827,12 @@ export type Module =
   | ModuleGasSupply
   | ModuleAnnualIncomeRange;
 export type PlanStatus = 'pending_review' | 'draft' | 'approved' | 'paying';
+export type PurchasablePlanRules =
+  | 'number_of_modules'
+  | 'module_type'
+  | 'number_of_testers'
+  | 'number_of_tasks'
+  | 'task_type';
 export type Project = {
   campaigns_count: number;
   description?: string;
@@ -2991,6 +3013,7 @@ export const {
   useGetPlansByPidQuery,
   usePatchPlansByPidMutation,
   useGetPlansByPidCheckoutItemQuery,
+  useGetPlansByPidRulesEvaluationQuery,
   usePatchPlansByPidStatusMutation,
   usePostProjectsMutation,
   useDeleteProjectsByPidMutation,
