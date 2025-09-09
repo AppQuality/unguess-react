@@ -307,7 +307,7 @@ unguessApi.enhanceEndpoints({
       },
     },
     patchPlansByPid: {
-      invalidatesTags: ['Plans'],
+      invalidatesTags: ['Plans', 'EvaluationRules'],
     },
     postWorkspacesByWidPlans: {
       invalidatesTags: ['Plans'],
@@ -323,6 +323,9 @@ unguessApi.enhanceEndpoints({
     },
     getWorkspacesByWidTemplates: {
       providesTags: ['Templates'],
+    },
+    getPlansByPidRulesEvaluation: {
+      providesTags: ['EvaluationRules'],
     },
   },
 });

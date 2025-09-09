@@ -1,4 +1,4 @@
-import { useToast, Notification } from '@appquality/unguess-design-system';
+import { Notification, useToast } from '@appquality/unguess-design-system';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
@@ -17,7 +17,6 @@ import { GoToCampaignButton } from './GoToCampaignButton';
 import { IconButtonMenu } from './IconButtonMenu';
 import { RequestQuotationButton } from './RequestQuotationButton';
 import { SaveConfigurationButton } from './SaveConfigurationButton';
-import { unguessApiSlice } from 'src/features/api/apiTags';
 
 const StyledPipe = styled(Pipe)`
   display: inline;
@@ -35,8 +34,6 @@ export const Controls = () => {
   const { value: titleValue } = useModule('title'); // to use the current changed title value (also if plan is not saved) in delete modal
   const { addToast } = useToast();
   const { handleSubmit } = useSubmit(planId || '');
-  const [trigger] =
-    unguessApiSlice.endpoints.getPlansByPidRulesEvaluation.useLazyQuery();
 
   if (!plan) return null;
 
@@ -49,16 +46,6 @@ export const Controls = () => {
   const handleRequestQuotation = async () => {
     try {
       await handleSubmit();
-      if (plan.isPurchasable) {
-        const { data, isError } = await trigger({ pid: planId || '' });
-        if (isError) {
-          throw new Error('Failed to fetch rules evaluation');
-        }
-        if (data && data.failed.length > 0) {
-          // todo: Handle failed rules evaluation
-          // setFailedRules(data.failed);
-        }
-      }
       setRequestQuotationModalOpen(true);
     } catch (e) {
       addToast(
@@ -106,7 +93,10 @@ export const Controls = () => {
       )}
 
       {isRequestQuotationModalOpen && (
-        <SendRequestModal onQuit={() => setRequestQuotationModalOpen(false)} />
+        <SendRequestModal
+          isPurchasable={plan.isPurchasable}
+          onQuit={() => setRequestQuotationModalOpen(false)}
+        />
       )}
     </div>
   );

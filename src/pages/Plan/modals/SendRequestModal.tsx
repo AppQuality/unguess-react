@@ -20,15 +20,23 @@ import { useValidateForm } from 'src/features/planModules';
 import { getModuleBySlug } from '../modules/Factory';
 import { useGetPlansByPidRulesEvaluationQuery } from 'src/features/api';
 import { useParams } from 'react-router-dom';
+import { PurchasablePlanRulesGuide } from './PurchasablePlanRules';
 
-const SendRequestModal = ({ onQuit }: { onQuit: () => void }) => {
+const SendRequestModal = ({
+  onQuit,
+  isPurchasable,
+}: {
+  onQuit: () => void;
+  isPurchasable: boolean;
+}) => {
   const { planId } = useParams();
   const { t } = useTranslation();
   const { isRequestingQuote, handleQuoteRequest } = useRequestQuotation();
-  const { data, isLoading, isError } = useGetPlansByPidRulesEvaluationQuery(
-    { pid: planId || '' },
-    { skip: !planId }
-  );
+  const { data, isLoading, isError } = useGetPlansByPidRulesEvaluationQuery({
+    pid: planId || '',
+  });
+
+  const isFailed = isPurchasable && data && data.failed.length > 0;
   const { addToast } = useToast();
   const Title = getModuleBySlug('title').Component;
   const Dates = getModuleBySlug('dates').Component;
@@ -99,65 +107,85 @@ const SendRequestModal = ({ onQuit }: { onQuit: () => void }) => {
     );
   }
 
-  if (isLoading || !data) {
-    return null;
-    // todo: use skeleton to wait
-    // <Skeleton />
-  }
-
-  if (data && data.failed.length > 0) {
-    return;
-  }
-
   return (
     <Modal onClose={onQuit} role="dialog">
       <Modal.Header>{t('__PLAN_PAGE_MODAL_SEND_REQUEST_TITLE')}</Modal.Header>
       <Modal.Body style={{ overflow: 'visible' }}>
-        <XL isBold>{t('__PLAN_PAGE_MODAL_SEND_REQUEST_BODY_TITLE')}</XL>
-        <SM style={{ margin: `${appTheme.space.sm} 0` }}>
-          {t('__PLAN_PAGE_MODAL_SEND_REQUEST_BODY_DESCRIPTION')}
-        </SM>
-        <OrderedList style={{ fontSize: appTheme.fontSizes.sm }}>
-          <li>{t('__PLAN_PAGE_MODAL_SEND_REQUEST_BODY_DESCRIPTION_1')}</li>
-          <li>{t('__PLAN_PAGE_MODAL_SEND_REQUEST_BODY_DESCRIPTION_2')}</li>
-          <li>{t('__PLAN_PAGE_MODAL_SEND_REQUEST_BODY_DESCRIPTION_3')}</li>
-        </OrderedList>
-        <div style={{ padding: `${appTheme.space.md} 0` }}>
-          <Label>{t('__PLAN_PAGE_MODAL_SEND_REQUEST_TITLE_LABEL')}</Label>
-          <Title />
-          <Message style={{ marginTop: appTheme.space.sm }}>
-            {t('__PLAN_PAGE_MODAL_SEND_REQUEST_TITLE_HINT')}
-          </Message>
-        </div>
-        <div style={{ padding: `${appTheme.space.md} 0` }}>
-          <Label style={{ marginBottom: appTheme.space.xxs }}>
-            {t('__PLAN_PAGE_MODAL_SEND_REQUEST_DATES_LABEL')}
-          </Label>
-          <SM style={{ marginBottom: appTheme.space.sm }}>
-            {t('__PLAN_PAGE_MODAL_SEND_REQUEST_DATES_DESCRIPTION')}
-          </SM>
-          <Dates />
-          <Message style={{ marginTop: appTheme.space.sm }}>
-            {t('__PLAN_PAGE_MODAL_SEND_REQUEST_DATES_HINT')}
-          </Message>
-        </div>
+        {isLoading ? (
+          <Skeleton width="100%" height="100px" />
+        ) : (
+          <>
+            <XL isBold>
+              {isFailed
+                ? t('__PLAN_PAGE_MODAL_SEND_REQUEST_BODY_TITLE_FAILED_RULES')
+                : t('__PLAN_PAGE_MODAL_SEND_REQUEST_BODY_TITLE')}
+            </XL>
+            <SM style={{ margin: `${appTheme.space.sm} 0` }}>
+              {isFailed
+                ? t(
+                    '__PLAN_PAGE_MODAL_SEND_REQUEST_BODY_DESCRIPTION_FAILED_RULES'
+                  )
+                : t('__PLAN_PAGE_MODAL_SEND_REQUEST_BODY_DESCRIPTION')}
+            </SM>
+            {isFailed ? (
+              <PurchasablePlanRulesGuide failedRules={data?.failed} />
+            ) : (
+              <OrderedList style={{ fontSize: appTheme.fontSizes.sm }}>
+                <li>
+                  {t('__PLAN_PAGE_MODAL_SEND_REQUEST_BODY_DESCRIPTION_1')}
+                </li>
+                <li>
+                  {t('__PLAN_PAGE_MODAL_SEND_REQUEST_BODY_DESCRIPTION_2')}
+                </li>
+                <li>
+                  {t('__PLAN_PAGE_MODAL_SEND_REQUEST_BODY_DESCRIPTION_3')}
+                </li>
+              </OrderedList>
+            )}
+            <div style={{ padding: `${appTheme.space.md} 0` }}>
+              <Label>{t('__PLAN_PAGE_MODAL_SEND_REQUEST_TITLE_LABEL')}</Label>
+              <Title />
+              <Message style={{ marginTop: appTheme.space.sm }}>
+                {t('__PLAN_PAGE_MODAL_SEND_REQUEST_TITLE_HINT')}
+              </Message>
+            </div>
+            <div style={{ padding: `${appTheme.space.md} 0` }}>
+              <Label style={{ marginBottom: appTheme.space.xxs }}>
+                {t('__PLAN_PAGE_MODAL_SEND_REQUEST_DATES_LABEL')}
+              </Label>
+              <SM style={{ marginBottom: appTheme.space.sm }}>
+                {t('__PLAN_PAGE_MODAL_SEND_REQUEST_DATES_DESCRIPTION')}
+              </SM>
+              <Dates />
+              <Message style={{ marginTop: appTheme.space.sm }}>
+                {t('__PLAN_PAGE_MODAL_SEND_REQUEST_DATES_HINT')}
+              </Message>
+            </div>
+          </>
+        )}
       </Modal.Body>
       <Modal.Footer>
-        <FooterItem>
-          <Button isBasic onClick={onQuit}>
-            {t('__PLAN_PAGE_MODAL_SEND_REQUEST_BUTTON_CANCEL')}
-          </Button>
-        </FooterItem>
-        <FooterItem>
-          <Button
-            isAccent
-            isPrimary
-            onClick={handleConfirm}
-            data-qa="request-quotation-modal-cta"
-          >
-            {t('__PLAN_PAGE_MODAL_SEND_REQUEST_BUTTON_CONFIRM')}
-          </Button>
-        </FooterItem>
+        {isLoading ? (
+          <Skeleton width="100%" height="40px" />
+        ) : (
+          <>
+            <FooterItem>
+              <Button isBasic onClick={onQuit}>
+                {t('__PLAN_PAGE_MODAL_SEND_REQUEST_BUTTON_CANCEL')}
+              </Button>
+            </FooterItem>
+            <FooterItem>
+              <Button
+                isAccent
+                isPrimary
+                onClick={handleConfirm}
+                data-qa="request-quotation-modal-cta"
+              >
+                {t('__PLAN_PAGE_MODAL_SEND_REQUEST_BUTTON_CONFIRM')}
+              </Button>
+            </FooterItem>
+          </>
+        )}
       </Modal.Footer>
       <ModalClose />
     </Modal>
