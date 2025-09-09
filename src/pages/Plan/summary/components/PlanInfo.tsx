@@ -76,15 +76,15 @@ export const PlanInfo = () => {
           <MD data-qa="plan-page-template-type-title">
             {t('__PLAN_PAGE_DRAFT_ACTIVITY_INFO_TEMPLATE_TYPE')}
           </MD>
-          <Label
+          <LG
+            isBold
             data-qa="template-type-value"
             style={{
               color: appTheme.palette.blue[600],
-              fontSize: appTheme.fontSizes.lg,
             }}
           >
             {plan.from_template.title}
-          </Label>
+          </LG>
         </div>
         <div>
           <MD>{t('__PLAN_PAGE_DRAFT_ACTIVITY_INFO_STARTING_PRICE')}</MD>
