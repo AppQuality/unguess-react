@@ -7,6 +7,7 @@ const Wrapper = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: ${({ theme }) => theme.space.md};
+  margin-bottom: ${({ theme }) => theme.space.lg};
   > div {
     background-color: ${({ theme }) => theme.palette.grey[100]};
     border-radius: 8px;
