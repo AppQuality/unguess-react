@@ -35,6 +35,8 @@ export class RequestQuotationModal {
         this.page.getByRole('alert', {
           name: this.i18n.t('__PLAN_PAGE_MODAL_SEND_REQUEST_TOAST_ERROR'),
         }),
+      purchasablePlanRules: () =>
+        this.page.getByTestId('purchasable-plan-rules'),
     };
   }
 

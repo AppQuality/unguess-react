@@ -29,6 +29,7 @@ export const Step2 = () => {
   const { data: dataCompanySizes, isLoading: isLoadingCompanySizes } =
     useGetCompaniesSizesQuery();
   const selectRef = useRef<HTMLDivElement>(null);
+  const roleSelectRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     sendGTMevent({
@@ -148,7 +149,7 @@ export const Step2 = () => {
         {({ field, meta }: FieldProps) => {
           const hasError = meta.touched && Boolean(meta.error);
           return (
-            <div ref={selectRef}>
+            <div ref={roleSelectRef}>
               <Select
                 placeholder={t('SIGNUP_FORM_ROLE_PLACEHOLDER')}
                 data-qa="roleId-select"
@@ -169,7 +170,7 @@ export const Step2 = () => {
                 onSelect={(roleId) => {
                   setFieldValue('roleId', Number(roleId));
                   (
-                    selectRef.current?.querySelector(
+                    roleSelectRef.current?.querySelector(
                       '[role="combobox"]'
                     ) as HTMLElement | null
                   )?.blur();

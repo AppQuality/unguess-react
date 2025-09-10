@@ -56,7 +56,9 @@ test.describe('The module builder', () => {
     expect(data).toEqual(examplePatch);
   });
 
-  test('if confirmation calls the PATCH Plan', async ({ page }) => {
+  test('if submit request is clicked, first save the plan for validity and then calls the PATCH Plan', async ({
+    page,
+  }) => {
     const patchPromise = page.waitForResponse(
       (response) =>
         /\/api\/plans\/1/.test(response.url()) &&
@@ -64,10 +66,10 @@ test.describe('The module builder', () => {
         response.request().method() === 'PATCH'
     );
     await planPage.elements().requestQuotationCTA().click();
-    await requestQuotationModal.elements().submitCTA().click();
     const response = await patchPromise;
     const data = response.request().postDataJSON();
     expect(data).toEqual(examplePatch);
+    await requestQuotationModal.elements().submitCTA().click();
   });
   test('if PATCH plan is ok then calls the PATCH Status', async () => {
     await planPage.elements().requestQuotationCTA().click();

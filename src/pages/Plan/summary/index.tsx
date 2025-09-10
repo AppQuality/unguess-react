@@ -32,13 +32,6 @@ const SummaryBody = () => {
   const [patchStatus] = usePatchPlansByPidStatusMutation();
   const [search] = useSearchParams();
 
-  if (!plan) return null;
-
-  if (plan.status === 'draft') {
-    setActiveTab('setup');
-    return null;
-  }
-
   useEffect(() => {
     if (search && search.get('payment') === 'failed') {
       patchStatus({
@@ -61,6 +54,13 @@ const SummaryBody = () => {
         });
     }
   }, [search]);
+
+  if (!plan) return null;
+
+  if (plan.status === 'draft') {
+    setActiveTab('setup');
+    return null;
+  }
 
   return (
     <Row>

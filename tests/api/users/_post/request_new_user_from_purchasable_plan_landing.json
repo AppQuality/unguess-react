@@ -1,0 +1,11 @@
+{
+  "companySizeId": 3,
+  "email": "jhon.doe@example.com",
+  "name": "string",
+  "password": "string",
+  "roleId": 0,
+  "surname": "string",
+  "templateId": 1234,
+  "type": "new",
+  "workspace": "My new Workspace"
+}

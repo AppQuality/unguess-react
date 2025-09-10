@@ -396,4 +396,54 @@ export class PlanPage extends UnguessPage {
       }
     });
   }
+
+  async mockGetPlanCheckoutItem() {
+    await this.page.route('*/**/api/plans/1/checkoutItem', async (route) => {
+      if (route.request().method() === 'GET') {
+        await route.fulfill({
+          path: 'tests/api/plans/pid/checkoutItem/_get/200_Example_1.json',
+        });
+      } else {
+        await route.fallback();
+      }
+    });
+  }
+
+  async mockGetRulesEvaluation() {
+    await this.page.route(
+      '*/**/api/plans/1/rules-evaluation',
+      async (route) => {
+        if (route.request().method() === 'GET') {
+          await route.fulfill({
+            path: 'tests/api/plans/pid/rules-evaluation/_get/200_Example_1.json',
+          });
+        } else {
+          await route.fallback();
+        }
+      }
+    );
+  }
+
+  async mockGetRulesEvaluationNoError() {
+    await this.page.route(
+      '*/**/api/plans/1/rules-evaluation',
+      async (route) => {
+        if (route.request().method() === 'GET') {
+          await route.fulfill({
+            status: 200,
+            json: {
+              success: true,
+              data: {
+                failed: [],
+              },
+            },
+          });
+        } else {
+          await route.fallback();
+        }
+      }
+    );
+  }
+
+  as;
 }

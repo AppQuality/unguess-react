@@ -1,0 +1,11 @@
+{
+  "api_version": "2025-07-30.basil",
+  "created": 1754579313,
+  "data": {
+    "object": {
+      "id": "cs_test_a171NrStd4Ogm5xLrotJ5wMf9fSzdjmdox2XB500A",
+      "metadata": "osdosnfosdifoif8393lkml"
+    }
+  },
+  "type": "checkout.session.completed"
+}
