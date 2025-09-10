@@ -136,7 +136,7 @@ const Cta = ({
         isPrimary
         isStretched
         type="button"
-        disabled={status === 'submitted' || isSubmitted}
+        disabled={status === 'submitted' || isSubmitted || status === 'paying'}
         onClick={onClick}
       >
         {t('__PLAN_PAGE_SUMMARY_TAB_CONFIRMATION_CARD_CONFIRM_CTA')}

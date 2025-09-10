@@ -132,12 +132,14 @@
           {
             "description": "description kind bug",
             "kind": "bug",
-            "title": "Search for bugs"
+            "title": "Search for bugs",
+            "id": "bug-1"
           },
           {
-            "description": "description kind bug",
+            "description": "description kind video",
             "kind": "video",
-            "title": "Think aloud"
+            "title": "Think aloud",
+            "id": "video-1"
           }
         ],
         "type": "tasks",
@@ -187,11 +189,16 @@
       }
     ]
   },
-  "id": 13,
+  "id": 1,
   "project": {
     "id": 90,
     "name": "MyProject"
   },
-  "status": "pending_review",
+  "quote": {
+    "id": 98,
+    "status": "approved",
+    "value": "3600 €"
+  },
+  "status": "paying",
   "workspace_id": 1
 }

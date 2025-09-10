@@ -5,6 +5,7 @@ import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { usePlan } from '../../hooks/usePlan';
 import { ReactComponent as ApprovedImage } from '../assets/approved.svg';
+import { ReactComponent as PayingImage } from '../assets/paying.svg';
 import { ReactComponent as AwaitingImage } from '../assets/awaiting.svg';
 import { ReactComponent as SubmittedImage } from '../assets/submitted.svg';
 import { Description } from './typography/Description';
@@ -44,6 +45,24 @@ export const IntroductionCard = () => {
   if (!plan) return null;
 
   if (plan.status === 'draft') return null;
+
+  if (plan.status === 'paying') {
+    return (
+      <ContainerCard>
+        <ContentRow>
+          <ImageItem>
+            <PayingImage />
+          </ImageItem>
+          <ContentItem>
+            <Title>{t('__PLAN_PAGE_INTRODUCTION_CARD_PAID_TITLE')}</Title>
+            <Description>
+              {t('__PLAN_PAGE_INTRODUCTION_CARD_PAID_DESCRIPTION')}
+            </Description>
+          </ContentItem>
+        </ContentRow>
+      </ContainerCard>
+    );
+  }
 
   if (plan.isPurchasable) {
     return (
