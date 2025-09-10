@@ -8,7 +8,6 @@ import {
   Modal,
   ModalClose,
   Notification,
-  OrderedList,
   Skeleton,
   SM,
   useToast,
@@ -22,7 +21,6 @@ import { useRequestQuotation } from 'src/features/modules/useRequestQuotation';
 import { useValidateForm } from 'src/features/planModules';
 import { getModuleBySlug } from '../modules/Factory';
 import { PurchasablePlanRulesGuide } from './PurchasablePlanRules';
-import { is } from 'date-fns/locale';
 
 const SendRequestModal = ({
   onQuit,
