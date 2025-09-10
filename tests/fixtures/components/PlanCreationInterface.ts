@@ -121,7 +121,7 @@ export class PlanCreationInterface {
     await this.page.route('*/**/api/plans/69', async (route) => {
       if (route.request().method() === 'GET') {
         await route.fulfill({
-          path: 'tests/api/workspaces/plans/pid/_get/200_draft.json',
+          path: 'tests/api/plans/pid/_get/200_draft.json',
         });
       } else {
         await route.fallback();
