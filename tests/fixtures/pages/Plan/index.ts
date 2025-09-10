@@ -26,6 +26,7 @@ export class PlanPage extends UnguessPage {
 
   constructor(page: Page) {
     super(page);
+
     this.modules = {
       touchpoints: new TouchpointsModule(page),
       age: new AgeModule(page),
@@ -174,6 +175,22 @@ export class PlanPage extends UnguessPage {
         this.elements().titleModule().getByTestId('title-input'),
       titleModuleOutput: () =>
         this.elements().titleModule().getByTestId('title-output'),
+      draftPlanCardInfo: () => ({
+        title: () =>
+          this.page.getByText(
+            this.i18n.t('__PLAN_PAGE_DRAFT_ACTIVITY_INFO_TITLE')
+          ),
+        templateType: () =>
+          this.page.getByTestId('plan-page-template-type-title'),
+        templateTypeValue: () => this.page.getByTestId('template-type-value'),
+        startingPrice: () =>
+          this.page.getByText(
+            this.i18n.t('__PLAN_PAGE_DRAFT_ACTIVITY_INFO_STARTING_PRICE')
+          ),
+        startingPriceValue: () => this.page.getByTestId('starting-price-value'),
+        priceWarning: () =>
+          this.page.getByTestId('plan-page-price-warning-global-alert'),
+      }),
     };
   }
 
@@ -314,6 +331,30 @@ export class PlanPage extends UnguessPage {
       if (route.request().method() === 'GET') {
         await route.fulfill({
           path: 'tests/api/plans/pid/_get/200_pending_review_quoted.json',
+        });
+      } else {
+        await route.fallback();
+      }
+    });
+  }
+
+  async mockGetDraftPlanWithTemplateAndPrice() {
+    await this.page.route('*/**/api/plans/1', async (route) => {
+      if (route.request().method() === 'GET') {
+        await route.fulfill({
+          path: 'tests/api/plans/pid/_get/200_draft_template_and_price.json',
+        });
+      } else {
+        await route.fallback();
+      }
+    });
+  }
+
+  async mockGetDraftPlanWithTemplateWithoutPrice() {
+    await this.page.route('*/**/api/plans/1', async (route) => {
+      if (route.request().method() === 'GET') {
+        await route.fulfill({
+          path: 'tests/api/plans/pid/_get/200_draft_only_template_no_price.json',
         });
       } else {
         await route.fallback();

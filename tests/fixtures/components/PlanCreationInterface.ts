@@ -100,7 +100,7 @@ export class PlanCreationInterface {
           path: 'tests/api/projects/_post/200_Example_1.json',
         });
       } else {
-        await route.continue();
+        await route.fallback();
       }
     });
   }
@@ -112,7 +112,19 @@ export class PlanCreationInterface {
           path: 'tests/api/workspaces/wid/plans/_post/201_Example_1.json',
         });
       } else {
-        await route.continue();
+        await route.fallback();
+      }
+    });
+  }
+
+  async mockGetNewPlan() {
+    await this.page.route('*/**/api/plans/69', async (route) => {
+      if (route.request().method() === 'GET') {
+        await route.fulfill({
+          path: 'tests/api/plans/pid/_get/200_draft.json',
+        });
+      } else {
+        await route.fallback();
       }
     });
   }
