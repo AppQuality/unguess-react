@@ -3,6 +3,7 @@ import {
   FooterItem,
   Label,
   LG,
+  MD,
   Message,
   Modal,
   ModalClose,
@@ -21,6 +22,7 @@ import { useRequestQuotation } from 'src/features/modules/useRequestQuotation';
 import { useValidateForm } from 'src/features/planModules';
 import { getModuleBySlug } from '../modules/Factory';
 import { PurchasablePlanRulesGuide } from './PurchasablePlanRules';
+import { is } from 'date-fns/locale';
 
 const SendRequestModal = ({
   onQuit,
@@ -127,20 +129,13 @@ const SendRequestModal = ({
                   )
                 : t('__PLAN_PAGE_MODAL_SEND_REQUEST_BODY_DESCRIPTION')}
             </SM>
-            {isFailed ? (
-              <PurchasablePlanRulesGuide failedRules={data?.failed} />
-            ) : (
-              <OrderedList style={{ fontSize: appTheme.fontSizes.sm }}>
-                <li>
-                  {t('__PLAN_PAGE_MODAL_SEND_REQUEST_BODY_DESCRIPTION_1')}
-                </li>
-                <li>
-                  {t('__PLAN_PAGE_MODAL_SEND_REQUEST_BODY_DESCRIPTION_2')}
-                </li>
-                <li>
-                  {t('__PLAN_PAGE_MODAL_SEND_REQUEST_BODY_DESCRIPTION_3')}
-                </li>
-              </OrderedList>
+            {isFailed && (
+              <>
+                <PurchasablePlanRulesGuide failedRules={data?.failed} />
+                <MD isBold style={{ marginBottom: appTheme.space.xs }}>
+                  {t('__PLAN_PAGE_MODAL_SEND_REQUEST_BODY_DESCRIPTION_CONFIRM')}
+                </MD>
+              </>
             )}
             <div style={{ padding: `${appTheme.space.md} 0` }}>
               <Label>{t('__PLAN_PAGE_MODAL_SEND_REQUEST_TITLE_LABEL')}</Label>
@@ -171,7 +166,9 @@ const SendRequestModal = ({
           <>
             <FooterItem>
               <Button isBasic onClick={onQuit}>
-                {t('__PLAN_PAGE_MODAL_SEND_REQUEST_BUTTON_CANCEL')}
+                {isFailed
+                  ? t('__PLAN_PAGE_MODAL_SEND_REQUEST_BUTTON_CANCEL_FAILED')
+                  : t('__PLAN_PAGE_MODAL_SEND_REQUEST_BUTTON_CANCEL')}
               </Button>
             </FooterItem>
             <FooterItem>
@@ -181,7 +178,9 @@ const SendRequestModal = ({
                 onClick={handleConfirm}
                 data-qa="request-quotation-modal-cta"
               >
-                {t('__PLAN_PAGE_MODAL_SEND_REQUEST_BUTTON_CONFIRM')}
+                {isFailed
+                  ? t('__PLAN_PAGE_MODAL_SEND_REQUEST_BUTTON_CONFIRM_FAILED')
+                  : t('__PLAN_PAGE_MODAL_SEND_REQUEST_BUTTON_CONFIRM')}
               </Button>
             </FooterItem>
           </>
