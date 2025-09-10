@@ -22,6 +22,7 @@ test.describe('project page', () => {
     await project.mockProjectCampaigns();
     await planCreationInterface.mockGetProjects();
     await planCreationInterface.mockPostPlans();
+    await planCreationInterface.mockGetNewPlan();
     await planCreationInterface.mockPostProject();
     await promoList.mockPromoTemplates();
     await project.mockWorkspacesList();
@@ -139,6 +140,7 @@ test.describe('project page empty state', () => {
     await project.mockEmptyProject();
     await planCreationInterface.mockGetProjects();
     await planCreationInterface.mockPostPlans();
+    await planCreationInterface.mockGetNewPlan();
     await project.mockWorkspacesList();
     await promoList.mockPromoTemplates();
     await project.open();
