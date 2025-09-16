@@ -11,7 +11,6 @@ import { Trans, useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
 import { Divider } from 'src/common/components/divider';
-import { GetPlansByPidApiResponse } from 'src/features/api';
 import { useModule } from 'src/features/modules/useModule';
 import { Notes } from 'src/common/components/NotesCard';
 import styled from 'styled-components';
@@ -27,35 +26,32 @@ const PlanContentDiv = styled.div`
   margin-bottom: ${({ theme }) => theme.space.md};
 `;
 
-interface IPlan extends GetPlansByPidApiResponse {
-  isPurchasable?: boolean;
-}
-
-const ActivityDescription = ({ plan }: { plan: IPlan }) => {
+const ActivityDescription = () => {
   const { t } = useTranslation();
-
-  if (plan.status === 'paying')
+  const { planId } = useParams();
+  const { planComposedStatus } = usePlan(planId);
+  if (planComposedStatus === 'Paying')
     return (
       <Description>
         {t('__PLAN_PAGE_SUMMARY_TAB_ACTIVITY_INFO_DATE_LABEL_PAYING')}
       </Description>
     );
 
-  if (!plan.quote || plan.quote.status === 'pending')
+  if (planComposedStatus === 'Submitted' || planComposedStatus === 'OpsCheck')
     return (
       <Description>
         {t('__PLAN_PAGE_SUMMARY_TAB_ACTIVITY_INFO_SUBMITTED_DESCRIPTION')}
       </Description>
     );
 
-  if (plan.quote && plan.quote.status === 'proposed')
+  if (planComposedStatus === 'AwaitingApproval')
     return (
       <Description>
         {t('__PLAN_PAGE_SUMMARY_TAB_ACTIVITY_INFO_AWAITING_DESCRIPTION')}
       </Description>
     );
 
-  if (plan.quote && plan.quote.status === 'approved')
+  if (planComposedStatus === 'Accepted')
     return (
       <Description>
         {t('__PLAN_PAGE_SUMMARY_TAB_ACTIVITY_INFO_APPROVED_DESCRIPTION')}
@@ -104,24 +100,19 @@ export const ActivityInfo = () => {
 
   const { value } = useModule('dates');
 
-  const { plan } = usePlan(planId);
+  const { plan, planComposedStatus } = usePlan(planId);
 
-  if (!plan) return null;
-
-  if (plan.status === 'draft') return null;
   const modulesDate = value?.output.start
     ? new Date(value.output.start)
     : new Date();
 
   const planDate = useMemo(() => {
-    if (plan.campaign) {
+    if (plan?.campaign) {
       return new Date(plan.campaign.startDate);
     }
 
     return modulesDate;
-  }, [modulesDate, plan.campaign]);
-
-  const isSubmitted = !plan.quote || plan.quote.status === 'pending';
+  }, [modulesDate, plan?.campaign]);
 
   return (
     <ContainerCard>
@@ -134,7 +125,7 @@ export const ActivityInfo = () => {
       >
         {t('__PLAN_PAGE_SUMMARY_TAB_ACTIVITY_INFO_TITLE')}
       </Title>
-      <ActivityDescription plan={plan} />
+      <ActivityDescription />
       <Divider
         style={{
           marginBottom: appTheme.space.xs,
@@ -145,7 +136,8 @@ export const ActivityInfo = () => {
       <PlanContentDiv>
         <div>
           <Label>
-            {isSubmitted
+            {planComposedStatus === 'Submitted' ||
+            planComposedStatus === 'OpsCheck'
               ? t('__PLAN_PAGE_SUMMARY_TAB_ACTIVITY_INFO_DATE_LABEL_SUBMITTED')
               : t('__PLAN_PAGE_SUMMARY_TAB_ACTIVITY_INFO_DATE_LABEL')}
           </Label>
@@ -156,7 +148,7 @@ export const ActivityInfo = () => {
               day: '2-digit',
             })}
           </MD>
-          {plan.campaign &&
+          {plan?.campaign &&
             !isSameDay(new Date(plan.campaign.startDate), modulesDate) && (
               <Message
                 validation="warning"
@@ -166,9 +158,10 @@ export const ActivityInfo = () => {
               </Message>
             )}
 
-          {isSubmitted &&
-            plan.campaign &&
-            isSameDay(new Date(plan.campaign.startDate), modulesDate) && (
+          {(planComposedStatus === 'Submitted' ||
+            planComposedStatus === 'OpsCheck') &&
+            plan?.campaign &&
+            isSameDay(new Date(plan?.campaign.startDate), modulesDate) && (
               <Message style={{ marginTop: appTheme.space.md }}>
                 {t(
                   '__PLAN_PAGE_SUMMARY_TAB_ACTIVITY_INFO_DATE_SUBMITTED_WARNING'
@@ -178,12 +171,14 @@ export const ActivityInfo = () => {
         </div>
         <div>
           <Label>
-            {isSubmitted && plan?.quote?.value
+            {planComposedStatus === 'Submitted' ||
+            (planComposedStatus === 'OpsCheck' && plan?.quote?.value)
               ? t('__PLAN_PAGE_SUMMARY_TAB_ACTIVITY_INFO_PRICE_ESTIMATED')
               : t('__PLAN_PAGE_SUMMARY_TAB_ACTIVITY_INFO_PRICE')}
           </Label>
           <MD>
-            {isSubmitted &&
+            {(planComposedStatus === 'Submitted' ||
+              planComposedStatus === 'OpsCheck') &&
               plan?.quote?.value &&
               t('__PLAN_PAGE_SUMMARY_TAB_ACTIVITY_INFO_PRICE_PREFIX')}{' '}
             {plan?.quote?.value ||
@@ -192,7 +187,7 @@ export const ActivityInfo = () => {
         </div>
       </PlanContentDiv>
 
-      {plan.status !== 'paying' && <ActivityNotes />}
+      {planComposedStatus !== 'Paying' && <ActivityNotes />}
     </ContainerCard>
   );
 };

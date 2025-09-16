@@ -22,13 +22,6 @@ import styled from 'styled-components';
 import { usePlan } from '../../hooks/usePlan';
 import { BuyButton } from './BuyButton';
 
-type IPlanStatus =
-  | 'draft'
-  | 'submitted'
-  | 'pending_quote_review'
-  | 'approved'
-  | 'paying';
-
 const StyledDiv = styled.div`
   display: flex;
   flex-direction: column;
@@ -51,16 +44,10 @@ const Footer = styled.div`
   margin-bottom: ${({ theme }) => theme.space.md};
 `;
 
-const Content = ({
-  date,
-  quote,
-  status,
-}: {
-  date: Date;
-  quote?: string;
-  status: IPlanStatus;
-}) => {
+const Content = ({ date, quote }: { date: Date; quote?: string }) => {
   const { t, i18n } = useTranslation();
+  const { planId } = useParams();
+  const { planComposedStatus } = usePlan(planId);
 
   const price =
     quote ||
@@ -70,7 +57,8 @@ const Content = ({
     <>
       <StyledDiv>
         <SM>
-          {(status === 'submitted'
+          {(planComposedStatus === 'Submitted' ||
+          planComposedStatus === 'OpsCheck'
             ? t('__PLAN_PAGE_SUMMARY_TAB_ACTIVITY_INFO_DATE_LABEL_SUBMITTED')
             : t('__PLAN_PAGE_SUMMARY_TAB_ACTIVITY_INFO_DATE_LABEL')
           ).toLocaleUpperCase()}
@@ -81,7 +69,10 @@ const Content = ({
             month: 'long',
             day: '2-digit',
           })}
-          {status === 'submitted' ? '*' : ''}
+          {planComposedStatus === 'Submitted' ||
+          planComposedStatus === 'OpsCheck'
+            ? '*'
+            : ''}
         </PrimaryText>
       </StyledDiv>
       <StyledDiv>
@@ -89,12 +80,14 @@ const Content = ({
           {t('__PLAN_PAGE_SUMMARY_TAB_ACTIVITY_INFO_PRICE').toLocaleUpperCase()}
         </SM>
         <PrimaryText isBold isPending={!quote}>
-          {status === 'submitted' &&
+          {(planComposedStatus === 'Submitted' ||
+            planComposedStatus === 'OpsCheck') &&
             quote &&
             t('__PLAN_PAGE_SUMMARY_TAB_ACTIVITY_INFO_PRICE_PREFIX')}{' '}
           {price}
         </PrimaryText>
-        {status === 'submitted' && (
+        {(planComposedStatus === 'Submitted' ||
+          planComposedStatus === 'OpsCheck') && (
           <MD style={{ marginTop: appTheme.space.sm }}>
             {t(
               '__PLAN_PAGE_SUMMARY_TAB_ACTIVITY_INFO_PRICE_NOT_AVAILABLE_NOTES'
@@ -107,20 +100,24 @@ const Content = ({
 };
 
 const Cta = ({
-  status,
   campaignId,
   isSubmitted,
   onClick,
 }: {
-  status: IPlanStatus;
   campaignId: number;
   isSubmitted: boolean;
   onClick: () => void;
 }) => {
   const { t } = useTranslation();
   const campaignRoute = useLocalizeRoute(`campaigns/${campaignId}`);
+  const { planId } = useParams();
+  const { planComposedStatus } = usePlan(planId);
 
-  if (status === 'approved')
+  if (
+    planComposedStatus === 'Accepted' ||
+    planComposedStatus === 'RunningPlan' ||
+    planComposedStatus === 'PurchasedPlan'
+  )
     return (
       <Link to={campaignRoute}>
         <Anchor isExternal>
@@ -142,7 +139,8 @@ const Cta = ({
         {t('__PLAN_PAGE_SUMMARY_TAB_CONFIRMATION_CARD_CONFIRM_CTA')}
       </Button>
 
-      {status === 'pending_quote_review' && (
+      {(planComposedStatus === 'AwaitingApproval' ||
+        planComposedStatus === 'AwaitingPayment') && (
         <StyledDiv>
           <Message>
             {t(
@@ -199,7 +197,7 @@ export const DetailsCard = () => {
         </>
       </WidgetSpecialCard.Meta>
       <Divider />
-      <Content date={planDate()} quote={plan?.quote?.value} status={status} />
+      <Content date={planDate()} quote={plan?.quote?.value} />
       <Footer>
         {!plan.isPurchasable ? (
           <Cta
@@ -215,7 +213,6 @@ export const DetailsCard = () => {
                   setIsSubmitted(false);
                 });
             }}
-            status={status}
             campaignId={plan?.campaign?.id ?? 0}
           />
         ) : (

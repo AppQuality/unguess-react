@@ -88,7 +88,6 @@ const usePlan = (planId?: string) => {
     const hasTemplateQuote = planTemplate?.price !== undefined;
     const cpStatus = planCampaign?.status.name;
 
-    // Mapping rules from the state diagram
     switch (plan.status) {
       case 'draft': {
         // Draft variations

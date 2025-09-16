@@ -41,11 +41,17 @@ const ContentRow = styled.div`
 export const GoToDashboardCard = () => {
   const { planId } = useParams();
   const { t } = useTranslation();
-  const { plan } = usePlan(planId);
+  const { plan, planComposedStatus } = usePlan(planId);
   const campaignRoute = useLocalizeRoute(
     `campaigns/${plan?.campaign?.id ?? '0'}`
   );
-  if (!plan || plan.status !== 'approved') return null;
+  if (
+    !plan ||
+    (planComposedStatus !== 'Accepted' &&
+      planComposedStatus !== 'RunningPlan' &&
+      planComposedStatus !== 'PurchasedPlan')
+  )
+    return null;
 
   return (
     <ContainerCard>

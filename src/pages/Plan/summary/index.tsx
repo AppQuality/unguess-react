@@ -27,7 +27,7 @@ const StyledDiv = styled.div`
 const SummaryBody = () => {
   const { t } = useTranslation();
   const { planId } = useParams();
-  const { plan } = usePlan(planId);
+  const { plan, planComposedStatus } = usePlan(planId);
   const { setActiveTab, isPaymentInProgress } = usePlanContext();
   const [patchStatus] = usePatchPlansByPidStatusMutation();
   const [search] = useSearchParams();
@@ -69,7 +69,7 @@ const SummaryBody = () => {
           <TabTitle />
           <IntroductionCard />
           <ActivityInfo />
-          {!plan.isPurchasable && <ConfirmationCard />}
+          {planComposedStatus !== 'Paying' && <ConfirmationCard />}
           <SaveTemplateCard />
           <GoToDashboardCard />
         </StyledDiv>
