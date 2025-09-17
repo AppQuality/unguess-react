@@ -11,7 +11,6 @@ const REQUIRED_MODULES = ['title', 'dates', 'tasks'] as const;
 export const useRequestQuotation = () => {
   const [error, setError] = useState<string | null>(null);
   const { planId } = useParams();
-  const { planComposedStatus } = usePlan(planId);
   const { handleSubmit: submitModuleConfiguration, isLoading: isSubmitting } =
     useSubmit(planId || '');
   const { errors } = useAppSelector((state) => state.planModules);
