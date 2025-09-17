@@ -182,7 +182,8 @@ export const ActivityInfo = () => {
         </div>
       </PlanContentDiv>
 
-      {planComposedStatus !== 'Paying' && <ActivityNotes />}
+      {planComposedStatus !== 'Paying' &&
+        planComposedStatus !== 'AwaitingPayment' && <ActivityNotes />}
     </ContainerCard>
   );
 };

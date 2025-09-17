@@ -37,7 +37,7 @@ export const ConfirmationCard = () => {
   const { planId } = useParams();
   const { t } = useTranslation();
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const { plan } = usePlan(planId);
+  const { plan, planComposedStatus } = usePlan(planId);
 
   const [patchStatus] = usePatchPlansByPidStatusMutation();
 
@@ -76,32 +76,36 @@ export const ConfirmationCard = () => {
             to make changes.
           </Trans>
         </div>
-        <Alert type="warning">
-          <Alert.Title>
-            {t('__PLAN_PAGE_SUMMARY_TAB_CONFIRMATION_CARD_WARNING_TITLE')}
-          </Alert.Title>
-          {t('__PLAN_PAGE_SUMMARY_TAB_CONFIRMATION_CARD_WARNING_DESCRIPTION')}
-        </Alert>
+        {planComposedStatus !== 'AwaitingPayment' && (
+          <Alert type="warning">
+            <Alert.Title>
+              {t('__PLAN_PAGE_SUMMARY_TAB_CONFIRMATION_CARD_WARNING_TITLE')}
+            </Alert.Title>
+            {t('__PLAN_PAGE_SUMMARY_TAB_CONFIRMATION_CARD_WARNING_DESCRIPTION')}
+          </Alert>
+        )}
       </Body>
       <Footer>
-        <Button
-          isDanger
-          isBasic
-          disabled={isSubmitted}
-          onClick={() => {
-            setIsSubmitted(true);
-            patchStatus({
-              pid: planId?.toString() ?? '',
-              body: { status: 'draft' },
-            })
-              .unwrap()
-              .then(() => {
-                setIsSubmitted(false);
-              });
-          }}
-        >
-          {t('__PLAN_PAGE_SUMMARY_TAB_CONFIRMATION_CARD_REFUSE_CTA')}
-        </Button>
+        {planComposedStatus !== 'AwaitingPayment' && (
+          <Button
+            isDanger
+            isBasic
+            disabled={isSubmitted}
+            onClick={() => {
+              setIsSubmitted(true);
+              patchStatus({
+                pid: planId?.toString() ?? '',
+                body: { status: 'draft' },
+              })
+                .unwrap()
+                .then(() => {
+                  setIsSubmitted(false);
+                });
+            }}
+          >
+            {t('__PLAN_PAGE_SUMMARY_TAB_CONFIRMATION_CARD_REFUSE_CTA')}
+          </Button>
+        )}
         <Button
           disabled={isSubmitted}
           onClick={() => {
