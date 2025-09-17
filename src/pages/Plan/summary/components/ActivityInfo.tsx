@@ -61,38 +61,33 @@ const ActivityDescription = () => {
   return null;
 };
 
-const ActivityNotes = () => {
-  const { t } = useTranslation();
-  return (
-    <Notes style={{ cursor: 'default' }}>
-      <Trans i18nKey="__PLAN_PAGE_SUMMARY_TAB_ACTIVITY_INFO_NOTES_CARD_DESCRIPTION">
-        <MD
-          isBold
-          style={{
-            marginBottom: appTheme.space.xs,
-            color: appTheme.palette.grey[800],
-          }}
-        >
-          Factors that can affect the price and start date:
-        </MD>
-        <UnorderedList>
-          <UnorderedList.Item>
-            Number and complexity of tasks
-          </UnorderedList.Item>
-          <UnorderedList.Item>
-            Timeline and urgency requirements
-          </UnorderedList.Item>
-          <UnorderedList.Item>
-            User incentives and recruitment needs
-          </UnorderedList.Item>
-          <UnorderedList.Item>Research activities scope</UnorderedList.Item>
-          <UnorderedList.Item>Project management activities</UnorderedList.Item>
-          <UnorderedList.Item>Additional customizations</UnorderedList.Item>
-        </UnorderedList>
-      </Trans>
-    </Notes>
-  );
-};
+const ActivityNotes = () => (
+  <Notes style={{ cursor: 'default' }}>
+    <Trans i18nKey="__PLAN_PAGE_SUMMARY_TAB_ACTIVITY_INFO_NOTES_CARD_DESCRIPTION">
+      <MD
+        isBold
+        style={{
+          marginBottom: appTheme.space.xs,
+          color: appTheme.palette.grey[800],
+        }}
+      >
+        Factors that can affect the price and start date:
+      </MD>
+      <UnorderedList>
+        <UnorderedList.Item>Number and complexity of tasks</UnorderedList.Item>
+        <UnorderedList.Item>
+          Timeline and urgency requirements
+        </UnorderedList.Item>
+        <UnorderedList.Item>
+          User incentives and recruitment needs
+        </UnorderedList.Item>
+        <UnorderedList.Item>Research activities scope</UnorderedList.Item>
+        <UnorderedList.Item>Project management activities</UnorderedList.Item>
+        <UnorderedList.Item>Additional customizations</UnorderedList.Item>
+      </UnorderedList>
+    </Trans>
+  </Notes>
+);
 
 export const ActivityInfo = () => {
   const { planId } = useParams();

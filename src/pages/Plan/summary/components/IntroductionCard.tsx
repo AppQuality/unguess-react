@@ -94,7 +94,7 @@ export const IntroductionCard = () => {
     },
   };
 
-  const statusData = statusMap[planComposedStatus];
+  const statusData = statusMap[`${planComposedStatus}`];
   if (!statusData) return null;
 
   return (
