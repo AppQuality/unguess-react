@@ -37,10 +37,17 @@ const ActivityDescription = () => {
       </Description>
     );
 
-  if (planComposedStatus === 'Submitted' || planComposedStatus === 'OpsCheck')
+  if (planComposedStatus === 'Submitted')
     return (
       <Description>
         {t('__PLAN_PAGE_SUMMARY_TAB_ACTIVITY_INFO_SUBMITTED_DESCRIPTION')}
+      </Description>
+    );
+
+  if (planComposedStatus === 'OpsCheck')
+    return (
+      <Description>
+        {t('__PLAN_PAGE_SUMMARY_TAB_ACTIVITY_INFO_OPSCHECK_DESCRIPTION')}
       </Description>
     );
 
@@ -172,12 +179,13 @@ export const ActivityInfo = () => {
               : t('__PLAN_PAGE_SUMMARY_TAB_ACTIVITY_INFO_PRICE')}
           </Label>
           <MD>
-            {(planComposedStatus === 'Submitted' ||
-              planComposedStatus === 'OpsCheck') &&
+            {planComposedStatus === 'Submitted' &&
               plan?.quote?.value &&
               t('__PLAN_PAGE_SUMMARY_TAB_ACTIVITY_INFO_PRICE_PREFIX')}{' '}
-            {plan?.quote?.value ||
-              t('__PLAN_PAGE_SUMMARY_TAB_ACTIVITY_INFO_PRICE_NOT_AVAILABLE')}
+            {planComposedStatus === 'OpsCheck'
+              ? t('__PLAN_PAGE_SUMMARY_TAB_ACTIVITY_INFO_PRICE_PENDING')
+              : plan?.quote?.value ||
+                t('__PLAN_PAGE_SUMMARY_TAB_ACTIVITY_INFO_PRICE_NOT_AVAILABLE')}
           </MD>
         </div>
       </PlanContentDiv>

@@ -79,19 +79,27 @@ const Content = ({ date, quote }: { date: Date; quote?: string }) => {
         <SM>
           {t('__PLAN_PAGE_SUMMARY_TAB_ACTIVITY_INFO_PRICE').toLocaleUpperCase()}
         </SM>
-        <PrimaryText isBold isPending={!quote}>
-          {(planComposedStatus === 'Submitted' ||
-            planComposedStatus === 'OpsCheck') &&
+        <PrimaryText
+          isBold
+          isPending={!quote || planComposedStatus === 'OpsCheck'}
+        >
+          {planComposedStatus === 'Submitted' &&
             quote &&
             t('__PLAN_PAGE_SUMMARY_TAB_ACTIVITY_INFO_PRICE_PREFIX')}{' '}
-          {price}
+          {planComposedStatus === 'OpsCheck'
+            ? `${t('__PLAN_PAGE_SUMMARY_TAB_ACTIVITY_INFO_PRICE_PENDING')}*`
+            : price}
         </PrimaryText>
-        {(planComposedStatus === 'Submitted' ||
-          planComposedStatus === 'OpsCheck') && (
+        {planComposedStatus === 'Submitted' && (
           <MD style={{ marginTop: appTheme.space.sm }}>
             {t(
               '__PLAN_PAGE_SUMMARY_TAB_ACTIVITY_INFO_PRICE_NOT_AVAILABLE_NOTES'
             )}
+          </MD>
+        )}
+        {planComposedStatus === 'OpsCheck' && (
+          <MD style={{ marginTop: appTheme.space.sm }}>
+            {t('__PLAN_PAGE_SUMMARY_TAB_ACTIVITY_INFO_PRICE_OPS_CHECK_NOTES')}
           </MD>
         )}
       </StyledDiv>
