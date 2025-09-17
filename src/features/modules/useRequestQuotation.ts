@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { useAppSelector } from 'src/app/hooks';
+import { usePlan } from 'src/pages/Plan/hooks/usePlan';
 import { usePatchPlansByPidStatusMutation } from '../api';
 import { useModuleConfiguration, useSubmit } from './useModuleConfiguration';
 
@@ -10,6 +11,7 @@ const REQUIRED_MODULES = ['title', 'dates', 'tasks'] as const;
 export const useRequestQuotation = () => {
   const [error, setError] = useState<string | null>(null);
   const { planId } = useParams();
+  const { planComposedStatus } = usePlan(planId);
   const { handleSubmit: submitModuleConfiguration, isLoading: isSubmitting } =
     useSubmit(planId || '');
   const { errors } = useAppSelector((state) => state.planModules);
@@ -66,6 +68,7 @@ export const useRequestQuotation = () => {
     if (getPlanStatus() === 'pending_review') {
       return true;
     }
+
     // if the user is already submitting, return true
     if (isSubmitting || isLoading) {
       return true;
