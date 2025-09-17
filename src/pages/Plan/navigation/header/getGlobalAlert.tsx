@@ -37,11 +37,18 @@ export const useGlobalAlert = () => {
       );
     case 'Accepted':
     case 'RunningPlan':
-    case 'PurchasedPlan':
       return (
         <GlobalAlert
           message={<>{t('PLAN_GLOBAL_ALERT_APPROVED_STATE_MESSAGE')}</>}
           title={t('PLAN_GLOBAL_ALERT_APPROVED_STATE_TITLE')}
+          type="success"
+        />
+      );
+    case 'PurchasedPlan':
+      return (
+        <GlobalAlert
+          message={<>{t('PLAN_GLOBAL_ALERT_PURCHASED_STATE_MESSAGE')}</>}
+          title={t('PLAN_GLOBAL_ALERT_PURCHASED_STATE_TITLE')}
           type="success"
         />
       );
