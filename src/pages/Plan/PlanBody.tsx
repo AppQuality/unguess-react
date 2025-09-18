@@ -29,9 +29,9 @@ export const PlanBody = () => {
             <Col sm="6">
               <ModulesList />
             </Col>
-            <Col sm="3">
+            <StickyCol sm="3">
               <PlanInfo />
-            </Col>
+            </StickyCol>
             <Col sm="3">{debug && <PlanDetails />}</Col>
           </Row>
         )}
