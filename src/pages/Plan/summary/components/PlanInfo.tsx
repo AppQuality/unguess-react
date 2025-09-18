@@ -82,7 +82,7 @@ export const PlanInfo = () => {
         </SM>
       </PlanContentDiv>
       <PlanContentDiv>
-        <SM isBold>{t('__PLAN_PAGE_DRAFT_ACTIVITY_INFO_CURRENT_SETUP')}</SM>
+        <SM>{t('__PLAN_PAGE_DRAFT_ACTIVITY_INFO_CURRENT_SETUP')}</SM>
         <LG
           isBold
           data-qa="current-setup-value"
