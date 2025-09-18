@@ -4,6 +4,7 @@ import {
   Span,
   LG,
   Anchor,
+  SM,
 } from '@appquality/unguess-design-system';
 import { WidgetSpecialCard } from 'src/pages/Campaign/widgetCards/common/StyledSpecialCard';
 import { useTranslation } from 'react-i18next';
@@ -17,7 +18,10 @@ const PlanContentDiv = styled.div`
   display: flex;
   flex-direction: column;
   margin-top: ${({ theme }) => theme.space.md};
-  gap: ${({ theme }) => theme.space.sm};
+`;
+
+const Footer = styled.div`
+  margin-top: ${({ theme }) => theme.space.md};
   margin-bottom: ${({ theme }) => theme.space.md};
 `;
 
@@ -35,66 +39,61 @@ export const PlanInfo = () => {
 
   return (
     <WidgetSpecialCard style={{ height: 'auto' }}>
-      <LG
+      <MD
         isBold
         style={{
-          marginBottom: appTheme.space.xs,
           color: appTheme.palette.grey[800],
+          marginBottom: appTheme.space.sm,
         }}
       >
         {t('__PLAN_PAGE_DRAFT_ACTIVITY_INFO_TITLE')}
-      </LG>
-      <Divider
-        style={{
-          marginBottom: appTheme.space.xs,
-          marginTop: appTheme.space.sm,
-        }}
-      />
+      </MD>
+      <Divider />
 
       <PlanContentDiv>
-        <div>
-          <MD data-qa="plan-page-template-type-title">
-            {t('__PLAN_PAGE_DRAFT_ACTIVITY_INFO_TEMPLATE_TYPE')}
-          </MD>
-          <LG
-            isBold
-            data-qa="template-type-value"
-            style={{
-              color: appTheme.palette.blue[600],
-            }}
-          >
-            {plan.from_template.title}
-          </LG>
-        </div>
-        <div>
-          <MD>{t('__PLAN_PAGE_DRAFT_ACTIVITY_INFO_STARTING_PRICE')}</MD>
-          <LG
-            isBold
-            data-qa="starting-price-value"
-            style={{
-              color: appTheme.palette.blue[600],
-            }}
-          >
-            {plan.price}
-          </LG>
-        </div>
-        <div>
-          <MD isBold style={{ fontStyle: 'italic' }}>
-            {t('__PLAN_PAGE_DRAFT_ACTIVITY_INFO_STARTING_PRICE_INFO')}
-          </MD>
-        </div>
-        <div>
-          <MD>{t('__PLAN_PAGE_DRAFT_ACTIVITY_INFO_CURRENT_SETUP')}</MD>
-          <LG
-            isBold
-            data-qa="current-setup-value"
-            style={{
-              color: appTheme.palette.blue[600],
-            }}
-          >
-            {t('__PLAN_PAGE_DRAFT_ACTIVITY_INFO_CURRENT_SETUP_VALUE')}
-          </LG>
-        </div>
+        <SM data-qa="plan-page-template-type-title">
+          {t('__PLAN_PAGE_DRAFT_ACTIVITY_INFO_TEMPLATE_TYPE')}
+        </SM>
+        <LG
+          isBold
+          data-qa="template-type-value"
+          style={{
+            color: appTheme.palette.blue[600],
+          }}
+        >
+          {plan.from_template.title}
+        </LG>
+      </PlanContentDiv>
+      <PlanContentDiv>
+        <SM>{t('__PLAN_PAGE_DRAFT_ACTIVITY_INFO_STARTING_PRICE')}</SM>
+        <LG
+          isBold
+          data-qa="starting-price-value"
+          style={{
+            color: appTheme.palette.blue[600],
+          }}
+        >
+          {plan.price}
+        </LG>
+      </PlanContentDiv>
+      <PlanContentDiv>
+        <SM isBold style={{ fontStyle: 'italic' }}>
+          {t('__PLAN_PAGE_DRAFT_ACTIVITY_INFO_STARTING_PRICE_INFO')}
+        </SM>
+      </PlanContentDiv>
+      <PlanContentDiv>
+        <SM isBold>{t('__PLAN_PAGE_DRAFT_ACTIVITY_INFO_CURRENT_SETUP')}</SM>
+        <LG
+          isBold
+          data-qa="current-setup-value"
+          style={{
+            color: appTheme.palette.blue[600],
+          }}
+        >
+          {t('__PLAN_PAGE_DRAFT_ACTIVITY_INFO_CURRENT_SETUP_VALUE')}
+        </LG>
+      </PlanContentDiv>
+      <Footer>
         <GlobalAlert
           type="info"
           data-qa="plan-page-price-warning-global-alert"
@@ -121,7 +120,7 @@ export const PlanInfo = () => {
             </>
           }
         />
-      </PlanContentDiv>
+      </Footer>
     </WidgetSpecialCard>
   );
 };
