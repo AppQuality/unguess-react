@@ -143,6 +143,7 @@ const Cta = ({
         type="button"
         disabled={
           planComposedStatus === 'Submitted' ||
+          planComposedStatus === 'OpsCheck' ||
           isSubmitted ||
           planComposedStatus === 'Paying'
         }
