@@ -86,7 +86,9 @@ export const Controls = () => {
         </>
       )}
 
-      <IconButtonMenu />
+      {planComposedStatus !== 'AwaitingPayment' &&
+        planComposedStatus !== 'Paying' &&
+        planComposedStatus !== 'PurchasedPlan' && <IconButtonMenu />}
       {isDeleteModalOpen && planId && (
         <DeletePlanModal
           planId={planId}
