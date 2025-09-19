@@ -211,23 +211,22 @@ export const DetailsCard = () => {
       />;
     } else if (planComposedStatus === 'PurchasedPlan') {
       return <GoToCampaignButton />;
-    } else {
-      return (
-        <>
-          <BuyButton isStretched />
-          <SM
-            style={{
-              marginTop: appTheme.space.md,
-              color: appTheme.palette.grey[600],
-            }}
-          >
-            {t(
-              '__PLAN_PAGE_SUMMARY_TAB_CONFIRMATION_PAYMENT_CARD_ADDITIONAL_INFO'
-            )}
-          </SM>
-        </>
-      );
     }
+    return (
+      <>
+        <BuyButton isStretched />
+        <SM
+          style={{
+            marginTop: appTheme.space.md,
+            color: appTheme.palette.grey[600],
+          }}
+        >
+          {t(
+            '__PLAN_PAGE_SUMMARY_TAB_CONFIRMATION_PAYMENT_CARD_ADDITIONAL_INFO'
+          )}
+        </SM>
+      </>
+    );
   };
 
   return (
