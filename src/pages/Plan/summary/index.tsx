@@ -87,9 +87,9 @@ const SummaryBody = () => {
           {t('__MODULES_BOTTOM_NAVIGATION_SUMMARY_TAB_LEFT_LABEL')}
         </Button>
       </Col>
-      <Col sm="3">
+      <StickyCol sm="3">
         <DetailsCard />
-      </Col>
+      </StickyCol>
       {isPaymentInProgress && <PaymentLoader />}
     </Row>
   );
