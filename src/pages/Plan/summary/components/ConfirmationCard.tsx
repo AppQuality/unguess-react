@@ -14,6 +14,7 @@ import { usePatchPlansByPidStatusMutation } from 'src/features/api';
 import styled from 'styled-components';
 import { usePlan } from '../../hooks/usePlan';
 import { Title } from './typography/Title';
+import { BuyButton } from './BuyButton';
 
 const Footer = styled.div`
   display: flex;
@@ -47,6 +48,38 @@ export const ConfirmationCard = () => {
 
   if (!plan.quote || plan.quote.status !== 'proposed') return null;
 
+  if (planComposedStatus === 'AwaitingPayment') {
+    return (
+      <ContainerCard>
+        <Title style={{ marginBottom: appTheme.space.xs }}>
+          {t('__PLAN_PAGE_SUMMARY_TAB_CONFIRMATION_PAYMENT_CARD_TITLE')}
+        </Title>
+        <Body>
+          <div>
+            <Trans i18nKey="__PLAN_PAGE_SUMMARY_TAB_CONFIRMATION_PAYMENT_CARD_DESCRIPTION">
+              Your price is confirmed. Pay now and your test will start exactly
+              on your chosen date:
+              <StyledList>
+                <UnorderedList.Item>
+                  Start on the scheduled date
+                </UnorderedList.Item>
+                <UnorderedList.Item>
+                  Get real user feedback on your digital product
+                </UnorderedList.Item>
+                <UnorderedList.Item>
+                  Email alerts when your first results are ready
+                </UnorderedList.Item>
+              </StyledList>
+            </Trans>
+          </div>
+        </Body>
+        <Footer>
+          <BuyButton isAccent={false} isPrimary={false} />
+        </Footer>
+      </ContainerCard>
+    );
+  }
+
   return (
     <ContainerCard>
       <Title style={{ marginBottom: appTheme.space.xs }}>
@@ -76,36 +109,32 @@ export const ConfirmationCard = () => {
             to make changes.
           </Trans>
         </div>
-        {planComposedStatus !== 'AwaitingPayment' && (
-          <Alert type="warning">
-            <Alert.Title>
-              {t('__PLAN_PAGE_SUMMARY_TAB_CONFIRMATION_CARD_WARNING_TITLE')}
-            </Alert.Title>
-            {t('__PLAN_PAGE_SUMMARY_TAB_CONFIRMATION_CARD_WARNING_DESCRIPTION')}
-          </Alert>
-        )}
+        <Alert type="warning">
+          <Alert.Title>
+            {t('__PLAN_PAGE_SUMMARY_TAB_CONFIRMATION_CARD_WARNING_TITLE')}
+          </Alert.Title>
+          {t('__PLAN_PAGE_SUMMARY_TAB_CONFIRMATION_CARD_WARNING_DESCRIPTION')}
+        </Alert>
       </Body>
       <Footer>
-        {planComposedStatus !== 'AwaitingPayment' && (
-          <Button
-            isDanger
-            isBasic
-            disabled={isSubmitted}
-            onClick={() => {
-              setIsSubmitted(true);
-              patchStatus({
-                pid: planId?.toString() ?? '',
-                body: { status: 'draft' },
-              })
-                .unwrap()
-                .then(() => {
-                  setIsSubmitted(false);
-                });
-            }}
-          >
-            {t('__PLAN_PAGE_SUMMARY_TAB_CONFIRMATION_CARD_REFUSE_CTA')}
-          </Button>
-        )}
+        <Button
+          isDanger
+          isBasic
+          disabled={isSubmitted}
+          onClick={() => {
+            setIsSubmitted(true);
+            patchStatus({
+              pid: planId?.toString() ?? '',
+              body: { status: 'draft' },
+            })
+              .unwrap()
+              .then(() => {
+                setIsSubmitted(false);
+              });
+          }}
+        >
+          {t('__PLAN_PAGE_SUMMARY_TAB_CONFIRMATION_CARD_REFUSE_CTA')}
+        </Button>
         <Button
           disabled={isSubmitted}
           onClick={() => {

@@ -10,7 +10,17 @@ import { getPlanStatus } from 'src/pages/Dashboard/hooks/getPlanStatus';
 import { usePlanContext } from '../../context/planContext';
 import { usePlan } from '../../hooks/usePlan';
 
-const BuyButton = ({ isStretched }: { isStretched?: boolean }) => {
+interface BuyButtonProps {
+  isStretched?: boolean;
+  isAccent?: boolean;
+  isPrimary?: boolean;
+}
+
+const BuyButton = ({
+  isStretched,
+  isAccent = true,
+  isPrimary = true,
+}: BuyButtonProps) => {
   const { setIsPaymentInProgress } = usePlanContext();
 
   const { planId } = useParams();
@@ -38,8 +48,8 @@ const BuyButton = ({ isStretched }: { isStretched?: boolean }) => {
     <Button
       type="button"
       size="small"
-      isAccent
-      isPrimary
+      isAccent={isAccent}
+      isPrimary={isPrimary}
       isStretched={isStretched}
       disabled={status === 'approved'}
       onClick={async () => {

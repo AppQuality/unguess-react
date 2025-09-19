@@ -1125,6 +1125,8 @@
   "__PLAN_PAGE_SUMMARY_TAB_CONFIRMATION_CARD_TITLE": "Ready to confirm and launch your activity?",
   "__PLAN_PAGE_SUMMARY_TAB_CONFIRMATION_CARD_WARNING_DESCRIPTION": "Returning to draft will require a new quotation process and may affect your start date and pricing.",
   "__PLAN_PAGE_SUMMARY_TAB_CONFIRMATION_CARD_WARNING_TITLE": "Important:",
+  "__PLAN_PAGE_SUMMARY_TAB_CONFIRMATION_PAYMENT_CARD_DESCRIPTION": "Your price is confirmed. Pay now and your test will start exactly on your chosen date:<1><0>Start on the scheduled date</0><1>Get real user feedback on your digital product</1><2>Email alerts when your first results are ready</2></1>",
+  "__PLAN_PAGE_SUMMARY_TAB_CONFIRMATION_PAYMENT_CARD_TITLE": "Ready to launch?",
   "__PLAN_PAGE_SUMMARY_TAB_GO_TO_DASHBOARD_CARD_DESCRIPTION": "<0>We'll notify you by email when the first results are available. In the meantime, you can:</0><1><0>Set up email notifications for key milestones;</0><1>Invite team members who should have access to results</1></1>",
   "__PLAN_PAGE_SUMMARY_TAB_GO_TO_DASHBOARD_CARD_TITLE": "What can you do now?",
   "__PLAN_PAGE_SUMMARY_TAB_SAVE_TEMPLATE_CARD_DESCRIPTION": "Save this configuration as a template and launch future campaigns in no time.",
