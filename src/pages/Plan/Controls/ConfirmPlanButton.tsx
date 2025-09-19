@@ -3,7 +3,6 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { usePatchPlansByPidStatusMutation } from 'src/features/api';
-import { getPlanStatus } from 'src/pages/Dashboard/hooks/getPlanStatus';
 import { usePlan } from '../hooks/usePlan';
 import { BuyButton } from '../summary/components/BuyButton';
 
