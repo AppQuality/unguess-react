@@ -71,6 +71,7 @@ const SummaryBody = () => {
           <ActivityInfo />
           {planComposedStatus !== 'Paying' && <ConfirmationCard />}
           {planComposedStatus !== 'AwaitingPayment' &&
+            planComposedStatus !== 'Paying' &&
             planComposedStatus !== 'PurchasedPlan' && <SaveTemplateCard />}
           <GoToDashboardCard />
         </StyledDiv>
