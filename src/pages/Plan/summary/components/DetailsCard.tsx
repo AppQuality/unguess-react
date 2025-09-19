@@ -21,6 +21,7 @@ import { getPlanStatus } from 'src/pages/Dashboard/hooks/getPlanStatus';
 import styled from 'styled-components';
 import { usePlan } from '../../hooks/usePlan';
 import { BuyButton } from './BuyButton';
+import { GoToCampaignButton } from '../../Controls/GoToCampaignButton';
 
 const StyledDiv = styled.div`
   display: flex;
@@ -169,7 +170,7 @@ const Cta = ({
 export const DetailsCard = () => {
   const { t } = useTranslation();
   const { planId } = useParams();
-  const { plan } = usePlan(planId);
+  const { plan, planComposedStatus } = usePlan(planId);
   const { value } = useModule('dates');
   const [isSubmitted, setIsSubmitted] = useState(false);
 
@@ -228,6 +229,8 @@ export const DetailsCard = () => {
             }}
             campaignId={plan?.campaign?.id ?? 0}
           />
+        ) : planComposedStatus === 'PurchasedPlan' ? (
+          <GoToCampaignButton />
         ) : (
           <BuyButton isStretched />
         )}
