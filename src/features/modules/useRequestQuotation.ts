@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { useAppSelector } from 'src/app/hooks';
-import { usePlan } from 'src/pages/Plan/hooks/usePlan';
 import { usePatchPlansByPidStatusMutation } from '../api';
 import { useModuleConfiguration, useSubmit } from './useModuleConfiguration';
 

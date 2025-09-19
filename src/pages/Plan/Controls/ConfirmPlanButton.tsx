@@ -16,11 +16,6 @@ const ConfirmPlanButton = () => {
   const { t } = useTranslation();
 
   if (!plan) return null;
-  const { status } = getPlanStatus({
-    planStatus: plan.status,
-    quote: plan.quote,
-    t,
-  });
 
   if (plan.isPurchasable) {
     return <BuyButton />;

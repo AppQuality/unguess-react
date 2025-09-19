@@ -192,6 +192,44 @@ export const DetailsCard = () => {
     t,
   });
 
+  const getCta = () => {
+    if (!plan.isPurchasable) {
+      <Cta
+        isSubmitted={isSubmitted}
+        onClick={() => {
+          setIsSubmitted(true);
+          patchStatus({
+            pid: planId?.toString() ?? '',
+            body: { status: 'approved' },
+          })
+            .unwrap()
+            .then(() => {
+              setIsSubmitted(false);
+            });
+        }}
+        campaignId={plan?.campaign?.id ?? 0}
+      />;
+    } else if (planComposedStatus === 'PurchasedPlan') {
+      return <GoToCampaignButton />;
+    } else {
+      return (
+        <>
+          <BuyButton isStretched />
+          <SM
+            style={{
+              marginTop: appTheme.space.md,
+              color: appTheme.palette.grey[600],
+            }}
+          >
+            {t(
+              '__PLAN_PAGE_SUMMARY_TAB_CONFIRMATION_PAYMENT_CARD_ADDITIONAL_INFO'
+            )}
+          </SM>
+        </>
+      );
+    }
+  };
+
   return (
     <WidgetSpecialCard style={{ height: 'auto' }}>
       <WidgetSpecialCard.Meta justifyContent="space-between">
@@ -212,41 +250,7 @@ export const DetailsCard = () => {
       </WidgetSpecialCard.Meta>
       <Divider />
       <Content date={planDate()} quote={plan?.quote?.value} />
-      <Footer>
-        {!plan.isPurchasable ? (
-          <Cta
-            isSubmitted={isSubmitted}
-            onClick={() => {
-              setIsSubmitted(true);
-              patchStatus({
-                pid: planId?.toString() ?? '',
-                body: { status: 'approved' },
-              })
-                .unwrap()
-                .then(() => {
-                  setIsSubmitted(false);
-                });
-            }}
-            campaignId={plan?.campaign?.id ?? 0}
-          />
-        ) : planComposedStatus === 'PurchasedPlan' ? (
-          <GoToCampaignButton />
-        ) : (
-          <>
-            <BuyButton isStretched />
-            <SM
-              style={{
-                marginTop: appTheme.space.md,
-                color: appTheme.palette.grey[600],
-              }}
-            >
-              {t(
-                '__PLAN_PAGE_SUMMARY_TAB_CONFIRMATION_PAYMENT_CARD_ADDITIONAL_INFO'
-              )}
-            </SM>
-          </>
-        )}
-      </Footer>
+      <Footer>{getCta()}</Footer>
     </WidgetSpecialCard>
   );
 };

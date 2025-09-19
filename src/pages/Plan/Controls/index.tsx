@@ -7,7 +7,6 @@ import { Pipe } from 'src/common/components/Pipe';
 import { useModule } from 'src/features/modules/useModule';
 import styled from 'styled-components';
 import { useSubmit } from '../../../features/modules/useModuleConfiguration';
-import { getPlanStatus } from '../../Dashboard/hooks/getPlanStatus';
 import { usePlanContext } from '../context/planContext';
 import { usePlan } from '../hooks/usePlan';
 import { DeletePlanModal } from '../modals/DeletePlanModal';
