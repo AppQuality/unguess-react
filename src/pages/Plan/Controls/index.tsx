@@ -7,7 +7,6 @@ import { Pipe } from 'src/common/components/Pipe';
 import { useModule } from 'src/features/modules/useModule';
 import styled from 'styled-components';
 import { useSubmit } from '../../../features/modules/useModuleConfiguration';
-import { getPlanStatus } from '../../Dashboard/hooks/getPlanStatus';
 import { usePlanContext } from '../context/planContext';
 import { usePlan } from '../hooks/usePlan';
 import { DeletePlanModal } from '../modals/DeletePlanModal';
@@ -30,18 +29,12 @@ export const Controls = () => {
     useState(false);
   const { isDeleteModalOpen, setIsDeleteModalOpen } = usePlanContext();
   const { planId } = useParams();
-  const { plan } = usePlan(planId);
+  const { plan, planComposedStatus } = usePlan(planId);
   const { value: titleValue } = useModule('title'); // to use the current changed title value (also if plan is not saved) in delete modal
   const { addToast } = useToast();
   const { handleSubmit } = useSubmit(planId || '');
 
   if (!plan) return null;
-
-  const { status } = getPlanStatus({
-    planStatus: plan.status,
-    quote: plan.quote,
-    t,
-  });
 
   const handleRequestQuotation = async () => {
     try {
@@ -73,9 +66,18 @@ export const Controls = () => {
     <div
       style={{ display: 'flex', gap: appTheme.space.xs, alignItems: 'center' }}
     >
-      {status === 'approved' && <GoToCampaignButton />}
-      {status !== 'draft' && status !== 'approved' && <ConfirmPlanButton />}
-      {status === 'draft' && (
+      {(planComposedStatus === 'Accepted' ||
+        planComposedStatus === 'RunningPlan' ||
+        planComposedStatus === 'PurchasedPlan') && <GoToCampaignButton />}
+      {(planComposedStatus === 'AwaitingApproval' ||
+        planComposedStatus === 'AwaitingPayment' ||
+        planComposedStatus === 'OpsCheck' ||
+        planComposedStatus === 'Submitted' ||
+        planComposedStatus === 'Paying' ||
+        planComposedStatus === 'Accepted') && <ConfirmPlanButton />}
+      {(planComposedStatus === 'PurchasableDraft' ||
+        planComposedStatus === 'PrequotedDraft' ||
+        planComposedStatus === 'UnquotedDraft') && (
         <>
           <SaveConfigurationButton />
           <StyledPipe />
@@ -83,7 +85,9 @@ export const Controls = () => {
         </>
       )}
 
-      <IconButtonMenu />
+      {planComposedStatus !== 'AwaitingPayment' &&
+        planComposedStatus !== 'Paying' &&
+        planComposedStatus !== 'PurchasedPlan' && <IconButtonMenu />}
       {isDeleteModalOpen && planId && (
         <DeletePlanModal
           planId={planId}

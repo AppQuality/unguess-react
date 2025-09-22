@@ -1,16 +1,14 @@
-import { GlobalAlert, PageHeader } from '@appquality/unguess-design-system';
+import { PageHeader } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
-import { useGetPlansByPidQuery } from 'src/features/api';
-import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
-import { getPlanStatus } from 'src/pages/Dashboard/hooks/getPlanStatus';
 import styled from 'styled-components';
 import { usePlanContext } from '../../context/planContext';
 import { Controls } from '../../Controls';
 import { SaveAsTemplateModal } from '../../modals/SaveAsTemplateModal';
 import { BreadCrumbTabs } from './BreadCrumbTabs';
+import { useGlobalAlert } from './getGlobalAlert';
 import { TitleGroup } from './TitleGroup';
 
 const StyledWrapper = styled.div`
@@ -38,54 +36,10 @@ const StickyLayoutWrapper = styled(LayoutWrapper)`
 
 const PlanPageHeader = () => {
   const { t } = useTranslation();
-  const { activeWorkspace } = useActiveWorkspace();
-  const { planId } = useParams();
   const { isSaveTemplateModalOpen } = usePlanContext();
-  const { data: plan } = useGetPlansByPidQuery(
-    {
-      pid: Number(planId).toString(),
-    },
-    {
-      skip: !activeWorkspace || !planId,
-    }
-  );
+  const { planId } = useParams();
 
-  const getGlobalAlert = () => {
-    if (!plan) return null;
-    const { status: planStatus } = getPlanStatus({
-      planStatus: plan.status,
-      quote: plan.quote,
-      t,
-    });
-    switch (planStatus) {
-      case 'submitted':
-        return (
-          <GlobalAlert
-            message={<>{t('PLAN_GLOBAL_ALERT_SUBMITTED_STATE_MESSAGE')}</>}
-            title={t('PLAN_GLOBAL_ALERT_SUBMITTED_STATE_TITLE')}
-            type="info"
-          />
-        );
-      case 'pending_quote_review':
-        return (
-          <GlobalAlert
-            message={<>{t('PLAN_GLOBAL_ALERT_AWATING_STATE_MESSAGE')}</>}
-            title={t('PLAN_GLOBAL_ALERT_AWATING_STATE_TITLE')}
-            type="accent"
-          />
-        );
-      case 'approved':
-        return (
-          <GlobalAlert
-            message={<>{t('PLAN_GLOBAL_ALERT_APPROVED_STATE_MESSAGE')}</>}
-            title={t('PLAN_GLOBAL_ALERT_APPROVED_STATE_TITLE')}
-            type="success"
-          />
-        );
-      default:
-        return null;
-    }
-  };
+  const globalAlert = useGlobalAlert();
 
   return (
     <>
@@ -116,7 +70,7 @@ const PlanPageHeader = () => {
       {isSaveTemplateModalOpen && planId && (
         <SaveAsTemplateModal planId={planId} />
       )}
-      {getGlobalAlert()}
+      {globalAlert}
     </>
   );
 };

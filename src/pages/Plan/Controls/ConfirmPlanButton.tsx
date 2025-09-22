@@ -3,7 +3,6 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { usePatchPlansByPidStatusMutation } from 'src/features/api';
-import { getPlanStatus } from 'src/pages/Dashboard/hooks/getPlanStatus';
 import { usePlan } from '../hooks/usePlan';
 import { BuyButton } from '../summary/components/BuyButton';
 
@@ -12,15 +11,10 @@ const ConfirmPlanButton = () => {
   const [patchStatus] = usePatchPlansByPidStatusMutation();
 
   const { planId } = useParams();
-  const { plan } = usePlan(planId);
+  const { plan, planComposedStatus } = usePlan(planId);
   const { t } = useTranslation();
 
   if (!plan) return null;
-  const { status } = getPlanStatus({
-    planStatus: plan.status,
-    quote: plan.quote,
-    t,
-  });
 
   if (plan.isPurchasable) {
     return <BuyButton />;
@@ -32,7 +26,12 @@ const ConfirmPlanButton = () => {
       size="small"
       isAccent
       isPrimary
-      disabled={status === 'submitted' || isSubmitted}
+      disabled={
+        planComposedStatus === 'Submitted' ||
+        planComposedStatus === 'OpsCheck' ||
+        planComposedStatus === 'Paying' ||
+        isSubmitted
+      }
       onClick={() => {
         setIsSubmitted(true);
         patchStatus({
