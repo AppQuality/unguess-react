@@ -1,10 +1,4 @@
-import {
-  Button,
-  Col,
-  PlanCard,
-  Row,
-  Separator,
-} from '@appquality/unguess-design-system';
+import { Button, Col, Row, Separator } from '@appquality/unguess-design-system';
 import { ReactComponent as ChevronDownStroke } from '@zendeskgarden/svg-icons/src/16/chevron-down-stroke.svg';
 import { ReactComponent as ChevronUpStroke } from '@zendeskgarden/svg-icons/src/16/chevron-up-stroke.svg';
 import { useState } from 'react';
@@ -13,8 +7,8 @@ import { appTheme } from 'src/app/theme';
 import { SectionTitle } from 'src/common/components/SectionTitle';
 import { styled } from 'styled-components';
 import { CardRowLoading } from '../CardRowLoading';
-import { getPlanStatus } from '../hooks/getPlanStatus';
 import { useProjectPlans } from '../hooks/useProjectPlans';
+import { PlanCard } from '../PlanCard';
 
 const PREVIEW_ITEMS_MAX_SIZE = 3;
 
@@ -65,27 +59,7 @@ export const Plans = ({ projectId }: { projectId: number }) => {
             key={`project_plan_${plan.id}`}
             data-qa={`setup-activity-${i}`}
           >
-            <PlanCard
-              status={
-                getPlanStatus({ planStatus: plan.status, quote: plan.quote, t })
-                  .status
-              }
-              i18n={{
-                statusLabel: getPlanStatus({
-                  planStatus: plan.status,
-                  quote: plan.quote,
-                  t,
-                }).statusLabel,
-              }}
-              onClick={() => {
-                window.location.href = `/plans/${plan.id}`;
-              }}
-            >
-              <PlanCard.ProjectLabel>
-                {plan.project.title}
-              </PlanCard.ProjectLabel>
-              <PlanCard.Title>{plan.title}</PlanCard.Title>
-            </PlanCard>
+            <PlanCard plan={plan} />
           </Col>
         ))}
       </Row>
