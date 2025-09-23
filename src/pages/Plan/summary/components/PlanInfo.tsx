@@ -12,7 +12,7 @@ import { useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
 import { Divider } from 'src/common/components/divider';
 import styled from 'styled-components';
-import { usePlan } from '../../hooks/usePlan';
+import { usePlan } from '../../../../hooks/usePlan';
 
 const PlanContentDiv = styled.div`
   display: flex;

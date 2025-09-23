@@ -19,7 +19,7 @@ import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { WidgetSpecialCard } from 'src/pages/Campaign/widgetCards/common/StyledSpecialCard';
 import { getPlanStatus } from 'src/pages/Dashboard/hooks/getPlanStatus';
 import styled from 'styled-components';
-import { usePlan } from '../../hooks/usePlan';
+import { usePlan } from '../../../../hooks/usePlan';
 import { BuyButton } from './BuyButton';
 import { GoToCampaignButton } from '../../Controls/GoToCampaignButton';
 

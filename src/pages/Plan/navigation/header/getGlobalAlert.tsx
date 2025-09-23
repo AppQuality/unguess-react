@@ -1,7 +1,7 @@
 import { GlobalAlert } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
-import { usePlan } from '../../hooks/usePlan';
+import { usePlan } from '../../../../hooks/usePlan';
 
 export const useGlobalAlert = () => {
   const { planId } = useParams();
