@@ -107,7 +107,7 @@ const usePlan = (planId?: string) => {
       default:
         throw new Error(`Unknown plan status for plan: ${plan.id}`);
     }
-  }, [plan, ci]);
+  }, [plan, ci, planCampaign, planTemplate]);
 
   if (!plan) {
     return {
