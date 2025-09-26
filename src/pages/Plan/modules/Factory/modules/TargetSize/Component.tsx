@@ -1,5 +1,6 @@
 import {
   AccordionNew,
+  Alert,
   Button,
   FormField,
   Input,
@@ -130,6 +131,9 @@ const TargetSize = () => {
                     </>
                   )}
                 </StyledInfoBox>
+                <Alert style={{ marginTop: appTheme.space.sm }} type="info">
+                  {t('__PLAN_PAGE_MODULE_TARGET_ALERT')}
+                </Alert>
               </FormField>
             </div>
           </AccordionNew.Panel>
