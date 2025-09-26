@@ -1,9 +1,15 @@
-import { Button } from '@appquality/unguess-design-system';
+import {
+  Button,
+  getColor,
+  SM,
+  Tooltip,
+} from '@appquality/unguess-design-system';
 import { useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppSelector } from 'src/app/hooks';
 import { ReactComponent as PlusIcon } from 'src/assets/icons/plus-icon.svg';
 import { ReactComponent as CustomFeatureIcon } from 'src/assets/icons/dashboard_customize.svg';
+import { ReactComponent as InfoIcon } from 'src/assets/icons/info-icon.svg';
 import styled from 'styled-components';
 import { usePlanContext } from '../../context/planContext';
 import { getModulesByTab } from '../../modules/Factory';
@@ -16,6 +22,24 @@ const ButtonContainer = styled.div`
   padding-bottom: ${({ theme }) => theme.space.sm};
   padding-left: ${({ theme }) => theme.space.xxs};
   padding-right: ${({ theme }) => theme.space.xxs};
+`;
+
+const ExpertReviewWarning = styled.div`
+  &:before {
+    content: '';
+    margin-left: ${({ theme }) => theme.space.sm};
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: ${(p) => p.theme.palette.yellow[500]};
+  }
+  font-size: ${({ theme }) => theme.fontSizes.sm};
+  display: flex;
+  align-items: center;
+  gap: ${({ theme }) => theme.space.xs};
+  padding-top: ${({ theme }) => theme.space.md};
+  color: ${(p) => getColor(p.theme.colors.warningHue, 700)};
 `;
 
 const AddBlockButton = () => {
@@ -60,6 +84,18 @@ const AddBlockButton = () => {
           ? t('__PLAN_PAGE_ADD_MODULE_BLOCK_BUTTON')
           : t('__PLAN_PAGE_ADD_CUSTOM_FEATURE_BUTTON')}
       </Button>
+      {planComposedStatus !== 'UnquotedDraft' && (
+        <ExpertReviewWarning>
+          <SM as="span">{t('__PLAN_PAGE_EXPERT_REVIEW_WARNING')}</SM>
+          <Tooltip
+            appendToNode={document.body}
+            type="light"
+            content={t('__PLAN_PAGE_EXPERT_REVIEW_TOOLTIP_CONTENT')}
+          >
+            <InfoIcon />
+          </Tooltip>
+        </ExpertReviewWarning>
+      )}
     </ButtonContainer>
   );
 };
