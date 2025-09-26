@@ -3,6 +3,7 @@ import { useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { useAppSelector } from 'src/app/hooks';
+import { appTheme } from 'src/app/theme';
 import { ReactComponent as CustomFeatureIcon } from 'src/assets/icons/dashboard_customize.svg';
 import { ReactComponent as PlusIcon } from 'src/assets/icons/plus-icon.svg';
 import { usePlan } from 'src/hooks/usePlan';
@@ -11,7 +12,6 @@ import { ExpertReviewWarning } from '../../common/ExpertReviewWarning';
 import { usePlanContext } from '../../context/planContext';
 import { getModulesByTab } from '../../modules/Factory';
 import { usePlanNavContext } from './context';
-import { appTheme } from 'src/app/theme';
 
 const ButtonContainer = styled.div`
   padding-top: ${({ theme }) => theme.space.sm};
