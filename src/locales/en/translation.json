@@ -849,7 +849,7 @@
   "__PLAN_PAGE_MODULE_BROWSER_ALL_LABEL": "All browsers",
   "__PLAN_PAGE_MODULE_BROWSER_ALL_LABEL_HINT": "Users equally divided by browser",
   "__PLAN_PAGE_MODULE_BROWSER_LABEL": "Browser selection",
-  "__PLAN_PAGE_MODULE_BROWSER_REMOVE_BUTTON": "Delete",
+  "__PLAN_PAGE_MODULE_BROWSER_REMOVE_TOOLTIP_BUTTON": "Delete",
   "__PLAN_PAGE_MODULE_BROWSER_TITLE": "Choose the browser you want to include in the activity",
   "__PLAN_PAGE_MODULE_DIGITAL_LITERACY_ACCORDION_LABEL": "Digital skills",
   "__PLAN_PAGE_MODULE_DIGITAL_LITERACY_ALL_LABEL": "All levels",
