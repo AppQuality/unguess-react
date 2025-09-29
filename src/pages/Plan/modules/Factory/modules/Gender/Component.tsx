@@ -1,14 +1,16 @@
 import {
   AccordionNew,
-  Button,
   Checkbox,
   Col,
   FormField,
   Grid,
   Hint,
+  IconButton,
   Label,
   Row,
   Span,
+  Tooltip,
+  Button,
 } from '@appquality/unguess-design-system';
 import { ReactComponent as PlusIcon } from '@zendeskgarden/svg-icons/src/16/plus-circle-fill.svg';
 import { ReactComponent as DeleteIcon } from '@zendeskgarden/svg-icons/src/16/trash-stroke.svg';
@@ -174,19 +176,22 @@ const Gender = () => {
             />
             {getPlanStatus() === 'draft' && (
               <AccordionNew.Meta>
-                <Button
-                  isBasic
-                  isDanger
-                  onClick={(e) => {
-                    handleDelete();
-                    e.stopPropagation();
-                  }}
+                <Tooltip
+                  placement="start"
+                  type="light"
+                  size="small"
+                  content={t('__PLAN_PAGE_MODULE_GENDER_REMOVE_TOOLTIP_BUTTON')}
                 >
-                  <Button.StartIcon>
+                  <IconButton
+                    isDanger
+                    onClick={(e) => {
+                      handleDelete();
+                      e.stopPropagation();
+                    }}
+                  >
                     <DeleteIcon />
-                  </Button.StartIcon>
-                  {t('__PLAN_PAGE_MODULE_GENDER_REMOVE_BUTTON')}
-                </Button>
+                  </IconButton>
+                </Tooltip>
               </AccordionNew.Meta>
             )}
           </AccordionNew.Header>

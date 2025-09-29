@@ -1,10 +1,11 @@
 import {
   AccordionNew,
-  Button,
   FormField,
   Hint,
+  IconButton,
   Label,
   Radio,
+  Tooltip,
 } from '@appquality/unguess-design-system';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -63,19 +64,24 @@ const Language = () => {
             />
             {getPlanStatus() === 'draft' && (
               <AccordionNew.Meta>
-                <Button
-                  isBasic
-                  isDanger
-                  onClick={(e) => {
-                    handleDelete();
-                    e.stopPropagation();
-                  }}
+                <Tooltip
+                  placement="start"
+                  type="light"
+                  size="small"
+                  content={t(
+                    '__PLAN_PAGE_MODULE_LANGUAGE_REMOVE_TOOLTIP_BUTTON'
+                  )}
                 >
-                  <Button.StartIcon>
+                  <IconButton
+                    isDanger
+                    onClick={(e) => {
+                      handleDelete();
+                      e.stopPropagation();
+                    }}
+                  >
                     <TrashIcon />
-                  </Button.StartIcon>
-                  {t('__PLAN_PAGE_MODULE_LANGUAGE_REMOVE_BUTTON')}
-                </Button>
+                  </IconButton>
+                </Tooltip>
               </AccordionNew.Meta>
             )}
           </AccordionNew.Header>

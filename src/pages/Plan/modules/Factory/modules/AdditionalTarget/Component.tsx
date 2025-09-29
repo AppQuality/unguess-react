@@ -1,12 +1,13 @@
 import {
-  Button,
   Card,
   Hint,
+  IconButton,
   Label,
   Message,
   Paragraph,
   Span,
   Textarea,
+  Tooltip,
 } from '@appquality/unguess-design-system';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -87,19 +88,24 @@ const AdditionalTarget = () => {
             <Label>{t('__PLAN_PAGE_MODULE_ADDITIONAL_TARGET_TITLE')}</Label>
           </div>
           {getPlanStatus() === 'draft' && (
-            <Button
-              isBasic
-              isDanger
-              onClick={(e) => {
-                handleDelete();
-                e.stopPropagation();
-              }}
+            <Tooltip
+              placement="start"
+              type="light"
+              size="small"
+              content={t(
+                '__PLAN_PAGE_MODULE_ADDITIONAL_TARGET_REMOVE_TOOLTIP_BUTTON'
+              )}
             >
-              <Button.StartIcon>
+              <IconButton
+                isDanger
+                onClick={(e) => {
+                  handleDelete();
+                  e.stopPropagation();
+                }}
+              >
                 <TrashIcon />
-              </Button.StartIcon>
-              {t('__PLAN_PAGE_MODULE_ADDITIONAL_TARGET_REMOVE_BUTTON')}
-            </Button>
+              </IconButton>
+            </Tooltip>
           )}
         </StyledCardHeader>
         <>
