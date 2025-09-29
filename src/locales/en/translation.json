@@ -847,7 +847,7 @@
   "__PLAN_PAGE_MODULE_BANK_REMOVE_BUTTON": "Delete",
   "__PLAN_PAGE_MODULE_BANK_TITLE": "Select participant banking providers",
   "__PLAN_PAGE_MODULE_BROWSER_ALL_LABEL": "All browsers",
-  "__PLAN_PAGE_MODULE_BROWSER_ALL_LABEL_HINT": "Users equally divided by browser",
+  "__PLAN_PAGE_MODULE_BROWSER_ALL_LABEL_HINT": "Participants equally divided by browser",
   "__PLAN_PAGE_MODULE_BROWSER_LABEL": "Browser selection",
   "__PLAN_PAGE_MODULE_BROWSER_REMOVE_BUTTON": "Delete",
   "__PLAN_PAGE_MODULE_BROWSER_TITLE": "Choose the browser you want to include in the activity",
