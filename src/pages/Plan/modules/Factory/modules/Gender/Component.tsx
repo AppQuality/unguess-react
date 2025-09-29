@@ -183,6 +183,7 @@ const Gender = () => {
                   content={t('__PLAN_PAGE_MODULE_GENDER_REMOVE_TOOLTIP_BUTTON')}
                 >
                   <IconButton
+                    data-qa="remove-gender-module"
                     isDanger
                     onClick={(e) => {
                       handleDelete();
