@@ -893,7 +893,7 @@
   "__PLAN_PAGE_MODULE_GOAL_INFO": "Enter goal (max 256 characters)",
   "__PLAN_PAGE_MODULE_GOAL_LABEL": "Specify the main goal of this activity",
   "__PLAN_PAGE_MODULE_GOAL_PLACEHOLDER": "Describe what you want to achieve",
-  "__PLAN_PAGE_MODULE_GOAL_REMOVE_BUTTON": "Delete",
+  "__PLAN_PAGE_MODULE_GOAL_REMOVE_TOOLTIP_BUTTON": "Delete",
   "__PLAN_PAGE_MODULE_GOAL_TITLE": "Goal of the activity",
   "__PLAN_PAGE_MODULE_INCOME_25K_TO_50K_LABEL": "€25,000 - €50,000",
   "__PLAN_PAGE_MODULE_INCOME_ALL_LABEL": "All income levels",
