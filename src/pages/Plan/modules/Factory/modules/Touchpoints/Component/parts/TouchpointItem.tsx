@@ -1,4 +1,8 @@
-import { AccordionNew, Button } from '@appquality/unguess-design-system';
+import {
+  AccordionNew,
+  IconButton,
+  Tooltip,
+} from '@appquality/unguess-design-system';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
@@ -56,22 +60,27 @@ const TouchpointItem = ({
             />
             {getPlanStatus() === 'draft' && (
               <AccordionNew.Meta>
-                <Button
-                  isBasic
-                  isDanger
-                  onClick={(e) => {
-                    confirmationState[1]({
-                      isOpen: true,
-                      touchpointKey: key,
-                    });
-                    e.stopPropagation();
-                  }}
+                <Tooltip
+                  placement="start"
+                  type="light"
+                  size="small"
+                  content={t(
+                    '__PLAN_PAGE_MODULE_TOUCHPOINTS_REMOVE_TOUCHPOINT_TOOLTIP_BUTTON'
+                  )}
                 >
-                  <Button.StartIcon>
+                  <IconButton
+                    isDanger
+                    onClick={(e) => {
+                      confirmationState[1]({
+                        isOpen: true,
+                        touchpointKey: key,
+                      });
+                      e.stopPropagation();
+                    }}
+                  >
                     <TrashIcon />
-                  </Button.StartIcon>
-                  {t('__PLAN_PAGE_MODULE_TOUCHPOINTS_REMOVE_TOUCHPOINT_BUTTON')}
-                </Button>
+                  </IconButton>
+                </Tooltip>
               </AccordionNew.Meta>
             )}
           </AccordionNew.Header>
