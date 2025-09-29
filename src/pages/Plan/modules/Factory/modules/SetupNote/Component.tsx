@@ -1,9 +1,10 @@
 import {
-  Button,
   ContainerCard,
   Editor,
+  IconButton,
   Label,
   Message,
+  Tooltip,
 } from '@appquality/unguess-design-system';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -89,19 +90,24 @@ const SetupNote = () => {
           </div>
           {hasFeatureFlag(FEATURE_FLAG_CHANGE_MODULES_VARIANTS) &&
             getPlanStatus() === 'draft' && (
-              <Button
-                isBasic
-                isDanger
-                onClick={(e) => {
-                  handleDelete();
-                  e.stopPropagation();
-                }}
+              <Tooltip
+                placement="start"
+                type="light"
+                size="small"
+                content={t(
+                  '__PLAN_PAGE_MODULE_SETUP_NOTE_REMOVE_TOOLTIP_BUTTON'
+                )}
               >
-                <Button.StartIcon>
+                <IconButton
+                  isDanger
+                  onClick={(e) => {
+                    handleDelete();
+                    e.stopPropagation();
+                  }}
+                >
                   <TrashIcon />
-                </Button.StartIcon>
-                {t('__PLAN_PAGE_MODULE_SETUP_NOTE_REMOVE_BUTTON')}
-              </Button>
+                </IconButton>
+              </Tooltip>
             )}
         </StyledCardHeader>
         <>

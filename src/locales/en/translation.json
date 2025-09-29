@@ -962,7 +962,7 @@
   "__PLAN_PAGE_MODULE_SETUP_NOTE_BLOCK_TITLE": "Before Starting",
   "__PLAN_PAGE_MODULE_SETUP_NOTE_DESCRIPTION_EDITOR_HEADER_TITLE": "Write here",
   "__PLAN_PAGE_MODULE_SETUP_NOTE_DESCRIPTION_EDITOR_PLACEHOLDER": "In this section, you can set up the manual to guide testers during the activity.",
-  "__PLAN_PAGE_MODULE_SETUP_NOTE_REMOVE_BUTTON": "Delete",
+  "__PLAN_PAGE_MODULE_SETUP_NOTE_REMOVE_TOOLTIP_BUTTON": "Delete",
   "__PLAN_PAGE_MODULE_SETUP_NOTE_TITLE": "Before starting",
   "__PLAN_PAGE_MODULE_TARGET_LABEL": "Enter number of participants",
   "__PLAN_PAGE_MODULE_TARGET_NOTE_BLOCK_TITLE": "Before Starting",
