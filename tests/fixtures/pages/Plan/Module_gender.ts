@@ -32,7 +32,9 @@ export class GenderModule {
       removeButton: () =>
         this.elements()
           .module()
-          .getByText(this.i18n.t('__PLAN_PAGE_MODULE_GENDER_REMOVE_BUTTON')),
+          .getByText(
+            this.i18n.t('__PLAN_PAGE_MODULE_GENDER_REMOVE_TOOLTIP_BUTTON')
+          ),
       modulePercentageError: () =>
         this.elements()
           .module()

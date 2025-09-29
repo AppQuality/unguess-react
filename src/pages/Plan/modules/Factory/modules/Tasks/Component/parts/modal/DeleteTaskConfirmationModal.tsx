@@ -1,14 +1,11 @@
 import {
   Button,
   FooterItem,
-  IconButton,
   Modal,
   ModalClose,
-  Tooltip,
 } from '@appquality/unguess-design-system';
 import { Dispatch, SetStateAction } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ReactComponent as TrashIcon } from 'src/assets/icons/trash-stroke.svg';
 import { useModuleTasks } from '../../hooks';
 
 const DeleteTaskConfirmationModal = ({
@@ -66,16 +63,11 @@ const DeleteTaskConfirmationModal = ({
           </Button>
         </FooterItem>
         <FooterItem>
-          <Tooltip
-            placement="start"
-            type="light"
-            size="small"
-            content={t('__PLAN_PAGE_MODULE_TASKS_REMOVE_TOOLTIP_BUTTON')}
-          >
-            <IconButton isDanger>
-              <TrashIcon />
-            </IconButton>
-          </Tooltip>
+          <Button isPrimary isAccent onClick={onQuit}>
+            {t(
+              '__PLAN_PAGE_MODULE_TASKS_MODAL_CONFIRMATION_REMOVE_TASK_CANCEL'
+            )}
+          </Button>
         </FooterItem>
       </Modal.Footer>
       <ModalClose onClick={onQuit} />
