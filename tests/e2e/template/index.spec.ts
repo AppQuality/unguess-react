@@ -2,18 +2,22 @@ import mockPostPlans from '../../api/workspaces/wid/plans/_post/201_Example_1.js
 import getProjects from '../../api/workspaces/wid/projects/_get/200_Example_1.json';
 import getTemplate from '../../api/workspaces/wid/templates/tid/_get/200_Example_1.json';
 import { expect, test } from '../../fixtures/app';
+import { PlanCreationInterface } from '../../fixtures/components/PlanCreationInterface';
 import { Template } from '../../fixtures/pages/Template';
 
 test.describe('template page', () => {
   let template: Template;
+  let planCreationInterface: PlanCreationInterface;
 
   test.beforeEach(async ({ page }) => {
     template = new Template(page);
+    planCreationInterface = new PlanCreationInterface(page);
     await template.loggedIn();
     await template.mockPreferences();
     await template.mockWorkspace();
     await template.mockGetTemplate();
     await template.mockGetProjects();
+    await planCreationInterface.mockGetNewPlan();
     await template.mockWorkspacesList();
     await template.mockPostPlans();
     await template.open();
@@ -61,6 +65,6 @@ test.describe('template page', () => {
       template_id: getTemplate.id,
     });
     // expect that navigation to the plan page is triggered
-    await expect(page).toHaveURL(`/plans/${newPlanId}`);
+    await expect(page).toHaveURL(`/plans/${newPlanId}?tab=setup`);
   });
 });
