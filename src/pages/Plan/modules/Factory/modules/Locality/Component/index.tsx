@@ -192,6 +192,7 @@ const Locality = () => {
                     )}
                   >
                     <IconButton
+                      data-qa="remove-locality-button"
                       isDanger
                       onClick={(e) => {
                         handleDelete();
