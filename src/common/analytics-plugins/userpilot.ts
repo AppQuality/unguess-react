@@ -29,7 +29,14 @@ export default function userpilotPlugin(pluginSettings: UserpilotConfig) {
     name: 'userpilot',
     config: { ...pluginSettings },
     initialize: ({ config }: { config: UserpilotConfig }) => {
-      Userpilot.initialize(config.token);
+      if (isDev()) {
+        const previewEnabled = localStorage.getItem('userpilot_ug_preview');
+        if (previewEnabled !== null) {
+          Userpilot.initialize(config.token);
+        }
+      } else {
+        Userpilot.initialize(config.token);
+      }
     },
     identify: ({ payload }: { payload: IIdentifyPayload }) => {
       const { userId, traits } = payload;
@@ -57,9 +64,6 @@ export default function userpilotPlugin(pluginSettings: UserpilotConfig) {
       Userpilot.track(event, { ...properties, userId });
     },
 
-    loaded: () => {
-      const previewEnabled = localStorage.getItem('userpilot_ug_preview');
-      return isDev() && previewEnabled !== null ? true : !!window.userpilot;
-    },
+    loaded: () => true,
   };
 }
