@@ -15,7 +15,7 @@ const analytics = Analytics({
         }),
       }),
       userpilot({
-        token: isDev() ? 'STG-NX-54e88e10' : 'NX-54e88e10',
+        token: 'NX-54e88e10',
       }),
     ],
   }),

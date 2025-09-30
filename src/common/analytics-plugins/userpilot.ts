@@ -1,5 +1,6 @@
 import { User } from 'src/features/api';
 import { Userpilot } from 'userpilot';
+import { isDev } from '../isDevEnvironment';
 
 declare global {
   interface Window {
@@ -56,6 +57,9 @@ export default function userpilotPlugin(pluginSettings: UserpilotConfig) {
       Userpilot.track(event, { ...properties, userId });
     },
 
-    loaded: () => !!window.userpilot,
+    loaded: () => {
+      const previewEnabled = localStorage.getItem('userpilot_ug_preview');
+      return isDev() && previewEnabled !== null ? true : !!window.userpilot;
+    },
   };
 }
