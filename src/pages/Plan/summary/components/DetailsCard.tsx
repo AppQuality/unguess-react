@@ -188,22 +188,25 @@ export const DetailsCard = () => {
 
   const getCta = () => {
     if (!plan.isPurchasable) {
-      <Cta
-        isSubmitted={isSubmitted}
-        onClick={() => {
-          setIsSubmitted(true);
-          patchStatus({
-            pid: planId?.toString() ?? '',
-            body: { status: 'approved' },
-          })
-            .unwrap()
-            .then(() => {
-              setIsSubmitted(false);
-            });
-        }}
-        campaignId={plan?.campaign?.id ?? 0}
-      />;
-    } else if (planComposedStatus === 'PurchasedPlan') {
+      return (
+        <Cta
+          isSubmitted={isSubmitted}
+          onClick={() => {
+            setIsSubmitted(true);
+            patchStatus({
+              pid: planId?.toString() ?? '',
+              body: { status: 'approved' },
+            })
+              .unwrap()
+              .then(() => {
+                setIsSubmitted(false);
+              });
+          }}
+          campaignId={plan?.campaign?.id ?? 0}
+        />
+      );
+    }
+    if (planComposedStatus === 'PurchasedPlan') {
       return <GoToCampaignButton />;
     }
     return (

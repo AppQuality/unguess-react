@@ -5,7 +5,7 @@
   "dependencies": {
     "@analytics/google-tag-manager": "^0.6.0",
     "@appquality/languages": "1.4.3",
-    "@appquality/unguess-design-system": "4.0.50--canary.549.d5b9e5c.0",
+    "@appquality/unguess-design-system": "4.0.50--canary.549.d20012e.0",
     "@atlaskit/pragmatic-drag-and-drop": "^1.7.4",
     "@atlaskit/pragmatic-drag-and-drop-flourish": "^2.0.3",
     "@atlaskit/pragmatic-drag-and-drop-hitbox": "^1.1.0",
