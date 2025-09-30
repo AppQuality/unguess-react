@@ -9,7 +9,7 @@ import { Link, useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import styled from 'styled-components';
-import { usePlan } from '../../hooks/usePlan';
+import { usePlan } from '../../../../hooks/usePlan';
 import { ReactComponent as ApprovedImage } from '../assets/lens.svg';
 import { Title } from './typography/Title';
 

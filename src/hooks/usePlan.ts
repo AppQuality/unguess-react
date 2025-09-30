@@ -6,19 +6,7 @@ import {
   useGetCampaignsByCidQuery,
 } from 'src/features/api';
 import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
-
-export type PlanComposedStatusType =
-  | 'UnquotedDraft'
-  | 'PrequotedDraft'
-  | 'PurchasableDraft'
-  | 'Submitted'
-  | 'OpsCheck'
-  | 'AwaitingApproval'
-  | 'Accepted'
-  | 'RunningPlan'
-  | 'AwaitingPayment'
-  | 'Paying'
-  | 'PurchasedPlan';
+import { PlanComposedStatusType } from 'src/types';
 
 const usePlan = (planId?: string) => {
   const { activeWorkspace } = useActiveWorkspace();
@@ -119,7 +107,7 @@ const usePlan = (planId?: string) => {
       default:
         throw new Error(`Unknown plan status for plan: ${plan.id}`);
     }
-  }, [plan, ci]);
+  }, [plan, ci, planCampaign, planTemplate]);
 
   if (!plan) {
     return {

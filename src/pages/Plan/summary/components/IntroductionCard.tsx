@@ -3,7 +3,7 @@ import { ComponentProps } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import { usePlan } from '../../hooks/usePlan';
+import { usePlan } from '../../../../hooks/usePlan';
 import { ReactComponent as ApprovedImage } from '../assets/approved.svg';
 import { ReactComponent as PayingImage } from '../assets/paying.svg';
 import { ReactComponent as AwaitingImage } from '../assets/awaiting.svg';

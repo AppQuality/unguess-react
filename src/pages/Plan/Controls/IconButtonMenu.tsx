@@ -10,7 +10,7 @@ import { useParams } from 'react-router-dom';
 import { ReactComponent as SaveTemplateIcon } from 'src/assets/icons/template.svg';
 import { Divider } from 'src/common/components/divider';
 import { usePlanContext } from '../context/planContext';
-import { usePlan } from '../hooks/usePlan';
+import { usePlan } from '../../../hooks/usePlan';
 
 const OptionalTooltip = ({
   children,

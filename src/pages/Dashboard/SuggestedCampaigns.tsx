@@ -1,7 +1,6 @@
 import {
   Col,
   Paragraph,
-  PlanCard,
   Row,
   Separator,
 } from '@appquality/unguess-design-system';
@@ -11,8 +10,8 @@ import { ScrollingGrid } from 'src/common/components/ScrollingGrid';
 import { SectionTitle } from 'src/common/components/SectionTitle';
 import { CampaignItem } from './CampaignItem';
 import { CardRowLoading } from './CardRowLoading';
-import { getPlanStatus } from './hooks/getPlanStatus';
 import { useCampaignsAndPlans } from './hooks/useCampaignsAndPlans';
+import { PlanCard } from './PlanCard';
 
 const MAX_SUGGESTED_ITEMS = 5;
 
@@ -48,30 +47,7 @@ export const SuggestedCampaigns = () => {
               key={`suggested_plan_${plan.id}`}
               data-qa={`tracked-activity-${i}`}
             >
-              <PlanCard
-                status={
-                  getPlanStatus({
-                    planStatus: plan.status,
-                    quote: plan.quote,
-                    t,
-                  }).status
-                }
-                i18n={{
-                  statusLabel: getPlanStatus({
-                    planStatus: plan.status,
-                    quote: plan.quote,
-                    t,
-                  }).statusLabel,
-                }}
-                onClick={() => {
-                  window.location.href = `/plans/${plan.id}`;
-                }}
-              >
-                <PlanCard.ProjectLabel>
-                  {plan.project.title}
-                </PlanCard.ProjectLabel>
-                <PlanCard.Title>{plan.title}</PlanCard.Title>
-              </PlanCard>
+              <PlanCard plan={plan} />
             </ScrollingGrid.Item>
           ))}
 

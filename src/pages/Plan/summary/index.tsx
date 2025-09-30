@@ -9,7 +9,7 @@ import styled from 'styled-components';
 import { StickyCol } from '../common/StickyCol';
 import { TabTitle } from '../common/TabTitle';
 import { usePlanContext } from '../context/planContext';
-import { usePlan } from '../hooks/usePlan';
+import { usePlan } from '../../../hooks/usePlan';
 import { ActivityInfo } from './components/ActivityInfo';
 import { ConfirmationCard } from './components/ConfirmationCard';
 import { DetailsCard } from './components/DetailsCard';
