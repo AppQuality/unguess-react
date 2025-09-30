@@ -79,6 +79,6 @@ test.describe('Home page', () => {
       template_id: promoList.promoItems[0].id,
     });
     // expect that navigation to the plan page is triggered
-    await expect(page).toHaveURL(`/plans/${newPlanId}`);
+    await expect(page).toHaveURL(`/plans/${newPlanId}?tab=summary`);
   });
 });
