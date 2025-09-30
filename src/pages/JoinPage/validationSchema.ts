@@ -1,5 +1,5 @@
-import * as yup from 'yup';
 import { useTranslation } from 'react-i18next';
+import * as yup from 'yup';
 
 export const useValidationSchema = () => {
   const { t } = useTranslation();
@@ -10,7 +10,48 @@ export const useValidationSchema = () => {
       then: yup
         .string()
         .required(t('SIGNUP_FORM_EMAIL_IS_REQUIRED'))
-        .email(t('SIGNUP_FORM_EMAIL_MUST_BE_A_VALID_EMAIL')),
+        .email(t('SIGNUP_FORM_EMAIL_MUST_BE_A_VALID_EMAIL'))
+        .test(
+          'not-work-email',
+          t('SIGNUP_FORM_EMAIL_MUST_BE_A_WORK_EMAIL'),
+          (value) => {
+            if (!value) return true;
+            const invalidDomains = [
+              'gmail.com',
+              'googlemail.com',
+              'yahoo.com',
+              'yahoo.it',
+              'hotmail.com',
+              'hotmail.it',
+              'outlook.com',
+              'outlook.it',
+              'live.com',
+              'msn.com',
+              'icloud.com',
+              'me.com',
+              'mac.com',
+              'aol.com',
+              'protonmail.com',
+              'Proton: Privacy by default',
+              'gmx.com',
+              'gmx.net',
+              'mail.com',
+              'zoho.com',
+              'yandex.com',
+              'fastmail.com',
+              'tiscali.it',
+              'virgilio.it',
+              'libero.it',
+              'inwind.it',
+              'blu.it',
+              'email.it',
+              'tin.it',
+            ];
+            return !invalidDomains.some((domain) =>
+              value.toLowerCase().endsWith(`@${domain}`)
+            );
+          }
+        ),
     }),
     password: yup.string().when('step', {
       is: 1,
