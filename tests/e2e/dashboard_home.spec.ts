@@ -18,6 +18,7 @@ test.describe('Home page', () => {
     await dashboard.mockWorkspace();
     await planCreationInterface.mockGetProjects();
     await planCreationInterface.mockPostPlans();
+    await planCreationInterface.mockGetNewPlan();
     await dashboard.mockWorkspacesList();
     await promoList.mockPromoTemplates();
     await dashboard.open();
