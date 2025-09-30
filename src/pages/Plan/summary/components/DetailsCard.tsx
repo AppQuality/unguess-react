@@ -205,7 +205,8 @@ export const DetailsCard = () => {
           campaignId={plan?.campaign?.id ?? 0}
         />
       );
-    } else if (planComposedStatus === 'PurchasedPlan') {
+    }
+    if (planComposedStatus === 'PurchasedPlan') {
       return <GoToCampaignButton />;
     }
     return (
