@@ -19,6 +19,7 @@ export const Track = ({
   const { data: userData, isLoading, isSuccess } = useGetUsersMeQuery();
   const { activeWorkspace } = useActiveWorkspace();
   const { track, identify, page } = useAnalytics();
+  const utmSource = sessionStorage.getItem('utmSource');
   const location = useLocation();
 
   const defaultMeta = [
@@ -63,6 +64,7 @@ export const Track = ({
         email: userData.email,
         company: activeWorkspace.company,
         workspace: activeWorkspace,
+        ...((utmSource && { utm_source: utmSource }) || {}),
       });
 
       track(
