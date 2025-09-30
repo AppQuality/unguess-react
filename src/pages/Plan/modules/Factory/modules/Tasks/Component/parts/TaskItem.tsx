@@ -83,6 +83,7 @@ const TaskItem = ({ task, index }: TaskItemProps) => {
                   content={t('__PLAN_PAGE_MODULE_TASKS_REMOVE_TOOLTIP_BUTTON')}
                 >
                   <IconButton
+                    data-qa="remove-task-button"
                     isDanger
                     onClick={(e) => {
                       confirmationState[1]({

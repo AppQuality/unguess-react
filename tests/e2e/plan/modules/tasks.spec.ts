@@ -34,14 +34,12 @@ test.describe('The tasks module defines a list of activities.', () => {
 
     // delete each item
     await Promise.all(
-      tasks.map(async (task) => {
+      tasks.map(async (task: any) => {
         await tasksModule
           .elements()
           .taskListItem()
           .getByRole('heading', { name: task.title })
-          .getByRole('button', {
-            name: i18n.t('__PLAN_PAGE_MODULE_TASKS_REMOVE_TASK_BUTTON'),
-          })
+          .getByTestId('remove-task-button')
           .click();
         await tasksModule
           .elements()
