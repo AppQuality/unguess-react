@@ -1426,6 +1426,7 @@
   "SIGNUP_FORM_EMAIL_IS_REQUIRED": "This field is required",
   "SIGNUP_FORM_EMAIL_LABEL": "Work Email",
   "SIGNUP_FORM_EMAIL_MUST_BE_A_VALID_EMAIL": "Oops! Check your email format",
+  "SIGNUP_FORM_EMAIL_MUST_BE_A_WORK_EMAIL": "Oops! It looks like a personal email. Please use your work email.",
   "SIGNUP_FORM_EMAIL_PLACEHOLDER": "Insert Email",
   "SIGNUP_FORM_GO_TO_STEP_2": "Create my account",
   "SIGNUP_FORM_GO_TO_STEP_3": "Next",
