@@ -124,7 +124,7 @@ test.describe('Templates page', () => {
       template_id: getTemplates.items[0].id,
     });
     // expect that navigation to the plan page is triggered
-    await expect(page).toHaveURL(`/plans/${newPlanId}`);
+    await expect(page).toHaveURL(`/plans/${newPlanId}?tab=setup`);
   });
 });
 
