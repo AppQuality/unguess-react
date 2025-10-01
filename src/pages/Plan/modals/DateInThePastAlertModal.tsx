@@ -64,16 +64,15 @@ const DateInThePastAlertModal = ({ onQuit }: { onQuit: () => void }) => {
     })
       .unwrap()
       .then(() => {
-        navigate(location.pathname, { replace: true });
+        navigate(window.location.pathname, { replace: true });
       })
       .catch((err) => {
-        console.error('Error updating plan status', err);
         addToast(
           ({ close }) => (
             <Notification
               onClose={close}
               type="error"
-              message={'Error updating plan status'}
+              message="Error updating plan status"
               closeText={t('__TOAST_CLOSE_TEXT')}
               isPrimary
             />

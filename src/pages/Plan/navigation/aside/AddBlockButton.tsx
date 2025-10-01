@@ -7,25 +7,22 @@ import { appTheme } from 'src/app/theme';
 import { ReactComponent as CustomFeatureIcon } from 'src/assets/icons/dashboard_customize.svg';
 import { ReactComponent as PlusIcon } from 'src/assets/icons/plus-icon.svg';
 import { usePlan } from 'src/hooks/usePlan';
+import { PlanComposedStatusType } from 'src/types';
 import styled from 'styled-components';
 import { ExpertReviewWarning } from '../../common/ExpertReviewWarning';
 import { usePlanContext } from '../../context/planContext';
 import { getModulesByTab } from '../../modules/Factory';
 import { usePlanNavContext } from './context';
-import { PlanComposedStatusType } from 'src/types';
 
 // Funzione helper per determinare se il bottone deve essere disabilitato
 const isAddBlockButtonDisabled = (
   items: string[],
   planComposedStatus?: PlanComposedStatusType
-) => {
-  return (
-    items.length === 0 ||
-    (planComposedStatus !== 'PurchasableDraft' &&
-      planComposedStatus !== 'UnquotedDraft' &&
-      planComposedStatus !== 'PrequotedDraft')
-  );
-};
+) =>
+  items.length === 0 ||
+  (planComposedStatus !== 'PurchasableDraft' &&
+    planComposedStatus !== 'UnquotedDraft' &&
+    planComposedStatus !== 'PrequotedDraft');
 
 const ButtonContainer = styled.div`
   padding-top: ${({ theme }) => theme.space.sm};

@@ -39,7 +39,7 @@ const BuyButton = ({
       return false;
     }
     const date = new Date(dateString);
-    if (isNaN(date.getTime())) {
+    if (Number.isNaN(date.getTime())) {
       setDateInThePastAlertModalOpen(true);
       return false;
     }
