@@ -1,4 +1,3 @@
-import { useToast, Notification } from '@appquality/unguess-design-system';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
@@ -7,91 +6,29 @@ import {
   useParams,
   useSearchParams,
 } from 'react-router-dom';
-import { useAppDispatch } from 'src/app/hooks';
 import { PLAN_MINIMUM_DATE } from 'src/constants';
 import {
-  GetPlansByPidApiResponse,
   useGetPlansByPidQuery,
-  useGetWorkspacesByWidQuery,
+  usePatchPlansByPidStatusMutation,
 } from 'src/features/api';
 import { FormProvider } from 'src/features/modules/FormProvider';
 import { FormBody } from 'src/features/modules/types';
-import { setWorkspace } from 'src/features/navigation/navigationSlice';
 import { Page } from 'src/features/templates/Page';
 import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
-import { PlanProvider, usePlanContext } from './context/planContext';
-import PlanPageHeader from './navigation/header/Header';
-import { PlanBody } from './PlanBody';
+import { PlanProvider } from './context/planContext';
+import { PlanPageContent } from './PlanPageContent';
 import { formatModuleDate } from './utils/formatModuleDate';
-
-const PlanPageContent = ({
-  plan,
-}: {
-  plan: GetPlansByPidApiResponse | undefined;
-}) => {
-  const { t } = useTranslation();
-  const { activeTab, setActiveTab } = usePlanContext();
-  const [searchParams, setSearchParams] = useSearchParams();
-  const { addToast } = useToast();
-
-  useEffect(() => {
-    if (!plan) return;
-
-    if (activeTab.name !== 'summary' && plan.status !== 'draft') {
-      setActiveTab('summary');
-    }
-  }, [plan?.status]);
-
-  useEffect(() => {
-    if (searchParams.get('payment') === 'success') {
-      addToast(
-        ({ close }) => (
-          <Notification
-            onClose={close}
-            type="success"
-            message={t('__PLAN_PAGE_PURCHASE_SUCCESS')}
-            isPrimary
-          />
-        ),
-        { placement: 'top' }
-      );
-      searchParams.delete('payment');
-      setSearchParams(searchParams);
-    }
-  }, []);
-
-  return (
-    <>
-      <PlanPageHeader />
-      <PlanBody />
-    </>
-  );
-};
-
-const useSetActiveWorkspace = (workspaceId?: number) => {
-  const dispatch = useAppDispatch();
-  const { data: workspace } = useGetWorkspacesByWidQuery(
-    {
-      wid: (workspaceId || 0).toString(),
-    },
-    {
-      skip: !workspaceId,
-    }
-  );
-
-  useEffect(() => {
-    if (workspace) {
-      dispatch(setWorkspace(workspace));
-    }
-  }, [workspace, dispatch]);
-};
+import { useSetActiveWorkspace } from './utils/useSetActiveWorkspace';
 
 const Plan = () => {
   const { activeWorkspace } = useActiveWorkspace();
   const navigate = useNavigate();
   const location = useLocation();
   const { planId } = useParams();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const isPaymentFailed = searchParams.get('payment') === 'failed' && !!planId;
+  const [patchStatus, { isLoading }] = usePatchPlansByPidStatusMutation();
   const { t } = useTranslation();
   const { isError, data: plan } = useGetPlansByPidQuery(
     {
@@ -107,6 +44,32 @@ const Plan = () => {
     status: 'draft',
     modules: [],
   });
+
+  useEffect(() => {
+    if (isPaymentFailed) {
+      patchStatus({
+        pid: planId?.toString() ?? '',
+        body: {
+          status: 'draft',
+        },
+      })
+        .unwrap()
+        .then(() => {
+          setSearchParams((prev) => {
+            prev.delete('payment');
+            return prev;
+          });
+          navigate(location.pathname, { replace: true });
+        })
+        .catch((err) => {
+          console.error(
+            'Error updating plan status after payment failure',
+            err
+          );
+          navigate(notFoundRoute, { state: { from: location.pathname } });
+        });
+    }
+  }, [patchStatus, planId, searchParams]);
 
   useSetActiveWorkspace(plan?.workspace_id);
   useEffect(() => {
@@ -151,11 +114,13 @@ const Plan = () => {
       excludeMarginTop
       excludeMarginBottom
     >
-      <FormProvider initialValues={initialValues}>
-        <PlanProvider>
-          <PlanPageContent plan={plan} />
-        </PlanProvider>
-      </FormProvider>
+      {!isLoading && (
+        <FormProvider initialValues={initialValues}>
+          <PlanProvider>
+            <PlanPageContent plan={plan} />
+          </PlanProvider>
+        </FormProvider>
+      )}
     </Page>
   );
 };
