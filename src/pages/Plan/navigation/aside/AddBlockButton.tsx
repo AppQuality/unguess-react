@@ -12,6 +12,20 @@ import { ExpertReviewWarning } from '../../common/ExpertReviewWarning';
 import { usePlanContext } from '../../context/planContext';
 import { getModulesByTab } from '../../modules/Factory';
 import { usePlanNavContext } from './context';
+import { PlanComposedStatusType } from 'src/types';
+
+// Funzione helper per determinare se il bottone deve essere disabilitato
+const isAddBlockButtonDisabled = (
+  items: string[],
+  planComposedStatus?: PlanComposedStatusType
+) => {
+  return (
+    items.length === 0 ||
+    (planComposedStatus !== 'PurchasableDraft' &&
+      planComposedStatus !== 'UnquotedDraft' &&
+      planComposedStatus !== 'PrequotedDraft')
+  );
+};
 
 const ButtonContainer = styled.div`
   padding-top: ${({ theme }) => theme.space.sm};
@@ -44,12 +58,7 @@ const AddBlockButton = () => {
         ref={triggerRef}
         onClick={() => setModalRef(triggerRef.current)}
         isStretched
-        disabled={
-          items.length === 0 ||
-          (planComposedStatus !== 'PurchasableDraft' &&
-            planComposedStatus !== 'UnquotedDraft' &&
-            planComposedStatus !== 'PrequotedDraft')
-        }
+        disabled={isAddBlockButtonDisabled(items, planComposedStatus)}
       >
         <Button.StartIcon>
           {planComposedStatus === 'UnquotedDraft' ? (
@@ -62,14 +71,15 @@ const AddBlockButton = () => {
           ? t('__PLAN_PAGE_ADD_MODULE_BLOCK_BUTTON')
           : t('__PLAN_PAGE_ADD_CUSTOM_FEATURE_BUTTON')}
       </Button>
-      {planComposedStatus !== 'UnquotedDraft' && (
-        <ExpertReviewWarning
-          style={{
-            marginTop: appTheme.space.md,
-            marginLeft: appTheme.space.sm,
-          }}
-        />
-      )}
+      {planComposedStatus !== 'UnquotedDraft' &&
+        !isAddBlockButtonDisabled(items, planComposedStatus) && (
+          <ExpertReviewWarning
+            style={{
+              marginTop: appTheme.space.xxs,
+              marginLeft: appTheme.space.sm,
+            }}
+          />
+        )}
     </ButtonContainer>
   );
 };

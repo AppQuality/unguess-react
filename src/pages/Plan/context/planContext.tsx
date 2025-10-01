@@ -1,6 +1,11 @@
 import { createContext, ReactNode, useContext, useMemo, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
-import { GetPlansByPidCheckoutItemApiResponse } from 'src/features/api';
+import { useParams, useSearchParams } from 'react-router-dom';
+import { isDev } from 'src/common/isDevEnvironment';
+import {
+  GetPlansByPidCheckoutItemApiResponse,
+  useGetPlansByPidCheckoutItemQuery,
+  usePostCheckoutMutation,
+} from 'src/features/api';
 import { PLAN_TABS, PlanTab, PlanTabName } from '../common/constants';
 
 interface PlanContextProps {
@@ -10,19 +15,28 @@ interface PlanContextProps {
   isSaveTemplateModalOpen: boolean;
   setIsDeleteModalOpen: (isOpen: boolean) => void;
   isDeleteModalOpen: boolean;
+  isDateInThePastAlertModalOpen: boolean;
+  setDateInThePastAlertModalOpen: (isOpen: boolean) => void;
   newModule: string | null;
   setNewModule: (module: string | null) => void;
   setCheckoutItem: (checkoutItem: GetPlansByPidCheckoutItemApiResponse) => void;
   checkoutItem: GetPlansByPidCheckoutItemApiResponse;
   setIsPaymentInProgress: (isInProgress: boolean) => void;
   isPaymentInProgress: boolean;
+  buyPlanAction?: () => Promise<void>;
 }
 
 const PlanContext = createContext<PlanContextProps | null>(null);
 
 export const PlanProvider = ({ children }: { children: ReactNode }) => {
+  const { planId } = useParams();
   const [searchParams, setSearchParams] = useSearchParams();
   const initialTabName = searchParams.get('tab');
+  const [postCheckout] = usePostCheckoutMutation();
+  const { data: checkoutItemData } = useGetPlansByPidCheckoutItemQuery(
+    { pid: planId ?? '' },
+    { skip: !planId }
+  );
   let initialTab = PLAN_TABS.find((t) => t.name === initialTabName);
   if (!initialTab) {
     [initialTab] = PLAN_TABS;
@@ -31,6 +45,7 @@ export const PlanProvider = ({ children }: { children: ReactNode }) => {
       tab: initialTab.name,
     });
   }
+  const baseUrl = isDev() ? 'https://dev.unguess.io' : 'https://app.unguess.io';
   const [activeTab, setActiveTabState] = useState<PlanTab>(initialTab);
   const [newModule, setNewModule] = useState<string | null>(null);
   const [checkoutItem, setCheckoutItem] =
@@ -56,8 +71,33 @@ export const PlanProvider = ({ children }: { children: ReactNode }) => {
       });
     }
   };
+
+  const buyPlanAction = async () => {
+    setIsPaymentInProgress(true);
+    try {
+      const response = await postCheckout({
+        body: {
+          meta: JSON.stringify(checkoutItemData?.metadata),
+          price_id: checkoutItemData?.price_id ?? '',
+          cancel_url: `${baseUrl}/plans/${planId}?payment=failed`,
+          success_url: `${baseUrl}/plans/${planId}?payment=success`,
+        },
+      }).unwrap();
+      if (response.url) {
+        window.location.href = response.url;
+      } else {
+        setIsPaymentInProgress(false);
+      }
+    } catch (error) {
+      setIsPaymentInProgress(false);
+      console.error(`Error while checkout process: ${error}`);
+    }
+  };
+
   const [isSaveTemplateModalOpen, setIsSaveTemplateModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [isDateInThePastAlertModalOpen, setDateInThePastAlertModalOpen] =
+    useState(false);
 
   const planContextValue = useMemo(
     () => ({
@@ -67,12 +107,15 @@ export const PlanProvider = ({ children }: { children: ReactNode }) => {
       isSaveTemplateModalOpen,
       setIsDeleteModalOpen,
       isDeleteModalOpen,
+      isDateInThePastAlertModalOpen,
+      setDateInThePastAlertModalOpen,
       newModule,
       setNewModule,
       setCheckoutItem,
       checkoutItem,
       setIsPaymentInProgress,
       isPaymentInProgress,
+      buyPlanAction,
     }),
     [
       activeTab,
@@ -80,12 +123,15 @@ export const PlanProvider = ({ children }: { children: ReactNode }) => {
       isSaveTemplateModalOpen,
       setIsDeleteModalOpen,
       isDeleteModalOpen,
+      isDateInThePastAlertModalOpen,
+      setDateInThePastAlertModalOpen,
       newModule,
       setNewModule,
       setCheckoutItem,
       checkoutItem,
       setIsPaymentInProgress,
       isPaymentInProgress,
+      buyPlanAction,
     ]
   );
 
