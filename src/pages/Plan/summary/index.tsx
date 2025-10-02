@@ -43,7 +43,8 @@ const SummaryBody = () => {
           <IntroductionCard />
           <ActivityInfo />
           {planComposedStatus !== 'Paying' && <ConfirmationCard />}
-          {planComposedStatus !== 'AwaitingPayment' &&
+          {planComposedStatus !== 'PurchasableDraft' &&
+            planComposedStatus !== 'AwaitingPayment' &&
             planComposedStatus !== 'Paying' &&
             planComposedStatus !== 'PurchasedPlan' && <SaveTemplateCard />}
           <GoToDashboardCard />
