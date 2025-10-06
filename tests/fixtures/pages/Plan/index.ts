@@ -198,7 +198,7 @@ export class PlanPage extends UnguessPage {
 
   static getTitleFromPlan(plan: any) {
     const titleModule = plan.config.modules.find(
-      (module) => module.type === 'title'
+      (module: any) => module.type === 'title'
     );
     if (!titleModule) {
       throw new Error('No title module found in plan');
@@ -485,6 +485,4 @@ export class PlanPage extends UnguessPage {
       }
     );
   }
-
-  as;
 }

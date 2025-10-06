@@ -1,5 +1,5 @@
 import { useParams } from 'react-router-dom';
-import { usePlan } from '../../hooks/usePlan';
+import { usePlan } from '../../../../hooks/usePlan';
 
 const useApprovedQuote = () => {
   const { planId } = useParams();

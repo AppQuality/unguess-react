@@ -16,12 +16,12 @@ import { Divider } from 'src/common/components/divider';
 import { usePatchPlansByPidStatusMutation } from 'src/features/api';
 import { useModule } from 'src/features/modules/useModule';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
+import { usePlanStatusLabel } from 'src/hooks/usePlanStatusLabel';
 import { WidgetSpecialCard } from 'src/pages/Campaign/widgetCards/common/StyledSpecialCard';
-import { getPlanStatus } from 'src/pages/Dashboard/hooks/getPlanStatus';
 import styled from 'styled-components';
-import { usePlan } from '../../hooks/usePlan';
-import { BuyButton } from './BuyButton';
+import { usePlan } from '../../../../hooks/usePlan';
 import { GoToCampaignButton } from '../../Controls/GoToCampaignButton';
+import { BuyButton } from './BuyButton';
 
 const StyledDiv = styled.div`
   display: flex;
@@ -49,7 +49,6 @@ const Content = ({ date, quote }: { date: Date; quote?: string }) => {
   const { t, i18n } = useTranslation();
   const { planId } = useParams();
   const { planComposedStatus } = usePlan(planId);
-
   const price =
     quote ||
     `${t('__PLAN_PAGE_SUMMARY_TAB_ACTIVITY_INFO_PRICE_NOT_AVAILABLE')}*`;
@@ -171,6 +170,7 @@ export const DetailsCard = () => {
   const { t } = useTranslation();
   const { planId } = useParams();
   const { plan, planComposedStatus } = usePlan(planId);
+  const label = usePlanStatusLabel({ planStatus: planComposedStatus });
   const { value } = useModule('dates');
   const [isSubmitted, setIsSubmitted] = useState(false);
 
@@ -186,30 +186,27 @@ export const DetailsCard = () => {
     return value?.output.start ? new Date(value.output.start) : new Date(); // Add check with cp startDate
   };
 
-  const { status } = getPlanStatus({
-    planStatus: plan.status,
-    quote: plan.quote,
-    t,
-  });
-
   const getCta = () => {
     if (!plan.isPurchasable) {
-      <Cta
-        isSubmitted={isSubmitted}
-        onClick={() => {
-          setIsSubmitted(true);
-          patchStatus({
-            pid: planId?.toString() ?? '',
-            body: { status: 'approved' },
-          })
-            .unwrap()
-            .then(() => {
-              setIsSubmitted(false);
-            });
-        }}
-        campaignId={plan?.campaign?.id ?? 0}
-      />;
-    } else if (planComposedStatus === 'PurchasedPlan') {
+      return (
+        <Cta
+          isSubmitted={isSubmitted}
+          onClick={() => {
+            setIsSubmitted(true);
+            patchStatus({
+              pid: planId?.toString() ?? '',
+              body: { status: 'approved' },
+            })
+              .unwrap()
+              .then(() => {
+                setIsSubmitted(false);
+              });
+          }}
+          campaignId={plan?.campaign?.id ?? 0}
+        />
+      );
+    }
+    if (planComposedStatus === 'PurchasedPlan') {
       return <GoToCampaignButton />;
     }
     return (
@@ -236,14 +233,8 @@ export const DetailsCard = () => {
           <MD isBold style={{ color: getColor(appTheme.palette.grey, 800) }}>
             {t('__PLAN_PAGE_SUMMARY_TAB_ACTIVITY_INFO_TITLE')}
           </MD>
-          {status !== 'approved' && (
-            <PlanTag
-              {...getPlanStatus({
-                planStatus: plan.status,
-                quote: plan.quote,
-                t,
-              })}
-            />
+          {planComposedStatus !== 'Accepted' && (
+            <PlanTag status={planComposedStatus} statusLabel={label} />
           )}
         </>
       </WidgetSpecialCard.Meta>

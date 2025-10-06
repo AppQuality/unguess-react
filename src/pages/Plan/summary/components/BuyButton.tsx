@@ -8,7 +8,7 @@ import {
 } from 'src/features/api';
 import { getPlanStatus } from 'src/pages/Dashboard/hooks/getPlanStatus';
 import { usePlanContext } from '../../context/planContext';
-import { usePlan } from '../../hooks/usePlan';
+import { usePlan } from '../../../../hooks/usePlan';
 
 interface BuyButtonProps {
   isStretched?: boolean;

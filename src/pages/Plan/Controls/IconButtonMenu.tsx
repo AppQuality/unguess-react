@@ -10,7 +10,7 @@ import { useParams } from 'react-router-dom';
 import { ReactComponent as SaveTemplateIcon } from 'src/assets/icons/template.svg';
 import { Divider } from 'src/common/components/divider';
 import { usePlanContext } from '../context/planContext';
-import { usePlan } from '../hooks/usePlan';
+import { usePlan } from '../../../hooks/usePlan';
 
 const OptionalTooltip = ({
   children,
@@ -36,7 +36,7 @@ const IconButtonMenu = () => {
 
   const { setIsSaveTemplateModalOpen, setIsDeleteModalOpen } = usePlanContext();
   const { planId } = useParams();
-  const { plan } = usePlan(planId);
+  const { plan, planComposedStatus } = usePlan(planId);
 
   const handleMenuClick = (value?: string) => {
     if (value === 'delete') {
@@ -58,14 +58,18 @@ const IconButtonMenu = () => {
         </IconButton>
       )}
     >
-      <ButtonMenu.Item
-        data-qa="save-template-action-item"
-        value="save_template"
-        icon={<SaveTemplateIcon />}
-      >
-        {t('__PLAN_SAVE_TEMPLATE_CTA')}
-      </ButtonMenu.Item>
-      <Divider />
+      {planComposedStatus !== 'PurchasableDraft' && (
+        <>
+          <ButtonMenu.Item
+            data-qa="save-template-action-item"
+            value="save_template"
+            icon={<SaveTemplateIcon />}
+          >
+            {t('__PLAN_SAVE_TEMPLATE_CTA')}
+          </ButtonMenu.Item>
+          <Divider />
+        </>
+      )}
       <OptionalTooltip
         show={plan?.status !== 'draft'}
         content={t('__PLAN_DELETE_PLAN_TOOLTIP')}

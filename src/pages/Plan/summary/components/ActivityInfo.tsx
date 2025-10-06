@@ -14,7 +14,7 @@ import { Divider } from 'src/common/components/divider';
 import { useModule } from 'src/features/modules/useModule';
 import { Notes } from 'src/common/components/NotesCard';
 import styled from 'styled-components';
-import { usePlan } from '../../hooks/usePlan';
+import { usePlan } from '../../../../hooks/usePlan';
 import { Description } from './typography/Description';
 import { Title } from './typography/Title';
 

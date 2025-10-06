@@ -1,5 +1,6 @@
 import { User } from 'src/features/api';
 import { Userpilot } from 'userpilot';
+import { isDev } from '../isDevEnvironment';
 
 declare global {
   interface Window {
@@ -28,7 +29,14 @@ export default function userpilotPlugin(pluginSettings: UserpilotConfig) {
     name: 'userpilot',
     config: { ...pluginSettings },
     initialize: ({ config }: { config: UserpilotConfig }) => {
-      Userpilot.initialize(config.token);
+      if (isDev()) {
+        const previewEnabled = localStorage.getItem('userpilot_ug_preview');
+        if (previewEnabled !== null) {
+          Userpilot.initialize(config.token);
+        }
+      } else {
+        Userpilot.initialize(config.token);
+      }
     },
     identify: ({ payload }: { payload: IIdentifyPayload }) => {
       const { userId, traits } = payload;
@@ -56,6 +64,6 @@ export default function userpilotPlugin(pluginSettings: UserpilotConfig) {
       Userpilot.track(event, { ...properties, userId });
     },
 
-    loaded: () => !!window.userpilot,
+    loaded: () => true,
   };
 }

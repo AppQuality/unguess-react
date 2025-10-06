@@ -18,6 +18,7 @@ test.describe('Home page', () => {
     await dashboard.mockWorkspace();
     await planCreationInterface.mockGetProjects();
     await planCreationInterface.mockPostPlans();
+    await planCreationInterface.mockGetNewPlan();
     await dashboard.mockWorkspacesList();
     await promoList.mockPromoTemplates();
     await dashboard.open();
@@ -79,6 +80,6 @@ test.describe('Home page', () => {
       template_id: promoList.promoItems[0].id,
     });
     // expect that navigation to the plan page is triggered
-    await expect(page).toHaveURL(`/plans/${newPlanId}`);
+    await expect(page).toHaveURL(`/plans/${newPlanId}?tab=setup`);
   });
 });

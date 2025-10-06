@@ -8,7 +8,7 @@ import { useModule } from 'src/features/modules/useModule';
 import styled from 'styled-components';
 import { useSubmit } from '../../../features/modules/useModuleConfiguration';
 import { usePlanContext } from '../context/planContext';
-import { usePlan } from '../hooks/usePlan';
+import { usePlan } from '../../../hooks/usePlan';
 import { DeletePlanModal } from '../modals/DeletePlanModal';
 import { SendRequestModal } from '../modals/SendRequestModal';
 import { ConfirmPlanButton } from './ConfirmPlanButton';

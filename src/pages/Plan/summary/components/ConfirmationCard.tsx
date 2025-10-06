@@ -12,7 +12,7 @@ import { useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
 import { usePatchPlansByPidStatusMutation } from 'src/features/api';
 import styled from 'styled-components';
-import { usePlan } from '../../hooks/usePlan';
+import { usePlan } from '../../../../hooks/usePlan';
 import { Title } from './typography/Title';
 import { BuyButton } from './BuyButton';
 

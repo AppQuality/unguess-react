@@ -1,15 +1,13 @@
 import { Button, Col, Row } from '@appquality/unguess-design-system';
 import { ReactComponent as ChevronLeftIcon } from '@zendeskgarden/svg-icons/src/12/chevron-left-stroke.svg';
-import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useParams, useSearchParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
-import { usePatchPlansByPidStatusMutation } from 'src/features/api';
 import styled from 'styled-components';
+import { usePlan } from '../../../hooks/usePlan';
 import { StickyCol } from '../common/StickyCol';
 import { TabTitle } from '../common/TabTitle';
 import { usePlanContext } from '../context/planContext';
-import { usePlan } from '../hooks/usePlan';
 import { ActivityInfo } from './components/ActivityInfo';
 import { ConfirmationCard } from './components/ConfirmationCard';
 import { DetailsCard } from './components/DetailsCard';
@@ -29,31 +27,6 @@ const SummaryBody = () => {
   const { planId } = useParams();
   const { plan, planComposedStatus } = usePlan(planId);
   const { setActiveTab, isPaymentInProgress } = usePlanContext();
-  const [patchStatus] = usePatchPlansByPidStatusMutation();
-  const [search] = useSearchParams();
-
-  useEffect(() => {
-    if (search && search.get('payment') === 'failed') {
-      patchStatus({
-        pid: planId?.toString() ?? '',
-        body: {
-          status: 'draft',
-        },
-      })
-        .unwrap()
-        .then(() => {
-          const url = window.location.origin + window.location.pathname;
-          window.history.replaceState({}, '', url);
-          window.location.reload();
-        })
-        .catch((err) => {
-          console.error(
-            'Error updating plan status after payment failure',
-            err
-          );
-        });
-    }
-  }, [search]);
 
   if (!plan) return null;
 
