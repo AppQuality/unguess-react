@@ -11,6 +11,7 @@ import { usePlanContext } from '../context/planContext';
 import { usePlan } from '../../../hooks/usePlan';
 import { DeletePlanModal } from '../modals/DeletePlanModal';
 import { SendRequestModal } from '../modals/SendRequestModal';
+import { DateInThePastAlertModal } from '../modals/DateInThePastAlertModal';
 import { ConfirmPlanButton } from './ConfirmPlanButton';
 import { GoToCampaignButton } from './GoToCampaignButton';
 import { IconButtonMenu } from './IconButtonMenu';
@@ -27,7 +28,12 @@ export const Controls = () => {
   const { t } = useTranslation();
   const [isRequestQuotationModalOpen, setRequestQuotationModalOpen] =
     useState(false);
-  const { isDeleteModalOpen, setIsDeleteModalOpen } = usePlanContext();
+  const {
+    isDeleteModalOpen,
+    setIsDeleteModalOpen,
+    isDateInThePastAlertModalOpen,
+    setDateInThePastAlertModalOpen,
+  } = usePlanContext();
   const { planId } = useParams();
   const { plan, planComposedStatus } = usePlan(planId);
   const { value: titleValue } = useModule('title'); // to use the current changed title value (also if plan is not saved) in delete modal
@@ -93,6 +99,11 @@ export const Controls = () => {
           planId={planId}
           planTitle={titleValue?.output ?? ''}
           onQuit={() => setIsDeleteModalOpen(false)}
+        />
+      )}
+      {isDateInThePastAlertModalOpen && (
+        <DateInThePastAlertModal
+          onQuit={() => setDateInThePastAlertModalOpen(false)}
         />
       )}
 
