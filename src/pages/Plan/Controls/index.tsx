@@ -67,7 +67,6 @@ export const Controls = () => {
       style={{ display: 'flex', gap: appTheme.space.xs, alignItems: 'center' }}
     >
       {(planComposedStatus === 'Accepted' ||
-        planComposedStatus === 'RunningPlan' ||
         planComposedStatus === 'PurchasedPlan') && <GoToCampaignButton />}
       {(planComposedStatus === 'AwaitingApproval' ||
         planComposedStatus === 'AwaitingPayment' ||
