@@ -24,6 +24,7 @@ const usePlan = (planId?: string) => {
 
   const {
     data: ci,
+    isError: isCiError,
     isLoading: isCiLoading,
     isFetching: isCiFetching,
   } = useGetPlansByPidCheckoutItemQuery(
@@ -53,10 +54,10 @@ const usePlan = (planId?: string) => {
     }
   );
 
+  const hasCI = !!ci && !isCiError;
   const planComposedStatus: PlanComposedStatusType | undefined = useMemo(() => {
     if (!plan) return undefined;
 
-    const hasCI = !!ci; // checkout item present
     const quoteStatus = plan.quote?.status;
     const hasTemplateQuote = planTemplate?.price !== undefined;
 
@@ -89,7 +90,7 @@ const usePlan = (planId?: string) => {
       default:
         throw new Error(`Unknown plan status for plan: ${plan.id}`);
     }
-  }, [plan, ci, planTemplate]);
+  }, [plan, hasCI, planTemplate]);
 
   if (!plan) {
     return {
@@ -97,7 +98,7 @@ const usePlan = (planId?: string) => {
       isFetching: isFetching || isCiFetching || isTemplateFetching,
       activeWorkspace,
       plan: undefined,
-      checkoutItem: ci,
+      ...(hasCI ? { checkoutItem: ci } : {}),
       planComposedStatus,
     };
   }
@@ -106,8 +107,8 @@ const usePlan = (planId?: string) => {
     isLoading: isLoading || isCiLoading || isTemplateLoading,
     isFetching: isFetching || isCiFetching || isTemplateFetching,
     activeWorkspace,
-    plan: { ...plan, isPurchasable: !!ci },
-    checkoutItem: ci,
+    plan: { ...plan, isPurchasable: hasCI },
+    ...(hasCI ? { checkoutItem: ci } : {}),
     planComposedStatus,
   };
 };
