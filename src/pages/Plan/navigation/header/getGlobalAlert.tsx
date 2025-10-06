@@ -36,7 +36,6 @@ export const useGlobalAlert = () => {
         />
       );
     case 'Accepted':
-    case 'RunningPlan':
       return (
         <GlobalAlert
           message={<>{t('PLAN_GLOBAL_ALERT_APPROVED_STATE_MESSAGE')}</>}

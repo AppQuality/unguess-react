@@ -48,7 +48,6 @@ export const GoToDashboardCard = () => {
   if (
     !plan ||
     (planComposedStatus !== 'Accepted' &&
-      planComposedStatus !== 'RunningPlan' &&
       planComposedStatus !== 'PurchasedPlan')
   )
     return null;

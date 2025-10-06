@@ -123,7 +123,6 @@ const Cta = ({
 
   if (
     planComposedStatus === 'Accepted' ||
-    planComposedStatus === 'RunningPlan' ||
     planComposedStatus === 'PurchasedPlan'
   )
     return (

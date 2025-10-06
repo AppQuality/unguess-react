@@ -1,5 +1,4 @@
 import { PlanCard as UGPlanCard } from '@appquality/unguess-design-system';
-import { get } from 'http';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { GetWorkspacesByWidPlansApiResponse } from 'src/features/api';
