@@ -37,6 +37,7 @@ export const apiSlice = createApi({
     'Plans',
     'Users',
     'EvaluationRules',
+    'CheckoutItem',
   ],
   endpoints: () => ({}),
 });
