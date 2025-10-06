@@ -1,13 +1,28 @@
 import { Button } from '@appquality/unguess-design-system';
 import { useRef } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useParams } from 'react-router-dom';
 import { useAppSelector } from 'src/app/hooks';
+import { appTheme } from 'src/app/theme';
+import { ReactComponent as CustomFeatureIcon } from 'src/assets/icons/dashboard_customize.svg';
 import { ReactComponent as PlusIcon } from 'src/assets/icons/plus-icon.svg';
-import { useModuleConfiguration } from 'src/features/modules/useModuleConfiguration';
+import { usePlan } from 'src/hooks/usePlan';
+import { PlanComposedStatusType } from 'src/types';
 import styled from 'styled-components';
+import { ExpertReviewWarning } from '../../common/ExpertReviewWarning';
 import { usePlanContext } from '../../context/planContext';
 import { getModulesByTab } from '../../modules/Factory';
 import { usePlanNavContext } from './context';
+
+// Funzione helper per determinare se il bottone deve essere disabilitato
+const isAddBlockButtonDisabled = (
+  items: string[],
+  planComposedStatus?: PlanComposedStatusType
+) =>
+  items.length === 0 ||
+  (planComposedStatus !== 'PurchasableDraft' &&
+    planComposedStatus !== 'UnquotedDraft' &&
+    planComposedStatus !== 'PrequotedDraft');
 
 const ButtonContainer = styled.div`
   padding-top: ${({ theme }) => theme.space.sm};
@@ -20,7 +35,8 @@ const AddBlockButton = () => {
   const { t } = useTranslation();
   const triggerRef = useRef<HTMLButtonElement>(null);
   const { setModalRef } = usePlanNavContext();
-  const { getPlanStatus } = useModuleConfiguration();
+  const { planId } = useParams();
+  const { planComposedStatus } = usePlan(planId);
   const { activeTab } = usePlanContext();
   const availableModules = getModulesByTab(activeTab.name);
   const { currentModules } = useAppSelector((state) => state.planModules);
@@ -34,18 +50,33 @@ const AddBlockButton = () => {
     <ButtonContainer>
       <Button
         data-qa="plan_page_button_additem"
-        isPrimary
+        isPrimary={planComposedStatus === 'UnquotedDraft'}
         isPill={false}
         ref={triggerRef}
         onClick={() => setModalRef(triggerRef.current)}
         isStretched
-        disabled={items.length === 0 || getPlanStatus() !== 'draft'}
+        disabled={isAddBlockButtonDisabled(items, planComposedStatus)}
       >
         <Button.StartIcon>
-          <PlusIcon />
+          {planComposedStatus === 'UnquotedDraft' ? (
+            <PlusIcon />
+          ) : (
+            <CustomFeatureIcon />
+          )}
         </Button.StartIcon>
-        {t('__PLAN_PAGE_ADD_MODULE_BLOCK_BUTTON')}
+        {planComposedStatus === 'UnquotedDraft'
+          ? t('__PLAN_PAGE_ADD_MODULE_BLOCK_BUTTON')
+          : t('__PLAN_PAGE_ADD_CUSTOM_FEATURE_BUTTON')}
       </Button>
+      {planComposedStatus !== 'UnquotedDraft' &&
+        !isAddBlockButtonDisabled(items, planComposedStatus) && (
+          <ExpertReviewWarning
+            style={{
+              marginTop: appTheme.space.xxs,
+              marginLeft: appTheme.space.sm,
+            }}
+          />
+        )}
     </ButtonContainer>
   );
 };

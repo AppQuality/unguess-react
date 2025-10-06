@@ -16,18 +16,12 @@ import { Divider } from 'src/common/components/divider';
 import { usePatchPlansByPidStatusMutation } from 'src/features/api';
 import { useModule } from 'src/features/modules/useModule';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
+import { usePlanStatusLabel } from 'src/hooks/usePlanStatusLabel';
 import { WidgetSpecialCard } from 'src/pages/Campaign/widgetCards/common/StyledSpecialCard';
-import { getPlanStatus } from 'src/pages/Dashboard/hooks/getPlanStatus';
 import styled from 'styled-components';
-import { usePlan } from '../../hooks/usePlan';
+import { usePlan } from '../../../../hooks/usePlan';
+import { GoToCampaignButton } from '../../Controls/GoToCampaignButton';
 import { BuyButton } from './BuyButton';
-
-type IPlanStatus =
-  | 'draft'
-  | 'submitted'
-  | 'pending_quote_review'
-  | 'approved'
-  | 'paying';
 
 const StyledDiv = styled.div`
   display: flex;
@@ -51,17 +45,10 @@ const Footer = styled.div`
   margin-bottom: ${({ theme }) => theme.space.md};
 `;
 
-const Content = ({
-  date,
-  quote,
-  status,
-}: {
-  date: Date;
-  quote?: string;
-  status: IPlanStatus;
-}) => {
+const Content = ({ date, quote }: { date: Date; quote?: string }) => {
   const { t, i18n } = useTranslation();
-
+  const { planId } = useParams();
+  const { planComposedStatus } = usePlan(planId);
   const price =
     quote ||
     `${t('__PLAN_PAGE_SUMMARY_TAB_ACTIVITY_INFO_PRICE_NOT_AVAILABLE')}*`;
@@ -70,7 +57,8 @@ const Content = ({
     <>
       <StyledDiv>
         <SM>
-          {(status === 'submitted'
+          {(planComposedStatus === 'Submitted' ||
+          planComposedStatus === 'OpsCheck'
             ? t('__PLAN_PAGE_SUMMARY_TAB_ACTIVITY_INFO_DATE_LABEL_SUBMITTED')
             : t('__PLAN_PAGE_SUMMARY_TAB_ACTIVITY_INFO_DATE_LABEL')
           ).toLocaleUpperCase()}
@@ -81,24 +69,37 @@ const Content = ({
             month: 'long',
             day: '2-digit',
           })}
-          {status === 'submitted' ? '*' : ''}
+          {planComposedStatus === 'Submitted' ||
+          planComposedStatus === 'OpsCheck'
+            ? '*'
+            : ''}
         </PrimaryText>
       </StyledDiv>
       <StyledDiv>
         <SM>
           {t('__PLAN_PAGE_SUMMARY_TAB_ACTIVITY_INFO_PRICE').toLocaleUpperCase()}
         </SM>
-        <PrimaryText isBold isPending={!quote}>
-          {status === 'submitted' &&
+        <PrimaryText
+          isBold
+          isPending={!quote || planComposedStatus === 'OpsCheck'}
+        >
+          {planComposedStatus === 'Submitted' &&
             quote &&
             t('__PLAN_PAGE_SUMMARY_TAB_ACTIVITY_INFO_PRICE_PREFIX')}{' '}
-          {price}
+          {planComposedStatus === 'OpsCheck'
+            ? `${t('__PLAN_PAGE_SUMMARY_TAB_ACTIVITY_INFO_PRICE_PENDING')}*`
+            : price}
         </PrimaryText>
-        {status === 'submitted' && (
+        {planComposedStatus === 'Submitted' && (
           <MD style={{ marginTop: appTheme.space.sm }}>
             {t(
               '__PLAN_PAGE_SUMMARY_TAB_ACTIVITY_INFO_PRICE_NOT_AVAILABLE_NOTES'
             )}
+          </MD>
+        )}
+        {planComposedStatus === 'OpsCheck' && (
+          <MD style={{ marginTop: appTheme.space.sm }}>
+            {t('__PLAN_PAGE_SUMMARY_TAB_ACTIVITY_INFO_PRICE_OPS_CHECK_NOTES')}
           </MD>
         )}
       </StyledDiv>
@@ -107,20 +108,23 @@ const Content = ({
 };
 
 const Cta = ({
-  status,
   campaignId,
   isSubmitted,
   onClick,
 }: {
-  status: IPlanStatus;
   campaignId: number;
   isSubmitted: boolean;
   onClick: () => void;
 }) => {
   const { t } = useTranslation();
   const campaignRoute = useLocalizeRoute(`campaigns/${campaignId}`);
+  const { planId } = useParams();
+  const { planComposedStatus } = usePlan(planId);
 
-  if (status === 'approved')
+  if (
+    planComposedStatus === 'Accepted' ||
+    planComposedStatus === 'PurchasedPlan'
+  )
     return (
       <Link to={campaignRoute}>
         <Anchor isExternal>
@@ -136,13 +140,19 @@ const Cta = ({
         isPrimary
         isStretched
         type="button"
-        disabled={status === 'submitted' || isSubmitted}
+        disabled={
+          planComposedStatus === 'Submitted' ||
+          planComposedStatus === 'OpsCheck' ||
+          isSubmitted ||
+          planComposedStatus === 'Paying'
+        }
         onClick={onClick}
       >
         {t('__PLAN_PAGE_SUMMARY_TAB_CONFIRMATION_CARD_CONFIRM_CTA')}
       </Button>
 
-      {status === 'pending_quote_review' && (
+      {(planComposedStatus === 'AwaitingApproval' ||
+        planComposedStatus === 'AwaitingPayment') && (
         <StyledDiv>
           <Message>
             {t(
@@ -158,7 +168,8 @@ const Cta = ({
 export const DetailsCard = () => {
   const { t } = useTranslation();
   const { planId } = useParams();
-  const { plan } = usePlan(planId);
+  const { plan, planComposedStatus } = usePlan(planId);
+  const label = usePlanStatusLabel({ planStatus: planComposedStatus });
   const { value } = useModule('dates');
   const [isSubmitted, setIsSubmitted] = useState(false);
 
@@ -174,11 +185,45 @@ export const DetailsCard = () => {
     return value?.output.start ? new Date(value.output.start) : new Date(); // Add check with cp startDate
   };
 
-  const { status } = getPlanStatus({
-    planStatus: plan.status,
-    quote: plan.quote,
-    t,
-  });
+  const getCta = () => {
+    if (!plan.isPurchasable) {
+      return (
+        <Cta
+          isSubmitted={isSubmitted}
+          onClick={() => {
+            setIsSubmitted(true);
+            patchStatus({
+              pid: planId?.toString() ?? '',
+              body: { status: 'approved' },
+            })
+              .unwrap()
+              .then(() => {
+                setIsSubmitted(false);
+              });
+          }}
+          campaignId={plan?.campaign?.id ?? 0}
+        />
+      );
+    }
+    if (planComposedStatus === 'PurchasedPlan') {
+      return <GoToCampaignButton />;
+    }
+    return (
+      <>
+        <BuyButton isStretched />
+        <SM
+          style={{
+            marginTop: appTheme.space.md,
+            color: appTheme.palette.grey[600],
+          }}
+        >
+          {t(
+            '__PLAN_PAGE_SUMMARY_TAB_CONFIRMATION_PAYMENT_CARD_ADDITIONAL_INFO'
+          )}
+        </SM>
+      </>
+    );
+  };
 
   return (
     <WidgetSpecialCard style={{ height: 'auto' }}>
@@ -187,41 +232,14 @@ export const DetailsCard = () => {
           <MD isBold style={{ color: getColor(appTheme.palette.grey, 800) }}>
             {t('__PLAN_PAGE_SUMMARY_TAB_ACTIVITY_INFO_TITLE')}
           </MD>
-          {status !== 'approved' && (
-            <PlanTag
-              {...getPlanStatus({
-                planStatus: plan.status,
-                quote: plan.quote,
-                t,
-              })}
-            />
+          {planComposedStatus !== 'Accepted' && (
+            <PlanTag status={planComposedStatus} statusLabel={label} />
           )}
         </>
       </WidgetSpecialCard.Meta>
       <Divider />
-      <Content date={planDate()} quote={plan?.quote?.value} status={status} />
-      <Footer>
-        {!plan.isPurchasable ? (
-          <Cta
-            isSubmitted={isSubmitted}
-            onClick={() => {
-              setIsSubmitted(true);
-              patchStatus({
-                pid: planId?.toString() ?? '',
-                body: { status: 'approved' },
-              })
-                .unwrap()
-                .then(() => {
-                  setIsSubmitted(false);
-                });
-            }}
-            status={status}
-            campaignId={plan?.campaign?.id ?? 0}
-          />
-        ) : (
-          <BuyButton isStretched />
-        )}
-      </Footer>
+      <Content date={planDate()} quote={plan?.quote?.value} />
+      <Footer>{getCta()}</Footer>
     </WidgetSpecialCard>
   );
 };

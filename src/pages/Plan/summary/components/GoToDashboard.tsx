@@ -9,7 +9,7 @@ import { Link, useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import styled from 'styled-components';
-import { usePlan } from '../../hooks/usePlan';
+import { usePlan } from '../../../../hooks/usePlan';
 import { ReactComponent as ApprovedImage } from '../assets/lens.svg';
 import { Title } from './typography/Title';
 
@@ -41,11 +41,16 @@ const ContentRow = styled.div`
 export const GoToDashboardCard = () => {
   const { planId } = useParams();
   const { t } = useTranslation();
-  const { plan } = usePlan(planId);
+  const { plan, planComposedStatus } = usePlan(planId);
   const campaignRoute = useLocalizeRoute(
     `campaigns/${plan?.campaign?.id ?? '0'}`
   );
-  if (!plan || plan.status !== 'approved') return null;
+  if (
+    !plan ||
+    (planComposedStatus !== 'Accepted' &&
+      planComposedStatus !== 'PurchasedPlan')
+  )
+    return null;
 
   return (
     <ContainerCard>

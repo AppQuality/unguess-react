@@ -1,28 +1,29 @@
 import { Button } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
-import { isDev } from 'src/common/isDevEnvironment';
-import {
-  useGetPlansByPidCheckoutItemQuery,
-  usePostCheckoutMutation,
-} from 'src/features/api';
+
+import { useModule } from 'src/features/modules/useModule';
 import { getPlanStatus } from 'src/pages/Dashboard/hooks/getPlanStatus';
+import { usePlan } from '../../../../hooks/usePlan';
 import { usePlanContext } from '../../context/planContext';
-import { usePlan } from '../../hooks/usePlan';
 
-const BuyButton = ({ isStretched }: { isStretched?: boolean }) => {
-  const { setIsPaymentInProgress } = usePlanContext();
+interface BuyButtonProps {
+  isStretched?: boolean;
+  isAccent?: boolean;
+  isPrimary?: boolean;
+}
 
+const BuyButton = ({
+  isStretched,
+  isAccent = true,
+  isPrimary = true,
+}: BuyButtonProps) => {
+  const { setDateInThePastAlertModalOpen, buyPlanAction } = usePlanContext();
+  const { value } = useModule('dates');
   const { planId } = useParams();
   const { plan } = usePlan(planId);
+
   const { t } = useTranslation();
-
-  const { data: checkoutItemData } = useGetPlansByPidCheckoutItemQuery(
-    { pid: planId ?? '' },
-    { skip: !planId }
-  );
-
-  const baseUrl = isDev() ? 'https://dev.unguess.io' : 'https://app.unguess.io';
 
   if (!plan) return null;
 
@@ -32,37 +33,40 @@ const BuyButton = ({ isStretched }: { isStretched?: boolean }) => {
     t,
   });
 
-  const [postCheckout] = usePostCheckoutMutation();
+  const checkIfDateIsValid = (dateString?: string) => {
+    if (!dateString) {
+      setDateInThePastAlertModalOpen(true);
+      return false;
+    }
+    const date = new Date(dateString);
+    if (Number.isNaN(date.getTime())) {
+      setDateInThePastAlertModalOpen(true);
+      return false;
+    }
+    const today = new Date();
+    if (date < today) {
+      setDateInThePastAlertModalOpen(true);
+      return false;
+    }
+    // continue
+    return true;
+  };
+
+  const handleBuyButtonClick = async () => {
+    if (checkIfDateIsValid(value?.output.start) && buyPlanAction) {
+      await buyPlanAction();
+    }
+  };
 
   return (
     <Button
       type="button"
       size="small"
-      isAccent
-      isPrimary
+      isAccent={isAccent}
+      isPrimary={isPrimary}
       isStretched={isStretched}
       disabled={status === 'approved'}
-      onClick={async () => {
-        setIsPaymentInProgress(true);
-        try {
-          const response = await postCheckout({
-            body: {
-              meta: JSON.stringify(checkoutItemData?.metadata),
-              price_id: checkoutItemData?.price_id ?? '',
-              cancel_url: `${baseUrl}/plans/${planId}?payment=failed`,
-              success_url: `${baseUrl}/plans/${planId}?payment=success`,
-            },
-          }).unwrap();
-          if (response.url) {
-            window.location.href = response.url;
-          } else {
-            setIsPaymentInProgress(false);
-          }
-        } catch (error) {
-          setIsPaymentInProgress(false);
-          console.error(`Error while checkout process: ${error}`);
-        }
-      }}
+      onClick={handleBuyButtonClick}
     >
       {t('__PLAN_PAGE_BUY_BUTTON_LABEL')}
     </Button>

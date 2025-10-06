@@ -1,11 +1,14 @@
 import {
   AccordionNew,
+  Alert,
   Button,
   FormField,
+  IconButton,
   Input,
   Label,
   SM,
   Span,
+  Tooltip,
 } from '@appquality/unguess-design-system';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
@@ -82,19 +85,22 @@ const TargetSize = () => {
             <AccordionNew.Label label={t('__PLAN_PAGE_MODULE_TARGET_TITLE')} />
             {getPlanStatus() === 'draft' && (
               <AccordionNew.Meta>
-                <Button
-                  isBasic
-                  isDanger
-                  onClick={(e) => {
-                    handleDelete();
-                    e.stopPropagation();
-                  }}
+                <Tooltip
+                  placement="start"
+                  type="light"
+                  size="small"
+                  content={t('__PLAN_PAGE_MODULE_TARGET_REMOVE_TOOLTIP_BUTTON')}
                 >
-                  <Button.StartIcon>
+                  <IconButton
+                    isDanger
+                    onClick={(e) => {
+                      handleDelete();
+                      e.stopPropagation();
+                    }}
+                  >
                     <TrashIcon />
-                  </Button.StartIcon>
-                  {t('__PLAN_PAGE_MODULE_TARGET_REMOVE_BUTTON')}
-                </Button>
+                  </IconButton>
+                </Tooltip>
               </AccordionNew.Meta>
             )}
           </AccordionNew.Header>
@@ -130,6 +136,9 @@ const TargetSize = () => {
                     </>
                   )}
                 </StyledInfoBox>
+                <Alert style={{ marginTop: appTheme.space.sm }} type="info">
+                  {t('__PLAN_PAGE_MODULE_TARGET_ALERT')}
+                </Alert>
               </FormField>
             </div>
           </AccordionNew.Panel>

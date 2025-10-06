@@ -1,3 +1,4 @@
+import { Notification, useToast } from '@appquality/unguess-design-system';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
@@ -5,9 +6,10 @@ import { appTheme } from 'src/app/theme';
 import { Pipe } from 'src/common/components/Pipe';
 import { useModule } from 'src/features/modules/useModule';
 import styled from 'styled-components';
-import { getPlanStatus } from '../../Dashboard/hooks/getPlanStatus';
+import { useSubmit } from '../../../features/modules/useModuleConfiguration';
+import { usePlan } from '../../../hooks/usePlan';
 import { usePlanContext } from '../context/planContext';
-import { usePlan } from '../hooks/usePlan';
+import { DateInThePastAlertModal } from '../modals/DateInThePastAlertModal';
 import { DeletePlanModal } from '../modals/DeletePlanModal';
 import { SendRequestModal } from '../modals/SendRequestModal';
 import { ConfirmPlanButton } from './ConfirmPlanButton';
@@ -26,36 +28,70 @@ export const Controls = () => {
   const { t } = useTranslation();
   const [isRequestQuotationModalOpen, setRequestQuotationModalOpen] =
     useState(false);
-  const { isDeleteModalOpen, setIsDeleteModalOpen } = usePlanContext();
+  const {
+    isDeleteModalOpen,
+    setIsDeleteModalOpen,
+    isDateInThePastAlertModalOpen,
+    setDateInThePastAlertModalOpen,
+  } = usePlanContext();
   const { planId } = useParams();
-  const { plan } = usePlan(planId);
+  const { plan, planComposedStatus } = usePlan(planId);
   const { value: titleValue } = useModule('title'); // to use the current changed title value (also if plan is not saved) in delete modal
+  const { addToast } = useToast();
+  const { handleSubmit } = useSubmit(planId || '');
 
   if (!plan) return null;
 
-  const { status } = getPlanStatus({
-    planStatus: plan.status,
-    quote: plan.quote,
-    t,
-  });
+  const handleRequestQuotation = async () => {
+    try {
+      await handleSubmit();
+      setRequestQuotationModalOpen(true);
+    } catch (e) {
+      addToast(
+        ({ close }) => (
+          <Notification
+            onClose={close}
+            type="error"
+            role="alert"
+            title={t('__PLAN_PAGE_MODAL_SEND_REQUEST_TOAST_ERROR')}
+            message={
+              e instanceof Error && e.message
+                ? e.message
+                : t('__PLAN_PAGE_MODAL_SEND_REQUEST_TOAST_ERROR')
+            }
+            closeText={t('__TOAST_CLOSE_TEXT')}
+            isPrimary
+          />
+        ),
+        { placement: 'top' }
+      );
+    }
+  };
 
   return (
     <div
       style={{ display: 'flex', gap: appTheme.space.xs, alignItems: 'center' }}
     >
-      {status === 'approved' && <GoToCampaignButton />}
-      {status !== 'draft' && status !== 'approved' && <ConfirmPlanButton />}
-      {status === 'draft' && (
+      {(planComposedStatus === 'Accepted' ||
+        planComposedStatus === 'PurchasedPlan') && <GoToCampaignButton />}
+      {(planComposedStatus === 'AwaitingApproval' ||
+        planComposedStatus === 'AwaitingPayment' ||
+        planComposedStatus === 'OpsCheck' ||
+        planComposedStatus === 'Submitted' ||
+        planComposedStatus === 'Paying') && <ConfirmPlanButton />}
+      {(planComposedStatus === 'PurchasableDraft' ||
+        planComposedStatus === 'PrequotedDraft' ||
+        planComposedStatus === 'UnquotedDraft') && (
         <>
           <SaveConfigurationButton />
           <StyledPipe />
-          <RequestQuotationButton
-            onClick={() => setRequestQuotationModalOpen(true)}
-          />
+          <RequestQuotationButton onClick={handleRequestQuotation} />
         </>
       )}
 
-      <IconButtonMenu />
+      {planComposedStatus !== 'AwaitingPayment' &&
+        planComposedStatus !== 'Paying' &&
+        planComposedStatus !== 'PurchasedPlan' && <IconButtonMenu />}
       {isDeleteModalOpen && planId && (
         <DeletePlanModal
           planId={planId}
@@ -63,9 +99,17 @@ export const Controls = () => {
           onQuit={() => setIsDeleteModalOpen(false)}
         />
       )}
+      {isDateInThePastAlertModalOpen && (
+        <DateInThePastAlertModal
+          onQuit={() => setDateInThePastAlertModalOpen(false)}
+        />
+      )}
 
       {isRequestQuotationModalOpen && (
-        <SendRequestModal onQuit={() => setRequestQuotationModalOpen(false)} />
+        <SendRequestModal
+          isPurchasable={plan.isPurchasable}
+          onQuit={() => setRequestQuotationModalOpen(false)}
+        />
       )}
     </div>
   );

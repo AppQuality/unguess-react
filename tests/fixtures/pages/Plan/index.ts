@@ -14,6 +14,7 @@ import { OutOfScopeModule } from './Module_out_of_scope';
 import { TargetModule } from './Module_target';
 import { TasksModule } from './Module_tasks';
 import { TouchpointsModule } from './Module_touchpoints';
+import { BrowserModule } from './Module_browser';
 
 interface TabModule {
   expectToBeReadonly(): Promise<void>;
@@ -26,12 +27,14 @@ export class PlanPage extends UnguessPage {
 
   constructor(page: Page) {
     super(page);
+
     this.modules = {
+      goal: new GoalModule(page),
       touchpoints: new TouchpointsModule(page),
+      browser: new BrowserModule(page),
       age: new AgeModule(page),
       gender: new GenderModule(page),
       outOfScope: new OutOfScopeModule(page),
-      goal: new GoalModule(page),
       digitalLiteracy: new DigitalLiteracyModule(page),
       language: new LanguageModule(page),
       target: new TargetModule(page),
@@ -174,12 +177,28 @@ export class PlanPage extends UnguessPage {
         this.elements().titleModule().getByTestId('title-input'),
       titleModuleOutput: () =>
         this.elements().titleModule().getByTestId('title-output'),
+      draftPlanCardInfo: () => ({
+        title: () =>
+          this.page.getByText(
+            this.i18n.t('__PLAN_PAGE_DRAFT_ACTIVITY_INFO_TITLE')
+          ),
+        templateType: () =>
+          this.page.getByTestId('plan-page-template-type-title'),
+        templateTypeValue: () => this.page.getByTestId('template-type-value'),
+        startingPrice: () =>
+          this.page.getByText(
+            this.i18n.t('__PLAN_PAGE_DRAFT_ACTIVITY_INFO_STARTING_PRICE')
+          ),
+        startingPriceValue: () => this.page.getByTestId('starting-price-value'),
+        priceWarning: () =>
+          this.page.getByTestId('plan-page-price-warning-global-alert'),
+      }),
     };
   }
 
   static getTitleFromPlan(plan: any) {
     const titleModule = plan.config.modules.find(
-      (module) => module.type === 'title'
+      (module: any) => module.type === 'title'
     );
     if (!titleModule) {
       throw new Error('No title module found in plan');
@@ -207,28 +226,41 @@ export class PlanPage extends UnguessPage {
     return patchPromise;
   }
 
+  /*
+   * We group expectToBeReadonly calls by max three modules at a time using Promise.all.
+   * This balances parallel execution for speed, while limiting resource contention and improving error visibility.
+   * Running too many in parallel can cause UI flakiness and make debugging harder.
+   */
   async expectAllModulesToBeReadonly() {
     // tab setup
-    this.elements().tabSetup().click();
-    await Promise.all([this.modules.goal.expectToBeReadonly()]);
+    await this.elements().tabSetup().click();
+    await Promise.all([
+      this.modules.goal.expectToBeReadonly(),
+      this.modules.touchpoints.expectToBeReadonly(),
+      this.modules.browser.expectToBeReadonly(),
+    ]);
 
     // tab target
-    this.elements().tabTarget().click();
+    await this.elements().tabTarget().click();
     await Promise.all([
       this.modules.target.expectToBeReadonly(),
       this.modules.age.expectToBeReadonly(),
       this.modules.gender.expectToBeReadonly(),
+    ]);
+    await Promise.all([
       this.modules.digitalLiteracy.expectToBeReadonly(),
       this.modules.language.expectToBeReadonly(),
       this.modules.locality.expectToBeReadonly(),
+    ]);
+    await Promise.all([
       this.modules.income.expectToBeReadonly(),
       this.modules.bank.expectToBeReadonly(),
       this.modules.electricity.expectToBeReadonly(),
-      this.modules.gas.expectToBeReadonly(),
     ]);
+    await Promise.all([this.modules.gas.expectToBeReadonly()]);
 
     // tab instructions
-    this.elements().tabInstructions().click();
+    await this.elements().tabInstructions().click();
     await Promise.all([
       this.modules.outOfScope.expectToBeReadonly(),
       this.modules.tasks.expectToBeReadonly(),
@@ -321,11 +353,47 @@ export class PlanPage extends UnguessPage {
     });
   }
 
+  async mockGetDraftPlanWithTemplateAndPrice() {
+    await this.page.route('*/**/api/plans/1', async (route) => {
+      if (route.request().method() === 'GET') {
+        await route.fulfill({
+          path: 'tests/api/plans/pid/_get/200_draft_template_and_price.json',
+        });
+      } else {
+        await route.fallback();
+      }
+    });
+  }
+
+  async mockGetDraftPlanWithTemplateWithoutPrice() {
+    await this.page.route('*/**/api/plans/1', async (route) => {
+      if (route.request().method() === 'GET') {
+        await route.fulfill({
+          path: 'tests/api/plans/pid/_get/200_draft_only_template_no_price.json',
+        });
+      } else {
+        await route.fallback();
+      }
+    });
+  }
+
   async mockGetApprovedPlan() {
     await this.page.route('*/**/api/plans/1', async (route) => {
       if (route.request().method() === 'GET') {
         await route.fulfill({
           path: 'tests/api/plans/pid/_get/200_approved.json',
+        });
+      } else {
+        await route.fallback();
+      }
+    });
+  }
+
+  async mockGetPayingPlan() {
+    await this.page.route('*/**/api/plans/1', async (route) => {
+      if (route.request().method() === 'GET') {
+        await route.fulfill({
+          path: 'tests/api/plans/pid/_get/200_paying.json',
         });
       } else {
         await route.fallback();
@@ -368,5 +436,53 @@ export class PlanPage extends UnguessPage {
         await route.fallback();
       }
     });
+  }
+
+  async mockGetPlanCheckoutItem() {
+    await this.page.route('*/**/api/plans/1/checkoutItem', async (route) => {
+      if (route.request().method() === 'GET') {
+        await route.fulfill({
+          path: 'tests/api/plans/pid/checkoutItem/_get/200_Example_1.json',
+        });
+      } else {
+        await route.fallback();
+      }
+    });
+  }
+
+  async mockGetRulesEvaluation() {
+    await this.page.route(
+      '*/**/api/plans/1/rules-evaluation',
+      async (route) => {
+        if (route.request().method() === 'GET') {
+          await route.fulfill({
+            path: 'tests/api/plans/pid/rules-evaluation/_get/200_Example_1.json',
+          });
+        } else {
+          await route.fallback();
+        }
+      }
+    );
+  }
+
+  async mockGetRulesEvaluationNoError() {
+    await this.page.route(
+      '*/**/api/plans/1/rules-evaluation',
+      async (route) => {
+        if (route.request().method() === 'GET') {
+          await route.fulfill({
+            status: 200,
+            json: {
+              success: true,
+              data: {
+                failed: [],
+              },
+            },
+          });
+        } else {
+          await route.fallback();
+        }
+      }
+    );
   }
 }

@@ -66,6 +66,7 @@ export const useRequestQuotation = () => {
     if (getPlanStatus() === 'pending_review') {
       return true;
     }
+
     // if the user is already submitting, return true
     if (isSubmitting || isLoading) {
       return true;

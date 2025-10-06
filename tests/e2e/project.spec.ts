@@ -22,6 +22,7 @@ test.describe('project page', () => {
     await project.mockProjectCampaigns();
     await planCreationInterface.mockGetProjects();
     await planCreationInterface.mockPostPlans();
+    await planCreationInterface.mockGetNewPlan();
     await planCreationInterface.mockPostProject();
     await promoList.mockPromoTemplates();
     await project.mockWorkspacesList();
@@ -73,7 +74,7 @@ test.describe('project page', () => {
       template_id: promoList.promoItems[0].id,
     });
     // expect that navigation to the plan page is triggered
-    await expect(page).toHaveURL(`/plans/${newPlanId}`);
+    await expect(page).toHaveURL(`/plans/${newPlanId}?tab=setup`);
   });
 
   test('is possible to create a new project from the plan creation interface', async ({
@@ -96,7 +97,7 @@ test.describe('project page', () => {
     });
     // expect that navigation to the plan page is triggered
     await expect(page).toHaveURL(
-      `/plans/${planCreationInterface.postPlans.id}`
+      `/plans/${planCreationInterface.postPlans.id}?tab=setup`
     );
   });
 });
@@ -139,6 +140,7 @@ test.describe('project page empty state', () => {
     await project.mockEmptyProject();
     await planCreationInterface.mockGetProjects();
     await planCreationInterface.mockPostPlans();
+    await planCreationInterface.mockGetNewPlan();
     await project.mockWorkspacesList();
     await promoList.mockPromoTemplates();
     await project.open();
@@ -182,6 +184,6 @@ test.describe('project page empty state', () => {
       template_id: promoList.promoItems[0].id,
     });
     // expect that navigation to the plan page is triggered
-    await expect(page).toHaveURL(`/plans/${newPlanId}`);
+    await expect(page).toHaveURL(`/plans/${newPlanId}?tab=setup`);
   });
 });

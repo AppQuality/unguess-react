@@ -2,7 +2,7 @@ import { Button } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
-import { usePlan } from '../hooks/usePlan';
+import { usePlan } from '../../../hooks/usePlan';
 
 const GoToCampaignButton = () => {
   const { t } = useTranslation();

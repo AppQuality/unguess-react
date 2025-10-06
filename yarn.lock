@@ -117,10 +117,10 @@
   dependencies:
     hls.js "^1.4.8"
 
-"@appquality/unguess-design-system@4.0.49":
-  version "4.0.49"
-  resolved "https://registry.yarnpkg.com/@appquality/unguess-design-system/-/unguess-design-system-4.0.49.tgz#a87dec783e0a441c4ac3f15b46d5dd1db542cf9a"
-  integrity sha512-AqLT32V5oAG1bFeL8inGwzpIRuq2xFiZ8clobzfZ7c24kAXkhkYd3CY31WBR5QTKxMYbJ2BIjpOBx5QjiAErEA==
+"@appquality/unguess-design-system@4.0.50--canary.549.d20012e.0":
+  version "4.0.50--canary.549.d20012e.0"
+  resolved "https://registry.yarnpkg.com/@appquality/unguess-design-system/-/unguess-design-system-4.0.50--canary.549.d20012e.0.tgz#2937ea0b3ac71259f2fb66cba781c8fe1ef99abf"
+  integrity sha512-YQKZDnDi0+6IidyQPw00/x2OKnAIBzg6Ua/4n/PjjQpUIcaOu46o87sjWEQDj1gDqTT+zUgTOGpNtpCCHRTdLw==
   dependencies:
     "@appquality/stream-player" "1.0.6"
     "@nivo/bar" "^0.87.0"
@@ -635,10 +635,22 @@
   dependencies:
     "@emotion/memoize" "^0.8.1"
 
+"@emotion/is-prop-valid@^1.4.0":
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/@emotion/is-prop-valid/-/is-prop-valid-1.4.0.tgz#e9ad47adff0b5c94c72db3669ce46de33edf28c0"
+  integrity sha512-QgD4fyscGcbbKwJmqNvUMSE02OsHUa+lAWKdEUIJKgqe5IwRSKd7+KhibEWdaKwgjLj0DRSHA9biAIqGBk05lw==
+  dependencies:
+    "@emotion/memoize" "^0.9.0"
+
 "@emotion/memoize@^0.8.1":
   version "0.8.1"
   resolved "https://registry.yarnpkg.com/@emotion/memoize/-/memoize-0.8.1.tgz#c1ddb040429c6d21d38cc945fe75c818cfb68e17"
   integrity sha512-W2P2c/VRW1/1tLox0mVUalvnWXxavmv/Oum2aPsRcoDJuob75FC3Y8FbpfLwUegRcxINtGUMPq0tFCvYNTBXNA==
+
+"@emotion/memoize@^0.9.0":
+  version "0.9.0"
+  resolved "https://registry.yarnpkg.com/@emotion/memoize/-/memoize-0.9.0.tgz#745969d649977776b43fc7648c556aaa462b4102"
+  integrity sha512-30FAj7/EoJ5mwVPOWhAyCX+FPfMDrVecJAM+Iw9NRoSl4BBAQeqj4cApHHUXOVvIPgLVDsCFoz/hGD+5QQD1GQ==
 
 "@emotion/unitless@0.8.1":
   version "0.8.1"

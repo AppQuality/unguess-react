@@ -23,6 +23,19 @@ export type CampaignStatus =
   | 'functional'
   | 'experiential';
 
+export type PlanComposedStatusType =
+  | 'UnquotedDraft'
+  | 'PrequotedDraft'
+  | 'PurchasableDraft'
+  | 'Submitted'
+  | 'OpsCheck'
+  | 'AwaitingApproval'
+  | 'Accepted'
+  | 'RunningPlan'
+  | 'AwaitingPayment'
+  | 'Paying'
+  | 'PurchasedPlan';
+
 declare global {
   let react_env: {
     REACT_APP_ENVIRONMENT: string;

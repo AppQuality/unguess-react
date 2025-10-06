@@ -8,7 +8,7 @@ import { useParams } from 'react-router-dom';
 import { useSubmit } from 'src/features/modules/useModuleConfiguration';
 import { useValidateForm } from 'src/features/planModules';
 import { getPlanStatus } from 'src/pages/Dashboard/hooks/getPlanStatus';
-import { usePlan } from '../hooks/usePlan';
+import { usePlan } from '../../../hooks/usePlan';
 
 const SaveConfigurationButton = () => {
   const { t } = useTranslation();

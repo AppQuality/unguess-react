@@ -12,8 +12,9 @@ import { useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
 import { usePatchPlansByPidStatusMutation } from 'src/features/api';
 import styled from 'styled-components';
-import { usePlan } from '../../hooks/usePlan';
+import { usePlan } from '../../../../hooks/usePlan';
 import { Title } from './typography/Title';
+import { BuyButton } from './BuyButton';
 
 const Footer = styled.div`
   display: flex;
@@ -37,7 +38,7 @@ export const ConfirmationCard = () => {
   const { planId } = useParams();
   const { t } = useTranslation();
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const { plan } = usePlan(planId);
+  const { plan, planComposedStatus } = usePlan(planId);
 
   const [patchStatus] = usePatchPlansByPidStatusMutation();
 
@@ -46,6 +47,38 @@ export const ConfirmationCard = () => {
   if (plan.status === 'draft') return null;
 
   if (!plan.quote || plan.quote.status !== 'proposed') return null;
+
+  if (planComposedStatus === 'AwaitingPayment') {
+    return (
+      <ContainerCard>
+        <Title style={{ marginBottom: appTheme.space.xs }}>
+          {t('__PLAN_PAGE_SUMMARY_TAB_CONFIRMATION_PAYMENT_CARD_TITLE')}
+        </Title>
+        <Body>
+          <div>
+            <Trans i18nKey="__PLAN_PAGE_SUMMARY_TAB_CONFIRMATION_PAYMENT_CARD_DESCRIPTION">
+              Your price is confirmed. Pay now and your test will start exactly
+              on your chosen date:
+              <StyledList>
+                <UnorderedList.Item>
+                  Start on the scheduled date
+                </UnorderedList.Item>
+                <UnorderedList.Item>
+                  Get real user feedback on your digital product
+                </UnorderedList.Item>
+                <UnorderedList.Item>
+                  Email alerts when your first results are ready
+                </UnorderedList.Item>
+              </StyledList>
+            </Trans>
+          </div>
+        </Body>
+        <Footer>
+          <BuyButton isAccent={false} isPrimary={false} />
+        </Footer>
+      </ContainerCard>
+    );
+  }
 
   return (
     <ContainerCard>

@@ -307,13 +307,16 @@ unguessApi.enhanceEndpoints({
       },
     },
     patchPlansByPid: {
-      invalidatesTags: ['Plans'],
+      invalidatesTags: ['Plans', 'EvaluationRules'],
     },
     postWorkspacesByWidPlans: {
       invalidatesTags: ['Plans'],
     },
     patchPlansByPidStatus: {
-      invalidatesTags: ['Plans', 'Projects'],
+      invalidatesTags: ['Plans', 'Projects', 'CheckoutItem'],
+    },
+    getPlansByPidCheckoutItem: {
+      providesTags: ['CheckoutItem'],
     },
     deleteProjectsByPid: {
       invalidatesTags: ['Projects'],
@@ -323,6 +326,9 @@ unguessApi.enhanceEndpoints({
     },
     getWorkspacesByWidTemplates: {
       providesTags: ['Templates'],
+    },
+    getPlansByPidRulesEvaluation: {
+      providesTags: ['EvaluationRules'],
     },
   },
 });
