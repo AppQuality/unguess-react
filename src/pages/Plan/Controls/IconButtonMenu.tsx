@@ -58,18 +58,21 @@ const IconButtonMenu = () => {
         </IconButton>
       )}
     >
-      {planComposedStatus !== 'PurchasableDraft' && (
-        <>
-          <ButtonMenu.Item
-            data-qa="save-template-action-item"
-            value="save_template"
-            icon={<SaveTemplateIcon />}
-          >
-            {t('__PLAN_SAVE_TEMPLATE_CTA')}
-          </ButtonMenu.Item>
-          <Divider />
-        </>
-      )}
+      {planComposedStatus !== 'PurchasableDraft' &&
+        planComposedStatus !== 'PurchasedPlan' &&
+        planComposedStatus !== 'AwaitingPayment' &&
+        planComposedStatus !== 'Paying' && (
+          <>
+            <ButtonMenu.Item
+              data-qa="save-template-action-item"
+              value="save_template"
+              icon={<SaveTemplateIcon />}
+            >
+              {t('__PLAN_SAVE_TEMPLATE_CTA')}
+            </ButtonMenu.Item>
+            <Divider />
+          </>
+        )}
       <OptionalTooltip
         show={plan?.status !== 'draft'}
         content={t('__PLAN_DELETE_PLAN_TOOLTIP')}

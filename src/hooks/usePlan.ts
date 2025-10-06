@@ -3,7 +3,6 @@ import {
   useGetPlansByPidCheckoutItemQuery,
   useGetPlansByPidQuery,
   useGetWorkspacesByWidTemplatesAndTidQuery,
-  useGetCampaignsByCidQuery,
 } from 'src/features/api';
 import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
 import { PlanComposedStatusType } from 'src/types';
@@ -39,7 +38,6 @@ const usePlan = (planId?: string) => {
   // Fetch template and campaign only if plan is loaded and has the relevant ids
   const templateId = plan?.from_template?.id;
   const workspaceId = plan?.workspace_id;
-  const campaignId = plan?.campaign?.id;
 
   const {
     data: planTemplate,
@@ -55,26 +53,12 @@ const usePlan = (planId?: string) => {
     }
   );
 
-  const {
-    data: planCampaign,
-    isLoading: isCampaignLoading,
-    isFetching: isCampaignFetching,
-  } = useGetCampaignsByCidQuery(
-    {
-      cid: campaignId?.toString() ?? '',
-    },
-    {
-      skip: !campaignId,
-    }
-  );
-
   const planComposedStatus: PlanComposedStatusType | undefined = useMemo(() => {
     if (!plan) return undefined;
 
     const hasCI = !!ci; // checkout item present
     const quoteStatus = plan.quote?.status;
     const hasTemplateQuote = planTemplate?.price !== undefined;
-    const cpStatus = planCampaign?.status.name;
 
     switch (plan.status) {
       case 'draft': {
@@ -94,10 +78,8 @@ const usePlan = (planId?: string) => {
 
       case 'approved': {
         // Approved variations
-        if (hasCI && cpStatus === 'running') return 'PurchasedPlan'; // purchased & running
-        if (cpStatus === 'running') return 'RunningPlan'; // running without checkout item context
-        if (quoteStatus === 'approved') return 'Accepted';
-        throw new Error(`Unknown approved plan status for plan: ${plan.id}`);
+        if (hasCI) return 'PurchasedPlan';
+        return 'Accepted';
       }
 
       case 'paying': {
@@ -107,14 +89,12 @@ const usePlan = (planId?: string) => {
       default:
         throw new Error(`Unknown plan status for plan: ${plan.id}`);
     }
-  }, [plan, ci, planCampaign, planTemplate]);
+  }, [plan, ci, planTemplate]);
 
   if (!plan) {
     return {
-      isLoading:
-        isLoading || isCiLoading || isTemplateLoading || isCampaignLoading,
-      isFetching:
-        isFetching || isCiFetching || isTemplateFetching || isCampaignFetching,
+      isLoading: isLoading || isCiLoading || isTemplateLoading,
+      isFetching: isFetching || isCiFetching || isTemplateFetching,
       activeWorkspace,
       plan: undefined,
       checkoutItem: ci,
@@ -123,10 +103,8 @@ const usePlan = (planId?: string) => {
   }
 
   return {
-    isLoading:
-      isLoading || isCiLoading || isTemplateLoading || isCampaignLoading,
-    isFetching:
-      isFetching || isCiFetching || isTemplateFetching || isCampaignFetching,
+    isLoading: isLoading || isCiLoading || isTemplateLoading,
+    isFetching: isFetching || isCiFetching || isTemplateFetching,
     activeWorkspace,
     plan: { ...plan, isPurchasable: !!ci },
     checkoutItem: ci,
