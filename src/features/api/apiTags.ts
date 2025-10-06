@@ -313,7 +313,10 @@ unguessApi.enhanceEndpoints({
       invalidatesTags: ['Plans'],
     },
     patchPlansByPidStatus: {
-      invalidatesTags: ['Plans', 'Projects'],
+      invalidatesTags: ['Plans', 'Projects', 'CheckoutItem'],
+    },
+    getPlansByPidCheckoutItem: {
+      providesTags: ['CheckoutItem'],
     },
     deleteProjectsByPid: {
       invalidatesTags: ['Projects'],
