@@ -50,17 +50,13 @@ export class LocalityModule {
       errorMessage: () =>
         this.elements().module().getByTestId('locality-module-error-message'),
       removeButton: () =>
-        this.elements()
-          .module()
-          .getByRole('button', {
-            name: this.i18n.t('__PLAN_PAGE_MODULE_LOCALITY_REMOVE_BUTTON'),
-          }),
+        this.elements().module().getByTestId('remove-locality-button'),
     };
   }
 
   static getLocationFromPlan(plan: any) {
     const locationModule = plan.config.modules.find(
-      (module) => module.type === 'location'
+      (module: any) => module.type === 'location'
     );
     if (!locationModule) {
       throw new Error('No location module found in plan');

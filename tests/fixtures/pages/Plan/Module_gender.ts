@@ -29,10 +29,9 @@ export class GenderModule {
         this.elements()
           .module()
           .locator('input[name="female-percentage-input"]'),
+      // data-qa remove-gender-module
       removeButton: () =>
-        this.elements()
-          .module()
-          .getByText(this.i18n.t('__PLAN_PAGE_MODULE_GENDER_REMOVE_BUTTON')),
+        this.elements().module().getByTestId('remove-gender-module'),
       modulePercentageError: () =>
         this.elements()
           .module()

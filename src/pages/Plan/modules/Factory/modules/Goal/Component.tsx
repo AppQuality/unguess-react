@@ -1,11 +1,12 @@
 import {
   AccordionNew,
-  Button,
   FormField,
+  IconButton,
   Label,
   SM,
   Span,
   Textarea,
+  Tooltip,
 } from '@appquality/unguess-design-system';
 import { ChangeEvent, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
@@ -80,19 +81,22 @@ const Goal = () => {
             <AccordionNew.Label label={t('__PLAN_PAGE_MODULE_GOAL_TITLE')} />
             {getPlanStatus() === 'draft' && (
               <AccordionNew.Meta>
-                <Button
-                  isBasic
-                  isDanger
-                  onClick={(e) => {
-                    handleDelete();
-                    e.stopPropagation();
-                  }}
+                <Tooltip
+                  placement="start"
+                  type="light"
+                  size="small"
+                  content={t('__PLAN_PAGE_MODULE_GOAL_REMOVE_TOOLTIP_BUTTON')}
                 >
-                  <Button.StartIcon>
+                  <IconButton
+                    isDanger
+                    onClick={(e) => {
+                      handleDelete();
+                      e.stopPropagation();
+                    }}
+                  >
                     <TrashIcon />
-                  </Button.StartIcon>
-                  {t('__PLAN_PAGE_MODULE_GOAL_REMOVE_BUTTON')}
-                </Button>
+                  </IconButton>
+                </Tooltip>
               </AccordionNew.Meta>
             )}
           </AccordionNew.Header>
