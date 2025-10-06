@@ -2686,8 +2686,7 @@ export type OutputModuleTouchpointsAppTablet = {
   kind: 'app';
   os: {
     ios?: string;
-    linux?: string;
-    windows?: string;
+    android?: string;
   };
 };
 export type OutputModuleTouchpointsAppSmartphone = {
@@ -2832,7 +2831,8 @@ export type PurchasablePlanRules =
   | 'module_type'
   | 'number_of_testers'
   | 'number_of_tasks'
-  | 'task_type';
+  | 'task_type'
+  | 'duplicate_touchpoint_form_factors';
 export type Project = {
   campaigns_count: number;
   description?: string;

@@ -37,6 +37,8 @@ export const PurchasablePlanRulesGuide = ({
         return t('__PLAN_RULE_NUMBER_OF_TESTERS');
       case 'number_of_tasks':
         return t('__PLAN_RULE_NUMBER_OF_TASKS');
+      case 'duplicate_touchpoint_form_factors':
+        return t('__PLAN_RULE_DUPLICATE_TOUCHPOINT_FORM_FACTORS');
       case 'task_type':
         return t('__PLAN_RULE_TASK_TYPE');
       default:
