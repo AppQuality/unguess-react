@@ -94,10 +94,8 @@ const usePlan = (planId?: string) => {
 
   if (!plan) {
     return {
-      isLoading:
-        isLoading || isCiLoading || isTemplateLoading || isCampaignLoading,
-      isFetching:
-        isFetching || isCiFetching || isTemplateFetching || isCampaignFetching,
+      isLoading: isLoading || isCiLoading || isTemplateLoading,
+      isFetching: isFetching || isCiFetching || isTemplateFetching,
       activeWorkspace,
       plan: undefined,
       checkoutItem: ci,
@@ -106,10 +104,8 @@ const usePlan = (planId?: string) => {
   }
 
   return {
-    isLoading:
-      isLoading || isCiLoading || isTemplateLoading || isCampaignLoading,
-    isFetching:
-      isFetching || isCiFetching || isTemplateFetching || isCampaignFetching,
+    isLoading: isLoading || isCiLoading || isTemplateLoading,
+    isFetching: isFetching || isCiFetching || isTemplateFetching,
     activeWorkspace,
     plan: { ...plan, isPurchasable: !!ci },
     checkoutItem: ci,
