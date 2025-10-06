@@ -78,9 +78,8 @@ const usePlan = (planId?: string) => {
 
       case 'approved': {
         // Approved variations
-        if (hasCI) return 'PurchasedPlan'; // purchased
-        if (quoteStatus === 'approved') return 'Accepted'; // quote approved
-        return 'RunningPlan'; // running without checkout item or quote context
+        if (hasCI) return 'PurchasedPlan';
+        return 'Accepted';
       }
 
       case 'paying': {
