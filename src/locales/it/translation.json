@@ -1139,6 +1139,7 @@
   "__PLAN_PAGE_SUMMARY_TAB_ACTIVITY_INFO_PRICE_PREFIX": "From",
   "__PLAN_PAGE_SUMMARY_TAB_ACTIVITY_INFO_SUBMITTED_DESCRIPTION": "The activity is currently being processed. Some details may vary or need confirmation",
   "__PLAN_PAGE_SUMMARY_TAB_ACTIVITY_INFO_TITLE": "Activity info",
+  "__PLAN_PAGE_SUMMARY_TAB_CONFIRMATION_CARD_CANCEL_PLAN_CTA": "Return to draft",
   "__PLAN_PAGE_SUMMARY_TAB_CONFIRMATION_CARD_CONFIRM_CTA": "Confirm Activity",
   "__PLAN_PAGE_SUMMARY_TAB_CONFIRMATION_CARD_CONFIRM_CTA_INFO_MESSAGE": "Once confirmed, your activity will begin on the scheduled date",
   "__PLAN_PAGE_SUMMARY_TAB_CONFIRMATION_CARD_DESCRIPTION": "Your quotation is confirmed.<1><0>Approve now</0> to <3>secure your date</3> and begin collecting valuable insights:</1><2><0>Start on the scheduled date</0><1>Collect valuable user feedback for your digital product</1><2>Receive notifications when first results become available</2></2>You can also <4>return to draft status</4> if you need to make changes.",
