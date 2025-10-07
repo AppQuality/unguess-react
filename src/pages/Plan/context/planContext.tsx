@@ -6,7 +6,7 @@ import {
   useGetPlansByPidCheckoutItemQuery,
   usePostCheckoutMutation,
 } from 'src/features/api';
-import { PLAN_TABS, PlanTab, PlanTabName } from '../common/constants';
+import { PlanTab, PlanTabName, PLAN_TABS } from '../common/constants';
 
 interface PlanContextProps {
   activeTab: PlanTab;
@@ -30,6 +30,7 @@ const PlanContext = createContext<PlanContextProps | null>(null);
 
 export const PlanProvider = ({ children }: { children: ReactNode }) => {
   const { planId } = useParams();
+
   const [searchParams, setSearchParams] = useSearchParams();
   const initialTabName = searchParams.get('tab');
   const [postCheckout] = usePostCheckoutMutation();
@@ -84,6 +85,10 @@ export const PlanProvider = ({ children }: { children: ReactNode }) => {
         },
       }).unwrap();
       if (response.url) {
+        const url = new URL(window.location.href);
+        url.searchParams.set('payment', 'failed');
+        window.history.replaceState(window.history.state, '', url.toString());
+
         window.location.href = response.url;
       } else {
         setIsPaymentInProgress(false);
