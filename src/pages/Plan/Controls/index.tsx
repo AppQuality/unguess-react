@@ -12,6 +12,7 @@ import { usePlanContext } from '../context/planContext';
 import { DateInThePastAlertModal } from '../modals/DateInThePastAlertModal';
 import { DeletePlanModal } from '../modals/DeletePlanModal';
 import { SendRequestModal } from '../modals/SendRequestModal';
+import { CancelPlanButton } from '../summary/components/CancelPlanButton';
 import { ConfirmPlanButton } from './ConfirmPlanButton';
 import { GoToCampaignButton } from './GoToCampaignButton';
 import { IconButtonMenu } from './IconButtonMenu';
@@ -77,8 +78,8 @@ export const Controls = () => {
       {(planComposedStatus === 'AwaitingApproval' ||
         planComposedStatus === 'AwaitingPayment' ||
         planComposedStatus === 'OpsCheck' ||
-        planComposedStatus === 'Submitted' ||
-        planComposedStatus === 'Paying') && <ConfirmPlanButton />}
+        planComposedStatus === 'Submitted') && <ConfirmPlanButton />}
+      {planComposedStatus === 'Paying' && <CancelPlanButton size="small" />}
       {(planComposedStatus === 'PurchasableDraft' ||
         planComposedStatus === 'PrequotedDraft' ||
         planComposedStatus === 'UnquotedDraft') && (
