@@ -112,7 +112,7 @@ const OutOfScope = () => {
                 <Editor
                   data-qa="out-of-scope-input"
                   editable={getPlanStatus() === 'draft'}
-                  headerTitle={t('__PLAN_PAGE_MODULE_OUT_OF_SCOPE_LABEL')}
+                  headerTitle={t('__PLAN_PAGE_MODULE_OUT_OF_SCOPE_HINT')}
                   onUpdate={(updateValue) =>
                     handleChange(updateValue.editor.getHTML())
                   }
