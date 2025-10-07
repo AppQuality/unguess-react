@@ -85,10 +85,6 @@ export const PlanProvider = ({ children }: { children: ReactNode }) => {
         },
       }).unwrap();
       if (response.url) {
-        const url = new URL(window.location.href);
-        url.searchParams.set('payment', 'failed');
-        window.history.replaceState(window.history.state, '', url.toString());
-
         window.location.href = response.url;
       } else {
         setIsPaymentInProgress(false);
