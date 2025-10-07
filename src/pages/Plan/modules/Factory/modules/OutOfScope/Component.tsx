@@ -9,7 +9,7 @@ import {
   Textarea,
   Tooltip,
 } from '@appquality/unguess-design-system';
-import { ChangeEvent, useState } from 'react';
+import { useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as AlertIcon } from 'src/assets/icons/alert-icon.svg';
