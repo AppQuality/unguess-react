@@ -1,5 +1,6 @@
 import {
   AccordionNew,
+  Editor,
   FormField,
   IconButton,
   Label,
@@ -53,8 +54,7 @@ const OutOfScope = () => {
   const handleBlur = () => {
     validate();
   };
-  const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    const inputValue = e.target.value;
+  const handleChange = (inputValue: string) => {
     setOutput(inputValue);
   };
 
@@ -109,17 +109,25 @@ const OutOfScope = () => {
                     (optional)
                   </Span>
                 </Label>
-                <Textarea
-                  readOnly={getPlanStatus() !== 'draft'}
+                <Editor
                   data-qa="out-of-scope-input"
-                  isResizable
-                  value={value?.output || ''}
-                  onChange={handleChange}
+                  editable={getPlanStatus() === 'draft'}
+                  headerTitle={t('__PLAN_PAGE_MODULE_OUT_OF_SCOPE_LABEL')}
+                  onUpdate={(value) => handleChange(value.editor.getHTML())}
+                  hasInlineMenu
+                  placeholderOptions={{
+                    placeholder: t(
+                      '__PLAN_PAGE_MODULE_OUT_OF_SCOPE_PLACEHOLDER'
+                    ),
+                  }}
+                  disableSaveShortcut
                   onBlur={handleBlur}
-                  validation={error ? 'error' : undefined}
-                  placeholder={t('__PLAN_PAGE_MODULE_OUT_OF_SCOPE_PLACEHOLDER')}
-                  minRows={6}
-                />
+                  {...(error &&
+                    typeof error === 'string' && { validation: 'error' })}
+                >
+                  {value?.output || ''}
+                </Editor>
+
                 <StyledInfoBox>
                   {error && typeof error === 'string' ? (
                     <>
