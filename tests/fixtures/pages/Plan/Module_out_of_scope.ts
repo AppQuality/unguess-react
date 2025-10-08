@@ -18,13 +18,14 @@ export class OutOfScopeModule {
       module: () => this.page.getByTestId('out-of-scope-module'),
       moduleError: () =>
         this.elements().module().getByTestId('out-of-scope-error'),
-      moduleInput: () => this.elements().module().getByRole('textbox'),
+      moduleInput: () =>
+        this.elements().module().getByTestId('out-of-scope-input'),
     };
   }
 
   static getOutOfScopeFromPlan(plan: any) {
     const outOfScopeModule = plan.config.modules.find(
-      (module) => module.type === 'out_of_scope'
+      (module: any) => module.type === 'out_of_scope'
     );
     if (!outOfScopeModule) {
       throw new Error('No outOfScope found in plan');
@@ -38,6 +39,6 @@ export class OutOfScopeModule {
   }
 
   async expectToBeReadonly() {
-    await expect(this.elements().moduleInput()).toHaveAttribute('readonly', '');
+    await expect(this.elements().moduleInput()).not.toBeVisible();
   }
 }
