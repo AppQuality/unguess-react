@@ -1,16 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import {
-  useLocation,
-  useNavigate,
-  useParams,
-  useSearchParams,
-} from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { PLAN_MINIMUM_DATE } from 'src/constants';
-import {
-  useGetPlansByPidQuery,
-  usePatchPlansByPidStatusMutation,
-} from 'src/features/api';
+import { useGetPlansByPidQuery } from 'src/features/api';
 import { FormProvider } from 'src/features/modules/FormProvider';
 import { FormBody } from 'src/features/modules/types';
 import { Page } from 'src/features/templates/Page';
@@ -18,6 +10,7 @@ import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { PlanProvider } from './context/planContext';
 import { PlanPageContent } from './PlanPageContent';
+import { useSetDraftOnFailed } from './useSetDraftOnFailed';
 import { formatModuleDate } from './utils/formatModuleDate';
 import { useSetActiveWorkspace } from './utils/useSetActiveWorkspace';
 
@@ -26,9 +19,7 @@ const Plan = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { planId } = useParams();
-  const [searchParams, setSearchParams] = useSearchParams();
-  const isPaymentFailed = searchParams.get('payment') === 'failed' && !!planId;
-  const [patchStatus, { isLoading }] = usePatchPlansByPidStatusMutation();
+  const { isLoading } = useSetDraftOnFailed();
   const { t } = useTranslation();
   const { isError, data: plan } = useGetPlansByPidQuery(
     {
@@ -44,32 +35,6 @@ const Plan = () => {
     status: 'draft',
     modules: [],
   });
-
-  useEffect(() => {
-    if (isPaymentFailed) {
-      patchStatus({
-        pid: planId?.toString() ?? '',
-        body: {
-          status: 'draft',
-        },
-      })
-        .unwrap()
-        .then(() => {
-          setSearchParams((prev) => {
-            prev.delete('payment');
-            return prev;
-          });
-          navigate(location.pathname, { replace: true });
-        })
-        .catch((err) => {
-          console.error(
-            'Error updating plan status after payment failure',
-            err
-          );
-          navigate(notFoundRoute, { state: { from: location.pathname } });
-        });
-    }
-  }, [patchStatus, planId, searchParams]);
 
   useSetActiveWorkspace(plan?.workspace_id);
   useEffect(() => {
