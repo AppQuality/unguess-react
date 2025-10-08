@@ -19,9 +19,7 @@ export const useSetDraftOnFailed = () => {
     return params.get('payment') === 'failed' && !!planId;
   }, [location.search, planId]);
   const notFoundRoute = useLocalizeRoute('oops');
-  const [patchStatus, { isLoading }] = usePatchPlansByPidStatusMutation({
-    fixedCacheKey: 'shared-update-plan-status',
-  });
+  const [patchStatus, { isLoading }] = usePatchPlansByPidStatusMutation();
 
   useEffect(() => {
     const run = () => {
@@ -33,7 +31,6 @@ export const useSetDraftOnFailed = () => {
       })
         .unwrap()
         .then(() => {
-          // rimuovi il parametro senza mutare l'oggetto esistente
           setSearchParams((prev) => {
             const next = new URLSearchParams(prev);
             next.delete('payment');
