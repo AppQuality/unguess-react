@@ -113,27 +113,27 @@ const OutOfScope = () => {
                         (optional)
                       </Span>
                     </Label>
-                    <Editor
-                      data-qa="out-of-scope-input"
-                      editable={getPlanStatus() === 'draft'}
-                      headerTitle={t('__PLAN_PAGE_MODULE_OUT_OF_SCOPE_HINT')}
-                      onUpdate={(updateValue) =>
-                        handleChange(updateValue.editor.getHTML())
-                      }
-                      hasInlineMenu
-                      placeholderOptions={{
-                        placeholder: t(
-                          '__PLAN_PAGE_MODULE_OUT_OF_SCOPE_PLACEHOLDER'
-                        ),
-                      }}
-                      disableSaveShortcut
-                      onBlur={handleBlur}
-                      {...(error &&
-                        typeof error === 'string' && { validation: 'error' })}
-                    >
-                      {value?.output || ''}
-                    </Editor>
-
+                    <div data-qa="out-of-scope-input">
+                      <Editor
+                        editable={getPlanStatus() === 'draft'}
+                        headerTitle={t('__PLAN_PAGE_MODULE_OUT_OF_SCOPE_HINT')}
+                        onUpdate={(updateValue) =>
+                          handleChange(updateValue.editor.getHTML())
+                        }
+                        hasInlineMenu
+                        placeholderOptions={{
+                          placeholder: t(
+                            '__PLAN_PAGE_MODULE_OUT_OF_SCOPE_PLACEHOLDER'
+                          ),
+                        }}
+                        disableSaveShortcut
+                        onBlur={handleBlur}
+                        {...(error &&
+                          typeof error === 'string' && { validation: 'error' })}
+                      >
+                        {value?.output || ''}
+                      </Editor>
+                    </div>
                     <StyledInfoBox>
                       {error && typeof error === 'string' ? (
                         <>
