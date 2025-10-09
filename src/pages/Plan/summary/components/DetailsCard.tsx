@@ -22,6 +22,7 @@ import styled from 'styled-components';
 import { usePlan } from '../../../../hooks/usePlan';
 import { GoToCampaignButton } from '../../Controls/GoToCampaignButton';
 import { BuyButton } from './BuyButton';
+import { CancelPlanButton } from './CancelPlanButton';
 
 const StyledDiv = styled.div`
   display: flex;
@@ -207,6 +208,9 @@ export const DetailsCard = () => {
     }
     if (planComposedStatus === 'PurchasedPlan') {
       return <GoToCampaignButton />;
+    }
+    if (planComposedStatus === 'Paying') {
+      return <CancelPlanButton />;
     }
     return (
       <>

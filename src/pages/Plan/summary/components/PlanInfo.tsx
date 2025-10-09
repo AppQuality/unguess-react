@@ -110,7 +110,7 @@ export const PlanInfo = () => {
               >
                 <Anchor
                   isExternal
-                  href="https://google.com"
+                  href="https://docs.unguess.io/request-custom-features"
                   rel="noreferrer"
                   target="_blank"
                 >

@@ -1,5 +1,6 @@
 import {
   AccordionNew,
+  Editor,
   FormField,
   IconButton,
   Label,
@@ -8,7 +9,7 @@ import {
   Textarea,
   Tooltip,
 } from '@appquality/unguess-design-system';
-import { ChangeEvent, useState } from 'react';
+import { useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as AlertIcon } from 'src/assets/icons/alert-icon.svg';
@@ -53,8 +54,7 @@ const OutOfScope = () => {
   const handleBlur = () => {
     validate();
   };
-  const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    const inputValue = e.target.value;
+  const handleChange = (inputValue: string) => {
     setOutput(inputValue);
   };
 
@@ -101,45 +101,63 @@ const OutOfScope = () => {
           <AccordionNew.Panel>
             <div style={{ padding: appTheme.space.xs }}>
               <FormField style={{ marginBottom: appTheme.space.md }}>
-                <Label>
-                  <Trans i18nKey="__PLAN_PAGE_MODULE_OUT_OF_SCOPE_LABEL">
-                    Describe the areas excluded from the activity
-                  </Trans>
-                  <Span style={{ color: appTheme.palette.grey[600] }}>
-                    (optional)
-                  </Span>
-                </Label>
-                <Textarea
-                  readOnly={getPlanStatus() !== 'draft'}
-                  data-qa="out-of-scope-input"
-                  isResizable
-                  value={value?.output || ''}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  validation={error ? 'error' : undefined}
-                  placeholder={t('__PLAN_PAGE_MODULE_OUT_OF_SCOPE_PLACEHOLDER')}
-                  minRows={6}
-                />
-                <StyledInfoBox>
-                  {error && typeof error === 'string' ? (
-                    <>
-                      <AlertIcon />
-                      <SM
-                        style={{ color: appTheme.components.text.dangerColor }}
-                        data-qa="out-of-scope-error"
+                {getPlanStatus() !== 'draft' && !value?.output ? (
+                  <Label>{t('__PLAN_PAGE_MODULE_OUT_OF_SCOPE_EMPTY')}</Label>
+                ) : (
+                  <>
+                    <Label>
+                      <Trans i18nKey="__PLAN_PAGE_MODULE_OUT_OF_SCOPE_LABEL">
+                        Describe the areas excluded from the activity
+                      </Trans>
+                      <Span style={{ color: appTheme.palette.grey[600] }}>
+                        (optional)
+                      </Span>
+                    </Label>
+                    <div data-qa="out-of-scope-input">
+                      <Editor
+                        editable={getPlanStatus() === 'draft'}
+                        headerTitle={t('__PLAN_PAGE_MODULE_OUT_OF_SCOPE_HINT')}
+                        onUpdate={(updateValue) =>
+                          handleChange(updateValue.editor.getHTML())
+                        }
+                        hasInlineMenu
+                        placeholderOptions={{
+                          placeholder: t(
+                            '__PLAN_PAGE_MODULE_OUT_OF_SCOPE_PLACEHOLDER'
+                          ),
+                        }}
+                        disableSaveShortcut
+                        onBlur={handleBlur}
+                        {...(error &&
+                          typeof error === 'string' && { validation: 'error' })}
                       >
-                        {error}
-                      </SM>
-                    </>
-                  ) : (
-                    <>
-                      <InfoIcon />
-                      <SM style={{ color: appTheme.palette.grey[600] }}>
-                        {t('__PLAN_PAGE_MODULE_OUT_OF_SCOPE_INFO')}
-                      </SM>
-                    </>
-                  )}
-                </StyledInfoBox>
+                        {value?.output || ''}
+                      </Editor>
+                    </div>
+                    <StyledInfoBox>
+                      {error && typeof error === 'string' ? (
+                        <>
+                          <AlertIcon />
+                          <SM
+                            style={{
+                              color: appTheme.components.text.dangerColor,
+                            }}
+                            data-qa="out-of-scope-error"
+                          >
+                            {error}
+                          </SM>
+                        </>
+                      ) : (
+                        <>
+                          <InfoIcon />
+                          <SM style={{ color: appTheme.palette.grey[600] }}>
+                            {t('__PLAN_PAGE_MODULE_OUT_OF_SCOPE_INFO')}
+                          </SM>
+                        </>
+                      )}
+                    </StyledInfoBox>
+                  </>
+                )}
               </FormField>
             </div>
           </AccordionNew.Panel>

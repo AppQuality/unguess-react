@@ -13,8 +13,8 @@ import { appTheme } from 'src/app/theme';
 import { usePatchPlansByPidStatusMutation } from 'src/features/api';
 import styled from 'styled-components';
 import { usePlan } from '../../../../hooks/usePlan';
-import { Title } from './typography/Title';
 import { BuyButton } from './BuyButton';
+import { Title } from './typography/Title';
 
 const Footer = styled.div`
   display: flex;
@@ -38,15 +38,11 @@ export const ConfirmationCard = () => {
   const { planId } = useParams();
   const { t } = useTranslation();
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const { plan, planComposedStatus } = usePlan(planId);
+  const { planComposedStatus } = usePlan(planId);
 
   const [patchStatus] = usePatchPlansByPidStatusMutation();
 
-  if (!plan) return null;
-
-  if (plan.status === 'draft') return null;
-
-  if (!plan.quote || plan.quote.status !== 'proposed') return null;
+  if (!planComposedStatus) return null;
 
   if (planComposedStatus === 'AwaitingPayment') {
     return (
@@ -79,76 +75,79 @@ export const ConfirmationCard = () => {
       </ContainerCard>
     );
   }
+  if (planComposedStatus === 'AwaitingApproval') {
+    return (
+      <ContainerCard>
+        <Title style={{ marginBottom: appTheme.space.xs }}>
+          {t('__PLAN_PAGE_SUMMARY_TAB_CONFIRMATION_CARD_TITLE')}
+        </Title>
+        <Body>
+          <div>
+            <Trans i18nKey="__PLAN_PAGE_SUMMARY_TAB_CONFIRMATION_CARD_DESCRIPTION">
+              Your quotation is confirmed.
+              <Paragraph>
+                <Span isBold>Approve now</Span> to{' '}
+                <Span isBold>secure your date</Span> and begin collecting
+                valuable insights:
+              </Paragraph>
+              <StyledList>
+                <UnorderedList.Item>
+                  Start on the scheduled date
+                </UnorderedList.Item>
+                <UnorderedList.Item>
+                  Collect valuable user feedback for your digital product
+                </UnorderedList.Item>
+                <UnorderedList.Item>
+                  Receive notifications when first results become available
+                </UnorderedList.Item>
+              </StyledList>
+              You can also <Span isBold>return to draft status</Span> if you
+              need to make changes.
+            </Trans>
+          </div>
+          <Alert type="warning">
+            <Alert.Title>
+              {t('__PLAN_PAGE_SUMMARY_TAB_CONFIRMATION_CARD_WARNING_TITLE')}
+            </Alert.Title>
+            {t('__PLAN_PAGE_SUMMARY_TAB_CONFIRMATION_CARD_WARNING_DESCRIPTION')}
+          </Alert>
+        </Body>
+        <Footer>
+          <Button
+            isDanger
+            isBasic
+            disabled={isSubmitted}
+            onClick={() => {
+              setIsSubmitted(true);
+              patchStatus({
+                pid: planId?.toString() ?? '',
+                body: { status: 'draft' },
+              })
+                .unwrap()
+                .then(() => {
+                  setIsSubmitted(false);
+                });
+            }}
+          >
+            {t('__PLAN_PAGE_SUMMARY_TAB_CONFIRMATION_CARD_REFUSE_CTA')}
+          </Button>
+          <Button
+            disabled={isSubmitted}
+            onClick={() => {
+              setIsSubmitted(true);
+              patchStatus({
+                pid: planId?.toString() ?? '',
+                body: { status: 'approved' },
+              }).unwrap();
+              setIsSubmitted(false);
+            }}
+          >
+            {t('__PLAN_PAGE_SUMMARY_TAB_CONFIRMATION_CARD_CONFIRM_CTA')}
+          </Button>
+        </Footer>
+      </ContainerCard>
+    );
+  }
 
-  return (
-    <ContainerCard>
-      <Title style={{ marginBottom: appTheme.space.xs }}>
-        {t('__PLAN_PAGE_SUMMARY_TAB_CONFIRMATION_CARD_TITLE')}
-      </Title>
-      <Body>
-        <div>
-          <Trans i18nKey="__PLAN_PAGE_SUMMARY_TAB_CONFIRMATION_CARD_DESCRIPTION">
-            Your quotation is confirmed.
-            <Paragraph>
-              <Span isBold>Approve now</Span> to{' '}
-              <Span isBold>secure your date</Span> and begin collecting valuable
-              insights:
-            </Paragraph>
-            <StyledList>
-              <UnorderedList.Item>
-                Start on the scheduled date
-              </UnorderedList.Item>
-              <UnorderedList.Item>
-                Collect valuable user feedback for your digital product
-              </UnorderedList.Item>
-              <UnorderedList.Item>
-                Receive notifications when first results become available
-              </UnorderedList.Item>
-            </StyledList>
-            You can also <Span isBold>return to draft status</Span> if you need
-            to make changes.
-          </Trans>
-        </div>
-        <Alert type="warning">
-          <Alert.Title>
-            {t('__PLAN_PAGE_SUMMARY_TAB_CONFIRMATION_CARD_WARNING_TITLE')}
-          </Alert.Title>
-          {t('__PLAN_PAGE_SUMMARY_TAB_CONFIRMATION_CARD_WARNING_DESCRIPTION')}
-        </Alert>
-      </Body>
-      <Footer>
-        <Button
-          isDanger
-          isBasic
-          disabled={isSubmitted}
-          onClick={() => {
-            setIsSubmitted(true);
-            patchStatus({
-              pid: planId?.toString() ?? '',
-              body: { status: 'draft' },
-            })
-              .unwrap()
-              .then(() => {
-                setIsSubmitted(false);
-              });
-          }}
-        >
-          {t('__PLAN_PAGE_SUMMARY_TAB_CONFIRMATION_CARD_REFUSE_CTA')}
-        </Button>
-        <Button
-          disabled={isSubmitted}
-          onClick={() => {
-            setIsSubmitted(true);
-            patchStatus({
-              pid: planId?.toString() ?? '',
-              body: { status: 'approved' },
-            }).unwrap();
-            setIsSubmitted(false);
-          }}
-        >
-          {t('__PLAN_PAGE_SUMMARY_TAB_CONFIRMATION_CARD_CONFIRM_CTA')}
-        </Button>
-      </Footer>
-    </ContainerCard>
-  );
+  return null;
 };
