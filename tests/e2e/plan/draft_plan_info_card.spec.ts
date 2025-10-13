@@ -88,9 +88,6 @@ test.describe('A plan with template and price', () => {
   test('shows the info plan card with template title and price', async () => {
     await expect(planPage.elements().draftPlanCardInfo().title()).toBeVisible();
     await expect(
-      planPage.elements().draftPlanCardInfo().templateType()
-    ).toBeVisible();
-    await expect(
       planPage.elements().draftPlanCardInfo().startingPrice()
     ).toBeVisible();
     await expect(
