@@ -45,7 +45,7 @@ export const useSetDraftOnFailed = () => {
             ({ close }) => (
               <Notification
                 onClose={close}
-                type="warning"
+                type="info"
                 message={t('__PLAN_PAGE_PAYMENT_FAILED_TOAST_MESSAGE')}
                 closeText={t('__TOAST_CLOSE_TEXT')}
                 isPrimary
