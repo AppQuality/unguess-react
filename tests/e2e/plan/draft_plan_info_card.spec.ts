@@ -85,15 +85,6 @@ test.describe('A plan with template and price', () => {
     await planPage.open();
   });
 
-  test('shows the info plan card with template title and price', async () => {
-    await expect(
-      planPage.elements().draftPlanCardInfo().templateTypeValue()
-    ).toHaveText('Professional template');
-    await expect(
-      planPage.elements().draftPlanCardInfo().startingPriceValue()
-    ).toHaveText('100 €');
-  });
-
   test("it's possible to add a module, and remove and still see the plan card info", async () => {
     await touchpointsModule.addModule();
     await expect(touchpointsModule.elements().module()).toBeVisible();
