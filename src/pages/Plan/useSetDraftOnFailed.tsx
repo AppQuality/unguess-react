@@ -1,4 +1,6 @@
+import { Notification, useToast } from '@appquality/unguess-design-system';
 import { useEffect, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   useLocation,
   useNavigate,
@@ -20,6 +22,8 @@ export const useSetDraftOnFailed = () => {
   }, [location.search, planId]);
   const notFoundRoute = useLocalizeRoute('oops');
   const [patchStatus, { isLoading }] = usePatchPlansByPidStatusMutation();
+  const { addToast } = useToast();
+  const { t } = useTranslation();
 
   useEffect(() => {
     const run = () => {
@@ -37,6 +41,18 @@ export const useSetDraftOnFailed = () => {
             return next;
           });
           navigate(location.pathname, { replace: true });
+          addToast(
+            ({ close }) => (
+              <Notification
+                onClose={close}
+                type="warning"
+                message={t('__PLAN_PAGE_PAYMENT_FAILED_TOAST_MESSAGE')}
+                closeText={t('__TOAST_CLOSE_TEXT')}
+                isPrimary
+              />
+            ),
+            { placement: 'top' }
+          );
         })
         .catch((err) => {
           console.error(
