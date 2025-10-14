@@ -1110,6 +1110,7 @@
   "__PLAN_PAGE_MODULE_TOUCHPOINTS_TOUCHPOINT_WEB_LINK_LABEL": "Test link",
   "__PLAN_PAGE_MODULE_TOUCHPOINTS_TOUCHPOINT_WEB_LINK_PLACEHOLDER": "https://example.com",
   "__PLAN_PAGE_NAV_GENERIC_MODULE_ERROR": "This module has some errors",
+  "__PLAN_PAGE_PAYMENT_FAILED_TOAST_MESSAGE": "Activity returned to draft. Submit your request again to proceed with payment.",
   "__PLAN_PAGE_PURCHASE_SUCCESS": "Purchase successfully completed",
   "__PLAN_PAGE_SAVE_AS_TEMPLATE_MODAL_BUTTON_CANCEL": "Cancel",
   "__PLAN_PAGE_SAVE_AS_TEMPLATE_MODAL_BUTTON_CONFIRM": "Save template",
