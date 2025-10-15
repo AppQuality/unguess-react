@@ -210,7 +210,19 @@ export const DetailsCard = () => {
       return <GoToCampaignButton />;
     }
     if (planComposedStatus === 'Paying') {
-      return <CancelPlanButton />;
+      return (
+        <>
+          <CancelPlanButton />
+          <SM
+            style={{
+              marginTop: appTheme.space.md,
+              color: appTheme.palette.grey[600],
+            }}
+          >
+            {t('__PLAN_PAGE_SUMMARY_TAB_CANCEL_PAYMENT_CARD_ADDITIONAL_INFO')}
+          </SM>
+        </>
+      );
     }
     return (
       <>

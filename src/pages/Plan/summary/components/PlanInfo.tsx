@@ -29,14 +29,18 @@ export const PlanInfo = () => {
   const { planId } = useParams();
   const { t } = useTranslation();
 
-  const { plan } = usePlan(planId);
+  const { plan, planComposedStatus } = usePlan(planId);
 
   if (!plan) return null;
 
   if (!plan.price || !plan.from_template) {
     return null;
   }
-
+  if (
+    planComposedStatus !== 'PrequotedDraft' &&
+    planComposedStatus !== 'PurchasableDraft'
+  )
+    return null;
   return (
     <WidgetSpecialCard style={{ height: 'auto' }}>
       <MD
