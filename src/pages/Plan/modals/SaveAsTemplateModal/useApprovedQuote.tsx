@@ -3,12 +3,13 @@ import { usePlan } from '../../../../hooks/usePlan';
 
 const useApprovedQuote = () => {
   const { planId } = useParams();
-  const { plan } = usePlan(planId);
+  const { plan, planComposedStatus } = usePlan(planId);
 
   const hasApprovedQuote =
-    plan?.status === 'approved' && plan?.quote?.status === 'approved';
+    planComposedStatus &&
+    ['Accepted', 'PurchasedPlan'].includes(planComposedStatus);
 
-  return { hasApprovedQuote, quote: hasApprovedQuote ? plan.quote : undefined };
+  return { hasApprovedQuote, quote: plan?.quote };
 };
 
 export { useApprovedQuote };

@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
 import styled from 'styled-components';
-import { usePlan } from '../../../hooks/usePlan';
+import { usePlan, usePlanIsPurchasable } from '../../../hooks/usePlan';
 import { StickyCol } from '../common/StickyCol';
 import { TabTitle } from '../common/TabTitle';
 import { usePlanContext } from '../context/planContext';
@@ -26,6 +26,7 @@ const SummaryBody = () => {
   const { t } = useTranslation();
   const { planId } = useParams();
   const { plan, planComposedStatus } = usePlan(planId);
+  const isPurchasable = usePlanIsPurchasable(planId);
   const { setActiveTab, isPaymentInProgress } = usePlanContext();
 
   if (!plan) return null;
@@ -43,10 +44,7 @@ const SummaryBody = () => {
           <IntroductionCard />
           <ActivityInfo />
           {planComposedStatus !== 'Paying' && <ConfirmationCard />}
-          {planComposedStatus !== 'PurchasableDraft' &&
-            planComposedStatus !== 'AwaitingPayment' &&
-            planComposedStatus !== 'Paying' &&
-            planComposedStatus !== 'PurchasedPlan' && <SaveTemplateCard />}
+          {!isPurchasable && <SaveTemplateCard />}
           <GoToDashboardCard />
         </StyledDiv>
         <Button

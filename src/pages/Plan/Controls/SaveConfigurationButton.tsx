@@ -7,8 +7,7 @@ import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { useSubmit } from 'src/features/modules/useModuleConfiguration';
 import { useValidateForm } from 'src/features/planModules';
-import { getPlanStatus } from 'src/pages/Dashboard/hooks/getPlanStatus';
-import { usePlan } from '../../../hooks/usePlan';
+import { usePlan, usePlanIsDraft } from '../../../hooks/usePlan';
 
 const SaveConfigurationButton = () => {
   const { t } = useTranslation();
@@ -20,14 +19,9 @@ const SaveConfigurationButton = () => {
     useSubmit(planId || '');
 
   const { plan } = usePlan(planId);
+  const isDraft = usePlanIsDraft(planId);
 
   if (!plan) return null;
-
-  const { status } = getPlanStatus({
-    planStatus: plan.status,
-    quote: plan.quote,
-    t,
-  });
 
   const handleSaveConfiguration = async () => {
     validateForm();
@@ -65,7 +59,7 @@ const SaveConfigurationButton = () => {
     <Button
       type="button"
       size="small"
-      disabled={isSubmitting || status !== 'draft'}
+      disabled={isSubmitting || !isDraft}
       onClick={handleSaveConfiguration}
     >
       {t('__PLAN_SAVE_CONFIGURATION_CTA')}

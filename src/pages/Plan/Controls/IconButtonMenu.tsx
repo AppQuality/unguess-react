@@ -9,8 +9,8 @@ import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { ReactComponent as SaveTemplateIcon } from 'src/assets/icons/template.svg';
 import { Divider } from 'src/common/components/divider';
+import { usePlan, usePlanIsDraft } from '../../../hooks/usePlan';
 import { usePlanContext } from '../context/planContext';
-import { usePlan } from '../../../hooks/usePlan';
 
 const OptionalTooltip = ({
   children,
@@ -36,7 +36,8 @@ const IconButtonMenu = () => {
 
   const { setIsSaveTemplateModalOpen, setIsDeleteModalOpen } = usePlanContext();
   const { planId } = useParams();
-  const { plan, planComposedStatus } = usePlan(planId);
+  const { planComposedStatus } = usePlan(planId);
+  const isDraft = usePlanIsDraft(planId);
 
   const handleMenuClick = (value?: string) => {
     if (value === 'delete') {
@@ -74,14 +75,14 @@ const IconButtonMenu = () => {
           </>
         )}
       <OptionalTooltip
-        show={plan?.status !== 'draft'}
+        show={!isDraft}
         content={t('__PLAN_DELETE_PLAN_TOOLTIP')}
       >
         <ButtonMenu.Item
           data-qa="delete-action-item"
           type="danger"
           value="delete"
-          isDisabled={plan?.status !== 'draft'}
+          isDisabled={!isDraft}
           icon={<TrashIcon />}
         >
           {t('__PLAN_DELETE_PLAN_CTA')}
