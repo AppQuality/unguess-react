@@ -1,5 +1,7 @@
 import googleTagManager from '@analytics/google-tag-manager';
 import Analytics from 'analytics';
+// @ts-ignore
+import hubspotPlugin from '@analytics/hubspot';
 import userpilot from './common/analytics-plugins/userpilot';
 import { isDev } from './common/isDevEnvironment';
 
@@ -16,6 +18,9 @@ const analytics = Analytics({
       }),
       userpilot({
         token: 'NX-54e88e10',
+      }),
+      hubspotPlugin({
+        portalId: process.env.REACT_APP_HUBSPOT_PORTAL_ID,
       }),
     ],
   }),
