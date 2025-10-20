@@ -30,6 +30,7 @@ import { styled } from 'styled-components';
 import * as Yup from 'yup';
 import { ConfirmDeleteModal } from './ConfirmDeleteModal';
 import { ObservationFormValues, TitleDropdown } from './TitleDropdownNew';
+import { TooltipModalContextProvider } from './context';
 
 const FormContainer = styled.div`
   padding: ${({ theme }) => theme.space.md} ${({ theme }) => theme.space.xxs};
@@ -231,7 +232,7 @@ const ObservationForm = ({
   };
 
   return (
-    <>
+    <TooltipModalContextProvider>
       <FormContainer>
         <Formik
           innerRef={formRef}
@@ -479,7 +480,7 @@ const ObservationForm = ({
           setIsConfirmationModalOpen={setIsConfirmationModalOpen}
         />
       )}
-    </>
+    </TooltipModalContextProvider>
   );
 };
 
