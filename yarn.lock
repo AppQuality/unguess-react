@@ -4819,6 +4819,11 @@ external-editor@^3.0.3:
     iconv-lite "^0.4.24"
     tmp "^0.0.33"
 
+fakefilter@^0.1.1351:
+  version "0.1.1351"
+  resolved "https://registry.yarnpkg.com/fakefilter/-/fakefilter-0.1.1351.tgz#32f1b1daf16b91324099c4a8cae027eec3fed3e0"
+  integrity sha512-ZwKdX1JVa3P29kqHIhYesMapZ46OaUUtc6sP4kX4muf8FEC41D34qDipISBDSyDEGeeLbU9YuKaauAYXC+JzCA==
+
 fast-deep-equal@^3.1.1, fast-deep-equal@^3.1.3:
   version "3.1.3"
   resolved "https://registry.yarnpkg.com/fast-deep-equal/-/fast-deep-equal-3.1.3.tgz#3a7d56b559d6cbc3eb512325244e619a65c6c525"

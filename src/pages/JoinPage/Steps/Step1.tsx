@@ -20,6 +20,8 @@ import { PasswordRequirements } from 'src/common/components/PasswordRequirements
 import { useSendGTMevent } from 'src/hooks/useGTMevent';
 import { JoinFormValues } from '../valuesType';
 import { ButtonContainer } from './ButtonContainer';
+import { isDisposableEmail } from 'src/common/disposableEmail';
+import { is } from 'date-fns/locale';
 
 export const Step1 = () => {
   const { setFieldValue, validateForm, setTouched, status, values } =
@@ -66,6 +68,24 @@ export const Step1 = () => {
     let error;
     let error_event;
     if (status?.isInvited) return error;
+    const isDisposable = isDisposableEmail(value);
+    console.log('isDisposable', isDisposable);
+    // Disposable email check
+    if (isDisposable) {
+      error = t(
+        'SIGNUP_FORM_EMAIL_DISPOSABLE_NOT_ALLOWED',
+        'Non sono permesse email temporanee.'
+      );
+      error_event = 'SIGNUP_FORM_EMAIL_DISPOSABLE_NOT_ALLOWED';
+      sendGTMevent({
+        event: 'sign-up-flow',
+        category: 'not set',
+        action: 'validate email',
+        content: `error: ${error_event}`,
+        target: `is invited: ${status?.isInvited}`,
+      });
+      return error;
+    }
     const res = await fetch(
       `${process.env.REACT_APP_API_URL}/users/by-email/${value}`,
       {
