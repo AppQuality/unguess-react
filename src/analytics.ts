@@ -20,7 +20,7 @@ const analytics = Analytics({
         token: 'NX-54e88e10',
       }),
       hubspotPlugin({
-        portalId: process.env.REACT_APP_HUBSPOT_PORTAL_ID,
+        portalId: '50612068',
       }),
     ],
   }),
