@@ -67,23 +67,21 @@ export const Step1 = () => {
     let error;
     let error_event;
     if (status?.isInvited) return error;
-    const isDisposable = isDisposableEmail(value);
+    if (value) {
+      const isDisposable = isDisposableEmail(value);
 
-    // Disposable email check
-    if (isDisposable) {
-      error = t(
-        'SIGNUP_FORM_EMAIL_DISPOSABLE_NOT_ALLOWED',
-        'Non sono permesse email temporanee.'
-      );
-      error_event = 'SIGNUP_FORM_EMAIL_DISPOSABLE_NOT_ALLOWED';
-      sendGTMevent({
-        event: 'sign-up-flow',
-        category: 'not set',
-        action: 'validate email',
-        content: `error: ${error_event}`,
-        target: `is invited: ${status?.isInvited}`,
-      });
-      return error;
+      if (isDisposable) {
+        error = t('SIGNUP_FORM_EMAIL_DISPOSABLE_NOT_ALLOWED');
+        error_event = 'SIGNUP_FORM_EMAIL_DISPOSABLE_NOT_ALLOWED';
+        sendGTMevent({
+          event: 'sign-up-flow',
+          category: 'not set',
+          action: 'validate email',
+          content: `error: ${error_event}`,
+          target: `is invited: ${status?.isInvited}`,
+        });
+        return error;
+      }
     }
     const res = await fetch(
       `${process.env.REACT_APP_API_URL}/users/by-email/${value}`,
