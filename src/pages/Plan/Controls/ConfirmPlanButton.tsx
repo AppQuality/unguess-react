@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { usePatchPlansByPidStatusMutation } from 'src/features/api';
-import { usePlan } from '../../../hooks/usePlan';
+import { usePlan, usePlanIsPurchasable } from '../../../hooks/usePlan';
 import { BuyButton } from '../summary/components/BuyButton';
 
 const ConfirmPlanButton = () => {
@@ -13,10 +13,11 @@ const ConfirmPlanButton = () => {
   const { planId } = useParams();
   const { plan, planComposedStatus } = usePlan(planId);
   const { t } = useTranslation();
+  const isPurchasable = usePlanIsPurchasable(planId);
 
   if (!plan) return null;
 
-  if (plan.isPurchasable) {
+  if (isPurchasable) {
     return <BuyButton />;
   }
 
