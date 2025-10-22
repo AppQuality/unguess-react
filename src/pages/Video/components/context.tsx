@@ -1,8 +1,8 @@
 import { createContext, useContext, useMemo, useState } from 'react';
 
 interface TooltipModalContextType {
-  modalRef: HTMLButtonElement | null;
-  setModalRef: (ref: HTMLButtonElement | null) => void;
+  modalRef: HTMLDivElement | null;
+  setModalRef: (ref: HTMLDivElement | null) => void;
 }
 
 const TooltipModalContext = createContext<TooltipModalContextType | null>(null);

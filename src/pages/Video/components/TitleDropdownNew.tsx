@@ -1,7 +1,6 @@
 import {
   Autocomplete,
   DropdownFieldNew as Field,
-  Button,
   MD,
   TooltipModal,
 } from '@appquality/unguess-design-system';
@@ -16,6 +15,7 @@ import {
   GetCampaignsByCidVideoTagsApiResponse,
   usePostCampaignsByCidVideoTagsMutation,
 } from 'src/features/api';
+import styled from 'styled-components';
 import { useTooltipModalContext } from './context';
 
 export interface ObservationFormValues {
@@ -42,23 +42,43 @@ export const TitleDropdown = ({
     return null;
   }
 
-  const Edit = () => {
-    const triggerRef = useRef<HTMLButtonElement>(null);
+  const EditAction = styled.div`
+    cursor: pointer;
+    border-radius: 50%;
+    height: 24px;
+    width: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: ${appTheme.palette.grey[200]};
+    transition: background-color 0.2s ease-in-out;
+
+    &:hover {
+      background-color: ${appTheme.palette.grey[400]};
+    }
+  `;
+
+  const Edit = ({ optionId }: { optionId: string }) => {
+    const triggerRef = useRef<HTMLDivElement>(null);
     const { setModalRef } = useTooltipModalContext();
-    const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
       // avoid select options to be closed when clicking on the edit icon
       e.stopPropagation();
       e.preventDefault();
 
       e.nativeEvent.stopImmediatePropagation();
+      const el = document.querySelector(`[itemid="${optionId}"]`);
+
+      if (el) {
+        el.setAttribute('hover', 'true');
+        el.parentElement?.style.setProperty('pointer-events', 'none');
+      }
       setModalRef(triggerRef.current);
     };
     return (
-      <>
-        <Button ref={triggerRef} onClick={handleClick}>
-          <EditIcon />
-        </Button>
-      </>
+      <EditAction ref={triggerRef} onClick={handleClick}>
+        <EditIcon />
+      </EditAction>
     );
   };
 
@@ -66,7 +86,6 @@ export const TitleDropdown = ({
     const { modalRef, setModalRef } = useTooltipModalContext();
     return (
       <TooltipModal
-        focusOnMount={false}
         onBlur={() => {
           setIsExpanded(false);
         }}
@@ -76,7 +95,7 @@ export const TitleDropdown = ({
         placement="auto"
         hasArrow={false}
         role="dialog"
-        style={{ zIndex: 900000000000000 }}
+        style={{ maxWidth: 300, transform: 'translateX(-400px)' }}
       >
         <TooltipModal.Title>
           <MD isBold style={{ marginBottom: appTheme.space.sm }}>
@@ -98,6 +117,7 @@ export const TitleDropdown = ({
       <Autocomplete
         onClick={() => setIsExpanded(true)}
         isExpanded={isExpanded}
+        isDisabled={isExpanded}
         listboxAppendToNode={document.querySelector('main') || undefined}
         isCreatable
         renderValue={({ selection }) => {
@@ -140,13 +160,16 @@ export const TitleDropdown = ({
           if (!selectionValue || !inputValue) return;
           formProps.setFieldValue('title', Number(selectionValue));
         }}
-        options={(titles || []).map((i) => ({
-          id: i.id.toString(),
-          value: i.id.toString(),
-          label: `${i.name} (${i.usageNumber})`,
-          isSelected: formProps.values.title === i.id,
-          icon: <Edit />,
-        }))}
+        options={(titles || []).map((i) => {
+          return {
+            id: i.id.toString(),
+            value: i.id.toString(),
+            label: `${i.name} (${i.usageNumber})`,
+            isSelected: formProps.values.title === i.id,
+            action: <Edit optionId={i.id.toString()} />,
+            itemID: i.id.toString(),
+          };
+        })}
         startIcon={<CopyIcon />}
         placeholder={t(
           '__VIDEO_PAGE_ACTIONS_OBSERVATION_FORM_FIELD_TITLE_PLACEHOLDER'
