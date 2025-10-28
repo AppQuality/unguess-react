@@ -81,10 +81,11 @@ export const TitleDropdown = ({
     <Field>
       <Autocomplete
         data-qa="video-title-dropdown"
+        onClick={() => setIsExpanded(!isExpanded)}
         isExpanded={isExpanded}
         isDisabled={isExpanded}
-        isEditable
         isCreatable
+        listboxAppendToNode={document.body}
         renderValue={({ selection }) => {
           if (!selection) return '';
           // @ts-ignore
