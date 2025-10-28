@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@analytics/google-tag-manager": "^0.6.0",
+    "@analytics/hubspot": "^0.5.1",
     "@appquality/languages": "1.4.3",
     "@appquality/unguess-design-system": "4.0.50",
     "@atlaskit/pragmatic-drag-and-drop": "^1.7.4",

@@ -23,9 +23,7 @@ test.describe('The tasks module defines a list of activities.', () => {
     await moduleBuilderPage.elements().tabInstructions().click();
   });
 
-  test('Tasks can be deleted, but it is required to have at least 1 item to Request a Quote', async ({
-    i18n,
-  }) => {
+  test('Tasks can be deleted, but it is required to have at least 1 item to Request a Quote', async () => {
     await expect(tasksModule.elements().module()).toBeVisible();
     const tasks = TasksModule.getTasksFromPlan(apiGetDraftMandatoryPlan);
     await expect(tasksModule.elements().taskListItem()).toHaveCount(

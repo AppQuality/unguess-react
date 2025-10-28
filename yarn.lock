@@ -43,6 +43,11 @@
   resolved "https://registry.yarnpkg.com/@analytics/google-tag-manager/-/google-tag-manager-0.6.0.tgz#bc1d20bb77450171848af2acaacfe1554e6aa19c"
   integrity sha512-l0zG9FPdTgovYgvDMhuOHE9dOMTh+lIjU64Y8kAqCDS38AcnpC0z//oKHsg+k4l03/tN5zjzvFMRFMniEMFSdw==
 
+"@analytics/hubspot@^0.5.1":
+  version "0.5.1"
+  resolved "https://registry.yarnpkg.com/@analytics/hubspot/-/hubspot-0.5.1.tgz#f4ae467ba0370d9b3c80f0e51f38bafb325d9ae1"
+  integrity sha512-7SCvk4zMQgO/5yezLr+q1Qu1SPGdcgUR1ZJNWcI23gcy+k2TymvGsjgWRzQlUGvxd/u2lbn/23smwk2fu33Jfg==
+
 "@analytics/localstorage-utils@^0.1.10":
   version "0.1.10"
   resolved "https://registry.yarnpkg.com/@analytics/localstorage-utils/-/localstorage-utils-0.1.10.tgz#8e9b03604e79a530e9a5ab6748c8ceb96153b95c"
