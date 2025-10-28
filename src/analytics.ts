@@ -19,7 +19,7 @@ const analytics = Analytics({
         token: 'NX-54e88e10',
       }),
       hubspotPlugin({
-        portalId: '50612068',
+        portalId: isDev() ? '50612068' : '6087279',
       }),
     ],
   }),
