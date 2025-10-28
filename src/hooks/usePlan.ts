@@ -98,7 +98,6 @@ const usePlan = (planId?: string) => {
       isFetching: isFetching || isCiFetching || isTemplateFetching,
       activeWorkspace,
       plan: undefined,
-      ...(hasCI ? { checkoutItem: ci } : {}),
       planComposedStatus,
     };
   }
@@ -107,10 +106,33 @@ const usePlan = (planId?: string) => {
     isLoading: isLoading || isCiLoading || isTemplateLoading,
     isFetching: isFetching || isCiFetching || isTemplateFetching,
     activeWorkspace,
-    plan: { ...plan, isPurchasable: hasCI },
-    ...(hasCI ? { checkoutItem: ci } : {}),
+    plan,
     planComposedStatus,
   };
 };
 
-export { usePlan };
+const usePlanIsDraft = (planId?: string) => {
+  const { planComposedStatus } = usePlan(planId);
+
+  const isDraft =
+    !!planComposedStatus &&
+    ['PurchasableDraft', 'UnquotedDraft', 'PrequotedDraft'].includes(
+      planComposedStatus
+    );
+
+  return isDraft;
+};
+
+const usePlanIsPurchasable = (planId?: string) => {
+  const { planComposedStatus } = usePlan(planId);
+
+  const isPurchasable =
+    !!planComposedStatus &&
+    ['PurchasableDraft', 'AwaitingPayment', 'PurchasedPlan', 'Paying'].includes(
+      planComposedStatus
+    );
+
+  return isPurchasable;
+};
+
+export { usePlan, usePlanIsDraft, usePlanIsPurchasable };

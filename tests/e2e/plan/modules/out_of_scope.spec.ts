@@ -1,15 +1,14 @@
-import draft from '../../../api/plans/pid/_get/200_draft_complete.json';
-import { expect, test } from '../../../fixtures/app';
+import { test } from '../../../fixtures/app';
 import { PlanPage } from '../../../fixtures/pages/Plan';
-import { OutOfScopeModule } from '../../../fixtures/pages/Plan/Module_out_of_scope';
+// import { OutOfScopeModule } from '../../../fixtures/pages/Plan/Module_out_of_scope';
 
 test.describe('The title module defines the Plan title.', () => {
   let planPage: PlanPage;
-  let module: OutOfScopeModule;
+  // let module: OutOfScopeModule;
 
   test.beforeEach(async ({ page }) => {
     planPage = new PlanPage(page);
-    module = new OutOfScopeModule(page);
+    // module = new OutOfScopeModule(page);
     await planPage.loggedIn();
     await planPage.mockPreferences();
     await planPage.mockWorkspace();

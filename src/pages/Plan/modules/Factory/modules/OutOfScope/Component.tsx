@@ -6,7 +6,6 @@ import {
   Label,
   SM,
   Span,
-  Textarea,
   Tooltip,
 } from '@appquality/unguess-design-system';
 import { useState } from 'react';

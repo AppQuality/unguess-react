@@ -7,7 +7,7 @@ import { Pipe } from 'src/common/components/Pipe';
 import { useModule } from 'src/features/modules/useModule';
 import styled from 'styled-components';
 import { useSubmit } from '../../../features/modules/useModuleConfiguration';
-import { usePlan } from '../../../hooks/usePlan';
+import { usePlan, usePlanIsPurchasable } from '../../../hooks/usePlan';
 import { usePlanContext } from '../context/planContext';
 import { DateInThePastAlertModal } from '../modals/DateInThePastAlertModal';
 import { DeletePlanModal } from '../modals/DeletePlanModal';
@@ -37,6 +37,7 @@ export const Controls = () => {
   } = usePlanContext();
   const { planId } = useParams();
   const { plan, planComposedStatus } = usePlan(planId);
+  const isPurchasable = usePlanIsPurchasable(planId);
   const { value: titleValue } = useModule('title'); // to use the current changed title value (also if plan is not saved) in delete modal
   const { addToast } = useToast();
   const { handleSubmit } = useSubmit(planId || '');
@@ -108,7 +109,7 @@ export const Controls = () => {
 
       {isRequestQuotationModalOpen && (
         <SendRequestModal
-          isPurchasable={plan.isPurchasable}
+          isPurchasable={isPurchasable}
           onQuit={() => setRequestQuotationModalOpen(false)}
         />
       )}

@@ -19,7 +19,7 @@ import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { usePlanStatusLabel } from 'src/hooks/usePlanStatusLabel';
 import { WidgetSpecialCard } from 'src/pages/Campaign/widgetCards/common/StyledSpecialCard';
 import styled from 'styled-components';
-import { usePlan } from '../../../../hooks/usePlan';
+import { usePlan, usePlanIsPurchasable } from '../../../../hooks/usePlan';
 import { GoToCampaignButton } from '../../Controls/GoToCampaignButton';
 import { BuyButton } from './BuyButton';
 import { CancelPlanButton } from './CancelPlanButton';
@@ -173,6 +173,7 @@ export const DetailsCard = () => {
   const label = usePlanStatusLabel({ planStatus: planComposedStatus });
   const { value } = useModule('dates');
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const isPurchasable = usePlanIsPurchasable(planId);
 
   const [patchStatus] = usePatchPlansByPidStatusMutation();
 
@@ -187,7 +188,7 @@ export const DetailsCard = () => {
   };
 
   const getCta = () => {
-    if (!plan.isPurchasable) {
+    if (!isPurchasable) {
       return (
         <Cta
           isSubmitted={isSubmitted}

@@ -66,7 +66,7 @@ const DateInThePastAlertModal = ({ onQuit }: { onQuit: () => void }) => {
       .then(() => {
         navigate(window.location.pathname, { replace: true });
       })
-      .catch((err) => {
+      .catch(() => {
         addToast(
           ({ close }) => (
             <Notification

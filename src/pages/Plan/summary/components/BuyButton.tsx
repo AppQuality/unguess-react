@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 
 import { useModule } from 'src/features/modules/useModule';
-import { getPlanStatus } from 'src/pages/Dashboard/hooks/getPlanStatus';
 import { usePlan } from '../../../../hooks/usePlan';
 import { usePlanContext } from '../../context/planContext';
 
@@ -21,17 +20,11 @@ const BuyButton = ({
   const { setDateInThePastAlertModalOpen, buyPlanAction } = usePlanContext();
   const { value } = useModule('dates');
   const { planId } = useParams();
-  const { plan } = usePlan(planId);
+  const { plan, planComposedStatus } = usePlan(planId);
 
   const { t } = useTranslation();
 
   if (!plan) return null;
-
-  const { status } = getPlanStatus({
-    planStatus: plan.status,
-    quote: plan.quote,
-    t,
-  });
 
   const checkIfDateIsValid = (dateString?: string) => {
     if (!dateString) {
@@ -65,7 +58,10 @@ const BuyButton = ({
       isAccent={isAccent}
       isPrimary={isPrimary}
       isStretched={isStretched}
-      disabled={status === 'approved'}
+      disabled={
+        planComposedStatus &&
+        ['AwaitingPayment', 'PurchasedPlan'].includes(planComposedStatus)
+      }
       onClick={handleBuyButtonClick}
     >
       {t('__PLAN_PAGE_BUY_BUTTON_LABEL')}
