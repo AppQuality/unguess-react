@@ -9,7 +9,7 @@ import {
   TooltipModal,
 } from '@appquality/unguess-design-system';
 import { FormikProps } from 'formik';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
@@ -22,6 +22,7 @@ import {
 import styled from 'styled-components';
 import { useTooltipModalContext } from './context';
 import { Button } from '@appquality/unguess-design-system';
+import { set } from 'date-fns';
 
 export interface ObservationFormValues {
   title: number;
@@ -47,47 +48,11 @@ export const TitleDropdown = ({
     return null;
   }
 
-  const EditAction = styled.div`
-    cursor: pointer;
-    border-radius: 50%;
-    height: 24px;
-    width: 24px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: ${appTheme.palette.grey[200]};
-    transition: background-color 0.2s ease-in-out;
-
-    &:hover {
-      background-color: ${appTheme.palette.grey[400]};
-    }
-  `;
-
-  const Edit = ({ optionId }: { optionId: string }) => {
-    const triggerRef = useRef<HTMLDivElement>(null);
-    const { setModalRef } = useTooltipModalContext();
-    const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
-      // avoid select options to be closed when clicking on the edit icon
-      e.stopPropagation();
-      e.preventDefault();
-
-      e.nativeEvent.stopImmediatePropagation();
-      const el = document.querySelector(`[itemid="${optionId}"]`);
-
-      if (el) {
-        el.setAttribute('hover', 'true');
-        el.parentElement?.style.setProperty('pointer-events', 'none');
-      }
-      setModalRef(triggerRef.current);
-    };
-    return (
-      <EditAction ref={triggerRef} onClick={handleClick}>
-        <EditIcon />
-      </EditAction>
-    );
-  };
-
   const editModal = ({ closeModal }: { closeModal: () => void }) => {
+    const handleSubmit = () => {
+      closeModal();
+    };
+
     return (
       <>
         <TooltipModal.Title>
@@ -104,7 +69,7 @@ export const TitleDropdown = ({
               Descrizione della modale di modifica del Tema/Tag o altro testo
             </SM>
           </Paragraph>
-          <Button size="small" isDanger onClick={closeModal}>
+          <Button size="small" isDanger onClick={handleSubmit}>
             Elimina Tag
           </Button>
         </TooltipModal.Body>
@@ -115,10 +80,10 @@ export const TitleDropdown = ({
   return (
     <Field>
       <Autocomplete
-        onClick={() => setIsExpanded(true)}
+        data-qa="video-title-dropdown"
         isExpanded={isExpanded}
         isDisabled={isExpanded}
-        listboxAppendToNode={document.querySelector('main') || undefined}
+        isEditable
         isCreatable
         renderValue={({ selection }) => {
           if (!selection) return '';
