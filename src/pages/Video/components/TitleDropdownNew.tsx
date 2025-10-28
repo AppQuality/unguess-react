@@ -1,7 +1,11 @@
 import {
   Autocomplete,
   DropdownFieldNew as Field,
+  Input,
+  Label,
   MD,
+  Paragraph,
+  SM,
   TooltipModal,
 } from '@appquality/unguess-design-system';
 import { FormikProps } from 'formik';
@@ -17,6 +21,7 @@ import {
 } from 'src/features/api';
 import styled from 'styled-components';
 import { useTooltipModalContext } from './context';
+import { Button } from '@appquality/unguess-design-system';
 
 export interface ObservationFormValues {
   title: number;
@@ -82,38 +87,33 @@ export const TitleDropdown = ({
     );
   };
 
-  const EditModal = () => {
-    const { modalRef, setModalRef } = useTooltipModalContext();
+  const editModal = ({ closeModal }: { closeModal: () => void }) => {
     return (
-      <TooltipModal
-        onBlur={() => {
-          setIsExpanded(false);
-        }}
-        referenceElement={modalRef}
-        appendToNode={document.querySelector('main') || undefined}
-        onClose={() => setModalRef(null)}
-        placement="auto"
-        hasArrow={false}
-        role="dialog"
-        style={{ maxWidth: 300, transform: 'translateX(-400px)' }}
-      >
+      <>
         <TooltipModal.Title>
           <MD isBold style={{ marginBottom: appTheme.space.sm }}>
-            titolo
+            titolo della modale di modifica
           </MD>
         </TooltipModal.Title>
 
         <TooltipModal.Body>
-          <label htmlFor="title-input">Title</label>
-          <input type="text" id="title-input" />
+          <Label htmlFor="title-input">Modifica Tema/Tag</Label>
+          <Input id="title-input" />
+          <Paragraph style={{ margin: `${appTheme.space.md} 0` }}>
+            <SM>
+              Descrizione della modale di modifica del Tema/Tag o altro testo
+            </SM>
+          </Paragraph>
+          <Button size="small" isDanger onClick={closeModal}>
+            Elimina Tag
+          </Button>
         </TooltipModal.Body>
-      </TooltipModal>
+      </>
     );
   };
 
   return (
     <Field>
-      <EditModal />
       <Autocomplete
         onClick={() => setIsExpanded(true)}
         isExpanded={isExpanded}
@@ -166,7 +166,7 @@ export const TitleDropdown = ({
             value: i.id.toString(),
             label: `${i.name} (${i.usageNumber})`,
             isSelected: formProps.values.title === i.id,
-            action: <Edit optionId={i.id.toString()} />,
+            actions: editModal,
             itemID: i.id.toString(),
           };
         })}
