@@ -95,7 +95,6 @@ export const PlanProvider = ({ children }: { children: ReactNode }) => {
       }
     } catch (error) {
       setIsPaymentInProgress(false);
-      console.error(`Error while checkout process: ${error}`);
     }
   };
 

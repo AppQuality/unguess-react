@@ -54,11 +54,7 @@ export const useSetDraftOnFailed = () => {
             { placement: 'top' }
           );
         })
-        .catch((err) => {
-          console.error(
-            'Error updating plan status after payment failure',
-            err
-          );
+        .catch(() => {
           navigate(notFoundRoute, { state: { from: location.pathname } });
         });
     };
