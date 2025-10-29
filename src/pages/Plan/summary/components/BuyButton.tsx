@@ -60,7 +60,7 @@ const BuyButton = ({
       isStretched={isStretched}
       disabled={
         planComposedStatus &&
-        ['AwaitingPayment', 'PurchasedPlan'].includes(planComposedStatus)
+        ['Accepted', 'PurchasedPlan'].includes(planComposedStatus)
       }
       onClick={handleBuyButtonClick}
     >
