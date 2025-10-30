@@ -15,7 +15,7 @@ export default defineConfig(({ mode }) => {
   setEnv(mode);
   return {
     optimizeDeps: {
-      include: ['react-dom', 'fakefilter'],
+      include: ['react-dom'],
       exclude: ['@appquality/unguess-design-system'],
     },
     plugins: [

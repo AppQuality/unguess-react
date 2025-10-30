@@ -1,5 +1,5 @@
-import { isFakeEmail } from 'fakefilter';
+import MailChecker from 'mailchecker';
 
 export function isDisposableEmail(email: string): any {
-  return isFakeEmail(email);
+  return !MailChecker.isValid(email);
 }
