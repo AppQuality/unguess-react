@@ -58,6 +58,7 @@ export const SentimentOverview = () => {
         <AccordionNew.Section>
           <StyledHeader icon={<AiIcon />}>
             <AccordionNew.Label
+              data-qa="tagging_tool_page_accordions_header_summary"
               label={t('__SENTIMENT_OVERVIEW_TITLE')}
               subtitle={t('__SENTIMENT_OVERVIEW_SUBTITLE')}
             />

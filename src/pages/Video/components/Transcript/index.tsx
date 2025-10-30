@@ -36,7 +36,7 @@ const TranscriptWrapper = ({
         marginBottom: appTheme.space.xl,
       }}
     >
-      <ContainerCard>
+      <ContainerCard data-qa="tagging_tool_page_transcript_card">
         <Header editor={isEmpty ? undefined : editor} isEmpty={isEmpty} />
         {video?.transcript ? children : <EmptyState />}
       </ContainerCard>

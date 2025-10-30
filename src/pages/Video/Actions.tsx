@@ -106,7 +106,7 @@ const Actions = () => {
       <Divider />
       <SentimentOverview />
       <div style={{ padding: `${appTheme.space.md} 0` }}>
-        <LG isBold>
+        <LG isBold data-qa="tagging_tool_page_title_observations">
           {t('__OBSERVATIONS_DRAWER_TOTAL')}: {observations.length}
         </LG>
         {observations && severities && severities.length > 0 && (
