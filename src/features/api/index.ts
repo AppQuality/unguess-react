@@ -786,6 +786,12 @@ const injectedRtkApi = api.injectEndpoints({
         params: { limit: queryArg.limit, start: queryArg.start },
       }),
     }),
+    getPlansByPidWatchers: build.query<
+      GetPlansByPidWatchersApiResponse,
+      GetPlansByPidWatchersApiArg
+    >({
+      query: (queryArg) => ({ url: `/plans/${queryArg.pid}/watchers` }),
+    }),
     getWorkspacesByWidTemplates: build.query<
       GetWorkspacesByWidTemplatesApiResponse,
       GetWorkspacesByWidTemplatesApiArg
@@ -896,12 +902,15 @@ export type PostBuyApiArg = {
           key: string;
           tag: string;
         };
+        payment_status?: 'paid' | 'unpaid';
       };
     };
     type:
-      | 'checkout.session.completed'
+      | 'checkout.session.async_payment_succeeded'
       | 'checkout.session.async_payment_failed'
-      | 'checkout.session.expired';
+      | 'checkout.session.completed'
+      | 'checkout.session.expired'
+      | 'charge.refunded';
   };
 };
 export type GetCampaignsByCidApiResponse =
@@ -2005,6 +2014,19 @@ export type GetWorkspacesByWidProjectsAndPidCampaignsApiArg = {
   /** Start pagination parameter */
   start?: number;
 };
+export type GetPlansByPidWatchersApiResponse = /** status 200 OK */ {
+  items: {
+    id: number;
+    name: string;
+    surname: string;
+    email: string;
+    image?: string;
+    isInternal: boolean;
+  }[];
+};
+export type GetPlansByPidWatchersApiArg = {
+  pid: string;
+};
 export type GetWorkspacesByWidTemplatesApiResponse = /** status 200 OK */ {
   items: CpReqTemplate[];
 } & PaginationData;
@@ -3050,6 +3072,7 @@ export const {
   useGetWorkspacesByWidProjectsQuery,
   useGetWorkspacesByWidProjectsAndPidQuery,
   useGetWorkspacesByWidProjectsAndPidCampaignsQuery,
+  useGetPlansByPidWatchersQuery,
   useGetWorkspacesByWidTemplatesQuery,
   usePostWorkspacesByWidTemplatesMutation,
   useDeleteWorkspacesByWidTemplatesAndTidMutation,

@@ -18,6 +18,7 @@ import { GoToCampaignButton } from './GoToCampaignButton';
 import { IconButtonMenu } from './IconButtonMenu';
 import { RequestQuotationButton } from './RequestQuotationButton';
 import { SaveConfigurationButton } from './SaveConfigurationButton';
+import { WatcherList } from './WatcherList';
 
 const StyledPipe = styled(Pipe)`
   display: inline;
@@ -42,7 +43,7 @@ export const Controls = () => {
   const { addToast } = useToast();
   const { handleSubmit } = useSubmit(planId || '');
 
-  if (!plan) return null;
+  if (!plan || !planId) return null;
 
   const handleRequestQuotation = async () => {
     try {
@@ -81,6 +82,7 @@ export const Controls = () => {
         planComposedStatus === 'OpsCheck' ||
         planComposedStatus === 'Submitted') && <ConfirmPlanButton />}
       {planComposedStatus === 'Paying' && <CancelPlanButton size="small" />}
+      <WatcherList planId={planId} />
       {(planComposedStatus === 'PurchasableDraft' ||
         planComposedStatus === 'PrequotedDraft' ||
         planComposedStatus === 'UnquotedDraft') && (
