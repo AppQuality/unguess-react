@@ -1454,6 +1454,7 @@
   "SIGNUP_FORM_COMPANY_SIZE_PLACEHOLDER": "Select company size",
   "SIGNUP_FORM_CTA_RETURN_TO_UNGUESS_LANDING": "or visit <unguess-link>UNGUESS website</unguess-link>",
   "SIGNUP_FORM_EMAIL_ALREADY_TAKEN": "Error: User with provided email already exists",
+  "SIGNUP_FORM_EMAIL_DISPOSABLE_NOT_ALLOWED": "Temporary email addresses are not allowed",
   "SIGNUP_FORM_EMAIL_ERROR_SERVER_MAIL_CHECK": "Oops! Check your email format",
   "SIGNUP_FORM_EMAIL_IS_REQUIRED": "This field is required",
   "SIGNUP_FORM_EMAIL_LABEL": "Work Email",
