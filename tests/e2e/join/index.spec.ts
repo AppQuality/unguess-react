@@ -75,9 +75,14 @@ test.describe('The Join page first step - case new user', () => {
     await expect(step1.elements().emailError()).toHaveText(
       i18n.t('SIGNUP_FORM_EMAIL_IS_REQUIRED')
     );
-    await step1.fillEmail('invalid-email');
+    await step1.fillEmail('invalid-email@');
     await expect(
       page.getByText(i18n.t('SIGNUP_FORM_EMAIL_MUST_BE_A_VALID_EMAIL'))
+    ).toBeVisible();
+
+    await step1.fillEmail('fake-email@mailinator.com');
+    await expect(
+      page.getByText(i18n.t('SIGNUP_FORM_EMAIL_DISPOSABLE_NOT_ALLOWED'))
     ).toBeVisible();
 
     await step1.fillRegisteredEmail();
@@ -94,7 +99,6 @@ test.describe('The Join page first step - case new user', () => {
     await expect(step1.elements().container()).not.toBeVisible();
     await expect(step2.elements().container()).toBeVisible();
   });
-  test('display two links to go to app.unguess and a link to terms and conditions', async () => {});
 });
 
 test.describe('The Join page second step', () => {
