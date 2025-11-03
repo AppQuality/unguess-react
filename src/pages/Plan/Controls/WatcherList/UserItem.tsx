@@ -5,6 +5,8 @@ import {
   IconButton,
   MD,
   SM,
+  Tooltip,
+  useToast,
 } from '@appquality/unguess-design-system';
 import { t } from 'i18next';
 import { appTheme } from 'src/app/theme';
@@ -13,6 +15,7 @@ import { getInitials } from 'src/common/components/navigation/header/utils';
 import { prepareGravatar } from 'src/common/utils';
 import { usePlanIsApproved } from 'src/hooks/usePlan';
 import styled from 'styled-components';
+import { useIsLastOne } from './hooks/useIsLastOne';
 import { useRemoveWatcher } from './hooks/useRemoveWatcher';
 
 const StyledEllipsis = styled(Ellipsis)``;
@@ -62,9 +65,21 @@ const UserItem = ({
   };
 }) => {
   const { isMe } = user;
+  const { addToast } = useToast();
+  const isLastOne = useIsLastOne({ planId });
   const isApproved = usePlanIsApproved(planId);
 
   const { removeWatcher } = useRemoveWatcher();
+
+  const iconButton = (
+    <IconButton
+      disabled={isLastOne}
+      onClick={() => removeWatcher({ planId, profileId: user.id.toString() })}
+    >
+      <XStroke />
+    </IconButton>
+  );
+
   return (
     <UserListItem>
       <div style={{ paddingLeft: '2px' }}>
@@ -97,14 +112,21 @@ const UserItem = ({
         )}
       </div>
       <div>
-        {!isApproved && (
-          <IconButton
-            onClick={() =>
-              removeWatcher({ planId, profileId: user.id.toString() })
-            }
+        {isLastOne ? !isApproved && (
+          <Tooltip
+            placement="top"
+            type="light"
+            size="medium"
+            content={t(
+              '__PLAN_PAGE_WATCHER_LIST_MODAL_REMOVE_BUTTON_DISABLED_TOOLTIP',
+              'At least one person must follow this activity '
+            )}
           >
-            <XStroke />
-          </IconButton>
+            {/* the following div is necessary to make Tooltip work with disabled IconButton */}
+            <div>{iconButton}</div>
+          </Tooltip>
+        ) : (
+          !isApproved && iconButton
         )}
       </div>
     </UserListItem>
