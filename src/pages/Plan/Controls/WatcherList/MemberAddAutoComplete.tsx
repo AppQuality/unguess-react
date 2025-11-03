@@ -2,13 +2,17 @@ import {
   Autocomplete,
   DropdownFieldNew,
   MD,
+  Notification,
+  useToast,
 } from '@appquality/unguess-design-system';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import {
   useGetPlansByPidWatchersQuery,
   useGetUsersMeQuery,
   useGetWorkspacesByWidUsersQuery,
+  usePostPlansByPidWatchersMutation,
 } from 'src/features/api';
 import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
 import { useTheme } from 'styled-components';
@@ -33,6 +37,8 @@ const ItemContent = ({ name, email }: { name: string; email: string }) => {
 
 const MemberAddAutocomplete = ({ planId }: { planId: string }) => {
   const { activeWorkspace, isLoading } = useActiveWorkspace();
+
+  const [addUser] = usePostPlansByPidWatchersMutation();
   const { data } = useGetWorkspacesByWidUsersQuery(
     {
       wid: (activeWorkspace?.id || '0').toString(),
@@ -41,6 +47,8 @@ const MemberAddAutocomplete = ({ planId }: { planId: string }) => {
       skip: !activeWorkspace?.id,
     }
   );
+  const { addToast } = useToast();
+  const { t } = useTranslation();
   const { data: currentUser, isLoading: isLoadingCurrentUser } =
     useGetUsersMeQuery();
   const { data: watchers, isLoading: isLoadingWatchers } =
@@ -76,7 +84,27 @@ const MemberAddAutocomplete = ({ planId }: { planId: string }) => {
           value: `${user.id}`,
         }))}
         onOptionClick={({ selectionValue }) => {
-          console.log('Selected user to add as watcher:', selectionValue);
+          addUser({
+            pid: planId,
+            body: { users: [{ id: Number(selectionValue) }] },
+          })
+            .unwrap()
+            .catch(() => {
+              addToast(
+                ({ close }) => (
+                  <Notification
+                    onClose={close}
+                    type="error"
+                    message={t(
+                      '__PLAN_PAGE_WATCHER_LIST_ADD_USER_ERROR_TOAST_MESSAGE'
+                    )}
+                    closeText={t('__TOAST_CLOSE_TEXT')}
+                    isPrimary
+                  />
+                ),
+                { placement: 'top' }
+              );
+            });
           setInputValue('');
         }}
       />

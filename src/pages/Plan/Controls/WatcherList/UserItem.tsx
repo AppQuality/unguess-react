@@ -5,6 +5,7 @@ import {
   IconButton,
   MD,
   SM,
+  useToast,
 } from '@appquality/unguess-design-system';
 import { t } from 'i18next';
 import { appTheme } from 'src/app/theme';
@@ -12,6 +13,7 @@ import { ReactComponent as XStroke } from 'src/assets/icons/x-stroke.svg';
 import { getInitials } from 'src/common/components/navigation/header/utils';
 import { prepareGravatar } from 'src/common/utils';
 import styled from 'styled-components';
+import { useRemoveWatcher } from './hooks/useRemoveWatcher';
 
 const StyledEllipsis = styled(Ellipsis)``;
 
@@ -46,8 +48,10 @@ const UserAvatar = ({
 };
 
 const UserItem = ({
+  planId,
   user,
 }: {
+  planId: string;
   user: {
     id: number;
     name: string;
@@ -58,6 +62,9 @@ const UserItem = ({
   };
 }) => {
   const { isMe } = user;
+  const { addToast } = useToast();
+
+  const { removeWatcher } = useRemoveWatcher();
   return (
     <UserListItem>
       <div style={{ paddingLeft: '2px' }}>
@@ -90,7 +97,11 @@ const UserItem = ({
         )}
       </div>
       <div>
-        <IconButton onClick={() => alert('Remove watcher')}>
+        <IconButton
+          onClick={() =>
+            removeWatcher({ planId, profileId: user.id.toString() })
+          }
+        >
           <XStroke />
         </IconButton>
       </div>

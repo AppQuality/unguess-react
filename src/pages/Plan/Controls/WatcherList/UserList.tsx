@@ -46,6 +46,7 @@ const UserList = ({ planId }: { planId: string }) => {
         })
         .map((user) => (
           <UserItem
+            planId={planId}
             key={user.id}
             user={{
               ...user,
