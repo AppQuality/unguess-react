@@ -5,13 +5,13 @@ import {
   IconButton,
   MD,
   SM,
-  useToast,
 } from '@appquality/unguess-design-system';
 import { t } from 'i18next';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as XStroke } from 'src/assets/icons/x-stroke.svg';
 import { getInitials } from 'src/common/components/navigation/header/utils';
 import { prepareGravatar } from 'src/common/utils';
+import { usePlanIsApproved } from 'src/hooks/usePlan';
 import styled from 'styled-components';
 import { useRemoveWatcher } from './hooks/useRemoveWatcher';
 
@@ -62,7 +62,7 @@ const UserItem = ({
   };
 }) => {
   const { isMe } = user;
-  const { addToast } = useToast();
+  const isApproved = usePlanIsApproved(planId);
 
   const { removeWatcher } = useRemoveWatcher();
   return (
@@ -97,13 +97,15 @@ const UserItem = ({
         )}
       </div>
       <div>
-        <IconButton
-          onClick={() =>
-            removeWatcher({ planId, profileId: user.id.toString() })
-          }
-        >
-          <XStroke />
-        </IconButton>
+        {!isApproved && (
+          <IconButton
+            onClick={() =>
+              removeWatcher({ planId, profileId: user.id.toString() })
+            }
+          >
+            <XStroke />
+          </IconButton>
+        )}
       </div>
     </UserListItem>
   );

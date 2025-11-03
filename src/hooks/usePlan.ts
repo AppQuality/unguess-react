@@ -135,4 +135,14 @@ const usePlanIsPurchasable = (planId?: string) => {
   return isPurchasable;
 };
 
-export { usePlan, usePlanIsDraft, usePlanIsPurchasable };
+const usePlanIsApproved = (planId?: string) => {
+  const { planComposedStatus } = usePlan(planId);
+
+  const isApproved =
+    !!planComposedStatus &&
+    ['PurchasedPlan', 'Accepted'].includes(planComposedStatus);
+
+  return isApproved;
+};
+
+export { usePlan, usePlanIsDraft, usePlanIsPurchasable, usePlanIsApproved };

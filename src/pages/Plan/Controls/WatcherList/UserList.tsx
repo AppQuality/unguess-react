@@ -7,6 +7,7 @@ import {
   useGetPlansByPidWatchersQuery,
   useGetUsersMeQuery,
 } from 'src/features/api';
+import { usePlanIsApproved } from 'src/hooks/usePlan';
 import { UserItem } from './UserItem';
 
 const UserItemContainer = styled.div`
@@ -24,6 +25,7 @@ const UserList = ({ planId }: { planId: string }) => {
     pid: planId,
   });
 
+  const isApproved = usePlanIsApproved(planId);
   if (isLoading) return <Skeleton height="100" />;
 
   if (!data || data.items.length === 0) return <EmptyState />;
@@ -31,10 +33,15 @@ const UserList = ({ planId }: { planId: string }) => {
   return (
     <UserItemContainer>
       <MD isBold>
-        {t(
-          '__PLAN_PAGE_WATCHER_LIST_MODAL_WATCHERS_TITLE',
-          'People following this activity'
-        )}
+        {isApproved
+          ? t(
+              '__PLAN_PAGE_WATCHER_LIST_MODAL_WATCHERS_TITLE_APPROVED',
+              'People followed setup phase'
+            )
+          : t(
+              '__PLAN_PAGE_WATCHER_LIST_MODAL_WATCHERS_TITLE',
+              'People following this activity'
+            )}
       </MD>
 
       {[...data.items]
