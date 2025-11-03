@@ -1,6 +1,6 @@
-import { MD, Skeleton } from '@appquality/unguess-design-system';
-
-import { styled } from 'styled-components';
+import { MD, Skeleton, SM } from '@appquality/unguess-design-system';
+import { styled, useTheme } from 'styled-components';
+import { ReactComponent as Empty } from './assets/Empty.svg';
 
 import { useTranslation } from 'react-i18next';
 import {
@@ -16,7 +16,34 @@ const UserItemContainer = styled.div`
   gap: ${({ theme }) => theme.space.xxs};
 `;
 
-const EmptyState = () => <>Empty</>;
+const EmptyState = () => {
+  const { t } = useTranslation();
+  const appTheme = useTheme();
+  return (
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        padding: `${appTheme.space.sm} 0`,
+      }}
+    >
+      <Empty />
+      <SM isBold>
+        {t(
+          '__PLAN_PAGE_WATCHER_LIST_MODAL_NO_WATCHERS_TITLE',
+          'Add yourself as a workspace member'
+        )}
+      </SM>
+      <SM style={{ color: appTheme.palette.grey[500] }}>
+        {t(
+          '__PLAN_PAGE_WATCHER_LIST_MODAL_NO_WATCHERS_DESCRIPTION',
+          'Add your team so they stay updated too'
+        )}
+      </SM>
+    </div>
+  );
+};
 
 const UserList = ({ planId }: { planId: string }) => {
   const { t } = useTranslation();
