@@ -2,6 +2,7 @@ import {
   Button,
   MD,
   Skeleton,
+  Tooltip,
   TooltipModal,
 } from '@appquality/unguess-design-system';
 
@@ -114,7 +115,19 @@ const WatcherList = ({ planId }: { planId: string }) => {
                   'Add workspace members'
                 )}
               </MD>
-              <InfoIcon />
+              <Tooltip
+                placement="top"
+                type="light"
+                size="medium"
+                content={t(
+                  '__PLAN_PAGE_WATCHER_LIST_MODAL_ADD_MEMBERS_INFO_TOOLTIP',
+                  'Only workspace members can be added during the setup phase'
+                )}
+              >
+                <div style={{ display: 'flex', alignItems: 'center' }}>
+                  <InfoIcon />
+                </div>
+              </Tooltip>
             </div>
             <MemberAddAutocomplete planId={planId} />
           </DropdownContainer>
