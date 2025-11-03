@@ -1169,6 +1169,7 @@
   "__PLAN_PAGE_TAB_TARGET_TAB_TITLE": "Screen participants",
   "__PLAN_PAGE_TITLE": "Plan your activity",
   "__PLAN_PAGE_WATCHER_LIST_ADD_USER_ERROR_TOAST_MESSAGE": "Error while adding user",
+  "__PLAN_PAGE_WATCHER_LIST_MODAL_ADD_MEMBERS_INFO_TOOLTIP": "Only workspace members can be added during the setup phase",
   "__PLAN_PAGE_WATCHER_LIST_MODAL_FOLLOW_BUTTON": "Follow this activity",
   "__PLAN_PAGE_WATCHER_LIST_MODAL_REMOVE_BUTTON_DISABLED_TOOLTIP": "At least one person must follow this activity ",
   "__PLAN_PAGE_WATCHER_LIST_MODAL_SUGGESTIONS_TITLE": "Add workspace members",
