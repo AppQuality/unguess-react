@@ -68,6 +68,16 @@ const UserItem = ({
   const isLastOne = useIsLastOne({ planId });
 
   const { removeWatcher } = useRemoveWatcher();
+
+  const iconButton = (
+    <IconButton
+      disabled={isLastOne}
+      onClick={() => removeWatcher({ planId, profileId: user.id.toString() })}
+    >
+      <XStroke />
+    </IconButton>
+  );
+
   return (
     <UserListItem>
       <div style={{ paddingLeft: '2px' }}>
@@ -100,7 +110,7 @@ const UserItem = ({
         )}
       </div>
       <div>
-        {isLastOne && (
+        {isLastOne ? (
           <Tooltip
             placement="top"
             type="light"
@@ -111,17 +121,10 @@ const UserItem = ({
             )}
           >
             {/* the following div is necessary to make Tooltip work with disabled IconButton */}
-            <div>
-              <IconButton
-                disabled={isLastOne}
-                onClick={() =>
-                  removeWatcher({ planId, profileId: user.id.toString() })
-                }
-              >
-                <XStroke />
-              </IconButton>
-            </div>
+            <div>{iconButton}</div>
           </Tooltip>
+        ) : (
+          iconButton
         )}
       </div>
     </UserListItem>
