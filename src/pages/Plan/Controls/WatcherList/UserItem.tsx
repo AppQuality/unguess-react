@@ -13,6 +13,7 @@ import { appTheme } from 'src/app/theme';
 import { ReactComponent as XStroke } from 'src/assets/icons/x-stroke.svg';
 import { getInitials } from 'src/common/components/navigation/header/utils';
 import { prepareGravatar } from 'src/common/utils';
+import { usePlanIsApproved } from 'src/hooks/usePlan';
 import styled from 'styled-components';
 import { useIsLastOne } from './hooks/useIsLastOne';
 import { useRemoveWatcher } from './hooks/useRemoveWatcher';
@@ -66,6 +67,7 @@ const UserItem = ({
   const { isMe } = user;
   const { addToast } = useToast();
   const isLastOne = useIsLastOne({ planId });
+  const isApproved = usePlanIsApproved(planId);
 
   const { removeWatcher } = useRemoveWatcher();
 
@@ -110,7 +112,7 @@ const UserItem = ({
         )}
       </div>
       <div>
-        {isLastOne ? (
+        {isLastOne ? !isApproved && (
           <Tooltip
             placement="top"
             type="light"
@@ -124,7 +126,7 @@ const UserItem = ({
             <div>{iconButton}</div>
           </Tooltip>
         ) : (
-          iconButton
+          !isApproved && iconButton
         )}
       </div>
     </UserListItem>

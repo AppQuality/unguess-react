@@ -75,6 +75,7 @@ export const Controls = () => {
     <div
       style={{ display: 'flex', gap: appTheme.space.xs, alignItems: 'center' }}
     >
+      <WatcherList planId={planId} />
       {(planComposedStatus === 'Accepted' ||
         planComposedStatus === 'PurchasedPlan') && <GoToCampaignButton />}
       {(planComposedStatus === 'AwaitingApproval' ||
@@ -82,7 +83,6 @@ export const Controls = () => {
         planComposedStatus === 'OpsCheck' ||
         planComposedStatus === 'Submitted') && <ConfirmPlanButton />}
       {planComposedStatus === 'Paying' && <CancelPlanButton size="small" />}
-      <WatcherList planId={planId} />
       {(planComposedStatus === 'PurchasableDraft' ||
         planComposedStatus === 'PrequotedDraft' ||
         planComposedStatus === 'UnquotedDraft') && (
