@@ -112,22 +112,22 @@ const UserItem = ({
         )}
       </div>
       <div>
-        {isLastOne ? !isApproved && (
-          <Tooltip
-            placement="top"
-            type="light"
-            size="medium"
-            content={t(
-              '__PLAN_PAGE_WATCHER_LIST_MODAL_REMOVE_BUTTON_DISABLED_TOOLTIP',
-              'At least one person must follow this activity '
-            )}
-          >
-            {/* the following div is necessary to make Tooltip work with disabled IconButton */}
-            <div>{iconButton}</div>
-          </Tooltip>
-        ) : (
-          !isApproved && iconButton
-        )}
+        {isLastOne
+          ? !isApproved && (
+              <Tooltip
+                placement="top"
+                type="light"
+                size="medium"
+                content={t(
+                  '__PLAN_PAGE_WATCHER_LIST_MODAL_REMOVE_BUTTON_DISABLED_TOOLTIP',
+                  'At least one person must follow this activity '
+                )}
+              >
+                {/* the following div is necessary to make Tooltip work with disabled IconButton */}
+                <div>{iconButton}</div>
+              </Tooltip>
+            )
+          : !isApproved && iconButton}
       </div>
     </UserListItem>
   );
