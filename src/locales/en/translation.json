@@ -1180,7 +1180,7 @@
   "__PLAN_PAGE_WATCHER_LIST_MODAL_REMOVE_BUTTON_DISABLED_TOOLTIP": "At least one person must follow this activity ",
   "__PLAN_PAGE_WATCHER_LIST_MODAL_SUGGESTIONS_TITLE": "Add workspace members",
   "__PLAN_PAGE_WATCHER_LIST_MODAL_TITLE": "Stay updated on setup progress",
-  "__PLAN_PAGE_WATCHER_LIST_MODAL_TITLE_DESCRIPTION": "Follow this activity and turn on notifications to receive important email updates about changes",
+  "__PLAN_PAGE_WATCHER_LIST_MODAL_TITLE_DESCRIPTION": "Follow this activity and turn on notifications to receive important email updates",
   "__PLAN_PAGE_WATCHER_LIST_MODAL_TITLE_DESCRIPTION_APPROVED": "Activity setup is complete",
   "__PLAN_PAGE_WATCHER_LIST_MODAL_UNFOLLOW_BUTTON": "Unfollow this activity",
   "__PLAN_PAGE_WATCHER_LIST_MODAL_UNFOLLOW_BUTTON_DISABLED_TOOLTIP": "At least one person must follow this activity ",
