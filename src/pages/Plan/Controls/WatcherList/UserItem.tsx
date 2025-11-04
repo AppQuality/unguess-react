@@ -65,7 +65,6 @@ const UserItem = ({
   };
 }) => {
   const { isMe } = user;
-  const { addToast } = useToast();
   const isLastOne = useIsLastOne({ planId });
   const isApproved = usePlanIsApproved(planId);
 
