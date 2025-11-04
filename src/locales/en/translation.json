@@ -1168,6 +1168,7 @@
   "__PLAN_PAGE_TAB_SUMMARY_TAB_TITLE": "Get expert feedback",
   "__PLAN_PAGE_TAB_TARGET_TAB_TITLE": "Screen participants",
   "__PLAN_PAGE_TITLE": "Plan your activity",
+  "__PLAN_PAGE_WATCHER_LIST_ADD_SELF_TOAST_ERROR_MESSAGE": "Ops! Something went wrong. Please try again",
   "__PLAN_PAGE_WATCHER_LIST_ADD_SELF_TOAST_MESSAGE": "You’ve started following this activity",
   "__PLAN_PAGE_WATCHER_LIST_ADD_USER_ERROR_TOAST_MESSAGE": "Error while adding user",
   "__PLAN_PAGE_WATCHER_LIST_APPROVED_ALERT_TEXT": "Future notifications will relate to execution. Add or remove followers from the dashboard",

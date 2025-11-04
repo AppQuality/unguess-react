@@ -59,6 +59,22 @@ const WatchButton = ({ planId }: { planId: string }) => {
                 ),
                 { placement: 'top' }
               );
+            })
+            .catch(() => {
+              addToast(
+                ({ close }) => (
+                  <Notification
+                    onClose={close}
+                    type="error"
+                    message={t(
+                      '__PLAN_PAGE_WATCHER_LIST_ADD_SELF_TOAST_ERROR_MESSAGE'
+                    )}
+                    closeText={t('__TOAST_CLOSE_TEXT')}
+                    isPrimary
+                  />
+                ),
+                { placement: 'top' }
+              );
             });
         }
       }}
