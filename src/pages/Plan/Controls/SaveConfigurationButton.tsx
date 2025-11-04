@@ -4,12 +4,12 @@ import {
   Tooltip,
   useToast,
 } from '@appquality/unguess-design-system';
+import { ReactComponent as SaveIcon } from 'src/assets/icons/save-icon.svg';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { useSubmit } from 'src/features/modules/useModuleConfiguration';
 import { useValidateForm } from 'src/features/planModules';
 import { usePlan, usePlanIsDraft } from '../../../hooks/usePlan';
-import { ReactComponent as SaveIcon } from 'src/assets/icons/save-icon.svg';
 
 const SaveConfigurationButton = () => {
   const { t } = useTranslation();

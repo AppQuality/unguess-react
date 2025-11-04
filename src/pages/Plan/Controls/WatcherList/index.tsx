@@ -4,7 +4,6 @@ import {
   Button,
   MD,
   Skeleton,
-  Span,
   Tooltip,
   TooltipModal,
 } from '@appquality/unguess-design-system';
