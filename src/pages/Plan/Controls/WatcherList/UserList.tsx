@@ -16,7 +16,7 @@ const UserItemContainer = styled.div`
   gap: ${({ theme }) => theme.space.xxs};
 `;
 
-const EmptyState = () => {
+const EmptyState = ({ watchers }: { watchers?: number }) => {
   const { t } = useTranslation();
   const appTheme = useTheme();
   return (
@@ -29,10 +29,27 @@ const EmptyState = () => {
       }}
     >
       <Empty />
-      <SM isBold>{t('__PLAN_PAGE_WATCHER_LIST_MODAL_NO_WATCHERS_TITLE')}</SM>
-      <SM style={{ color: appTheme.palette.grey[500] }}>
-        {t('__PLAN_PAGE_WATCHER_LIST_MODAL_NO_WATCHERS_DESCRIPTION')}
-      </SM>
+      {(!watchers || watchers === 0) && (
+        <>
+          <SM isBold>
+            {t('__PLAN_PAGE_WATCHER_LIST_MODAL_NO_WATCHERS_TITLE')}
+          </SM>
+          <SM style={{ color: appTheme.palette.grey[500] }}>
+            {t('__PLAN_PAGE_WATCHER_LIST_MODAL_NO_WATCHERS_DESCRIPTION')}
+          </SM>
+        </>
+      )}
+
+      {watchers && watchers === 1 && (
+        <>
+          <SM isBold>
+            {t('__PLAN_PAGE_WATCHER_LIST_MODAL_ONLY_ONE_WATCHER_TITLE')}
+          </SM>
+          <SM style={{ color: appTheme.palette.grey[500] }}>
+            {t('__PLAN_PAGE_WATCHER_LIST_MODAL_ONLY_ONE_WATCHER_DESCRIPTION')}
+          </SM>
+        </>
+      )}
     </div>
   );
 };
@@ -75,6 +92,7 @@ const UserList = ({ planId }: { planId: string }) => {
             }}
           />
         ))}
+      {data.items.length === 1 && <EmptyState watchers={data.items.length} />}
     </UserItemContainer>
   );
 };
