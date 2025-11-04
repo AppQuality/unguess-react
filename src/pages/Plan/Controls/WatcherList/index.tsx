@@ -1,5 +1,6 @@
 import {
   Alert,
+  Anchor,
   Button,
   MD,
   Skeleton,
@@ -11,7 +12,7 @@ import { useRef, useState } from 'react';
 import { Divider } from 'src/common/components/divider';
 import { styled, useTheme } from 'styled-components';
 
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import { ReactComponent as EyeIconFill } from 'src/assets/icons/eye-icon-fill.svg';
 import { ReactComponent as EyeIcon } from 'src/assets/icons/eye-icon.svg';
 import { ReactComponent as InfoIcon } from 'src/assets/icons/info-icon.svg';
@@ -98,9 +99,22 @@ const WatcherList = ({ planId }: { planId: string }) => {
         <TooltipModal.Body style={{ maxHeight: '332px', overflowY: 'auto' }}>
           <ModalBodyContainer>
             <MD>
-              {isApproved
-                ? t('__PLAN_PAGE_WATCHER_LIST_MODAL_TITLE_DESCRIPTION_APPROVED')
-                : t('__PLAN_PAGE_WATCHER_LIST_MODAL_TITLE_DESCRIPTION')}
+              {isApproved ? (
+                t('__PLAN_PAGE_WATCHER_LIST_MODAL_TITLE_DESCRIPTION_APPROVED')
+              ) : (
+                <Trans
+                  i18nKey="__PLAN_PAGE_WATCHER_LIST_MODAL_TITLE_DESCRIPTION"
+                  components={{
+                    span: (
+                      <Anchor
+                        href="/profile"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      />
+                    ),
+                  }}
+                />
+              )}
             </MD>
             {isApproved && (
               <Alert type="info">
