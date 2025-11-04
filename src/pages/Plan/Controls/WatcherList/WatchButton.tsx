@@ -5,6 +5,7 @@ import {
   Notification,
 } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
+import { appTheme } from 'src/app/theme';
 
 import { ReactComponent as EyeIconFill } from 'src/assets/icons/eye-icon-fill.svg';
 import { ReactComponent as EyeIconSlash } from 'src/assets/icons/eye-icon-slash.svg';
@@ -24,6 +25,14 @@ const WatchButton = ({ planId }: { planId: string }) => {
   const [addUser] = usePostPlansByPidWatchersMutation();
   const { data: currentUser } = useGetUsersMeQuery();
   const { t } = useTranslation();
+
+  const iconColor = (() => {
+    if (!isWatching) return '#fff';
+    if (isLastOne) return appTheme.palette.grey[400];
+    return undefined;
+  })();
+
+  const EyeIcon = isWatching ? EyeIconSlash : EyeIconFill;
 
   if (!currentUser) return null;
 
@@ -80,7 +89,8 @@ const WatchButton = ({ planId }: { planId: string }) => {
       }}
     >
       <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-        {isWatching ? <EyeIconSlash /> : <EyeIconFill color="#fff" />}
+        <EyeIcon color={iconColor} />
+
         {isWatching
           ? t('__PLAN_PAGE_WATCHER_LIST_MODAL_UNFOLLOW_BUTTON')
           : t('__PLAN_PAGE_WATCHER_LIST_MODAL_FOLLOW_BUTTON')}
