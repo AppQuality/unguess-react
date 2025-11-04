@@ -29,17 +29,9 @@ const EmptyState = () => {
       }}
     >
       <Empty />
-      <SM isBold>
-        {t(
-          '__PLAN_PAGE_WATCHER_LIST_MODAL_NO_WATCHERS_TITLE',
-          'Add yourself as a workspace member'
-        )}
-      </SM>
+      <SM isBold>{t('__PLAN_PAGE_WATCHER_LIST_MODAL_NO_WATCHERS_TITLE')}</SM>
       <SM style={{ color: appTheme.palette.grey[500] }}>
-        {t(
-          '__PLAN_PAGE_WATCHER_LIST_MODAL_NO_WATCHERS_DESCRIPTION',
-          'Add your team so they stay updated too'
-        )}
+        {t('__PLAN_PAGE_WATCHER_LIST_MODAL_NO_WATCHERS_DESCRIPTION')}
       </SM>
     </div>
   );
@@ -61,14 +53,8 @@ const UserList = ({ planId }: { planId: string }) => {
     <UserItemContainer>
       <MD isBold>
         {isApproved
-          ? t(
-              '__PLAN_PAGE_WATCHER_LIST_MODAL_WATCHERS_TITLE_APPROVED',
-              'People followed setup phase'
-            )
-          : t(
-              '__PLAN_PAGE_WATCHER_LIST_MODAL_WATCHERS_TITLE',
-              'People following this activity'
-            )}
+          ? t('__PLAN_PAGE_WATCHER_LIST_MODAL_WATCHERS_TITLE_APPROVED')
+          : t('__PLAN_PAGE_WATCHER_LIST_MODAL_WATCHERS_TITLE')}
       </MD>
 
       {[...data.items]

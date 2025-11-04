@@ -1,4 +1,9 @@
-import { Button, Tooltip } from '@appquality/unguess-design-system';
+import {
+  Button,
+  Tooltip,
+  useToast,
+  Notification,
+} from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 
 import { ReactComponent as EyeIconFill } from 'src/assets/icons/eye-icon-fill.svg';
@@ -14,6 +19,7 @@ import { useRemoveWatcher } from './hooks/useRemoveWatcher';
 const WatchButton = ({ planId }: { planId: string }) => {
   const isWatching = useIsWatching({ planId });
   const isLastOne = useIsLastOne({ planId });
+  const { addToast } = useToast();
   const { removeWatcher } = useRemoveWatcher();
   const [addUser] = usePostPlansByPidWatchersMutation();
   const { data: currentUser } = useGetUsersMeQuery();
@@ -36,21 +42,48 @@ const WatchButton = ({ planId }: { planId: string }) => {
           addUser({
             pid: planId,
             body: { users: [{ id: currentUser.profile_id }] },
-          });
+          })
+            .unwrap()
+            .then(() => {
+              addToast(
+                ({ close }) => (
+                  <Notification
+                    onClose={close}
+                    type="success"
+                    message={t(
+                      '__PLAN_PAGE_WATCHER_LIST_ADD_SELF_TOAST_MESSAGE'
+                    )}
+                    closeText={t('__TOAST_CLOSE_TEXT')}
+                    isPrimary
+                  />
+                ),
+                { placement: 'top' }
+              );
+            })
+            .catch(() => {
+              addToast(
+                ({ close }) => (
+                  <Notification
+                    onClose={close}
+                    type="error"
+                    message={t(
+                      '__PLAN_PAGE_WATCHER_LIST_ADD_SELF_TOAST_ERROR_MESSAGE'
+                    )}
+                    closeText={t('__TOAST_CLOSE_TEXT')}
+                    isPrimary
+                  />
+                ),
+                { placement: 'top' }
+              );
+            });
         }
       }}
     >
       <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
         {isWatching ? <EyeIconSlash /> : <EyeIconFill color="#fff" />}
         {isWatching
-          ? t(
-              '__PLAN_PAGE_WATCHER_LIST_MODAL_UNFOLLOW_BUTTON',
-              'Unfollow this activity'
-            )
-          : t(
-              '__PLAN_PAGE_WATCHER_LIST_MODAL_FOLLOW_BUTTON',
-              'Follow this activity'
-            )}
+          ? t('__PLAN_PAGE_WATCHER_LIST_MODAL_UNFOLLOW_BUTTON')
+          : t('__PLAN_PAGE_WATCHER_LIST_MODAL_FOLLOW_BUTTON')}
       </div>
     </Button>
   );
@@ -62,8 +95,7 @@ const WatchButton = ({ planId }: { planId: string }) => {
         type="light"
         size="medium"
         content={t(
-          '__PLAN_PAGE_WATCHER_LIST_MODAL_UNFOLLOW_BUTTON_DISABLED_TOOLTIP',
-          'At least one person must follow this activity'
+          '__PLAN_PAGE_WATCHER_LIST_MODAL_UNFOLLOW_BUTTON_DISABLED_TOOLTIP'
         )}
       >
         {/* the following div is necessary to make Tooltip work with disabled Button */}

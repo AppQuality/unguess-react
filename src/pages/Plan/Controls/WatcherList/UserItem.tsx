@@ -65,7 +65,6 @@ const UserItem = ({
   };
 }) => {
   const { isMe } = user;
-  const { addToast } = useToast();
   const isLastOne = useIsLastOne({ planId });
   const isApproved = usePlanIsApproved(planId);
 
@@ -119,8 +118,7 @@ const UserItem = ({
                 type="light"
                 size="medium"
                 content={t(
-                  '__PLAN_PAGE_WATCHER_LIST_MODAL_REMOVE_BUTTON_DISABLED_TOOLTIP',
-                  'At least one person must follow this activity '
+                  '__PLAN_PAGE_WATCHER_LIST_MODAL_REMOVE_BUTTON_DISABLED_TOOLTIP'
                 )}
               >
                 {/* the following div is necessary to make Tooltip work with disabled IconButton */}

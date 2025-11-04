@@ -1,11 +1,15 @@
 import { Notification, useToast } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
-import { useDeletePlansByPidWatchersAndProfileIdMutation } from 'src/features/api';
+import {
+  useDeletePlansByPidWatchersAndProfileIdMutation,
+  useGetUsersMeQuery,
+} from 'src/features/api';
 
 const useRemoveWatcher = () => {
   const [removeUser] = useDeletePlansByPidWatchersAndProfileIdMutation();
   const { addToast } = useToast();
   const { t } = useTranslation();
+  const { data: currentUser } = useGetUsersMeQuery();
 
   const removeWatcher = async ({
     planId,
@@ -16,6 +20,24 @@ const useRemoveWatcher = () => {
   }) =>
     removeUser({ pid: planId, profileId })
       .unwrap()
+      .then(() => {
+        if (currentUser?.profile_id.toString() === profileId) {
+          addToast(
+            ({ close }) => (
+              <Notification
+                onClose={close}
+                type="success"
+                message={t(
+                  '__PLAN_PAGE_WATCHER_LIST_REMOVE_SELF_TOAST_MESSAGE'
+                )}
+                closeText={t('__TOAST_CLOSE_TEXT')}
+                isPrimary
+              />
+            ),
+            { placement: 'top' }
+          );
+        }
+      })
       .catch((error) => {
         if (error.status === 406) {
           addToast(
