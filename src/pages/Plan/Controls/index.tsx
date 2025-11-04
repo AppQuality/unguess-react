@@ -20,12 +20,6 @@ import { RequestQuotationButton } from './RequestQuotationButton';
 import { SaveConfigurationButton } from './SaveConfigurationButton';
 import { WatcherList } from './WatcherList';
 
-const StyledPipe = styled(Pipe)`
-  display: inline;
-  margin: 0;
-  height: auto;
-`;
-
 export const Controls = () => {
   const { t } = useTranslation();
   const [isRequestQuotationModalOpen, setRequestQuotationModalOpen] =
@@ -88,7 +82,6 @@ export const Controls = () => {
         planComposedStatus === 'UnquotedDraft') && (
         <>
           <SaveConfigurationButton />
-          <StyledPipe />
           <RequestQuotationButton onClick={handleRequestQuotation} />
         </>
       )}
