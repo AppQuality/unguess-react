@@ -298,6 +298,15 @@ export interface paths {
       };
     };
   };
+  "/campaigns/{cid}/video-tags/{tagId}": {
+    patch: operations["patch-campaigns-cid-video-tags-tagId"];
+    parameters: {
+      path: {
+        cid: string;
+        tagId: string;
+      };
+    };
+  };
   "/campaigns/{cid}/videos": {
     /** Return all published video for a specific campaign */
     get: operations["get-campaigns-cid-videos"];
@@ -3147,6 +3156,37 @@ export interface operations {
             name: string;
             style?: string;
           };
+        };
+      };
+    };
+  };
+  "patch-campaigns-cid-video-tags-tagId": {
+    parameters: {
+      path: {
+        cid: string;
+        tagId: string;
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          "application/json": { [key: string]: unknown };
+        };
+      };
+      /** Bad Request */
+      400: unknown;
+      /** Conflict */
+      409: {
+        content: {
+          "application/json": { [key: string]: unknown };
+        };
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": {
+          newTagName: string;
         };
       };
     };

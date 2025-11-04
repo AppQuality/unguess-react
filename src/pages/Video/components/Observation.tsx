@@ -147,6 +147,7 @@ const Observation = ({
         onChange={handleAccordionChange}
         key={`observation_accordion_${observation.id}_${isOpen}`}
         id={`video-observation-accordion-${observation.id}`}
+        data-qa={`observation-accordion-${observation.id}`}
       >
         <AccordionNew.Section>
           <AccordionNew.Header

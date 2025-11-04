@@ -349,6 +349,16 @@ const injectedRtkApi = api.injectEndpoints({
         body: queryArg.body,
       }),
     }),
+    patchCampaignsByCidVideoTagsAndTagId: build.mutation<
+      PatchCampaignsByCidVideoTagsAndTagIdApiResponse,
+      PatchCampaignsByCidVideoTagsAndTagIdApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/campaigns/${queryArg.cid}/video-tags/${queryArg.tagId}`,
+        method: 'PATCH',
+        body: queryArg.body,
+      }),
+    }),
     getCampaignsByCidVideos: build.query<
       GetCampaignsByCidVideosApiResponse,
       GetCampaignsByCidVideosApiArg
@@ -1483,6 +1493,15 @@ export type PostCampaignsByCidVideoTagsApiArg = {
       name: string;
       style?: string;
     };
+  };
+};
+export type PatchCampaignsByCidVideoTagsAndTagIdApiResponse =
+  /** status 200 OK */ {};
+export type PatchCampaignsByCidVideoTagsAndTagIdApiArg = {
+  cid: string;
+  tagId: string;
+  body: {
+    newTagName: string;
   };
 };
 export type GetCampaignsByCidVideosApiResponse = /** status 200 OK */ {
@@ -3095,6 +3114,7 @@ export const {
   useGetCampaignsByCidUxQuery,
   useGetCampaignsByCidVideoTagsQuery,
   usePostCampaignsByCidVideoTagsMutation,
+  usePatchCampaignsByCidVideoTagsAndTagIdMutation,
   useGetCampaignsByCidVideosQuery,
   useGetCampaignsByCidWidgetsQuery,
   usePostCheckoutMutation,

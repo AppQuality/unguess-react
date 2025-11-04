@@ -1,7 +1,6 @@
 {
   "items": [
     {
-      "category_id": 0,
       "config": "{ \"modules\": [{\"type\": \"title\", \"variant\": \"default\", \"output\": \"cp-title\"}]}",
       "description": "string",
       "id": 0,

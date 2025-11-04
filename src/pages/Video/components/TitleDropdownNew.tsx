@@ -1,5 +1,6 @@
 import {
   Autocomplete,
+  Button,
   DropdownFieldNew as Field,
   Input,
   Label,
@@ -8,21 +9,17 @@ import {
   SM,
   TooltipModal,
 } from '@appquality/unguess-design-system';
+import { ReactComponent as SaveIcon } from 'src/assets/icons/save.svg';
 import { FormikProps } from 'formik';
-import { useEffect, useRef, useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import { useRef, useState } from 'react';
+import { Trans, useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as CopyIcon } from 'src/assets/icons/copy-icon.svg';
-import { ReactComponent as EditIcon } from 'src/assets/icons/edit-icon.svg';
 import {
   GetCampaignsByCidVideoTagsApiResponse,
   usePostCampaignsByCidVideoTagsMutation,
 } from 'src/features/api';
-import styled from 'styled-components';
-import { useTooltipModalContext } from './context';
-import { Button } from '@appquality/unguess-design-system';
-import { set } from 'date-fns';
 
 export interface ObservationFormValues {
   title: number;
@@ -39,7 +36,6 @@ export const TitleDropdown = ({
   formProps: FormikProps<ObservationFormValues>;
 }) => {
   const { t } = useTranslation();
-  const [isExpanded, setIsExpanded] = useState(false);
   const { campaignId } = useParams();
   const [addVideoTags] = usePostCampaignsByCidVideoTagsMutation();
   const titleMaxLength = 70;
@@ -48,30 +44,68 @@ export const TitleDropdown = ({
     return null;
   }
 
-  const editModal = ({ closeModal }: { closeModal: () => void }) => {
+  interface EditModalProps {
+    option: { value: string | object; label: string };
+    closeModal: () => void;
+  }
+  const editModal = ({ option, closeModal }: EditModalProps) => {
+    // Extract both the current title and the usage number in parentheses in two variables
+    const currentTitle = option.label.replace(/\s*\(\d+\)/, '');
+    const usageNumber = option.label.match(/\((\d+)\)/)?.[1];
+    const [newTitle, setNewTitle] = useState(currentTitle);
+    const inputRef = useRef<HTMLInputElement>(null);
     const handleSubmit = () => {
+      // Update the title in the form
+      alert('Title updated to: ' + newTitle);
       closeModal();
+    };
+    const handleClick = () => {
+      inputRef.current?.focus();
     };
 
     return (
       <>
         <TooltipModal.Title>
           <MD isBold style={{ marginBottom: appTheme.space.sm }}>
-            titolo della modale di modifica
+            {t('__VIDEO_PAGE_THEMES_DROPDOWN_EDIT_MODAL_TITLE')}
           </MD>
         </TooltipModal.Title>
-
         <TooltipModal.Body>
-          <Label htmlFor="title-input">Modifica Tema/Tag</Label>
-          <Input id="title-input" />
-          <Paragraph style={{ margin: `${appTheme.space.md} 0` }}>
-            <SM>
-              Descrizione della modale di modifica del Tema/Tag o altro testo
-            </SM>
-          </Paragraph>
-          <Button size="small" isDanger onClick={handleSubmit}>
-            Elimina Tag
-          </Button>
+          <Label htmlFor="title-input">
+            {t('__VIDEO_PAGE_THEMES_DROPDOWN_EDIT_MODAL_LABEL')}
+            <span style={{ color: appTheme.palette.red[500] }}>*</span>
+          </Label>
+          <Input
+            ref={inputRef}
+            id="title-input"
+            onClick={handleClick}
+            value={newTitle}
+            onChange={(e) => setNewTitle(e.target.value)}
+          />
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              margin: `${appTheme.space.md} 0 0 0`,
+            }}
+          >
+            <Paragraph style={{ margin: 0 }}>
+              <SM>
+                <Trans
+                  i18nKey="__VIDEO_PAGE_THEMES_DROPDOWN_EDIT_MODAL_DESCRIPTION"
+                  values={{ usageNumber }}
+                  count={Number(usageNumber)}
+                />
+              </SM>
+            </Paragraph>
+            <Button size="small" isPrimary isAccent onClick={handleSubmit}>
+              <Button.StartIcon>
+                <SaveIcon />
+              </Button.StartIcon>
+              {t('__VIDEO_PAGE_DROPDOWN_EDIT_MODAL_SAVE_BUTTON')}
+            </Button>
+          </div>
         </TooltipModal.Body>
       </>
     );
@@ -81,10 +115,7 @@ export const TitleDropdown = ({
     <Field>
       <Autocomplete
         data-qa="video-title-dropdown"
-        onClick={() => setIsExpanded(!isExpanded)}
-        isExpanded={isExpanded}
-        isDisabled={isExpanded}
-        isCreatable
+        isEditable
         listboxAppendToNode={document.body}
         renderValue={({ selection }) => {
           if (!selection) return '';

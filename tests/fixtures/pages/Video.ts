@@ -20,6 +20,8 @@ export class VideoPage extends UnguessPage {
         this.page
           .getByTestId('transcript-sentiment')
           .locator('[data-garden-id="tags.tag_view"]'),
+      observationAccordion: (id: number) =>
+        this.page.getByTestId(`observation-accordion-${id}`),
     };
   }
 
