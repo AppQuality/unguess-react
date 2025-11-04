@@ -82,14 +82,8 @@ const WatchButton = ({ planId }: { planId: string }) => {
       <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
         {isWatching ? <EyeIconSlash /> : <EyeIconFill color="#fff" />}
         {isWatching
-          ? t(
-              '__PLAN_PAGE_WATCHER_LIST_MODAL_UNFOLLOW_BUTTON',
-              'Unfollow this activity'
-            )
-          : t(
-              '__PLAN_PAGE_WATCHER_LIST_MODAL_FOLLOW_BUTTON',
-              'Follow this activity'
-            )}
+          ? t('__PLAN_PAGE_WATCHER_LIST_MODAL_UNFOLLOW_BUTTON')
+          : t('__PLAN_PAGE_WATCHER_LIST_MODAL_FOLLOW_BUTTON')}
       </div>
     </Button>
   );
@@ -101,8 +95,7 @@ const WatchButton = ({ planId }: { planId: string }) => {
         type="light"
         size="medium"
         content={t(
-          '__PLAN_PAGE_WATCHER_LIST_MODAL_UNFOLLOW_BUTTON_DISABLED_TOOLTIP',
-          'At least one person must follow this activity'
+          '__PLAN_PAGE_WATCHER_LIST_MODAL_UNFOLLOW_BUTTON_DISABLED_TOOLTIP'
         )}
       >
         {/* the following div is necessary to make Tooltip work with disabled Button */}
