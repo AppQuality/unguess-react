@@ -77,6 +77,9 @@ const MemberAddAutocomplete = ({ planId }: { planId: string }) => {
         onInputChange={(value) => setInputValue(value)}
         inputValue={inputValue}
         selectionValue={null}
+        placeholder={t(
+          '__PLAN_PAGE_WATCHER_LIST_SELECT_ADD_MEMBERS_PLACEHOLDER'
+        )}
         options={users.map((user) => ({
           children: <ItemContent email={user.email} name={user.name} />,
           id: `user-${user.id}`,

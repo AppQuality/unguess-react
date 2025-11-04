@@ -1188,6 +1188,7 @@
   "__PLAN_PAGE_WATCHER_LIST_REMOVE_LAST_USER_ERROR_TOAST_MESSAGE": "At least one person must follow this activity",
   "__PLAN_PAGE_WATCHER_LIST_REMOVE_SELF_TOAST_MESSAGE": "You’ve unfollowed this activity",
   "__PLAN_PAGE_WATCHER_LIST_REMOVE_USER_ERROR_TOAST_MESSAGE": "Error while removing user",
+  "__PLAN_PAGE_WATCHER_LIST_SELECT_ADD_MEMBERS_PLACEHOLDER": "Search by name or email",
   "__PLAN_REQUEST_QUOTATION_CTA": "Submit Request",
   "__PLAN_RULE_DUPLICATE_TOUCHPOINT_FORM_FACTORS": "Multiple touchpoints of the same type",
   "__PLAN_RULE_MODULE_TYPE": "Custom features added",
