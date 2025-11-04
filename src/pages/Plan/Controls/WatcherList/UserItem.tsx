@@ -125,7 +125,19 @@ const UserItem = ({
                 <div>{iconButton}</div>
               </Tooltip>
             )
-          : !isApproved && iconButton}
+          : !isApproved && (
+              <Tooltip
+                placement="end"
+                type="light"
+                size="medium"
+                content={t(
+                  '__PLAN_PAGE_WATCHER_LIST_MODAL_REMOVE_BUTTON_TOOLTIP'
+                )}
+              >
+                {/* the following div is necessary to make Tooltip work with disabled IconButton */}
+                <div>{iconButton}</div>
+              </Tooltip>
+            )}
       </div>
     </UserListItem>
   );
