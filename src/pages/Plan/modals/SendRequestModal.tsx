@@ -13,14 +13,19 @@ import {
   useToast,
   XL,
 } from '@appquality/unguess-design-system';
+import { useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
-import { useGetPlansByPidRulesEvaluationQuery } from 'src/features/api';
+import {
+  useGetPlansByPidRulesEvaluationQuery,
+  usePutPlansByPidWatchersMutation,
+} from 'src/features/api';
 import { useRequestQuotation } from 'src/features/modules/useRequestQuotation';
 import { useValidateForm } from 'src/features/planModules';
 import { getModuleBySlug } from '../modules/Factory';
 import { PurchasablePlanRulesGuide } from './PurchasablePlanRules';
+import { Watchers } from './Watchers';
 
 const SendRequestModal = ({
   onQuit,
@@ -31,10 +36,12 @@ const SendRequestModal = ({
 }) => {
   const { planId } = useParams();
   const { t } = useTranslation();
+  const [updateWatchers] = usePutPlansByPidWatchersMutation();
   const { isRequestingQuote, handleQuoteRequest } = useRequestQuotation();
   const { data, isLoading } = useGetPlansByPidRulesEvaluationQuery({
     pid: planId || '',
   });
+  const [watchers, setWatchers] = useState<number[]>([]);
 
   const isFailed = isPurchasable && data && data.failed.length > 0;
   const { addToast } = useToast();
@@ -43,8 +50,14 @@ const SendRequestModal = ({
 
   const { validateForm } = useValidateForm();
 
+  if (!planId) return null;
+
   const handleConfirm = async () => {
     try {
+      await updateWatchers({
+        pid: planId,
+        body: { users: watchers.map((id) => ({ id })) },
+      }).unwrap();
       await validateForm();
       await handleQuoteRequest();
     } catch (e) {
@@ -154,6 +167,18 @@ const SendRequestModal = ({
                 {t('__PLAN_PAGE_MODAL_SEND_REQUEST_DATES_HINT')}
               </Message>
             </div>
+            <div style={{ padding: `${appTheme.space.md} 0` }}>
+              <Label style={{ marginBottom: appTheme.space.xxs }}>
+                {t('__PLAN_PAGE_MODAL_SEND_REQUEST_WATCHERS_LABEL')}
+              </Label>
+              <SM style={{ marginBottom: appTheme.space.sm }}>
+                {t('__PLAN_PAGE_MODAL_SEND_REQUEST_WATCHERS_DESCRIPTION')}
+              </SM>
+              <Watchers onChange={setWatchers} planId={planId} />
+              <Message style={{ marginTop: appTheme.space.sm }}>
+                {t('__PLAN_PAGE_MODAL_SEND_REQUEST_WATCHERS_HINT')}
+              </Message>
+            </div>
           </>
         )}
       </Modal.Body>
@@ -171,6 +196,7 @@ const SendRequestModal = ({
             </FooterItem>
             <FooterItem>
               <Button
+                disabled={watchers.length === 0}
                 isAccent
                 isPrimary
                 onClick={handleConfirm}
