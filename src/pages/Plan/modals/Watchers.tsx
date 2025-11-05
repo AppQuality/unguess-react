@@ -33,7 +33,7 @@ const useOptions = (planId: string) => {
     );
   const { data, isLoading } = useGetPlansByPidWatchersQuery({ pid: planId });
   useEffect(() => {
-    if (data && users) {
+    if (users) {
       const watchersIds = (data?.items || []).map((watcher) => watcher.id);
       const options = (users?.items || []).map((user) => ({
         id: user.profile_id,
