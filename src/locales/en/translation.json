@@ -1175,6 +1175,7 @@
   "__PLAN_PAGE_WATCHER_LIST_APPROVED_ALERT_TITLE": "Info",
   "__PLAN_PAGE_WATCHER_LIST_MODAL_ADD_MEMBERS_INFO_TOOLTIP": "Only workspace members can be added during the setup phase",
   "__PLAN_PAGE_WATCHER_LIST_MODAL_FOLLOW_BUTTON": "Follow this activity",
+  "__PLAN_PAGE_WATCHER_LIST_MODAL_FOLLOW_BUTTON_DISABLED_TOOLTIP": "Become a workspace member to be included in updates",
   "__PLAN_PAGE_WATCHER_LIST_MODAL_NO_WATCHERS_DESCRIPTION": "Add your team so they stay updated too",
   "__PLAN_PAGE_WATCHER_LIST_MODAL_NO_WATCHERS_TITLE": "Add yourself as a workspace member",
   "__PLAN_PAGE_WATCHER_LIST_MODAL_ONLY_ONE_WATCHER_DESCRIPTION": "Add your team so they stay updated too",
