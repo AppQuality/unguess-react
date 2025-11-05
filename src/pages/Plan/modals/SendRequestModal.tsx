@@ -10,6 +10,7 @@ import {
   Notification,
   Skeleton,
   SM,
+  Span,
   useToast,
   XL,
 } from '@appquality/unguess-design-system';
@@ -150,6 +151,8 @@ const SendRequestModal = ({
             )}
             <div style={{ padding: `${appTheme.space.md} 0` }}>
               <Label>{t('__PLAN_PAGE_MODAL_SEND_REQUEST_TITLE_LABEL')}</Label>
+              <Span style={{ color: appTheme.palette.red[500] }}>*</Span>
+
               <Title />
               <Message style={{ marginTop: appTheme.space.sm }}>
                 {t('__PLAN_PAGE_MODAL_SEND_REQUEST_TITLE_HINT')}
@@ -170,6 +173,7 @@ const SendRequestModal = ({
             <div style={{ padding: `${appTheme.space.md} 0` }}>
               <Label style={{ marginBottom: appTheme.space.xxs }}>
                 {t('__PLAN_PAGE_MODAL_SEND_REQUEST_WATCHERS_LABEL')}
+                <Span style={{ color: appTheme.palette.red[500] }}>*</Span>
               </Label>
               <SM style={{ marginBottom: appTheme.space.sm }}>
                 {t('__PLAN_PAGE_MODAL_SEND_REQUEST_WATCHERS_DESCRIPTION')}
