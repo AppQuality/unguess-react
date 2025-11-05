@@ -35,11 +35,13 @@ const useOptions = (planId: string) => {
   useEffect(() => {
     if (users) {
       const watchersIds = (data?.items || []).map((watcher) => watcher.id);
-      const options = (users?.items || []).map((user) => ({
-        id: user.profile_id,
-        label: `${user.name}`,
-        selected: watchersIds.includes(user.profile_id),
-      }));
+      const options = (users?.items || [])
+        .filter((user) => !user.invitationPending)
+        .map((user) => ({
+          id: user.profile_id,
+          label: `${user.name}`,
+          selected: watchersIds.includes(user.profile_id),
+        }));
       setWatchers(options);
     }
   }, [data, users]);

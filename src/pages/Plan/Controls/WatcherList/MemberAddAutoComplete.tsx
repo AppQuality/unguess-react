@@ -59,11 +59,13 @@ const MemberAddAutocomplete = ({ planId }: { planId: string }) => {
     return null;
 
   const users = data.items
+    .filter((user) => !user.invitationPending)
     .map((user) => ({
       name: user.name,
       email: user.email,
       id: user.profile_id,
     }))
+
     .filter(
       (user) =>
         !watchers?.items.find((watcher) => watcher.id === user.id) &&
