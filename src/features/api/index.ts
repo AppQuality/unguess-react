@@ -802,6 +802,16 @@ const injectedRtkApi = api.injectEndpoints({
         body: queryArg.body,
       }),
     }),
+    putPlansByPidWatchers: build.mutation<
+      PutPlansByPidWatchersApiResponse,
+      PutPlansByPidWatchersApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/plans/${queryArg.pid}/watchers`,
+        method: 'PUT',
+        body: queryArg.body,
+      }),
+    }),
     getWorkspacesByWidTemplates: build.query<
       GetWorkspacesByWidTemplatesApiResponse,
       GetWorkspacesByWidTemplatesApiArg
@@ -2055,6 +2065,15 @@ export type PostPlansByPidWatchersApiArg = {
     }[];
   };
 };
+export type PutPlansByPidWatchersApiResponse = /** status 200 OK */ void;
+export type PutPlansByPidWatchersApiArg = {
+  pid: string;
+  body: {
+    users: {
+      id: number;
+    }[];
+  };
+};
 export type GetWorkspacesByWidTemplatesApiResponse = /** status 200 OK */ {
   items: CpReqTemplate[];
 } & PaginationData;
@@ -3110,6 +3129,7 @@ export const {
   useGetWorkspacesByWidProjectsAndPidCampaignsQuery,
   useGetPlansByPidWatchersQuery,
   usePostPlansByPidWatchersMutation,
+  usePutPlansByPidWatchersMutation,
   useGetWorkspacesByWidTemplatesQuery,
   usePostWorkspacesByWidTemplatesMutation,
   useDeleteWorkspacesByWidTemplatesAndTidMutation,

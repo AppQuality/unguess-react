@@ -17,7 +17,10 @@ import { useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
-import { useGetPlansByPidRulesEvaluationQuery } from 'src/features/api';
+import {
+  useGetPlansByPidRulesEvaluationQuery,
+  usePutPlansByPidWatchersMutation,
+} from 'src/features/api';
 import { useRequestQuotation } from 'src/features/modules/useRequestQuotation';
 import { useValidateForm } from 'src/features/planModules';
 import { getModuleBySlug } from '../modules/Factory';
@@ -33,6 +36,7 @@ const SendRequestModal = ({
 }) => {
   const { planId } = useParams();
   const { t } = useTranslation();
+  const [updateWatchers] = usePutPlansByPidWatchersMutation();
   const { isRequestingQuote, handleQuoteRequest } = useRequestQuotation();
   const { data, isLoading } = useGetPlansByPidRulesEvaluationQuery({
     pid: planId || '',
@@ -50,9 +54,12 @@ const SendRequestModal = ({
 
   const handleConfirm = async () => {
     try {
-      console.log('Watchers IDs:', watchers);
-      // await validateForm();
-      // await handleQuoteRequest();
+      await updateWatchers({
+        pid: planId,
+        body: { users: watchers.map((id) => ({ id })) },
+      }).unwrap();
+      await validateForm();
+      await handleQuoteRequest();
     } catch (e) {
       addToast(
         ({ close }) => (

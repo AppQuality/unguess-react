@@ -36,7 +36,7 @@ const useOptions = (planId: string) => {
     if (data && users) {
       const watchersIds = (data?.items || []).map((watcher) => watcher.id);
       const options = (users?.items || []).map((user) => ({
-        id: user.id,
+        id: user.profile_id,
         label: `${user.name}`,
         selected: watchersIds.includes(user.profile_id),
       }));
