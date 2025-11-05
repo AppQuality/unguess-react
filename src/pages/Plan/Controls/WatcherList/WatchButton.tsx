@@ -5,6 +5,7 @@ import {
   Notification,
 } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
+import { appTheme } from 'src/app/theme';
 
 import { ReactComponent as EyeIconFill } from 'src/assets/icons/eye-icon-fill.svg';
 import { ReactComponent as EyeIconSlash } from 'src/assets/icons/eye-icon-slash.svg';
@@ -12,6 +13,7 @@ import {
   useGetUsersMeQuery,
   usePostPlansByPidWatchersMutation,
 } from 'src/features/api';
+import { useCanAccessToActiveWorkspace } from 'src/hooks/useCanAccessToActiveWorkspace';
 import { useIsLastOne } from './hooks/useIsLastOne';
 import { useIsWatching } from './hooks/useIsWatching';
 import { useRemoveWatcher } from './hooks/useRemoveWatcher';
@@ -22,15 +24,26 @@ const WatchButton = ({ planId }: { planId: string }) => {
   const { addToast } = useToast();
   const { removeWatcher } = useRemoveWatcher();
   const [addUser] = usePostPlansByPidWatchersMutation();
+  const hasWorkspaceAccess = useCanAccessToActiveWorkspace();
   const { data: currentUser } = useGetUsersMeQuery();
   const { t } = useTranslation();
+
+  const isLastWatcher = isWatching && isLastOne;
+
+  const iconColor = (() => {
+    if (!isWatching) return '#fff';
+    if (isLastOne) return appTheme.palette.grey[400];
+    return undefined;
+  })();
+
+  const EyeIcon = isWatching ? EyeIconSlash : EyeIconFill;
 
   if (!currentUser) return null;
 
   const button = (
     <Button
       isStretched
-      disabled={isLastOne && isWatching}
+      disabled={!!hasWorkspaceAccess !== !!isLastWatcher}
       isPrimary={!isWatching}
       onClick={() => {
         if (isWatching) {
@@ -80,7 +93,8 @@ const WatchButton = ({ planId }: { planId: string }) => {
       }}
     >
       <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-        {isWatching ? <EyeIconSlash /> : <EyeIconFill color="#fff" />}
+        <EyeIcon color={iconColor} />
+
         {isWatching
           ? t('__PLAN_PAGE_WATCHER_LIST_MODAL_UNFOLLOW_BUTTON')
           : t('__PLAN_PAGE_WATCHER_LIST_MODAL_FOLLOW_BUTTON')}
@@ -88,15 +102,20 @@ const WatchButton = ({ planId }: { planId: string }) => {
     </Button>
   );
 
-  if (isLastOne && isWatching) {
+  // condition is true only when one value is truthy and the other is falsy, otherwise it's false
+  if (!!hasWorkspaceAccess !== !!isLastWatcher) {
     return (
       <Tooltip
         placement="start"
         type="light"
         size="medium"
-        content={t(
-          '__PLAN_PAGE_WATCHER_LIST_MODAL_UNFOLLOW_BUTTON_DISABLED_TOOLTIP'
-        )}
+        content={
+          isLastWatcher
+            ? t(
+                '__PLAN_PAGE_WATCHER_LIST_MODAL_UNFOLLOW_BUTTON_DISABLED_TOOLTIP'
+              )
+            : t('__PLAN_PAGE_WATCHER_LIST_MODAL_FOLLOW_BUTTON_DISABLED_TOOLTIP')
+        }
       >
         {/* the following div is necessary to make Tooltip work with disabled Button */}
         <div>{button}</div>

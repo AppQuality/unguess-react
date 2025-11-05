@@ -73,6 +73,7 @@ const WatcherList = ({ planId }: { planId: string }) => {
         <Button
           isBasic
           ref={ref}
+          size="small"
           onClick={() => setReferenceElement(ref.current)}
         >
           {isLoading ? (
