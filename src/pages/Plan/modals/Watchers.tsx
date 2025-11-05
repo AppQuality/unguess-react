@@ -7,12 +7,15 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   useGetPlansByPidWatchersQuery,
+  useGetUsersMeQuery,
   useGetWorkspacesByWidUsersQuery,
 } from 'src/features/api';
 import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
 import { useTheme } from 'styled-components';
 
 const useOptions = (planId: string) => {
+  const { t } = useTranslation();
+  const { data: currentUser } = useGetUsersMeQuery();
   const [watchers, setWatchers] = useState<
     {
       id: number;
@@ -39,7 +42,10 @@ const useOptions = (planId: string) => {
         .filter((user) => !user.invitationPending)
         .map((user) => ({
           id: user.profile_id,
-          label: `${user.name}`,
+          label:
+            user.profile_id === currentUser?.profile_id
+              ? t(`{{name}} (you)`, { name: user.name })
+              : user.name,
           selected: watchersIds.includes(user.profile_id),
         }));
       setWatchers(options);
