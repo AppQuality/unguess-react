@@ -9,11 +9,7 @@ import { useAppDispatch, useAppSelector } from 'src/app/hooks';
 import { isDev } from 'src/common/isDevEnvironment';
 import { prepareGravatar } from 'src/common/utils';
 import WPAPI from 'src/common/wpapi';
-import {
-  useGetUsersMePreferencesQuery,
-  useGetUsersMeQuery,
-  usePutUsersMePreferencesBySlugMutation,
-} from 'src/features/api';
+import { useGetUsersMeQuery } from 'src/features/api';
 import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
 import { setProfileModalOpen } from '../navigationSlice';
 import { usePathWithoutLocale } from '../usePathWithoutLocale';
@@ -31,39 +27,10 @@ export const NavigationProfileModal = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const { data: preferences } = useGetUsersMePreferencesQuery();
-
-  const notificationsPreference = preferences?.items?.find(
-    (preference) => preference?.name === 'notifications_enabled'
-  );
   const pathWithoutLocale = usePathWithoutLocale();
-
-  const [updatePreference] = usePutUsersMePreferencesBySlugMutation();
 
   const onProfileModalClose = () => {
     dispatch(setProfileModalOpen(false));
-  };
-
-  const onSetSettings = async (value: string) => {
-    await updatePreference({
-      slug: `${notificationsPreference?.name}`,
-      body: { value },
-    })
-      .unwrap()
-      .then(() => {
-        addToast(
-          ({ close }) => (
-            <Notification
-              onClose={close}
-              type="success"
-              message={t('__PROFILE_MODAL_NOTIFICATIONS_UPDATED')}
-              closeText={t('__TOAST_CLOSE_TEXT')}
-              isPrimary
-            />
-          ),
-          { placement: 'top' }
-        );
-      });
   };
 
   if (dataError || !user || isLoading) return null;
@@ -114,22 +81,6 @@ export const NavigationProfileModal = () => {
       title: t('__PROFILE_MODAL_PRIVACY_ITEM_LABEL'),
       url: 'https://www.iubenda.com/privacy-policy/833252/full-legal',
     },
-    settingValue: notificationsPreference?.value ?? '0',
-    i18n: {
-      settingsTitle: t('__PROFILE_MODAL_NOTIFICATIONS_TITLE'),
-      settingsIntroText: t('__PROFILE_MODAL_NOTIFICATIONS_INTRO'),
-      settingsOutroText: {
-        paragraph_1: t('__PROFILE_MODAL_NOTIFICATIONS_OUTRO_P_1'),
-        paragraph_2: t('__PROFILE_MODAL_NOTIFICATIONS_OUTRO_P_2'),
-        paragraph_3: t('__PROFILE_MODAL_NOTIFICATIONS_OUTRO_P_3'),
-      },
-      settingsToggle: {
-        title: t('__PROFILE_MODAL_NOTIFICATIONS_TOGGLE_TITLE'),
-        on: t('__PROFILE_MODAL_NOTIFICATIONS_TOGGLE_ON'),
-        off: t('__PROFILE_MODAL_NOTIFICATIONS_TOGGLE_OFF'),
-      },
-    },
-    onSetSettings,
     onSelectLanguage: (lang: string) => {
       if (pathWithoutLocale === false) return;
       if (lang === i18n.language) return;
