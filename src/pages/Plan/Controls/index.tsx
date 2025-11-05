@@ -3,9 +3,7 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
-import { Pipe } from 'src/common/components/Pipe';
 import { useModule } from 'src/features/modules/useModule';
-import styled from 'styled-components';
 import { useSubmit } from '../../../features/modules/useModuleConfiguration';
 import { usePlan, usePlanIsPurchasable } from '../../../hooks/usePlan';
 import { usePlanContext } from '../context/planContext';
@@ -19,12 +17,6 @@ import { IconButtonMenu } from './IconButtonMenu';
 import { RequestQuotationButton } from './RequestQuotationButton';
 import { SaveConfigurationButton } from './SaveConfigurationButton';
 import { WatcherList } from './WatcherList';
-
-const StyledPipe = styled(Pipe)`
-  display: inline;
-  margin: 0;
-  height: auto;
-`;
 
 export const Controls = () => {
   const { t } = useTranslation();
@@ -88,7 +80,6 @@ export const Controls = () => {
         planComposedStatus === 'UnquotedDraft') && (
         <>
           <SaveConfigurationButton />
-          <StyledPipe />
           <RequestQuotationButton onClick={handleRequestQuotation} />
         </>
       )}

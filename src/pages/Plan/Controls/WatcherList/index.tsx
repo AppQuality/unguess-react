@@ -57,34 +57,48 @@ const WatcherList = ({ planId }: { planId: string }) => {
 
   return (
     <>
-      <Button
-        isBasic
-        ref={ref}
-        size="small"
-        onClick={() => setReferenceElement(ref.current)}
+      <Tooltip
+        placement="bottom-end"
+        type="light"
+        size="large"
+        content={
+          <>
+            <MD isBold style={{ marginBottom: appTheme.space.xs }}>
+              {t('__PLAN_PAGE_WATCHER_LIST_TOOLTIP')}
+            </MD>
+            <MD>{t('__PLAN_PAGE_WATCHER_LIST_TOOLTIP_DESCRIPTION')}</MD>
+          </>
+        }
       >
-        {isLoading ? (
-          <Skeleton width="50px" height="50px" />
-        ) : (
-          <div
-            style={{
-              display: 'flex',
-              gap: appTheme.space.xs,
-              alignItems: 'center',
-            }}
-          >
-            {isWatching ? (
-              <>
-                <EyeIconFill /> ({watchersCount})
-              </>
-            ) : (
-              <>
-                <EyeIcon /> ({watchersCount})
-              </>
-            )}
-          </div>
-        )}
-      </Button>
+        <Button
+          isBasic
+          ref={ref}
+          size="small"
+          onClick={() => setReferenceElement(ref.current)}
+        >
+          {isLoading ? (
+            <Skeleton width="50px" height="50px" />
+          ) : (
+            <div
+              style={{
+                display: 'flex',
+                gap: appTheme.space.xs,
+                alignItems: 'center',
+              }}
+            >
+              {isWatching ? (
+                <>
+                  <EyeIconFill /> ({watchersCount})
+                </>
+              ) : (
+                <>
+                  <EyeIcon /> ({watchersCount})
+                </>
+              )}
+            </div>
+          )}
+        </Button>
+      </Tooltip>
       <TooltipModal
         referenceElement={referenceElement}
         placement="auto"

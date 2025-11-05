@@ -1,8 +1,10 @@
 import {
   Button,
   Notification,
+  Tooltip,
   useToast,
 } from '@appquality/unguess-design-system';
+import { ReactComponent as SaveIcon } from 'src/assets/icons/save-icon.svg';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { useSubmit } from 'src/features/modules/useModuleConfiguration';
@@ -56,14 +58,24 @@ const SaveConfigurationButton = () => {
   };
 
   return (
-    <Button
-      type="button"
-      size="small"
-      disabled={isSubmitting || !isDraft}
-      onClick={handleSaveConfiguration}
+    <Tooltip
+      size="large"
+      type="light"
+      placement="top-start"
+      content={t('__PLAN_SAVE_CONFIGURATION_TOOLTIP')}
     >
-      {t('__PLAN_SAVE_CONFIGURATION_CTA')}
-    </Button>
+      <Button
+        type="button"
+        size="small"
+        disabled={isSubmitting || !isDraft}
+        onClick={handleSaveConfiguration}
+      >
+        <Button.StartIcon>
+          <SaveIcon />
+        </Button.StartIcon>
+        {t('__PLAN_SAVE_CONFIGURATION_CTA')}
+      </Button>
+    </Tooltip>
   );
 };
 
