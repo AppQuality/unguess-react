@@ -2,6 +2,7 @@ import {
   Alert,
   Anchor,
   Button,
+  IconButton,
   MD,
   Skeleton,
   Tooltip,
@@ -159,9 +160,9 @@ const WatcherList = ({ planId }: { planId: string }) => {
                     '__PLAN_PAGE_WATCHER_LIST_MODAL_ADD_MEMBERS_INFO_TOOLTIP'
                   )}
                 >
-                  <div style={{ display: 'flex', alignItems: 'center' }}>
+                  <IconButton size="small">
                     <InfoIcon />
-                  </div>
+                  </IconButton>
                 </Tooltip>
               </div>
               <MemberAddAutocomplete planId={planId} />
