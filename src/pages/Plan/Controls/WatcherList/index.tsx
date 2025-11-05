@@ -155,7 +155,7 @@ const WatcherList = ({ planId }: { planId: string }) => {
                 <Tooltip
                   placement="top"
                   type="light"
-                  size="medium"
+                  size="large"
                   content={t(
                     '__PLAN_PAGE_WATCHER_LIST_MODAL_ADD_MEMBERS_INFO_TOOLTIP'
                   )}

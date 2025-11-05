@@ -6,7 +6,6 @@ import {
   MD,
   SM,
   Tooltip,
-  useToast,
 } from '@appquality/unguess-design-system';
 import { t } from 'i18next';
 import { appTheme } from 'src/app/theme';
@@ -111,33 +110,23 @@ const UserItem = ({
         )}
       </div>
       <div>
-        {isLastOne
-          ? !isApproved && (
-              <Tooltip
-                placement="top"
-                type="light"
-                size="medium"
-                content={t(
-                  '__PLAN_PAGE_WATCHER_LIST_MODAL_REMOVE_BUTTON_DISABLED_TOOLTIP'
-                )}
-              >
-                {/* the following div is necessary to make Tooltip work with disabled IconButton */}
-                <div>{iconButton}</div>
-              </Tooltip>
-            )
-          : !isApproved && (
-              <Tooltip
-                placement="end"
-                type="light"
-                size="medium"
-                content={t(
-                  '__PLAN_PAGE_WATCHER_LIST_MODAL_REMOVE_BUTTON_TOOLTIP'
-                )}
-              >
-                {/* the following div is necessary to make Tooltip work with disabled IconButton */}
-                <div>{iconButton}</div>
-              </Tooltip>
-            )}
+        {!isApproved && (
+          <Tooltip
+            placement={isLastOne ? 'top' : 'end'}
+            type="light"
+            size="large"
+            content={
+              isLastOne
+                ? t(
+                    '__PLAN_PAGE_WATCHER_LIST_MODAL_REMOVE_BUTTON_DISABLED_TOOLTIP'
+                  )
+                : t('__PLAN_PAGE_WATCHER_LIST_MODAL_REMOVE_BUTTON_TOOLTIP')
+            }
+          >
+            {/* the following div is necessary to make Tooltip work with disabled IconButton */}
+            <div>{iconButton}</div>
+          </Tooltip>
+        )}
       </div>
     </UserListItem>
   );
