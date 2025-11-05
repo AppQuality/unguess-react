@@ -1,8 +1,8 @@
 import {
   Button,
+  Notification,
   Tooltip,
   useToast,
-  Notification,
 } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
@@ -11,12 +11,32 @@ import { ReactComponent as EyeIconFill } from 'src/assets/icons/eye-icon-fill.sv
 import { ReactComponent as EyeIconSlash } from 'src/assets/icons/eye-icon-slash.svg';
 import {
   useGetUsersMeQuery,
+  useGetWorkspacesByWidUsersQuery,
   usePostPlansByPidWatchersMutation,
 } from 'src/features/api';
-import { useCanAccessToActiveWorkspace } from 'src/hooks/useCanAccessToActiveWorkspace';
+import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
 import { useIsLastOne } from './hooks/useIsLastOne';
 import { useIsWatching } from './hooks/useIsWatching';
 import { useRemoveWatcher } from './hooks/useRemoveWatcher';
+
+const useHasWorkspaceAccess = () => {
+  const { activeWorkspace } = useActiveWorkspace();
+  const { data: user } = useGetUsersMeQuery();
+
+  const { data } = useGetWorkspacesByWidUsersQuery(
+    {
+      wid: (activeWorkspace?.id || '0').toString(),
+    },
+    {
+      skip: !activeWorkspace?.id,
+    }
+  );
+
+  return (
+    (data?.items || []).find((u) => u.profile_id === user?.profile_id) !==
+    undefined
+  );
+};
 
 const WatchButton = ({ planId }: { planId: string }) => {
   const isWatching = useIsWatching({ planId });
@@ -24,15 +44,17 @@ const WatchButton = ({ planId }: { planId: string }) => {
   const { addToast } = useToast();
   const { removeWatcher } = useRemoveWatcher();
   const [addUser] = usePostPlansByPidWatchersMutation();
-  const hasWorkspaceAccess = useCanAccessToActiveWorkspace();
+  const hasWorkspaceAccess = useHasWorkspaceAccess();
   const { data: currentUser } = useGetUsersMeQuery();
   const { t } = useTranslation();
 
   const isLastWatcher = isWatching && isLastOne;
 
+  const isDisabled = !hasWorkspaceAccess || isLastWatcher;
+
   const iconColor = (() => {
+    if (isDisabled) return appTheme.palette.grey[400];
     if (!isWatching) return '#fff';
-    if (isLastOne) return appTheme.palette.grey[400];
     return undefined;
   })();
 
@@ -43,7 +65,7 @@ const WatchButton = ({ planId }: { planId: string }) => {
   const button = (
     <Button
       isStretched
-      disabled={!!hasWorkspaceAccess !== !!isLastWatcher}
+      disabled={isDisabled}
       isPrimary={!isWatching}
       onClick={() => {
         if (isWatching) {
@@ -108,7 +130,7 @@ const WatchButton = ({ planId }: { planId: string }) => {
       <Tooltip
         placement="start"
         type="light"
-        size="medium"
+        size="large"
         content={
           isLastWatcher
             ? t(
