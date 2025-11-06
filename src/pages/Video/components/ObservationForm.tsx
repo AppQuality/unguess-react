@@ -10,6 +10,7 @@ import {
   Skeleton,
   Tag,
   Textarea,
+  TooltipModal,
   useToast,
 } from '@appquality/unguess-design-system';
 import { Form, Formik, FormikHelpers, FormikProps } from 'formik';
@@ -73,7 +74,7 @@ const ObservationForm = ({
   const formRef = useRef<FormikProps<ObservationFormValues>>(null);
   const { addToast } = useToast();
   const [options, setOptions] = useState<
-    { id: number; label: string; selected?: boolean }[]
+    { id: number; label: string; selected?: boolean; actions: JSX.Element }[]
   >([]);
   const [selectedSeverity, setSelectedSeverity] = useState<
     GetCampaignsByCidVideoTagsApiResponse[number]['tags'][number] | undefined
@@ -144,6 +145,23 @@ const ObservationForm = ({
             id: tag.id,
             label: `${tag.name} (${tag.usageNumber})`,
             selected: selectedOptions.some((bt) => bt.id === tag.id),
+            actions: (
+              <>
+                <TooltipModal.Title>{tag.name}</TooltipModal.Title>
+                <TooltipModal.Body>
+                  {t(
+                    '__VIDEO_PAGE_ACTIONS_OBSERVATION_FORM_TAGS_EDIT_MODAL_DESCRIPTION'
+                  )}
+                  <Button
+                    isPrimary
+                    isAccent
+                    style={{ marginTop: appTheme.space.md }}
+                  >
+                    Save
+                  </Button>
+                </TooltipModal.Body>
+              </>
+            ),
           }))
       );
     }
@@ -355,6 +373,8 @@ const ObservationForm = ({
                   <Skeleton />
                 ) : (
                   <MultiSelect
+                    data-qa="video-tags-dropdown"
+                    isEditable
                     options={options}
                     selectedItems={options.filter((o) => o.selected)}
                     creatable

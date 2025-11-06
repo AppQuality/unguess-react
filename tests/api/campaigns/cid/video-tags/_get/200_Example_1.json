@@ -13,5 +13,98 @@
         "usageNumber": 0
       }
     ]
+  },
+  {
+    "group": { "id": 3, "name": "severity" },
+    "tags": [
+      {
+        "id": 1094,
+        "name": "Positive Finding",
+        "style": "#007D5A",
+        "usageNumber": 34
+      },
+      {
+        "id": 1099,
+        "name": "Observation",
+        "style": "#003A57",
+        "usageNumber": 29
+      },
+      {
+        "id": 1095,
+        "name": "Minor issue",
+        "style": "#955F1D",
+        "usageNumber": 5
+      },
+      {
+        "id": 1096,
+        "name": "Major Issue",
+        "style": "#932127",
+        "usageNumber": 5
+      }
+    ]
+  },
+  {
+    "group": { "id": 2, "name": "tags" },
+    "tags": [
+      { "id": 1114, "name": "marco", "style": "white", "usageNumber": 14 },
+      { "id": 1097, "name": "tag 1", "style": "white", "usageNumber": 5 },
+      { "id": 1103, "name": "Bloccante", "style": "white", "usageNumber": 5 },
+      { "id": 1104, "name": "non b", "style": "white", "usageNumber": 3 },
+      { "id": 20797, "name": "Confused", "style": "white", "usageNumber": 3 },
+      { "id": 20756, "name": "gimmi test", "style": "white", "usageNumber": 2 },
+      { "id": 20798, "name": "Layot", "style": "white", "usageNumber": 2 },
+      { "id": 20800, "name": "Blocker", "style": "white", "usageNumber": 2 },
+      { "id": 24855, "name": "new", "style": "white", "usageNumber": 1 },
+      { "id": 1108, "name": "confu", "style": "white", "usageNumber": 0 },
+      { "id": 1109, "name": "confusion", "style": "white", "usageNumber": 0 }
+    ]
+  },
+  {
+    "group": { "id": 4, "name": "title" },
+    "tags": [
+      {
+        "id": 13390,
+        "name": "Home page navigation",
+        "style": "",
+        "usageNumber": 11
+      },
+      {
+        "id": 20767,
+        "name": "grey 500 andrebbe corretto in tutte le pagine per il testo perchè non",
+        "style": "white",
+        "usageNumber": 3
+      },
+      {
+        "id": 22099,
+        "name": "Out of scope",
+        "style": "white",
+        "usageNumber": 3
+      },
+      { "id": 22102, "name": "Vpn", "style": "white", "usageNumber": 3 },
+      {
+        "id": 23125,
+        "name": "prova modifica quote",
+        "style": "white",
+        "usageNumber": 3
+      },
+      {
+        "id": 20795,
+        "name": "Login page inputs",
+        "style": "white",
+        "usageNumber": 1
+      },
+      {
+        "id": 20799,
+        "name": "Sign up information",
+        "style": "white",
+        "usageNumber": 1
+      },
+      {
+        "id": 22555,
+        "name": "Out of scope \\(3\\) test",
+        "style": "white",
+        "usageNumber": 0
+      }
+    ]
   }
 ]

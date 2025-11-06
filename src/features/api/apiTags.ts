@@ -154,6 +154,9 @@ unguessApi.enhanceEndpoints({
     getCampaignsByCidVideoTags: {
       providesTags: ['VideoTags'],
     },
+    patchCampaignsByCidVideoTagsAndTagId: {
+      invalidatesTags: ['VideoTags'],
+    },
     postCampaignsByCidVideoTags: {
       invalidatesTags: ['VideoTags'],
     },
