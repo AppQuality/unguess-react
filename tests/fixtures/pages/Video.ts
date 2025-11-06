@@ -90,7 +90,6 @@ export class VideoPage extends UnguessPage {
       `*/**/api/campaigns/1/video-tags/${id}`,
       async (route) => {
         if (route.request().method() === 'PATCH') {
-          console.log('titledrop api response', error);
           if (error === 409) {
             await route.fulfill({
               status: 409,

@@ -75,10 +75,8 @@ export const TitleDropdown = ({
     }, [newTitle]);
 
     const handleSubmit = async () => {
-      console.log('titledrop', error);
       if (error) return;
       // Update the title in the form
-      console.log('titledrop no error', newTitle);
       try {
         await patchVideoTag({
           cid: campaignId?.toString() || '0',
@@ -105,16 +103,13 @@ export const TitleDropdown = ({
       } catch (error: any) {
         // Handle error (e.g., show error toast)
         // if status code is 409, conflict with another already saved name, show specific error
-        console.log('titledrop catch', error);
         if (error.status === 409) {
-          console.log('titledrop 409', error);
           setError(
             t(
               '__VIDEO_PAGE_ACTIONS_OBSERVATION_FORM_FIELD_TITLE_DUPLICATE_ERROR'
             )
           );
         } else {
-          console.log('titledrop else', error);
           addToast(
             ({ close }) => (
               <Notification
