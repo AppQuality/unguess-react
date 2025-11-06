@@ -10,6 +10,7 @@ import { Page } from 'src/features/templates/Page';
 import ProfilePageHeader from 'src/pages/Profile/Header';
 import { FormPassword } from './FormPassword';
 import { FormProfile } from './FormProfile';
+import { FormNotificationSettings } from './FormNotificationSettings';
 
 const Profile = () => {
   const { t } = useTranslation();
@@ -36,6 +37,16 @@ const Profile = () => {
                     offset={-30}
                   >
                     {t('__PROFILE_PAGE_NAV_ITEM_PROFILE')}
+                  </StickyNavItem>
+                  <StickyNavItem
+                    id="anchor-notification-settings"
+                    to="anchor-notification-settings-id"
+                    containerId="main"
+                    smooth
+                    duration={500}
+                    offset={-30}
+                  >
+                    {t('__PROFILE_PAGE_NAV_ITEM_NOTIFICATION_SETTINGS')}
                   </StickyNavItem>
 
                   <StickyNavItemLabel>
@@ -68,6 +79,7 @@ const Profile = () => {
                     }}
                   >
                     <FormProfile />
+                    <FormNotificationSettings />
                     <FormPassword />
                   </Col>
                 </Row>
