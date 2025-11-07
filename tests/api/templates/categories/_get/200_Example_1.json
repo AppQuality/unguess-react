@@ -1,7 +1,22 @@
 [
   {
     "description": "string",
-    "id": 0,
-    "name": "string"
+    "id": -1,
+    "name": "uncategorized"
+  },
+  {
+    "description": "string",
+    "id": 10,
+    "name": "Accessibility"
+  },
+  {
+    "description": "string",
+    "id": 20,
+    "name": "Best category ever"
+  },
+  {
+    "description": "string",
+    "id": 30,
+    "name": "Security"
   }
 ]
