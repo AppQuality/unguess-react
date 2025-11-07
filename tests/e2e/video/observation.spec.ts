@@ -15,6 +15,7 @@ test.describe('Video page', () => {
     await videopage.mockGetVideoTags();
     await videopage.mockGetVideoObservations();
     await videopage.open();
+    await videopage.elements().observationAccordion(1).scrollIntoViewIfNeeded();
   });
 
   test('should open the edit dialog in the themes combobox and display an input and a summary text for the current item and a save button', async ({
