@@ -120,9 +120,13 @@ export const EditTagModal = ({ closeModal, tag }: EditModalProps) => {
           value={newName}
           onChange={(e) => setNewName(e.target.value)}
         />
-        {error && (
+        {error ? (
           <Message validation="error" style={{ marginTop: appTheme.space.xs }}>
             {error}
+          </Message>
+        ) : (
+          <Message style={{ marginTop: appTheme.space.xs }}>
+            {t('__VIDEO_PAGE_DROPDOWN_EDIT_MODAL_INPUT_HELPER_TEXT')}
           </Message>
         )}
         <div
