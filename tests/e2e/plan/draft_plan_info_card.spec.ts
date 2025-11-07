@@ -76,6 +76,7 @@ test.describe('A plan with template and price', () => {
     touchpointsModule = new TouchpointsModule(page);
     await planPage.loggedIn();
     await planPage.mockPreferences();
+    await planPage.mockGetWatchers();
     await planPage.mockWorkspace();
     await planPage.mockWorkspacesList();
     await planPage.mockGetDraftPlanWithTemplateAndPrice();

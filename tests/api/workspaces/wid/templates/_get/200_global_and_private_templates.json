@@ -1,7 +1,6 @@
 {
   "items": [
     {
-      "category_id": -1,
       "config": "{ \"modules\": [{\"type\": \"title\", \"variant\": \"default\", \"output\": \"cp-title\"}, {\"type\": \"target\", \"variant\": \"default\", \"output\": 12}]}",
       "description": "Gain qualitative insights by observing users as they interact. Identifies difficulties in the user experience, improves the interface. Identifies difficulties in the user experience, improves the interface.",
       "id": 1,
@@ -11,7 +10,6 @@
       "workspace_id": 1
     },
     {
-      "category_id": -1,
       "config": "{ \"modules\": [{\"type\": \"title\", \"variant\": \"default\", \"output\": \"cp-title\"}, {\"type\": \"target\", \"variant\": \"default\", \"output\": 12}]}",
       "description": "Gain qualitative insights by observing users as they interact. Identifies difficulties in the user experience, improves the interface. Identifies difficulties in the user experience, improves the interface.",
       "id": 2,
@@ -21,7 +19,6 @@
       "workspace_id": 1
     },
     {
-      "category_id": -1,
       "config": "{ \"modules\": [{\"type\": \"title\", \"variant\": \"default\", \"output\": \"cp-title\"}, {\"type\": \"target\", \"variant\": \"default\", \"output\": 12}]}",
       "description": "Find unexpected issues with exploratory testing.",
       "id": 3,
@@ -30,7 +27,6 @@
       "workspace_id": 1
     },
     {
-      "category_id": 1,
       "config": "{ \"modules\": [{\"type\": \"title\", \"variant\": \"default\", \"output\": \"cp-title\"}, {\"type\": \"target\", \"variant\": \"default\", \"output\": 12}]}",
       "description": "Improve the user experience.",
       "id": 4,
@@ -39,7 +35,6 @@
       "workspace_id": 1
     },
     {
-      "category_id": 10,
       "config": "{ \"modules\": [{\"type\": \"title\", \"variant\": \"default\", \"output\": \"cp-title\"}, {\"type\": \"target\", \"variant\": \"default\", \"output\": 12}]}",
       "description": "Penetration testing.",
       "id": 5,
@@ -63,7 +58,6 @@
       }
     },
     {
-      "category_id": 10,
       "config": "{ \"modules\": [{\"type\": \"title\", \"variant\": \"default\", \"output\": \"cp-title\"}, {\"type\": \"target\", \"variant\": \"default\", \"output\": 12}]}",
       "description": "Test system performance",
       "id": 6,
@@ -88,7 +82,6 @@
       }
     },
     {
-      "category_id": 20,
       "config": "{ \"modules\": [{\"type\": \"title\", \"variant\": \"default\", \"output\": \"cp-title\"}, {\"type\": \"target\", \"variant\": \"default\", \"output\": 12}]}",
       "description": "Gain qualitative insights by observing users as they interact. Identifies difficulties in the user experience, improves the interface. Identifies difficulties in the user experience, improves the interface.",
       "id": 7,
@@ -112,7 +105,6 @@
       }
     },
     {
-      "category_id": 20,
       "config": "{ \"modules\": [{\"type\": \"title\", \"variant\": \"default\", \"output\": \"cp-title\"}, {\"type\": \"target\", \"variant\": \"default\", \"output\": 12}]}",
       "description": "Test system performance.",
       "id": 8,
@@ -137,7 +129,6 @@
       }
     },
     {
-      "category_id": 30,
       "config": "{ \"modules\": [{\"type\": \"title\", \"variant\": \"default\", \"output\": \"cp-title\"}, {\"type\": \"target\", \"variant\": \"default\", \"output\": 12}]}",
       "description": "Test system performance",
       "id": 9,
