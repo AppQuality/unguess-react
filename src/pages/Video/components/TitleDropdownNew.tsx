@@ -13,7 +13,6 @@ import {
   useToast,
 } from '@appquality/unguess-design-system';
 import { FormikProps } from 'formik';
-import { ErrorMessage } from 'formik/dist/ErrorMessage';
 import { useEffect, useRef, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
@@ -25,17 +24,13 @@ import {
   usePatchCampaignsByCidVideoTagsAndTagIdMutation,
   usePostCampaignsByCidVideoTagsMutation,
 } from 'src/features/api';
+import { EditTagModal } from './EditTagModal';
 
 export interface ObservationFormValues {
   title: number;
   severity: number;
   notes: string;
   quotes?: string;
-}
-
-interface EditModalProps {
-  option: { value: string | object; label: string };
-  closeModal: () => void;
 }
 
 export const TitleDropdown = ({
@@ -53,145 +48,6 @@ export const TitleDropdown = ({
   if (!titles) {
     return null;
   }
-
-  const editModal = ({ option, closeModal }: EditModalProps) => {
-    // Extract both the current title and the usage number in parentheses in two variables
-    const currentTitle = option.label.replace(/\s*\(\d+\)/, '');
-    const usageNumber = option.label.match(/\((\d+)\)/)?.[1];
-    const [newTitle, setNewTitle] = useState(currentTitle);
-    const inputRef = useRef<HTMLInputElement>(null);
-    const [error, setError] = useState<string | null>(null);
-    const [patchVideoTag] = usePatchCampaignsByCidVideoTagsAndTagIdMutation({});
-    const { addToast } = useToast();
-
-    useEffect(() => {
-      if (newTitle.trim() === '') {
-        setError(
-          t('__VIDEO_PAGE_ACTIONS_OBSERVATION_FORM_FIELD_TITLE_REQUIRED_ERROR')
-        );
-      } else {
-        setError(null);
-      }
-    }, [newTitle]);
-
-    const handleSubmit = async () => {
-      if (error) return;
-      // Update the title in the form
-      try {
-        await patchVideoTag({
-          cid: campaignId?.toString() || '0',
-          tagId: option.value.toString(),
-          body: {
-            newTagName: newTitle,
-          },
-        }).unwrap();
-        closeModal();
-        addToast(
-          ({ close }) => (
-            <Notification
-              onClose={close}
-              type="success"
-              message={t(
-                '__VIDEO_PAGE_THEMES_DROPDOWN_EDIT_MODAL_SUCCESS_TOAST_MESSAGE'
-              )}
-              closeText={t('__TOAST_CLOSE_TEXT')}
-              isPrimary
-            />
-          ),
-          { placement: 'top' }
-        );
-      } catch (error: any) {
-        // Handle error (e.g., show error toast)
-        // if status code is 409, conflict with another already saved name, show specific error
-        if (error.status === 409) {
-          setError(
-            t(
-              '__VIDEO_PAGE_ACTIONS_OBSERVATION_FORM_FIELD_TITLE_DUPLICATE_ERROR'
-            )
-          );
-        } else {
-          addToast(
-            ({ close }) => (
-              <Notification
-                onClose={close}
-                type="error"
-                message={t(
-                  '__VIDEO_PAGE_THEMES_DROPDOWN_EDIT_MODAL_ERROR_TOAST_MESSAGE'
-                )}
-                closeText={t('__TOAST_CLOSE_TEXT')}
-                isPrimary
-              />
-            ),
-            { placement: 'top' }
-          );
-        }
-      }
-    };
-    const handleClick = () => {
-      inputRef.current?.focus();
-    };
-
-    return (
-      <>
-        <TooltipModal.Title>
-          <MD isBold style={{ marginBottom: appTheme.space.sm }}>
-            {t('__VIDEO_PAGE_THEMES_DROPDOWN_EDIT_MODAL_TITLE')}
-          </MD>
-        </TooltipModal.Title>
-        <TooltipModal.Body>
-          <Label htmlFor="title-input">
-            {t('__VIDEO_PAGE_THEMES_DROPDOWN_EDIT_MODAL_LABEL')}
-            <span style={{ color: appTheme.palette.red[500] }}>*</span>
-          </Label>
-          <Input
-            ref={inputRef}
-            id="title-input"
-            onClick={handleClick}
-            value={newTitle}
-            onChange={(e) => setNewTitle(e.target.value)}
-          />
-          {error && (
-            <Message
-              validation="error"
-              style={{ marginTop: appTheme.space.xs }}
-            >
-              {error}
-            </Message>
-          )}
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              margin: `${appTheme.space.md} 0 0 0`,
-            }}
-          >
-            <Paragraph style={{ margin: 0 }}>
-              <SM>
-                <Trans
-                  i18nKey="__VIDEO_PAGE_THEMES_DROPDOWN_EDIT_MODAL_DESCRIPTION"
-                  values={{ usageNumber }}
-                  count={Number(usageNumber)}
-                />
-              </SM>
-            </Paragraph>
-            <Button
-              size="small"
-              disabled={!!error}
-              isPrimary
-              isAccent
-              onClick={handleSubmit}
-            >
-              <Button.StartIcon>
-                <SaveIcon />
-              </Button.StartIcon>
-              {t('__VIDEO_PAGE_DROPDOWN_EDIT_MODAL_SAVE_BUTTON')}
-            </Button>
-          </div>
-        </TooltipModal.Body>
-      </>
-    );
-  };
 
   return (
     <Field>
@@ -241,7 +97,7 @@ export const TitleDropdown = ({
         }}
         options={[
           {
-            id: 'id',
+            id: 'titles-group',
             label: 'select or create',
             options: (titles || []).map((i) => {
               return {
@@ -249,7 +105,9 @@ export const TitleDropdown = ({
                 value: i.id.toString(),
                 label: `${i.name} (${i.usageNumber})`,
                 isSelected: formProps.values.title === i.id,
-                actions: editModal,
+                actions: ({ closeModal }) => (
+                  <EditTagModal tag={i} closeModal={closeModal} />
+                ),
                 itemID: i.id.toString(),
               };
             }),

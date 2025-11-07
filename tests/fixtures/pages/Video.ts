@@ -41,16 +41,12 @@ export class VideoPage extends UnguessPage {
           }),
       toastThemeEditSuccessMessage: () =>
         this.page.getByText(
-          this.i18n.t(
-            '__VIDEO_PAGE_THEMES_DROPDOWN_EDIT_MODAL_SUCCESS_TOAST_MESSAGE'
-          )
+          this.i18n.t('__VIDEO_PAGE_DROPDOWN_EDIT_MODAL_SUCCESS_TOAST_MESSAGE')
         ),
       tooltipModalOptionsThemeInput: () =>
         this.elements()
           .tooltipModalOptions()
-          .getByLabel(
-            this.i18n.t('__VIDEO_PAGE_THEMES_DROPDOWN_EDIT_MODAL_LABEL')
-          ),
+          .getByLabel(this.i18n.t('__VIDEO_PAGE_DROPDOWN_EDIT_MODAL_LABEL')),
     };
   }
 
@@ -63,7 +59,10 @@ export class VideoPage extends UnguessPage {
   }
 
   async openComboboxVideoTags(id: number) {
-    await this.elements().comboboxVideoTags(id).click();
+    await this.elements()
+      .comboboxVideoTags(id)
+      .locator('[data-garden-id="dropdowns.combobox.input_icon"]')
+      .click();
   }
 
   async clickOptionItem(itemID: string) {

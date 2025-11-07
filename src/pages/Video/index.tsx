@@ -16,6 +16,7 @@ import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import VideoPageHeader from './components/PageHeader';
 import VideoPageContent from './Content';
+import { Helmet } from 'react-helmet';
 
 const VideoPage = () => {
   const { t } = useTranslation();

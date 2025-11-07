@@ -10,11 +10,10 @@ import {
   Skeleton,
   Tag,
   Textarea,
-  TooltipModal,
   useToast,
 } from '@appquality/unguess-design-system';
 import { Form, Formik, FormikHelpers, FormikProps } from 'formik';
-import { useEffect, useRef, useState } from 'react';
+import { ComponentProps, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
@@ -30,8 +29,9 @@ import {
 import { styled } from 'styled-components';
 import * as Yup from 'yup';
 import { ConfirmDeleteModal } from './ConfirmDeleteModal';
-import { ObservationFormValues, TitleDropdown } from './TitleDropdownNew';
 import { TooltipModalContextProvider } from './context';
+import { EditTagModal } from './EditTagModal';
+import { ObservationFormValues, TitleDropdown } from './TitleDropdownNew';
 
 const FormContainer = styled.div`
   padding: ${({ theme }) => theme.space.md} ${({ theme }) => theme.space.xxs};
@@ -74,7 +74,7 @@ const ObservationForm = ({
   const formRef = useRef<FormikProps<ObservationFormValues>>(null);
   const { addToast } = useToast();
   const [options, setOptions] = useState<
-    { id: number; label: string; selected?: boolean; actions: JSX.Element }[]
+    ComponentProps<typeof MultiSelect>['options']
   >([]);
   const [selectedSeverity, setSelectedSeverity] = useState<
     GetCampaignsByCidVideoTagsApiResponse[number]['tags'][number] | undefined
@@ -143,24 +143,11 @@ const ObservationForm = ({
           .sort((a, b) => b.usageNumber - a.usageNumber)
           .map((tag) => ({
             id: tag.id,
+            itemID: tag.id.toString(),
             label: `${tag.name} (${tag.usageNumber})`,
             selected: selectedOptions.some((bt) => bt.id === tag.id),
-            actions: (
-              <>
-                <TooltipModal.Title>{tag.name}</TooltipModal.Title>
-                <TooltipModal.Body>
-                  {t(
-                    '__VIDEO_PAGE_ACTIONS_OBSERVATION_FORM_TAGS_EDIT_MODAL_DESCRIPTION'
-                  )}
-                  <Button
-                    isPrimary
-                    isAccent
-                    style={{ marginTop: appTheme.space.md }}
-                  >
-                    Save
-                  </Button>
-                </TooltipModal.Body>
-              </>
+            actions: ({ closeModal }) => (
+              <EditTagModal tag={tag} closeModal={closeModal} />
             ),
           }))
       );
@@ -377,6 +364,7 @@ const ObservationForm = ({
                     isEditable
                     options={options}
                     selectedItems={options.filter((o) => o.selected)}
+                    listboxAppendToNode={document.body}
                     creatable
                     maxItems={4}
                     size="medium"
