@@ -119,6 +119,11 @@ export const EditTagModal = ({ closeModal, tag }: EditModalProps) => {
           onClick={handleClick}
           value={newName}
           onChange={(e) => setNewName(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') {
+              handleSubmit();
+            }
+          }}
         />
         {error ? (
           <Message validation="error" style={{ marginTop: appTheme.space.xs }}>
