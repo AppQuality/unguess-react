@@ -1,27 +1,13 @@
 import {
   Autocomplete,
-  Button,
   DropdownFieldNew as Field,
-  Input,
-  Label,
-  MD,
-  Message,
-  Notification,
-  Paragraph,
-  SM,
-  TooltipModal,
-  useToast,
 } from '@appquality/unguess-design-system';
 import { FormikProps } from 'formik';
-import { useEffect, useRef, useState } from 'react';
-import { Trans, useTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
-import { appTheme } from 'src/app/theme';
 import { ReactComponent as CopyIcon } from 'src/assets/icons/copy-icon.svg';
-import { ReactComponent as SaveIcon } from 'src/assets/icons/save.svg';
 import {
   GetCampaignsByCidVideoTagsApiResponse,
-  usePatchCampaignsByCidVideoTagsAndTagIdMutation,
   usePostCampaignsByCidVideoTagsMutation,
 } from 'src/features/api';
 import { EditTagModal } from './EditTagModal';
@@ -99,18 +85,16 @@ export const TitleDropdown = ({
           {
             id: 'titles-group',
             label: 'select or create',
-            options: (titles || []).map((i) => {
-              return {
-                id: i.id.toString(),
-                value: i.id.toString(),
-                label: `${i.name} (${i.usageNumber})`,
-                isSelected: formProps.values.title === i.id,
-                actions: ({ closeModal }) => (
-                  <EditTagModal tag={i} closeModal={closeModal} />
-                ),
-                itemID: i.id.toString(),
-              };
-            }),
+            options: (titles || []).map((i) => ({
+              id: i.id.toString(),
+              value: i.id.toString(),
+              label: `${i.name} (${i.usageNumber})`,
+              isSelected: formProps.values.title === i.id,
+              actions: ({ closeModal }) => (
+                <EditTagModal tag={i} closeModal={closeModal} />
+              ),
+              itemID: i.id.toString(),
+            })),
           },
         ]}
         startIcon={<CopyIcon />}

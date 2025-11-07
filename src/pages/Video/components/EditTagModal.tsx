@@ -10,7 +10,6 @@ import {
   TooltipModal,
   useToast,
 } from '@appquality/unguess-design-system';
-import { current } from '@reduxjs/toolkit';
 import { useEffect, useRef, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
@@ -73,10 +72,10 @@ export const EditTagModal = ({ closeModal, tag }: EditModalProps) => {
         ),
         { placement: 'top' }
       );
-    } catch (error: any) {
+    } catch (err: any) {
       // Handle error (e.g., show error toast)
       // if status code is 409, conflict with another already saved name, show specific error
-      if (error.status === 409) {
+      if (err.status === 409) {
         setError(
           t('__VIDEO_PAGE_ACTIONS_OBSERVATION_FORM_FIELD_TITLE_DUPLICATE_ERROR')
         );

@@ -124,7 +124,6 @@ test.describe('Video page', () => {
 
   test('in the theme edit modal should show an error if trying to save with empty name or an existing theme name', async ({
     i18n,
-    page,
   }) => {
     await videopage.mockPatchVideoTag('20767', 409);
     await videopage.openObservationAccordion(1);
@@ -211,7 +210,6 @@ test.describe('Video page', () => {
 
   test('in the tag edit modal should show an error if trying to save with empty name or an existing tag name', async ({
     i18n,
-    page,
   }) => {
     await videopage.mockPatchVideoTag('1103', 409);
     await videopage.openObservationAccordion(1);
