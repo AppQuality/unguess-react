@@ -2,6 +2,7 @@ import { type Page } from '@playwright/test';
 import { UnguessPage } from '../../UnguessPage';
 import { AgeModule } from './Module_age';
 import { BankModule } from './Module_bank';
+import { BrowserModule } from './Module_browser';
 import { DigitalLiteracyModule } from './Module_digital_literacy';
 import { ElectricityModule } from './Module_electricity';
 import { GasModule } from './Module_gas';
@@ -14,7 +15,6 @@ import { OutOfScopeModule } from './Module_out_of_scope';
 import { TargetModule } from './Module_target';
 import { TasksModule } from './Module_tasks';
 import { TouchpointsModule } from './Module_touchpoints';
-import { BrowserModule } from './Module_browser';
 
 interface TabModule {
   expectToBeReadonly(): Promise<void>;
@@ -284,6 +284,26 @@ export class PlanPage extends UnguessPage {
       if (route.request().method() === 'GET') {
         await route.fulfill({
           path: 'tests/api/workspaces/wid/templates/_get/200_global_and_private_templates.json',
+        });
+      } else {
+        await route.fallback();
+      }
+    });
+  }
+
+  async mockWatchers() {
+    await this.page.route('*/**/api/plans/1/watchers*', async (route) => {
+      if (route.request().method() === 'GET') {
+        await route.fulfill({
+          path: 'tests/api/plans/pid/watchers/_get/200_Example_1.json',
+        });
+      } else if (route.request().method() === 'PUT') {
+        await route.fulfill({
+          body: JSON.stringify({}),
+        });
+      } else if (route.request().method() === 'POST') {
+        await route.fulfill({
+          body: JSON.stringify({}),
         });
       } else {
         await route.fallback();

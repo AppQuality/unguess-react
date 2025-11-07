@@ -3,9 +3,7 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
-import { Pipe } from 'src/common/components/Pipe';
 import { useModule } from 'src/features/modules/useModule';
-import styled from 'styled-components';
 import { useSubmit } from '../../../features/modules/useModuleConfiguration';
 import { usePlan, usePlanIsPurchasable } from '../../../hooks/usePlan';
 import { usePlanContext } from '../context/planContext';
@@ -18,12 +16,7 @@ import { GoToCampaignButton } from './GoToCampaignButton';
 import { IconButtonMenu } from './IconButtonMenu';
 import { RequestQuotationButton } from './RequestQuotationButton';
 import { SaveConfigurationButton } from './SaveConfigurationButton';
-
-const StyledPipe = styled(Pipe)`
-  display: inline;
-  margin: 0;
-  height: auto;
-`;
+import { WatcherList } from './WatcherList';
 
 export const Controls = () => {
   const { t } = useTranslation();
@@ -42,7 +35,7 @@ export const Controls = () => {
   const { addToast } = useToast();
   const { handleSubmit } = useSubmit(planId || '');
 
-  if (!plan) return null;
+  if (!plan || !planId) return null;
 
   const handleRequestQuotation = async () => {
     try {
@@ -74,6 +67,7 @@ export const Controls = () => {
     <div
       style={{ display: 'flex', gap: appTheme.space.xs, alignItems: 'center' }}
     >
+      <WatcherList planId={planId} />
       {(planComposedStatus === 'Accepted' ||
         planComposedStatus === 'PurchasedPlan') && <GoToCampaignButton />}
       {(planComposedStatus === 'AwaitingApproval' ||
@@ -86,7 +80,6 @@ export const Controls = () => {
         planComposedStatus === 'UnquotedDraft') && (
         <>
           <SaveConfigurationButton />
-          <StyledPipe />
           <RequestQuotationButton onClick={handleRequestQuotation} />
         </>
       )}

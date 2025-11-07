@@ -26,6 +26,7 @@ export const apiSlice = createApi({
     'Tags',
     'CustomStatuses',
     'Bug',
+    'PlanWatchers',
     'BugComments',
     'Preferences',
     'VideoTags',

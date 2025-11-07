@@ -330,6 +330,18 @@ unguessApi.enhanceEndpoints({
     getPlansByPidRulesEvaluation: {
       providesTags: ['EvaluationRules'],
     },
+    getPlansByPidWatchers: {
+      providesTags: ['PlanWatchers'],
+    },
+    postPlansByPidWatchers: {
+      invalidatesTags: ['PlanWatchers'],
+    },
+    putPlansByPidWatchers: {
+      invalidatesTags: ['PlanWatchers'],
+    },
+    deletePlansByPidWatchersAndProfileId: {
+      invalidatesTags: ['PlanWatchers'],
+    },
   },
 });
 
