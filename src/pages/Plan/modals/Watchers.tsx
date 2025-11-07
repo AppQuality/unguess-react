@@ -89,7 +89,7 @@ const Watchers = ({
         listboxAppendToNode={document.body}
         options={options}
         size="small"
-        maxItems={10}
+        maxItems={3}
         i18n={{
           placeholder: t('__PLAN_PAGE_MODAL_SEND_REQUEST_WATCHERS_PLACEHOLDER'),
         }}
