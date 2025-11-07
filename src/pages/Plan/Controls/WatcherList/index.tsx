@@ -112,7 +112,7 @@ const WatcherList = ({ planId }: { planId: string }) => {
             {t('__PLAN_PAGE_WATCHER_LIST_MODAL_TITLE')}
           </MD>
         </TooltipModal.Title>
-        <TooltipModal.Body style={{ maxHeight: '332px', overflowY: 'auto' }}>
+        <TooltipModal.Body style={{ maxHeight: '360px', overflowY: 'auto' }}>
           <ModalBodyContainer>
             <MD>
               {isApproved ? (

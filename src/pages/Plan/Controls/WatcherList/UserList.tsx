@@ -1,6 +1,5 @@
 import { MD, Skeleton, SM } from '@appquality/unguess-design-system';
 import { styled, useTheme } from 'styled-components';
-
 import { useTranslation } from 'react-i18next';
 import {
   useGetPlansByPidWatchersQuery,
@@ -19,6 +18,7 @@ const UserItemContainer = styled.div`
 const EmptyState = ({ watchers }: { watchers?: number }) => {
   const { t } = useTranslation();
   const appTheme = useTheme();
+
   return (
     <div
       style={{
@@ -92,7 +92,9 @@ const UserList = ({ planId }: { planId: string }) => {
             }}
           />
         ))}
-      {data.items.length === 1 && <EmptyState watchers={data.items.length} />}
+      {data.items.length === 1 && !isApproved && (
+        <EmptyState watchers={data.items.length} />
+      )}
     </UserItemContainer>
   );
 };

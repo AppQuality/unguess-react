@@ -124,8 +124,7 @@ const WatchButton = ({ planId }: { planId: string }) => {
     </Button>
   );
 
-  // condition is true only when one value is truthy and the other is falsy, otherwise it's false
-  if (!!hasWorkspaceAccess !== !!isLastWatcher) {
+  if (isDisabled) {
     return (
       <Tooltip
         placement="start"

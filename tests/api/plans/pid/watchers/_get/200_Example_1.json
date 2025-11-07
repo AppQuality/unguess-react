@@ -1,0 +1,19 @@
+{
+  "items": [
+    {
+      "id": 1,
+      "name": "Antonio",
+      "surname": "Arezzo",
+      "email": "antonio.arezzo@unguess.io",
+      "isInternal": true
+    },
+    {
+      "id": 2,
+      "name": "Andrej",
+      "surname": "Kojmasky",
+      "email": "andrej.kojmasky@bear.org",
+      "isInternal": false,
+      "image": "https://picsum.photos/200"
+    }
+  ]
+}
