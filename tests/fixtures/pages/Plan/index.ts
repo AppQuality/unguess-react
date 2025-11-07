@@ -291,11 +291,19 @@ export class PlanPage extends UnguessPage {
     });
   }
 
-  async mockGetWatchers() {
+  async mockWatchers() {
     await this.page.route('*/**/api/plans/1/watchers*', async (route) => {
       if (route.request().method() === 'GET') {
         await route.fulfill({
           path: 'tests/api/plans/pid/watchers/_get/200_Example_1.json',
+        });
+      } else if (route.request().method() === 'PUT') {
+        await route.fulfill({
+          body: JSON.stringify({}),
+        });
+      } else if (route.request().method() === 'POST') {
+        await route.fulfill({
+          body: JSON.stringify({}),
         });
       } else {
         await route.fallback();

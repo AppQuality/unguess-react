@@ -17,7 +17,7 @@ test.describe('The module builder', () => {
     await planPage.loggedIn();
     await planPage.mockPreferences();
     await planPage.mockWorkspace();
-    await planPage.mockGetWatchers();
+    await planPage.mockWatchers();
     await planPage.mockWorkspacesList();
     await planPage.mockGetDraftWithOnlyMandatoryModulesPlan();
     await requestQuotationModal.mockPatchStatus();
