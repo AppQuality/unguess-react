@@ -9,11 +9,10 @@
     },
     {
       "id": 2,
-      "name": "Andrej",
-      "surname": "Kojmasky",
-      "email": "andrej.kojmasky@bear.org",
-      "isInternal": false,
-      "image": "https://picsum.photos/200"
+      "name": "string",
+      "surname": "string",
+      "email": "user@example.com",
+      "isInternal": false
     }
   ]
 }

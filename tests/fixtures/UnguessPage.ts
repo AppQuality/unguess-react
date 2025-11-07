@@ -76,6 +76,14 @@ export class UnguessPage {
     });
   }
 
+  async mockWorkspaceUsers() {
+    await this.page.route('*/**/api/workspaces/1/users*', async (route) => {
+      await route.fulfill({
+        path: 'tests/api/workspaces/wid/users/_get/200_Example_1.json',
+      });
+    });
+  }
+
   async mockWorkspacesList() {
     await this.page.route(
       '*/**/api/workspaces?orderBy=company',
