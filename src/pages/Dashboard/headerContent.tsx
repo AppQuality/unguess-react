@@ -1,4 +1,5 @@
-import { Button, PageHeader } from '@appquality/unguess-design-system';
+import { Button, Drawer, PageHeader } from '@appquality/unguess-design-system';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
@@ -7,6 +8,7 @@ import { PageTitle } from 'src/common/components/PageTitle';
 import { useGetUsersMeQuery } from 'src/features/api';
 import { useCanAccessToActiveWorkspace } from 'src/hooks/useCanAccessToActiveWorkspace';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
+import { Workflow } from './AgenticWorkflow';
 import { Counters } from './Counters';
 
 export const DashboardHeaderContent = ({
@@ -19,6 +21,8 @@ export const DashboardHeaderContent = ({
   const { t } = useTranslation();
   const { isLoading: isUserLoading, isFetching: isUserFetching } =
     useGetUsersMeQuery();
+
+  const [isChatOpen, setIsChatOpen] = useState(false);
 
   const hasWorksPacePermission = useCanAccessToActiveWorkspace();
   const navigate = useNavigate();
@@ -47,11 +51,24 @@ export const DashboardHeaderContent = ({
                 >
                   {t('__DASHBOARD_CTA_NEW_ACTIVITY')}
                 </Button>
+                <Button onClick={() => setIsChatOpen(!isChatOpen)}>AI</Button>
               </div>
             )}
           </PageHeader.Meta>
         </PageHeader.Main>
       </PageHeader>
+      {isChatOpen && (
+        <Drawer
+          onClose={() => setIsChatOpen(false)}
+          isOpen={isChatOpen}
+          title="AI Chat"
+        >
+          <Drawer.Header>Let&apos;s talk</Drawer.Header>
+          <Drawer.Body>
+            <Workflow />
+          </Drawer.Body>
+        </Drawer>
+      )}
     </LayoutWrapper>
   );
 };
