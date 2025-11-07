@@ -55,21 +55,29 @@ export const FormNotificationSettings = () => {
           },
         }).unwrap();
       }
-      addToast(({ close }) => (
-        <Notification
-          onClose={close}
-          type="success"
-          title={t('__PROFILE_PAGE_NOTIFICATIONS_UPDATE_SUCCESS_MESSAGE')}
-        />
-      ));
+      addToast(
+        ({ close }) => (
+          <Notification
+            onClose={close}
+            type="success"
+            message={t('__PROFILE_PAGE_UPDATE_SETTINGS_SUCCESS')}
+            isPrimary
+          />
+        ),
+        { placement: 'top' }
+      );
     } catch (error) {
-      addToast(({ close }) => (
-        <Notification
-          onClose={close}
-          type="error"
-          title={t('__PROFILE_PAGE_NOTIFICATIONS_UPDATE_ERROR_MESSAGE')}
-        />
-      ));
+      addToast(
+        ({ close }) => (
+          <Notification
+            onClose={close}
+            type="error"
+            message={t('__PROFILE_PAGE_TOAST_ERROR_UPDATING_SETTINGS')}
+            isPrimary
+          />
+        ),
+        { placement: 'top' }
+      );
     }
   };
 
