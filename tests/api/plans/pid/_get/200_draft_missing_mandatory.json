@@ -6,12 +6,14 @@
           {
             "description": "description kind bug",
             "kind": "bug",
-            "title": "Search for bugs"
+            "title": "Search for bugs",
+            "id": "bug-1"
           },
           {
             "description": "description kind bug",
             "kind": "video",
-            "title": "Think aloud"
+            "title": "Think aloud",
+            "id": "video-1"
           }
         ],
         "type": "tasks",
