@@ -9,15 +9,20 @@ import { appTheme } from 'src/app/theme';
 import { ReactComponent as EmailIcon } from 'src/assets/icons/email-icon.svg';
 
 import { Divider } from 'src/common/components/divider';
+import { useFormikContext } from 'formik';
 import {
   StyledCardHeader,
   StyledNotificationsCardHeaderWrapper,
 } from './common';
 import { NotificationSettingsAccordion } from './NotificationsAccordion';
 import { FollowActivitiesAccordion } from './FollowActivitiesAccordion.tsx';
+import { NotificationSettingsFormValues } from '../valuesType';
 
 export const NotificationSettingsCard = () => {
   const { t } = useTranslation();
+  const { dirty, isSubmitting, submitForm } =
+    useFormikContext<NotificationSettingsFormValues>();
+  const canSave = dirty && !isSubmitting;
   return (
     <ContainerCard
       id="anchor-notification-settings-id"
@@ -44,7 +49,13 @@ export const NotificationSettingsCard = () => {
         </StyledNotificationsCardHeaderWrapper>
         <Divider />
         <NotificationSettingsAccordion />
-        <Button isAccent isPrimary style={{ alignSelf: 'flex-end' }}>
+        <Button
+          disabled={!canSave}
+          isAccent
+          isPrimary
+          style={{ alignSelf: 'flex-end' }}
+          onClick={submitForm}
+        >
           {t('__PROFILE_PAGE_NOTIFICATIONS_CARD_SAVE_BUTTON_LABEL')}
         </Button>
       </div>

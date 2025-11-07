@@ -2,19 +2,29 @@ import { useToast } from '@appquality/unguess-design-system';
 import { Formik } from 'formik';
 import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
+import { useGetUsersMePreferencesQuery } from 'src/features/api';
 import { NotificationSettingsFormValues } from './valuesType';
 import { NotificationSettingsCard } from './parts/NotificationSettingsCard';
+import { Loader } from './parts/cardLoader';
 
 export const FormNotificationSettings = () => {
   const { t } = useTranslation();
   const { addToast } = useToast();
+  const { data, isLoading } = useGetUsersMePreferencesQuery();
+  const activitySetup =
+    data?.items?.find((pref) => pref.name === 'plan_notifications_enabled')
+      ?.value ?? '1';
+
+  const activityProgress =
+    data?.items?.find((pref) => pref.name === 'notifications_enabled')?.value ??
+    '1';
 
   const initialValues: NotificationSettingsFormValues = {
-    activitySetupUpdates: true,
-    activityProgress: true,
+    activitySetupUpdates: activitySetup === '1',
+    activityProgress: activityProgress === '1',
   };
 
-  /*   if (isLoading) return <Loader />; */
+  if (isLoading) return <Loader />;
 
   const schema = Yup.object().shape({
     activitySetupUpdates: Yup.boolean(),

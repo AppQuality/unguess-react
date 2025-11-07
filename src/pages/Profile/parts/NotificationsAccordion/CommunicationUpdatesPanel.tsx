@@ -6,9 +6,11 @@ import {
   Label,
   UnorderedList,
 } from '@appquality/unguess-design-system';
+import { Field, FieldProps, useFormikContext } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import styled from 'styled-components';
+import { NotificationSettingsFormValues } from '../../valuesType';
 
 const StyledPanelContainer = styled.div`
   display: flex;
@@ -24,6 +26,7 @@ const StyledCheckBoxContainer = styled.div`
 
 export const CommunicationUpdatesPanel = () => {
   const { t } = useTranslation();
+  const { setFieldValue } = useFormikContext<NotificationSettingsFormValues>();
   return (
     <StyledPanelContainer>
       <StyledCheckBoxContainer>
@@ -32,45 +35,54 @@ export const CommunicationUpdatesPanel = () => {
             '__PROFILE_PAGE_NOTIFICATIONS_CARD_ACTIVITY_PROGRESS_UPDATES_FORM_LABEL'
           )}
         </Label>
-
-        <FormField>
-          <Checkbox
-            role="checkbox"
-            key="all"
-            name="activitySetupUpdates"
-            onChange={() => {}}
-          >
-            <Label>
-              {t(
-                '__PROFILE_PAGE_NOTIFICATIONS_CARD_ACTIVITY_SETUP_CHECKBOX_LABEL'
-              )}
-            </Label>
-            <Hint>
-              {t(
-                '__PROFILE_PAGE_NOTIFICATIONS_CARD_ACTIVITY_SETUP_CHECKBOX_HINT'
-              )}
-            </Hint>
-          </Checkbox>
-        </FormField>
-        <FormField>
-          <Checkbox
-            role="checkbox"
-            key="all"
-            name="activityProgress"
-            onChange={() => {}}
-          >
-            <Label>
-              {t(
-                '__PROFILE_PAGE_NOTIFICATIONS_CARD_ACTIVITY_PROGRESS_CHECKBOX_LABEL'
-              )}
-            </Label>
-            <Hint>
-              {t(
-                '__PROFILE_PAGE_NOTIFICATIONS_CARD_ACTIVITY_PROGRESS_CHECKBOX_HINT'
-              )}
-            </Hint>
-          </Checkbox>
-        </FormField>
+        <Field name="activitySetupUpdates">
+          {({ field }: FieldProps) => (
+            <FormField>
+              <Checkbox
+                role="checkbox"
+                key="all"
+                checked={field.value}
+                onChange={() =>
+                  setFieldValue('activitySetupUpdates', !field.value)
+                }
+              >
+                <Label>
+                  {t(
+                    '__PROFILE_PAGE_NOTIFICATIONS_CARD_ACTIVITY_SETUP_CHECKBOX_LABEL'
+                  )}
+                </Label>
+                <Hint>
+                  {t(
+                    '__PROFILE_PAGE_NOTIFICATIONS_CARD_ACTIVITY_SETUP_CHECKBOX_HINT'
+                  )}
+                </Hint>
+              </Checkbox>
+            </FormField>
+          )}
+        </Field>
+        <Field name="activityProgress">
+          {({ field }: FieldProps) => (
+            <FormField>
+              <Checkbox
+                role="checkbox"
+                key="all"
+                checked={field.value}
+                onChange={() => setFieldValue('activityProgress', !field.value)}
+              >
+                <Label>
+                  {t(
+                    '__PROFILE_PAGE_NOTIFICATIONS_CARD_ACTIVITY_PROGRESS_CHECKBOX_LABEL'
+                  )}
+                </Label>
+                <Hint>
+                  {t(
+                    '__PROFILE_PAGE_NOTIFICATIONS_CARD_ACTIVITY_PROGRESS_CHECKBOX_HINT'
+                  )}
+                </Hint>
+              </Checkbox>
+            </FormField>
+          )}
+        </Field>
       </StyledCheckBoxContainer>
       <Alert type="info">
         <Alert.Title style={{ marginBottom: appTheme.space.xxs }}>

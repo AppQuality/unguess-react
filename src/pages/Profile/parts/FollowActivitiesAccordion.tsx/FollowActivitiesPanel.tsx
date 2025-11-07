@@ -54,25 +54,6 @@ export const FollowActivitiesPanel = () => {
           </Button>
         </StyledActivityItem>
       </StyledPanelSectionContainer>
-      <StyledPanelSectionContainer>
-        <Label>
-          {t(
-            '__PROFILE_PAGE_NOTIFICATIONS_CARD_FOLLOW_ACTIVITIES_PROGRESS_DESCRIPTION'
-          )}
-          (3)
-        </Label>
-        <StyledActivityItem>
-          <div>
-            <Anchor>Titolo Attivita</Anchor>
-            <SM>titolo progetto</SM>
-          </div>
-          <Button size="small" isBasic>
-            {t(
-              '__PROFILE_PAGE_NOTIFICATIONS_CARD_FOLLOW_ACTIVITIES_BUTTON_TEXT'
-            )}
-          </Button>
-        </StyledActivityItem>
-      </StyledPanelSectionContainer>
       <StyledHintContainer>
         <InfoIcon />
         <Hint>
