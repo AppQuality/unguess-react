@@ -1,0 +1,26 @@
+<svg width="16" height="20" viewBox="0 0 16 20" fill="none" xmlns="http://www.w3.org/2000/svg"
+    class="StyledIcon-sc-19meqgg-0 iQtCWn bkGVfR">
+    <defs>
+        <linearGradient id="animatedGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#00f0ff">
+                <animate attributeName="stop-color" values="#00f0ff;#ff00c8;#00ff88;#00f0ff"
+                    dur="6s" repeatCount="indefinite" />
+            </stop>
+            <stop offset="100%" stop-color="#ff00c8">
+                <animate attributeName="stop-color" values="#ff00c8;#00ff88;#00f0ff;#ff00c8"
+                    dur="6s" repeatCount="indefinite" />
+            </stop>
+        </linearGradient>
+        <clipPath id="clip0_63_2431">
+            <rect width="16" height="16" fill="white" transform="translate(0 2)" />
+        </clipPath>
+    </defs>
+    <g clip-path="url(#clip0_63_2431)">
+        <path
+            d="M8.5 3L9.18382 5.8799C9.64756 7.83075 11.1693 9.35244 13.1201 9.81618L16 10.5L13.1201 11.1838C11.1693 11.6476 9.64756 13.1693 9.18382 15.1201L8.5 18L7.81618 15.1201C7.35244 13.1693 5.83075 11.6476 3.8799 11.1838L1 10.5L3.8799 9.81618C5.83075 9.35244 7.35244 7.83075 7.81618 5.8799L8.5 3Z"
+            fill="url(#animatedGradient)" />
+        <path
+            d="M3 2L3.27395 3.15195C3.46033 3.93338 4.06886 4.54192 4.84805 4.72605L6 5L4.84805 5.27395C4.06662 5.46033 3.45808 6.06886 3.27395 6.84805L3 8L2.72605 6.84805C2.53967 6.06662 1.93114 5.45808 1.15195 5.27395L0 5L1.15195 4.72605C1.93338 4.53967 2.54192 3.93114 2.72605 3.15195L3 2Z"
+            fill="url(#animatedGradient)" />
+    </g>
+</svg>
