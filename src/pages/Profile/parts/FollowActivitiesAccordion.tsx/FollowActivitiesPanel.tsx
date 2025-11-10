@@ -86,17 +86,19 @@ export const FollowActivitiesPanel = ({
           )}
           {`(${followedActivities.length})`}
         </Label>
-        <StyledActivityItem>
-          <div>
-            <Anchor>Titolo Attivita</Anchor>
-            <SM>titolo progetto</SM>
-          </div>
-          <Button size="small" isBasic onClick={() => handleUnfollow(123)}>
-            {t(
-              '__PROFILE_PAGE_NOTIFICATIONS_CARD_FOLLOW_ACTIVITIES_BUTTON_TEXT'
-            )}
-          </Button>
-        </StyledActivityItem>
+        {followedActivities.map((activity) => (
+          <StyledActivityItem>
+            <div>
+              <Anchor href={`/plans/${activity.id}`}>{activity.name}</Anchor>
+              <SM>{activity?.project?.name}</SM>
+            </div>
+            <Button size="small" isBasic onClick={() => handleUnfollow(123)}>
+              {t(
+                '__PROFILE_PAGE_NOTIFICATIONS_CARD_FOLLOW_ACTIVITIES_BUTTON_TEXT'
+              )}
+            </Button>
+          </StyledActivityItem>
+        ))}
       </StyledPanelSectionContainer>
       <StyledHintContainer>
         <InfoIcon />
