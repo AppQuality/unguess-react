@@ -14,6 +14,7 @@ import styled from 'styled-components';
 import {
   GetUsersMeWatchedPlansApiResponse,
   useDeletePlansByPidWatchersAndProfileIdMutation,
+  useGetUsersMeQuery,
 } from 'src/features/api';
 
 const StyledPanelSectionContainer = styled.div`
@@ -44,12 +45,14 @@ export const FollowActivitiesPanel = ({
 }) => {
   const { t } = useTranslation();
   const { addToast } = useToast();
-
+  const { data: userData } = useGetUsersMeQuery();
   const [unfollowPlan] = useDeletePlansByPidWatchersAndProfileIdMutation();
-
   const handleUnfollow = async (planId: number) => {
     try {
-      await unfollowPlan({ pid: planId.toString(), profileId: '25' }).unwrap();
+      await unfollowPlan({
+        pid: planId.toString(),
+        profileId: userData?.profile_id.toString() ?? '',
+      }).unwrap();
 
       addToast(
         ({ close }) => (
@@ -92,7 +95,12 @@ export const FollowActivitiesPanel = ({
               <Anchor href={`/plans/${activity.id}`}>{activity.name}</Anchor>
               <SM>{activity?.project?.name}</SM>
             </div>
-            <Button size="small" isBasic onClick={() => handleUnfollow(123)}>
+            <Button
+              disabled={activity.isLast}
+              size="small"
+              isBasic
+              onClick={() => handleUnfollow(activity.id ?? 0)}
+            >
               {t(
                 '__PROFILE_PAGE_NOTIFICATIONS_CARD_FOLLOW_ACTIVITIES_BUTTON_TEXT'
               )}

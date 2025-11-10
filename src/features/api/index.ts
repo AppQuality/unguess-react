@@ -1830,6 +1830,7 @@ export type GetUsersMeWatchedPlansApiResponse = /** status 200  */ {
       name?: string;
       id?: number;
     };
+    isLast?: boolean;
   }[];
   allItems: number;
 };

@@ -3909,6 +3909,7 @@ export interface operations {
                 name?: string;
                 id?: number;
               };
+              isLast?: boolean;
             }[];
             allItems: number;
           };
