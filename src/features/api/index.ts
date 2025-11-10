@@ -611,6 +611,12 @@ const injectedRtkApi = api.injectEndpoints({
         body: queryArg.body,
       }),
     }),
+    getUsersMeWatchedPlans: build.query<
+      GetUsersMeWatchedPlansApiResponse,
+      GetUsersMeWatchedPlansApiArg
+    >({
+      query: () => ({ url: `/users/me/watched/plans` }),
+    }),
     getUsersRoles: build.query<GetUsersRolesApiResponse, GetUsersRolesApiArg>({
       query: () => ({ url: `/users/roles` }),
     }),
@@ -1816,6 +1822,18 @@ export type PutUsersMePreferencesBySlugApiArg = {
     value: string;
   };
 };
+export type GetUsersMeWatchedPlansApiResponse = /** status 200  */ {
+  items: {
+    id?: number;
+    name?: string;
+    project?: {
+      name?: string;
+      id?: number;
+    };
+  }[];
+  allItems: number;
+};
+export type GetUsersMeWatchedPlansApiArg = void;
 export type GetUsersRolesApiResponse = /** status 200 OK */ {
   id: number;
   name: string;
@@ -3108,6 +3126,7 @@ export const {
   usePatchUsersMeMutation,
   useGetUsersMePreferencesQuery,
   usePutUsersMePreferencesBySlugMutation,
+  useGetUsersMeWatchedPlansQuery,
   useGetUsersRolesQuery,
   useGetVideosByVidQuery,
   useGetVideosByVidObservationsQuery,

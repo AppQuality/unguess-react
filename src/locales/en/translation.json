@@ -1283,6 +1283,8 @@
   "__PROFILE_PAGE_TOAST_ERROR_UPDATING_PROFILE": "An error occurred while updating your profile. Please try again.",
   "__PROFILE_PAGE_TOAST_ERROR_UPDATING_SETTINGS": "Something went wrong, please try again later.",
   "__PROFILE_PAGE_TOAST_SUCCESS_PASSWORD_UPDATED": "Password updated successfully",
+  "__PROFILE_PAGE_UNFOLLOW_ERROR": "Ops! Something went wrong. Please try again",
+  "__PROFILE_PAGE_UNFOLLOW_SUCCESS": "You’ve unfollowed this activity",
   "__PROFILE_PAGE_UPDATE_SETTINGS_SUCCESS": "Settings updated successfully",
   "__PROFILE_PAGE_UPDATE_SUCCESS": "Profile updated successfully",
   "__PROFILE_PAGE_USER_CARD_COMPANY_SIZE_LABEL": "Company size",

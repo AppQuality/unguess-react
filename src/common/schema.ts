@@ -477,6 +477,10 @@ export interface paths {
       };
     };
   };
+  "/users/me/watched/plans": {
+    get: operations["get-users-me-watched-plans"];
+    parameters: {};
+  };
   "/users/roles": {
     get: operations["get-users-roles"];
     parameters: {};
@@ -3890,6 +3894,30 @@ export interface operations {
           value: string;
         };
       };
+    };
+  };
+  "get-users-me-watched-plans": {
+    parameters: {};
+    responses: {
+      200: {
+        content: {
+          "application/json": {
+            items: {
+              id?: number;
+              name?: string;
+              project?: {
+                name?: string;
+                id?: number;
+              };
+            }[];
+            allItems: number;
+          };
+        };
+      };
+      400: components["responses"]["Error"];
+      403: components["responses"]["Error"];
+      404: components["responses"]["Error"];
+      500: components["responses"]["Error"];
     };
   };
   "get-users-roles": {
