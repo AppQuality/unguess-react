@@ -8,6 +8,10 @@ import { useGetUsersMeQuery } from 'src/features/api';
 const Chat = styled(CopilotChat)`
   font-family: inherit;
 
+  .copilotKitMessages {
+    overflow-y: hidden;
+  }
+
   .poweredBy {
     display: none !important;
   }

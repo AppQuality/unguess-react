@@ -1,15 +1,31 @@
-import { Button, Drawer, PageHeader } from '@appquality/unguess-design-system';
+import {
+  Button,
+  Drawer,
+  Icon,
+  IconButton,
+  PageHeader,
+} from '@appquality/unguess-design-system';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
+import { ReactComponent as AiIcon } from 'src/assets/icons/ai-icon-gradient.svg';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
 import { PageTitle } from 'src/common/components/PageTitle';
 import { useGetUsersMeQuery } from 'src/features/api';
 import { useCanAccessToActiveWorkspace } from 'src/hooks/useCanAccessToActiveWorkspace';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
+import useWindowSize from 'src/hooks/useWindowSize';
+import styled from 'styled-components';
 import { Workflow } from './AgenticWorkflow';
 import { Counters } from './Counters';
+
+const StyledIconButton = styled(IconButton)`
+  svg {
+    width: ${({ theme }) => theme.iconSizes.lg} !important;
+    height: ${({ theme }) => theme.iconSizes.lg} !important;
+  }
+`;
 
 export const DashboardHeaderContent = ({
   pageTitle,
@@ -21,6 +37,7 @@ export const DashboardHeaderContent = ({
   const { t } = useTranslation();
   const { isLoading: isUserLoading, isFetching: isUserFetching } =
     useGetUsersMeQuery();
+  const { isMobile } = useWindowSize();
 
   const [isChatOpen, setIsChatOpen] = useState(false);
 
@@ -51,7 +68,9 @@ export const DashboardHeaderContent = ({
                 >
                   {t('__DASHBOARD_CTA_NEW_ACTIVITY')}
                 </Button>
-                <Button onClick={() => setIsChatOpen(!isChatOpen)}>AI</Button>
+                <StyledIconButton onClick={() => setIsChatOpen(!isChatOpen)}>
+                  <AiIcon />
+                </StyledIconButton>
               </div>
             )}
           </PageHeader.Meta>
@@ -62,8 +81,10 @@ export const DashboardHeaderContent = ({
           onClose={() => setIsChatOpen(false)}
           isOpen={isChatOpen}
           title="AI Chat"
+          style={{ width: isMobile ? '100%' : '30vw' }}
         >
           <Drawer.Header>Let&apos;s talk</Drawer.Header>
+          <Drawer.Close />
           <Drawer.Body>
             <Workflow />
           </Drawer.Body>
