@@ -11,7 +11,7 @@ import {
   useToast,
 } from '@appquality/unguess-design-system';
 import { useEffect, useRef, useState } from 'react';
-import { Trans, useTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as SaveIcon } from 'src/assets/icons/save.svg';
