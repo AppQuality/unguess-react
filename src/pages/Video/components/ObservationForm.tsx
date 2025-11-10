@@ -147,7 +147,19 @@ const ObservationForm = ({
             label: `${tag.name} (${tag.usageNumber})`,
             selected: selectedOptions.some((bt) => bt.id === tag.id),
             actions: ({ closeModal }) => (
-              <EditTagModal tag={tag} closeModal={closeModal} />
+              <EditTagModal
+                tag={tag}
+                closeModal={closeModal}
+                title={t('__VIDEO_PAGE_TAGS_DROPDOWN_EDIT_MODAL_TITLE')}
+                label={t('__VIDEO_PAGE_TAGS_DROPDOWN_EDIT_MODAL_LABEL')}
+                description={t(
+                  '__VIDEO_PAGE_TAGS_DROPDOWN_EDIT_MODAL_DESCRIPTION',
+                  {
+                    usageNumber: tag.usageNumber,
+                    count: Number(tag.usageNumber),
+                  }
+                )}
+              />
             ),
           }))
       );

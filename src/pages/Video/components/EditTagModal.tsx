@@ -23,9 +23,18 @@ import {
 interface EditModalProps {
   tag: GetCampaignsByCidVideoTagsApiResponse[number]['tags'][number];
   closeModal: () => void;
+  title: string;
+  label: string;
+  description: string;
 }
 
-export const EditTagModal = ({ closeModal, tag }: EditModalProps) => {
+export const EditTagModal = ({
+  closeModal,
+  tag,
+  title,
+  label,
+  description,
+}: EditModalProps) => {
   // Extract both the current title and the usage number in parentheses in two variables
 
   const [newName, setNewName] = useState(tag.name);
@@ -105,12 +114,12 @@ export const EditTagModal = ({ closeModal, tag }: EditModalProps) => {
     <>
       <TooltipModal.Title>
         <MD isBold style={{ marginBottom: appTheme.space.sm }}>
-          {t('__VIDEO_PAGE_DROPDOWN_EDIT_MODAL_TITLE')}
+          {title}
         </MD>
       </TooltipModal.Title>
       <TooltipModal.Body>
         <Label htmlFor="title-input">
-          {t('__VIDEO_PAGE_DROPDOWN_EDIT_MODAL_LABEL')}
+          {label}
           <span style={{ color: appTheme.palette.red[500] }}>*</span>
         </Label>
         <Input
@@ -143,13 +152,7 @@ export const EditTagModal = ({ closeModal, tag }: EditModalProps) => {
           }}
         >
           <Paragraph style={{ margin: 0 }}>
-            <SM>
-              <Trans
-                i18nKey="__VIDEO_PAGE_DROPDOWN_EDIT_MODAL_DESCRIPTION"
-                values={{ usageNumber: tag.usageNumber }}
-                count={Number(tag.usageNumber)}
-              />
-            </SM>
+            <SM>{description}</SM>
           </Paragraph>
           <Button
             size="small"

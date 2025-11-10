@@ -91,7 +91,19 @@ export const TitleDropdown = ({
               label: `${i.name} (${i.usageNumber})`,
               isSelected: formProps.values.title === i.id,
               actions: ({ closeModal }) => (
-                <EditTagModal tag={i} closeModal={closeModal} />
+                <EditTagModal
+                  tag={i}
+                  closeModal={closeModal}
+                  title={t('__VIDEO_PAGE_THEMES_DROPDOWN_EDIT_MODAL_TITLE')}
+                  label={t('__VIDEO_PAGE_THEMES_DROPDOWN_EDIT_MODAL_LABEL')}
+                  description={t(
+                    '__VIDEO_PAGE_THEMES_DROPDOWN_EDIT_MODAL_DESCRIPTION',
+                    {
+                      usageNumber: i.usageNumber,
+                      count: Number(i.usageNumber),
+                    }
+                  )}
+                />
               ),
               itemID: i.id.toString(),
             })),
