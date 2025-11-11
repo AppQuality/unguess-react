@@ -7,7 +7,6 @@ import {
   StickyNavItemLabel,
 } from 'src/common/components/navigation/asideNav';
 import { Page } from 'src/features/templates/Page';
-import { useState } from 'react';
 import ProfilePageHeader from 'src/pages/Profile/Header';
 import { FormPassword } from './FormPassword';
 import { FormProfile } from './FormProfile';
@@ -15,7 +14,6 @@ import { FormNotificationSettings } from './FormNotificationSettings';
 
 const Profile = () => {
   const { t } = useTranslation();
-  const [activeTab, setActiveTab] = useState('profile');
 
   return (
     <Page
@@ -28,28 +26,33 @@ const Profile = () => {
         <Grid gutters="xl" columns={12} style={{ marginTop: theme.space.xxl }}>
           <Row>
             <Col xs={12} lg={2} style={{ margin: 0 }}>
-              <AsideNav containerId="main">
+              <AsideNav
+                containerId="main"
+                isSpy
+                isSmooth
+                duration={500}
+                offset={-30}
+              >
                 <>
                   <StickyNavItem
-                    id="anchor-profile"
                     to="anchor-profile-id"
                     containerId="main"
+                    spy
                     smooth
                     duration={500}
                     offset={-30}
-                    onSetActive={() => {
-                      setActiveTab('profile');
-                    }}
+                    activeClass="isCurrent"
                   >
                     {t('__PROFILE_PAGE_NAV_ITEM_PROFILE')}
                   </StickyNavItem>
                   <StickyNavItem
-                    id="anchor-notification-settings"
                     to="anchor-notification-settings-id"
                     containerId="main"
+                    spy
                     smooth
                     duration={500}
                     offset={-30}
+                    activeClass="isCurrent"
                   >
                     {t('__PROFILE_PAGE_NAV_ITEM_NOTIFICATION_SETTINGS')}
                   </StickyNavItem>
@@ -59,11 +62,13 @@ const Profile = () => {
                   </StickyNavItemLabel>
 
                   <StickyNavItem
-                    id="anchor-password"
                     to="anchor-password-id"
                     containerId="main"
+                    spy
                     smooth
                     duration={500}
+                    offset={-30}
+                    activeClass="isCurrent"
                   >
                     {t('__PROFILE_PAGE_NAV_ITEM_PASSWORD')}
                   </StickyNavItem>

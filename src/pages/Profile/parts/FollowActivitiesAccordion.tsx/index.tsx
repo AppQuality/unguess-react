@@ -22,7 +22,7 @@ export const FollowActivitiesAccordion = () => {
       hasBorder={false}
       level={3}
       defaultExpandedSections={[]}
-      responsiveBreakpoint={730}
+      responsiveBreakpoint={650}
     >
       <AccordionNew.Section>
         <AccordionNew.Header
