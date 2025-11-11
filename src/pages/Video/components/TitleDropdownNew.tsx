@@ -81,34 +81,28 @@ export const TitleDropdown = ({
           if (!selectionValue || !inputValue) return;
           formProps.setFieldValue('title', Number(selectionValue));
         }}
-        options={[
-          {
-            id: 'titles-group',
-            label: 'select or create',
-            options: (titles || []).map((i) => ({
-              id: i.id.toString(),
-              value: i.id.toString(),
-              label: `${i.name} (${i.usageNumber})`,
-              isSelected: formProps.values.title === i.id,
-              actions: ({ closeModal }) => (
-                <EditTagModal
-                  tag={i}
-                  closeModal={closeModal}
-                  title={t('__VIDEO_PAGE_THEMES_DROPDOWN_EDIT_MODAL_TITLE')}
-                  label={t('__VIDEO_PAGE_THEMES_DROPDOWN_EDIT_MODAL_LABEL')}
-                  description={t(
-                    '__VIDEO_PAGE_THEMES_DROPDOWN_EDIT_MODAL_DESCRIPTION',
-                    {
-                      usageNumber: i.usageNumber,
-                      count: Number(i.usageNumber),
-                    }
-                  )}
-                />
-              ),
-              itemID: i.id.toString(),
-            })),
-          },
-        ]}
+        options={(titles || []).map((i) => ({
+          id: i.id.toString(),
+          value: i.id.toString(),
+          label: `${i.name} (${i.usageNumber})`,
+          isSelected: formProps.values.title === i.id,
+          actions: ({ closeModal }) => (
+            <EditTagModal
+              tag={i}
+              closeModal={closeModal}
+              title={t('__VIDEO_PAGE_THEMES_DROPDOWN_EDIT_MODAL_TITLE')}
+              label={t('__VIDEO_PAGE_THEMES_DROPDOWN_EDIT_MODAL_LABEL')}
+              description={t(
+                '__VIDEO_PAGE_THEMES_DROPDOWN_EDIT_MODAL_DESCRIPTION',
+                {
+                  usageNumber: i.usageNumber,
+                  count: Number(i.usageNumber),
+                }
+              )}
+            />
+          ),
+          itemID: i.id.toString(),
+        }))}
         startIcon={<CopyIcon />}
         placeholder={t(
           '__VIDEO_PAGE_ACTIONS_OBSERVATION_FORM_FIELD_TITLE_PLACEHOLDER'
