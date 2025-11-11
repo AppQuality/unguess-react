@@ -40,6 +40,7 @@ export const TitleDropdown = ({
       <Autocomplete
         data-qa="video-title-dropdown"
         isEditable
+        isCreatable
         listboxAppendToNode={document.body}
         renderValue={({ selection }) => {
           if (!selection) return '';
