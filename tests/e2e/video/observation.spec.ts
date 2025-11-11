@@ -18,6 +18,8 @@ test.describe('Video page', () => {
     await videopage.elements().observationAccordion(1).scrollIntoViewIfNeeded();
   });
 
+  // THEMES EDITING TESTS BELOW
+
   test('should open the edit dialog in the themes combobox and display an input and a summary text for the current item and a save button', async ({
     i18n,
   }) => {
@@ -28,7 +30,7 @@ test.describe('Video page', () => {
       videopage
         .elements()
         .tooltipModalOptions()
-        .getByText(i18n.t('__VIDEO_PAGE_DROPDOWN_EDIT_MODAL_TITLE'), {
+        .getByText(i18n.t('__VIDEO_PAGE_THEMES_DROPDOWN_EDIT_MODAL_TITLE'), {
           exact: true,
         })
     ).toBeVisible();
@@ -42,43 +44,9 @@ test.describe('Video page', () => {
         .elements()
         .tooltipModalOptions()
         .getByText(
-          i18n.t('__VIDEO_PAGE_DROPDOWN_EDIT_MODAL_DESCRIPTION', {
+          i18n.t('__VIDEO_PAGE_THEMES_DROPDOWN_EDIT_MODAL_DESCRIPTION_other', {
             count: 3,
             usageNumber: '3',
-          })
-        )
-    ).toBeVisible();
-    await expect(
-      videopage.elements().tooltipModalOptionsSaveButton()
-    ).toBeVisible();
-  });
-
-  test('should open the edit dialog in the tags combobox', async () => {
-    await videopage.openObservationAccordion(1);
-    await videopage.openComboboxVideoTags(1);
-    await videopage.clickOptionItemActions('1103');
-    await expect(
-      videopage
-        .elements()
-        .tooltipModalOptions()
-        .getByText(videopage.i18n.t('__VIDEO_PAGE_DROPDOWN_EDIT_MODAL_TITLE'), {
-          exact: true,
-        })
-    ).toBeVisible();
-    await expect(
-      videopage
-        .elements()
-        .tooltipModalOptions()
-        .getByLabel(videopage.i18n.t('__VIDEO_PAGE_DROPDOWN_EDIT_MODAL_LABEL'))
-    ).toHaveValue('Bloccante');
-    await expect(
-      videopage
-        .elements()
-        .tooltipModalOptions()
-        .getByText(
-          videopage.i18n.t('__VIDEO_PAGE_DROPDOWN_EDIT_MODAL_DESCRIPTION', {
-            count: 5,
-            usageNumber: '5',
           })
         )
     ).toBeVisible();
@@ -115,9 +83,7 @@ test.describe('Video page', () => {
       newTagName: 'New Theme Name',
     });
     // show user a success toast
-    await expect(
-      videopage.elements().toastThemeEditSuccessMessage()
-    ).toBeVisible();
+    await expect(videopage.elements().toastEditSuccessMessage()).toBeVisible();
     // invalidate and refetch video tags
     await getVideoTags;
   });
@@ -173,6 +139,50 @@ test.describe('Video page', () => {
     ).not.toBeDisabled();
   });
 
+  // TAGS EDITING TESTS BELOW
+
+  test('should open the edit dialog in the tags combobox', async () => {
+    await videopage.openObservationAccordion(1);
+    await videopage.openComboboxVideoTags(1);
+    await videopage.clickOptionItemActions('1103');
+    await expect(
+      videopage
+        .elements()
+        .tooltipModalOptions()
+        .getByText(
+          videopage.i18n.t('__VIDEO_PAGE_TAGS_DROPDOWN_EDIT_MODAL_TITLE'),
+          {
+            exact: true,
+          }
+        )
+    ).toBeVisible();
+    await expect(
+      videopage
+        .elements()
+        .tooltipModalOptions()
+        .getByLabel(
+          videopage.i18n.t('__VIDEO_PAGE_TAGS_DROPDOWN_EDIT_MODAL_LABEL')
+        )
+    ).toHaveValue('Bloccante');
+    await expect(
+      videopage
+        .elements()
+        .tooltipModalOptions()
+        .getByText(
+          videopage.i18n.t(
+            '__VIDEO_PAGE_TAGS_DROPDOWN_EDIT_MODAL_DESCRIPTION_other',
+            {
+              count: 5,
+              usageNumber: '5',
+            }
+          )
+        )
+    ).toBeVisible();
+    await expect(
+      videopage.elements().tooltipModalOptionsSaveButton()
+    ).toBeVisible();
+  });
+
   test('should allow changing the name of a tag', async ({ page }) => {
     await videopage.mockPatchVideoTag('1103');
     const patchTitleTag = page.waitForResponse(
@@ -192,7 +202,7 @@ test.describe('Video page', () => {
     await videopage.clickOptionItemActions('1103');
     await videopage
       .elements()
-      .tooltipModalOptionsThemeInput()
+      .tooltipModalOptionsTagInput()
       .fill('New Tag Name');
     await videopage.elements().tooltipModalOptionsSaveButton().click();
     const patchRequest = await patchTitleTag;
@@ -201,9 +211,7 @@ test.describe('Video page', () => {
       newTagName: 'New Tag Name',
     });
     // show user a success toast
-    await expect(
-      videopage.elements().toastThemeEditSuccessMessage()
-    ).toBeVisible();
+    await expect(videopage.elements().toastEditSuccessMessage()).toBeVisible();
     // invalidate and refetch video tags
     await getVideoTags;
   });
@@ -215,7 +223,7 @@ test.describe('Video page', () => {
     await videopage.openObservationAccordion(1);
     await videopage.openComboboxVideoTags(1);
     await videopage.clickOptionItemActions('1103');
-    await videopage.elements().tooltipModalOptionsThemeInput().clear();
+    await videopage.elements().tooltipModalOptionsTagInput().clear();
     await expect(
       videopage
         .elements()
@@ -231,7 +239,7 @@ test.describe('Video page', () => {
     ).toBeDisabled();
     await videopage
       .elements()
-      .tooltipModalOptionsThemeInput()
+      .tooltipModalOptionsTagInput()
       .fill('Existing Tag Name');
     await expect(
       videopage.elements().tooltipModalOptionsSaveButton()
@@ -252,7 +260,7 @@ test.describe('Video page', () => {
     ).toBeDisabled();
     await videopage
       .elements()
-      .tooltipModalOptionsThemeInput()
+      .tooltipModalOptionsTagInput()
       .fill('Now Unique Name');
     await expect(
       videopage.elements().tooltipModalOptionsSaveButton()

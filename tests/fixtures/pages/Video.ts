@@ -39,14 +39,22 @@ export class VideoPage extends UnguessPage {
           .getByRole('button', {
             name: this.i18n.t('__VIDEO_PAGE_DROPDOWN_EDIT_MODAL_SAVE_BUTTON'),
           }),
-      toastThemeEditSuccessMessage: () =>
+      toastEditSuccessMessage: () =>
         this.page.getByText(
           this.i18n.t('__VIDEO_PAGE_DROPDOWN_EDIT_MODAL_SUCCESS_TOAST_MESSAGE')
         ),
       tooltipModalOptionsThemeInput: () =>
         this.elements()
           .tooltipModalOptions()
-          .getByLabel(this.i18n.t('__VIDEO_PAGE_DROPDOWN_EDIT_MODAL_LABEL')),
+          .getByLabel(
+            this.i18n.t('__VIDEO_PAGE_THEMES_DROPDOWN_EDIT_MODAL_LABEL')
+          ),
+      tooltipModalOptionsTagInput: () =>
+        this.elements()
+          .tooltipModalOptions()
+          .getByLabel(
+            this.i18n.t('__VIDEO_PAGE_TAGS_DROPDOWN_EDIT_MODAL_LABEL')
+          ),
     };
   }
 
