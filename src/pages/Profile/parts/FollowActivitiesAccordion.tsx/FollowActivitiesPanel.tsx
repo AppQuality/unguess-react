@@ -1,7 +1,5 @@
 import {
   Anchor,
-  Button,
-  Hint,
   Label,
   SM,
   useToast,
@@ -16,6 +14,7 @@ import {
   useDeletePlansByPidWatchersAndProfileIdMutation,
   useGetUsersMeQuery,
 } from 'src/features/api';
+import { UnfollowButton } from './UnfollowButton';
 
 const StyledPanelSectionContainer = styled.div`
   display: flex;
@@ -95,24 +94,19 @@ export const FollowActivitiesPanel = ({
               <Anchor href={`/plans/${activity.id}`}>{activity.name}</Anchor>
               <SM>{activity?.project?.name}</SM>
             </div>
-            <Button
-              disabled={activity.isLast}
-              size="small"
-              isBasic
-              onClick={() => handleUnfollow(activity.id ?? 0)}
-            >
-              {t(
-                '__PROFILE_PAGE_NOTIFICATIONS_CARD_FOLLOW_ACTIVITIES_BUTTON_TEXT'
-              )}
-            </Button>
+            <UnfollowButton
+              isDisabled={!!activity.isLast}
+              activityId={activity.id ?? 0}
+              handleUnfollow={handleUnfollow}
+            />
           </StyledActivityItem>
         ))}
       </StyledPanelSectionContainer>
       <StyledHintContainer>
         <InfoIcon />
-        <Hint>
+        <SM>
           {t('__PROFILE_PAGE_NOTIFICATIONS_CARD_FOLLOW_ACTIVITIES_HINT_TEXT')}
-        </Hint>
+        </SM>
       </StyledHintContainer>
     </div>
   );

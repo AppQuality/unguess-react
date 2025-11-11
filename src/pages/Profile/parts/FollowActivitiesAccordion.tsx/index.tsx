@@ -17,7 +17,12 @@ export const FollowActivitiesAccordion = () => {
   if (isLoading) return <Loader />;
   if (isError || !followedActivities) return null;
   return (
-    <AccordionNew hasBorder={false} level={3} onChange={() => {}}>
+    <AccordionNew
+      isCompact
+      hasBorder={false}
+      level={3}
+      defaultExpandedSections={[]}
+    >
       <AccordionNew.Section>
         <AccordionNew.Header
           icon={

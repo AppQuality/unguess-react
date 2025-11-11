@@ -7,7 +7,12 @@ export const NotificationSettingsAccordion = () => {
   const { t } = useTranslation();
 
   return (
-    <AccordionNew hasBorder={false} level={3} onChange={() => {}}>
+    <AccordionNew
+      isCompact
+      hasBorder={false}
+      level={3}
+      defaultExpandedSections={[]}
+    >
       <AccordionNew.Section>
         <AccordionNew.Header>
           <AccordionNew.Label
