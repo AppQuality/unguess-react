@@ -47,7 +47,12 @@ export const NotificationSettingsCard = () => {
             {t('__PROFILE_PAGE_NOTIFICATIONS_CARD_DESCRIPTION')}
           </MD>
         </StyledNotificationsCardHeaderWrapper>
-        <Divider />
+        <Divider
+          style={{
+            marginTop: appTheme.space.sm,
+            marginBottom: appTheme.space.sm,
+          }}
+        />
         <NotificationSettingsAccordion />
         <Button
           disabled={!canSave}

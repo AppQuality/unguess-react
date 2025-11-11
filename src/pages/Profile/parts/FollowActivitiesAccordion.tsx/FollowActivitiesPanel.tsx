@@ -46,6 +46,16 @@ export const FollowActivitiesPanel = ({
   const { addToast } = useToast();
   const { data: userData } = useGetUsersMeQuery();
   const [unfollowPlan] = useDeletePlansByPidWatchersAndProfileIdMutation();
+
+  const truncateName = (
+    name: string | undefined,
+    maxLength: number = 40
+  ): string => {
+    if (!name) return '';
+    return name.length > maxLength
+      ? `${name.substring(0, maxLength)}...`
+      : name;
+  };
   const handleUnfollow = async (planId: number) => {
     try {
       await unfollowPlan({
@@ -91,7 +101,9 @@ export const FollowActivitiesPanel = ({
         {followedActivities.map((activity) => (
           <StyledActivityItem>
             <div>
-              <Anchor href={`/plans/${activity.id}`}>{activity.name}</Anchor>
+              <Anchor href={`/plans/${activity.id}`}>
+                {truncateName(activity?.name)}
+              </Anchor>
               <SM>{activity?.project?.name}</SM>
             </div>
             <UnfollowButton

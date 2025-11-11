@@ -7,6 +7,7 @@ import {
   StickyNavItemLabel,
 } from 'src/common/components/navigation/asideNav';
 import { Page } from 'src/features/templates/Page';
+import { useState } from 'react';
 import ProfilePageHeader from 'src/pages/Profile/Header';
 import { FormPassword } from './FormPassword';
 import { FormProfile } from './FormProfile';
@@ -14,6 +15,7 @@ import { FormNotificationSettings } from './FormNotificationSettings';
 
 const Profile = () => {
   const { t } = useTranslation();
+  const [activeTab, setActiveTab] = useState('profile');
 
   return (
     <Page
@@ -35,6 +37,9 @@ const Profile = () => {
                     smooth
                     duration={500}
                     offset={-30}
+                    onSetActive={() => {
+                      setActiveTab('profile');
+                    }}
                   >
                     {t('__PROFILE_PAGE_NAV_ITEM_PROFILE')}
                   </StickyNavItem>

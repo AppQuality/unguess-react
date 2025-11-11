@@ -84,7 +84,6 @@ export const PasswordAccordion = () => {
     <ContainerCard style={{ padding: 0 }}>
       <AccordionNew
         level={3}
-        isCompact
         id="anchor-password-id"
         data-qa="password-accordion"
         key={`password_accordion_${isOpen}`}

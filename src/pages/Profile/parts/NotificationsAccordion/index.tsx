@@ -12,6 +12,7 @@ export const NotificationSettingsAccordion = () => {
       hasBorder={false}
       level={3}
       defaultExpandedSections={[]}
+      responsiveBreakpoint={730}
     >
       <AccordionNew.Section>
         <AccordionNew.Header>
