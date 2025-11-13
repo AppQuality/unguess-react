@@ -17,6 +17,7 @@ import { Form, Formik, FormikHelpers, FormikProps } from 'formik';
 import { ComponentProps, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
+import analytics from 'src/analytics';
 import { appTheme } from 'src/app/theme';
 import { getColorWithAlpha } from 'src/common/utils';
 import {
@@ -149,6 +150,7 @@ const ObservationForm = ({
             selected: selectedOptions.some((bt) => bt.id === tag.id),
             actions: ({ closeModal }) => (
               <EditTagModal
+                type="extraTag"
                 tag={tag}
                 closeModal={closeModal}
                 title={t('__VIDEO_PAGE_TAGS_DROPDOWN_EDIT_MODAL_TITLE')}
@@ -163,6 +165,14 @@ const ObservationForm = ({
               />
             ),
             actionIcon: <EditIcon />,
+            onOptionActionClick: () => {
+              analytics.track('tagEditModalOpened', {
+                tagId: tag.id.toString(),
+                tagType: 'extraTag',
+                tagName: tag.name,
+                associatedObservations: tag.usageNumber,
+              });
+            },
           }))
       );
     }
@@ -381,6 +391,14 @@ const ObservationForm = ({
                     listboxAppendToNode={document.body}
                     creatable
                     maxItems={4}
+                    onClick={() =>
+                      analytics.track('tagDropdownOpened', {
+                        dropdownType: 'extraTags',
+                        availableTagsCount: options.length,
+                        selectedTagsCount: options.filter((o) => o.selected)
+                          .length,
+                      })
+                    }
                     size="medium"
                     i18n={{
                       placeholder: t(
