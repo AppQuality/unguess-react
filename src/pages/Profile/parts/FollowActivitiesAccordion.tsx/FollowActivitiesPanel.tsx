@@ -1,14 +1,20 @@
 import {
   Anchor,
-  Button,
-  Hint,
   Label,
   SM,
+  useToast,
+  Notification,
 } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { ReactComponent as InfoIcon } from 'src/assets/icons/info-icon.svg';
 
 import styled from 'styled-components';
+import {
+  GetUsersMeWatchedPlansApiResponse,
+  useDeletePlansByPidWatchersAndProfileIdMutation,
+  useGetUsersMeQuery,
+} from 'src/features/api';
+import { UnfollowButton } from './UnfollowButton';
 
 const StyledPanelSectionContainer = styled.div`
   display: flex;
@@ -31,8 +37,58 @@ const StyledActivityItem = styled.div`
   justify-content: space-between;
 `;
 
-export const FollowActivitiesPanel = () => {
+export const FollowActivitiesPanel = ({
+  followedActivities,
+}: {
+  followedActivities: GetUsersMeWatchedPlansApiResponse['items'];
+}) => {
   const { t } = useTranslation();
+  const { addToast } = useToast();
+  const { data: userData } = useGetUsersMeQuery();
+  const [unfollowPlan] = useDeletePlansByPidWatchersAndProfileIdMutation();
+
+  const truncateName = (
+    name: string | undefined,
+    maxLength: number = 40
+  ): string => {
+    if (!name) return '';
+    return name.length > maxLength
+      ? `${name.substring(0, maxLength)}...`
+      : name;
+  };
+  const handleUnfollow = async (planId: number) => {
+    try {
+      await unfollowPlan({
+        pid: planId.toString(),
+        profileId: userData?.profile_id.toString() ?? '',
+      }).unwrap();
+
+      addToast(
+        ({ close }) => (
+          <Notification
+            onClose={close}
+            type="success"
+            message={t('__PROFILE_PAGE_UNFOLLOW_SUCCESS')}
+            isPrimary
+          />
+        ),
+        { placement: 'top' }
+      );
+    } catch (error) {
+      addToast(
+        ({ close }) => (
+          <Notification
+            onClose={close}
+            type="error"
+            message={t('__PROFILE_PAGE_UNFOLLOW_ERROR')}
+            isPrimary
+          />
+        ),
+        { placement: 'top' }
+      );
+    }
+  };
+
   return (
     <div>
       <StyledPanelSectionContainer>
@@ -40,44 +96,29 @@ export const FollowActivitiesPanel = () => {
           {t(
             '__PROFILE_PAGE_NOTIFICATIONS_CARD_FOLLOW_ACTIVITIES_SETUP_DESCRIPTION'
           )}
-          (3)
+          {`(${followedActivities.length})`}
         </Label>
-        <StyledActivityItem>
-          <div>
-            <Anchor>Titolo Attivita</Anchor>
-            <SM>titolo progetto</SM>
-          </div>
-          <Button size="small" isBasic>
-            {t(
-              '__PROFILE_PAGE_NOTIFICATIONS_CARD_FOLLOW_ACTIVITIES_BUTTON_TEXT'
-            )}
-          </Button>
-        </StyledActivityItem>
-      </StyledPanelSectionContainer>
-      <StyledPanelSectionContainer>
-        <Label>
-          {t(
-            '__PROFILE_PAGE_NOTIFICATIONS_CARD_FOLLOW_ACTIVITIES_PROGRESS_DESCRIPTION'
-          )}
-          (3)
-        </Label>
-        <StyledActivityItem>
-          <div>
-            <Anchor>Titolo Attivita</Anchor>
-            <SM>titolo progetto</SM>
-          </div>
-          <Button size="small" isBasic>
-            {t(
-              '__PROFILE_PAGE_NOTIFICATIONS_CARD_FOLLOW_ACTIVITIES_BUTTON_TEXT'
-            )}
-          </Button>
-        </StyledActivityItem>
+        {followedActivities.map((activity) => (
+          <StyledActivityItem>
+            <div>
+              <Anchor href={`/plans/${activity.id}`}>
+                {truncateName(activity?.name)}
+              </Anchor>
+              <SM>{activity?.project?.name}</SM>
+            </div>
+            <UnfollowButton
+              isDisabled={!!activity.isLast}
+              activityId={activity.id ?? 0}
+              handleUnfollow={handleUnfollow}
+            />
+          </StyledActivityItem>
+        ))}
       </StyledPanelSectionContainer>
       <StyledHintContainer>
         <InfoIcon />
-        <Hint>
+        <SM>
           {t('__PROFILE_PAGE_NOTIFICATIONS_CARD_FOLLOW_ACTIVITIES_HINT_TEXT')}
-        </Hint>
+        </SM>
       </StyledHintContainer>
     </div>
   );

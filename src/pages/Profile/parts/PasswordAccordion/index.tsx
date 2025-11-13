@@ -78,7 +78,7 @@ export const PasswordAccordion = () => {
     submitForm,
   } = useFormikContext<PasswordFormValues>();
 
-  const isOpen = false; // Temporary, as the context is not fully implemented yet
+  const isOpen = false;
 
   return (
     <ContainerCard style={{ padding: 0 }}>
