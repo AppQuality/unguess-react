@@ -106,7 +106,7 @@ const Observation = ({
           );
           if (activeElement) {
             refScroll.current.scrollTo({
-              top: activeElement.offsetTop,
+              top: activeElement.offsetTop - 150, // account for header height
               behavior: 'smooth',
             });
           }
