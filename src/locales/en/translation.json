@@ -1257,7 +1257,7 @@
   "__PROFILE_PAGE_NOTIFICATIONS_CARD_ACTIVITY_PROGRESS_ALERT_ITEM_4": "When an activity is completed",
   "__PROFILE_PAGE_NOTIFICATIONS_CARD_ACTIVITY_PROGRESS_ALERT_ITEM_5": "When you’re mentioned in a comment",
   "__PROFILE_PAGE_NOTIFICATIONS_CARD_ACTIVITY_PROGRESS_ALERT_TITLE": "You’ll always receive:",
-  "__PROFILE_PAGE_NOTIFICATIONS_CARD_ACTIVITY_PROGRESS_CHECKBOX_HINT": "From execution to completion, including comments in threads you participate in",
+  "__PROFILE_PAGE_NOTIFICATIONS_CARD_ACTIVITY_PROGRESS_CHECKBOX_HINT": "From execution to completion",
   "__PROFILE_PAGE_NOTIFICATIONS_CARD_ACTIVITY_PROGRESS_CHECKBOX_LABEL": "Activity progress",
   "__PROFILE_PAGE_NOTIFICATIONS_CARD_ACTIVITY_PROGRESS_UPDATES_FORM_LABEL": "Receive updates for:",
   "__PROFILE_PAGE_NOTIFICATIONS_CARD_ACTIVITY_PROGRESS_UPDATES_HINT": "Choose which progress notifications you’d like to receive by email for the activities you follow",

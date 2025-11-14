@@ -18,7 +18,6 @@ export const FollowActivitiesAccordion = () => {
   if (isError || !followedActivities) return null;
   return (
     <AccordionNew
-      isCompact
       hasBorder={false}
       level={3}
       defaultExpandedSections={[]}

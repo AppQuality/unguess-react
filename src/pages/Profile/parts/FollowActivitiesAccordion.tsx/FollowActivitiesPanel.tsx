@@ -8,34 +8,17 @@ import {
 import { useTranslation } from 'react-i18next';
 import { ReactComponent as InfoIcon } from 'src/assets/icons/info-icon.svg';
 
-import styled from 'styled-components';
 import {
   GetUsersMeWatchedPlansApiResponse,
   useDeletePlansByPidWatchersAndProfileIdMutation,
   useGetUsersMeQuery,
 } from 'src/features/api';
 import { UnfollowButton } from './UnfollowButton';
-
-const StyledPanelSectionContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: ${({ theme }) => theme.space.xs};
-  margin-bottom: ${({ theme }) => theme.space.xxl};
-`;
-
-const StyledHintContainer = styled.div`
-  display: flex;
-  align-items: center;
-  gap: ${({ theme }) => theme.space.xs};
-`;
-
-const StyledActivityItem = styled.div`
-  padding-top: ${({ theme }) => theme.space.sm};
-  padding-bottom: ${({ theme }) => theme.space.sm};
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-`;
+import {
+  StyledActivityItem,
+  StyledHintContainer,
+  StyledPanelSectionContainer,
+} from './components';
 
 export const FollowActivitiesPanel = ({
   followedActivities,
