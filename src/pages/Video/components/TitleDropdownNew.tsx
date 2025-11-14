@@ -33,11 +33,6 @@ export const TitleDropdown = ({
   const { campaignId } = useParams();
   const [addVideoTags] = usePostCampaignsByCidVideoTagsMutation();
   const titleMaxLength = 70;
-
-  if (!titles) {
-    return null;
-  }
-
   const options: ComponentProps<typeof Autocomplete>['options'] = useMemo(
     () =>
       (titles || []).map((i) => ({
@@ -74,6 +69,10 @@ export const TitleDropdown = ({
       })),
     [titles, formProps.values.title]
   );
+
+  if (!titles) {
+    return null;
+  }
 
   return (
     <Field>
