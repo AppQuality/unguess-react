@@ -3,25 +3,80 @@ import { useTranslation } from 'react-i18next';
 import { WatcherList } from 'src/common/components/WatcherList';
 
 import {
+  useGetCampaignsByCidQuery,
+  useGetCampaignsByCidUsersQuery,
   useGetCampaignsByCidWatchersQuery,
+  useGetProjectsByPidUsersQuery,
   useGetUsersMeQuery,
   useGetWorkspacesByWidUsersQuery,
   usePostCampaignsByCidWatchersMutation,
 } from 'src/features/api';
-import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
+
+const useAvailableUsers = ({ campaignId }: { campaignId: string }) => {
+  const { data, isLoading } = useGetCampaignsByCidQuery({ cid: campaignId });
+
+  if (isLoading || !data) return { data: [], isLoading };
+
+  const { project, workspace } = data;
+  const { id: workspaceId } = workspace;
+  const { id: projectId } = project;
+
+  const { data: campaignUsers, isLoading: isLoadingCampaignUsers } =
+    useGetCampaignsByCidUsersQuery(
+      {
+        cid: campaignId,
+      },
+      {
+        skip: !campaignId,
+      }
+    );
+
+  const { data: workspaceUsers, isLoading: isLoadingWorkspaceUsers } =
+    useGetWorkspacesByWidUsersQuery(
+      {
+        wid: workspaceId.toString(),
+      },
+      {
+        skip: !workspaceId,
+      }
+    );
+
+  const { data: projectUsers, isLoading: isLoadingProjectUsers } =
+    useGetProjectsByPidUsersQuery(
+      {
+        pid: projectId.toString(),
+      },
+      {
+        skip: !projectId,
+      }
+    );
+
+  if (
+    isLoadingCampaignUsers ||
+    isLoadingWorkspaceUsers ||
+    isLoadingProjectUsers
+  ) {
+    return { data: [], isLoading: true };
+  }
+
+  const combinedUsers = [
+    ...(campaignUsers?.items || []),
+    ...(workspaceUsers?.items || []),
+    ...(projectUsers?.items || []),
+  ].filter((user) => !user.invitationPending);
+
+  // Remove duplicates
+  const uniqueUsers = Array.from(
+    new Map(combinedUsers.map((user) => [user.profile_id, user])).values()
+  );
+
+  return { data: uniqueUsers, isLoading: false };
+};
 
 const MemberAddAutocomplete = ({ campaignId }: { campaignId: string }) => {
-  const { activeWorkspace, isLoading } = useActiveWorkspace();
+  const { data, isLoading } = useAvailableUsers({ campaignId });
 
   const [addUser] = usePostCampaignsByCidWatchersMutation();
-  const { data } = useGetWorkspacesByWidUsersQuery(
-    {
-      wid: (activeWorkspace?.id || '0').toString(),
-    },
-    {
-      skip: !activeWorkspace?.id,
-    }
-  );
   const { addToast } = useToast();
   const { t } = useTranslation();
   const { data: currentUser, isLoading: isLoadingCurrentUser } =
@@ -32,8 +87,7 @@ const MemberAddAutocomplete = ({ campaignId }: { campaignId: string }) => {
   if (!data || isLoading || isLoadingWatchers || isLoadingCurrentUser)
     return null;
 
-  const users = data.items
-    .filter((user) => !user.invitationPending)
+  const users = data
     .map((user) => ({
       name: user.name,
       email: user.email,
