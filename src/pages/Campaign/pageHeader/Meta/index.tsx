@@ -2,7 +2,6 @@ import {
   Button,
   ButtonMenu,
   IconButton,
-  MD,
   Skeleton,
   Tooltip,
 } from '@appquality/unguess-design-system';
@@ -13,7 +12,6 @@ import { ReactComponent as VideoListIcon } from '@zendeskgarden/svg-icons/src/16
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useNavigate } from 'react-router-dom';
-import { appTheme } from 'src/app/theme';
 import { ReactComponent as EditRedoStroke } from 'src/assets/icons/move-icon.svg';
 import { ReactComponent as InboxFill } from 'src/assets/icons/project-archive.svg';
 import { Divider } from 'src/common/components/divider';
@@ -50,7 +48,7 @@ const ButtonWrapper = styled.div`
   gap: ${({ theme }) => theme.space.sm};
 
   @media screen and (max-width: ${({ theme }) => theme.breakpoints.xl}) {
-    flex-direction: column;
+    align-self: end;
     align-items: flex-start;
     justify-content: flex-start;
   }
@@ -179,10 +177,6 @@ export const Metas = ({
           )}
           {hasTaggingToolFeature && totalVideos > 0 && (
             <>
-              <MD color={appTheme.palette.blue[600]}>
-                {' '}
-                {t('__INSIGHTS_PAGE_NAVIGATION_LABEL')}
-              </MD>
               <Link
                 data-qa="playlis_video_header_button_navigation"
                 to={videoDashboardRoute}

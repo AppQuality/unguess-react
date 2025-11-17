@@ -1,18 +1,18 @@
 import { Button, Skeleton } from '@appquality/unguess-design-system';
-import styled from 'styled-components';
-import { SeverityMeta } from 'src/common/components/meta/SeverityMeta';
-import { Pipe } from 'src/common/components/Pipe';
+import { useTranslation } from 'react-i18next';
 import { ReactComponent as ArrowDowloadIcon } from 'src/assets/icons/download-stroke.svg';
 import { ReactComponent as GearIcon } from 'src/assets/icons/gear.svg';
-import { useTranslation } from 'react-i18next';
-import { getLocalizeIntegrationCenterRoute } from 'src/hooks/useLocalizeIntegrationCenterUrl';
-import WPAPI from 'src/common/wpapi';
-import { StatusMeta } from 'src/common/components/meta/StatusMeta';
-import { CampaignStatus } from 'src/types';
-import { PageMeta } from 'src/common/components/PageMeta';
 import { CampaignSettings } from 'src/common/components/inviteUsers/campaignSettings';
+import { SeverityMeta } from 'src/common/components/meta/SeverityMeta';
+import { StatusMeta } from 'src/common/components/meta/StatusMeta';
+import { PageMeta } from 'src/common/components/PageMeta';
+import { Pipe } from 'src/common/components/Pipe';
+import WPAPI from 'src/common/wpapi';
 import { useGetCampaignsByCidQuery } from 'src/features/api';
 import { useCanAccessToActiveWorkspace } from 'src/hooks/useCanAccessToActiveWorkspace';
+import { getLocalizeIntegrationCenterRoute } from 'src/hooks/useLocalizeIntegrationCenterUrl';
+import { CampaignStatus } from 'src/types';
+import styled from 'styled-components';
 import { UniqueBugsCounter } from './UniqueBugsCounter';
 import { useCampaignBugs } from './useCampaignBugs';
 
@@ -21,7 +21,7 @@ const ButtonsWrapper = styled.div`
   gap: ${({ theme }) => theme.space.sm};
 
   @media screen and (max-width: ${({ theme }) => theme.breakpoints.sm}) {
-    flex-direction: column;
+    align-self: end;
     align-items: flex-start;
     justify-content: flex-start;
   }
