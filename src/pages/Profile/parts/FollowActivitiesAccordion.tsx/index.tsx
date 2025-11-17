@@ -2,9 +2,14 @@ import { AccordionNew, Tag } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as EyeIcon } from 'src/assets/icons/eye-icon-fill.svg';
-import { useGetUsersMeWatchedPlansQuery } from 'src/features/api';
+import {
+  useGetUsersMeWatchedCampaignsQuery,
+  useGetUsersMeWatchedPlansQuery,
+} from 'src/features/api';
 import { FollowActivitiesPanel } from './FollowActivitiesPanel';
 import { Loader } from '../cardLoader';
+import { FollowCampaignActivitiesPanel } from './FollowCampaignActivitiesPanel';
+import { NotificationSettingsEmptyState } from './NotificationSettingsEmptyState';
 
 export const FollowActivitiesAccordion = () => {
   const { t } = useTranslation();
@@ -14,6 +19,14 @@ export const FollowActivitiesAccordion = () => {
     isError,
   } = useGetUsersMeWatchedPlansQuery();
 
+  const {
+    data: followedCampaigns,
+    isLoading: isCampaignsLoading,
+    isError: isCampaignsError,
+  } = useGetUsersMeWatchedCampaignsQuery();
+  const totalFollowed =
+    (followedActivities?.items.length || 0) +
+    (followedCampaigns?.items.length || 0);
   if (isLoading) return <Loader />;
   if (isError || !followedActivities) return null;
   return (
@@ -43,18 +56,35 @@ export const FollowActivitiesAccordion = () => {
           />
           <AccordionNew.Meta>
             <Tag>
-              {`${followedActivities.items.length}/${followedActivities.allItems} `}
+              {`${totalFollowed}/${
+                followedActivities.allItems + (followedCampaigns?.allItems || 0)
+              } `}
               {t('__PROFILE_PAGE_NOTIFICATIONS_CARD_FOLLOW_ACTIVITIES_TAG')}
             </Tag>
           </AccordionNew.Meta>
         </AccordionNew.Header>
-        <AccordionNew.Panel>
-          {followedActivities.items.length > 0 && (
-            <FollowActivitiesPanel
-              followedActivities={followedActivities.items}
-            />
-          )}
-        </AccordionNew.Panel>
+        {totalFollowed > 0 ? (
+          <>
+            <AccordionNew.Panel>
+              {followedActivities.items.length > 0 && (
+                <FollowActivitiesPanel
+                  followedActivities={followedActivities.items}
+                />
+              )}
+            </AccordionNew.Panel>
+            {followedCampaigns && followedCampaigns.items.length > 0 && (
+              <AccordionNew.Panel>
+                <FollowCampaignActivitiesPanel
+                  followedCampaigns={followedCampaigns.items}
+                />
+              </AccordionNew.Panel>
+            )}
+          </>
+        ) : (
+          <AccordionNew.Panel>
+            <NotificationSettingsEmptyState />
+          </AccordionNew.Panel>
+        )}
       </AccordionNew.Section>
     </AccordionNew>
   );

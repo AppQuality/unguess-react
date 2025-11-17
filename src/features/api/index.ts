@@ -617,6 +617,12 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: () => ({ url: `/users/me/watched/plans` }),
     }),
+    getUsersMeWatchedCampaigns: build.query<
+      GetUsersMeWatchedCampaignsApiResponse,
+      GetUsersMeWatchedCampaignsApiArg
+    >({
+      query: () => ({ url: `/users/me/watched/campaigns` }),
+    }),
     getUsersRoles: build.query<GetUsersRolesApiResponse, GetUsersRolesApiArg>({
       query: () => ({ url: `/users/roles` }),
     }),
@@ -818,6 +824,22 @@ const injectedRtkApi = api.injectEndpoints({
         body: queryArg.body,
       }),
     }),
+    getCampaignsByCidWatchers: build.query<
+      GetCampaignsByCidWatchersApiResponse,
+      GetCampaignsByCidWatchersApiArg
+    >({
+      query: (queryArg) => ({ url: `/campaigns/${queryArg.cid}/watchers` }),
+    }),
+    postCampaignsByCidWatchers: build.mutation<
+      PostCampaignsByCidWatchersApiResponse,
+      PostCampaignsByCidWatchersApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/campaigns/${queryArg.cid}/watchers`,
+        method: 'POST',
+        body: queryArg.body,
+      }),
+    }),
     getWorkspacesByWidTemplates: build.query<
       GetWorkspacesByWidTemplatesApiResponse,
       GetWorkspacesByWidTemplatesApiArg
@@ -900,6 +922,15 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({
         url: `/plans/${queryArg.pid}/watchers/${queryArg.profileId}`,
+        method: 'DELETE',
+      }),
+    }),
+    deleteCampaignsByCidWatchersAndProfileId: build.mutation<
+      DeleteCampaignsByCidWatchersAndProfileIdApiResponse,
+      DeleteCampaignsByCidWatchersAndProfileIdApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/campaigns/${queryArg.cid}/watchers/${queryArg.profileId}`,
         method: 'DELETE',
       }),
     }),
@@ -1835,6 +1866,19 @@ export type GetUsersMeWatchedPlansApiResponse = /** status 200  */ {
   allItems: number;
 };
 export type GetUsersMeWatchedPlansApiArg = void;
+export type GetUsersMeWatchedCampaignsApiResponse = /** status 200  */ {
+  items: {
+    id?: number;
+    name?: string;
+    project?: {
+      name?: string;
+      id?: number;
+    };
+    isLast?: boolean;
+  }[];
+  allItems: number;
+};
+export type GetUsersMeWatchedCampaignsApiArg = void;
 export type GetUsersRolesApiResponse = /** status 200 OK */ {
   id: number;
   name: string;
@@ -2093,6 +2137,28 @@ export type PutPlansByPidWatchersApiArg = {
     }[];
   };
 };
+export type GetCampaignsByCidWatchersApiResponse = /** status 200 OK */ {
+  items: {
+    id: number;
+    name: string;
+    surname: string;
+    email: string;
+    image?: string;
+    isInternal: boolean;
+  }[];
+};
+export type GetCampaignsByCidWatchersApiArg = {
+  cid: string;
+};
+export type PostCampaignsByCidWatchersApiResponse = /** status 200 OK */ void;
+export type PostCampaignsByCidWatchersApiArg = {
+  cid: string;
+  body: {
+    users: {
+      id: number;
+    }[];
+  };
+};
 export type GetWorkspacesByWidTemplatesApiResponse = /** status 200 OK */ {
   items: CpReqTemplate[];
 } & PaginationData;
@@ -2199,6 +2265,14 @@ export type DeletePlansByPidWatchersAndProfileIdApiResponse =
 export type DeletePlansByPidWatchersAndProfileIdApiArg = {
   pid: string;
   profileId: string;
+};
+export type DeleteCampaignsByCidWatchersAndProfileIdApiResponse =
+  /** status 200 OK */ {
+    success?: boolean;
+  };
+export type DeleteCampaignsByCidWatchersAndProfileIdApiArg = {
+  profileId: string;
+  cid: string;
 };
 export type Error = {
   code: number;
@@ -3128,6 +3202,7 @@ export const {
   useGetUsersMePreferencesQuery,
   usePutUsersMePreferencesBySlugMutation,
   useGetUsersMeWatchedPlansQuery,
+  useGetUsersMeWatchedCampaignsQuery,
   useGetUsersRolesQuery,
   useGetVideosByVidQuery,
   useGetVideosByVidObservationsQuery,
@@ -3150,6 +3225,8 @@ export const {
   useGetPlansByPidWatchersQuery,
   usePostPlansByPidWatchersMutation,
   usePutPlansByPidWatchersMutation,
+  useGetCampaignsByCidWatchersQuery,
+  usePostCampaignsByCidWatchersMutation,
   useGetWorkspacesByWidTemplatesQuery,
   usePostWorkspacesByWidTemplatesMutation,
   useDeleteWorkspacesByWidTemplatesAndTidMutation,
@@ -3158,4 +3235,5 @@ export const {
   useGetWorkspacesByWidUsersQuery,
   usePostWorkspacesByWidUsersMutation,
   useDeletePlansByPidWatchersAndProfileIdMutation,
+  useDeleteCampaignsByCidWatchersAndProfileIdMutation,
 } = injectedRtkApi;
