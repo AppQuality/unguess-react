@@ -2,6 +2,7 @@ import {
   Autocomplete,
   DropdownFieldNew as Field,
 } from '@appquality/unguess-design-system';
+import { ReactComponent as EditIcon } from '@zendeskgarden/svg-icons/src/12/pencil-stroke.svg';
 import { FormikProps } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
@@ -103,6 +104,7 @@ export const TitleDropdown = ({
             />
           ),
           itemID: i.id.toString(),
+          actionIcon: <EditIcon />,
         }))}
         startIcon={<CopyIcon />}
         placeholder={t(

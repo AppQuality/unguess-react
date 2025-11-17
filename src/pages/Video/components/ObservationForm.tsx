@@ -12,6 +12,7 @@ import {
   Textarea,
   useToast,
 } from '@appquality/unguess-design-system';
+import { ReactComponent as EditIcon } from '@zendeskgarden/svg-icons/src/12/pencil-stroke.svg';
 import { Form, Formik, FormikHelpers, FormikProps } from 'formik';
 import { ComponentProps, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -161,6 +162,7 @@ const ObservationForm = ({
                 )}
               />
             ),
+            actionIcon: <EditIcon />,
           }))
       );
     }
