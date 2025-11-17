@@ -2,6 +2,7 @@ import {
   Autocomplete,
   DropdownFieldNew as Field,
 } from '@appquality/unguess-design-system';
+import { ReactComponent as EditIcon } from '@zendeskgarden/svg-icons/src/12/pencil-stroke.svg';
 import { FormikProps } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
@@ -10,6 +11,7 @@ import {
   GetCampaignsByCidVideoTagsApiResponse,
   usePostCampaignsByCidVideoTagsMutation,
 } from 'src/features/api';
+import { EditTagModal } from './EditTagModal';
 
 export interface ObservationFormValues {
   title: number;
@@ -37,8 +39,10 @@ export const TitleDropdown = ({
   return (
     <Field>
       <Autocomplete
-        listboxAppendToNode={document.querySelector('main') || undefined}
+        data-qa="video-title-dropdown"
+        isEditable
         isCreatable
+        listboxAppendToNode={document.body}
         renderValue={({ selection }) => {
           if (!selection) return '';
           // @ts-ignore
@@ -84,6 +88,23 @@ export const TitleDropdown = ({
           value: i.id.toString(),
           label: `${i.name} (${i.usageNumber})`,
           isSelected: formProps.values.title === i.id,
+          actions: ({ closeModal }) => (
+            <EditTagModal
+              tag={i}
+              closeModal={closeModal}
+              title={t('__VIDEO_PAGE_THEMES_DROPDOWN_EDIT_MODAL_TITLE')}
+              label={t('__VIDEO_PAGE_THEMES_DROPDOWN_EDIT_MODAL_LABEL')}
+              description={t(
+                '__VIDEO_PAGE_THEMES_DROPDOWN_EDIT_MODAL_DESCRIPTION',
+                {
+                  usageNumber: i.usageNumber,
+                  count: Number(i.usageNumber),
+                }
+              )}
+            />
+          ),
+          itemID: i.id.toString(),
+          actionIcon: <EditIcon />,
         }))}
         startIcon={<CopyIcon />}
         placeholder={t(

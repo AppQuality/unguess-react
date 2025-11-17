@@ -12,8 +12,9 @@ import {
   Textarea,
   useToast,
 } from '@appquality/unguess-design-system';
+import { ReactComponent as EditIcon } from '@zendeskgarden/svg-icons/src/12/pencil-stroke.svg';
 import { Form, Formik, FormikHelpers, FormikProps } from 'formik';
-import { useEffect, useRef, useState } from 'react';
+import { ComponentProps, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
@@ -29,6 +30,8 @@ import {
 import { styled } from 'styled-components';
 import * as Yup from 'yup';
 import { ConfirmDeleteModal } from './ConfirmDeleteModal';
+import { TooltipModalContextProvider } from './context';
+import { EditTagModal } from './EditTagModal';
 import { ObservationFormValues, TitleDropdown } from './TitleDropdownNew';
 
 const FormContainer = styled.div`
@@ -72,7 +75,7 @@ const ObservationForm = ({
   const formRef = useRef<FormikProps<ObservationFormValues>>(null);
   const { addToast } = useToast();
   const [options, setOptions] = useState<
-    { id: number; label: string; selected?: boolean }[]
+    ComponentProps<typeof MultiSelect>['options']
   >([]);
   const [selectedSeverity, setSelectedSeverity] = useState<
     GetCampaignsByCidVideoTagsApiResponse[number]['tags'][number] | undefined
@@ -141,8 +144,25 @@ const ObservationForm = ({
           .sort((a, b) => b.usageNumber - a.usageNumber)
           .map((tag) => ({
             id: tag.id,
+            itemID: tag.id.toString(),
             label: `${tag.name} (${tag.usageNumber})`,
             selected: selectedOptions.some((bt) => bt.id === tag.id),
+            actions: ({ closeModal }) => (
+              <EditTagModal
+                tag={tag}
+                closeModal={closeModal}
+                title={t('__VIDEO_PAGE_TAGS_DROPDOWN_EDIT_MODAL_TITLE')}
+                label={t('__VIDEO_PAGE_TAGS_DROPDOWN_EDIT_MODAL_LABEL')}
+                description={t(
+                  '__VIDEO_PAGE_TAGS_DROPDOWN_EDIT_MODAL_DESCRIPTION',
+                  {
+                    usageNumber: tag.usageNumber,
+                    count: Number(tag.usageNumber),
+                  }
+                )}
+              />
+            ),
+            actionIcon: <EditIcon />,
           }))
       );
     }
@@ -231,7 +251,7 @@ const ObservationForm = ({
   };
 
   return (
-    <>
+    <TooltipModalContextProvider>
       <FormContainer>
         <Formik
           innerRef={formRef}
@@ -354,8 +374,11 @@ const ObservationForm = ({
                   <Skeleton />
                 ) : (
                   <MultiSelect
+                    data-qa="video-tags-dropdown"
+                    isEditable
                     options={options}
                     selectedItems={options.filter((o) => o.selected)}
+                    listboxAppendToNode={document.body}
                     creatable
                     maxItems={4}
                     size="medium"
@@ -479,7 +502,7 @@ const ObservationForm = ({
           setIsConfirmationModalOpen={setIsConfirmationModalOpen}
         />
       )}
-    </>
+    </TooltipModalContextProvider>
   );
 };
 
