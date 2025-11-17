@@ -38,7 +38,8 @@ export const TitleDropdown = ({
       (titles || []).map((i) => ({
         id: i.id.toString(),
         value: i.id.toString(),
-        label: `${i.name} (${i.usageNumber})`,
+        children: `${i.name} (${i.usageNumber})`,
+        label: i.name,
         isSelected: formProps.values.title === i.id,
         actions: ({ closeModal }) => (
           <EditTagModal
