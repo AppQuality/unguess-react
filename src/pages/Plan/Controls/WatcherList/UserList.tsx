@@ -1,11 +1,11 @@
 import { MD, Skeleton, SM } from '@appquality/unguess-design-system';
-import { styled, useTheme } from 'styled-components';
 import { useTranslation } from 'react-i18next';
 import {
   useGetPlansByPidWatchersQuery,
   useGetUsersMeQuery,
 } from 'src/features/api';
 import { usePlanIsApproved } from 'src/hooks/usePlan';
+import { styled, useTheme } from 'styled-components';
 import { ReactComponent as Empty } from './assets/Empty.svg';
 import { UserItem } from './UserItem';
 

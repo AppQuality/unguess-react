@@ -1,14 +1,7 @@
-import {
-  Button,
-  Notification,
-  Tooltip,
-  useToast,
-} from '@appquality/unguess-design-system';
+import { Notification, useToast } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
-import { appTheme } from 'src/app/theme';
 
-import { ReactComponent as EyeIconFill } from 'src/assets/icons/eye-icon-fill.svg';
-import { ReactComponent as EyeIconSlash } from 'src/assets/icons/eye-icon-slash.svg';
+import { WatcherList } from 'src/common/components/WatcherList';
 import {
   useGetUsersMeQuery,
   useGetWorkspacesByWidUsersQuery,
@@ -52,21 +45,13 @@ const WatchButton = ({ planId }: { planId: string }) => {
 
   const isDisabled = !hasWorkspaceAccess || isLastWatcher;
 
-  const iconColor = (() => {
-    if (isDisabled) return appTheme.palette.grey[400];
-    if (!isWatching) return '#fff';
-    return undefined;
-  })();
-
-  const EyeIcon = isWatching ? EyeIconSlash : EyeIconFill;
-
   if (!currentUser) return null;
 
-  const button = (
-    <Button
-      isStretched
-      disabled={isDisabled}
-      isPrimary={!isWatching}
+  return (
+    <WatcherList.WatchButtonComponent
+      isWatching={isWatching}
+      isLastOne={isLastOne}
+      isDisabled={isDisabled}
       onClick={() => {
         if (isWatching) {
           removeWatcher({
@@ -113,38 +98,8 @@ const WatchButton = ({ planId }: { planId: string }) => {
             });
         }
       }}
-    >
-      <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-        <EyeIcon color={iconColor} />
-
-        {isWatching
-          ? t('__PLAN_PAGE_WATCHER_LIST_MODAL_UNFOLLOW_BUTTON')
-          : t('__PLAN_PAGE_WATCHER_LIST_MODAL_FOLLOW_BUTTON')}
-      </div>
-    </Button>
+    />
   );
-
-  if (isDisabled) {
-    return (
-      <Tooltip
-        placement="start"
-        type="light"
-        size="large"
-        content={
-          isLastWatcher
-            ? t(
-                '__PLAN_PAGE_WATCHER_LIST_MODAL_UNFOLLOW_BUTTON_DISABLED_TOOLTIP'
-              )
-            : t('__PLAN_PAGE_WATCHER_LIST_MODAL_FOLLOW_BUTTON_DISABLED_TOOLTIP')
-        }
-      >
-        {/* the following div is necessary to make Tooltip work with disabled Button */}
-        <div>{button}</div>
-      </Tooltip>
-    );
-  }
-
-  return button;
 };
 
 export { WatchButton };
