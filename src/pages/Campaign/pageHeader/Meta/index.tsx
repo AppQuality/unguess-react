@@ -39,6 +39,7 @@ import { DesktopMeta } from './DesktopMeta';
 import { SmartphoneMeta } from './SmartphoneMeta';
 import { TabletMeta } from './TabletMeta';
 import { TvMeta } from './TvMeta';
+import { WatcherList } from './WatcherList';
 
 const ButtonWrapper = styled.div`
   display: flex;
@@ -165,6 +166,7 @@ export const Metas = ({
           ) : null}
         </PageMeta>
         <ButtonWrapper>
+          <WatcherList campaignId={campaign.id.toString()} />
           {!isArchived && hasWorkspaceAccess && (
             <CampaignSettings dataQa="campaign_pageHeader_shareButton" />
           )}
