@@ -13,6 +13,7 @@ import {
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
+import analytics from 'src/analytics';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as SaveIcon } from 'src/assets/icons/save.svg';
 import {
@@ -26,6 +27,7 @@ interface EditModalProps {
   title: string;
   label: string;
   description: string;
+  type: 'theme' | 'extraTag';
 }
 
 export const EditTagModal = ({
@@ -34,6 +36,7 @@ export const EditTagModal = ({
   title,
   label,
   description,
+  type,
 }: EditModalProps) => {
   // Extract both the current title and the usage number in parentheses in two variables
 
@@ -56,6 +59,13 @@ export const EditTagModal = ({
   }, [newName]);
 
   const handleSubmit = async () => {
+    analytics.track('tagUpdateSubmitted', {
+      tagId: tag.id.toString(),
+      tagType: type,
+      associatedObservations: tag.usageNumber,
+      submissionTime: Date.now(),
+    });
+
     if (error) return;
     // Update the title in the form
     try {
@@ -82,6 +92,15 @@ export const EditTagModal = ({
         { placement: 'top' }
       );
     } catch (err: any) {
+      analytics.track('tagUpdateFailed', {
+        tagId: tag.id.toString(),
+        tagType: type,
+        attemptedTagName: newName,
+        errorType: err.status === 409 ? 'duplicate' : 'other',
+        errorMessage: err.message,
+        associatedObservations: tag.usageNumber,
+      });
+
       // Handle error (e.g., show error toast)
       // if status code is 409, conflict with another already saved name, show specific error
       if (err.status === 409) {
