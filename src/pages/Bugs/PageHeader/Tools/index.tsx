@@ -11,6 +11,7 @@ import WPAPI from 'src/common/wpapi';
 import { useGetCampaignsByCidQuery } from 'src/features/api';
 import { useCanAccessToActiveWorkspace } from 'src/hooks/useCanAccessToActiveWorkspace';
 import { getLocalizeIntegrationCenterRoute } from 'src/hooks/useLocalizeIntegrationCenterUrl';
+import { WatcherList } from 'src/pages/Campaign/pageHeader/Meta/WatcherList';
 import { CampaignStatus } from 'src/types';
 import styled from 'styled-components';
 import { UniqueBugsCounter } from './UniqueBugsCounter';
@@ -19,6 +20,7 @@ import { useCampaignBugs } from './useCampaignBugs';
 const ButtonsWrapper = styled.div`
   display: flex;
   gap: ${({ theme }) => theme.space.sm};
+  align-items: center;
 
   @media screen and (max-width: ${({ theme }) => theme.breakpoints.sm}) {
     align-self: end;
@@ -95,6 +97,8 @@ export const Tools = ({
         {campaignData &&
           campaignData.isArchived !== true &&
           hasWorksPacePermission && <CampaignSettings />}
+        <WatcherList campaignId={campaignId.toString()} />
+
         <Button
           isBasic
           className="header-dowlnoad-report"
