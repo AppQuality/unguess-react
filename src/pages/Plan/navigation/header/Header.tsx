@@ -1,8 +1,9 @@
-import { PageHeader } from '@appquality/unguess-design-system';
+import { GlobalAlert, PageHeader } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
+import useWindowSize from 'src/hooks/useWindowSize';
 import styled from 'styled-components';
 import { usePlanContext } from '../../context/planContext';
 import { Controls } from '../../Controls';
@@ -50,8 +51,10 @@ const PlanPageHeader = () => {
   const { t } = useTranslation();
   const { isSaveTemplateModalOpen } = usePlanContext();
   const { planId } = useParams();
-
   const globalAlert = useGlobalAlert();
+  const { width } = useWindowSize();
+  const breakpointSm = parseInt(appTheme.breakpoints.sm, 10);
+  const isMobile = width < breakpointSm;
 
   return (
     <>
@@ -83,6 +86,13 @@ const PlanPageHeader = () => {
         <SaveAsTemplateModal planId={planId} />
       )}
       {globalAlert}
+      {isMobile && (
+        <GlobalAlert
+          message={<>{t('PLAN_GLOBAL_ALERT_MOBILE_GO_TO_DESKTOP_MESSAGE')}</>}
+          title={t('PLAN_GLOBAL_ALERT_MOBILE_GO_TO_DESKTOP_TITLE')}
+          type="accent"
+        />
+      )}
     </>
   );
 };
