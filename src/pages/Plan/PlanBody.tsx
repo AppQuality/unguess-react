@@ -1,13 +1,20 @@
 import { Col, Grid, Row } from '@appquality/unguess-design-system';
 import { appTheme } from 'src/app/theme';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
+import styled from 'styled-components';
 import { StickyCol } from './common/StickyCol';
 import { usePlanContext } from './context/planContext';
 import { ModulesList } from './ModulesList';
 import { Nav } from './navigation/aside';
 import { PlanDetails } from './navigation/header/PlanDetails';
-import { PlanInfo } from './summary/components/PlanInfo';
 import SummaryBody from './summary';
+import { PlanInfo } from './summary/components/PlanInfo';
+
+const HiddenColSm = styled(StickyCol)`
+  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+    display: none;
+  }
+`;
 
 export const PlanBody = () => {
   const { activeTab } = usePlanContext();
@@ -23,16 +30,18 @@ export const PlanBody = () => {
           <SummaryBody />
         ) : (
           <Row>
-            <StickyCol style={{ padding: 0 }} sm="3">
+            <HiddenColSm style={{ padding: 0 }} sm="3">
               <Nav />
-            </StickyCol>
-            <Col sm="6">
+            </HiddenColSm>
+            <Col sm="12" md="6">
               <ModulesList />
             </Col>
-            <Col sm="3">
+            <Col sm="12" md="3">
               <PlanInfo />
             </Col>
-            <Col sm="3">{debug && <PlanDetails />}</Col>
+            <Col sm="12" md="3">
+              {debug && <PlanDetails />}
+            </Col>
           </Row>
         )}
       </Grid>
