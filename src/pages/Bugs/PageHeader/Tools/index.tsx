@@ -97,7 +97,10 @@ export const Tools = ({
         {campaignData &&
           campaignData.isArchived !== true &&
           hasWorksPacePermission && <CampaignSettings />}
-        <WatcherList campaignId={campaignId.toString()} />
+
+        {campaignData && campaignData.isArchived !== true && (
+          <WatcherList campaignId={campaignId.toString()} />
+        )}
 
         <Button
           isBasic
