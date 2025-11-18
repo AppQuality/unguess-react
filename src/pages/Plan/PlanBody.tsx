@@ -1,5 +1,4 @@
 import { Col, Grid, Row } from '@appquality/unguess-design-system';
-import { appTheme } from 'src/app/theme';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
 import styled from 'styled-components';
 import { StickyCol } from './common/StickyCol';

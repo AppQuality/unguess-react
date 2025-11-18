@@ -11,6 +11,14 @@ import { TabTitle } from './common/TabTitle';
 import { usePlanContext } from './context/planContext';
 import { getModuleBySlug, getModulesByTab } from './modules/Factory';
 
+const ScrollSpacer = styled.div`
+  height: calc(100vh - 510px);
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+    display: none;
+  }
+`;
+
 const ModuleItem = styled.div<{
   $isTasksOrTarget: boolean;
 }>`
@@ -152,12 +160,7 @@ export const ModulesList = () => {
           })}
         </GroupsWrapper>
         {activeTab.name !== 'summary' && <ModulesBottomNavigation />}
-        <div
-          className="scroll-spacer"
-          style={{
-            height: `calc(100vh - 510px)`,
-          }}
-        />
+        <ScrollSpacer className="scroll-spacer" />
       </motion.div>
     </AnimatePresence>
   );
