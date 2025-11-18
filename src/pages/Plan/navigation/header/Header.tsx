@@ -15,13 +15,25 @@ const StyledWrapper = styled.div`
   width: 100%;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
+
+  @media (max-width: ${(p) => p.theme.breakpoints.sm}) {
+    grid-template-columns: 1fr;
+    grid-row-gap: ${(p) => p.theme.space.xxs};
+  }
 `;
 
 const SectionWrapper = styled.div`
   display: flex;
+  width: 100%;
   align-items: center;
   &:last-child {
     justify-content: flex-end;
+  }
+
+  @media (max-width: ${(p) => p.theme.breakpoints.sm}) {
+    &:last-child {
+      display: none;
+    }
   }
 `;
 
