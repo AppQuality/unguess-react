@@ -16,6 +16,14 @@ const HiddenColSm = styled(StickyCol)`
   }
 `;
 
+const ResponsiveGrid = styled(Grid)`
+  padding: ${({ theme }) => theme.space.md};
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+    padding: ${({ theme }) => theme.space.md} 0;
+  }
+`;
+
 export const PlanBody = () => {
   const { activeTab } = usePlanContext();
 
@@ -25,7 +33,7 @@ export const PlanBody = () => {
 
   return (
     <LayoutWrapper>
-      <Grid style={{ padding: appTheme.space.md }}>
+      <ResponsiveGrid style={{}}>
         {activeTab.name === 'summary' ? (
           <SummaryBody />
         ) : (
@@ -44,7 +52,7 @@ export const PlanBody = () => {
             </Col>
           </Row>
         )}
-      </Grid>
+      </ResponsiveGrid>
     </LayoutWrapper>
   );
 };
