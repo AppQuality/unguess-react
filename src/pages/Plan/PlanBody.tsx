@@ -1,8 +1,11 @@
 import { Col, Grid, Row } from '@appquality/unguess-design-system';
+import { appTheme } from 'src/app/theme';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
+import useWindowSize from 'src/hooks/useWindowSize';
 import styled from 'styled-components';
 import { StickyCol } from './common/StickyCol';
 import { usePlanContext } from './context/planContext';
+import { Controls } from './Controls';
 import { ModulesList } from './ModulesList';
 import { Nav } from './navigation/aside';
 import { PlanDetails } from './navigation/header/PlanDetails';
@@ -25,6 +28,9 @@ const ResponsiveGrid = styled(Grid)`
 
 export const PlanBody = () => {
   const { activeTab } = usePlanContext();
+  const { width } = useWindowSize();
+  const breakpointSm = parseInt(appTheme.breakpoints.sm, 10);
+  const isMobile = width < breakpointSm;
 
   // Debug info
   const params = new URLSearchParams(window.location.search);
@@ -48,6 +54,13 @@ export const PlanBody = () => {
             </HiddenColSm>
             <Col sm="12" md="3">
               {debug && <PlanDetails />}
+            </Col>
+          </Row>
+        )}
+        {isMobile && (
+          <Row>
+            <Col sm="12" style={{ display: 'flex', justifyContent: 'center' }}>
+              <Controls />
             </Col>
           </Row>
         )}
