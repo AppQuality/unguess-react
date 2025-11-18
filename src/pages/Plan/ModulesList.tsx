@@ -3,6 +3,7 @@ import { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppSelector } from 'src/app/hooks';
 import { appTheme } from 'src/app/theme';
+import useWindowSize from 'src/hooks/useWindowSize';
 import styled from 'styled-components';
 import { MODULE_GROUPS } from './common/constants';
 import { GroupTitle } from './common/GroupTitle';
@@ -77,6 +78,10 @@ const GroupsWrapper = styled.div`
 `;
 
 export const ModulesList = () => {
+  const { width } = useWindowSize();
+  const breakpointSm = parseInt(appTheme.breakpoints.sm, 10);
+  const isMobile = width < breakpointSm;
+
   const currentModules = useAppSelector(
     (state) => state.planModules.currentModules
   );
@@ -129,6 +134,9 @@ export const ModulesList = () => {
         transition={{ duration: 0.15 }}
       >
         <TabTitle />
+        {isMobile && activeTab.name !== 'summary' && (
+          <ModulesBottomNavigation />
+        )}
         <GroupsWrapper>
           {groupConfig.map((group) => {
             const groupModules = group.modules.filter((module) =>
