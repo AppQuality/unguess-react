@@ -349,6 +349,16 @@ const injectedRtkApi = api.injectEndpoints({
         body: queryArg.body,
       }),
     }),
+    patchCampaignsByCidVideoTagsAndTagId: build.mutation<
+      PatchCampaignsByCidVideoTagsAndTagIdApiResponse,
+      PatchCampaignsByCidVideoTagsAndTagIdApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/campaigns/${queryArg.cid}/video-tags/${queryArg.tagId}`,
+        method: 'PATCH',
+        body: queryArg.body,
+      }),
+    }),
     getCampaignsByCidVideos: build.query<
       GetCampaignsByCidVideosApiResponse,
       GetCampaignsByCidVideosApiArg
@@ -611,6 +621,12 @@ const injectedRtkApi = api.injectEndpoints({
         body: queryArg.body,
       }),
     }),
+    getUsersMeWatchedPlans: build.query<
+      GetUsersMeWatchedPlansApiResponse,
+      GetUsersMeWatchedPlansApiArg
+    >({
+      query: () => ({ url: `/users/me/watched/plans` }),
+    }),
     getUsersRoles: build.query<GetUsersRolesApiResponse, GetUsersRolesApiArg>({
       query: () => ({ url: `/users/roles` }),
     }),
@@ -786,6 +802,32 @@ const injectedRtkApi = api.injectEndpoints({
         params: { limit: queryArg.limit, start: queryArg.start },
       }),
     }),
+    getPlansByPidWatchers: build.query<
+      GetPlansByPidWatchersApiResponse,
+      GetPlansByPidWatchersApiArg
+    >({
+      query: (queryArg) => ({ url: `/plans/${queryArg.pid}/watchers` }),
+    }),
+    postPlansByPidWatchers: build.mutation<
+      PostPlansByPidWatchersApiResponse,
+      PostPlansByPidWatchersApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/plans/${queryArg.pid}/watchers`,
+        method: 'POST',
+        body: queryArg.body,
+      }),
+    }),
+    putPlansByPidWatchers: build.mutation<
+      PutPlansByPidWatchersApiResponse,
+      PutPlansByPidWatchersApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/plans/${queryArg.pid}/watchers`,
+        method: 'PUT',
+        body: queryArg.body,
+      }),
+    }),
     getWorkspacesByWidTemplates: build.query<
       GetWorkspacesByWidTemplatesApiResponse,
       GetWorkspacesByWidTemplatesApiArg
@@ -862,6 +904,15 @@ const injectedRtkApi = api.injectEndpoints({
         body: queryArg.body,
       }),
     }),
+    deletePlansByPidWatchersAndProfileId: build.mutation<
+      DeletePlansByPidWatchersAndProfileIdApiResponse,
+      DeletePlansByPidWatchersAndProfileIdApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/plans/${queryArg.pid}/watchers/${queryArg.profileId}`,
+        method: 'DELETE',
+      }),
+    }),
   }),
   overrideExisting: false,
 });
@@ -896,12 +947,15 @@ export type PostBuyApiArg = {
           key: string;
           tag: string;
         };
+        payment_status?: 'paid' | 'unpaid';
       };
     };
     type:
-      | 'checkout.session.completed'
+      | 'checkout.session.async_payment_succeeded'
       | 'checkout.session.async_payment_failed'
-      | 'checkout.session.expired';
+      | 'checkout.session.completed'
+      | 'checkout.session.expired'
+      | 'charge.refunded';
   };
 };
 export type GetCampaignsByCidApiResponse =
@@ -1441,6 +1495,15 @@ export type PostCampaignsByCidVideoTagsApiArg = {
     };
   };
 };
+export type PatchCampaignsByCidVideoTagsAndTagIdApiResponse =
+  /** status 200 OK */ {};
+export type PatchCampaignsByCidVideoTagsAndTagIdApiArg = {
+  cid: string;
+  tagId: string;
+  body: {
+    newTagName: string;
+  };
+};
 export type GetCampaignsByCidVideosApiResponse = /** status 200 OK */ {
   items: (Video & {
     usecaseId: number;
@@ -1778,6 +1841,19 @@ export type PutUsersMePreferencesBySlugApiArg = {
     value: string;
   };
 };
+export type GetUsersMeWatchedPlansApiResponse = /** status 200  */ {
+  items: {
+    id?: number;
+    name?: string;
+    project?: {
+      name?: string;
+      id?: number;
+    };
+    isLast?: boolean;
+  }[];
+  allItems: number;
+};
+export type GetUsersMeWatchedPlansApiArg = void;
 export type GetUsersRolesApiResponse = /** status 200 OK */ {
   id: number;
   name: string;
@@ -2005,6 +2081,37 @@ export type GetWorkspacesByWidProjectsAndPidCampaignsApiArg = {
   /** Start pagination parameter */
   start?: number;
 };
+export type GetPlansByPidWatchersApiResponse = /** status 200 OK */ {
+  items: {
+    id: number;
+    name: string;
+    surname: string;
+    email: string;
+    image?: string;
+    isInternal: boolean;
+  }[];
+};
+export type GetPlansByPidWatchersApiArg = {
+  pid: string;
+};
+export type PostPlansByPidWatchersApiResponse = /** status 200 OK */ void;
+export type PostPlansByPidWatchersApiArg = {
+  pid: string;
+  body: {
+    users: {
+      id: number;
+    }[];
+  };
+};
+export type PutPlansByPidWatchersApiResponse = /** status 200 OK */ void;
+export type PutPlansByPidWatchersApiArg = {
+  pid: string;
+  body: {
+    users: {
+      id: number;
+    }[];
+  };
+};
 export type GetWorkspacesByWidTemplatesApiResponse = /** status 200 OK */ {
   items: CpReqTemplate[];
 } & PaginationData;
@@ -2103,6 +2210,14 @@ export type PostWorkspacesByWidUsersApiArg = {
     redirect_url?: string;
     surname?: string;
   };
+};
+export type DeletePlansByPidWatchersAndProfileIdApiResponse =
+  /** status 200 OK */ {
+    success?: boolean;
+  };
+export type DeletePlansByPidWatchersAndProfileIdApiArg = {
+  pid: string;
+  profileId: string;
 };
 export type Error = {
   code: number;
@@ -2999,6 +3114,7 @@ export const {
   useGetCampaignsByCidUxQuery,
   useGetCampaignsByCidVideoTagsQuery,
   usePostCampaignsByCidVideoTagsMutation,
+  usePatchCampaignsByCidVideoTagsAndTagIdMutation,
   useGetCampaignsByCidVideosQuery,
   useGetCampaignsByCidWidgetsQuery,
   usePostCheckoutMutation,
@@ -3031,6 +3147,7 @@ export const {
   usePatchUsersMeMutation,
   useGetUsersMePreferencesQuery,
   usePutUsersMePreferencesBySlugMutation,
+  useGetUsersMeWatchedPlansQuery,
   useGetUsersRolesQuery,
   useGetVideosByVidQuery,
   useGetVideosByVidObservationsQuery,
@@ -3050,6 +3167,9 @@ export const {
   useGetWorkspacesByWidProjectsQuery,
   useGetWorkspacesByWidProjectsAndPidQuery,
   useGetWorkspacesByWidProjectsAndPidCampaignsQuery,
+  useGetPlansByPidWatchersQuery,
+  usePostPlansByPidWatchersMutation,
+  usePutPlansByPidWatchersMutation,
   useGetWorkspacesByWidTemplatesQuery,
   usePostWorkspacesByWidTemplatesMutation,
   useDeleteWorkspacesByWidTemplatesAndTidMutation,
@@ -3057,4 +3177,5 @@ export const {
   useDeleteWorkspacesByWidUsersMutation,
   useGetWorkspacesByWidUsersQuery,
   usePostWorkspacesByWidUsersMutation,
+  useDeletePlansByPidWatchersAndProfileIdMutation,
 } = injectedRtkApi;

@@ -1,5 +1,6 @@
 import {
   Button,
+  ContainerCard,
   FormField,
   Input,
   Label,
@@ -19,12 +20,7 @@ import {
 } from 'src/features/api';
 import { ProfileFormValues } from '../valuesType';
 import { Loader } from './cardLoader';
-import {
-  CardInnerPanel,
-  StyledCardHeader,
-  StyledContainerCard,
-  StyledFooter,
-} from './common';
+import { CardInnerPanel, StyledCardHeader, StyledFooter } from './common';
 
 export const ProfileCard = () => {
   const { t } = useTranslation();
@@ -40,7 +36,7 @@ export const ProfileCard = () => {
   if (userRoleIsLoading || userCompanySizesIsLoading) return <Loader />;
 
   return (
-    <StyledContainerCard
+    <ContainerCard
       id="anchor-profile-id"
       data-qa="profile-card"
       title={t('__PROFILE_PAGE_USER_CARD_LABEL')}
@@ -261,6 +257,6 @@ export const ProfileCard = () => {
           </Button>
         </StyledFooter>
       </CardInnerPanel>
-    </StyledContainerCard>
+    </ContainerCard>
   );
 };

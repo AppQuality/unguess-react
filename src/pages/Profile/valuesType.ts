@@ -8,6 +8,11 @@ export type ProfileFormValues = {
   companySizeId: number;
 };
 
+export type NotificationSettingsFormValues = {
+  activitySetupUpdates: boolean;
+  activityProgress: boolean;
+};
+
 export type PasswordFormValues = {
   currentPassword: string;
   newPassword: string;

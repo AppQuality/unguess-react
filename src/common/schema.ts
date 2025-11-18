@@ -24,10 +24,12 @@ export interface paths {
   };
   "/buy": {
     /**
-     * Stripe webhook destination, listen three event types:
-     * - charge.failed,
-     * - checkout.session.completed
-     * - checkout.session.expired
+     * Stripe webhook destination, listen following event types:
+     * - checkout.session.completed (Occurs when a Checkout Session has been successfully completed)
+     * - checkout.session.expired (Occurs when a Checkout Session is expired)
+     * - checkout.session.async_payment_failed (Occurs when a payment intent using a delayed payment method fails)
+     * - checkout.session.async_payment_succeeded (Occurs when a payment intent using a delayed payment method finally succeeds)
+     * - charge.refunded (Occurs whenever a charge is refunded, including partial refunds. Listen to refund.created for information about the refund)
      */
     post: operations["post-buy"];
   };
@@ -296,6 +298,15 @@ export interface paths {
       };
     };
   };
+  "/campaigns/{cid}/video-tags/{tagId}": {
+    patch: operations["patch-campaigns-cid-video-tags-tagId"];
+    parameters: {
+      path: {
+        cid: string;
+        tagId: string;
+      };
+    };
+  };
   "/campaigns/{cid}/videos": {
     /** Return all published video for a specific campaign */
     get: operations["get-campaigns-cid-videos"];
@@ -475,6 +486,10 @@ export interface paths {
       };
     };
   };
+  "/users/me/watched/plans": {
+    get: operations["get-users-me-watched-plans"];
+    parameters: {};
+  };
   "/users/roles": {
     get: operations["get-users-roles"];
     parameters: {};
@@ -622,6 +637,17 @@ export interface paths {
       };
     };
   };
+  "/plans/{pid}/watchers": {
+    /** Returns all the watcher added to a plan. It always returns at least one item. */
+    get: operations["get-plans-pid-watchers"];
+    put: operations["put-plans-pid-watchers"];
+    post: operations["post-plans-pid-watchers"];
+    parameters: {
+      path: {
+        pid: string;
+      };
+    };
+  };
   "/workspaces/{wid}/templates": {
     get: operations["get-workspaces-templates"];
     post: operations["post-workspaces-wid-templates"];
@@ -653,6 +679,15 @@ export interface paths {
       path: {
         /** Workspace (company, customer) id */
         wid: components["parameters"]["wid"];
+      };
+    };
+  };
+  "/plans/{pid}/watchers/{profile_id}": {
+    delete: operations["delete-plans-pid-watchers-profile_id"];
+    parameters: {
+      path: {
+        pid: string;
+        profile_id: string;
       };
     };
   };
@@ -1332,8 +1367,7 @@ export interface components {
       kind: "app";
       os: {
         ios?: string;
-        linux?: string;
-        windows?: string;
+        android?: string;
       };
     };
     /** OutputModuleTouchpointsWebDesktop */
@@ -1442,7 +1476,8 @@ export interface components {
       | "module_type"
       | "number_of_testers"
       | "number_of_tasks"
-      | "task_type";
+      | "task_type"
+      | "duplicate_touchpoint_form_factors";
     /** Report */
     Report: {
       creation_date?: string;
@@ -1999,10 +2034,12 @@ export interface operations {
     requestBody: components["requestBodies"]["Credentials"];
   };
   /**
-   * Stripe webhook destination, listen three event types:
-   * - charge.failed,
-   * - checkout.session.completed
-   * - checkout.session.expired
+   * Stripe webhook destination, listen following event types:
+   * - checkout.session.completed (Occurs when a Checkout Session has been successfully completed)
+   * - checkout.session.expired (Occurs when a Checkout Session is expired)
+   * - checkout.session.async_payment_failed (Occurs when a payment intent using a delayed payment method fails)
+   * - checkout.session.async_payment_succeeded (Occurs when a payment intent using a delayed payment method finally succeeds)
+   * - charge.refunded (Occurs whenever a charge is refunded, including partial refunds. Listen to refund.created for information about the refund)
    */
   "post-buy": {
     responses: {
@@ -2027,13 +2064,17 @@ export interface operations {
                 key: string;
                 tag: string;
               };
+              /** @enum {string} */
+              payment_status?: "paid" | "unpaid";
             };
           };
           /** @enum {undefined} */
           type:
-            | "checkout.session.completed"
+            | "checkout.session.async_payment_succeeded"
             | "checkout.session.async_payment_failed"
-            | "checkout.session.expired";
+            | "checkout.session.completed"
+            | "checkout.session.expired"
+            | "charge.refunded";
         };
       };
     };
@@ -3119,6 +3160,37 @@ export interface operations {
       };
     };
   };
+  "patch-campaigns-cid-video-tags-tagId": {
+    parameters: {
+      path: {
+        cid: string;
+        tagId: string;
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          "application/json": { [key: string]: unknown };
+        };
+      };
+      /** Bad Request */
+      400: unknown;
+      /** Conflict */
+      409: {
+        content: {
+          "application/json": { [key: string]: unknown };
+        };
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": {
+          newTagName: string;
+        };
+      };
+    };
+  };
   /** Return all published video for a specific campaign */
   "get-campaigns-cid-videos": {
     parameters: {
@@ -3864,6 +3936,31 @@ export interface operations {
       };
     };
   };
+  "get-users-me-watched-plans": {
+    parameters: {};
+    responses: {
+      200: {
+        content: {
+          "application/json": {
+            items: {
+              id?: number;
+              name?: string;
+              project?: {
+                name?: string;
+                id?: number;
+              };
+              isLast?: boolean;
+            }[];
+            allItems: number;
+          };
+        };
+      };
+      400: components["responses"]["Error"];
+      403: components["responses"]["Error"];
+      404: components["responses"]["Error"];
+      500: components["responses"]["Error"];
+    };
+  };
   "get-users-roles": {
     parameters: {};
     responses: {
@@ -4393,6 +4490,81 @@ export interface operations {
       500: components["responses"]["Error"];
     };
   };
+  /** Returns all the watcher added to a plan. It always returns at least one item. */
+  "get-plans-pid-watchers": {
+    parameters: {
+      path: {
+        pid: string;
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          "application/json": {
+            items: {
+              id: number;
+              name: string;
+              surname: string;
+              email: string;
+              image?: string;
+              isInternal: boolean;
+            }[];
+          };
+        };
+      };
+      403: components["responses"]["Error"];
+      404: components["responses"]["Error"];
+      500: components["responses"]["Error"];
+    };
+  };
+  "put-plans-pid-watchers": {
+    parameters: {
+      path: {
+        pid: string;
+      };
+    };
+    responses: {
+      /** OK */
+      200: unknown;
+      400: components["responses"]["Error"];
+      403: components["responses"]["Error"];
+      404: components["responses"]["Error"];
+      500: components["responses"]["Error"];
+    };
+    requestBody: {
+      content: {
+        "application/json": {
+          users: {
+            id: number;
+          }[];
+        };
+      };
+    };
+  };
+  "post-plans-pid-watchers": {
+    parameters: {
+      path: {
+        pid: string;
+      };
+    };
+    responses: {
+      /** OK */
+      200: unknown;
+      403: components["responses"]["Error"];
+      404: components["responses"]["Error"];
+      500: components["responses"]["Error"];
+    };
+    requestBody: {
+      content: {
+        "application/json": {
+          users: {
+            id: number;
+          }[];
+        };
+      };
+    };
+  };
   "get-workspaces-templates": {
     parameters: {
       path: {
@@ -4594,6 +4766,25 @@ export interface operations {
           user_id: number;
         };
       };
+    };
+  };
+  "delete-plans-pid-watchers-profile_id": {
+    parameters: {
+      path: {
+        pid: string;
+        profile_id: string;
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          "application/json": {
+            success?: boolean;
+          };
+        };
+      };
+      403: components["responses"]["Error"];
     };
   };
 }

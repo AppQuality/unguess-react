@@ -43,6 +43,7 @@ test.describe('A plan without a template and price', () => {
     await planPage.loggedIn();
     await planPage.mockPreferences();
     await planPage.mockWorkspace();
+    await planPage.mockWorkspaceUsers();
     await planPage.mockWorkspacesList();
     await planPage.mockGetDraftPlan();
     await planPage.mockPatchPlan();
@@ -76,7 +77,9 @@ test.describe('A plan with template and price', () => {
     touchpointsModule = new TouchpointsModule(page);
     await planPage.loggedIn();
     await planPage.mockPreferences();
+    await planPage.mockWatchers();
     await planPage.mockWorkspace();
+    await planPage.mockWorkspaceUsers();
     await planPage.mockWorkspacesList();
     await planPage.mockGetDraftPlanWithTemplateAndPrice();
     await requestQuotationModal.mockPatchStatus();

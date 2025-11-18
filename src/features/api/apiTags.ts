@@ -154,6 +154,9 @@ unguessApi.enhanceEndpoints({
     getCampaignsByCidVideoTags: {
       providesTags: ['VideoTags'],
     },
+    patchCampaignsByCidVideoTagsAndTagId: {
+      invalidatesTags: ['VideoTags'],
+    },
     postCampaignsByCidVideoTags: {
       invalidatesTags: ['VideoTags'],
     },
@@ -329,6 +332,21 @@ unguessApi.enhanceEndpoints({
     },
     getPlansByPidRulesEvaluation: {
       providesTags: ['EvaluationRules'],
+    },
+    getPlansByPidWatchers: {
+      providesTags: ['PlanWatchers'],
+    },
+    postPlansByPidWatchers: {
+      invalidatesTags: ['PlanWatchers'],
+    },
+    putPlansByPidWatchers: {
+      invalidatesTags: ['PlanWatchers'],
+    },
+    deletePlansByPidWatchersAndProfileId: {
+      invalidatesTags: ['PlanWatchers', 'Plans'],
+    },
+    getUsersMeWatchedPlans: {
+      providesTags: ['Plans', 'PlanWatchers'],
     },
   },
 });

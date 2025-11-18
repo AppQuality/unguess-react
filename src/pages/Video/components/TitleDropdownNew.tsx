@@ -2,14 +2,18 @@ import {
   Autocomplete,
   DropdownFieldNew as Field,
 } from '@appquality/unguess-design-system';
+import { ReactComponent as EditIcon } from '@zendeskgarden/svg-icons/src/12/pencil-stroke.svg';
 import { FormikProps } from 'formik';
+import { ComponentProps, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
+import analytics from 'src/analytics';
 import { ReactComponent as CopyIcon } from 'src/assets/icons/copy-icon.svg';
 import {
   GetCampaignsByCidVideoTagsApiResponse,
   usePostCampaignsByCidVideoTagsMutation,
 } from 'src/features/api';
+import { EditTagModal } from './EditTagModal';
 
 export interface ObservationFormValues {
   title: number;
@@ -29,6 +33,43 @@ export const TitleDropdown = ({
   const { campaignId } = useParams();
   const [addVideoTags] = usePostCampaignsByCidVideoTagsMutation();
   const titleMaxLength = 70;
+  const options: ComponentProps<typeof Autocomplete>['options'] = useMemo(
+    () =>
+      (titles || []).map((i) => ({
+        id: i.id.toString(),
+        value: i.id.toString(),
+        children: `${i.name} (${i.usageNumber})`,
+        label: i.name,
+        isSelected: formProps.values.title === i.id,
+        actions: ({ closeModal }) => (
+          <EditTagModal
+            type="theme"
+            tag={i}
+            closeModal={closeModal}
+            title={t('__VIDEO_PAGE_THEMES_DROPDOWN_EDIT_MODAL_TITLE')}
+            label={t('__VIDEO_PAGE_THEMES_DROPDOWN_EDIT_MODAL_LABEL')}
+            description={t(
+              '__VIDEO_PAGE_THEMES_DROPDOWN_EDIT_MODAL_DESCRIPTION',
+              {
+                usageNumber: i.usageNumber,
+                count: Number(i.usageNumber),
+              }
+            )}
+          />
+        ),
+        actionIcon: <EditIcon />,
+        itemID: i.id.toString(),
+        onOptionActionClick: () => {
+          analytics.track('tagEditModalOpened', {
+            tagId: i.id.toString(),
+            tagType: 'theme',
+            tagName: i.name,
+            associatedObservations: i.usageNumber,
+          });
+        },
+      })),
+    [titles, formProps.values.title]
+  );
 
   if (!titles) {
     return null;
@@ -37,14 +78,23 @@ export const TitleDropdown = ({
   return (
     <Field>
       <Autocomplete
-        listboxAppendToNode={document.querySelector('main') || undefined}
+        options={options}
+        data-qa="video-title-dropdown"
+        isEditable
         isCreatable
+        listboxAppendToNode={document.body}
         renderValue={({ selection }) => {
           if (!selection) return '';
           // @ts-ignore
           const title = titles.find((i) => i.id === Number(selection.value));
           return title?.name || '';
         }}
+        onClick={() =>
+          analytics.track('tagDropdownOpened', {
+            dropdownType: 'theme',
+            availableTagsCount: options.length,
+          })
+        }
         selectionValue={formProps.values.title.toString()}
         onCreateNewOption={async (value) => {
           if (value.length > titleMaxLength) {
@@ -79,12 +129,6 @@ export const TitleDropdown = ({
           if (!selectionValue || !inputValue) return;
           formProps.setFieldValue('title', Number(selectionValue));
         }}
-        options={(titles || []).map((i) => ({
-          id: i.id.toString(),
-          value: i.id.toString(),
-          label: `${i.name} (${i.usageNumber})`,
-          isSelected: formProps.values.title === i.id,
-        }))}
         startIcon={<CopyIcon />}
         placeholder={t(
           '__VIDEO_PAGE_ACTIONS_OBSERVATION_FORM_FIELD_TITLE_PLACEHOLDER'

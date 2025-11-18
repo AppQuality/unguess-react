@@ -106,10 +106,9 @@ const Observation = ({
           );
           if (activeElement) {
             refScroll.current.scrollTo({
-              top: activeElement.offsetTop,
+              top: activeElement.offsetTop - 150, // account for header height
               behavior: 'smooth',
             });
-            activeElement.querySelectorAll('input')[0]?.focus();
           }
           setOpenAccordion(undefined);
         }, 100);
@@ -147,6 +146,7 @@ const Observation = ({
         onChange={handleAccordionChange}
         key={`observation_accordion_${observation.id}_${isOpen}`}
         id={`video-observation-accordion-${observation.id}`}
+        data-qa={`observation-accordion-${observation.id}`}
       >
         <AccordionNew.Section>
           <AccordionNew.Header

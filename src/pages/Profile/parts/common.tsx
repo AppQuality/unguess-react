@@ -10,6 +10,14 @@ export const StyledCardHeader = styled.div`
   align-items: center;
   gap: ${({ theme }) => theme.space.xs};
 `;
+
+export const StyledNotificationsCardHeaderWrapper = styled(StyledCardHeader)`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: ${({ theme }) => theme.space.sm};
+`;
+
 export const StyledContainerCard = styled(ContainerCard)`
   padding: ${({ theme }) => theme.space.md};
   padding-bottom: ${({ theme }) => theme.space.lg};

@@ -6,10 +6,17 @@
       "invitationPending": true,
       "name": "string",
       "profile_id": 999
+    },
+    {
+      "email": "invited@example.com",
+      "id": 2,
+      "invitationPending": false,
+      "name": "string string",
+      "profile_id": 2
     }
   ],
   "limit": 0,
-  "size": 1,
+  "size": 2,
   "start": 0,
-  "total": 1
+  "total": 2
 }

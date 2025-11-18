@@ -1,7 +1,7 @@
-import { test, expect } from '../../../fixtures/app';
+import apiGetDraftMandatoryPlan from '../../../api/plans/pid/_get/200_draft_mandatory_only.json';
+import { expect, test } from '../../../fixtures/app';
 import { PlanPage } from '../../../fixtures/pages/Plan';
 import { TasksModule } from '../../../fixtures/pages/Plan/Module_tasks';
-import apiGetDraftMandatoryPlan from '../../../api/plans/pid/_get/200_draft_mandatory_only.json';
 import { RequestQuotationModal } from '../../../fixtures/pages/Plan/RequestQuotationModal';
 
 test.describe('The tasks module defines a list of activities.', () => {
@@ -17,6 +17,8 @@ test.describe('The tasks module defines a list of activities.', () => {
     await moduleBuilderPage.mockPreferences();
     await moduleBuilderPage.mockWorkspace();
     await moduleBuilderPage.mockPatchPlan();
+    await moduleBuilderPage.mockWorkspaceUsers();
+    await moduleBuilderPage.mockWatchers();
     await moduleBuilderPage.mockWorkspacesList();
     await moduleBuilderPage.mockGetDraftWithOnlyMandatoryModulesPlan();
     await moduleBuilderPage.open();

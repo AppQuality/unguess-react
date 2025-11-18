@@ -183,7 +183,10 @@ export const Metas = ({
                 {' '}
                 {t('__INSIGHTS_PAGE_NAVIGATION_LABEL')}
               </MD>
-              <Link to={videoDashboardRoute}>
+              <Link
+                data-qa="playlis_video_header_button_navigation"
+                to={videoDashboardRoute}
+              >
                 <Tooltip
                   content={t(
                     '__UX_CAMPAIGN_PAGE_NAVIGATION_VIDEO_LIST_TOOLTIP'

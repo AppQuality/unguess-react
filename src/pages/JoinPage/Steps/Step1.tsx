@@ -17,6 +17,7 @@ import { useEffect, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { PasswordRequirements } from 'src/common/components/PasswordRequirements';
+import { isDisposableEmail } from 'src/common/disposableEmail';
 import { useSendGTMevent } from 'src/hooks/useGTMevent';
 import { JoinFormValues } from '../valuesType';
 import { ButtonContainer } from './ButtonContainer';
@@ -66,6 +67,22 @@ export const Step1 = () => {
     let error;
     let error_event;
     if (status?.isInvited) return error;
+    if (value) {
+      const isDisposable = isDisposableEmail(value);
+
+      if (isDisposable) {
+        error = t('SIGNUP_FORM_EMAIL_DISPOSABLE_NOT_ALLOWED');
+        error_event = 'SIGNUP_FORM_EMAIL_DISPOSABLE_NOT_ALLOWED';
+        sendGTMevent({
+          event: 'sign-up-flow',
+          category: 'not set',
+          action: 'validate email',
+          content: `error: ${error_event}`,
+          target: `is invited: ${status?.isInvited}`,
+        });
+        return error;
+      }
+    }
     const res = await fetch(
       `${process.env.REACT_APP_API_URL}/users/by-email/${value}`,
       {
