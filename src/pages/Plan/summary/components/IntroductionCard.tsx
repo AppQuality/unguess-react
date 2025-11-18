@@ -20,6 +20,13 @@ const ContentRow = styled.div`
   display: flex;
   align-items: flex-start;
   gap: ${({ theme }) => theme.space.md};
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
 `;
 
 const ImageItem = styled.div`
@@ -31,9 +38,7 @@ const ImageItem = styled.div`
 const ContentItem = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
   gap: ${({ theme }) => theme.space.md};
-  flex: 1 0 0;
 `;
 
 export const IntroductionCard = () => {
