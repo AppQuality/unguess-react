@@ -16,6 +16,7 @@ import { useModule } from 'src/features/modules/useModule';
 import { useModuleConfiguration } from 'src/features/modules/useModuleConfiguration';
 import { useValidation } from 'src/features/modules/useModuleValidation';
 import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
+import useWindowSize from 'src/hooks/useWindowSize';
 import { DeleteModuleConfirmationModal } from 'src/pages/Plan/modules/modal/DeleteModuleConfirmationModal';
 import styled from 'styled-components';
 import { useIconWithValidation } from './useIcon';
@@ -51,6 +52,9 @@ const SetupNote = () => {
   const { getPlanStatus } = useModuleConfiguration();
   const { t } = useTranslation();
   const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false);
+  const { width } = useWindowSize();
+  const breakpointSm = parseInt(appTheme.breakpoints.sm, 10);
+  const isMobile = width < breakpointSm;
 
   const validation = (
     module: components['schemas']['Module'] & { type: 'setup_note' }
@@ -89,6 +93,7 @@ const SetupNote = () => {
             <Label>{t('__PLAN_PAGE_MODULE_SETUP_NOTE_TITLE')}</Label>
           </div>
           {hasFeatureFlag(FEATURE_FLAG_CHANGE_MODULES_VARIANTS) &&
+            !isMobile &&
             getPlanStatus() === 'draft' && (
               <Tooltip
                 placement="start"
