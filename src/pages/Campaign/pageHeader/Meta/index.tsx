@@ -166,10 +166,10 @@ export const Metas = ({
           ) : null}
         </PageMeta>
         <ButtonWrapper>
-          <WatcherList campaignId={campaign.id.toString()} />
           {!isArchived && hasWorkspaceAccess && (
             <CampaignSettings dataQa="campaign_pageHeader_shareButton" />
           )}
+          <WatcherList campaignId={campaign.id.toString()} />
           {outputs?.includes('bugs') && (
             <Link to={functionalDashboardRoute}>
               <Button id="button-bugs-list-header" isPrimary isAccent>
