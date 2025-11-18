@@ -31,7 +31,7 @@ const EmptyState = ({ watchers }: { watchers?: number }) => {
       {(!watchers || watchers === 0) && (
         <>
           <SM isBold>
-            {t('__PLAN_PAGE_WATCHER_LIST_MODAL_NO_WATCHERS_TITLE')}
+            {t('__CAMPAIGN_PAGE_WATCHER_LIST_MODAL_NO_WATCHERS_TITLE')}
           </SM>
           <SM style={{ color: appTheme.palette.grey[500] }}>
             {t('__PLAN_PAGE_WATCHER_LIST_MODAL_NO_WATCHERS_DESCRIPTION')}

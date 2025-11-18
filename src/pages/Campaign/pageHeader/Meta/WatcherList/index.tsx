@@ -27,7 +27,7 @@ const WatcherList = ({ campaignId }: { campaignId: string }) => {
           description: t('__PLAN_PAGE_WATCHER_LIST_TOOLTIP_DESCRIPTION'),
         },
         modal: {
-          title: t('__PLAN_PAGE_WATCHER_LIST_MODAL_TITLE'),
+          title: t('__CAMPAIGN_PAGE_WATCHER_LIST_MODAL_TITLE'),
           description: (
             <Trans
               i18nKey="__PLAN_PAGE_WATCHER_LIST_MODAL_TITLE_DESCRIPTION"
@@ -44,9 +44,9 @@ const WatcherList = ({ campaignId }: { campaignId: string }) => {
           ),
         },
         dropdown: {
-          title: t('__PLAN_PAGE_WATCHER_LIST_MODAL_SUGGESTIONS_TITLE'),
+          title: t('__CAMPAIGN_PAGE_WATCHER_LIST_MODAL_SUGGESTIONS_TITLE'),
           description: t(
-            '__PLAN_PAGE_WATCHER_LIST_MODAL_ADD_MEMBERS_INFO_TOOLTIP'
+            '__CAMPAIGN_PAGE_WATCHER_LIST_MODAL_ADD_MEMBERS_INFO_TOOLTIP'
           ),
         },
       }}
