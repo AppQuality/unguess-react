@@ -26,8 +26,9 @@ const EmptyProjectContainer = styled.div`
   align-items: center;
   flex-direction: column;
   width: 100%;
+  height: 100%;
   position: relative;
-  padding: 0 ${appTheme.space.xxl};
+  padding: ${({ theme }) => `${theme.space.xxl}`};
 `;
 
 const ImageWrapper = styled.div`
@@ -80,7 +81,6 @@ export const ProjectEmptyState = () => {
     <EmptyProjectContainer
       ref={containerRef}
       style={{
-        height: `calc(100vh - ${distanceFromTop}px)`,
         backgroundColor: canView ? '#f9feff' : 'transparent',
       }}
     >
