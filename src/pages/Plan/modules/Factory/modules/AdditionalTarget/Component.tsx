@@ -17,6 +17,7 @@ import { components } from 'src/common/schema';
 import { useModule } from 'src/features/modules/useModule';
 import { useModuleConfiguration } from 'src/features/modules/useModuleConfiguration';
 import { useValidation } from 'src/features/modules/useModuleValidation';
+import useWindowSize from 'src/hooks/useWindowSize';
 import { DeleteModuleConfirmationModal } from 'src/pages/Plan/modules/modal/DeleteModuleConfirmationModal';
 import styled from 'styled-components';
 import { useIconWithValidation } from './useIcon';
@@ -45,6 +46,9 @@ const AdditionalTarget = () => {
   const { t } = useTranslation();
   const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false);
   const Icon = useIconWithValidation();
+  const { width } = useWindowSize();
+  const breakpointSm = parseInt(appTheme.breakpoints.sm, 10);
+  const isMobile = width < breakpointSm;
 
   const validation = (
     module: components['schemas']['ModuleAdditionalTarget']
@@ -87,7 +91,7 @@ const AdditionalTarget = () => {
             {Icon}
             <Label>{t('__PLAN_PAGE_MODULE_ADDITIONAL_TARGET_TITLE')}</Label>
           </div>
-          {getPlanStatus() === 'draft' && (
+          {!isMobile && getPlanStatus() === 'draft' && (
             <Tooltip
               placement="start"
               type="light"

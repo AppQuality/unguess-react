@@ -3,15 +3,16 @@ import { useTranslation } from 'react-i18next';
 import { useAppSelector } from 'src/app/hooks';
 import { appTheme } from 'src/app/theme';
 import { useModuleConfiguration } from 'src/features/modules/useModuleConfiguration';
+import useWindowSize from 'src/hooks/useWindowSize';
 import styled from 'styled-components';
+import { MODULE_GROUPS } from '../../common/constants';
+import { GroupTitle } from '../../common/GroupTitle';
 import { NavContainer } from '../../common/NavContainer';
 import { usePlanContext } from '../../context/planContext';
 import { getModuleBySlug } from '../../modules/Factory';
 import { AddBlockButton } from './AddBlockButton';
 import { AddBlockModal } from './modal/AddBlockModal';
 import { NavItem } from './NavItem';
-import { MODULE_GROUPS } from '../../common/constants';
-import { GroupTitle } from '../../common/GroupTitle';
 
 const BodyContainer = styled.div`
   max-height: calc(100vh - ${({ theme }) => theme.space.xxl});
@@ -33,6 +34,9 @@ const NavBody = () => {
   const { getPlanStatus } = useModuleConfiguration();
   const { currentModules } = useAppSelector((state) => state.planModules);
   const { t } = useTranslation();
+  const { width } = useWindowSize();
+  const breakpointSm = parseInt(appTheme.breakpoints.sm, 10);
+  const isMobile = width < breakpointSm;
 
   return (
     <NavContainer data-qa="plans-nav">
@@ -70,7 +74,7 @@ const NavBody = () => {
           );
         })}
       </BodyContainer>
-      {getPlanStatus() === 'draft' && (
+      {!isMobile && getPlanStatus() === 'draft' && (
         <div style={{ marginTop: 'auto' }}>
           <AddBlockButton />
           <AddBlockModal />
