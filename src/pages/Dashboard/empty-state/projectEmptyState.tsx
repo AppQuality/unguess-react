@@ -7,7 +7,7 @@ import {
   XL,
   XXL,
 } from '@appquality/unguess-design-system';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useRef } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import PlanCreationInterface from 'src/common/components/PlanCreationInterface';
@@ -40,7 +40,6 @@ const ImageWrapper = styled.div`
 export const ProjectEmptyState = () => {
   const { t } = useTranslation();
   const containerRef = useRef<HTMLDivElement | null>(null);
-  const [distanceFromTop, setDistanceFromTop] = useState(0);
   const canView = useCanAccessToActiveWorkspace();
   const {
     promoTemplates,
@@ -59,24 +58,6 @@ export const ProjectEmptyState = () => {
     setIsDrawerOpen(true);
   };
 
-  useEffect(() => {
-    const calculateDistance = () => {
-      if (containerRef.current) {
-        // Distance from the top of the page
-        const rect =
-          containerRef && containerRef?.current.getBoundingClientRect();
-        const scrollTop = window.scrollY || document.documentElement.scrollTop;
-        setDistanceFromTop(rect.top + scrollTop);
-      }
-    };
-
-    calculateDistance();
-    window.addEventListener('resize', calculateDistance);
-
-    return () => {
-      window.removeEventListener('resize', calculateDistance);
-    };
-  }, []);
   return (
     <EmptyProjectContainer
       ref={containerRef}
