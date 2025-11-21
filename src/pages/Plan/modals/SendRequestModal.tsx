@@ -85,14 +85,14 @@ const SendRequestModal = ({
     onQuit();
   };
 
-  if (isRequestingQuote()) {
+  if (true) {
     return (
       <Modal
         role="dialog"
         style={{
           backgroundColor: 'transparent',
           boxShadow: 'none',
-          marginTop: '-100px',
+          padding: '100px 20px',
         }}
       >
         <Trans
