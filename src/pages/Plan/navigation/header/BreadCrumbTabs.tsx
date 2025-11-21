@@ -10,6 +10,10 @@ const StyledBreadcrumb = styled(Breadcrumb)`
   ol {
     justify-content: center;
   }
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+    display: none;
+  }
 `;
 
 export const BreadCrumbTabs = () => {

@@ -24,6 +24,7 @@ import { useTranslation } from 'react-i18next';
 import { Link } from 'react-scroll';
 import { appTheme } from 'src/app/theme';
 import { useModuleConfiguration } from 'src/features/modules/useModuleConfiguration';
+import useWindowSize from 'src/hooks/useWindowSize';
 import styled from 'styled-components';
 import { getTaskData, isTaskData, TTask, useModuleTasks } from '../../hooks';
 import { getIconFromTaskOutput } from '../../utils';
@@ -85,6 +86,9 @@ const TaskItemNav = ({ task, index }: { task: TTask; index: number }) => {
   const { error } = useModuleTasks();
   const { getPlanStatus } = useModuleConfiguration();
   const ref = useRef(null);
+  const { width } = useWindowSize();
+  const breakpointSm = parseInt(appTheme.breakpoints.sm, 10);
+  const isMobile = width < breakpointSm;
 
   useEffect(() => {
     if (getPlanStatus() !== 'draft') {
@@ -203,7 +207,7 @@ const TaskItemNav = ({ task, index }: { task: TTask; index: number }) => {
           data-task-id={task.id}
           $dragging={state.type === 'is-dragging'}
         >
-          {getPlanStatus() === 'draft' && (
+          {!isMobile && getPlanStatus() === 'draft' && (
             <Draggable.Grip style={{ cursor: 'grab' }} />
           )}
           <StyledDraggableContent>

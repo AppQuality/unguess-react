@@ -3,6 +3,7 @@ import { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppSelector } from 'src/app/hooks';
 import { appTheme } from 'src/app/theme';
+import useWindowSize from 'src/hooks/useWindowSize';
 import styled from 'styled-components';
 import { MODULE_GROUPS } from './common/constants';
 import { GroupTitle } from './common/GroupTitle';
@@ -10,6 +11,14 @@ import { ModulesBottomNavigation } from './common/ModulesBottomNavigation';
 import { TabTitle } from './common/TabTitle';
 import { usePlanContext } from './context/planContext';
 import { getModuleBySlug, getModulesByTab } from './modules/Factory';
+
+const ScrollSpacer = styled.div`
+  height: calc(100vh - 510px);
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
+    display: none;
+  }
+`;
 
 const ModuleItem = styled.div<{
   $isTasksOrTarget: boolean;
@@ -69,6 +78,10 @@ const GroupsWrapper = styled.div`
 `;
 
 export const ModulesList = () => {
+  const { width } = useWindowSize();
+  const breakpointSm = parseInt(appTheme.breakpoints.sm, 10);
+  const isMobile = width < breakpointSm;
+
   const currentModules = useAppSelector(
     (state) => state.planModules.currentModules
   );
@@ -121,6 +134,9 @@ export const ModulesList = () => {
         transition={{ duration: 0.15 }}
       >
         <TabTitle />
+        {isMobile && activeTab.name !== 'summary' && (
+          <ModulesBottomNavigation />
+        )}
         <GroupsWrapper>
           {groupConfig.map((group) => {
             const groupModules = group.modules.filter((module) =>
@@ -152,12 +168,7 @@ export const ModulesList = () => {
           })}
         </GroupsWrapper>
         {activeTab.name !== 'summary' && <ModulesBottomNavigation />}
-        <div
-          className="scroll-spacer"
-          style={{
-            height: `calc(100vh - 510px)`,
-          }}
-        />
+        <ScrollSpacer className="scroll-spacer" />
       </motion.div>
     </AnimatePresence>
   );

@@ -2,6 +2,7 @@ import { Content } from '@appquality/unguess-design-system';
 import { ComponentProps, useEffect, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import { useAppDispatch } from 'src/app/hooks';
+import { appTheme } from 'src/app/theme';
 import { AppSidebar } from 'src/common/components/navigation/sidebar';
 import {
   setSidebarOpen,
@@ -9,6 +10,7 @@ import {
 } from 'src/features/navigation/navigationSlice';
 import { NoActiveWorkSpaceState } from 'src/features/templates/NoActiveWorkspaceState';
 import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
+import useWindowSize from 'src/hooks/useWindowSize';
 import { styled } from 'styled-components';
 import { NavigationHeader } from './NavigationHeader';
 import { NavigationProfileModal } from './NavigationProfileModal';
@@ -36,8 +38,18 @@ export const Navigation = ({
 }) => {
   const dispatch = useAppDispatch();
   const { activeWorkspace, isLoading } = useActiveWorkspace();
+  const { width } = useWindowSize();
+  const breakpointSm = parseInt(appTheme.breakpoints.sm, 10);
+  const isMobile = width < breakpointSm;
 
   useEffect(() => {
+    // Always closed sidebar state on mobile
+    if (isMobile) {
+      dispatch(setSidebarOpen(false));
+      return;
+    }
+
+    // Set sidebar state based on route
     switch (route) {
       case 'service':
       case 'campaigns':

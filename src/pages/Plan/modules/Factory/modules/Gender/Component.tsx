@@ -1,5 +1,6 @@
 import {
   AccordionNew,
+  Button,
   Checkbox,
   Col,
   FormField,
@@ -10,7 +11,6 @@ import {
   Row,
   Span,
   Tooltip,
-  Button,
 } from '@appquality/unguess-design-system';
 import { ReactComponent as PlusIcon } from '@zendeskgarden/svg-icons/src/16/plus-circle-fill.svg';
 import { ReactComponent as DeleteIcon } from '@zendeskgarden/svg-icons/src/16/trash-stroke.svg';
@@ -24,6 +24,7 @@ import { components } from 'src/common/schema';
 import { useModule } from 'src/features/modules/useModule';
 import { useModuleConfiguration } from 'src/features/modules/useModuleConfiguration';
 import { useValidation } from 'src/features/modules/useModuleValidation';
+import useWindowSize from 'src/hooks/useWindowSize';
 import { DeleteModuleConfirmationModal } from 'src/pages/Plan/modules/modal/DeleteModuleConfirmationModal';
 import styled from 'styled-components';
 import PercentageInput from './GenderPercentageInput';
@@ -43,17 +44,15 @@ const Gender = () => {
   const { getPlanStatus } = useModuleConfiguration();
   const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false);
   const { value, setOutput, setVariant, remove } = useModule('gender');
-
   const Icon = useIconWithValidation();
-
   const moduleOutputContainsGender = (gender: GenderTypes) =>
     value?.output?.some((g) => g.gender === gender);
-
   const genderTypes: GenderTypes[] = ['male', 'female'];
-
   const checkIsPercentageVariant = () => value?.variant === 'percentage';
-
   const { t } = useTranslation();
+  const { width } = useWindowSize();
+  const breakpointSm = parseInt(appTheme.breakpoints.sm, 10);
+  const isMobile = width < breakpointSm;
 
   // Error if percentage variant is active and any selected gender has 0 percentage
   const unassignedGenderPercentageError =
@@ -174,7 +173,7 @@ const Gender = () => {
             <AccordionNew.Label
               label={t('__PLAN_PAGE_MODULE_GENDER_ACCORDION_LABEL')}
             />
-            {getPlanStatus() === 'draft' && (
+            {!isMobile && getPlanStatus() === 'draft' && (
               <AccordionNew.Meta>
                 <Tooltip
                   placement="start"

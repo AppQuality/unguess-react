@@ -9,6 +9,7 @@ import { appTheme } from 'src/app/theme';
 import { ReactComponent as TrashIcon } from 'src/assets/icons/trash-stroke.svg';
 import { components } from 'src/common/schema';
 import { useModuleConfiguration } from 'src/features/modules/useModuleConfiguration';
+import useWindowSize from 'src/hooks/useWindowSize';
 import { useModuleTouchpoints } from '../hooks';
 import { getIconFromTouchpointOutput } from '../utils';
 import { DeleteTouchpointConfirmationModal } from './modal/DeleteTouchpointConfirmationModal';
@@ -26,6 +27,10 @@ const TouchpointItem = ({
   const { t } = useTranslation();
   const { error } = useModuleTouchpoints();
   const { getPlanStatus } = useModuleConfiguration();
+  const { width } = useWindowSize();
+  const breakpointSm = parseInt(appTheme.breakpoints.sm, 10);
+  const isMobile = width < breakpointSm;
+
   const confirmationState = useState<{
     isOpen: boolean;
     touchpointKey: number;
@@ -58,7 +63,7 @@ const TouchpointItem = ({
               label={formattedFormFactor}
               subtitle={formattedKind}
             />
-            {getPlanStatus() === 'draft' && (
+            {!isMobile && getPlanStatus() === 'draft' && (
               <AccordionNew.Meta>
                 <Tooltip
                   placement="start"

@@ -17,6 +17,7 @@ import { components } from 'src/common/schema';
 import { useModule } from 'src/features/modules/useModule';
 import { useModuleConfiguration } from 'src/features/modules/useModuleConfiguration';
 import { useValidation } from 'src/features/modules/useModuleValidation';
+import useWindowSize from 'src/hooks/useWindowSize';
 import { DeleteModuleConfirmationModal } from 'src/pages/Plan/modules/modal/DeleteModuleConfirmationModal';
 import styled from 'styled-components';
 import { useIconWithValidation } from './useIcon';
@@ -50,6 +51,9 @@ const Employment = () => {
   const { t } = useTranslation();
   const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false);
   const Icon = useIconWithValidation();
+  const { width } = useWindowSize();
+  const breakpointSm = parseInt(appTheme.breakpoints.sm, 10);
+  const isMobile = width < breakpointSm;
 
   const mapEnumIdsToKeys = (
     values: number[]
@@ -144,7 +148,7 @@ const Employment = () => {
             <AccordionNew.Label
               label={t('__PLAN_PAGE_MODULE_EMPLOYMENT_TITLE')}
             />
-            {getPlanStatus() === 'draft' && (
+            {!isMobile && getPlanStatus() === 'draft' && (
               <AccordionNew.Meta>
                 <Tooltip
                   placement="start"

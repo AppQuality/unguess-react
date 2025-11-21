@@ -3,6 +3,7 @@ import { ReactComponent as ChevronLeftIcon } from '@zendeskgarden/svg-icons/src/
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
+import useWindowSize from 'src/hooks/useWindowSize';
 import styled from 'styled-components';
 import { usePlan, usePlanIsPurchasable } from '../../../hooks/usePlan';
 import { StickyCol } from '../common/StickyCol';
@@ -28,6 +29,9 @@ const SummaryBody = () => {
   const { plan, planComposedStatus } = usePlan(planId);
   const isPurchasable = usePlanIsPurchasable(planId);
   const { setActiveTab, isPaymentInProgress } = usePlanContext();
+  const { width } = useWindowSize();
+  const breakpointSm = parseInt(appTheme.breakpoints.sm, 10);
+  const isMobile = width < breakpointSm;
 
   if (!plan) return null;
 
@@ -38,7 +42,7 @@ const SummaryBody = () => {
 
   return (
     <Row>
-      <Col sm="6" offsetSm={3}>
+      <Col sm="12" md="6" offsetMd={3}>
         <StyledDiv>
           <TabTitle />
           <IntroductionCard />
@@ -61,9 +65,15 @@ const SummaryBody = () => {
           {t('__MODULES_BOTTOM_NAVIGATION_SUMMARY_TAB_LEFT_LABEL')}
         </Button>
       </Col>
-      <StickyCol sm="3">
-        <DetailsCard />
-      </StickyCol>
+      {isMobile ? (
+        <Col sm="12">
+          <DetailsCard />
+        </Col>
+      ) : (
+        <StickyCol md="3">
+          <DetailsCard />
+        </StickyCol>
+      )}
       {isPaymentInProgress && <PaymentLoader />}
     </Row>
   );

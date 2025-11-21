@@ -12,6 +12,7 @@ import { FEATURE_FLAG_CHANGE_MODULES_VARIANTS } from 'src/constants';
 import { useModule } from 'src/features/modules/useModule';
 import { useModuleConfiguration } from 'src/features/modules/useModuleConfiguration';
 import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
+import useWindowSize from 'src/hooks/useWindowSize';
 import { DeleteModuleConfirmationModal } from 'src/pages/Plan/modules/modal/DeleteModuleConfirmationModal';
 import styled from 'styled-components';
 import { useIconWithValidation } from '../../useIcon';
@@ -52,6 +53,9 @@ const TasksList = () => {
   const { hasFeatureFlag } = useFeatureFlag();
   const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false);
   const Icon = useIconWithValidation();
+  const { width } = useWindowSize();
+  const breakpointSm = parseInt(appTheme.breakpoints.sm, 10);
+  const isMobile = width < breakpointSm;
 
   const handleDelete = () => {
     setIsOpenDeleteModal(true);
@@ -76,6 +80,7 @@ const TasksList = () => {
             </MD>
           </TitleContainer>
           {hasFeatureFlag(FEATURE_FLAG_CHANGE_MODULES_VARIANTS) &&
+            !isMobile &&
             getPlanStatus() === 'draft' && (
               <Button
                 isBasic
@@ -116,7 +121,7 @@ const TasksList = () => {
             ))}
         </div>
         <TasksContainerAnimation tasks={value} />
-        {getPlanStatus() === 'draft' && <AddTaskButton />}
+        {!isMobile && getPlanStatus() === 'draft' && <AddTaskButton />}
         <TasksModal />
       </StyledCard>
       {isOpenDeleteModal && (

@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
 import { useModule } from 'src/features/modules/useModule';
+import useWindowSize from 'src/hooks/useWindowSize';
 import { useSubmit } from '../../../features/modules/useModuleConfiguration';
 import { usePlan, usePlanIsPurchasable } from '../../../hooks/usePlan';
 import { usePlanContext } from '../context/planContext';
@@ -20,6 +21,9 @@ import { WatcherList } from './WatcherList';
 
 export const Controls = () => {
   const { t } = useTranslation();
+  const { width } = useWindowSize();
+  const breakpointSm = parseInt(appTheme.breakpoints.sm, 10);
+  const isMobile = width < breakpointSm;
   const [isRequestQuotationModalOpen, setRequestQuotationModalOpen] =
     useState(false);
   const {
@@ -86,7 +90,8 @@ export const Controls = () => {
 
       {planComposedStatus !== 'AwaitingPayment' &&
         planComposedStatus !== 'Paying' &&
-        planComposedStatus !== 'PurchasedPlan' && <IconButtonMenu />}
+        planComposedStatus !== 'PurchasedPlan' &&
+        !isMobile && <IconButtonMenu />}
       {isDeleteModalOpen && planId && (
         <DeletePlanModal
           planId={planId}
