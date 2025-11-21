@@ -106,7 +106,7 @@ const UserItem = ({
       <div>
         {!hideRemoveButton && (
           <Tooltip
-            placement={isLastOne ? 'top' : 'end'}
+            placement="start"
             type="light"
             size="large"
             content={
