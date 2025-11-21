@@ -202,7 +202,11 @@ const Gender = () => {
                   <Label>{t('__PLAN_PAGE_MODULE_GENDER_TITLE')}</Label>
                   <Span style={{ color: appTheme.palette.red[600] }}>*</Span>
                 </Col>
-                <Col size={4} style={{ marginBottom: appTheme.space.sm }}>
+                <Col
+                  size={4}
+                  style={{ marginBottom: appTheme.space.sm }}
+                  hidden={isMobile}
+                >
                   <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
                     <Button
                       aria-label="change-variant"
