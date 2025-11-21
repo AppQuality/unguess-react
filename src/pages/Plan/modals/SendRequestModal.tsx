@@ -85,7 +85,7 @@ const SendRequestModal = ({
     onQuit();
   };
 
-  if (true) {
+  if (isRequestingQuote()) {
     return (
       <Modal
         role="dialog"
