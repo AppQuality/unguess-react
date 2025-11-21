@@ -13,17 +13,17 @@ import { ReactComponent as ChevronUp } from 'src/assets/icons/chevron-up-stroke.
 import { appTheme } from 'src/app/theme';
 
 import {
-  GetUsersMeWatchedPlansApiResponse,
+  GetUsersMeWatchedCampaignsApiResponse,
   useDeletePlansByPidWatchersAndProfileIdMutation,
   useGetUsersMeQuery,
 } from 'src/features/api';
 import { UnfollowButton } from './UnfollowButton';
 import { StyledActivityItem, StyledPanelSectionContainer } from './components';
 
-export const FollowActivitiesPanel = ({
-  followedActivities,
+export const FollowCampaignActivitiesPanel = ({
+  followedCampaigns,
 }: {
-  followedActivities: GetUsersMeWatchedPlansApiResponse['items'];
+  followedCampaigns: GetUsersMeWatchedCampaignsApiResponse['items'];
 }) => {
   const { t } = useTranslation();
   const { addToast } = useToast();
@@ -32,10 +32,10 @@ export const FollowActivitiesPanel = ({
   const [isExpanded, setIsExpanded] = useState(false);
 
   const displayedActivities = isExpanded
-    ? followedActivities
-    : followedActivities.slice(0, 3);
-  const hasMore = followedActivities.length > 3;
-  const remainingCount = followedActivities.length - 3;
+    ? followedCampaigns
+    : followedCampaigns.slice(0, 3);
+  const hasMore = followedCampaigns.length > 3;
+  const remainingCount = followedCampaigns.length - 3;
 
   const truncateName = (
     name: string | undefined,
@@ -85,9 +85,9 @@ export const FollowActivitiesPanel = ({
       <StyledPanelSectionContainer>
         <Label>
           {t(
-            '__PROFILE_PAGE_NOTIFICATIONS_CARD_FOLLOW_ACTIVITIES_SETUP_DESCRIPTION'
+            '__PROFILE_PAGE_NOTIFICATIONS_CARD_FOLLOW_ACTIVITIES_PROGRESS_DESCRIPTION'
           )}
-          {`(${followedActivities.length})`}
+          {`(${followedCampaigns.length})`}
         </Label>
         {displayedActivities.map((activity) => (
           <StyledActivityItem key={activity.id}>
@@ -107,6 +107,7 @@ export const FollowActivitiesPanel = ({
         {hasMore && (
           <Button
             isLink
+            size="small"
             onClick={() => setIsExpanded(!isExpanded)}
             style={{
               marginTop: '8px',

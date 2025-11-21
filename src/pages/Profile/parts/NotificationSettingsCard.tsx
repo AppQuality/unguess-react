@@ -17,6 +17,7 @@ import {
 import { NotificationSettingsAccordion } from './NotificationsAccordion';
 import { FollowActivitiesAccordion } from './FollowActivitiesAccordion.tsx';
 import { NotificationSettingsFormValues } from '../valuesType';
+import { CommentsUpdatesAccordion } from './CommentNotificationsAccordion';
 
 export const NotificationSettingsCard = () => {
   const { t } = useTranslation();
@@ -53,6 +54,7 @@ export const NotificationSettingsCard = () => {
             marginBottom: appTheme.space.sm,
           }}
         />
+        <CommentsUpdatesAccordion />
         <NotificationSettingsAccordion />
         <Button
           disabled={!canSave}
