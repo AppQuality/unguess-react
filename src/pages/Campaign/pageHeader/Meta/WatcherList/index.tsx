@@ -18,6 +18,7 @@ const WatcherList = ({ campaignId }: { campaignId: string }) => {
 
   return (
     <WatcherListComponent
+      size="medium"
       isWatching={isWatching}
       count={watchersCount}
       isLoading={isLoading}

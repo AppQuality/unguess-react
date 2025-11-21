@@ -55,6 +55,7 @@ const WatcherList = ({
   isWatching,
   count,
   isLoading,
+  size,
   hideWatchButton,
   i18n,
 }: {
@@ -63,6 +64,7 @@ const WatcherList = ({
   count: number;
   isLoading: boolean;
   hideWatchButton?: boolean;
+  size?: 'small' | 'medium';
   i18n: {
     tooltip: {
       title: ReactNode;
@@ -119,7 +121,7 @@ const WatcherList = ({
         <Button
           isBasic
           ref={ref}
-          size="small"
+          size={size || 'small'}
           onClick={() => setReferenceElement(ref.current)}
         >
           {isLoading ? (
