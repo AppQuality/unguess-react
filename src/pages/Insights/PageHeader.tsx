@@ -1,23 +1,22 @@
 import {
   Anchor,
   IconButton,
-  MD,
   PageHeader,
   Skeleton,
   Tooltip,
 } from '@appquality/unguess-design-system';
+import { ReactComponent as VideoListIcon } from '@zendeskgarden/svg-icons/src/16/play-circle-stroke.svg';
 import { useTranslation } from 'react-i18next';
 import { Link, useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
+import { ReactComponent as DashboardIcon } from 'src/assets/icons/dashboard-icon.svg';
 import { CampaignSettings } from 'src/common/components/inviteUsers/campaignSettings';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
 import { FEATURE_FLAG_TAGGING_TOOL } from 'src/constants';
+import { useCanAccessToActiveWorkspace } from 'src/hooks/useCanAccessToActiveWorkspace';
 import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { styled } from 'styled-components';
-import { ReactComponent as VideoListIcon } from '@zendeskgarden/svg-icons/src/16/play-circle-stroke.svg';
-import { ReactComponent as DashboardIcon } from 'src/assets/icons/dashboard-icon.svg';
-import { useCanAccessToActiveWorkspace } from 'src/hooks/useCanAccessToActiveWorkspace';
 import { useCampaign } from '../Campaign/pageHeader/useCampaign';
 
 const Wrapper = styled.div`
@@ -29,7 +28,7 @@ const Wrapper = styled.div`
   width: 100%;
 
   @media screen and (max-width: ${({ theme }) => theme.breakpoints.xl}) {
-    flex-direction: column;
+    align-self: end;
     align-items: flex-start;
     justify-content: flex-start;
   }
@@ -87,10 +86,6 @@ const InsightsPageHeader = () => {
               {!campaign.isArchived && hasWorkspaceAccess && (
                 <CampaignSettings />
               )}
-              <MD color={appTheme.palette.blue[600]}>
-                {' '}
-                {t('__INSIGHTS_PAGE_NAVIGATION_LABEL')}
-              </MD>
               <Link to={campaignRoute}>
                 <Tooltip
                   content={t('__UX_CAMPAIGN_PAGE_NAVIGATION_DASHBOARD_TOOLTIP')}

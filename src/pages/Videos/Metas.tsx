@@ -1,37 +1,37 @@
-import { useEffect, useState } from 'react';
 import {
-  MD,
-  Skeleton,
-  useToast,
-  Notification,
-  Span,
   IconButton,
+  MD,
+  Notification,
+  Skeleton,
+  Span,
   Tooltip,
+  useToast,
 } from '@appquality/unguess-design-system';
+import { ReactComponent as InsightsIcon } from '@zendeskgarden/svg-icons/src/16/lightbulb-stroke.svg';
+import queryString from 'query-string';
+import { useEffect, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
+import { Link, useParams } from 'react-router-dom';
+import { appTheme } from 'src/app/theme';
+import { ReactComponent as DashboardIcon } from 'src/assets/icons/dashboard-icon.svg';
+import { ReactComponent as DownloadIcon } from 'src/assets/icons/download-stroke.svg';
 import { capitalizeFirstLetter } from 'src/common/capitalizeFirstLetter';
+import { CampaignSettings } from 'src/common/components/inviteUsers/campaignSettings';
 import { Meta } from 'src/common/components/Meta';
+import { StatusMeta } from 'src/common/components/meta/StatusMeta';
 import { PageMeta } from 'src/common/components/PageMeta';
 import { Pipe } from 'src/common/components/Pipe';
-import { CampaignSettings } from 'src/common/components/inviteUsers/campaignSettings';
-import { StatusMeta } from 'src/common/components/meta/StatusMeta';
-import { ReactComponent as DashboardIcon } from 'src/assets/icons/dashboard-icon.svg';
-import { ReactComponent as InsightsIcon } from '@zendeskgarden/svg-icons/src/16/lightbulb-stroke.svg';
+import { FEATURE_FLAG_TAGGING_TOOL } from 'src/constants';
 import {
   GetCampaignsByCidApiResponse,
   useGetCampaignsByCidObservationsQuery,
   useGetCampaignsByCidVideosQuery,
 } from 'src/features/api';
+import { useCanAccessToActiveWorkspace } from 'src/hooks/useCanAccessToActiveWorkspace';
+import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
+import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { CampaignStatus } from 'src/types';
 import styled from 'styled-components';
-import { ReactComponent as DownloadIcon } from 'src/assets/icons/download-stroke.svg';
-import queryString from 'query-string';
-import { Link, useParams } from 'react-router-dom';
-import { appTheme } from 'src/app/theme';
-import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
-import { FEATURE_FLAG_TAGGING_TOOL } from 'src/constants';
-import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
-import { useCanAccessToActiveWorkspace } from 'src/hooks/useCanAccessToActiveWorkspace';
 import { getAllSeverityTags } from './utils/getSeverityTagsWithCount';
 
 const ButtonWrapper = styled.div`
@@ -42,7 +42,7 @@ const ButtonWrapper = styled.div`
   gap: ${({ theme }) => theme.space.sm};
 
   @media screen and (max-width: ${({ theme }) => theme.breakpoints.xl}) {
-    flex-direction: column;
+    align-self: end;
     align-items: flex-start;
     justify-content: flex-start;
   }
@@ -249,10 +249,6 @@ export const Metas = ({
       <ButtonWrapper>
         {!campaign.isArchived && hasWorkspaceAccess && <CampaignSettings />}
         <>
-          <MD color={appTheme.palette.blue[600]}>
-            {' '}
-            {t('__INSIGHTS_PAGE_NAVIGATION_LABEL')}
-          </MD>
           <Link to={campaignRoute}>
             <Tooltip
               content={t('__UX_CAMPAIGN_PAGE_NAVIGATION_DASHBOARD_TOOLTIP')}

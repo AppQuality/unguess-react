@@ -16,7 +16,6 @@ const UnfollowButton = ({
     <Button
       disabled={isDisabled}
       size="small"
-      isBasic
       onClick={() => handleUnfollow(activityId)}
     >
       {t('__PROFILE_PAGE_NOTIFICATIONS_CARD_FOLLOW_ACTIVITIES_BUTTON_TEXT')}

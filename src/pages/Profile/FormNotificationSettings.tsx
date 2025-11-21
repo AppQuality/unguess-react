@@ -18,12 +18,15 @@ export const FormNotificationSettings = () => {
   const activitySetup =
     data?.items?.find((pref) => pref.name === 'plan_notifications_enabled')
       ?.value ?? '1';
-
   const activityProgress =
+    data?.items?.find((pref) => pref.name === 'campaign_notifications_enabled')
+      ?.value ?? '1';
+  const commentsActivity =
     data?.items?.find((pref) => pref.name === 'notifications_enabled')?.value ??
     '1';
 
   const initialValues: NotificationSettingsFormValues = {
+    commentsActivity: commentsActivity === '1',
     activitySetupUpdates: activitySetup === '1',
     activityProgress: activityProgress === '1',
   };
@@ -47,9 +50,17 @@ export const FormNotificationSettings = () => {
           },
         }).unwrap();
       }
-      if (values.activityProgress !== initialValues.activityProgress) {
+      if (values.commentsActivity !== initialValues.commentsActivity) {
         await updatePreferences({
           slug: 'notifications_enabled',
+          body: {
+            value: values.commentsActivity ? '1' : '0',
+          },
+        }).unwrap();
+      }
+      if (values.activityProgress !== initialValues.activityProgress) {
+        await updatePreferences({
+          slug: 'campaign_notifications_enabled',
           body: {
             value: values.activityProgress ? '1' : '0',
           },

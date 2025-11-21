@@ -5,7 +5,7 @@ import { WatcherList } from 'src/common/components/WatcherList';
 import {
   useGetUsersMeQuery,
   useGetWorkspacesByWidUsersQuery,
-  usePostPlansByPidWatchersMutation,
+  usePostCampaignsByCidWatchersMutation,
 } from 'src/features/api';
 import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
 import { useIsLastOne } from './hooks/useIsLastOne';
@@ -31,12 +31,12 @@ const useHasWorkspaceAccess = () => {
   );
 };
 
-const WatchButton = ({ planId }: { planId: string }) => {
-  const isWatching = useIsWatching({ planId });
-  const isLastOne = useIsLastOne({ planId });
+const WatchButton = ({ campaignId }: { campaignId: string }) => {
+  const isWatching = useIsWatching({ campaignId });
+  const isLastOne = useIsLastOne({ campaignId });
   const { addToast } = useToast();
   const { removeWatcher } = useRemoveWatcher();
-  const [addUser] = usePostPlansByPidWatchersMutation();
+  const [addUser] = usePostCampaignsByCidWatchersMutation();
   const hasWorkspaceAccess = useHasWorkspaceAccess();
   const { data: currentUser } = useGetUsersMeQuery();
   const { t } = useTranslation();
@@ -55,12 +55,12 @@ const WatchButton = ({ planId }: { planId: string }) => {
       onClick={() => {
         if (isWatching) {
           removeWatcher({
-            planId,
+            campaignId,
             profileId: currentUser.profile_id.toString(),
           });
         } else {
           addUser({
-            pid: planId,
+            cid: campaignId,
             body: { users: [{ id: currentUser.profile_id }] },
           })
             .unwrap()

@@ -348,6 +348,18 @@ unguessApi.enhanceEndpoints({
     getUsersMeWatchedPlans: {
       providesTags: ['Plans', 'PlanWatchers'],
     },
+    getCampaignsByCidWatchers: {
+      providesTags: ['CampaignWatchers'],
+    },
+    postCampaignsByCidWatchers: {
+      invalidatesTags: ['CampaignWatchers'],
+    },
+    deleteCampaignsByCidWatchersAndProfileId: {
+      invalidatesTags: ['CampaignWatchers'],
+    },
+    getUsersMeWatchedCampaigns: {
+      providesTags: ['Campaigns', 'CampaignWatchers'],
+    },
   },
 });
 

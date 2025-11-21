@@ -1,10 +1,9 @@
 import { MD, Skeleton, SM } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import {
-  useGetPlansByPidWatchersQuery,
+  useGetCampaignsByCidWatchersQuery,
   useGetUsersMeQuery,
 } from 'src/features/api';
-import { usePlanIsApproved } from 'src/hooks/usePlan';
 import { styled, useTheme } from 'styled-components';
 import { ReactComponent as Empty } from './assets/Empty.svg';
 import { UserItem } from './UserItem';
@@ -32,7 +31,7 @@ const EmptyState = ({ watchers }: { watchers?: number }) => {
       {(!watchers || watchers === 0) && (
         <>
           <SM isBold>
-            {t('__PLAN_PAGE_WATCHER_LIST_MODAL_NO_WATCHERS_TITLE')}
+            {t('__CAMPAIGN_PAGE_WATCHER_LIST_MODAL_NO_WATCHERS_TITLE')}
           </SM>
           <SM style={{ color: appTheme.palette.grey[500] }}>
             {t('__PLAN_PAGE_WATCHER_LIST_MODAL_NO_WATCHERS_DESCRIPTION')}
@@ -54,25 +53,20 @@ const EmptyState = ({ watchers }: { watchers?: number }) => {
   );
 };
 
-const UserList = ({ planId }: { planId: string }) => {
+const UserList = ({ campaignId }: { campaignId: string }) => {
   const { t } = useTranslation();
   const { data: currentUser } = useGetUsersMeQuery();
-  const { data, isLoading } = useGetPlansByPidWatchersQuery({
-    pid: planId,
+  const { data, isLoading } = useGetCampaignsByCidWatchersQuery({
+    cid: campaignId,
   });
 
-  const isApproved = usePlanIsApproved(planId);
   if (isLoading) return <Skeleton height="100" />;
 
   if (!data || data.items.length === 0) return <EmptyState />;
 
   return (
     <UserItemContainer>
-      <MD isBold>
-        {isApproved
-          ? t('__PLAN_PAGE_WATCHER_LIST_MODAL_WATCHERS_TITLE_APPROVED')
-          : t('__PLAN_PAGE_WATCHER_LIST_MODAL_WATCHERS_TITLE')}
-      </MD>
+      <MD isBold>{t('__PLAN_PAGE_WATCHER_LIST_MODAL_WATCHERS_TITLE')}</MD>
 
       {[...data.items]
         .sort((a, b) => {
@@ -83,7 +77,7 @@ const UserList = ({ planId }: { planId: string }) => {
         })
         .map((user) => (
           <UserItem
-            planId={planId}
+            campaignId={campaignId}
             key={user.id}
             user={{
               ...user,
@@ -92,9 +86,7 @@ const UserList = ({ planId }: { planId: string }) => {
             }}
           />
         ))}
-      {data.items.length === 1 && !isApproved && (
-        <EmptyState watchers={data.items.length} />
-      )}
+      {data.items.length === 1 && <EmptyState watchers={data.items.length} />}
     </UserItemContainer>
   );
 };

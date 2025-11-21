@@ -109,11 +109,6 @@ export const CommunicationUpdatesPanel = () => {
               '__PROFILE_PAGE_NOTIFICATIONS_CARD_ACTIVITY_PROGRESS_ALERT_ITEM_4'
             )}
           </UnorderedList.Item>
-          <UnorderedList.Item>
-            {t(
-              '__PROFILE_PAGE_NOTIFICATIONS_CARD_ACTIVITY_PROGRESS_ALERT_ITEM_5'
-            )}
-          </UnorderedList.Item>
         </UnorderedList>
       </Alert>
     </StyledPanelContainer>
