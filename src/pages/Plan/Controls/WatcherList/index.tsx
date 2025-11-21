@@ -19,11 +19,11 @@ import { ReactComponent as EyeIcon } from 'src/assets/icons/eye-icon.svg';
 import { ReactComponent as InfoIcon } from 'src/assets/icons/info-icon.svg';
 import { useGetPlansByPidWatchersQuery } from 'src/features/api';
 import { usePlanIsApproved } from 'src/hooks/usePlan';
+import useWindowSize from 'src/hooks/useWindowSize';
 import { useIsWatching } from './hooks/useIsWatching';
 import { MemberAddAutocomplete } from './MemberAddAutoComplete';
 import { UserList } from './UserList';
 import { WatchButton } from './WatchButton';
-import useWindowSize from 'src/hooks/useWindowSize';
 
 const ModalBodyContainer = styled.div`
   display: flex;
