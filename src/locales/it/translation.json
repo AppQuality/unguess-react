@@ -1522,6 +1522,8 @@
   "_PLAN_CARD_LABEL_LOOK": "",
   "_PLAN_PAGE_MODULE_LANGUAGE_DESCRIPTION": "",
   "_PLAN_PAGE_MODULE_LANGUAGE_SUBTITLE": "",
+  "_PROFILE_PAGE_VIEW_LESS": "",
+  "_PROFILE_PAGE_VIEW_MORE": "",
   "_PROJECT_PAGE_PLANS_GROUP_SEE_ALL": "Vedi tutti",
   "_PROJECT_PAGE_PLANS_GROUP_SEE_LESS": "Vedi meno",
   "_PROJECT_PAGE_PLANS_GROUP_SUBTITLE": "Crea e configura nuove attività o verifica quelle in attesa di approvazione",
@@ -1628,7 +1630,5 @@
   "UX_SHORTCUT_MODAL_TITLE": "",
   "UX_SHORTCUT_MUTE": "",
   "UX_SHORTCUT_PLAY_PAUSE": "",
-  "UX_SHORTCUT_REWIND": "",
-  "View Less": "",
-  "View More": ""
+  "UX_SHORTCUT_REWIND": ""
 }

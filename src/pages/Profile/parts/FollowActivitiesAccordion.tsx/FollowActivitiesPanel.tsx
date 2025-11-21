@@ -118,13 +118,13 @@ export const FollowActivitiesPanel = ({
           >
             {isExpanded ? (
               <>
-                <ChevronUp /> <SM>{t('View Less')}</SM>
+                <ChevronUp /> <SM>{t('_PROFILE_PAGE_VIEW_LESS')}</SM>
               </>
             ) : (
               <>
                 <ChevronDown />{' '}
                 <SM>
-                  {t('View More')} ({remainingCount})
+                  {t('_PROFILE_PAGE_VIEW_MORE')} ({remainingCount})
                 </SM>
               </>
             )}

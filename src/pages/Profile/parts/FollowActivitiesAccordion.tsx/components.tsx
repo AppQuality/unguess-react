@@ -4,7 +4,7 @@ export const StyledPanelSectionContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${({ theme }) => theme.space.xs};
-  margin-bottom: ${({ theme }) => theme.space.xxl};
+  margin-bottom: ${({ theme }) => theme.space.sm};
 `;
 
 export const StyledHintContainer = styled.div`

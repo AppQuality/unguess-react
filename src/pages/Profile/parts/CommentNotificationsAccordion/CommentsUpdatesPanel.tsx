@@ -17,29 +17,42 @@ const StyledPanelContainer = styled.div`
   gap: ${({ theme }) => theme.space.lg};
 `;
 
+const StyledCheckBoxContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: ${({ theme }) => theme.space.sm};
+`;
+
 export const CommentsUpdatesPanel = () => {
   const { t } = useTranslation();
   const { setFieldValue } = useFormikContext<NotificationSettingsFormValues>();
   return (
     <StyledPanelContainer>
-      <Field name="commentsActivity">
-        {({ field }: FieldProps) => (
-          <FormField>
-            <Checkbox
-              role="checkbox"
-              key="all"
-              checked={field.value}
-              onChange={() => setFieldValue('commentsActivity', !field.value)}
-            >
-              <Label>
-                {t(
-                  '__PROFILE_PAGE_NOTIFICATIONS_CARD_COMMENTS_PROGRESS_UPDATESCHECKBOX_LABEL'
-                )}
-              </Label>
-            </Checkbox>
-          </FormField>
-        )}
-      </Field>
+      <StyledCheckBoxContainer>
+        <Label>
+          {t(
+            '__PROFILE_PAGE_NOTIFICATIONS_CARD_ACTIVITY_PROGRESS_UPDATES_FORM_LABEL'
+          )}
+        </Label>
+        <Field name="commentsActivity">
+          {({ field }: FieldProps) => (
+            <FormField>
+              <Checkbox
+                role="checkbox"
+                key="all"
+                checked={field.value}
+                onChange={() => setFieldValue('commentsActivity', !field.value)}
+              >
+                <Label>
+                  {t(
+                    '__PROFILE_PAGE_NOTIFICATIONS_CARD_COMMENTS_PROGRESS_UPDATESCHECKBOX_LABEL'
+                  )}
+                </Label>
+              </Checkbox>
+            </FormField>
+          )}
+        </Field>
+      </StyledCheckBoxContainer>
       <Alert type="info">
         <Alert.Title style={{ marginBottom: appTheme.space.xxs }}>
           {t(
