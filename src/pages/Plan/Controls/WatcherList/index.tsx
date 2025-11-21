@@ -23,6 +23,7 @@ import { useIsWatching } from './hooks/useIsWatching';
 import { MemberAddAutocomplete } from './MemberAddAutoComplete';
 import { UserList } from './UserList';
 import { WatchButton } from './WatchButton';
+import useWindowSize from 'src/hooks/useWindowSize';
 
 const ModalBodyContainer = styled.div`
   display: flex;
@@ -49,12 +50,15 @@ const WatcherList = ({ planId }: { planId: string }) => {
     useState<HTMLButtonElement | null>(null);
   const appTheme = useTheme();
   const isWatching = useIsWatching({ planId });
+  const { isMobile } = useWindowSize();
   const { data: watchers, isLoading } = useGetPlansByPidWatchersQuery({
     pid: planId,
   });
   const watchersCount = watchers ? watchers.items.length : 0;
 
   const isApproved = usePlanIsApproved(planId);
+
+  if (isMobile) return null;
 
   return (
     <>
