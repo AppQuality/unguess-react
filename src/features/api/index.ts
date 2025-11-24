@@ -2144,6 +2144,7 @@ export type PostPlansByPidWatchersApiArg = {
   body: {
     users: {
       id: number;
+      notify?: boolean;
     }[];
   };
 };
@@ -2175,6 +2176,7 @@ export type PostCampaignsByCidWatchersApiArg = {
   body: {
     users: {
       id: number;
+      notify?: boolean;
     }[];
   };
 };
