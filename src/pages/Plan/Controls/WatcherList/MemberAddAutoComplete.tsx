@@ -51,7 +51,7 @@ const MemberAddAutocomplete = ({ planId }: { planId: string }) => {
       onSelect={(selectionValue: number) => {
         addUser({
           pid: planId,
-          body: { users: [{ id: selectionValue }] },
+          body: { users: [{ id: selectionValue, notify: true }] },
         })
           .unwrap()
           .catch(() => {

@@ -105,7 +105,7 @@ const MemberAddAutocomplete = ({ campaignId }: { campaignId: string }) => {
       onSelect={(selectionValue: number) => {
         addUser({
           cid: campaignId,
-          body: { users: [{ id: selectionValue }] },
+          body: { users: [{ id: selectionValue, notify: true }] },
         })
           .unwrap()
           .catch(() => {
