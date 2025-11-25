@@ -4616,6 +4616,7 @@ export interface operations {
         "application/json": {
           users: {
             id: number;
+            notify?: boolean;
           }[];
         };
       };
@@ -4667,6 +4668,7 @@ export interface operations {
         "application/json": {
           users: {
             id: number;
+            notify?: boolean;
           }[];
         };
       };
