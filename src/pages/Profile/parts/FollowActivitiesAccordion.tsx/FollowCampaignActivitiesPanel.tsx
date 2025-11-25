@@ -1,24 +1,24 @@
 import {
   Anchor,
+  Button,
   Label,
+  Notification,
   SM,
   useToast,
-  Notification,
-  Button,
 } from '@appquality/unguess-design-system';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { appTheme } from 'src/app/theme';
 import { ReactComponent as ChevronDown } from 'src/assets/icons/chevron-down-stroke.svg';
 import { ReactComponent as ChevronUp } from 'src/assets/icons/chevron-up-stroke.svg';
-import { appTheme } from 'src/app/theme';
 
 import {
   GetUsersMeWatchedCampaignsApiResponse,
-  useDeletePlansByPidWatchersAndProfileIdMutation,
+  useDeleteCampaignsByCidWatchersAndProfileIdMutation,
   useGetUsersMeQuery,
 } from 'src/features/api';
-import { UnfollowButton } from './UnfollowButton';
 import { StyledActivityItem, StyledPanelSectionContainer } from './components';
+import { UnfollowButton } from './UnfollowButton';
 
 export const FollowCampaignActivitiesPanel = ({
   followedCampaigns,
@@ -28,7 +28,8 @@ export const FollowCampaignActivitiesPanel = ({
   const { t } = useTranslation();
   const { addToast } = useToast();
   const { data: userData } = useGetUsersMeQuery();
-  const [unfollowPlan] = useDeletePlansByPidWatchersAndProfileIdMutation();
+  const [unfollowCampaign] =
+    useDeleteCampaignsByCidWatchersAndProfileIdMutation();
   const [isExpanded, setIsExpanded] = useState(false);
 
   const displayedActivities = isExpanded
@@ -47,10 +48,10 @@ export const FollowCampaignActivitiesPanel = ({
       : name;
   };
 
-  const handleUnfollow = async (planId: number) => {
+  const handleUnfollow = async (campaignId: number) => {
     try {
-      await unfollowPlan({
-        pid: planId.toString(),
+      await unfollowCampaign({
+        cid: campaignId.toString(),
         profileId: userData?.profile_id.toString() ?? '',
       }).unwrap();
 
@@ -92,7 +93,7 @@ export const FollowCampaignActivitiesPanel = ({
         {displayedActivities.map((activity) => (
           <StyledActivityItem key={activity.id}>
             <div>
-              <Anchor href={`/plans/${activity.id}`}>
+              <Anchor href={`/campaigns/${activity.id}`}>
                 {truncateName(activity?.name)}
               </Anchor>
               <SM>{activity?.project?.name}</SM>
