@@ -21,6 +21,7 @@ export const BreadCrumbTabs = () => {
   const { activeTab, setActiveTab } = usePlanContext();
   const { errors } = useAppSelector((state) => state.planModules);
   const { getPlanStatus } = useModuleConfiguration();
+  const main = document.getElementById('main');
 
   const setupModules = getModulesByTab('setup');
   const targetModules = getModulesByTab('target');
@@ -50,6 +51,15 @@ export const BreadCrumbTabs = () => {
       false
   );
 
+  const handleGoToTab = (
+    tabName: 'setup' | 'target' | 'instructions' | 'summary'
+  ) => {
+    setActiveTab(tabName);
+    if (main) {
+      main.scrollTop = 0;
+    }
+  };
+
   return (
     <StyledBreadcrumb
       showLastArrow={false}
@@ -59,7 +69,7 @@ export const BreadCrumbTabs = () => {
         isBasic
         size="small"
         isPrimary={activeTab.name === 'setup'}
-        onClick={() => setActiveTab('setup')}
+        onClick={() => handleGoToTab('setup')}
         data-qa="setup-tab"
         {...(hasSetupErrors && { isDanger: true })}
       >
@@ -69,7 +79,7 @@ export const BreadCrumbTabs = () => {
         isBasic
         size="small"
         isPrimary={activeTab.name === 'target'}
-        onClick={() => setActiveTab('target')}
+        onClick={() => handleGoToTab('target')}
         data-qa="target-tab"
         {...(hasTargetErrors && { isDanger: true })}
       >
@@ -79,7 +89,7 @@ export const BreadCrumbTabs = () => {
         isBasic
         size="small"
         isPrimary={activeTab.name === 'instructions'}
-        onClick={() => setActiveTab('instructions')}
+        onClick={() => handleGoToTab('instructions')}
         data-qa="instructions-tab"
         {...(hasInstructionsErrors && { isDanger: true })}
       >
@@ -90,7 +100,7 @@ export const BreadCrumbTabs = () => {
         size="small"
         isPrimary={activeTab.name === 'summary'}
         disabled={getPlanStatus() === 'draft'}
-        onClick={() => setActiveTab('summary')}
+        onClick={() => handleGoToTab('summary')}
         data-qa="summary-tab"
       >
         {t('__PLAN_PAGE_HEADER_BREADCRUMBS_SUMMARY_TAB')}
