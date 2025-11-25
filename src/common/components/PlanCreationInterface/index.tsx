@@ -14,6 +14,7 @@ import {
 import { useMemo } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
+import analytics from 'src/analytics';
 import { appTheme } from 'src/app/theme';
 import { isTemplateTailored } from 'src/common/isTemplateTailored';
 import {
@@ -99,6 +100,14 @@ const DrawerFooter = ({
       .unwrap()
       .then(({ id }) => {
         const planRoute = `${plansRoute}${id}`;
+        analytics.track('planDraftCreated', {
+          planId: id.toString(),
+          templateId: selectedTemplate.id.toString(),
+          templateName: selectedTemplate.name,
+          planStatus: selectedTemplate,
+          standardPrice: selectedTemplate.price,
+          isTailored: selectedTemplate.isTailored,
+        });
         navigate(planRoute);
       })
       .catch((error) => {

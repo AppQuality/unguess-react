@@ -5,6 +5,7 @@ import { useParams } from 'react-router-dom';
 import { usePatchPlansByPidStatusMutation } from 'src/features/api';
 import { usePlan, usePlanIsPurchasable } from '../../../hooks/usePlan';
 import { BuyButton } from '../summary/components/BuyButton';
+import analytics from 'src/analytics';
 
 const ConfirmPlanButton = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -43,6 +44,14 @@ const ConfirmPlanButton = () => {
           .then(() => {
             setIsSubmitted(false);
           });
+        analytics.track('planActivityConfirmed', {
+          planId: planId?.toString(),
+          templateId: plan?.from_template?.id.toString(),
+          templateName: plan?.from_template?.title,
+          previousStatus: 'AwaitingApproval', // should be AwaitingApproval
+          newStatus: 'Accepted',
+          confirmedPrice: plan.price,
+        });
       }}
     >
       {t('__PLAN_PAGE_SUMMARY_TAB_CONFIRMATION_CARD_CONFIRM_CTA')}

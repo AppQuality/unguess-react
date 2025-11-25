@@ -15,6 +15,7 @@ import styled from 'styled-components';
 import { usePlan } from '../../../../hooks/usePlan';
 import { BuyButton } from './BuyButton';
 import { Title } from './typography/Title';
+import analytics from 'src/analytics';
 
 const Footer = styled.div`
   display: flex;
@@ -38,7 +39,7 @@ export const ConfirmationCard = () => {
   const { planId } = useParams();
   const { t } = useTranslation();
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const { planComposedStatus } = usePlan(planId);
+  const { planComposedStatus, plan } = usePlan(planId);
 
   const [patchStatus] = usePatchPlansByPidStatusMutation();
 
@@ -139,6 +140,14 @@ export const ConfirmationCard = () => {
                 pid: planId?.toString() ?? '',
                 body: { status: 'approved' },
               }).unwrap();
+              analytics.track('planActivityConfirmed', {
+                planId: planId?.toString(),
+                templateId: plan?.from_template?.id.toString(),
+                templateName: plan?.from_template?.title,
+                previousStatus: 'AwaitingApproval', // should be AwaitingApproval
+                newStatus: 'Accepted',
+                confirmedPrice: plan.price,
+              });
               setIsSubmitted(false);
             }}
           >

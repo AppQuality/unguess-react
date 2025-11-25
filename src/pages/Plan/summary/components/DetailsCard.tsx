@@ -11,6 +11,7 @@ import {
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useParams } from 'react-router-dom';
+import analytics from 'src/analytics';
 import { appTheme } from 'src/app/theme';
 import { Divider } from 'src/common/components/divider';
 import { usePatchPlansByPidStatusMutation } from 'src/features/api';
@@ -49,7 +50,7 @@ const Footer = styled.div`
 const Content = ({ date, quote }: { date: Date; quote?: string }) => {
   const { t, i18n } = useTranslation();
   const { planId } = useParams();
-  const { planComposedStatus } = usePlan(planId);
+  const { planComposedStatus, plan } = usePlan(planId);
   const price =
     quote ||
     `${t('__PLAN_PAGE_SUMMARY_TAB_ACTIVITY_INFO_PRICE_NOT_AVAILABLE')}*`;
@@ -120,7 +121,7 @@ const Cta = ({
   const { t } = useTranslation();
   const campaignRoute = useLocalizeRoute(`campaigns/${campaignId}`);
   const { planId } = useParams();
-  const { planComposedStatus } = usePlan(planId);
+  const { planComposedStatus, plan } = usePlan(planId);
 
   if (
     planComposedStatus === 'Accepted' ||
@@ -133,6 +134,18 @@ const Cta = ({
         </Anchor>
       </Link>
     );
+
+  const handleConfirm = () => {
+    analytics.track('planActivityConfirmed', {
+      planId: planId?.toString(),
+      templateId: plan?.from_template?.id.toString(),
+      templateName: plan?.from_template?.title,
+      previousStatus: 'AwaitingApproval', // should be AwaitingApproval
+      newStatus: 'Accepted',
+      confirmedPrice: plan?.price,
+    });
+    onClick();
+  };
 
   return (
     <StyledDiv>
@@ -147,7 +160,7 @@ const Cta = ({
           isSubmitted ||
           planComposedStatus === 'Paying'
         }
-        onClick={onClick}
+        onClick={handleConfirm}
       >
         {t('__PLAN_PAGE_SUMMARY_TAB_CONFIRMATION_CARD_CONFIRM_CTA')}
       </Button>

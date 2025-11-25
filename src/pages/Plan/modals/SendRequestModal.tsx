@@ -17,6 +17,7 @@ import {
 import { useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
+import analytics from 'src/analytics';
 import { appTheme } from 'src/app/theme';
 import {
   useGetPlansByPidRulesEvaluationQuery,
@@ -24,6 +25,7 @@ import {
 } from 'src/features/api';
 import { useRequestQuotation } from 'src/features/modules/useRequestQuotation';
 import { useValidateForm } from 'src/features/planModules';
+import { usePlan } from 'src/hooks/usePlan';
 import { getModuleBySlug } from '../modules/Factory';
 import { PurchasablePlanRulesGuide } from './PurchasablePlanRules';
 import { Watchers } from './Watchers';
@@ -36,6 +38,7 @@ const SendRequestModal = ({
   isPurchasable: boolean;
 }) => {
   const { planId } = useParams();
+  const { planComposedStatus, plan } = usePlan(planId);
   const { t } = useTranslation();
   const [updateWatchers] = usePutPlansByPidWatchersMutation();
   const { isRequestingQuote, handleQuoteRequest } = useRequestQuotation();
@@ -61,6 +64,31 @@ const SendRequestModal = ({
       }).unwrap();
       await validateForm();
       await handleQuoteRequest();
+      if (
+        planComposedStatus === 'PrequotedDraft' ||
+        planComposedStatus === 'UnquotedDraft'
+      ) {
+        analytics.track('planQuotationRequested', {
+          planId: planId.toString(),
+          templateId: plan?.from_template?.id.toString(),
+          templateName: plan?.from_template?.title,
+          previousStatus: planComposedStatus,
+          newStatus:
+            planComposedStatus === 'PrequotedDraft' ? 'OpsCheck' : 'Submitted',
+          estimatedPrice: plan?.price,
+          ctaSource: 'modal_submit',
+        });
+      } else if (planComposedStatus === 'PurchasableDraft' && isFailed) {
+        analytics.track('planQuotationRequested', {
+          planId: planId.toString(),
+          templateId: plan?.from_template?.id.toString(),
+          templateName: plan?.from_template?.title,
+          previousStatus: 'PurchasableDraft',
+          newStatus: 'OpsCheck',
+          estimatedPrice: plan?.price,
+          ctaSource: 'modal_submit',
+        });
+      }
     } catch (e) {
       addToast(
         ({ close }) => (
