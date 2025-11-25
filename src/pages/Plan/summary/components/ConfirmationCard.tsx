@@ -9,13 +9,13 @@ import {
 import { useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
+import analytics from 'src/analytics';
 import { appTheme } from 'src/app/theme';
 import { usePatchPlansByPidStatusMutation } from 'src/features/api';
 import styled from 'styled-components';
 import { usePlan } from '../../../../hooks/usePlan';
 import { BuyButton } from './BuyButton';
 import { Title } from './typography/Title';
-import analytics from 'src/analytics';
 
 const Footer = styled.div`
   display: flex;
@@ -146,7 +146,7 @@ export const ConfirmationCard = () => {
                 templateName: plan?.from_template?.title,
                 previousStatus: 'AwaitingApproval', // should be AwaitingApproval
                 newStatus: 'Accepted',
-                confirmedPrice: plan.price,
+                confirmedPrice: plan?.price,
               });
               setIsSubmitted(false);
             }}

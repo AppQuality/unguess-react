@@ -2,10 +2,10 @@ import { Button } from '@appquality/unguess-design-system';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
+import analytics from 'src/analytics';
 import { usePatchPlansByPidStatusMutation } from 'src/features/api';
 import { usePlan, usePlanIsPurchasable } from '../../../hooks/usePlan';
 import { BuyButton } from '../summary/components/BuyButton';
-import analytics from 'src/analytics';
 
 const ConfirmPlanButton = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);

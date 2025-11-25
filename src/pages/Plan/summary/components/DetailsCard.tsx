@@ -50,7 +50,7 @@ const Footer = styled.div`
 const Content = ({ date, quote }: { date: Date; quote?: string }) => {
   const { t, i18n } = useTranslation();
   const { planId } = useParams();
-  const { planComposedStatus, plan } = usePlan(planId);
+  const { planComposedStatus } = usePlan(planId);
   const price =
     quote ||
     `${t('__PLAN_PAGE_SUMMARY_TAB_ACTIVITY_INFO_PRICE_NOT_AVAILABLE')}*`;
