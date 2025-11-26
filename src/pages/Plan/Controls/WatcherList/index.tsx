@@ -21,6 +21,7 @@ const WatcherList = ({ planId }: { planId: string }) => {
 
   return (
     <WatcherListComponent
+      hideWatchButton={isApproved}
       isWatching={isWatching}
       count={watchersCount}
       isLoading={isLoading}
