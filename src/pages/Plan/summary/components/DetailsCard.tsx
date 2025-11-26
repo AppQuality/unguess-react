@@ -19,6 +19,7 @@ import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { usePlanStatusLabel } from 'src/hooks/usePlanStatusLabel';
 import { WidgetSpecialCard } from 'src/pages/Campaign/widgetCards/common/StyledSpecialCard';
 import styled from 'styled-components';
+import { useAnalytics } from 'use-analytics';
 import { usePlan, usePlanIsPurchasable } from '../../../../hooks/usePlan';
 import { GoToCampaignButton } from '../../Controls/GoToCampaignButton';
 import { BuyButton } from './BuyButton';
@@ -120,7 +121,8 @@ const Cta = ({
   const { t } = useTranslation();
   const campaignRoute = useLocalizeRoute(`campaigns/${campaignId}`);
   const { planId } = useParams();
-  const { planComposedStatus } = usePlan(planId);
+  const { planComposedStatus, plan } = usePlan(planId);
+  const { track } = useAnalytics();
 
   if (
     planComposedStatus === 'Accepted' ||
@@ -133,6 +135,18 @@ const Cta = ({
         </Anchor>
       </Link>
     );
+
+  const handleConfirm = () => {
+    track('planActivityConfirmed', {
+      planId: planId?.toString(),
+      templateId: plan?.from_template?.id.toString(),
+      templateName: plan?.from_template?.title,
+      previousStatus: 'AwaitingApproval', // should be AwaitingApproval
+      newStatus: 'Accepted',
+      confirmedPrice: plan?.price,
+    });
+    onClick();
+  };
 
   return (
     <StyledDiv>
@@ -147,7 +161,7 @@ const Cta = ({
           isSubmitted ||
           planComposedStatus === 'Paying'
         }
-        onClick={onClick}
+        onClick={handleConfirm}
       >
         {t('__PLAN_PAGE_SUMMARY_TAB_CONFIRMATION_CARD_CONFIRM_CTA')}
       </Button>

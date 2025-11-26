@@ -17,7 +17,6 @@ import { Form, Formik, FormikHelpers, FormikProps } from 'formik';
 import { ComponentProps, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
-import analytics from 'src/analytics';
 import { appTheme } from 'src/app/theme';
 import { getColorWithAlpha } from 'src/common/utils';
 import {
@@ -29,6 +28,7 @@ import {
   usePostCampaignsByCidVideoTagsMutation,
 } from 'src/features/api';
 import { styled } from 'styled-components';
+import { useAnalytics } from 'use-analytics';
 import * as Yup from 'yup';
 import { ConfirmDeleteModal } from './ConfirmDeleteModal';
 import { TooltipModalContextProvider } from './context';
@@ -72,6 +72,7 @@ const ObservationForm = ({
   ) => void;
 }) => {
   const { t } = useTranslation();
+  const { track } = useAnalytics();
   const { campaignId, videoId } = useParams();
   const formRef = useRef<FormikProps<ObservationFormValues>>(null);
   const { addToast } = useToast();
@@ -166,7 +167,7 @@ const ObservationForm = ({
             ),
             actionIcon: <EditIcon />,
             onOptionActionClick: () => {
-              analytics.track('tagEditModalOpened', {
+              track('tagEditModalOpened', {
                 tagId: tag.id.toString(),
                 tagType: 'extraTag',
                 tagName: tag.name,
@@ -392,7 +393,7 @@ const ObservationForm = ({
                     creatable
                     maxItems={4}
                     onClick={() =>
-                      analytics.track('tagDropdownOpened', {
+                      track('tagDropdownOpened', {
                         dropdownType: 'extraTags',
                         availableTagsCount: options.length,
                         selectedTagsCount: options.filter((o) => o.selected)

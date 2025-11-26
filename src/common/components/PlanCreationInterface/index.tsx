@@ -26,6 +26,7 @@ import {
 import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import styled from 'styled-components';
+import { useAnalytics } from 'use-analytics';
 import { v4 as uuidv4 } from 'uuid';
 import { PlanCreationContextProvider, usePlanCreationContext } from './Context';
 import { ProjectDropdown } from './ProjectDropdown';
@@ -84,6 +85,7 @@ const DrawerFooter = ({
   const plansRoute = useLocalizeRoute('plans');
   const { t } = useTranslation();
   const { templateId } = useParams();
+  const { track } = useAnalytics();
 
   const handleConfirm = async () => {
     setFieldIsTouched(true);
@@ -99,6 +101,14 @@ const DrawerFooter = ({
       .unwrap()
       .then(({ id }) => {
         const planRoute = `${plansRoute}${id}`;
+        track('planDraftCreated', {
+          planId: id.toString(),
+          templateId: selectedTemplate.id.toString(),
+          templateName: selectedTemplate.name,
+          planStatus: selectedTemplate,
+          standardPrice: selectedTemplate.price,
+          isTailored: selectedTemplate.isTailored,
+        });
         navigate(planRoute);
       })
       .catch((error) => {

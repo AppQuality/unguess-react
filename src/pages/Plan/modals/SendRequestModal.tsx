@@ -24,6 +24,8 @@ import {
 } from 'src/features/api';
 import { useRequestQuotation } from 'src/features/modules/useRequestQuotation';
 import { useValidateForm } from 'src/features/planModules';
+import { usePlan } from 'src/hooks/usePlan';
+import { useAnalytics } from 'use-analytics';
 import { getModuleBySlug } from '../modules/Factory';
 import { PurchasablePlanRulesGuide } from './PurchasablePlanRules';
 import { Watchers } from './Watchers';
@@ -36,6 +38,7 @@ const SendRequestModal = ({
   isPurchasable: boolean;
 }) => {
   const { planId } = useParams();
+  const { planComposedStatus, plan } = usePlan(planId);
   const { t } = useTranslation();
   const [updateWatchers] = usePutPlansByPidWatchersMutation();
   const { isRequestingQuote, handleQuoteRequest } = useRequestQuotation();
@@ -50,6 +53,7 @@ const SendRequestModal = ({
   const Dates = getModuleBySlug('dates').Component;
 
   const { validateForm } = useValidateForm();
+  const { track } = useAnalytics();
 
   if (!planId) return null;
 
@@ -61,6 +65,31 @@ const SendRequestModal = ({
       }).unwrap();
       await validateForm();
       await handleQuoteRequest();
+      if (
+        planComposedStatus === 'PrequotedDraft' ||
+        planComposedStatus === 'UnquotedDraft'
+      ) {
+        track('planQuotationRequested', {
+          planId: planId.toString(),
+          templateId: plan?.from_template?.id.toString(),
+          templateName: plan?.from_template?.title,
+          previousStatus: planComposedStatus,
+          newStatus:
+            planComposedStatus === 'PrequotedDraft' ? 'OpsCheck' : 'Submitted',
+          estimatedPrice: plan?.price,
+          ctaSource: 'modal_submit',
+        });
+      } else if (planComposedStatus === 'PurchasableDraft' && isFailed) {
+        track('planQuotationRequested', {
+          planId: planId.toString(),
+          templateId: plan?.from_template?.id.toString(),
+          templateName: plan?.from_template?.title,
+          previousStatus: 'PurchasableDraft',
+          newStatus: 'OpsCheck',
+          estimatedPrice: plan?.price,
+          ctaSource: 'modal_submit',
+        });
+      }
     } catch (e) {
       addToast(
         ({ close }) => (
