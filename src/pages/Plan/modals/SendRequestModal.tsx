@@ -124,7 +124,7 @@ const SendRequestModal = ({
   return (
     <Modal onClose={onQuit} role="dialog">
       <Modal.Header>{t('__PLAN_PAGE_MODAL_SEND_REQUEST_TITLE')}</Modal.Header>
-      <Modal.Body style={{ overflow: 'visible' }}>
+      <Modal.Body>
         {isLoading ? (
           <Skeleton width="100%" height="100px" />
         ) : (
