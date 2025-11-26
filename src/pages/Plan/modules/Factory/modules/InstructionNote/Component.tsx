@@ -94,7 +94,7 @@ const InstructionsNote = () => {
             <Label>{t('__PLAN_PAGE_MODULE_INSTRUCTION_NOTE_TITLE')}</Label>
           </div>
           {hasFeatureFlag(FEATURE_FLAG_CHANGE_MODULES_VARIANTS) &&
-            isMobile &&
+            !isMobile &&
             getPlanStatus() === 'draft' && (
               <Tooltip
                 placement="start"
