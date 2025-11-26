@@ -9,10 +9,10 @@ import {
 import { useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
-import analytics from 'src/analytics';
 import { appTheme } from 'src/app/theme';
 import { usePatchPlansByPidStatusMutation } from 'src/features/api';
 import styled from 'styled-components';
+import { useAnalytics } from 'use-analytics';
 import { usePlan } from '../../../../hooks/usePlan';
 import { BuyButton } from './BuyButton';
 import { Title } from './typography/Title';
@@ -40,6 +40,7 @@ export const ConfirmationCard = () => {
   const { t } = useTranslation();
   const [isSubmitted, setIsSubmitted] = useState(false);
   const { planComposedStatus, plan } = usePlan(planId);
+  const { track } = useAnalytics();
 
   const [patchStatus] = usePatchPlansByPidStatusMutation();
 
@@ -140,7 +141,7 @@ export const ConfirmationCard = () => {
                 pid: planId?.toString() ?? '',
                 body: { status: 'approved' },
               }).unwrap();
-              analytics.track('planActivityConfirmed', {
+              track('planActivityConfirmed', {
                 planId: planId?.toString(),
                 templateId: plan?.from_template?.id.toString(),
                 templateName: plan?.from_template?.title,

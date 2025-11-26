@@ -11,7 +11,6 @@ import {
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useParams } from 'react-router-dom';
-import analytics from 'src/analytics';
 import { appTheme } from 'src/app/theme';
 import { Divider } from 'src/common/components/divider';
 import { usePatchPlansByPidStatusMutation } from 'src/features/api';
@@ -20,6 +19,7 @@ import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { usePlanStatusLabel } from 'src/hooks/usePlanStatusLabel';
 import { WidgetSpecialCard } from 'src/pages/Campaign/widgetCards/common/StyledSpecialCard';
 import styled from 'styled-components';
+import { useAnalytics } from 'use-analytics';
 import { usePlan, usePlanIsPurchasable } from '../../../../hooks/usePlan';
 import { GoToCampaignButton } from '../../Controls/GoToCampaignButton';
 import { BuyButton } from './BuyButton';
@@ -122,6 +122,7 @@ const Cta = ({
   const campaignRoute = useLocalizeRoute(`campaigns/${campaignId}`);
   const { planId } = useParams();
   const { planComposedStatus, plan } = usePlan(planId);
+  const { track } = useAnalytics();
 
   if (
     planComposedStatus === 'Accepted' ||
@@ -136,7 +137,7 @@ const Cta = ({
     );
 
   const handleConfirm = () => {
-    analytics.track('planActivityConfirmed', {
+    track('planActivityConfirmed', {
       planId: planId?.toString(),
       templateId: plan?.from_template?.id.toString(),
       templateName: plan?.from_template?.title,

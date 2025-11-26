@@ -2,8 +2,8 @@ import { Button } from '@appquality/unguess-design-system';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
-import analytics from 'src/analytics';
 import { usePatchPlansByPidStatusMutation } from 'src/features/api';
+import { useAnalytics } from 'use-analytics';
 import { usePlan, usePlanIsPurchasable } from '../../../hooks/usePlan';
 import { BuyButton } from '../summary/components/BuyButton';
 
@@ -15,6 +15,7 @@ const ConfirmPlanButton = () => {
   const { plan, planComposedStatus } = usePlan(planId);
   const { t } = useTranslation();
   const isPurchasable = usePlanIsPurchasable(planId);
+  const { track } = useAnalytics();
 
   if (!plan) return null;
 
@@ -44,7 +45,7 @@ const ConfirmPlanButton = () => {
           .then(() => {
             setIsSubmitted(false);
           });
-        analytics.track('planActivityConfirmed', {
+        track('planActivityConfirmed', {
           planId: planId?.toString(),
           templateId: plan?.from_template?.id.toString(),
           templateName: plan?.from_template?.title,

@@ -13,13 +13,13 @@ import {
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
-import analytics from 'src/analytics';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as SaveIcon } from 'src/assets/icons/save.svg';
 import {
   GetCampaignsByCidVideoTagsApiResponse,
   usePatchCampaignsByCidVideoTagsAndTagIdMutation,
 } from 'src/features/api';
+import { useAnalytics } from 'use-analytics';
 
 interface EditModalProps {
   tag: GetCampaignsByCidVideoTagsApiResponse[number]['tags'][number];
@@ -47,6 +47,7 @@ export const EditTagModal = ({
   const { addToast } = useToast();
   const { t } = useTranslation();
   const { campaignId } = useParams();
+  const { track } = useAnalytics();
 
   useEffect(() => {
     if (newName.trim() === '') {
@@ -59,7 +60,7 @@ export const EditTagModal = ({
   }, [newName]);
 
   const handleSubmit = async () => {
-    analytics.track('tagUpdateSubmitted', {
+    track('tagUpdateSubmitted', {
       tagId: tag.id.toString(),
       tagType: type,
       associatedObservations: tag.usageNumber,
@@ -92,7 +93,7 @@ export const EditTagModal = ({
         { placement: 'top' }
       );
     } catch (err: any) {
-      analytics.track('tagUpdateFailed', {
+      track('tagUpdateFailed', {
         tagId: tag.id.toString(),
         tagType: type,
         attemptedTagName: newName,

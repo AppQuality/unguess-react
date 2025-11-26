@@ -7,12 +7,12 @@ import { FormikProps } from 'formik';
 import { ComponentProps, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
-import analytics from 'src/analytics';
 import { ReactComponent as CopyIcon } from 'src/assets/icons/copy-icon.svg';
 import {
   GetCampaignsByCidVideoTagsApiResponse,
   usePostCampaignsByCidVideoTagsMutation,
 } from 'src/features/api';
+import { useAnalytics } from 'use-analytics';
 import { EditTagModal } from './EditTagModal';
 
 export interface ObservationFormValues {
@@ -30,6 +30,7 @@ export const TitleDropdown = ({
   formProps: FormikProps<ObservationFormValues>;
 }) => {
   const { t } = useTranslation();
+  const { track } = useAnalytics();
   const { campaignId } = useParams();
   const [addVideoTags] = usePostCampaignsByCidVideoTagsMutation();
   const titleMaxLength = 70;
@@ -60,7 +61,7 @@ export const TitleDropdown = ({
         actionIcon: <EditIcon />,
         itemID: i.id.toString(),
         onOptionActionClick: () => {
-          analytics.track('tagEditModalOpened', {
+          track('tagEditModalOpened', {
             tagId: i.id.toString(),
             tagType: 'theme',
             tagName: i.name,
@@ -90,7 +91,7 @@ export const TitleDropdown = ({
           return title?.name || '';
         }}
         onClick={() =>
-          analytics.track('tagDropdownOpened', {
+          track('tagDropdownOpened', {
             dropdownType: 'theme',
             availableTagsCount: options.length,
           })
