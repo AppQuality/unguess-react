@@ -52,7 +52,7 @@ export const FormNotificationSettings = () => {
       }
       if (values.commentsActivity !== initialValues.commentsActivity) {
         await updatePreferences({
-          slug: 'notifications_enabled',
+          slug: 'comment_notifications_enabled',
           body: {
             value: values.commentsActivity ? '1' : '0',
           },
