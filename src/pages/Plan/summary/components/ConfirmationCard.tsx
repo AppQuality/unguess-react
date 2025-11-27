@@ -12,6 +12,7 @@ import { useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
 import { usePatchPlansByPidStatusMutation } from 'src/features/api';
 import styled from 'styled-components';
+import { useAnalytics } from 'use-analytics';
 import { usePlan } from '../../../../hooks/usePlan';
 import { BuyButton } from './BuyButton';
 import { Title } from './typography/Title';
@@ -38,7 +39,8 @@ export const ConfirmationCard = () => {
   const { planId } = useParams();
   const { t } = useTranslation();
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const { planComposedStatus } = usePlan(planId);
+  const { planComposedStatus, plan } = usePlan(planId);
+  const { track } = useAnalytics();
 
   const [patchStatus] = usePatchPlansByPidStatusMutation();
 
@@ -139,6 +141,14 @@ export const ConfirmationCard = () => {
                 pid: planId?.toString() ?? '',
                 body: { status: 'approved' },
               }).unwrap();
+              track('planActivityConfirmed', {
+                planId: planId?.toString(),
+                templateId: plan?.from_template?.id.toString(),
+                templateName: plan?.from_template?.title,
+                previousStatus: 'AwaitingApproval', // should be AwaitingApproval
+                newStatus: 'Accepted',
+                confirmedPrice: plan?.price,
+              });
               setIsSubmitted(false);
             }}
           >

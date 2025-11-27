@@ -18,6 +18,7 @@ import { appTheme } from 'src/app/theme';
 import { ReactComponent as LinkIcon } from 'src/assets/icons/link-stroke.svg';
 import { ReactComponent as TrashIcon } from 'src/assets/icons/trash-stroke.svg';
 import { useModuleConfiguration } from 'src/features/modules/useModuleConfiguration';
+import useWindowSize from 'src/hooks/useWindowSize';
 import { TTask, useModuleTasks } from '../hooks';
 import { getIconFromTaskOutput } from '../utils';
 import { DeleteTaskConfirmationModal } from './modal/DeleteTaskConfirmationModal';
@@ -31,6 +32,10 @@ const TaskItem = ({ task, index }: TaskItemProps) => {
   const { t } = useTranslation();
   const { update, validate, error } = useModuleTasks();
   const { getPlanStatus } = useModuleConfiguration();
+  const { width } = useWindowSize();
+  const breakpointSm = parseInt(appTheme.breakpoints.sm, 10);
+  const isMobile = width < breakpointSm;
+
   const confirmationState = useState<{
     isOpen: boolean;
     taskId: string;
@@ -74,7 +79,7 @@ const TaskItem = ({ task, index }: TaskItemProps) => {
               }`}
               subtitle={formattedKind}
             />
-            {getPlanStatus() === 'draft' && (
+            {!isMobile && getPlanStatus() === 'draft' && (
               <AccordionNew.Meta>
                 <Tooltip
                   placement="start"

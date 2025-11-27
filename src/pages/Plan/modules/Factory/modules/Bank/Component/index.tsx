@@ -18,6 +18,7 @@ import { components } from 'src/common/schema';
 import { useModule } from 'src/features/modules/useModule';
 import { useModuleConfiguration } from 'src/features/modules/useModuleConfiguration';
 import { useValidation } from 'src/features/modules/useModuleValidation';
+import useWindowSize from 'src/hooks/useWindowSize';
 import { DeleteModuleConfirmationModal } from 'src/pages/Plan/modules/modal/DeleteModuleConfirmationModal';
 import { useIconWithValidation } from '../useIcon';
 import { defaultBanks } from './defaultBanks';
@@ -32,6 +33,9 @@ const Bank = () => {
     (bank) => bank.isOther === 1
   );
   const Icon = useIconWithValidation();
+  const { width } = useWindowSize();
+  const breakpointSm = parseInt(appTheme.breakpoints.sm, 10);
+  const isMobile = width < breakpointSm;
 
   const validation = (
     module: components['schemas']['Module'] & { type: 'bank' }
@@ -106,7 +110,7 @@ const Bank = () => {
         <AccordionNew.Section>
           <AccordionNew.Header icon={Icon}>
             <AccordionNew.Label label={t('__PLAN_PAGE_MODULE_BANK_LABEL')} />
-            {getPlanStatus() === 'draft' && (
+            {!isMobile && getPlanStatus() === 'draft' && (
               <AccordionNew.Meta>
                 <Tooltip
                   placement="start"

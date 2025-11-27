@@ -8,7 +8,8 @@ import styled from 'styled-components';
 const StyledDiv = styled.div`
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: ${(p) => p.theme.space.md};
+  flex-grow: 1;
 `;
 
 export const TitleGroup = () => {
@@ -29,7 +30,7 @@ export const TitleGroup = () => {
       <Link to={homeRoute}>
         <Logo type="icon" />
       </Link>
-      <div>
+      <div style={{ width: '100%' }}>
         <Breadcrumb>
           <Link to={projectRoute}>
             <Anchor>{plan.project.name}</Anchor>

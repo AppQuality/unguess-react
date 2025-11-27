@@ -19,6 +19,7 @@ import { ReactComponent as EyeIcon } from 'src/assets/icons/eye-icon.svg';
 import { ReactComponent as InfoIcon } from 'src/assets/icons/info-icon.svg';
 import { useGetPlansByPidWatchersQuery } from 'src/features/api';
 import { usePlanIsApproved } from 'src/hooks/usePlan';
+import useWindowSize from 'src/hooks/useWindowSize';
 import { useIsWatching } from './hooks/useIsWatching';
 import { MemberAddAutocomplete } from './MemberAddAutoComplete';
 import { UserList } from './UserList';
@@ -49,12 +50,15 @@ const WatcherList = ({ planId }: { planId: string }) => {
     useState<HTMLButtonElement | null>(null);
   const appTheme = useTheme();
   const isWatching = useIsWatching({ planId });
+  const { isMobile } = useWindowSize();
   const { data: watchers, isLoading } = useGetPlansByPidWatchersQuery({
     pid: planId,
   });
   const watchersCount = watchers ? watchers.items.length : 0;
 
   const isApproved = usePlanIsApproved(planId);
+
+  if (isMobile) return null;
 
   return (
     <>
