@@ -28,6 +28,7 @@ import Profile from 'src/pages/Profile';
 import Template from 'src/pages/Template';
 import Templates from 'src/pages/Templates';
 import Video from 'src/pages/Video';
+import VideoShared from 'src/pages/VideoShared';
 import Videos from 'src/pages/Videos';
 import { Redirect } from './Redirect';
 
@@ -110,6 +111,10 @@ const Pages = () => {
                   <Route
                     path={`/${langPrefix}/campaigns/:campaignId/videos/:videoId`}
                     element={<Video />}
+                  />
+                  <Route
+                    path={`/${langPrefix}/campaigns/:campaignId/videos/:videoId/shared`}
+                    element={<VideoShared />}
                   />
                   <Route
                     path={`/${langPrefix}/plans/:planId`}
