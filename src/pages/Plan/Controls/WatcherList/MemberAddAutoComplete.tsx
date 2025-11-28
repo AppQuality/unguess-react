@@ -1,12 +1,6 @@
-import {
-  Autocomplete,
-  DropdownFieldNew,
-  MD,
-  Notification,
-  useToast,
-} from '@appquality/unguess-design-system';
-import { useState } from 'react';
+import { Notification, useToast } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
+import { WatcherList } from 'src/common/components/WatcherList';
 
 import {
   useGetPlansByPidWatchersQuery,
@@ -15,25 +9,6 @@ import {
   usePostPlansByPidWatchersMutation,
 } from 'src/features/api';
 import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
-import { useTheme } from 'styled-components';
-
-const ItemContent = ({ name, email }: { name: string; email: string }) => {
-  const appTheme = useTheme();
-  return (
-    <div
-      style={{
-        display: 'flex',
-        alignItems: 'center',
-        gap: appTheme.space.md,
-      }}
-    >
-      <div>
-        <MD isBold>{name}</MD>
-        <MD style={{ color: appTheme.palette.grey[600] }}>{email}</MD>
-      </div>
-    </div>
-  );
-};
 
 const MemberAddAutocomplete = ({ planId }: { planId: string }) => {
   const { activeWorkspace, isLoading } = useActiveWorkspace();
@@ -53,7 +28,6 @@ const MemberAddAutocomplete = ({ planId }: { planId: string }) => {
     useGetUsersMeQuery();
   const { data: watchers, isLoading: isLoadingWatchers } =
     useGetPlansByPidWatchersQuery({ pid: planId });
-  const [inputValue, setInputValue] = useState('');
 
   if (!data || isLoading || isLoadingWatchers || isLoadingCurrentUser)
     return null;
@@ -73,47 +47,33 @@ const MemberAddAutocomplete = ({ planId }: { planId: string }) => {
     );
 
   return (
-    <DropdownFieldNew>
-      <Autocomplete
-        data-qa="global_header_navItem_workspace_dropdown"
-        onInputChange={(value) => setInputValue(value)}
-        inputValue={inputValue}
-        selectionValue={null}
-        placeholder={t(
-          '__PLAN_PAGE_WATCHER_LIST_SELECT_ADD_MEMBERS_PLACEHOLDER'
-        )}
-        options={users.map((user) => ({
-          children: <ItemContent email={user.email} name={user.name} />,
-          id: `user-${user.id}`,
-          label: `${user.name} - ${user.email}`,
-          value: `${user.id}`,
-        }))}
-        onOptionClick={({ selectionValue }) => {
-          addUser({
-            pid: planId,
-            body: { users: [{ id: Number(selectionValue) }] },
-          })
-            .unwrap()
-            .catch(() => {
-              addToast(
-                ({ close }) => (
-                  <Notification
-                    onClose={close}
-                    type="error"
-                    message={t(
-                      '__PLAN_PAGE_WATCHER_LIST_ADD_USER_ERROR_TOAST_MESSAGE'
-                    )}
-                    closeText={t('__TOAST_CLOSE_TEXT')}
-                    isPrimary
-                  />
-                ),
-                { placement: 'top' }
-              );
-            });
-          setInputValue('');
-        }}
-      />
-    </DropdownFieldNew>
+    <WatcherList.MemberAddAutocompleteComponent
+      onSelect={(selectionValue: number) => {
+        addUser({
+          pid: planId,
+          body: { users: [{ id: selectionValue, notify: true }] },
+        })
+          .unwrap()
+          .catch(() => {
+            addToast(
+              ({ close }) => (
+                <Notification
+                  onClose={close}
+                  type="error"
+                  message={t(
+                    '__PLAN_PAGE_WATCHER_LIST_ADD_USER_ERROR_TOAST_MESSAGE'
+                  )}
+                  closeText={t('__TOAST_CLOSE_TEXT')}
+                  isPrimary
+                />
+              ),
+              { placement: 'top' }
+            );
+          });
+      }}
+      users={users}
+      isLoading={isLoading || isLoadingWatchers || isLoadingCurrentUser}
+    />
   );
 };
 

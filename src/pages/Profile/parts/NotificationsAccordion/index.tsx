@@ -8,7 +8,6 @@ export const NotificationSettingsAccordion = () => {
 
   return (
     <AccordionNew
-      isCompact
       hasBorder={false}
       level={3}
       defaultExpandedSections={[]}
