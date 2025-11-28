@@ -1,10 +1,11 @@
 import {
   Button,
   Drawer,
-  Icon,
   IconButton,
   PageHeader,
+  SM,
 } from '@appquality/unguess-design-system';
+import { v4 as uuidv4 } from 'uuid';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
@@ -17,7 +18,7 @@ import { useCanAccessToActiveWorkspace } from 'src/hooks/useCanAccessToActiveWor
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import useWindowSize from 'src/hooks/useWindowSize';
 import styled from 'styled-components';
-import { Workflow } from './AgenticWorkflow';
+import { Workflow } from './workflow-ai';
 import { Counters } from './Counters';
 
 const StyledIconButton = styled(IconButton)`
@@ -45,6 +46,9 @@ export const DashboardHeaderContent = ({
   const navigate = useNavigate();
   const templatesRoute = useLocalizeRoute('templates');
 
+  const threadId = uuidv4();
+
+  console.log('🚀 ~ DashboardHeaderContent ~ threadId:', threadId);
   return isUserFetching || isUserLoading ? null : (
     <LayoutWrapper>
       <PageHeader>
@@ -80,13 +84,18 @@ export const DashboardHeaderContent = ({
         <Drawer
           onClose={() => setIsChatOpen(false)}
           isOpen={isChatOpen}
-          title="AI Chat"
+          title="Testarolo support agent"
           style={{ width: isMobile ? '100%' : '30vw' }}
         >
-          <Drawer.Header>Let&apos;s talk</Drawer.Header>
+          <Drawer.Header>
+            <>
+              Let&apos;s talk
+              <SM>{threadId}</SM>
+            </>
+          </Drawer.Header>
           <Drawer.Close />
           <Drawer.Body>
-            <Workflow />
+            <Workflow threadId={threadId} />
           </Drawer.Body>
         </Drawer>
       )}
