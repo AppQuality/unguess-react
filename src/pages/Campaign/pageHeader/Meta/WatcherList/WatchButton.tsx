@@ -4,33 +4,12 @@ import { useTranslation } from 'react-i18next';
 import { WatcherList } from 'src/common/components/WatcherList';
 import {
   useGetUsersMeQuery,
-  useGetWorkspacesByWidUsersQuery,
   usePostCampaignsByCidWatchersMutation,
 } from 'src/features/api';
-import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
 import { useAvailableUsers } from './hooks/useAvailableUsers';
 import { useIsLastOne } from './hooks/useIsLastOne';
 import { useIsWatching } from './hooks/useIsWatching';
 import { useRemoveWatcher } from './hooks/useRemoveWatcher';
-
-const useHasWorkspaceAccess = () => {
-  const { activeWorkspace } = useActiveWorkspace();
-  const { data: user } = useGetUsersMeQuery();
-
-  const { data } = useGetWorkspacesByWidUsersQuery(
-    {
-      wid: (activeWorkspace?.id || '0').toString(),
-    },
-    {
-      skip: !activeWorkspace?.id,
-    }
-  );
-
-  return (
-    (data?.items || []).find((u) => u.profile_id === user?.profile_id) !==
-    undefined
-  );
-};
 
 const WatchButton = ({ campaignId }: { campaignId: string }) => {
   const isWatching = useIsWatching({ campaignId });
