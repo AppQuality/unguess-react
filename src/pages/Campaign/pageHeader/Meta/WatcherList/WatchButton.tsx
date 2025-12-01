@@ -8,6 +8,7 @@ import {
   usePostCampaignsByCidWatchersMutation,
 } from 'src/features/api';
 import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
+import { useAvailableUsers } from './hooks/useAvailableUsers';
 import { useIsLastOne } from './hooks/useIsLastOne';
 import { useIsWatching } from './hooks/useIsWatching';
 import { useRemoveWatcher } from './hooks/useRemoveWatcher';
@@ -37,13 +38,16 @@ const WatchButton = ({ campaignId }: { campaignId: string }) => {
   const { addToast } = useToast();
   const { removeWatcher } = useRemoveWatcher();
   const [addUser] = usePostCampaignsByCidWatchersMutation();
-  const hasWorkspaceAccess = useHasWorkspaceAccess();
+  const { data: availableUsers } = useAvailableUsers({ campaignId });
   const { data: currentUser } = useGetUsersMeQuery();
+  const hasAccess =
+    availableUsers.length > 0 &&
+    availableUsers.some((user) => user.profile_id === currentUser?.profile_id);
   const { t } = useTranslation();
 
   const isLastWatcher = isWatching && isLastOne;
 
-  const isDisabled = !hasWorkspaceAccess || isLastWatcher;
+  const isDisabled = !hasAccess || isLastWatcher;
 
   if (!currentUser) return null;
 
