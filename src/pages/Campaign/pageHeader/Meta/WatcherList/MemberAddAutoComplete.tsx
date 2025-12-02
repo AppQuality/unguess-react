@@ -3,37 +3,27 @@ import { useTranslation } from 'react-i18next';
 import { WatcherList } from 'src/common/components/WatcherList';
 
 import {
-  useGetPlansByPidWatchersQuery,
+  useGetCampaignsByCidWatchersQuery,
   useGetUsersMeQuery,
-  useGetWorkspacesByWidUsersQuery,
-  usePostPlansByPidWatchersMutation,
+  usePostCampaignsByCidWatchersMutation,
 } from 'src/features/api';
-import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
+import { useAvailableUsers } from './hooks/useAvailableUsers';
 
-const MemberAddAutocomplete = ({ planId }: { planId: string }) => {
-  const { activeWorkspace, isLoading } = useActiveWorkspace();
+const MemberAddAutocomplete = ({ campaignId }: { campaignId: string }) => {
+  const { data, isLoading } = useAvailableUsers({ campaignId });
 
-  const [addUser] = usePostPlansByPidWatchersMutation();
-  const { data } = useGetWorkspacesByWidUsersQuery(
-    {
-      wid: (activeWorkspace?.id || '0').toString(),
-    },
-    {
-      skip: !activeWorkspace?.id,
-    }
-  );
+  const [addUser] = usePostCampaignsByCidWatchersMutation();
   const { addToast } = useToast();
   const { t } = useTranslation();
   const { data: currentUser, isLoading: isLoadingCurrentUser } =
     useGetUsersMeQuery();
   const { data: watchers, isLoading: isLoadingWatchers } =
-    useGetPlansByPidWatchersQuery({ pid: planId });
+    useGetCampaignsByCidWatchersQuery({ cid: campaignId });
 
   if (!data || isLoading || isLoadingWatchers || isLoadingCurrentUser)
     return null;
 
-  const users = data.items
-    .filter((user) => !user.invitationPending)
+  const users = data
     .map((user) => ({
       name: user.name,
       email: user.email,
@@ -50,7 +40,7 @@ const MemberAddAutocomplete = ({ planId }: { planId: string }) => {
     <WatcherList.MemberAddAutocompleteComponent
       onSelect={(selectionValue: number) => {
         addUser({
-          pid: planId,
+          cid: campaignId,
           body: { users: [{ id: selectionValue, notify: true }] },
         })
           .unwrap()

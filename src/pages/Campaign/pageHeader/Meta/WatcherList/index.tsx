@@ -2,30 +2,23 @@ import { Anchor } from '@appquality/unguess-design-system';
 
 import { Trans, useTranslation } from 'react-i18next';
 import { WatcherList as WatcherListComponent } from 'src/common/components/WatcherList';
-import { useGetPlansByPidWatchersQuery } from 'src/features/api';
-import { usePlanIsApproved } from 'src/hooks/usePlan';
-import useWindowSize from 'src/hooks/useWindowSize';
+import { useGetCampaignsByCidWatchersQuery } from 'src/features/api';
 import { useIsWatching } from './hooks/useIsWatching';
 import { MemberAddAutocomplete } from './MemberAddAutoComplete';
 import { UserList } from './UserList';
 import { WatchButton } from './WatchButton';
 
-const WatcherList = ({ planId }: { planId: string }) => {
+const WatcherList = ({ campaignId }: { campaignId: string }) => {
   const { t } = useTranslation();
-  const isWatching = useIsWatching({ planId });
-  const { isMobile } = useWindowSize();
-  const { data: watchers, isLoading } = useGetPlansByPidWatchersQuery({
-    pid: planId,
+  const isWatching = useIsWatching({ campaignId });
+  const { data: watchers, isLoading } = useGetCampaignsByCidWatchersQuery({
+    cid: campaignId,
   });
   const watchersCount = watchers ? watchers.items.length : 0;
 
-  const isApproved = usePlanIsApproved(planId);
-
-  if (isMobile) return null;
-
   return (
     <WatcherListComponent
-      hideWatchButton={isApproved}
+      size="medium"
       isWatching={isWatching}
       count={watchersCount}
       isLoading={isLoading}
@@ -35,10 +28,8 @@ const WatcherList = ({ planId }: { planId: string }) => {
           description: t('__PLAN_PAGE_WATCHER_LIST_TOOLTIP_DESCRIPTION'),
         },
         modal: {
-          title: t('__PLAN_PAGE_WATCHER_LIST_MODAL_TITLE'),
-          description: isApproved ? (
-            t('__PLAN_PAGE_WATCHER_LIST_MODAL_TITLE_DESCRIPTION_APPROVED')
-          ) : (
+          title: t('__CAMPAIGN_PAGE_WATCHER_LIST_MODAL_TITLE'),
+          description: (
             <Trans
               i18nKey="__PLAN_PAGE_WATCHER_LIST_MODAL_TITLE_DESCRIPTION"
               components={{
@@ -54,21 +45,21 @@ const WatcherList = ({ planId }: { planId: string }) => {
           ),
         },
         dropdown: {
-          title: t('__PLAN_PAGE_WATCHER_LIST_MODAL_SUGGESTIONS_TITLE'),
+          title: t('__CAMPAIGN_PAGE_WATCHER_LIST_MODAL_SUGGESTIONS_TITLE'),
           description: t(
-            '__PLAN_PAGE_WATCHER_LIST_MODAL_ADD_MEMBERS_INFO_TOOLTIP'
+            '__CAMPAIGN_PAGE_WATCHER_LIST_MODAL_ADD_MEMBERS_INFO_TOOLTIP'
           ),
         },
       }}
     >
       <WatcherListComponent.UserListWrapper>
-        <UserList planId={planId} />
+        <UserList campaignId={campaignId} />
       </WatcherListComponent.UserListWrapper>
       <WatcherListComponent.WatchButtonWrapper>
-        <WatchButton planId={planId} />
+        <WatchButton campaignId={campaignId} />
       </WatcherListComponent.WatchButtonWrapper>
       <WatcherListComponent.AutoCompleteWrapper>
-        <MemberAddAutocomplete planId={planId} />
+        <MemberAddAutocomplete campaignId={campaignId} />
       </WatcherListComponent.AutoCompleteWrapper>
     </WatcherListComponent>
   );

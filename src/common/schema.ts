@@ -490,6 +490,14 @@ export interface paths {
     get: operations["get-users-me-watched-plans"];
     parameters: {};
   };
+  "/users/me/watched/campaigns": {
+    /**
+     * Get all users watched campaigns.
+     * Each returned item has isLast=1 when the user is the last watcher of that specific item.
+     */
+    get: operations["get-users-me-watched-campaigns"];
+    parameters: {};
+  };
   "/users/roles": {
     get: operations["get-users-roles"];
     parameters: {};
@@ -648,6 +656,16 @@ export interface paths {
       };
     };
   };
+  "/campaigns/{cid}/watchers": {
+    /** Returns all the watcher added to a campaign. It always returns at least one item. */
+    get: operations["get-campaigns-cid-watchers"];
+    post: operations["post-campaigns-cid-watchers"];
+    parameters: {
+      path: {
+        cid: string;
+      };
+    };
+  };
   "/workspaces/{wid}/templates": {
     get: operations["get-workspaces-templates"];
     post: operations["post-workspaces-wid-templates"];
@@ -688,6 +706,15 @@ export interface paths {
       path: {
         pid: string;
         profile_id: string;
+      };
+    };
+  };
+  "/campaigns/{cid}/watchers/{profile_id}": {
+    delete: operations["delete-campaigns-cid-watchers-profile_id"];
+    parameters: {
+      path: {
+        profile_id: string;
+        cid: string;
       };
     };
   };
@@ -3961,6 +3988,35 @@ export interface operations {
       500: components["responses"]["Error"];
     };
   };
+  /**
+   * Get all users watched campaigns.
+   * Each returned item has isLast=1 when the user is the last watcher of that specific item.
+   */
+  "get-users-me-watched-campaigns": {
+    parameters: {};
+    responses: {
+      200: {
+        content: {
+          "application/json": {
+            items: {
+              id?: number;
+              name?: string;
+              project?: {
+                name?: string;
+                id?: number;
+              };
+              isLast?: boolean;
+            }[];
+            allItems: number;
+          };
+        };
+      };
+      400: components["responses"]["Error"];
+      403: components["responses"]["Error"];
+      404: components["responses"]["Error"];
+      500: components["responses"]["Error"];
+    };
+  };
   "get-users-roles": {
     parameters: {};
     responses: {
@@ -4560,6 +4616,59 @@ export interface operations {
         "application/json": {
           users: {
             id: number;
+            notify?: boolean;
+          }[];
+        };
+      };
+    };
+  };
+  /** Returns all the watcher added to a campaign. It always returns at least one item. */
+  "get-campaigns-cid-watchers": {
+    parameters: {
+      path: {
+        cid: string;
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          "application/json": {
+            items: {
+              id: number;
+              name: string;
+              surname: string;
+              email: string;
+              image?: string;
+              isInternal: boolean;
+            }[];
+          };
+        };
+      };
+      403: components["responses"]["Error"];
+      404: components["responses"]["Error"];
+      500: components["responses"]["Error"];
+    };
+  };
+  "post-campaigns-cid-watchers": {
+    parameters: {
+      path: {
+        cid: string;
+      };
+    };
+    responses: {
+      /** OK */
+      200: unknown;
+      403: components["responses"]["Error"];
+      404: components["responses"]["Error"];
+      500: components["responses"]["Error"];
+    };
+    requestBody: {
+      content: {
+        "application/json": {
+          users: {
+            id: number;
+            notify?: boolean;
           }[];
         };
       };
@@ -4785,6 +4894,27 @@ export interface operations {
         };
       };
       403: components["responses"]["Error"];
+    };
+  };
+  "delete-campaigns-cid-watchers-profile_id": {
+    parameters: {
+      path: {
+        profile_id: string;
+        cid: string;
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          "application/json": {
+            success?: boolean;
+          };
+        };
+      };
+      400: components["responses"]["Error"];
+      403: components["responses"]["Error"];
+      500: components["responses"]["Error"];
     };
   };
 }

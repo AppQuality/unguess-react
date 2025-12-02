@@ -2,7 +2,6 @@ import {
   Button,
   ButtonMenu,
   IconButton,
-  MD,
   Skeleton,
   Tooltip,
 } from '@appquality/unguess-design-system';
@@ -13,7 +12,6 @@ import { ReactComponent as VideoListIcon } from '@zendeskgarden/svg-icons/src/16
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useNavigate } from 'react-router-dom';
-import { appTheme } from 'src/app/theme';
 import { ReactComponent as EditRedoStroke } from 'src/assets/icons/move-icon.svg';
 import { ReactComponent as InboxFill } from 'src/assets/icons/project-archive.svg';
 import { Divider } from 'src/common/components/divider';
@@ -41,6 +39,7 @@ import { DesktopMeta } from './DesktopMeta';
 import { SmartphoneMeta } from './SmartphoneMeta';
 import { TabletMeta } from './TabletMeta';
 import { TvMeta } from './TvMeta';
+import { WatcherList } from './WatcherList';
 
 const ButtonWrapper = styled.div`
   display: flex;
@@ -50,7 +49,7 @@ const ButtonWrapper = styled.div`
   gap: ${({ theme }) => theme.space.sm};
 
   @media screen and (max-width: ${({ theme }) => theme.breakpoints.xl}) {
-    flex-direction: column;
+    align-self: end;
     align-items: flex-start;
     justify-content: flex-start;
   }
@@ -170,6 +169,7 @@ export const Metas = ({
           {!isArchived && hasWorkspaceAccess && (
             <CampaignSettings dataQa="campaign_pageHeader_shareButton" />
           )}
+          {!isArchived && <WatcherList campaignId={campaign.id.toString()} />}
           {outputs?.includes('bugs') && (
             <Link to={functionalDashboardRoute}>
               <Button id="button-bugs-list-header" isPrimary isAccent>
@@ -179,10 +179,6 @@ export const Metas = ({
           )}
           {hasTaggingToolFeature && totalVideos > 0 && (
             <>
-              <MD color={appTheme.palette.blue[600]}>
-                {' '}
-                {t('__INSIGHTS_PAGE_NAVIGATION_LABEL')}
-              </MD>
               <Link
                 data-qa="playlis_video_header_button_navigation"
                 to={videoDashboardRoute}

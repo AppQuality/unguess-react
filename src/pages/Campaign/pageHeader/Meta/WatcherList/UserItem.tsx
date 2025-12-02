@@ -1,13 +1,13 @@
 import { WatcherList } from 'src/common/components/WatcherList';
-import { usePlanIsApproved } from 'src/hooks/usePlan';
+import { useAvailableUsers } from './hooks/useAvailableUsers';
 import { useIsLastOne } from './hooks/useIsLastOne';
 import { useRemoveWatcher } from './hooks/useRemoveWatcher';
 
 const UserItem = ({
-  planId,
+  campaignId,
   user,
 }: {
-  planId: string;
+  campaignId: string;
   user: {
     id: number;
     name: string;
@@ -17,15 +17,22 @@ const UserItem = ({
     isMe?: boolean;
   };
 }) => {
-  const isLastOne = useIsLastOne({ planId });
-  const isApproved = usePlanIsApproved(planId);
+  const isLastOne = useIsLastOne({ campaignId });
+
+  const { data: availableUsers } = useAvailableUsers({
+    campaignId,
+  });
 
   const { removeWatcher } = useRemoveWatcher();
 
   return (
     <WatcherList.UserItemComponent
-      onClick={() => removeWatcher({ planId, profileId: user.id.toString() })}
-      hideRemoveButton={isApproved}
+      onClick={() =>
+        removeWatcher({ campaignId, profileId: user.id.toString() })
+      }
+      hideRemoveButton={
+        availableUsers.map((u) => u.profile_id).includes(user.id) === false
+      }
       isLastOne={isLastOne}
       user={user}
     />

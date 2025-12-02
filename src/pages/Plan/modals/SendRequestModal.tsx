@@ -61,7 +61,7 @@ const SendRequestModal = ({
     try {
       await updateWatchers({
         pid: planId,
-        body: { users: watchers.map((id) => ({ id })) },
+        body: { users: watchers.map((id) => ({ id, notify: true })) },
       }).unwrap();
       await validateForm();
       await handleQuoteRequest();

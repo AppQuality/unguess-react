@@ -4,46 +4,29 @@ import { useTranslation } from 'react-i18next';
 import { WatcherList } from 'src/common/components/WatcherList';
 import {
   useGetUsersMeQuery,
-  useGetWorkspacesByWidUsersQuery,
-  usePostPlansByPidWatchersMutation,
+  usePostCampaignsByCidWatchersMutation,
 } from 'src/features/api';
-import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
+import { useAvailableUsers } from './hooks/useAvailableUsers';
 import { useIsLastOne } from './hooks/useIsLastOne';
 import { useIsWatching } from './hooks/useIsWatching';
 import { useRemoveWatcher } from './hooks/useRemoveWatcher';
 
-const useHasWorkspaceAccess = () => {
-  const { activeWorkspace } = useActiveWorkspace();
-  const { data: user } = useGetUsersMeQuery();
-
-  const { data } = useGetWorkspacesByWidUsersQuery(
-    {
-      wid: (activeWorkspace?.id || '0').toString(),
-    },
-    {
-      skip: !activeWorkspace?.id,
-    }
-  );
-
-  return (
-    (data?.items || []).find((u) => u.profile_id === user?.profile_id) !==
-    undefined
-  );
-};
-
-const WatchButton = ({ planId }: { planId: string }) => {
-  const isWatching = useIsWatching({ planId });
-  const isLastOne = useIsLastOne({ planId });
+const WatchButton = ({ campaignId }: { campaignId: string }) => {
+  const isWatching = useIsWatching({ campaignId });
+  const isLastOne = useIsLastOne({ campaignId });
   const { addToast } = useToast();
   const { removeWatcher } = useRemoveWatcher();
-  const [addUser] = usePostPlansByPidWatchersMutation();
-  const hasWorkspaceAccess = useHasWorkspaceAccess();
+  const [addUser] = usePostCampaignsByCidWatchersMutation();
+  const { data: availableUsers } = useAvailableUsers({ campaignId });
   const { data: currentUser } = useGetUsersMeQuery();
+  const hasAccess =
+    availableUsers.length > 0 &&
+    availableUsers.some((user) => user.profile_id === currentUser?.profile_id);
   const { t } = useTranslation();
 
   const isLastWatcher = isWatching && isLastOne;
 
-  const isDisabled = !hasWorkspaceAccess || isLastWatcher;
+  const isDisabled = !hasAccess || isLastWatcher;
 
   if (!currentUser) return null;
 
@@ -55,12 +38,12 @@ const WatchButton = ({ planId }: { planId: string }) => {
       onClick={() => {
         if (isWatching) {
           removeWatcher({
-            planId,
+            campaignId,
             profileId: currentUser.profile_id.toString(),
           });
         } else {
           addUser({
-            pid: planId,
+            cid: campaignId,
             body: { users: [{ id: currentUser.profile_id }] },
           })
             .unwrap()
