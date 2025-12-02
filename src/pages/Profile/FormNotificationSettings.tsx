@@ -22,8 +22,8 @@ export const FormNotificationSettings = () => {
     data?.items?.find((pref) => pref.name === 'campaign_notifications_enabled')
       ?.value ?? '1';
   const commentsActivity =
-    data?.items?.find((pref) => pref.name === 'notifications_enabled')?.value ??
-    '1';
+    data?.items?.find((pref) => pref.name === 'comment_notifications_enabled')
+      ?.value ?? '1';
 
   const initialValues: NotificationSettingsFormValues = {
     commentsActivity: commentsActivity === '1',
