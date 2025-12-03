@@ -11,13 +11,14 @@ interface GAConfig {
   measurementId: string;
 }
 
-interface IPayload {
-  type: string;
+interface IdentifyPayload {
   userId: string;
+  traits: Record<string, any>;
 }
 
-interface IIdentifyPayload extends IPayload {
-  traits: Record<string, any>;
+interface EventPayload {
+  event: string;
+  properties: Record<string, any>;
 }
 
 export default function gaPlugin(pluginSettings: GAConfig) {
@@ -30,22 +31,16 @@ export default function gaPlugin(pluginSettings: GAConfig) {
         window.ga_initialized = true;
       }
     },
-    identify: ({ payload }: { payload: IIdentifyPayload }) => {
-      ReactGA.set({ user_id: payload.userId });
+    identify: ({ payload }: { payload: IdentifyPayload }) => {
+      ReactGA.set({ user_id: payload.userId, ...payload.traits });
     },
     page: ({ payload }: { payload: { properties?: Record<string, any> } }) => {
       // Track pageview
       ReactGA.send({ hitType: 'pageview', ...payload?.properties });
     },
-    track: ({
-      payload,
-    }: {
-      payload: IPayload & { event: string; properties: Record<string, any> };
-    }) => {
+    track: ({ payload }: { payload: EventPayload }) => {
       // Track custom event
-      ReactGA.event({
-        category: payload.type || 'event',
-        action: payload.event,
+      ReactGA.event(payload.event, {
         ...payload.properties,
       });
     },
