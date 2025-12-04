@@ -1,13 +1,12 @@
+/* eslint-disable security/detect-object-injection */
 /* eslint-disable react/no-array-index-key */
 import { useChat } from '@ai-sdk/react';
 import {
   Button,
-  IconButton,
   Input,
   MD,
   SM,
   SpecialCard,
-  Tooltip,
 } from '@appquality/unguess-design-system';
 import { DefaultChatTransport } from 'ai';
 import { useEffect, useRef, useState } from 'react';
@@ -15,7 +14,9 @@ import { useGetUsersMeQuery } from 'src/features/api';
 import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
 import { styled } from 'styled-components';
 import { ReactComponent as SparkleIcon } from './icons/sparkle-stroke.svg';
-import { ReactComponent as ReloadIcon } from './icons/reload-fill.svg';
+import { BaseSuspendPart } from './suspends/base';
+import { ProjectSuspendPart } from './suspends/project';
+import { Step } from './types';
 import { getRandomLoadingMessage } from './utils/loadingMessage';
 import { parseMessages } from './utils/messages';
 
@@ -37,26 +38,6 @@ const ChatInputForm = styled.form`
   gap: 8px;
 `;
 
-const ChatMessage = styled.div<{ isUser: boolean }>`
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 12px;
-  align-items: ${(props) => (props.isUser ? 'flex-end' : 'flex-start')};
-
-  > div {
-    display: contents;
-  }
-  span {
-    display: inline-block;
-    padding: 8px 12px;
-    border-radius: 16px;
-    background: ${(props) => (props.isUser ? '#d1e7dd' : '#e2e3e5')};
-    color: #222;
-    max-width: 80%;
-    word-break: break-word;
-  }
-`;
-
 const LoadingHeader = styled.div`
   display: flex;
   align-items: center;
@@ -70,20 +51,6 @@ const EmptyState = styled.div`
   height: 100%;
   color: ${({ theme }) => theme.palette.grey[600]};
 `;
-
-const SystemMessageButtonList = styled.div`
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-`;
-
-// TODO: we need to find a way to export Step type from backend
-type Step = {
-  suspendPayload?: { message?: string };
-  output?: { message?: string };
-  input?: { reasoning?: string };
-  name: string;
-};
 
 export const Workflow = ({ threadId }: { threadId: string }) => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -106,7 +73,7 @@ export const Workflow = ({ threadId }: { threadId: string }) => {
     error,
   } = useChat({
     transport: new DefaultChatTransport({
-      api: 'http://localhost:4111/provola',
+      api: 'http://localhost:4111/workflow',
       prepareSendMessagesRequest({ messages }) {
         return {
           body: {
@@ -147,13 +114,21 @@ export const Workflow = ({ threadId }: { threadId: string }) => {
           </EmptyState>
         )}
         {chatMessages.map((msg, i) => (
-          <ChatMessage key={msg.id} isUser={msg.role === 'user'}>
+          <>
             {msg.parts.map((part, index) => {
               if (part.type === 'text')
                 return part.text ? (
-                  <div>
-                    <span key={`part_${msg.id}_${index}`}>{part.text}</span>
-                  </div>
+                  <BaseSuspendPart
+                    id={msg.id}
+                    key={`part_${msg.id}_${index}`}
+                    isUser={msg.role === 'user'}
+                    includeFooter={
+                      status === 'ready' && i === chatMessages.length - 1
+                    }
+                    regenerate={() => regenerate({ messageId: msg.id })}
+                  >
+                    {part.text}
+                  </BaseSuspendPart>
                 ) : null;
 
               if (part.type === 'data-workflow') {
@@ -163,37 +138,40 @@ export const Workflow = ({ threadId }: { threadId: string }) => {
                 const suspendText =
                   obj?.suspendPayload?.message || obj?.output?.message;
 
-                return suspendText ? (
-                  <div>
-                    <span key={`part_${msg.id}_${index}`}>{suspendText}</span>
-                  </div>
-                ) : null;
+                if (!suspendText) return null;
+                switch (lastStepKey) {
+                  case 'create_activity_workflow.fill_plan_workflow.selectProjectStep':
+                    return (
+                      <ProjectSuspendPart
+                        key={`part_${msg.id}_${index}`}
+                        handleSubmit={(projectId) =>
+                          sendMessage({ text: projectId.toString() })
+                        }
+                      >
+                        {suspendText}
+                      </ProjectSuspendPart>
+                    );
+
+                  default:
+                    return (
+                      <BaseSuspendPart
+                        id={msg.id}
+                        isUser={msg.role === 'user'}
+                        includeFooter={
+                          status === 'ready' && i === chatMessages.length - 1
+                        }
+                        regenerate={() => regenerate({ messageId: msg.id })}
+                        key={`part_${msg.id}_${index}`}
+                      >
+                        {suspendText}
+                      </BaseSuspendPart>
+                    );
+                }
               }
 
               return null;
             })}
-
-            {status === 'ready' && i === chatMessages.length - 1 && (
-              <SystemMessageButtonList>
-                <Tooltip
-                  content="Click to regenerate"
-                  placement="top-end"
-                  type="light"
-                  size="medium"
-                  onClick={(e: any) => {
-                    e.stopPropagation();
-                  }}
-                >
-                  <IconButton
-                    size="small"
-                    onClick={() => regenerate({ messageId: msg.id })}
-                  >
-                    <ReloadIcon />
-                  </IconButton>
-                </Tooltip>
-              </SystemMessageButtonList>
-            )}
-          </ChatMessage>
+          </>
         ))}
 
         {status !== 'ready' && (
