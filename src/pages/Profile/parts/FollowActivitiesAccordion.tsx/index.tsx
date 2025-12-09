@@ -19,11 +19,7 @@ export const FollowActivitiesAccordion = () => {
     isError,
   } = useGetUsersMeWatchedPlansQuery();
 
-  const {
-    data: followedCampaigns,
-    isLoading: isCampaignsLoading,
-    isError: isCampaignsError,
-  } = useGetUsersMeWatchedCampaignsQuery();
+  const { data: followedCampaigns } = useGetUsersMeWatchedCampaignsQuery();
   const totalFollowed =
     (followedActivities?.items.length || 0) +
     (followedCampaigns?.items.length || 0);
