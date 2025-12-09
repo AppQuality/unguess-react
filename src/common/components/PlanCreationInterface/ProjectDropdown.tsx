@@ -54,6 +54,7 @@ export const ProjectDropdown = () => {
         startIcon={<FolderIcon />}
         onBlur={() => setFieldIsTouched(true)}
         onOptionClick={({ selectionValue, inputValue }) => {
+          console.log('onOptionClick', { selectionValue, inputValue });
           setFieldIsTouched(true);
           if (!inputValue || !selectionValue) return;
           const value = projects.find(
@@ -63,12 +64,18 @@ export const ProjectDropdown = () => {
             setProjectId(value.id);
           }
         }}
-        options={(projects || []).map((prj) => ({
-          id: prj.id.toString(),
-          value: prj.id.toString(),
-          label: prj.name,
-          isSelected: projectId === prj.id,
-        }))}
+        options={[
+          {
+            id: 'options-group',
+            label: t('__PLAN_CREATION_PROJECT_DROPDOWN_PLACEHOLDER'),
+            options: (projects || []).map((prj) => ({
+              id: prj.id.toString(),
+              value: prj.id.toString(),
+              label: prj.name,
+              isSelected: projectId === prj.id,
+            })),
+          },
+        ]}
         placeholder={t('__PLAN_CREATION_PROJECT_DROPDOWN_PLACEHOLDER')}
         selectionValue={projectId?.toString() || ''}
         {...(hasValidationError && { validation: 'error' })}
