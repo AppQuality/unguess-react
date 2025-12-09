@@ -54,7 +54,6 @@ export const ProjectDropdown = () => {
         startIcon={<FolderIcon />}
         onBlur={() => setFieldIsTouched(true)}
         onOptionClick={({ selectionValue, inputValue }) => {
-          console.log('onOptionClick', { selectionValue, inputValue });
           setFieldIsTouched(true);
           if (!inputValue || !selectionValue) return;
           const value = projects.find(
