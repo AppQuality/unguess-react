@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import { ProjectDropdown } from './parts/projectDropdown';
+import { BaseSuspendPart } from './base';
 
 const DropdownContainer = styled.div`
   display: flex;
@@ -15,14 +16,24 @@ const DropdownContainer = styled.div`
 export const ProjectSuspendPart = ({
   key,
   handleSubmit,
+  isActive,
   children,
 }: {
   key: string;
   handleSubmit: (id: number) => void;
+  isActive?: boolean;
   children?: React.ReactNode;
 }) => {
   const { t } = useTranslation();
   const [projectId, setProjectId] = useState<number | null>(null);
+
+  if (!isActive) {
+    return (
+      <BaseSuspendPart id={key} key={key} isUser={false}>
+        ✅ Progetto selezionato
+      </BaseSuspendPart>
+    );
+  }
 
   return (
     <DropdownContainer key={key}>

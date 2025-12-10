@@ -2,7 +2,7 @@ import { ReactNode } from 'react';
 import styled from 'styled-components';
 import { ActionFooter } from './parts/actionFooter';
 
-const ChatMessage = styled.div<{ isUser: boolean }>`
+export const ChatMessage = styled.div<{ isUser: boolean }>`
   display: flex;
   flex-direction: column;
   margin-bottom: 12px;

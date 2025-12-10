@@ -19,6 +19,7 @@ import { ProjectSuspendPart } from './suspends/project';
 import { Step } from './types';
 import { getRandomLoadingMessage } from './utils/loadingMessage';
 import { parseMessages } from './utils/messages';
+import { PlanPart } from './suspends/plan';
 
 const ChatContainer = styled.div`
   display: flex;
@@ -135,6 +136,7 @@ export const Workflow = ({ threadId }: { threadId: string }) => {
                 const { steps } = part.data as { steps: Record<string, Step> };
                 const lastStepKey = Object.keys(steps).pop();
                 const obj = lastStepKey ? steps[lastStepKey] : null;
+                // console.log("🚀 ~ Workflow ~ obj:", obj)
                 const suspendText =
                   obj?.suspendPayload?.message || obj?.output?.message;
 
@@ -147,9 +149,25 @@ export const Workflow = ({ threadId }: { threadId: string }) => {
                         handleSubmit={(projectId) =>
                           sendMessage({ text: projectId.toString() })
                         }
+                        isActive={
+                          status === 'ready' && i === chatMessages.length - 1
+                        }
                       >
                         {suspendText}
                       </ProjectSuspendPart>
+                    );
+
+                  case 'create_activity_workflow.fill_plan_workflow.printPlanResults':
+                    return (
+                      <PlanPart
+                        key={`part_${msg.id}_${index}`}
+                        plan_id={
+                          obj.output && 'plan_id' in obj.output
+                            ? (obj.output as { plan_id?: string }).plan_id
+                            : undefined
+                        }
+                        id={msg.id}
+                      />
                     );
 
                   default:

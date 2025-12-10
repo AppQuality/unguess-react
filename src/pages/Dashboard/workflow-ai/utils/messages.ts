@@ -1,8 +1,6 @@
 import { UIMessage } from 'ai';
 import { WorkflowDataPart } from '@mastra/ai-sdk';
 
-const getLastStep = () => {};
-
 export const parseMessages = (messages: UIMessage[]) => {
   const lastUserMessage = messages
     .findLast((m) => m.role === 'user')
@@ -14,7 +12,7 @@ export const parseMessages = (messages: UIMessage[]) => {
     .flatMap((m) => m.parts)
     .findLast((p): p is WorkflowDataPart => p.type === 'data-workflow');
 
-  console.debug('🚀 ~ parseMessages ~ lastWorkflowPart:', lastWorkflowPart);
+  console.log('🚀 ~ parseMessages ~ lastWorkflowPart:', lastWorkflowPart);
 
   const stepsObj = lastWorkflowPart?.data.steps || {};
   const blockingSteps = Object.entries(stepsObj).filter(
@@ -26,11 +24,13 @@ export const parseMessages = (messages: UIMessage[]) => {
     blockingSteps.sort(
       (a, b) => b[0].split('.').length - a[0].split('.').length
     )[0] || [];
+  console.log('🚀 ~ parseMessages ~ lastUncopletedStep:', lastUncopletedStep);
 
   const [, lastStep] =
     Object.entries(stepsObj).sort(
       (a, b) => b[0].split('.').length - a[0].split('.').length
     )[0] || [];
+  console.log('🚀 ~ parseMessages ~ lastStep:', lastStep);
 
   // console.log('--- DEBUG parseMessages ---');
   // console.log('🚀🚀 ~ parseMessages ~ lastStep:', {
