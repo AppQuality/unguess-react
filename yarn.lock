@@ -38,6 +38,11 @@
   dependencies:
     "@analytics/type-utils" "^0.6.2"
 
+"@analytics/google-analytics@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@analytics/google-analytics/-/google-analytics-1.1.0.tgz#901e20b8c0ad10e26118317a5b6d5e98f927037f"
+  integrity sha512-i8uGyELMtwEUAf3GNWNLNBzhRvReDn1RUxvMdMhjUA7+GNGxPOM4kkzFfv3giQXKNxTEjfsh75kqNcscbJsuaA==
+
 "@analytics/google-tag-manager@^0.6.0":
   version "0.6.0"
   resolved "https://registry.yarnpkg.com/@analytics/google-tag-manager/-/google-tag-manager-0.6.0.tgz#bc1d20bb77450171848af2acaacfe1554e6aa19c"
