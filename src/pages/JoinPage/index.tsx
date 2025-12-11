@@ -94,7 +94,7 @@ const JoinPage = () => {
   const { t } = useTranslation();
   const [searchParams] = useSearchParams();
   const { isSuccess: isLogged } = useGetUsersMeQuery(undefined, {
-    refetchOnMountOrArgChange: true,
+    refetchOnFocus: true,
   });
   const navigate = useNavigate();
   const { profile, token } = useParams();
