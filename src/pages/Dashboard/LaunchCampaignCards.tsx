@@ -28,6 +28,8 @@ const LaunchCampaignCards = () => {
   const { data } = useActiveWorkspaceProjects();
   const {
     promoTemplates,
+    workspaceNoStrapiTemplates,
+    workspaceStrapiTemplates,
     setIsDrawerOpen,
     setSelectedTemplate,
     selectedTemplate,
@@ -71,7 +73,14 @@ const LaunchCampaignCards = () => {
           </Paragraph>
         </Col>
       </Row>
-      <ServiceTiles onClick={handleClick} promoTemplates={promoTemplates} />
+      <ServiceTiles
+        onClick={handleClick}
+        promoTemplates={[
+          ...promoTemplates,
+          ...workspaceStrapiTemplates,
+          ...workspaceNoStrapiTemplates,
+        ]}
+      />
       {selectedTemplate && (
         <PlanCreationInterface
           isOpen={isDrawerOpen}

@@ -43,6 +43,8 @@ export const ProjectEmptyState = () => {
   const canView = useCanAccessToActiveWorkspace();
   const {
     promoTemplates,
+    workspaceStrapiTemplates,
+    workspaceNoStrapiTemplates,
     setIsDrawerOpen,
     selectedTemplate,
     isDrawerOpen,
@@ -93,7 +95,11 @@ export const ProjectEmptyState = () => {
             <div style={{ zIndex: 1, position: 'relative' }}>
               <ServiceTiles
                 onClick={handleClick}
-                promoTemplates={promoTemplates}
+                promoTemplates={[
+                  ...promoTemplates,
+                  ...workspaceStrapiTemplates,
+                  ...workspaceNoStrapiTemplates,
+                ]}
               />
             </div>
             <UGLogoMedium

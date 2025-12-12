@@ -20,7 +20,6 @@ interface ServiceTilesProps {
 
 const ServiceTiles = ({ onClick, promoTemplates }: ServiceTilesProps) => {
   if (!promoTemplates?.length) return null;
-
   return (
     <>
       <ScrollingGrid
@@ -29,7 +28,33 @@ const ServiceTiles = ({ onClick, promoTemplates }: ServiceTilesProps) => {
         title="promo-templates"
       >
         {promoTemplates.map((template, i) => {
-          if (!template.strapi) return null;
+          if (!template.strapi) {
+            console.log('Missing strapi data, rendering fallback:', template);
+            const fallbackTitle = template.name;
+            const fallbackDescription = template.description || '';
+            const fallbackBackground =
+              'linear-gradient(91deg, #8A0C49 0%, #D81E57 100%)';
+            const fallbackPrice = template.price || '';
+            const fallbackIcon = <img alt={fallbackTitle} src={''} />;
+            return (
+              <ScrollingGrid.Item
+                key={template.id}
+                role="listitem"
+                title={fallbackTitle}
+                data-qa={`service-tile-${i}`}
+              >
+                <ServiceTile
+                  title={fallbackTitle}
+                  description={fallbackDescription}
+                  background={fallbackBackground}
+                  price={fallbackPrice}
+                  icon={fallbackIcon}
+                  additionalInfo={null}
+                  onClick={() => onClick(template.id)}
+                />
+              </ScrollingGrid.Item>
+            );
+          }
           const { title, price, tags, image, background, pre_title } =
             template.strapi;
           const outputs = tags.map((output) => {
