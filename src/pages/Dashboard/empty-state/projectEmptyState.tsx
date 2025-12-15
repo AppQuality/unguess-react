@@ -96,9 +96,9 @@ export const ProjectEmptyState = () => {
               <ServiceTiles
                 onClick={handleClick}
                 promoTemplates={[
-                  ...promoTemplates,
-                  ...workspaceStrapiTemplates,
                   ...workspaceNoStrapiTemplates,
+                  ...workspaceStrapiTemplates,
+                  ...promoTemplates,
                 ]}
               />
             </div>

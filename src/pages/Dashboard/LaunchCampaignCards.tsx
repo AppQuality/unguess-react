@@ -76,9 +76,9 @@ const LaunchCampaignCards = () => {
       <ServiceTiles
         onClick={handleClick}
         promoTemplates={[
-          ...promoTemplates,
-          ...workspaceStrapiTemplates,
           ...workspaceNoStrapiTemplates,
+          ...workspaceStrapiTemplates,
+          ...promoTemplates,
         ]}
       />
       {selectedTemplate && (
