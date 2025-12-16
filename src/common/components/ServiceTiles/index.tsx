@@ -33,29 +33,30 @@ const ServiceTiles = ({ onClick, promoTemplates }: ServiceTilesProps) => {
         title="promo-templates"
       >
         {promoTemplates.map((template, i) => {
+          const targetModule: { output: string } | undefined = JSON.parse(
+            template.config
+          ).modules.find((module: Module) => module.type === 'target');
+          const targetTag =
+            targetModule?.output && Number(targetModule.output) > 0 ? (
+              <AdditionalInfoTag
+                key="target_output"
+                color={appTheme.palette.grey[700]}
+                hue="#ffff"
+                isPill
+                size="medium"
+              >
+                <UserGroupIcon style={{ marginRight: appTheme.space.base }} />
+                <Trans
+                  i18nKey="__SERVICE_TILES_TARGET_OUTPUT"
+                  values={{ output: targetModule.output }}
+                />
+              </AdditionalInfoTag>
+            ) : null;
           if (!template.strapi) {
             const fallbackTitle = template.name;
-            const targetModule: { output: string } | undefined = JSON.parse(
-              template.config
-            ).modules.find((module: Module) => module.type === 'target');
             const fallbackPrice = template.price || '';
             const fallbackIcon = <FallbackIcon />;
-            const targetTag =
-              targetModule?.output && Number(targetModule.output) > 0 ? (
-                <AdditionalInfoTag
-                  key="target_output"
-                  color={appTheme.palette.grey[700]}
-                  hue="#ffff"
-                  isPill
-                  size="medium"
-                >
-                  <UserGroupIcon style={{ marginRight: appTheme.space.base }} />
-                  <Trans
-                    i18nKey="__SERVICE_TILES_TARGET_OUTPUT"
-                    values={{ output: targetModule.output }}
-                  />
-                </AdditionalInfoTag>
-              ) : null;
+
             const rerunActivityTag = (
               <AdditionalInfoTag
                 key="rerun_activity"
@@ -135,7 +136,9 @@ const ServiceTiles = ({ onClick, promoTemplates }: ServiceTilesProps) => {
                 superscript={price?.previous_price}
                 isSuperscriptStrikethrough={!!price?.is_strikethrough}
                 additionalInfo={
-                  <div style={{ display: 'flex', gap: '4px' }}>{outputs}</div>
+                  <div style={{ display: 'flex', gap: '4px' }}>
+                    {[targetTag, outputs]}
+                  </div>
                 }
                 onClick={handleClick}
               />
