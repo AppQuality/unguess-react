@@ -1,6 +1,6 @@
 import { ServiceTile, SM, Tag } from '@appquality/unguess-design-system';
-import { ReactComponent as UserGroupIcon } from '@zendeskgarden/svg-icons/src/12/user-group-stroke.svg';
 import { ReactComponent as RerunIcon } from '@zendeskgarden/svg-icons/src/12/arrow-retweet-stroke.svg';
+import { ReactComponent as UserGroupIcon } from '@zendeskgarden/svg-icons/src/12/user-group-stroke.svg';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as FallbackIcon } from 'src/assets/icons/purchasable.svg';
 import { ScrollingGrid } from 'src/common/components/ScrollingGrid';
@@ -33,6 +33,9 @@ const ServiceTiles = ({ onClick, promoTemplates }: ServiceTilesProps) => {
         title="promo-templates"
       >
         {promoTemplates.map((template, i) => {
+          const handleClick = () => {
+            onClick(template.id);
+          };
           const targetModule: { output: string } | undefined = JSON.parse(
             template.config
           ).modules.find((module: Module) => module.type === 'target');
@@ -87,7 +90,7 @@ const ServiceTiles = ({ onClick, promoTemplates }: ServiceTilesProps) => {
                       {[targetTag, rerunActivityTag]}
                     </div>
                   }
-                  onClick={() => onClick(template.id)}
+                  onClick={handleClick}
                 />
               </ScrollingGrid.Item>
             );
@@ -109,10 +112,6 @@ const ServiceTiles = ({ onClick, promoTemplates }: ServiceTilesProps) => {
               </AdditionalInfoTag>
             );
           });
-
-          const handleClick = () => {
-            onClick(template.id);
-          };
 
           return (
             <ScrollingGrid.Item

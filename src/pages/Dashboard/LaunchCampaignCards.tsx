@@ -7,6 +7,7 @@ import {
   Span,
   XXL,
 } from '@appquality/unguess-design-system';
+import { useCallback, useMemo } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import PlanCreationInterface from 'src/common/components/PlanCreationInterface';
@@ -36,15 +37,25 @@ const LaunchCampaignCards = () => {
     isDrawerOpen,
   } = usePromoContext();
 
+  const allTemplates = useMemo(() => {
+    return [
+      ...workspaceNoStrapiTemplates,
+      ...workspaceStrapiTemplates,
+      ...promoTemplates,
+    ];
+  }, [promoTemplates, workspaceNoStrapiTemplates, workspaceStrapiTemplates]);
+
   const handleCloseDrawer = () => {
     setIsDrawerOpen(false);
   };
 
-  const handleClick = (tid: number) => {
-    const selected = promoTemplates.find((template) => template.id === tid);
-    setSelectedTemplate(selected);
-    setIsDrawerOpen(true);
-  };
+  const handleClick = useCallback(
+    (tid: number) => {
+      setSelectedTemplate(allTemplates.find((template) => template.id === tid));
+      setIsDrawerOpen(true);
+    },
+    [allTemplates, setSelectedTemplate, setIsDrawerOpen]
+  );
 
   if (!data) return null;
   if (!canView) return null;
@@ -73,14 +84,7 @@ const LaunchCampaignCards = () => {
           </Paragraph>
         </Col>
       </Row>
-      <ServiceTiles
-        onClick={handleClick}
-        promoTemplates={[
-          ...workspaceNoStrapiTemplates,
-          ...workspaceStrapiTemplates,
-          ...promoTemplates,
-        ]}
-      />
+      <ServiceTiles onClick={handleClick} promoTemplates={allTemplates} />
       {selectedTemplate && (
         <PlanCreationInterface
           isOpen={isDrawerOpen}
