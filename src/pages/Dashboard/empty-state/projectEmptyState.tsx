@@ -51,13 +51,14 @@ export const ProjectEmptyState = () => {
     setSelectedTemplate,
   } = usePromoContext();
 
-  const allTemplates = useMemo(() => {
-    return [
+  const allTemplates = useMemo(
+    () => [
       ...workspaceNoStrapiTemplates,
       ...workspaceStrapiTemplates,
       ...promoTemplates,
-    ];
-  }, [promoTemplates, workspaceNoStrapiTemplates, workspaceStrapiTemplates]);
+    ],
+    [promoTemplates, workspaceNoStrapiTemplates, workspaceStrapiTemplates]
+  );
 
   const handleCloseDrawer = useCallback(() => {
     setIsDrawerOpen(false);
