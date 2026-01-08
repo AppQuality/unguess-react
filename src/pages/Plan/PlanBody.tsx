@@ -22,8 +22,22 @@ const ResponsiveGrid = styled(Grid)`
   padding: ${({ theme }) => theme.space.md};
 
   @media (max-width: ${({ theme }) => theme.breakpoints.sm}) {
-    padding: ${({ theme }) => theme.space.md} 0;
+    padding: ${({ theme }) => theme.space.md} 0
+      ${({ theme }) => theme.space.xxl};
   }
+`;
+
+const FixedWrapper = styled.div`
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  max-width: 100%;
+  background-color: ${({ theme }) => theme.palette.white};
+  border-top: 1px solid ${({ theme }) => theme.palette.grey[100]};
+  padding: ${({ theme }) => theme.space.sm} ${({ theme }) => theme.space.md};
+  display: flex;
+  justify-content: center;
 `;
 
 export const PlanBody = () => {
@@ -58,11 +72,9 @@ export const PlanBody = () => {
           </Row>
         )}
         {isMobile && (
-          <Row>
-            <Col sm="12" style={{ display: 'flex', justifyContent: 'center' }}>
-              <Controls />
-            </Col>
-          </Row>
+          <FixedWrapper>
+            <Controls />
+          </FixedWrapper>
         )}
       </ResponsiveGrid>
     </LayoutWrapper>

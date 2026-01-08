@@ -1,9 +1,12 @@
 import { ServiceTile, SM, Tag } from '@appquality/unguess-design-system';
-import { t } from 'i18next';
+import { ReactComponent as RerunIcon } from '@zendeskgarden/svg-icons/src/12/arrow-retweet-stroke.svg';
+import { ReactComponent as UserGroupIcon } from '@zendeskgarden/svg-icons/src/12/user-group-stroke.svg';
 import { appTheme } from 'src/app/theme';
+import { ReactComponent as FallbackIcon } from 'src/assets/icons/purchasable.svg';
 import { ScrollingGrid } from 'src/common/components/ScrollingGrid';
-import { CpReqTemplate } from 'src/features/api';
+import { CpReqTemplate, Module } from 'src/features/api';
 
+import { Trans, useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 
 const AdditionalInfoTag = styled(Tag)`
@@ -19,8 +22,9 @@ interface ServiceTilesProps {
 }
 
 const ServiceTiles = ({ onClick, promoTemplates }: ServiceTilesProps) => {
+  const { t } = useTranslation();
   if (!promoTemplates?.length) return null;
-
+  const fallbackBackground = 'linear-gradient(91deg, #AD1846 0%, #E05B4B 100%)';
   return (
     <>
       <ScrollingGrid
@@ -29,7 +33,68 @@ const ServiceTiles = ({ onClick, promoTemplates }: ServiceTilesProps) => {
         title="promo-templates"
       >
         {promoTemplates.map((template, i) => {
-          if (!template.strapi) return null;
+          const handleClick = () => {
+            onClick(template.id);
+          };
+          const targetModule: { output: string } | undefined = JSON.parse(
+            template.config
+          ).modules.find((module: Module) => module.type === 'target');
+          const targetTag =
+            targetModule?.output && Number(targetModule.output) > 0 ? (
+              <AdditionalInfoTag
+                key="target_output"
+                color={appTheme.palette.grey[700]}
+                hue="#ffff"
+                isPill
+                size="medium"
+              >
+                <UserGroupIcon style={{ marginRight: appTheme.space.base }} />
+                <Trans
+                  i18nKey="__SERVICE_TILES_TARGET_OUTPUT"
+                  values={{ output: targetModule.output }}
+                />
+              </AdditionalInfoTag>
+            ) : null;
+          if (!template.strapi) {
+            const fallbackTitle = template.name;
+            const fallbackPrice = template.price || '';
+            const fallbackIcon = <FallbackIcon />;
+
+            const rerunActivityTag = (
+              <AdditionalInfoTag
+                key="rerun_activity"
+                color={appTheme.palette.grey[700]}
+                hue="#ffff"
+                isPill
+                size="medium"
+              >
+                <RerunIcon style={{ marginRight: appTheme.space.base }} />
+                {t('__SERVICE_TILES_FALLBACK_RERUN_ACTIVITY')}
+              </AdditionalInfoTag>
+            );
+            return (
+              <ScrollingGrid.Item
+                key={template.id}
+                role="listitem"
+                title={fallbackTitle}
+                data-qa={`service-tile-${i}`}
+              >
+                <ServiceTile
+                  title={fallbackTitle}
+                  description={t('__SERVICE_TILES_FALLBACK_DESCRIPTION')}
+                  background={fallbackBackground}
+                  price={fallbackPrice}
+                  icon={fallbackIcon}
+                  additionalInfo={
+                    <div style={{ display: 'flex', gap: '4px' }}>
+                      {[targetTag, rerunActivityTag]}
+                    </div>
+                  }
+                  onClick={handleClick}
+                />
+              </ScrollingGrid.Item>
+            );
+          }
           const { title, price, tags, image, background, pre_title } =
             template.strapi;
           const outputs = tags.map((output) => {
@@ -48,27 +113,31 @@ const ServiceTiles = ({ onClick, promoTemplates }: ServiceTilesProps) => {
             );
           });
 
-          const handleClick = () => {
-            onClick(template.id);
-          };
-
           return (
             <ScrollingGrid.Item
               key={template.id}
               role="listitem"
-              title={title}
+              title={title || template.name}
               data-qa={`service-tile-${i}`}
             >
               <ServiceTile
-                title={title}
+                title={title || template.name}
                 description={pre_title}
-                background={background || appTheme.palette.blue[700]}
-                price={price?.price || ''}
-                icon={<img alt={title} src={image} />}
+                background={background || fallbackBackground}
+                price={price?.price || template.price || ''}
+                icon={
+                  image ? (
+                    <img alt={title || template.name} src={image} />
+                  ) : (
+                    <FallbackIcon />
+                  )
+                }
                 superscript={price?.previous_price}
                 isSuperscriptStrikethrough={!!price?.is_strikethrough}
                 additionalInfo={
-                  <div style={{ display: 'flex', gap: '4px' }}>{outputs}</div>
+                  <div style={{ display: 'flex', gap: '4px' }}>
+                    {[targetTag, outputs]}
+                  </div>
                 }
                 onClick={handleClick}
               />

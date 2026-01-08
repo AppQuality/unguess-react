@@ -7,7 +7,7 @@ import {
   XL,
   XXL,
 } from '@appquality/unguess-design-system';
-import { useCallback, useRef } from 'react';
+import { useCallback, useMemo, useRef } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import PlanCreationInterface from 'src/common/components/PlanCreationInterface';
@@ -43,20 +43,34 @@ export const ProjectEmptyState = () => {
   const canView = useCanAccessToActiveWorkspace();
   const {
     promoTemplates,
+    workspaceStrapiTemplates,
+    workspaceNoStrapiTemplates,
     setIsDrawerOpen,
     selectedTemplate,
     isDrawerOpen,
     setSelectedTemplate,
   } = usePromoContext();
 
+  const allTemplates = useMemo(
+    () => [
+      ...workspaceNoStrapiTemplates,
+      ...workspaceStrapiTemplates,
+      ...promoTemplates,
+    ],
+    [promoTemplates, workspaceNoStrapiTemplates, workspaceStrapiTemplates]
+  );
+
   const handleCloseDrawer = useCallback(() => {
     setIsDrawerOpen(false);
   }, [setIsDrawerOpen]);
 
-  const handleClick = (tid: number) => {
-    setSelectedTemplate(promoTemplates.find((template) => template.id === tid));
-    setIsDrawerOpen(true);
-  };
+  const handleClick = useCallback(
+    (tid: number) => {
+      setSelectedTemplate(allTemplates.find((template) => template.id === tid));
+      setIsDrawerOpen(true);
+    },
+    [allTemplates, setSelectedTemplate, setIsDrawerOpen]
+  );
 
   return (
     <EmptyProjectContainer
@@ -93,7 +107,7 @@ export const ProjectEmptyState = () => {
             <div style={{ zIndex: 1, position: 'relative' }}>
               <ServiceTiles
                 onClick={handleClick}
-                promoTemplates={promoTemplates}
+                promoTemplates={allTemplates}
               />
             </div>
             <UGLogoMedium
