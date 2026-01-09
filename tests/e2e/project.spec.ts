@@ -147,7 +147,7 @@ test.describe('project page empty state', () => {
   test('should display no campaigns, a list of suggested templates in promo', async () => {
     await expect(project.elements().projectsTable()).not.toBeVisible();
     await expect(promoList.elements().promoList()).toBeVisible();
-    await expect(promoList.elements().promoListItems()).toHaveCount(10);
+    await expect(promoList.elements().promoListItems()).toHaveCount(5);
   });
 
   test('should open the create plan interface when clicking on a promo item, a more info should go to the single template', async ({
