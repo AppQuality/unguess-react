@@ -48,9 +48,6 @@ export const PromoContextProvider = ({ children }: { children: ReactNode }) => {
   const { data: workspaceTemplatesData } = useGetWorkspacesByWidTemplatesQuery(
     {
       wid: activeWorkspace?.id.toString() || '',
-      filterBy: {
-        isPromo: 0,
-      },
       orderBy: 'order',
       order: 'asc',
     },
@@ -74,26 +71,30 @@ export const PromoContextProvider = ({ children }: { children: ReactNode }) => {
 
   const workspaceStrapiTemplates = useMemo(() => {
     if (!workspaceTemplatesData) return [];
-    return workspaceTemplatesData.items.reduce<
-      PromoContextProps['promoTemplates']
-    >((acc, template) => {
-      if ('strapi' in template) {
-        acc.push(template);
-      }
-      return acc;
-    }, []);
+    return workspaceTemplatesData.items
+      .filter(
+        (template) => template.workspace_id // Filter out global templates (those without a workspace_id)
+      )
+      .reduce<PromoContextProps['promoTemplates']>((acc, template) => {
+        if ('strapi' in template) {
+          acc.push(template);
+        }
+        return acc;
+      }, []);
   }, [workspaceTemplatesData]);
 
   const workspaceNoStrapiTemplates = useMemo(() => {
     if (!workspaceTemplatesData) return [];
-    return workspaceTemplatesData.items.reduce<
-      PromoContextProps['promoTemplates']
-    >((acc, template) => {
-      if (!('strapi' in template)) {
-        acc.push(template);
-      }
-      return acc;
-    }, []);
+    return workspaceTemplatesData.items
+      .filter(
+        (template) => template.workspace_id // Filter out global templates (those without a workspace_id)
+      )
+      .reduce<PromoContextProps['promoTemplates']>((acc, template) => {
+        if (!('strapi' in template)) {
+          acc.push(template);
+        }
+        return acc;
+      }, []);
   }, [workspaceTemplatesData]);
 
   const PromoContextValue = useMemo(
