@@ -35,7 +35,7 @@ test.describe('project page', () => {
       project.projectCampaigns.length
     );
     await expect(promoList.elements().promoList()).toBeVisible();
-    await expect(promoList.elements().promoListItems()).toHaveCount(10);
+    await expect(promoList.elements().promoListItems()).toHaveCount(5);
   });
 
   test('the invite users button should be visible', async () => {
