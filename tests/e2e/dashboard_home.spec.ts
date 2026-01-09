@@ -37,7 +37,7 @@ test.describe('Home page', () => {
   test('should show a list of suggested templates in promo', async () => {
     await expect(dashboard.elements().title()).toBeVisible();
     await expect(promoList.elements().promoList()).toBeVisible();
-    await expect(promoList.elements().promoListItems()).toHaveCount(10);
+    await expect(promoList.elements().promoListItems()).toHaveCount(5);
   });
 
   test('should open the create plan interface when clicking on a promo item, a more info should go to the single template', async ({

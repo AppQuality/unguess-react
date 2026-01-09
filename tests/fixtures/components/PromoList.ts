@@ -23,6 +23,9 @@ export class PromoList {
   }
 
   async mockPromoTemplates() {
+    // Mocks 2 requests:
+    // - /workspaces/:wid/templates?orderBy=order&order=asc&filterBy[isPromo]=1
+    // - /workspaces/:wid/templates?orderBy=order&order=asc
     await this.page.route('*/**/api/workspaces/1/templates*', async (route) => {
       await route.fulfill({
         path: 'tests/api/workspaces/wid/templates/_get/200_promo.json',
