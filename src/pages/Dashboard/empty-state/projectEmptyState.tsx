@@ -60,16 +60,28 @@ export const ProjectEmptyState = () => {
     [promoTemplates, workspaceNoStrapiTemplates, workspaceStrapiTemplates]
   );
 
+  // Remove duplicated template ids from allTemplates (remove from promoTemplates if already in workspace templates)
+  const uniqueTemplateIds = new Set<number>();
+  const uniqueAllTemplates = allTemplates.filter((template) => {
+    if (uniqueTemplateIds.has(template.id)) {
+      return false;
+    }
+    uniqueTemplateIds.add(template.id);
+    return true;
+  });
+
   const handleCloseDrawer = useCallback(() => {
     setIsDrawerOpen(false);
   }, [setIsDrawerOpen]);
 
   const handleClick = useCallback(
     (tid: number) => {
-      setSelectedTemplate(allTemplates.find((template) => template.id === tid));
+      setSelectedTemplate(
+        uniqueAllTemplates.find((template) => template.id === tid)
+      );
       setIsDrawerOpen(true);
     },
-    [allTemplates, setSelectedTemplate, setIsDrawerOpen]
+    [uniqueAllTemplates, setSelectedTemplate, setIsDrawerOpen]
   );
 
   return (
@@ -107,7 +119,7 @@ export const ProjectEmptyState = () => {
             <div style={{ zIndex: 1, position: 'relative' }}>
               <ServiceTiles
                 onClick={handleClick}
-                promoTemplates={allTemplates}
+                promoTemplates={uniqueAllTemplates}
               />
             </div>
             <UGLogoMedium
