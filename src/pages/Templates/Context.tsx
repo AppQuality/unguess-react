@@ -116,7 +116,7 @@ export const TemplatesContextProvider = ({
   // Set promo templates when promoData changes
   useEffect(() => {
     const uniqueTailoredIds = new Set(
-      data?.items.map((template) => template.id)
+      data?.items.filter(isTailoredTemplate).map((template) => template.id)
     );
     setPromoTemplates(
       promoData?.items.filter(
