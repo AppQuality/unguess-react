@@ -46,16 +46,28 @@ const LaunchCampaignCards = () => {
     [promoTemplates, workspaceNoStrapiTemplates, workspaceStrapiTemplates]
   );
 
+  // Remove duplicated template ids from allTemplates (remove from promoTemplates if already in workspace templates)
+  const uniqueTemplateIds = new Set<number>();
+  const uniqueAllTemplates = allTemplates.filter((template) => {
+    if (uniqueTemplateIds.has(template.id)) {
+      return false;
+    }
+    uniqueTemplateIds.add(template.id);
+    return true;
+  });
+
   const handleCloseDrawer = () => {
     setIsDrawerOpen(false);
   };
 
   const handleClick = useCallback(
     (tid: number) => {
-      setSelectedTemplate(allTemplates.find((template) => template.id === tid));
+      setSelectedTemplate(
+        uniqueAllTemplates.find((template) => template.id === tid)
+      );
       setIsDrawerOpen(true);
     },
-    [allTemplates, setSelectedTemplate, setIsDrawerOpen]
+    [uniqueAllTemplates, setSelectedTemplate, setIsDrawerOpen]
   );
 
   if (!data) return null;
@@ -85,7 +97,7 @@ const LaunchCampaignCards = () => {
           </Paragraph>
         </Col>
       </Row>
-      <ServiceTiles onClick={handleClick} promoTemplates={allTemplates} />
+      <ServiceTiles onClick={handleClick} promoTemplates={uniqueAllTemplates} />
       {selectedTemplate && (
         <PlanCreationInterface
           isOpen={isDrawerOpen}

@@ -115,8 +115,15 @@ export const TemplatesContextProvider = ({
 
   // Set promo templates when promoData changes
   useEffect(() => {
-    setPromoTemplates(promoData?.items || []);
-  }, [promoData]);
+    const uniqueTailoredIds = new Set(
+      data?.items.map((template) => template.id)
+    );
+    setPromoTemplates(
+      promoData?.items.filter(
+        (template) => !uniqueTailoredIds.has(template.id) // Remove duplicated template ids from promo templates
+      ) || []
+    );
+  }, [promoData, data]);
 
   // Build array of categories with templates for the frontend
   const templatesByCategory = useMemo(() => {
