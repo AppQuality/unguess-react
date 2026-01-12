@@ -1,98 +1,75 @@
-import { Col, Grid, Row, TextLabel } from '@appquality/unguess-design-system';
-import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import { useMemo, useState } from 'react';
 import { appTheme } from 'src/app/theme';
 import 'src/common/components/BugDetail/responsive-grid.css';
 import {
   BugMedia as BugMediaType,
   GetCampaignsByCidBugsAndBidApiResponse,
 } from 'src/features/api';
-import ImageCard from '../ImageCard';
-import VideoCard from '../VideoCard';
+import { Divider } from '../../divider';
 import { LightboxContainer } from '../lightbox';
+import { BugMediaSection } from './BugMediaSection';
 
-export default ({
+type Entry = { item: BugMediaType; index: number };
+
+const toLocalYMD = (d: Date) => {
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+  return `${day}-${m}-${y}`;
+};
+
+export default function BugMedia({
   items,
   bug,
 }: {
   items: BugMediaType[];
   bug: GetCampaignsByCidBugsAndBidApiResponse;
-}) => {
-  const { t } = useTranslation();
+}) {
   const [isLightboxOpen, setIsLightboxOpen] = useState<boolean>(false);
   const [currentIndex, setCurrentIndex] = useState<number>(0);
 
-  const onSlideChange = (index: number) => {
-    setCurrentIndex(index);
-  };
+  const onSlideChange = (index: number) => setCurrentIndex(index);
 
   const openLightbox = (index: number) => {
     setIsLightboxOpen(true);
     setCurrentIndex(index);
   };
 
-  const imagesCount = items.filter(
-    (item) => item.mime_type.type === 'image'
-  ).length;
-  const videosCount = items.filter(
-    (item) => item.mime_type.type === 'video'
-  ).length;
+  const sections = useMemo(() => {
+    const withIndex: Entry[] = items.map((item, index) => ({ item, index }));
+
+    const map = new Map<
+      string,
+      { key: string; label: string; entries: Entry[] }
+    >();
+
+    for (const entry of withIndex) {
+      const d = new Date(entry.item.creation_date);
+      const key = toLocalYMD(d);
+      const label = d.toLocaleDateString();
+
+      const existing = map.get(key);
+      if (existing) existing.entries.push(entry);
+      else map.set(key, { key, label, entries: [entry] });
+    }
+
+    return Array.from(map.values()).sort((a, b) => a.key.localeCompare(b.key));
+  }, [items]);
 
   return (
     <>
-      <TextLabel
-        style={{
-          marginBottom: appTheme.space.md,
-        }}
-      >
-        {videosCount > 0 && (
-          <>
-            {videosCount}{' '}
-            {t('__BUGS_PAGE_BUG_DETAIL_ATTACHMENTS_VIDEO_LABEL', {
-              count: videosCount,
-            })}{' '}
-          </>
-        )}
-        {imagesCount > 0 && (
-          <>
-            {videosCount > 0 && '- '}
-            {imagesCount}{' '}
-            {t('__BUGS_PAGE_BUG_DETAIL_ATTACHMENTS_IMAGE_LABEL', {
-              count: imagesCount,
-            })}
-          </>
-        )}
-      </TextLabel>
-      <Grid>
-        <Row className="responsive-container">
-          {items.map((item, index) => {
-            // Check if item is an image or a video
-            if (item.mime_type.type === 'image')
-              return (
-                <Col xs={12} sm={6} className="flex-3-sm">
-                  <ImageCard
-                    className="bug-preview-media-item bug-preview-media-image"
-                    index={index}
-                    url={item.url}
-                    onClick={() => openLightbox(index)}
-                  />
-                </Col>
-              );
-            if (item.mime_type.type === 'video')
-              return (
-                <Col xs={12} sm={6} className="flex-3-sm">
-                  <VideoCard
-                    className="bug-preview-media-item bug-preview-media-video"
-                    index={index}
-                    url={item.url}
-                    onClick={() => openLightbox(index)}
-                  />
-                </Col>
-              );
-            return null;
-          })}
-        </Row>
-      </Grid>
+      {sections.map((section, idx) => (
+        <>
+          <BugMediaSection
+            key={section.key}
+            dateLabel={section.label}
+            entries={section.entries}
+            onOpenLightbox={openLightbox}
+            showDivider={idx < sections.length - 1}
+          />
+        </>
+      ))}
+
       {isLightboxOpen && (
         <LightboxContainer
           items={items}
@@ -104,4 +81,4 @@ export default ({
       )}
     </>
   );
-};
+}
