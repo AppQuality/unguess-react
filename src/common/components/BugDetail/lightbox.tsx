@@ -19,7 +19,7 @@ import useWindowSize from 'src/hooks/useWindowSize';
 import styled from 'styled-components';
 import BugDescription from './Description';
 import DetailsItems from './DetailsItems';
-import { formatDateDDMMYYYY } from './Media';
+import { formatDateDDMMYYYY } from './Media/dateUtils';
 import BugMeta from './Meta';
 
 const Grey600Span = styled.span`
@@ -28,6 +28,27 @@ const Grey600Span = styled.span`
 
 const Grey800Span = styled.span`
   color: ${({ theme }) => theme.palette.grey[800]};
+`;
+
+const SlideContent = styled.div`
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const PositionedTag = styled(Tag)`
+  position: absolute;
+  top: ${({ theme }) => theme.space.sm};
+  left: ${({ theme }) => theme.space.sm};
+  width: fit-content;
+  z-index: 1;
+`;
+
+const DateValue = styled(Span)`
+  margin-left: ${({ theme }) => theme.space.xs};
 `;
 
 export const LightboxContainer = ({
@@ -61,7 +82,7 @@ export const LightboxContainer = ({
         }
       });
     },
-    [videoRefs]
+    [onSlideChange]
   );
 
   return (
@@ -88,39 +109,30 @@ export const LightboxContainer = ({
             onSlideChange={slideChange}
             initialSlide={currentIndex}
           >
-            {items.map((item) => (
-              <>
-                <Slider.Slide>
-                  <Tag
-                    isRegular
-                    size="medium"
-                    style={{
-                      width: 'fit-content',
-                      marginTop: appTheme.space.sm,
-                      marginLeft: appTheme.space.sm,
-                    }}
-                  >
+            {items.map((item, index) => (
+              <Slider.Slide>
+                <SlideContent>
+                  <PositionedTag isRegular size="medium">
                     {t(
                       '__BUGS_PAGE_BUG_DETAIL_ATTACHMENTS_LIGHTBOX_TAG_DATE_LABEL'
                     )}
-                    &nbsp;
-                    <Span isBold>
+                    <DateValue isBold>
                       {formatDateDDMMYYYY(new Date(item.creation_date))}
-                    </Span>
-                  </Tag>
+                    </DateValue>
+                  </PositionedTag>
                   {item.mime_type.type === 'image' && (
                     <img src={item.url} alt={`bug ${item.mime_type}`} />
                   )}
                   {item.mime_type.type === 'video' && (
                     <Player
                       ref={(ref) => {
-                        videoRefs.current.push(ref);
+                        videoRefs.current[index] = ref;
                       }}
                       url={item.url}
                     />
                   )}
-                </Slider.Slide>
-              </>
+                </SlideContent>
+              </Slider.Slide>
             ))}
           </Slider>
         </Lightbox.Body.Main>
