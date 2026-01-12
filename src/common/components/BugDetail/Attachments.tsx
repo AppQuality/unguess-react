@@ -4,7 +4,7 @@ import { GetCampaignsByCidBugsAndBidApiResponse } from 'src/features/api';
 import styled from 'styled-components';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as AttachmentsIcon } from 'src/assets/icons/attachments-icon.svg';
-import BugMedia from './Media/';
+import BugMedia from './Media';
 import BugExtra from './Extra';
 
 const Container = styled.div`
