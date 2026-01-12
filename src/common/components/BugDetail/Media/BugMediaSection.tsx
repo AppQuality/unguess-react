@@ -19,7 +19,7 @@ type Entry = {
   lightboxIndex: number;
 };
 
-export function BugMediaSection({
+export const BugMediaSection = ({
   dateLabel,
   entries,
   onOpenLightbox,
@@ -29,20 +29,22 @@ export function BugMediaSection({
   entries: Entry[];
   onOpenLightbox: (lightboxIndex: number) => void;
   showDivider?: boolean;
-}) {
+}) => {
   const { t } = useTranslation();
 
-  const { imagesCount, videosCount } = useMemo(() => {
-    let images = 0;
-    let videos = 0;
-
-    for (const { item } of entries) {
-      if (item.mime_type.type === 'image') images++;
-      else if (item.mime_type.type === 'video') videos++;
-    }
-
-    return { imagesCount: images, videosCount: videos };
-  }, [entries]);
+  const { imagesCount, videosCount } = useMemo(
+    () =>
+      entries.reduce(
+        (accumulator, { item }) => {
+          if (item.mime_type.type === 'image') accumulator.imagesCount += 1;
+          else if (item.mime_type.type === 'video')
+            accumulator.videosCount += 1;
+          return accumulator;
+        },
+        { imagesCount: 0, videosCount: 0 }
+      ),
+    [entries]
+  );
 
   return (
     <>
@@ -122,4 +124,4 @@ export function BugMediaSection({
       {showDivider && <Divider style={{ marginBottom: appTheme.space.lg }} />}
     </>
   );
-}
+};

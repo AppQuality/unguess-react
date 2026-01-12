@@ -6,30 +6,17 @@ import {
 } from 'src/features/api';
 import { LightboxContainer } from '../lightbox';
 import { BugMediaSection } from './BugMediaSection';
+import { formatDateDDMMYYYY, toSortableDateKey } from './dateUtils';
 
-type RawEntry = { item: BugMediaType; originalIndex: number };
+type RawEntry = { item: BugMediaType };
 
-const toSortableDateKey = (d: Date) => {
-  const y = d.getFullYear();
-  const m = String(d.getMonth() + 1).padStart(2, '0');
-  const day = String(d.getDate()).padStart(2, '0');
-  return `${y}-${m}-${day}`;
-};
-
-export const formatDateDDMMYYYY = (d: Date) => {
-  const y = d.getFullYear();
-  const m = String(d.getMonth() + 1).padStart(2, '0');
-  const day = String(d.getDate()).padStart(2, '0');
-  return `${day}/${m}/${y}`;
-};
-
-export default function BugMedia({
+const BugMedia = ({
   items,
   bug,
 }: {
   items: BugMediaType[];
   bug: GetCampaignsByCidBugsAndBidApiResponse;
-}) {
+}) => {
   const [isLightboxOpen, setIsLightboxOpen] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -41,46 +28,48 @@ export default function BugMedia({
   };
 
   const { sections, lightboxItems } = useMemo(() => {
-    const withIndex: RawEntry[] = items.map((item, originalIndex) => ({
-      item,
-      originalIndex,
-    }));
+    const groupedMap = items.reduce((accumulator, item) => {
+      const creationDate = new Date(item.creation_date);
+      const key = toSortableDateKey(creationDate);
+      const label = formatDateDDMMYYYY(creationDate);
 
-    const map = new Map<
-      string,
-      { key: string; label: string; entries: RawEntry[] }
-    >();
+      const existing = accumulator.get(key);
+      if (existing) {
+        existing.entries.push({ item });
+        return accumulator;
+      }
 
-    for (const entry of withIndex) {
-      const d = new Date(entry.item.creation_date);
+      accumulator.set(key, { key, label, entries: [{ item }] });
+      return accumulator;
+    }, new Map<string, { key: string; label: string; entries: RawEntry[] }>());
 
-      const key = toSortableDateKey(d);
-      const label = formatDateDDMMYYYY(d);
-
-      const existing = map.get(key);
-      if (existing) existing.entries.push(entry);
-      else map.set(key, { key, label, entries: [entry] });
-    }
-
-    const grouped = Array.from(map.values()).sort((a, b) =>
+    const grouped = Array.from(groupedMap.values()).sort((a, b) =>
       b.key.localeCompare(a.key)
     );
 
-    let lightboxIndex = 0;
+    let offset = 0;
 
-    const sections = grouped.map((g) => ({
-      key: g.key,
-      label: g.label,
-      entries: g.entries.map((e, displayIndex) => ({
-        item: e.item,
-        displayIndex,
-        lightboxIndex: lightboxIndex++,
-      })),
-    }));
+    const computedSections = grouped.map((group) => {
+      const entries = group.entries.map((entry, groupIndex) => ({
+        item: entry.item,
+        displayIndex: groupIndex,
+        lightboxIndex: offset + groupIndex,
+      }));
 
-    const lightboxItems = sections.flatMap((s) => s.entries.map((e) => e.item));
+      offset += group.entries.length;
 
-    return { sections, lightboxItems };
+      return {
+        key: group.key,
+        label: group.label,
+        entries,
+      };
+    });
+
+    const computedLightboxItems = computedSections.flatMap((section) =>
+      section.entries.map((entry) => entry.item)
+    );
+
+    return { sections: computedSections, lightboxItems: computedLightboxItems };
   }, [items]);
 
   return (
@@ -106,4 +95,6 @@ export default function BugMedia({
       )}
     </>
   );
-}
+};
+
+export default BugMedia;
