@@ -82,7 +82,7 @@ export const LightboxContainer = ({
         }
       });
     },
-    [onSlideChange]
+    [videoRefs]
   );
 
   return (
