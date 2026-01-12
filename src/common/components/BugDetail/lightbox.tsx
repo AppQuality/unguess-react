@@ -4,6 +4,8 @@ import {
   MD,
   Player,
   Slider,
+  Span,
+  Tag,
 } from '@appquality/unguess-design-system';
 import { useCallback, useRef } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
@@ -17,6 +19,7 @@ import useWindowSize from 'src/hooks/useWindowSize';
 import styled from 'styled-components';
 import BugDescription from './Description';
 import DetailsItems from './DetailsItems';
+import { formatDateDDMMYYYY } from './Media';
 import BugMeta from './Meta';
 
 const Grey600Span = styled.span`
@@ -86,22 +89,42 @@ export const LightboxContainer = ({
             initialSlide={currentIndex}
           >
             {items.map((item) => (
-              <Slider.Slide>
-                {item.mime_type.type === 'image' && (
-                  <img src={item.url} alt={`bug ${item.mime_type}`} />
-                )}
-                {item.mime_type.type === 'video' && (
-                  <Player
-                    ref={(ref) => {
-                      videoRefs.current.push(ref);
+              <>
+                <Slider.Slide>
+                  <Tag
+                    isRegular
+                    size="medium"
+                    style={{
+                      width: 'fit-content',
+                      marginTop: appTheme.space.sm,
+                      marginLeft: appTheme.space.sm,
                     }}
-                    url={item.url}
-                  />
-                )}
-              </Slider.Slide>
+                  >
+                    {t(
+                      '__BUGS_PAGE_BUG_DETAIL_ATTACHMENTS_LIGHTBOX_TAG_DATE_LABEL'
+                    )}
+                    &nbsp;
+                    <Span isBold>
+                      {formatDateDDMMYYYY(new Date(item.creation_date))}
+                    </Span>
+                  </Tag>
+                  {item.mime_type.type === 'image' && (
+                    <img src={item.url} alt={`bug ${item.mime_type}`} />
+                  )}
+                  {item.mime_type.type === 'video' && (
+                    <Player
+                      ref={(ref) => {
+                        videoRefs.current.push(ref);
+                      }}
+                      url={item.url}
+                    />
+                  )}
+                </Slider.Slide>
+              </>
             ))}
           </Slider>
         </Lightbox.Body.Main>
+
         {hideDetails === false && (
           <Lightbox.Body.Details style={{ flex: 1 }}>
             <BugMeta bug={bug} />

@@ -13,7 +13,11 @@ import { Divider } from '../../divider';
 import ImageCard from '../ImageCard';
 import VideoCard from '../VideoCard';
 
-type Entry = { item: BugMediaType; index: number };
+type Entry = {
+  item: BugMediaType;
+  displayIndex: number;
+  lightboxIndex: number;
+};
 
 export function BugMediaSection({
   dateLabel,
@@ -23,7 +27,7 @@ export function BugMediaSection({
 }: {
   dateLabel: string;
   entries: Entry[];
-  onOpenLightbox: (index: number) => void;
+  onOpenLightbox: (lightboxIndex: number) => void;
   showDivider?: boolean;
 }) {
   const { t } = useTranslation();
@@ -75,27 +79,37 @@ export function BugMediaSection({
 
       <Grid>
         <Row className="responsive-container">
-          {entries.map(({ item, index }) => {
+          {entries.map(({ item, displayIndex, lightboxIndex }) => {
             if (item.mime_type.type === 'image')
               return (
-                <Col key={`img-${index}`} xs={12} sm={6} className="flex-3-sm">
+                <Col
+                  key={`img-${lightboxIndex}`}
+                  xs={12}
+                  sm={6}
+                  className="flex-3-sm"
+                >
                   <ImageCard
                     className="bug-preview-media-item bug-preview-media-image"
-                    index={index}
+                    index={displayIndex}
                     url={item.url}
-                    onClick={() => onOpenLightbox(index)}
+                    onClick={() => onOpenLightbox(lightboxIndex)}
                   />
                 </Col>
               );
 
             if (item.mime_type.type === 'video')
               return (
-                <Col key={`vid-${index}`} xs={12} sm={6} className="flex-3-sm">
+                <Col
+                  key={`vid-${lightboxIndex}`}
+                  xs={12}
+                  sm={6}
+                  className="flex-3-sm"
+                >
                   <VideoCard
                     className="bug-preview-media-item bug-preview-media-video"
-                    index={index}
+                    index={displayIndex}
                     url={item.url}
-                    onClick={() => onOpenLightbox(index)}
+                    onClick={() => onOpenLightbox(lightboxIndex)}
                   />
                 </Col>
               );
@@ -105,9 +119,7 @@ export function BugMediaSection({
         </Row>
       </Grid>
 
-      {showDivider && (
-        <Divider style={{ marginBottom: `${appTheme.space.lg}` }} />
-      )}
+      {showDivider && <Divider style={{ marginBottom: appTheme.space.lg }} />}
     </>
   );
 }
