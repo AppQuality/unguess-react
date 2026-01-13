@@ -34,6 +34,24 @@ export const CommentsUpdatesPanel = () => {
             '__PROFILE_PAGE_NOTIFICATIONS_CARD_ACTIVITY_PROGRESS_UPDATES_FORM_LABEL'
           )}
         </Label>
+        <Field name="commentsWatchers">
+          {({ field }: FieldProps) => (
+            <FormField>
+              <Checkbox
+                role="checkbox"
+                key="all"
+                checked={field.value}
+                onChange={() => setFieldValue('commentsWatchers', !field.value)}
+              >
+                <Label>
+                  {t(
+                    '__PROFILE_PAGE_NOTIFICATIONS_CARD_COMMENTS_WATCHER_UPDATESCHECKBOX_LABEL'
+                  )}
+                </Label>
+              </Checkbox>
+            </FormField>
+          )}
+        </Field>
         <Field name="commentsActivity">
           {({ field }: FieldProps) => (
             <FormField>
