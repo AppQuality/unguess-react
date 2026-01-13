@@ -16,9 +16,9 @@ import {
   closeSidebar,
   setWorkspace,
 } from 'src/features/navigation/navigationSlice';
-import { useSendGTMevent } from 'src/hooks/useGTMevent';
 import { selectWorkspaces } from 'src/features/workspaces/selectors';
 import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
+import { useSendGTMevent } from 'src/hooks/useGTMevent';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import styled from 'styled-components';
 
@@ -145,17 +145,29 @@ export const WorkspacesDropdown = () => {
           selectionValue={
             options
               .flatMap((o) => o.options)
-              .find((o) => o.value?.id === activeWorkspace.id)?.value
+              .find((o) => o.value?.id === activeWorkspace.id)
+              ?.value.id.toString() || ''
           }
           renderValue={() => (
             <StyledEllipsis isCompact>
               {`${activeWorkspace.company}'s workspace`}
             </StyledEllipsis>
           )}
-          options={options}
+          options={options
+            .flatMap((o) => o.options)
+            .map((ws) => ({
+              ...ws,
+              value: ws.value.id.toString(),
+              label: ws.label,
+            }))}
           onOptionClick={({ selectionValue }) => {
-            const workspace = selectionValue as Workspace;
-            if (selectionValue && workspace.id) {
+            const companies = options
+              .flatMap((o) => o.options)
+              .map((o) => o.value);
+            const workspace = companies.find(
+              (c) => c.id.toString() === selectionValue
+            );
+            if (selectionValue && workspace && workspace.id) {
               setInputValue('');
               handleWorkspaceChange(workspace);
               setIsExpanded(false);

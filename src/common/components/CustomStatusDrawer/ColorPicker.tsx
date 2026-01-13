@@ -1,6 +1,6 @@
 import { ColorSwatch } from '@appquality/unguess-design-system';
-import { appTheme } from 'src/app/theme';
 import { forwardRef } from 'react';
+import { appTheme } from 'src/app/theme';
 
 const colorsArray: {
   label?: string;
@@ -22,7 +22,12 @@ interface ColorPickerProps {
 export const ColorPicker = forwardRef<HTMLDivElement, ColorPickerProps>(
   ({ onSelect }, ref) => (
     <div style={{ zIndex: 2 }}>
-      <ColorSwatch colors={colorsArray} onSelect={onSelect} disableTooltip>
+      <ColorSwatch
+        name="color-picker"
+        colors={colorsArray}
+        onSelect={onSelect}
+        disableTooltip
+      >
         <div ref={ref} />
       </ColorSwatch>
     </div>

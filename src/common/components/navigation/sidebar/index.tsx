@@ -59,6 +59,12 @@ const DropdownItem = styled.div`
     display: none;
   }
 `;
+const StyledNavItem = styled(NavItem)`
+  flex: 0;
+`;
+const StyledNavDivider = styled(NavDivider)`
+  flex: 0;
+`;
 
 export const AppSidebar = (props: PropsWithChildren<SidebarProps>) => {
   const theme = useTheme();
@@ -152,7 +158,7 @@ export const AppSidebar = (props: PropsWithChildren<SidebarProps>) => {
           </DropdownItem>
         )}
 
-        <NavItem
+        <StyledNavItem
           role="menuitem"
           className="sidebar-first-level-item"
           title="Home"
@@ -169,7 +175,7 @@ export const AppSidebar = (props: PropsWithChildren<SidebarProps>) => {
               ? t('__APP_SIDEBAR_SHARED_WORKSPACE_HOME_ITEM_LABEL')
               : t('__APP_SIDEBAR_HOME_ITEM_LABEL')}
           </NavItemText>
-        </NavItem>
+        </StyledNavItem>
 
         {/** Projects Accordion */}
         {projects && projects.length ? (
@@ -219,11 +225,11 @@ export const AppSidebar = (props: PropsWithChildren<SidebarProps>) => {
           </NavAccordionItem>
         ) : null}
 
-        <NavDivider isExpanded={isSidebarOpen} />
+        <StyledNavDivider isExpanded={isSidebarOpen} />
 
         {/** Templates */}
         {canViewTemplates && (
-          <NavItem
+          <StyledNavItem
             role="menuitem"
             className="sidebar-first-level-item"
             title="Templates"
@@ -240,12 +246,12 @@ export const AppSidebar = (props: PropsWithChildren<SidebarProps>) => {
               )}
             </NavItemIcon>
             <NavItemText>{t('__APP_SIDEBAR_TEMPLATES_ITEM_LABEL')}</NavItemText>
-          </NavItem>
+          </StyledNavItem>
         )}
 
         {/** Archive */}
         {archiveId && (
-          <NavItem
+          <StyledNavItem
             role="menuitem"
             className="sidebar-first-level-item"
             title="Archive"
@@ -270,7 +276,7 @@ export const AppSidebar = (props: PropsWithChildren<SidebarProps>) => {
                 </SM>
               </div>
             </NavItemText>
-          </NavItem>
+          </StyledNavItem>
         )}
       </ScrollingContainer>
       {/* Footer Logo */}

@@ -1,13 +1,13 @@
 import {
+  Anchor,
   ContainerCard,
   MD,
   SM,
-  Anchor,
   TextDescription,
 } from '@appquality/unguess-design-system';
 import React from 'react';
-import styled from 'styled-components';
 import { appTheme } from 'src/app/theme';
+import styled from 'styled-components';
 
 const BugCardContainer = styled(ContainerCard)<
   React.ComponentProps<typeof ContainerCard> & {
@@ -25,7 +25,7 @@ const BugCardContainer = styled(ContainerCard)<
   cursor: pointer;
 
   &:hover {
-    box-shadow: ${({ theme }) => theme.shadows.boxShadow(theme)};
+    box-shadow: ${({ theme }) => theme.shadows.boxShadow()};
   }
 `;
 

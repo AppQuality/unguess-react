@@ -33,7 +33,7 @@ const StyledRow = styled(Row)<{
   &:hover {
     z-index: 1;
     border-bottom-color: ${({ theme }) => theme.palette.grey[200]};
-    box-shadow: ${({ theme }) => theme.shadows.boxShadow(theme)};
+    box-shadow: ${({ theme }) => theme.shadows.boxShadow()};
     background-color: ${({ theme }) => theme.palette.grey[100]};
     ${({ isHighlighted, theme }) =>
       isHighlighted && `background-color: ${theme.palette.white};`}
