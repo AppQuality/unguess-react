@@ -13,7 +13,10 @@ import { appTheme } from 'src/app/theme';
 import { ReactComponent as AiIcon } from 'src/assets/icons/ai-icon-gradient.svg';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
 import { PageTitle } from 'src/common/components/PageTitle';
-import { useGetUsersMeQuery } from 'src/features/api';
+import {
+  useGetUsersMeQuery,
+  usePostWorkflowsBySlugThreadsMutation,
+} from 'src/features/api';
 import { useCanAccessToActiveWorkspace } from 'src/hooks/useCanAccessToActiveWorkspace';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import useWindowSize from 'src/hooks/useWindowSize';
@@ -41,14 +44,14 @@ export const DashboardHeaderContent = ({
   const { isMobile } = useWindowSize();
 
   const [isChatOpen, setIsChatOpen] = useState(false);
+  const [threadId, setThreadId] = useState<number>();
 
   const hasWorksPacePermission = useCanAccessToActiveWorkspace();
   const navigate = useNavigate();
   const templatesRoute = useLocalizeRoute('templates');
 
-  const threadId = uuidv4();
+  const [createThread] = usePostWorkflowsBySlugThreadsMutation();
 
-  console.log('🚀 ~ DashboardHeaderContent ~ threadId:', threadId);
   return isUserFetching || isUserLoading ? null : (
     <LayoutWrapper>
       <PageHeader>
@@ -72,7 +75,15 @@ export const DashboardHeaderContent = ({
                 >
                   {t('__DASHBOARD_CTA_NEW_ACTIVITY')}
                 </Button>
-                <StyledIconButton onClick={() => setIsChatOpen(!isChatOpen)}>
+                <StyledIconButton
+                  onClick={async () => {
+                    setIsChatOpen(!isChatOpen);
+                    const res = await createThread({
+                      slug: 'mainWorkflow',
+                    }).unwrap();
+                    setThreadId(res.id);
+                  }}
+                >
                   <AiIcon />
                 </StyledIconButton>
               </div>
@@ -95,7 +106,7 @@ export const DashboardHeaderContent = ({
           </Drawer.Header>
           <Drawer.Close />
           <Drawer.Body>
-            <Workflow threadId={threadId} />
+            <Workflow threadId={threadId || 0} />
           </Drawer.Body>
         </Drawer>
       )}
