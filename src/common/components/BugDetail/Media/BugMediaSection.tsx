@@ -50,7 +50,7 @@ export const BugMediaSection = ({
     <>
       <Title
         style={{
-          fontSize: appTheme.fontSizes.lg,
+          fontSize: appTheme.fontSizes.md,
           marginBottom: appTheme.space.xxs,
         }}
       >
