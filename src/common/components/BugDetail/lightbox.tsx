@@ -57,12 +57,14 @@ export const LightboxContainer = ({
   currentIndex = 0,
   onClose,
   onSlideChange,
+  showDateLabels = false,
 }: {
   items: BugMedia[];
   bug: GetCampaignsByCidBugsAndBidApiResponse;
   currentIndex?: number;
   onClose?: () => void;
   onSlideChange?: (index: number) => void;
+  showDateLabels?: boolean;
 }) => {
   const { t } = useTranslation();
   const { width } = useWindowSize();
@@ -112,14 +114,16 @@ export const LightboxContainer = ({
             {items.map((item, index) => (
               <Slider.Slide>
                 <SlideContent>
-                  <PositionedTag isRegular size="medium">
-                    {t(
-                      '__BUGS_PAGE_BUG_DETAIL_ATTACHMENTS_LIGHTBOX_TAG_DATE_LABEL'
-                    )}
-                    <DateValue isBold>
-                      {formatDateDDMMYYYY(new Date(item.creation_date))}
-                    </DateValue>
-                  </PositionedTag>
+                  {showDateLabels && (
+                    <PositionedTag>
+                      {t(
+                        '__BUGS_PAGE_BUG_DETAIL_ATTACHMENTS_LIGHTBOX_TAG_DATE_LABEL'
+                      )}
+                      <DateValue isBold>
+                        {formatDateDDMMYYYY(new Date(item.creation_date))}
+                      </DateValue>
+                    </PositionedTag>
+                  )}
                   {item.mime_type.type === 'image' && (
                     <img src={item.url} alt={`bug ${item.mime_type}`} />
                   )}

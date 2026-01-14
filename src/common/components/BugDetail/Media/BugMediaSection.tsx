@@ -24,11 +24,13 @@ export const BugMediaSection = ({
   entries,
   onOpenLightbox,
   showDivider = false,
+  showDateLabels = false,
 }: {
   dateLabel: string;
   entries: Entry[];
-  onOpenLightbox: (lightboxIndex: number) => void;
+  onOpenLightbox: (lightboxIndex: number, displayDateLabel: boolean) => void;
   showDivider?: boolean;
+  showDateLabels?: boolean;
 }) => {
   const { t } = useTranslation();
 
@@ -48,16 +50,18 @@ export const BugMediaSection = ({
 
   return (
     <>
-      <Title
-        style={{
-          fontSize: appTheme.fontSizes.md,
-          marginBottom: appTheme.space.xxs,
-        }}
-      >
-        {t('__BUGS_PAGE_BUG_DETAIL_ATTACHMENTS_DATE_LABEL', {
-          date: dateLabel,
-        })}
-      </Title>
+      {showDateLabels && (
+        <Title
+          style={{
+            fontSize: appTheme.fontSizes.md,
+            marginBottom: appTheme.space.xxs,
+          }}
+        >
+          {t('__BUGS_PAGE_BUG_DETAIL_ATTACHMENTS_DATE_LABEL', {
+            date: dateLabel,
+          })}
+        </Title>
+      )}
 
       <TextLabel style={{ marginBottom: appTheme.space.md }}>
         {videosCount > 0 && (
@@ -94,7 +98,9 @@ export const BugMediaSection = ({
                     className="bug-preview-media-item bug-preview-media-image"
                     index={displayIndex}
                     url={item.url}
-                    onClick={() => onOpenLightbox(lightboxIndex)}
+                    onClick={() =>
+                      onOpenLightbox(lightboxIndex, showDateLabels)
+                    }
                   />
                 </Col>
               );
@@ -111,7 +117,9 @@ export const BugMediaSection = ({
                     className="bug-preview-media-item bug-preview-media-video"
                     index={displayIndex}
                     url={item.url}
-                    onClick={() => onOpenLightbox(lightboxIndex)}
+                    onClick={() =>
+                      onOpenLightbox(lightboxIndex, showDateLabels)
+                    }
                   />
                 </Col>
               );

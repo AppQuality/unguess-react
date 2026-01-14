@@ -80,6 +80,7 @@ const BugMedia = ({
           dateLabel={section.label}
           entries={section.entries}
           onOpenLightbox={openLightbox}
+          showDateLabels={sections.length > 1}
           showDivider={idx < sections.length - 1}
         />
       ))}
@@ -91,6 +92,7 @@ const BugMedia = ({
           currentIndex={currentIndex}
           onClose={() => setIsLightboxOpen(false)}
           onSlideChange={onSlideChange}
+          showDateLabels={sections.length > 1}
         />
       )}
     </>
