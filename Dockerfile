@@ -7,7 +7,7 @@ ARG SENTRY_AUTH_TOKEN
 
 
 COPY package.json ./
-COPY yarn.lock ./
+COPY package-lock.json ./
 RUN ["npm", "ci", "--ignore-scripts"]
 RUN rm -f .npmrc
 
