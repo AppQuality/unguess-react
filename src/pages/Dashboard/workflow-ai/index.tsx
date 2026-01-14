@@ -52,7 +52,7 @@ const EmptyState = styled.div`
   color: ${({ theme }) => theme.palette.grey[600]};
 `;
 
-export const Workflow = ({ threadId }: { threadId: string }) => {
+export const Workflow = ({ threadId }: { threadId: number }) => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const [inputValue, setInputValue] = useState('');
   const [lastStep, setLastStep] = useState<Step | undefined>(undefined);
@@ -73,12 +73,15 @@ export const Workflow = ({ threadId }: { threadId: string }) => {
     error,
   } = useChat({
     transport: new DefaultChatTransport({
-      api: 'http://localhost:4111/workflow',
+      api: `${process.env.REACT_APP_API_URL}/workflows/mainWorkflow/chat`,
       prepareSendMessagesRequest({ messages }) {
         return {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${context.token}`,
+          },
           body: {
             context,
-            runId: threadId,
             messages,
           },
         };
