@@ -52,6 +52,8 @@ export const BugMediaSection = ({
     <>
       {showDateLabels && (
         <Title
+          className="upload-date-title"
+          data-qa="bug-media-upload-date-title"
           style={{
             fontSize: appTheme.fontSizes.md,
             marginBottom: appTheme.space.xxs,
