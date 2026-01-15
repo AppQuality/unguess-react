@@ -5,7 +5,6 @@ import {
   PageHeader,
   SM,
 } from '@appquality/unguess-design-system';
-import { v4 as uuidv4 } from 'uuid';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
@@ -106,7 +105,7 @@ export const DashboardHeaderContent = ({
           </Drawer.Header>
           <Drawer.Close />
           <Drawer.Body>
-            <Workflow threadId={threadId || 0} />
+            {threadId && <Workflow threadId={threadId} />}
           </Drawer.Body>
         </Drawer>
       )}
