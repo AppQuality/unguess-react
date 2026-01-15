@@ -1,107 +1,102 @@
-import { Col, Grid, Row, TextLabel } from '@appquality/unguess-design-system';
-import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { appTheme } from 'src/app/theme';
+import { useMemo, useState } from 'react';
 import 'src/common/components/BugDetail/responsive-grid.css';
 import {
   BugMedia as BugMediaType,
   GetCampaignsByCidBugsAndBidApiResponse,
 } from 'src/features/api';
-import ImageCard from '../ImageCard';
-import VideoCard from '../VideoCard';
 import { LightboxContainer } from '../lightbox';
+import { BugMediaSection } from './BugMediaSection';
+import { formatDateDDMMYYYY, toSortableDateKey } from './dateUtils';
 
-export default ({
+type RawEntry = { item: BugMediaType };
+
+const BugMedia = ({
   items,
   bug,
 }: {
   items: BugMediaType[];
   bug: GetCampaignsByCidBugsAndBidApiResponse;
 }) => {
-  const { t } = useTranslation();
-  const [isLightboxOpen, setIsLightboxOpen] = useState<boolean>(false);
-  const [currentIndex, setCurrentIndex] = useState<number>(0);
+  const [isLightboxOpen, setIsLightboxOpen] = useState(false);
+  const [currentIndex, setCurrentIndex] = useState(0);
 
-  const onSlideChange = (index: number) => {
-    setCurrentIndex(index);
-  };
+  const onSlideChange = (index: number) => setCurrentIndex(index);
 
-  const openLightbox = (index: number) => {
+  const openLightbox = (lightboxIndex: number) => {
     setIsLightboxOpen(true);
-    setCurrentIndex(index);
+    setCurrentIndex(lightboxIndex);
   };
 
-  const imagesCount = items.filter(
-    (item) => item.mime_type.type === 'image'
-  ).length;
-  const videosCount = items.filter(
-    (item) => item.mime_type.type === 'video'
-  ).length;
+  const { sections, lightboxItems } = useMemo(() => {
+    const groupedMap = items.reduce((accumulator, item) => {
+      const creationDate = new Date(item.creation_date);
+      const key = toSortableDateKey(creationDate);
+      const label = formatDateDDMMYYYY(creationDate);
+
+      const existing = accumulator.get(key);
+      if (existing) {
+        existing.entries.push({ item });
+        return accumulator;
+      }
+
+      accumulator.set(key, { key, label, entries: [{ item }] });
+      return accumulator;
+    }, new Map<string, { key: string; label: string; entries: RawEntry[] }>());
+
+    const grouped = Array.from(groupedMap.values()).sort((a, b) =>
+      b.key.localeCompare(a.key)
+    );
+
+    let offset = 0;
+
+    const computedSections = grouped.map((group) => {
+      const entries = group.entries.map((entry, groupIndex) => ({
+        item: entry.item,
+        displayIndex: groupIndex,
+        lightboxIndex: offset + groupIndex,
+      }));
+
+      offset += group.entries.length;
+
+      return {
+        key: group.key,
+        label: group.label,
+        entries,
+      };
+    });
+
+    const computedLightboxItems = computedSections.flatMap((section) =>
+      section.entries.map((entry) => entry.item)
+    );
+
+    return { sections: computedSections, lightboxItems: computedLightboxItems };
+  }, [items]);
 
   return (
     <>
-      <TextLabel
-        style={{
-          marginBottom: appTheme.space.md,
-        }}
-      >
-        {videosCount > 0 && (
-          <>
-            {videosCount}{' '}
-            {t('__BUGS_PAGE_BUG_DETAIL_ATTACHMENTS_VIDEO_LABEL', {
-              count: videosCount,
-            })}{' '}
-          </>
-        )}
-        {imagesCount > 0 && (
-          <>
-            {videosCount > 0 && '- '}
-            {imagesCount}{' '}
-            {t('__BUGS_PAGE_BUG_DETAIL_ATTACHMENTS_IMAGE_LABEL', {
-              count: imagesCount,
-            })}
-          </>
-        )}
-      </TextLabel>
-      <Grid>
-        <Row className="responsive-container">
-          {items.map((item, index) => {
-            // Check if item is an image or a video
-            if (item.mime_type.type === 'image')
-              return (
-                <Col xs={12} sm={6} className="flex-3-sm">
-                  <ImageCard
-                    className="bug-preview-media-item bug-preview-media-image"
-                    index={index}
-                    url={item.url}
-                    onClick={() => openLightbox(index)}
-                  />
-                </Col>
-              );
-            if (item.mime_type.type === 'video')
-              return (
-                <Col xs={12} sm={6} className="flex-3-sm">
-                  <VideoCard
-                    className="bug-preview-media-item bug-preview-media-video"
-                    index={index}
-                    url={item.url}
-                    onClick={() => openLightbox(index)}
-                  />
-                </Col>
-              );
-            return null;
-          })}
-        </Row>
-      </Grid>
+      {sections.map((section, idx) => (
+        <BugMediaSection
+          key={section.key}
+          dateLabel={section.label}
+          entries={section.entries}
+          onOpenLightbox={openLightbox}
+          showDateLabels={sections.length > 1}
+          showDivider={idx < sections.length - 1}
+        />
+      ))}
+
       {isLightboxOpen && (
         <LightboxContainer
-          items={items}
+          items={lightboxItems}
           bug={bug}
           currentIndex={currentIndex}
           onClose={() => setIsLightboxOpen(false)}
           onSlideChange={onSlideChange}
+          showDateLabels={sections.length > 1}
         />
       )}
     </>
   );
 };
+
+export default BugMedia;
