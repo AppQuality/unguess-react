@@ -73,7 +73,7 @@ export const Workflow = ({ threadId }: { threadId: number }) => {
     error,
   } = useChat({
     transport: new DefaultChatTransport({
-      api: `${process.env.REACT_APP_API_URL}/workflows/mainWorkflow/chat`,
+      api: `${process.env.REACT_APP_API_URL}/workflows/mainWorkflow/threads/${threadId}/chat`,
       prepareSendMessagesRequest({ messages }) {
         return {
           headers: {
