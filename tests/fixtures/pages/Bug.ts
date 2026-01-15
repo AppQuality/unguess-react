@@ -84,6 +84,8 @@ export class BugPage extends UnguessPage {
           .pagination()
           .getByRole('button', { name: this.i18n.t('__LIST_PAGE_NEXT') }),
       bugContainer: () => this.page.locator('#container'),
+      uploadedMediaDateTitle: () =>
+        this.page.getByTestId('bug-media-upload-date-title'),
     };
   }
 
@@ -136,6 +138,17 @@ export class BugPage extends UnguessPage {
         path: 'tests/api/campaigns/cid/bugs/_get/200_allbugs.json',
       });
     });
+  }
+
+  async mockBugDifferentMediaCreationDates() {
+    await this.page.route(
+      '*/**/api/campaigns/4997/bugs/274852',
+      async (route) => {
+        await route.fulfill({
+          path: 'tests/api/campaigns/cid/bugs/bid/_get/200_different_media_creation_dates.json',
+        });
+      }
+    );
   }
 
   async mockBugs_unique_orderbySeverity_filterbyDuplicated() {
