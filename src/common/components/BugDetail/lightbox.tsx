@@ -40,6 +40,7 @@ const SlideContent = styled.div`
   justify-content: center;
 `;
 
+// used to show the date label fixed at the top left of the lightbox
 const SliderArea = styled.div`
   position: relative;
   width: 100%;

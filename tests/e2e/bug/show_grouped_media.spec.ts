@@ -1,4 +1,3 @@
-import { title } from 'process';
 import { test, expect } from '../../fixtures/app';
 import { BugPage } from '../../fixtures/pages/Bug';
 
