@@ -1,0 +1,91 @@
+{
+  "additional_fields": [
+    {
+      "id": 2101,
+      "kind": "select",
+      "name": "Rete",
+      "options": ["Wi-Fi", "Mobile"],
+      "value": "Wi-Fi"
+    }
+  ],
+  "application_section": {
+    "id": 20883,
+    "prefix": "USE CASE 2: Prima apertura App",
+    "title": "USE CASE 2: Prima apertura App  "
+  },
+  "campaign_id": 4997,
+  "created": "Thu Dec 01 2022 19:47:58 GMT+0000 (Coordinated Universal Time)",
+  "current_result": "La status bar non viene visualizzata o è nascosta nello sfondo bianco dell'app. Bisogna impostare lo stile scuro per poterla vedere.",
+  "custom_status": {
+    "color": "c2c8cc",
+    "id": 2,
+    "is_default": 1,
+    "name": "pending",
+    "phase": {
+      "id": 1,
+      "name": "working"
+    }
+  },
+  "device": {
+    "manufacturer": "Apple",
+    "model": "iPhone 14 Pro",
+    "os": "iOS",
+    "os_version": "iOS 16 (16)",
+    "type": "smartphone"
+  },
+  "expected_result": "Mi sarei aspettato di visualizzare correttamente tutti gli elementi della status bar di iOS.",
+  "id": 274852,
+  "internal_id": "internal_id274852",
+  "media": [
+    {
+      "creation_date": "Fri Dec 02 2022 19:47:58 GMT+0000 (Coordinated Universal Time)",
+      "mime_type": {
+        "extension": "png",
+        "type": "image"
+      },
+      "url": "https://s3.eu-west-1.amazonaws.com/tryber.media.production/media/T12570/CP4997/bugs/89e388d512bf0ad369f7b2dba79533f0c8458d6d1613185703d1b177e1892a9c.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIASMECOWR4JATNKJV4%2F20250122%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20250122T153452Z&X-Amz-Expires=1200&X-Amz-Signature=b6435b82e39d0f4fe7d93cc64612f7cc0a2e9ee3a5c67d62618c05af81cade7d&X-Amz-SignedHeaders=host"
+    },
+    {
+      "creation_date": "Thu Dec 01 2022 19:47:58 GMT+0000 (Coordinated Universal Time)",
+      "mime_type": {
+        "extension": "mp4",
+        "type": "video"
+      },
+      "url": "https://s3.eu-west-1.amazonaws.com/tryber.media.production/media/T12570/CP4997/bugs/d692c1d349ed512ed78315e72494999e42f3717790fde450844568143d298851.mp4?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIASMECOWR4JATNKJV4%2F20250122%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20250122T153452Z&X-Amz-Expires=1200&X-Amz-Signature=81452086cd302435c0ca343f6a0f0f5696b2589e38845fafa79860e7d6d26a98&X-Amz-SignedHeaders=host"
+    }
+  ],
+  "note": "",
+  "occurred_date": "2022-12-01T20:42:05.000+01:00",
+  "priority": {
+    "id": 3,
+    "name": "medium"
+  },
+  "replicability": {
+    "id": 2,
+    "name": "Always"
+  },
+  "reporter": {
+    "name": "Tester",
+    "tester_id": 12570
+  },
+  "severity": {
+    "id": 3,
+    "name": "HIGH"
+  },
+  "status": {
+    "id": 2,
+    "name": "Approved"
+  },
+  "step_by_step": "1. Aprire l’app\r\n2. Fare tap su “Apri conto”\r\n3. Visualizzare la pagina informativa su i conti",
+  "tags": [],
+  "title": {
+    "compact": "Status bar di iOS non visibile nella pagina informativa dei conti",
+    "context": ["Apertura Conto"],
+    "full": "[Apertura Conto] - Status bar di iOS non visibile nella pagina informativa dei conti"
+  },
+  "type": {
+    "id": 3,
+    "name": "Graphic"
+  },
+  "updated": "Fri Dec 02 2022 11:05:34 GMT+0000 (Coordinated Universal Time)"
+}
