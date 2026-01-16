@@ -220,6 +220,7 @@ const CorePlayer = () => {
       <PlayerContainer isFetching={isFetchingVideo} style={{ marginTop: 130 }}>
         <PlayerProvider.Core
           ref={videoRef}
+          playerType={video.url.endsWith('.mp3') ? 'audio' : 'video'}
           pipMode="auto"
           onShortcut={(key) => {
             track(`player:${key}`);
