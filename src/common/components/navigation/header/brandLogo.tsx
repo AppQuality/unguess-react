@@ -18,6 +18,10 @@ const LogoIconContainer = styled(HeaderItem)`
     margin-left: auto;
     position: absolute;
   }
+  img {
+    max-width: 100%;
+    height: auto;
+  }
 `;
 
 const LogoFullComponent = styled(LogoFull)`
@@ -42,10 +46,12 @@ export const BrandLogo = ({
   return (
     <LogoIconContainer hasLogo>
       <HeaderItemIcon
+        // @ts-ignore
         onClick={handleLogoClick}
         data-qa="global_header_navItem_logo"
+        style={{ height: 26 }}
       >
-        <Logo type="icon" size={150} />
+        <Logo type="icon" size={26} />
       </HeaderItemIcon>
     </LogoIconContainer>
   );

@@ -56,6 +56,7 @@ const appTheme = {
   ...baseTheme,
   colors: {
     ...baseTheme.colors,
+    foreground: baseTheme.palette.grey[800],
     bySeverity: SEVERITY_COLORS,
     byBugState: BUG_STATE_COLORS,
     bySeverityHues: SEVERITY_HUES,
@@ -63,7 +64,7 @@ const appTheme = {
   components: {
     ...baseTheme.components,
     text: {
-      neutralColor: baseTheme.colors.foreground,
+      neutralColor: baseTheme.colors.neutralHue,
       primaryColor: getColor(baseTheme.colors.primaryHue, 600),
       successColor: getColor(baseTheme.colors.successHue, 700),
       warningColor: getColor(baseTheme.colors.warningHue, 700),

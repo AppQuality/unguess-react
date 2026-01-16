@@ -15,7 +15,7 @@ const StyledTag = styled(Tag)<{
     `
     display: none;
   `}
-  box-shadow: ${({ theme }) => theme.shadows.boxShadow(theme)};
+  box-shadow: ${({ theme }) => theme.shadows.boxShadow()};
   background: white;
   position: relative;
   user-select: none;

@@ -3,15 +3,15 @@ import {
   Tooltip,
   getColor,
 } from '@appquality/unguess-design-system';
+import { useFormikContext } from 'formik';
+import { useTranslation } from 'react-i18next';
+import { appTheme } from 'src/app/theme';
+import { ReactComponent as ArrowRight } from 'src/assets/icons/chevron-double-left-icon.svg';
 import { ReactComponent as EditIcon } from 'src/assets/icons/edit-icon.svg';
 import { ReactComponent as LightbulbIcon } from 'src/assets/icons/lightbulb-icon.svg';
-import { ReactComponent as ArrowRight } from 'src/assets/icons/chevron-double-left-icon.svg';
-import { useTranslation } from 'react-i18next';
-import { useFormikContext } from 'formik';
-import { appTheme } from 'src/app/theme';
 import { styled } from 'styled-components';
-import { useInsightContext } from './InsightContext';
 import { InsightFormValues } from './FormProvider';
+import { useInsightContext } from './InsightContext';
 
 const ButtonWrapper = styled.div`
   position: sticky;
@@ -27,7 +27,7 @@ const ButtonWrapper = styled.div`
   background-color: white;
   padding: ${({ theme }) => theme.space.xxs};
   padding-right: 0;
-  box-shadow: ${({ theme }) => theme.shadows.boxShadow(theme)};
+  box-shadow: ${({ theme }) => theme.shadows.boxShadow()};
   .sr-only {
     position: absolute;
     width: 1px;

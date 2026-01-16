@@ -29,7 +29,7 @@ const StyledCard = styled(Card)`
   padding-left: ${({ theme }) => theme.space.md};
   padding-right: ${({ theme }) => theme.space.md};
   padding-bottom: ${({ theme }) => theme.space.lg};
-  box-shadow: ${({ theme }) => theme.shadows.boxShadow(theme)};
+  box-shadow: ${({ theme }) => theme.shadows.boxShadow()};
 `;
 
 const StyledCardHeader = styled.div`
