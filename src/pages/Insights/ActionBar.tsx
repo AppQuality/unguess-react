@@ -1,10 +1,10 @@
-import { useFormikContext } from 'formik';
-import { Trans, useTranslation } from 'react-i18next';
 import { Button, MD, SM, Span } from '@appquality/unguess-design-system';
-import { appTheme } from 'src/app/theme';
-import styled from 'styled-components';
-import { VideoTag } from 'src/features/api';
+import { useFormikContext } from 'formik';
 import { useMemo } from 'react';
+import { Trans, useTranslation } from 'react-i18next';
+import { appTheme } from 'src/app/theme';
+import { VideoTag } from 'src/features/api';
+import styled from 'styled-components';
 import { InsightFormValues } from './FormProvider';
 import { useInsightContext } from './InsightContext';
 
@@ -18,7 +18,7 @@ const FloatingContainer = styled.div`
   color: white;
   padding: ${({ theme }) => theme.space.md} ${({ theme }) => theme.space.xl};
   border-radius: ${({ theme }) => theme.borderRadii.xxl};
-  box-shadow: ${({ theme }) => theme.shadows.boxShadow(theme)};
+  box-shadow: ${({ theme }) => theme.shadows.boxShadow()};
   transition: all 0.3s ease-in-out;
 `;
 

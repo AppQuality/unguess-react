@@ -1,14 +1,14 @@
 import { Anchor, MD, SM, Tag } from '@appquality/unguess-design-system';
 import { useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
-import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
-import { styled } from 'styled-components';
-import { getColorWithAlpha } from 'src/common/utils';
 import { ReactComponent as PlaceholderVideo } from 'src/assets/icons/placeholder-video.svg';
 import { Pipe } from 'src/common/components/Pipe';
-import { getSeverityTagsByVideoCount } from '../utils/getSeverityTagsWithCount';
-import { formatDuration } from '../utils/formatDuration';
+import { getColorWithAlpha } from 'src/common/utils';
+import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
+import { styled } from 'styled-components';
 import { VideoWithObservations } from '../useVideos';
+import { formatDuration } from '../utils/formatDuration';
+import { getSeverityTagsByVideoCount } from '../utils/getSeverityTagsWithCount';
 
 const Container = styled.div`
   padding: ${({ theme }) => `${theme.space.xs} ${theme.space.sm}`};
@@ -17,7 +17,7 @@ const Container = styled.div`
   border-bottom: 2px solid ${({ theme }) => theme.palette.grey[200]};
 
   &:hover {
-    box-shadow: ${({ theme }) => theme.shadows.boxShadow(theme)};
+    box-shadow: ${({ theme }) => theme.shadows.boxShadow()};
   }
 `;
 

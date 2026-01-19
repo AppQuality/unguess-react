@@ -336,6 +336,18 @@ export class PlanPage extends UnguessPage {
     });
   }
 
+  async mockGetDraftWithInvalidDatePlan() {
+    await this.page.route('*/**/api/plans/1', async (route) => {
+      if (route.request().method() === 'GET') {
+        await route.fulfill({
+          path: 'tests/api/plans/pid/_get/200_draft_invalid_date.json',
+        });
+      } else {
+        await route.fallback();
+      }
+    });
+  }
+
   // some modules are mandatory, in this api call we mock a plan missing some mandatory modules
   async mockGetDraftWithMissingMandatoryModulesPlan() {
     await this.page.route('*/**/api/plans/1', async (route) => {

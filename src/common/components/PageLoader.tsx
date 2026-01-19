@@ -1,22 +1,21 @@
 import {
-  Chrome,
-  Body,
   AppHeader,
-  Content,
-  Nav,
-  Main,
-  Skeleton,
-  Grid,
-  Row,
+  Chrome,
   Col,
+  ContainerCard,
+  Content,
+  Grid,
+  Main,
+  Nav,
+  NavDivider,
   NavItem,
   NavItemIcon,
   NavItemText,
-  NavDivider,
-  ContainerCard,
+  Row,
+  Skeleton,
 } from '@appquality/unguess-design-system';
-import { styled } from 'styled-components';
 import { appTheme } from 'src/app/theme';
+import { styled } from 'styled-components';
 import { Divider } from './divider';
 import { LayoutWrapper } from './LayoutWrapper';
 
@@ -31,7 +30,7 @@ export const PageLoader = () => {
 
   return (
     <Chrome isFluid hue={appTheme.palette.white}>
-      <Body>
+      <div style={{ width: '100%' }}>
         <AppHeader isLoading />
         <Content>
           <Nav isExpanded={isExpanded}>
@@ -266,7 +265,7 @@ export const PageLoader = () => {
             </div>
           </Main>
         </Content>
-      </Body>
+      </div>
     </Chrome>
   );
 };

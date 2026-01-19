@@ -14,26 +14,43 @@ test.describe('The title module defines the Plan title.', () => {
     await planPage.mockWorkspace();
     await planPage.mockWorkspacesList();
     await planPage.mockPatchPlan();
-    await planPage.mockGetDraftWithOnlyMandatoryModulesPlan();
-    await planPage.open();
   });
-  test('It should be visible after opening a request quotation', async () => {
-    await expect(
-      requestQuotationModal.elements().datesModule()
-    ).not.toBeVisible();
-    await planPage.elements().requestQuotationCTA().click();
-    await expect(requestQuotationModal.elements().datesModule()).toBeVisible();
+  test.describe('With valid date', () => {
+    test.beforeEach(async ({ page }) => {
+      planPage = new PlanPage(page);
+      requestQuotationModal = new RequestQuotationModal(page);
+      await planPage.mockGetDraftWithOnlyMandatoryModulesPlan();
+      await planPage.open();
+    });
+    test('It should be visible after opening a request quotation', async () => {
+      await expect(
+        requestQuotationModal.elements().datesModule()
+      ).not.toBeVisible();
+      await planPage.elements().requestQuotationCTA().click();
+      await expect(
+        requestQuotationModal.elements().datesModule()
+      ).toBeVisible();
+    });
   });
-  test('It should be at list one day in the future to request a quote', async ({
-    i18n,
-  }) => {
-    await planPage.elements().requestQuotationCTA().click();
-    await requestQuotationModal.fillInputDate('December 17, 2001');
-    await expect(
-      requestQuotationModal.elements().datesModuleError()
-    ).toBeVisible();
-    await expect(
-      requestQuotationModal.elements().datesModuleError()
-    ).toHaveText(i18n.t('__PLAN_DATE_IN_FUTURE_ERROR'));
+  test.describe('With invalid date', () => {
+    test.beforeEach(async ({ page }) => {
+      planPage = new PlanPage(page);
+      requestQuotationModal = new RequestQuotationModal(page);
+      await planPage.mockGetDraftWithInvalidDatePlan();
+      await planPage.open();
+    });
+    test('It should be at least one day in the future to request a quote', async ({
+      i18n,
+    }) => {
+      await planPage.elements().requestQuotationCTA().click();
+      await requestQuotationModal.elements().datesModule().click();
+      await planPage.page.keyboard.press('Tab');
+      await expect(
+        requestQuotationModal.elements().datesModuleError()
+      ).toBeVisible();
+      await expect(
+        requestQuotationModal.elements().datesModuleError()
+      ).toHaveText(i18n.t('__PLAN_DATE_IN_FUTURE_ERROR'));
+    });
   });
 });
