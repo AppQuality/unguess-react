@@ -43,7 +43,7 @@ export const PlanCard = ({
       onClick={navigateToPlan}
     >
       <UGPlanCard.ProjectLabel>{plan.project.title}</UGPlanCard.ProjectLabel>
-      <UGPlanCard.Title>{plan.title}</UGPlanCard.Title>
+      <UGPlanCard.Title color="">{plan.title}</UGPlanCard.Title>
     </UGPlanCard>
   );
 };

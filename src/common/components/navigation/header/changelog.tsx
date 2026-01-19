@@ -21,6 +21,7 @@ export const Changelog = () => {
       selector: '#headway-widget',
       account: 'Jn0mVx',
     };
+    // @ts-ignore
     window.Headway.init(HW_config);
   }, []);
 
