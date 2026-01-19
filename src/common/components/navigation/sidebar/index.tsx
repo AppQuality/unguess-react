@@ -61,6 +61,14 @@ const DropdownItem = styled.div`
 `;
 const StyledNavItem = styled(NavItem)`
   flex: 0;
+  &[aria-current='true'] {
+    background-color: ${({ theme }) => getColor(theme.colors.primaryHue, 100)};
+  }
+`;
+const StyledNavItemProject = styled(NavItemProject)`
+  &[aria-current='true'] {
+    background-color: ${({ theme }) => getColor(theme.colors.primaryHue, 100)};
+  }
 `;
 const StyledNavDivider = styled(NavDivider)`
   flex: 0;
@@ -198,7 +206,7 @@ export const AppSidebar = (props: PropsWithChildren<SidebarProps>) => {
                 style={{ padding: 0, maxHeight: '180px' }}
               >
                 {projects.map((project) => (
-                  <NavItemProject
+                  <StyledNavItemProject
                     className="sidebar-project-item"
                     key={project.id}
                     isExpanded={isSidebarOpen}
@@ -218,7 +226,7 @@ export const AppSidebar = (props: PropsWithChildren<SidebarProps>) => {
                     <NavItemProject.SubTitle>
                       {project.campaigns_count} {t('__SIDEBAR_CAMPAIGNS_LABEL')}
                     </NavItemProject.SubTitle>
-                  </NavItemProject>
+                  </StyledNavItemProject>
                 ))}
               </NavAccordionItem.Panel>
             </NavAccordionItem.Section>
