@@ -4,8 +4,11 @@ import {
   MD,
   Player,
   Slider,
+  Span,
+  Tag,
 } from '@appquality/unguess-design-system';
-import { useCallback, useRef } from 'react';
+import { vi } from 'date-fns/locale';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as DownloadIcon } from 'src/assets/icons/download-stroke.svg';
@@ -17,6 +20,7 @@ import useWindowSize from 'src/hooks/useWindowSize';
 import styled from 'styled-components';
 import BugDescription from './Description';
 import DetailsItems from './DetailsItems';
+import { formatDateDDMMYYYY } from './Media/dateUtils';
 import BugMeta from './Meta';
 
 const Grey600Span = styled.span`
@@ -27,18 +31,48 @@ const Grey800Span = styled.span`
   color: ${({ theme }) => theme.palette.grey[800]};
 `;
 
+const SlideContent = styled.div`
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+// used to show the date label fixed at the top left of the lightbox
+const SliderArea = styled.div`
+  position: relative;
+  width: 100%;
+  height: 100%;
+`;
+
+const PositionedTag = styled(Tag)`
+  position: absolute;
+  top: ${({ theme }) => theme.space.sm};
+  left: ${({ theme }) => theme.space.sm};
+  width: fit-content;
+  z-index: 1;
+`;
+
+const DateValue = styled(Span)`
+  margin-left: ${({ theme }) => theme.space.xs};
+`;
+
 export const LightboxContainer = ({
   items,
   bug,
   currentIndex = 0,
   onClose,
   onSlideChange,
+  showDateLabels = false,
 }: {
   items: BugMedia[];
   bug: GetCampaignsByCidBugsAndBidApiResponse;
   currentIndex?: number;
   onClose?: () => void;
   onSlideChange?: (index: number) => void;
+  showDateLabels?: boolean;
 }) => {
   const { t } = useTranslation();
   const { width } = useWindowSize();
@@ -47,10 +81,17 @@ export const LightboxContainer = ({
 
   const videoRefs = useRef<Array<HTMLVideoElement | null>>([]);
 
+  const [activeIndex, setActiveIndex] = useState(currentIndex);
+
+  useEffect(() => {
+    setActiveIndex(currentIndex);
+  }, [currentIndex]);
+
   const slideChange = useCallback(
     (index: number) => {
       if (onSlideChange) {
         onSlideChange(index);
+        setActiveIndex(index);
       }
       videoRefs.current.forEach((ref) => {
         if (ref) {
@@ -58,8 +99,10 @@ export const LightboxContainer = ({
         }
       });
     },
-    [videoRefs]
+    [onSlideChange, videoRefs]
   );
+
+  const activeItem = items[activeIndex];
 
   return (
     <Lightbox onClose={onClose}>
@@ -77,31 +120,49 @@ export const LightboxContainer = ({
           </Grey800Span>
         </MD>
       </Lightbox.Header>
+
       <Lightbox.Body>
         <Lightbox.Body.Main style={{ flex: 2 }}>
-          <Slider
-            prevArrow={<Slider.PrevButton isBright />}
-            nextArrow={<Slider.NextButton isBright />}
-            onSlideChange={slideChange}
-            initialSlide={currentIndex}
-          >
-            {items.map((item) => (
-              <Slider.Slide>
-                {item.mime_type.type === 'image' && (
-                  <img src={item.url} alt={`bug ${item.mime_type}`} />
+          <SliderArea>
+            {showDateLabels && activeItem && (
+              <PositionedTag>
+                {t(
+                  '__BUGS_PAGE_BUG_DETAIL_ATTACHMENTS_LIGHTBOX_TAG_DATE_LABEL'
                 )}
-                {item.mime_type.type === 'video' && (
-                  <Player
-                    ref={(ref) => {
-                      videoRefs.current.push(ref);
-                    }}
-                    url={item.url}
-                  />
-                )}
-              </Slider.Slide>
-            ))}
-          </Slider>
+                <DateValue isBold>
+                  {formatDateDDMMYYYY(new Date(activeItem.creation_date))}
+                </DateValue>
+              </PositionedTag>
+            )}
+
+            <Slider
+              prevArrow={<Slider.PrevButton isBright />}
+              nextArrow={<Slider.NextButton isBright />}
+              onSlideChange={slideChange}
+              initialSlide={currentIndex}
+            >
+              {items.map((item, index) => (
+                <Slider.Slide key={item.url ?? index}>
+                  <SlideContent>
+                    {item.mime_type.type === 'image' && (
+                      <img src={item.url} alt={`bug ${item.mime_type}`} />
+                    )}
+
+                    {item.mime_type.type === 'video' && (
+                      <Player
+                        ref={(ref) => {
+                          videoRefs.current[index] = ref;
+                        }}
+                        url={item.url}
+                      />
+                    )}
+                  </SlideContent>
+                </Slider.Slide>
+              ))}
+            </Slider>
+          </SliderArea>
         </Lightbox.Body.Main>
+
         {hideDetails === false && (
           <Lightbox.Body.Details style={{ flex: 1 }}>
             <BugMeta bug={bug} />
@@ -110,15 +171,13 @@ export const LightboxContainer = ({
           </Lightbox.Body.Details>
         )}
       </Lightbox.Body>
+
       <Lightbox.Footer>
         <Button
           isBasic
           onClick={() => {
-            if (currentIndex in items) {
-              const media = items[currentIndex as number];
-              // eslint-disable-next-line security/detect-non-literal-fs-filename
-              window.open(media.url, '_blank');
-            }
+            const media = items[activeIndex];
+            if (media) window.open(media.url, '_blank');
           }}
         >
           <Button.StartIcon>
@@ -127,6 +186,7 @@ export const LightboxContainer = ({
           {t('__BUGS_PAGE_BUG_DETAIL_ATTACHMENTS_DOWNLOAD_BUTTON')}
         </Button>
       </Lightbox.Footer>
+
       <Lightbox.Close aria-label="Close attachments lightbox" />
     </Lightbox>
   );
