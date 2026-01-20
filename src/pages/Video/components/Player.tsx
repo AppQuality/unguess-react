@@ -26,21 +26,22 @@ import { useSetStartTimeFromObservation } from '../useSetStartTimeFromObservatio
 
 const PlayerContainer = styled.div<{
   isFetching?: boolean;
+  isAudio?: boolean;
 }>`
   width: 100%;
-  height: 55vh;
+  height: ${({ isAudio }) => (isAudio ? 'auto' : '55vh')};
   display: flex;
   position: relative;
   padding-bottom: ${({ theme }) => theme.space.xxl};
-  top: 0;
+  top: ${({ isAudio }) => (isAudio ? '20px' : '0')};
   z-index: 3;
   overflow: hidden;
 
   ${({ isFetching }) =>
     isFetching &&
     `
-    opacity: 0.75;
-  `}
+      opacity: 0.75;
+    `}
 
   > div {
     height: auto;
@@ -76,6 +77,10 @@ const CorePlayer = () => {
   const { data: video, isFetching: isFetchingVideo } = useGetVideosByVidQuery({
     vid: videoId || '',
   });
+
+  const isAudio = useMemo(() => {
+    return video?.url.endsWith('.mp3');
+  }, [video]);
 
   useSetStartTimeFromObservation(observations, videoRef);
 
@@ -217,10 +222,14 @@ const CorePlayer = () => {
   if (isLoadingObservations) return <Skeleton />;
   return (
     <ToolsContextProvider>
-      <PlayerContainer isFetching={isFetchingVideo} style={{ marginTop: 130 }}>
+      <PlayerContainer
+        isAudio={isAudio}
+        isFetching={isFetchingVideo}
+        style={{ marginTop: 130 }}
+      >
         <PlayerProvider.Core
           ref={videoRef}
-          playerType={video.url.endsWith('.mp3') ? 'audio' : 'video'}
+          playerType={isAudio ? 'audio' : 'video'}
           pipMode="auto"
           onShortcut={(key) => {
             track(`player:${key}`);
