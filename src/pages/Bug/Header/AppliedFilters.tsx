@@ -7,9 +7,9 @@ import {
 } from '@appquality/unguess-design-system';
 import { ReactComponent as InfoIcon } from '@zendeskgarden/svg-icons/src/12/info-stroke.svg';
 import { useTranslation } from 'react-i18next';
-import { getSelectedFilters } from 'src/features/bugsPage/bugsPageSlice';
 import { appTheme } from 'src/app/theme';
 import { Meta } from 'src/common/components/Meta';
+import { getSelectedFilters } from 'src/features/bugsPage/bugsPageSlice';
 import styled, { useTheme } from 'styled-components';
 
 const Wrapper = styled.div`
@@ -115,7 +115,7 @@ export const AppliedFilters = () => {
               <ul
                 style={{
                   listStyleType: 'disc',
-                  paddingLeft: appTheme.space.sm,
+                  paddingLeft: appTheme.space.md,
                 }}
               >
                 {renderFilterItems()}

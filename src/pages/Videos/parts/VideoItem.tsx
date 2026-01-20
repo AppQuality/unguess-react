@@ -17,7 +17,7 @@ const Container = styled.div`
   border-bottom: 2px solid ${({ theme }) => theme.palette.grey[200]};
 
   &:hover {
-    box-shadow: ${({ theme }) => theme.shadows.boxShadow()};
+    box-shadow: ${({ theme }) => theme.shadows.card()};
   }
 `;
 
