@@ -86,6 +86,7 @@ const InsightLightbox = ({
               items.map((item) => (
                 <Slider.Slide>
                   <Player
+                    playerType={item.url.endsWith('.mp3') ? 'audio' : 'video'}
                     ref={(ref) => {
                       videoRefs.current.push(ref);
                     }}
