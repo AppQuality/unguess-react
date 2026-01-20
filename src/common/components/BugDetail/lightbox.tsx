@@ -7,7 +7,6 @@ import {
   Span,
   Tag,
 } from '@appquality/unguess-design-system';
-import { vi } from 'date-fns/locale';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';

@@ -1,0 +1,8 @@
+import * as React from "react";
+const SvgRecordFill = (props) => {
+  const { color, style, ...rest } = props || {};
+  const mergedStyle = color ? { ...(style || {}), color } : style;
+  return <svg xmlns="http://www.w3.org/2000/svg" width={16} height={16} focusable="false" viewBox="0 0 16 16" {...rest} style={mergedStyle}><circle cx={8} cy={8} r={5} fill="currentColor" /><circle cx={8} cy={8} r={7.5} fill="none" stroke="currentColor" /></svg>;
+}
+export { SvgRecordFill as ReactComponent };
+export default "/node_modules/@zendeskgarden/svg-icons/src/16/record-fill.svg";

@@ -78,9 +78,7 @@ const CorePlayer = () => {
     vid: videoId || '',
   });
 
-  const isAudio = useMemo(() => {
-    return video?.url.endsWith('.mp3');
-  }, [video]);
+  const isAudio = useMemo(() => video?.url.endsWith('.mp3'), [video]);
 
   useSetStartTimeFromObservation(observations, videoRef);
 
