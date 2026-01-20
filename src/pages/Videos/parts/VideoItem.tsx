@@ -1,6 +1,7 @@
 import { Anchor, MD, SM, Tag } from '@appquality/unguess-design-system';
 import { useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
+import AudioPoster from 'src/assets/audio_poster.png';
 import { ReactComponent as PlaceholderVideo } from 'src/assets/icons/placeholder-video.svg';
 import { Pipe } from 'src/common/components/Pipe';
 import { getColorWithAlpha } from 'src/common/utils';
@@ -58,15 +59,26 @@ const TagsContainer = styled.div`
   align-items: flex-start;
 `;
 
-const Poster = ({ video }: { video: VideoWithObservations }) => (
-  <ThumbnailContainer>
-    {video.poster ? (
-      <img src={video.poster} alt={`Video ${video.id}`} />
-    ) : (
-      <PlaceholderVideo />
-    )}
-  </ThumbnailContainer>
-);
+const Poster = ({ video }: { video: VideoWithObservations }) => {
+  const isAudio = video.url?.endsWith('.mp3');
+
+  if (isAudio) {
+    return (
+      <ThumbnailContainer>
+        <img src={AudioPoster} alt="Audio poster" />
+      </ThumbnailContainer>
+    );
+  }
+  return (
+    <ThumbnailContainer>
+      {video.poster ? (
+        <img src={video.poster} alt={`Video ${video.id}`} />
+      ) : (
+        <PlaceholderVideo />
+      )}
+    </ThumbnailContainer>
+  );
+};
 
 const Video = ({ video }: { video: VideoWithObservations }) => {
   const { campaignId } = useParams();

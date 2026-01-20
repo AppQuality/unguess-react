@@ -1,8 +1,8 @@
 import * as React from "react";
-const SvgRecordFill = (props) => {
+const SvgNotesStroke = (props) => {
   const { color, style, ...rest } = props || {};
   const mergedStyle = color ? { ...(style || {}), color } : style;
-  return <svg xmlns="http://www.w3.org/2000/svg" width={16} height={16} focusable="false" viewBox="0 0 16 16" {...rest} style={mergedStyle}><circle cx={8} cy={8} r={5} fill="currentColor" /><circle cx={8} cy={8} r={7.5} fill="none" stroke="currentColor" /></svg>;
+  return <svg xmlns="http://www.w3.org/2000/svg" width={16} height={16} focusable="false" viewBox="0 0 16 16" {...rest} style={mergedStyle}><g fill="none" stroke="currentColor"><path strokeLinejoin="round" d="M10.51 8.4l-3.01.1.1-3.01L12.59.5l2.91 2.91-4.99 4.99z" /><path strokeLinecap="round" d="M7.41 1.5H2.09a.58.58 0 00-.59.59v11.82a.58.58 0 00.59.59h11.82a.58.58 0 00.59-.59V8.59" /></g></svg>;
 }
-export { SvgRecordFill as ReactComponent };
-export default "/node_modules/@zendeskgarden/svg-icons/src/16/record-fill.svg";
+export { SvgNotesStroke as ReactComponent };
+export default "/src/pages/Campaign/useWidgets/Experience/widgets/Insights/Comments/assets/notes-stroke.svg";
