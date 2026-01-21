@@ -1,10 +1,10 @@
 import { SpecialCard } from '@appquality/unguess-design-system';
-import styled from 'styled-components';
-import { ReactComponent as VideoPlayIcon } from 'src/assets/icons/video-play-icon.svg';
 import { Trans, useTranslation } from 'react-i18next';
-import { GetCampaignsByCidUxApiResponse } from 'src/features/api';
-import { CardFooter } from './InsightCard';
 import AudioPoster from 'src/assets/audio_poster.png';
+import { ReactComponent as VideoPlayIcon } from 'src/assets/icons/video-play-icon.svg';
+import { GetCampaignsByCidUxApiResponse } from 'src/features/api';
+import styled from 'styled-components';
+import { CardFooter } from './InsightCard';
 
 import { getClusterTag, getSeverityTag } from './utils';
 
@@ -72,6 +72,30 @@ margin-bottom: ${({ theme }) => theme.space.sm};
 
 `;
 
+const Poster = ({
+  url,
+  poster,
+  alt,
+}: {
+  url: string;
+  poster?: string;
+  alt?: string;
+}) => {
+  if (url.endsWith('.mp3')) return <img src={AudioPoster} alt={alt} />;
+
+  if (poster && poster !== '') {
+    return <img src={poster} alt={alt} />;
+  }
+
+  return (
+    <Player>
+      <video src={`${url}#t=0.5`}>
+        <track kind="captions" />
+      </video>
+    </Player>
+  );
+};
+
 const HighlightCard = ({
   video,
   videoCount,
@@ -97,17 +121,7 @@ const HighlightCard = ({
         <CardThumb>
           <ImageContainer>
             <VideoPlayIcon />
-            {video.url.endsWith('.mp3') ? (
-              <img src={AudioPoster} alt={video.description} />
-            ) : poster && poster !== '' ? (
-              <img src={poster} alt={video.description} />
-            ) : (
-              <Player>
-                <video src={`${video.url}#t=0.5`}>
-                  <track kind="captions" />
-                </video>
-              </Player>
-            )}
+            <Poster url={video.url} poster={poster} alt={video.description} />
           </ImageContainer>
         </CardThumb>
         <SpecialCard.Header.Label>
