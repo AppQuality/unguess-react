@@ -4,6 +4,8 @@ import { ReactComponent as VideoPlayIcon } from 'src/assets/icons/video-play-ico
 import { Trans, useTranslation } from 'react-i18next';
 import { GetCampaignsByCidUxApiResponse } from 'src/features/api';
 import { CardFooter } from './InsightCard';
+import AudioPoster from 'src/assets/audio_poster.png';
+
 import { getClusterTag, getSeverityTag } from './utils';
 
 const CardThumb = styled(SpecialCard.Thumb)`
@@ -95,7 +97,9 @@ const HighlightCard = ({
         <CardThumb>
           <ImageContainer>
             <VideoPlayIcon />
-            {poster && poster !== '' ? (
+            {video.url.endsWith('.mp3') ? (
+              <img src={AudioPoster} alt={video.description} />
+            ) : poster && poster !== '' ? (
               <img src={poster} alt={video.description} />
             ) : (
               <Player>
