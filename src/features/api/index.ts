@@ -850,6 +850,31 @@ const injectedRtkApi = api.injectEndpoints({
         body: queryArg.body,
       }),
     }),
+    getWorkflowsBySlug: build.query<
+      GetWorkflowsBySlugApiResponse,
+      GetWorkflowsBySlugApiArg
+    >({
+      query: (queryArg) => ({ url: `/workflows/${queryArg.slug}` }),
+    }),
+    postWorkflowsBySlugChat: build.mutation<
+      PostWorkflowsBySlugChatApiResponse,
+      PostWorkflowsBySlugChatApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/workflows/${queryArg.slug}/chat`,
+        method: 'POST',
+        body: queryArg.body,
+      }),
+    }),
+    postWorkflowsBySlugThreads: build.mutation<
+      PostWorkflowsBySlugThreadsApiResponse,
+      PostWorkflowsBySlugThreadsApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/workflows/${queryArg.slug}/threads`,
+        method: 'POST',
+      }),
+    }),
     getWorkspacesByWidTemplates: build.query<
       GetWorkspacesByWidTemplatesApiResponse,
       GetWorkspacesByWidTemplatesApiArg
@@ -944,6 +969,12 @@ const injectedRtkApi = api.injectEndpoints({
         method: 'DELETE',
       }),
     }),
+    getUsersMeToken: build.query<
+      GetUsersMeTokenApiResponse,
+      GetUsersMeTokenApiArg
+    >({
+      query: () => ({ url: `/users/me/token` }),
+    }),
   }),
   overrideExisting: false,
 });
@@ -979,6 +1010,9 @@ export type PostBuyApiArg = {
           tag: string;
         };
         payment_status?: 'paid' | 'unpaid';
+        total_details?: {
+          amount_discount?: number;
+        };
       };
     };
     type:
@@ -2154,6 +2188,7 @@ export type PutPlansByPidWatchersApiArg = {
   body: {
     users: {
       id: number;
+      notify?: boolean;
     }[];
   };
 };
@@ -2179,6 +2214,28 @@ export type PostCampaignsByCidWatchersApiArg = {
       notify?: boolean;
     }[];
   };
+};
+export type GetWorkflowsBySlugApiResponse = /** status 200 OK */ {
+  definition: string;
+  id: number;
+  /** Json workflow definition */
+  slug: string;
+};
+export type GetWorkflowsBySlugApiArg = {
+  slug: string;
+};
+export type PostWorkflowsBySlugChatApiResponse = /** status 200 OK */ {};
+export type PostWorkflowsBySlugChatApiArg = {
+  slug: string;
+  body: {
+    messages: ChatMessage[];
+  };
+};
+export type PostWorkflowsBySlugThreadsApiResponse = /** status 200 OK */ {
+  id: number;
+};
+export type PostWorkflowsBySlugThreadsApiArg = {
+  slug: string;
 };
 export type GetWorkspacesByWidTemplatesApiResponse = /** status 200 OK */ {
   items: CpReqTemplate[];
@@ -2295,6 +2352,10 @@ export type DeleteCampaignsByCidWatchersAndProfileIdApiArg = {
   profileId: string;
   cid: string;
 };
+export type GetUsersMeTokenApiResponse = /** status 200 OK */ {
+  token: string;
+};
+export type GetUsersMeTokenApiArg = void;
 export type Error = {
   code: number;
   error: boolean;
@@ -3100,6 +3161,18 @@ export type Coin = {
   /** On each coin use, the related package will be updated */
   updated_on?: string;
 };
+export type ChatMessage = {
+  id?: string;
+  role?: 'system' | 'user' | 'assistant';
+  parts?: {
+    type?: string;
+    text?: string;
+    state?: string;
+    data?: {
+      [key: string]: any;
+    };
+  }[];
+};
 export type StrapiTemplate = {
   background?: string;
   description: string;
@@ -3249,6 +3322,9 @@ export const {
   usePutPlansByPidWatchersMutation,
   useGetCampaignsByCidWatchersQuery,
   usePostCampaignsByCidWatchersMutation,
+  useGetWorkflowsBySlugQuery,
+  usePostWorkflowsBySlugChatMutation,
+  usePostWorkflowsBySlugThreadsMutation,
   useGetWorkspacesByWidTemplatesQuery,
   usePostWorkspacesByWidTemplatesMutation,
   useDeleteWorkspacesByWidTemplatesAndTidMutation,
@@ -3258,4 +3334,5 @@ export const {
   usePostWorkspacesByWidUsersMutation,
   useDeletePlansByPidWatchersAndProfileIdMutation,
   useDeleteCampaignsByCidWatchersAndProfileIdMutation,
+  useGetUsersMeTokenQuery,
 } = injectedRtkApi;

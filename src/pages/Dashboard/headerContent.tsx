@@ -1,13 +1,34 @@
-import { Button, PageHeader } from '@appquality/unguess-design-system';
+import {
+  Button,
+  Drawer,
+  IconButton,
+  PageHeader,
+  SM,
+} from '@appquality/unguess-design-system';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
+import { ReactComponent as AiIcon } from 'src/assets/icons/ai-icon-gradient.svg';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
 import { PageTitle } from 'src/common/components/PageTitle';
-import { useGetUsersMeQuery } from 'src/features/api';
+import {
+  useGetUsersMeQuery,
+  usePostWorkflowsBySlugThreadsMutation,
+} from 'src/features/api';
 import { useCanAccessToActiveWorkspace } from 'src/hooks/useCanAccessToActiveWorkspace';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
+import useWindowSize from 'src/hooks/useWindowSize';
+import styled from 'styled-components';
+import { Workflow } from './workflow-ai';
 import { Counters } from './Counters';
+
+const StyledIconButton = styled(IconButton)`
+  svg {
+    width: ${({ theme }) => theme.iconSizes.lg} !important;
+    height: ${({ theme }) => theme.iconSizes.lg} !important;
+  }
+`;
 
 export const DashboardHeaderContent = ({
   pageTitle,
@@ -19,10 +40,16 @@ export const DashboardHeaderContent = ({
   const { t } = useTranslation();
   const { isLoading: isUserLoading, isFetching: isUserFetching } =
     useGetUsersMeQuery();
+  const { isMobile } = useWindowSize();
+
+  const [isChatOpen, setIsChatOpen] = useState(false);
+  const [threadId, setThreadId] = useState<number>();
 
   const hasWorksPacePermission = useCanAccessToActiveWorkspace();
   const navigate = useNavigate();
   const templatesRoute = useLocalizeRoute('templates');
+
+  const [createThread] = usePostWorkflowsBySlugThreadsMutation();
 
   return isUserFetching || isUserLoading ? null : (
     <LayoutWrapper>
@@ -47,11 +74,41 @@ export const DashboardHeaderContent = ({
                 >
                   {t('__DASHBOARD_CTA_NEW_ACTIVITY')}
                 </Button>
+                <StyledIconButton
+                  onClick={async () => {
+                    setIsChatOpen(!isChatOpen);
+                    const res = await createThread({
+                      slug: 'mainWorkflow',
+                    }).unwrap();
+                    setThreadId(res.id);
+                  }}
+                >
+                  <AiIcon />
+                </StyledIconButton>
               </div>
             )}
           </PageHeader.Meta>
         </PageHeader.Main>
       </PageHeader>
+      {isChatOpen && (
+        <Drawer
+          onClose={() => setIsChatOpen(false)}
+          isOpen={isChatOpen}
+          title="Testarolo support agent"
+          style={{ width: isMobile ? '100%' : '30vw' }}
+        >
+          <Drawer.Header>
+            <>
+              Let&apos;s talk
+              <SM>{threadId}</SM>
+            </>
+          </Drawer.Header>
+          <Drawer.Close />
+          <Drawer.Body>
+            {threadId && <Workflow threadId={threadId} />}
+          </Drawer.Body>
+        </Drawer>
+      )}
     </LayoutWrapper>
   );
 };
