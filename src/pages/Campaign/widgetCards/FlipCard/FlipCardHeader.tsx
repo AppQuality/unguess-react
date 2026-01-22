@@ -2,6 +2,7 @@ import { IconButton } from '@appquality/unguess-design-system';
 import { ReactComponent as LineGraphIconFill } from 'src/assets/icons/line-graph-fill.svg';
 import { ReactComponent as ListBulletIconFill } from 'src/assets/icons/list-bullet-fill.svg';
 import styled from 'styled-components';
+import { appTheme } from 'src/app/theme';
 import { WidgetCardHeader } from '../common/WidgetCardHeader';
 import { useFlipCardContext } from './context/FlipCardContext';
 import { FlipCardHeaderProps } from './types';
@@ -32,7 +33,9 @@ export const FlipCardHeader = ({ children }: FlipCardHeaderProps) => {
             onClick={() => setVisibleFace('front')}
           >
             <LineGraphIconFill
-              color={`${visibleFace === 'front' && 'white'}`}
+              color={`${
+                visibleFace === 'front' ? 'white' : appTheme.palette.blue[600]
+              }`}
             />
           </FlipButton>
           <FlipButton
@@ -42,7 +45,9 @@ export const FlipCardHeader = ({ children }: FlipCardHeaderProps) => {
             onClick={() => setVisibleFace('back')}
           >
             <ListBulletIconFill
-              color={`${visibleFace === 'back' && 'white'}`}
+              color={`${
+                visibleFace === 'back' ? 'white' : appTheme.palette.blue[600]
+              }`}
             />
           </FlipButton>
         </FlipButtonContainer>
