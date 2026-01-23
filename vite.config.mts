@@ -1,5 +1,5 @@
 import react from '@vitejs/plugin-react';
-import { readFileSync, writeFileSync } from 'node:fs';
+import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import {
   Plugin,
@@ -196,7 +196,6 @@ function svgrPlugin(): Plugin {
           )
           .replace('{...props}', '{...rest} style={mergedStyle}')
           .replace('export {', '}\nexport {');
-        writeFileSync('out', patched);
 
         const res = await transformWithEsbuild(patched, id, {
           loader: 'jsx',
