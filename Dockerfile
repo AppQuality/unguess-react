@@ -1,25 +1,25 @@
 ARG STAGE_ENV
 
-FROM node:16.19-alpine3.17 as base
+FROM node:24-alpine as base
 
 ARG STRAPI_TOKEN
 ARG SENTRY_AUTH_TOKEN
 
 
 COPY package.json ./
-COPY yarn.lock ./
-RUN ["yarn", "install", "--frozen-lockfile", "--ignore-scripts", "--ignore-engines"]
+COPY package-lock.json ./
+RUN ["npm", "ci", "--ignore-scripts"]
 RUN rm -f .npmrc
 
 COPY . .
 
 RUN echo REACT_APP_STRAPI_API_TOKEN=${STRAPI_TOKEN} > .env.local
 ENV PUBLIC_URL=/
-RUN ["yarn", "build"]
-RUN ["yarn", "sentry:sourcemaps"]
+RUN ["npm", "run", "build"]
+RUN ["npm", "run", "sentry:sourcemaps"]
 
 
-FROM alpine:3.14 as web
+FROM alpine:3.22 as web
 COPY --from=base /build /build
 COPY ./docker-entrypoint.sh /docker-entrypoint.sh
 RUN apk add nginx

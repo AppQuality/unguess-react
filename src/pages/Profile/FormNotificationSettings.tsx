@@ -24,8 +24,13 @@ export const FormNotificationSettings = () => {
   const commentsActivity =
     data?.items?.find((pref) => pref.name === 'comment_notifications_enabled')
       ?.value ?? '1';
+  const commentsWatchers =
+    data?.items?.find(
+      (pref) => pref.name === 'comment_notifications_watcher_enabled'
+    )?.value ?? '1';
 
   const initialValues: NotificationSettingsFormValues = {
+    commentsWatchers: commentsWatchers === '1',
     commentsActivity: commentsActivity === '1',
     activitySetupUpdates: activitySetup === '1',
     activityProgress: activityProgress === '1',
@@ -63,6 +68,14 @@ export const FormNotificationSettings = () => {
           slug: 'campaign_notifications_enabled',
           body: {
             value: values.activityProgress ? '1' : '0',
+          },
+        }).unwrap();
+      }
+      if (values.commentsWatchers !== initialValues.commentsWatchers) {
+        await updatePreferences({
+          slug: 'comment_notifications_watcher_enabled',
+          body: {
+            value: values.commentsWatchers ? '1' : '0',
           },
         }).unwrap();
       }

@@ -10,6 +10,7 @@ export type ProfileFormValues = {
 
 export type NotificationSettingsFormValues = {
   commentsActivity: boolean;
+  commentsWatchers: boolean;
   activitySetupUpdates: boolean;
   activityProgress: boolean;
 };

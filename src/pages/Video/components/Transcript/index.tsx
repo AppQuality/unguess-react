@@ -6,6 +6,7 @@ import {
 import { ReactNode } from 'react';
 import { appTheme } from 'src/app/theme';
 import { useGetVideosByVidQuery } from 'src/features/api';
+import styled from 'styled-components';
 import { useTranslationTools } from '../tools/hooks/useTranslationTools';
 import { EmptyState } from './EmptyState';
 import { Header } from './Header';
@@ -44,6 +45,19 @@ const TranscriptWrapper = ({
   );
 };
 
+const SearchWrapper = styled.div`
+  .search-result {
+    background-color: ${({ theme }) => theme.palette.talk[600]};
+  }
+  word {
+    display: inline-block;
+    font-size: ${({ theme }) => theme.fontSizes.md};
+    position: relative;
+    color: ${({ theme }) => theme.palette.grey[700]};
+    line-height: 2;
+  }
+`;
+
 export const Transcript = ({
   videoId,
   currentTime,
@@ -73,27 +87,29 @@ export const Transcript = ({
   );
 
   return (
-    <TranscriptWrapper videoId={videoId} editor={editor}>
-      {editor ? (
-        <>
-          <TranscriptComponent.FloatingMenu
-            editor={editor}
-            onClick={(ed, { start, end }) => {
-              handleAddObservation({
-                from: start,
-                to: end,
-                text: '',
-              }).then((id) => {
-                if (!id) return;
-                ed.commands.addObservation({ id, title: '' });
-              });
-            }}
-          />
-          <TranscriptComponent editor={editor} />
-        </>
-      ) : (
-        <Skeleton height="40px" />
-      )}
-    </TranscriptWrapper>
+    <SearchWrapper>
+      <TranscriptWrapper videoId={videoId} editor={editor}>
+        {editor ? (
+          <>
+            <TranscriptComponent.FloatingMenu
+              editor={editor}
+              onClick={(ed, { start, end }) => {
+                handleAddObservation({
+                  from: start,
+                  to: end,
+                  text: '',
+                }).then((id) => {
+                  if (!id) return;
+                  ed.commands.addObservation({ id, title: '' });
+                });
+              }}
+            />
+            <TranscriptComponent editor={editor} />
+          </>
+        ) : (
+          <Skeleton height="40px" />
+        )}
+      </TranscriptWrapper>
+    </SearchWrapper>
   );
 };

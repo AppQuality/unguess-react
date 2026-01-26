@@ -189,8 +189,15 @@ function svgrPlugin(): Plugin {
             defaultPlugins: [jsx],
           },
         });
+        const patched = componentCode
+          .replace(
+            /const (\w+) = props => /,
+            'const $1 = (props) => {\n  const { color, style, ...rest } = props || {};\n  const mergedStyle = color ? { ...(style || {}), color } : style;\n  return '
+          )
+          .replace('{...props}', '{...rest} style={mergedStyle}')
+          .replace('export {', '}\nexport {');
 
-        const res = await transformWithEsbuild(componentCode, id, {
+        const res = await transformWithEsbuild(patched, id, {
           loader: 'jsx',
         });
 

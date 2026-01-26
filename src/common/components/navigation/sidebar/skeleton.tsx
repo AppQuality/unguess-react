@@ -1,4 +1,5 @@
 import {
+  getColor,
   Nav,
   NavDivider,
   NavItem,
@@ -16,6 +17,23 @@ const StyledNav = styled(Nav)<SidebarProps>`
     isExpanded && `width: ${theme.components.chrome.nav.openWidth}`};
 `;
 
+const StyledNavItem = styled(NavItem)`
+  flex: 0;
+  &[aria-current='true'] {
+    background-color: ${({ theme }) => getColor(theme.colors.primaryHue, 100)};
+  }
+`;
+
+const StyledNavItemProject = styled(NavItemProject)`
+  flex: 0;
+  &[aria-current='true'] {
+    background-color: ${({ theme }) => getColor(theme.colors.primaryHue, 100)};
+  }
+`;
+
+const StyledNavDivider = styled(NavDivider)`
+  flex: 0;
+`;
 export const SidebarSkeleton = (props: SidebarProps) => {
   const { isSidebarOpen } = useAppSelector((state) => state.navigation);
 
@@ -23,7 +41,7 @@ export const SidebarSkeleton = (props: SidebarProps) => {
     <StyledNav {...props} isExpanded={isSidebarOpen}>
       <NavToggle isExpanded={isSidebarOpen} />
 
-      <NavItem isExpanded={isSidebarOpen} isCurrent>
+      <StyledNavItem isExpanded={isSidebarOpen} isCurrent>
         <NavItemIcon isStyled>
           <Skeleton
             width="32px"
@@ -33,32 +51,48 @@ export const SidebarSkeleton = (props: SidebarProps) => {
         </NavItemIcon>
         <Skeleton height="12px" width="60%" />
         <NavItemText />
-      </NavItem>
+      </StyledNavItem>
 
-      <NavDivider isExpanded={isSidebarOpen} />
+      <StyledNavDivider isExpanded={isSidebarOpen} />
 
-      <NavItemProject key={1} isExpanded={isSidebarOpen} isCurrent={false}>
+      <StyledNavItemProject
+        key={1}
+        isExpanded={isSidebarOpen}
+        isCurrent={false}
+      >
         <Skeleton width="60%" style={{ marginBottom: '6px' }} />
         <Skeleton height="12px" width="80%" />
-      </NavItemProject>
+      </StyledNavItemProject>
 
-      <NavItemProject key={2} isExpanded={isSidebarOpen} isCurrent={false}>
+      <StyledNavItemProject
+        key={2}
+        isExpanded={isSidebarOpen}
+        isCurrent={false}
+      >
         <Skeleton width="60%" style={{ marginBottom: '6px' }} />
         <Skeleton height="12px" width="80%" />
-      </NavItemProject>
+      </StyledNavItemProject>
 
-      <NavItemProject key={3} isExpanded={isSidebarOpen} isCurrent={false}>
+      <StyledNavItemProject
+        key={3}
+        isExpanded={isSidebarOpen}
+        isCurrent={false}
+      >
         <Skeleton width="60%" style={{ marginBottom: '6px' }} />
         <Skeleton height="12px" width="80%" />
-      </NavItemProject>
+      </StyledNavItemProject>
 
-      <NavItemProject key={4} isExpanded={isSidebarOpen} isCurrent={false}>
+      <StyledNavItemProject
+        key={4}
+        isExpanded={isSidebarOpen}
+        isCurrent={false}
+      >
         <Skeleton width="60%" style={{ marginBottom: '6px' }} />
         <Skeleton height="12px" width="80%" />
-      </NavItemProject>
+      </StyledNavItemProject>
 
       {/* Footer Logo */}
-      <NavItem
+      <StyledNavItem
         isExpanded={isSidebarOpen}
         hasBrandmark
         title="Be smart from the start"
@@ -72,7 +106,7 @@ export const SidebarSkeleton = (props: SidebarProps) => {
           />
         </NavItemIcon>
         <NavItemText>UNGUESS</NavItemText>
-      </NavItem>
+      </StyledNavItem>
     </StyledNav>
   );
 };

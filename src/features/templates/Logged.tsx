@@ -1,13 +1,13 @@
-import React, { useEffect } from 'react';
-import { Chrome, Body, Main, Anchor } from '@appquality/unguess-design-system';
-import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
-import { useNavigate, useLocation } from 'react-router-dom';
-import { appTheme } from 'src/app/theme';
-import styled from 'styled-components';
-import { PageLoader } from 'src/common/components/PageLoader';
+import { Anchor, Chrome, Main } from '@appquality/unguess-design-system';
 import * as Sentry from '@sentry/react';
-import { Navigation } from '../navigation/Navigation';
+import React, { useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { appTheme } from 'src/app/theme';
+import { PageLoader } from 'src/common/components/PageLoader';
+import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
+import styled from 'styled-components';
 import { useGetUsersMeQuery } from '../api';
+import { Navigation } from '../navigation/Navigation';
 
 const StyledMain = styled(Main)`
   background-color: ${({ theme }) => theme.palette.grey[100]};
@@ -67,14 +67,14 @@ export const Logged = ({
         className="iubenda-cs-preferences-link"
       />
       <Chrome isFluid hue={appTheme.palette.white}>
-        <Body id="body" style={{ overflow: 'hidden' }}>
+        <div id="body" style={{ width: '100%', overflow: 'hidden' }}>
           <Navigation route={route} isMinimal={isMinimal}>
             <StyledMain id="main">
               {pageHeader && <HeaderContainer>{pageHeader}</HeaderContainer>}
               {children}
             </StyledMain>
           </Navigation>
-        </Body>
+        </div>
       </Chrome>
     </>
   );

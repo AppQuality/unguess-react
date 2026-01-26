@@ -1,4 +1,4 @@
-import { Modal, LG, XL, Skeleton } from '@appquality/unguess-design-system';
+import { LG, Modal, Skeleton, XL } from '@appquality/unguess-design-system';
 import { Trans } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 
@@ -9,6 +9,7 @@ export const WaitModal = () => (
       backgroundColor: 'transparent',
       boxShadow: 'none',
       padding: '100px 20px',
+      border: 'none',
     }}
   >
     <Trans

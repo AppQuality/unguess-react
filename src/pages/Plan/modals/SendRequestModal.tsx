@@ -122,6 +122,7 @@ const SendRequestModal = ({
           backgroundColor: 'transparent',
           boxShadow: 'none',
           padding: '100px 20px',
+          border: 'none',
         }}
       >
         <Trans

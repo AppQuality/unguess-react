@@ -36,7 +36,7 @@ const Tooltip = styled.div`
   border: 1px solid ${({ theme }) => theme.palette.grey[300]};
   border-radius: ${({ theme }) => theme.borderRadii.md};
   padding: ${({ theme }) => theme.space.sm};
-  box-shadow: ${({ theme }) => theme.shadows.boxShadow(theme)};
+  box-shadow: ${({ theme }) => theme.shadows.boxShadow()};
   max-width: 270px;
   white-space: normal;
 `;
