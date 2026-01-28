@@ -28,6 +28,7 @@ yarn-error.log*
 
 generate-devel-token.json
 generate-devel-token-*.json
+generate-local-token.json
 
 # vs code configuration
 .vscode
