@@ -56,13 +56,10 @@ export const Workflow = ({ threadId }: { threadId: number }) => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const [inputValue, setInputValue] = useState('');
   const [lastStep, setLastStep] = useState<Step | undefined>(undefined);
-  const { data: userData } = useGetUsersMeQuery();
   const { activeWorkspace } = useActiveWorkspace();
 
   const context = {
-    user: userData,
     workspace: activeWorkspace,
-    token: process.env.REACT_APP_DEFAULT_TOKEN || '', // In production, we'll handle this directly in Apis
   };
 
   const {
@@ -78,7 +75,9 @@ export const Workflow = ({ threadId }: { threadId: number }) => {
         return {
           headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${context.token}`,
+            ...(process.env.REACT_APP_DEFAULT_TOKEN && {
+              Authorization: `Bearer ${process.env.REACT_APP_DEFAULT_TOKEN}`,
+            }),
           },
           body: {
             context,
