@@ -10,15 +10,16 @@ import {
 } from '@appquality/unguess-design-system';
 import { DefaultChatTransport } from 'ai';
 import { useEffect, useRef, useState } from 'react';
-import { useGetUsersMeQuery } from 'src/features/api';
 import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
 import { styled } from 'styled-components';
+import { useTranslation } from 'react-i18next';
 import { ReactComponent as SparkleIcon } from './icons/sparkle-stroke.svg';
 import { BaseSuspendPart } from './suspends/base';
 import { ProjectSuspendPart } from './suspends/project';
 import { Step } from './types';
 import { getRandomLoadingMessage } from './utils/loadingMessage';
 import { parseMessages } from './utils/messages';
+import { PlanPart } from './suspends/plan';
 
 const ChatContainer = styled.div`
   display: flex;
@@ -53,6 +54,7 @@ const EmptyState = styled.div`
 `;
 
 export const Workflow = ({ threadId }: { threadId: number }) => {
+  const { t } = useTranslation();
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const [inputValue, setInputValue] = useState('');
   const [lastStep, setLastStep] = useState<Step | undefined>(undefined);
@@ -67,6 +69,7 @@ export const Workflow = ({ threadId }: { threadId: number }) => {
     sendMessage,
     status,
     regenerate,
+
     error,
   } = useChat({
     transport: new DefaultChatTransport({
@@ -111,7 +114,7 @@ export const Workflow = ({ threadId }: { threadId: number }) => {
       <ChatBody>
         {chatMessages.length === 0 && (
           <EmptyState>
-            <MD>Inizia la conversazione scrivendo un messaggio</MD>
+            <MD>{t('MASTRA_MAIN_WORKFLOW_CHAT_EMPTY_MESSAGE')}</MD>
             <SM>Thread ID: {threadId}</SM>
           </EmptyState>
         )}
@@ -149,9 +152,24 @@ export const Workflow = ({ threadId }: { threadId: number }) => {
                         handleSubmit={(projectId) =>
                           sendMessage({ text: projectId.toString() })
                         }
+                        isActive={
+                          status === 'ready' && i === chatMessages.length - 1
+                        }
                       >
                         {suspendText}
                       </ProjectSuspendPart>
+                    );
+
+                  case 'create_activity_workflow.fill_plan_workflow.printPlanResults':
+                    return (
+                      <PlanPart
+                        key={`part_${msg.id}_${index}`}
+                        plan_id={
+                          obj.output && 'plan_id' in obj.output
+                            ? (obj.output as { plan_id?: string }).plan_id
+                            : undefined
+                        }
+                      />
                     );
 
                   default:
