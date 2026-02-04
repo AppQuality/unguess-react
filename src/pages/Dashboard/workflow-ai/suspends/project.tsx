@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import { ProjectDropdown } from './parts/projectDropdown';
+import { BaseSuspendPart } from './base';
 
 const DropdownContainer = styled.div`
   display: flex;
@@ -15,14 +16,24 @@ const DropdownContainer = styled.div`
 export const ProjectSuspendPart = ({
   key,
   handleSubmit,
+  isActive,
   children,
 }: {
   key: string;
   handleSubmit: (id: number) => void;
+  isActive?: boolean;
   children?: React.ReactNode;
 }) => {
   const { t } = useTranslation();
   const [projectId, setProjectId] = useState<number | null>(null);
+
+  if (!isActive) {
+    return (
+      <BaseSuspendPart id={key} key={key} isUser={false}>
+        {t('MASTRA_WORKFLOW_PART_PROJECT_SELECTED')}
+      </BaseSuspendPart>
+    );
+  }
 
   return (
     <DropdownContainer key={key}>
@@ -35,7 +46,7 @@ export const ProjectSuspendPart = ({
         isStretched
         onClick={() => projectId && handleSubmit(projectId)}
       >
-        Confirm
+        {t('MASTRA_WORKFLOW_PART_PROJECT_DROPDOWN_BUTTON_CONFIRM')}
       </Button>
     </DropdownContainer>
   );
