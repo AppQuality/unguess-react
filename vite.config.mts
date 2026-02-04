@@ -196,7 +196,6 @@ function svgrPlugin(): Plugin {
           )
           .replace('{...props}', '{...rest} style={mergedStyle}')
           .replace('export {', '}\nexport {');
-       
 
         const res = await transformWithEsbuild(patched, id, {
           loader: 'jsx',
