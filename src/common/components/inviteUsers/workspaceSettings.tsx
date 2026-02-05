@@ -10,7 +10,7 @@ import {
   useToast,
 } from '@appquality/unguess-design-system';
 import { FormikHelpers } from 'formik';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as UsersIcon } from 'src/assets/icons/users-share.svg';
@@ -39,6 +39,15 @@ export const WorkspaceSettings = () => {
   const { addToast } = useToast();
   const [addNewMember] = usePostWorkspacesByWidUsersMutation();
   const [removeUser] = useDeleteWorkspacesByWidUsersMutation();
+
+  const [appendNode, setAppendNode] = useState<Element | null>(null);
+
+  const setModalNode = useCallback(
+    (node: HTMLDivElement | null) => {
+      setAppendNode(node);
+    },
+    [isModalOpen]
+  );
 
   const {
     isLoading: isLoadingWorkspaceUsers,
@@ -217,7 +226,7 @@ export const WorkspaceSettings = () => {
         {usersCount > 0 && ` (${usersCount})`}
       </Button>
       {isModalOpen && (
-        <Modal onClose={() => setIsModalOpen(false)}>
+        <Modal ref={setModalNode} onClose={() => setIsModalOpen(false)}>
           <Modal.Header>
             {t('__PERMISSION_SETTINGS_HEADER_TITLE')}{' '}
             <Span style={{ color: appTheme.palette.blue[600] }}>
@@ -273,6 +282,7 @@ export const WorkspaceSettings = () => {
                   <UsersContainer>
                     {workspaceUsers?.items.map((user) => (
                       <UserItem
+                        appendNode={appendNode}
                         key={user.id}
                         user={user}
                         onResendInvite={() => onResendInvite(user.email)}

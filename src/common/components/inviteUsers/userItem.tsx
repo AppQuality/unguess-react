@@ -31,11 +31,13 @@ const UserListItem = styled.div`
 `;
 
 export const UserItem = ({
+  appendNode,
   user,
   onResendInvite,
   onRemoveUser,
   showRemoveConfirm,
 }: {
+  appendNode?: Element | null;
   user: GetWorkspacesByWidUsersApiResponse['items'][number];
   onResendInvite?: () => void;
   onRemoveUser?: (includeShared?: boolean) => void;
@@ -152,6 +154,7 @@ export const UserItem = ({
         </UserListItem>
         {showRemoveConfirmModal && onRemoveUser && (
           <RemoveConfirmModal
+            appendToNode={appendNode}
             onClose={(includeShared) => onRemoveUser(includeShared)}
             handleCancel={() => setShowRemoveConfirmModal(false)}
           />

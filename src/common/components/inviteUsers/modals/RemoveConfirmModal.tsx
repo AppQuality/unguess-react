@@ -26,9 +26,11 @@ const DangerHeader = styled(Modal.Header)`
 `;
 
 const RemoveConfirmModal = ({
+  appendToNode,
   handleCancel,
   onClose,
 }: {
+  appendToNode?: Element | null;
   handleCancel: () => void;
   onClose?: (includeShared: boolean) => void;
 }) => {
@@ -36,7 +38,11 @@ const RemoveConfirmModal = ({
   const [includeShared, setIncludeShared] = useState(false);
 
   return (
-    <Modal isLarge onClose={handleCancel}>
+    <Modal
+      appendToNode={appendToNode ?? undefined}
+      isLarge
+      onClose={handleCancel}
+    >
       <DangerHeader>
         <AlertIcon />
         {t('__PERMISSION_SETTINGS_REMOVE_CONFIRM_MODAL_HEADER')}
