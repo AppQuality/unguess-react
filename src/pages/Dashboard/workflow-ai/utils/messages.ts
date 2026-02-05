@@ -1,8 +1,6 @@
 import { UIMessage } from 'ai';
 import { WorkflowDataPart } from '@mastra/ai-sdk';
 
-const getLastStep = () => {};
-
 export const parseMessages = (messages: UIMessage[]) => {
   const lastUserMessage = messages
     .findLast((m) => m.role === 'user')
