@@ -11,7 +11,7 @@ import {
   useToast,
 } from '@appquality/unguess-design-system';
 import { FormikHelpers } from 'formik';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { useAppSelector } from 'src/app/hooks';
 import { appTheme } from 'src/app/theme';
@@ -51,6 +51,15 @@ export const CampaignSettings = ({ dataQa }: { dataQa?: string }) => {
   const { addToast } = useToast();
   const [addNewMember] = usePostCampaignsByCidUsersMutation();
   const [removeUser] = useDeleteCampaignsByCidUsersMutation();
+
+  const [appendNode, setAppendNode] = useState<Element | null>(null);
+
+  const setModalNode = useCallback(
+    (node: HTMLDivElement | null) => {
+      setAppendNode(node);
+    },
+    [isModalOpen]
+  );
 
   const {
     isLoading: isLoadingCampaign,
@@ -277,7 +286,7 @@ export const CampaignSettings = ({ dataQa }: { dataQa?: string }) => {
         {usersCount > 0 && ` (${usersCount})`}
       </Button>
       {isModalOpen && (
-        <Modal onClose={() => setIsModalOpen(false)}>
+        <Modal ref={setModalNode} onClose={() => setIsModalOpen(false)}>
           <Modal.Header>
             {t('__PERMISSION_SETTINGS_HEADER_TITLE')}{' '}
             <Span style={{ color: appTheme.palette.blue[600] }}>
@@ -342,6 +351,7 @@ export const CampaignSettings = ({ dataQa }: { dataQa?: string }) => {
                   <UsersContainer>
                     {campaignUsers?.items.map((user) => (
                       <UserItem
+                        appendNode={appendNode}
                         key={user.id}
                         user={user}
                         onResendInvite={() => onResendInvite(user.email)}

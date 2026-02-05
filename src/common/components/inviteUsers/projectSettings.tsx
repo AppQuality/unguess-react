@@ -11,7 +11,7 @@ import {
   useToast,
 } from '@appquality/unguess-design-system';
 import { FormikHelpers } from 'formik';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { useAppSelector } from 'src/app/hooks';
 import { appTheme } from 'src/app/theme';
@@ -48,6 +48,15 @@ export const ProjectSettings = () => {
   const { addToast } = useToast();
   const [addNewMember] = usePostProjectsByPidUsersMutation();
   const [removeUser] = useDeleteProjectsByPidUsersMutation();
+
+  const [appendNode, setAppendNode] = useState<Element | null>(null);
+
+  const setModalNode = useCallback(
+    (node: HTMLDivElement | null) => {
+      setAppendNode(node);
+    },
+    [isModalOpen]
+  );
 
   const {
     isLoading: isLoadingProjectUsers,
@@ -251,7 +260,7 @@ export const ProjectSettings = () => {
         {usersCount > 0 && ` (${usersCount})`}
       </Button>
       {isModalOpen && (
-        <Modal onClose={() => setIsModalOpen(false)}>
+        <Modal ref={setModalNode} onClose={() => setIsModalOpen(false)}>
           <Modal.Header>
             {t('__PERMISSION_SETTINGS_HEADER_TITLE')}{' '}
             <Span style={{ color: appTheme.palette.blue[600] }}>
@@ -312,6 +321,7 @@ export const ProjectSettings = () => {
                   <UsersContainer>
                     {projectUsers?.items.map((user) => (
                       <UserItem
+                        appendNode={appendNode}
                         key={user.id}
                         user={user}
                         onResendInvite={() => onResendInvite(user.email)}
@@ -363,7 +373,11 @@ export const ProjectSettings = () => {
                     </AccordionNew.Header>
                     <AccordionNew.Panel>
                       {workspaceUsers?.items.map((user) => (
-                        <UserItem key={user.id} user={user} />
+                        <UserItem
+                          appendNode={appendNode}
+                          key={user.id}
+                          user={user}
+                        />
                       ))}
                     </AccordionNew.Panel>
                   </AccordionNew.Section>
