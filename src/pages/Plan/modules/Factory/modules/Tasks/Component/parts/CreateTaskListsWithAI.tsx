@@ -26,21 +26,24 @@ export const CreateTaskListsWithAI = () => {
 
   const {
     data: useCasesData,
-    isFetching,
-    isLoading,
+    isFetching: isFetchingUsecases,
     error: useCasesError,
   } = useGetServicesApiKJobsByJobIdQuery(
     { jobId: jobData?.jobId || '' },
     {
       skip: !jobData?.jobId,
-      pollingInterval: pollingInterval,
+      pollingInterval: pollingInterval, // 0 for no polling, 3000 for polling every 3 seconds
     }
   );
 
+  const isFormDisabled = useMemo(
+    () => isCreating || pollingInterval > 0,
+    [isCreating, pollingInterval]
+  );
+
   const isButtonDisabled = useMemo(
-    () =>
-      userPrompt.length < MIN_LENGTH || isCreating || isFetching || isLoading,
-    [userPrompt, isCreating, isFetching, isLoading]
+    () => userPrompt.length < MIN_LENGTH || isFormDisabled,
+    [userPrompt, isFormDisabled]
   );
 
   const handleClick = async () => {
@@ -56,11 +59,11 @@ export const CreateTaskListsWithAI = () => {
     setIsCreating(false);
   };
 
-  // Polling for job status every 3 seconds when jobId is available
+  // Polling for job status every 5 seconds when jobId becomes available or changes
   useEffect(() => {
     if (jobData?.jobId) {
       console.log('Job ID received:', jobData.jobId);
-      setPollingInterval(3000);
+      setPollingInterval(5000);
     }
   }, [jobData?.jobId]);
 
@@ -72,6 +75,13 @@ export const CreateTaskListsWithAI = () => {
     }
   }, [useCasesData]);
 
+  // Stopping polling when there is an error
+  useEffect(() => {
+    if (useCasesError) {
+      setPollingInterval(0);
+    }
+  }, [useCasesError]);
+
   return (
     <div>
       <FormField>
@@ -79,6 +89,7 @@ export const CreateTaskListsWithAI = () => {
           Describe the tasks you want to create:
         </Label>
         <Textarea
+          disabled={isFormDisabled}
           id="task-list-prompt"
           minLength={MIN_LENGTH}
           maxLength={102300}
@@ -96,16 +107,23 @@ export const CreateTaskListsWithAI = () => {
           max={5}
           value={taskCount}
           onChange={(e) => setTaskCount(Number(e.currentTarget.value))}
+          disabled={isFormDisabled}
         />
       </FormField>
       <Button disabled={isButtonDisabled} onClick={handleClick}>
-        {isCreating ? 'Creating...' : 'Create Task Lists with AI'}
+        {isButtonDisabled ? 'Creating...' : 'Create Task Lists with AI'}
       </Button>
       {postError && (
         <Message validation="error">Error submitting task list</Message>
       )}
       {useCasesError && (
         <Message validation="error">Error fetching task list results</Message>
+      )}
+      {useCasesData?.result && (
+        <div>
+          <h1>Generated Task Lists:</h1>
+          <pre>{JSON.stringify(useCasesData.result, null, 2)}</pre>
+        </div>
       )}
     </div>
   );
