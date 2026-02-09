@@ -20,6 +20,7 @@ import { useModuleTasks } from '../hooks';
 import { AddTaskButton } from './AddTaskButton';
 import { TasksModal } from './modal';
 import { TasksContainerAnimation } from './TasksContainerAnimation';
+import { CreateTaskListsWithAI } from './CreateTaskListsWithAI';
 
 const StyledCard = styled(ContainerCard)`
   background-color: transparent;
@@ -100,7 +101,7 @@ const TasksList = () => {
             {t('__PLAN_PAGE_MODULE_TASKS_SUBTITLE')}
             <Span style={{ color: appTheme.palette.red[600] }}>*</Span>
           </MD>
-
+          <CreateTaskListsWithAI />
           {error &&
             (errorEmpty ? (
               <Message
