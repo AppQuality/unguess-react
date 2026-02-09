@@ -4,6 +4,7 @@ import {
   FormField,
   Label,
   Message,
+  Input,
 } from '@appquality/unguess-design-system';
 import { useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
@@ -11,9 +12,9 @@ import { usePostServicesApiKUsecasesMutation } from 'src/features/api';
 
 export const CreateTaskListsWithAI = () => {
   const { planId } = useParams();
-  const [jobId, setJobId] = useState<string | null>(null);
   const MIN_LENGTH = 1;
   const [userPrompt, setUserPrompt] = useState('');
+  const [taskCount, setTaskCount] = useState(3);
   const [isCreating, setIsCreating] = useState(false);
   const [postServicesApiKUsecases, { data, error }] =
     usePostServicesApiKUsecasesMutation();
@@ -29,7 +30,7 @@ export const CreateTaskListsWithAI = () => {
     await postServicesApiKUsecases({
       body: {
         planId: planId || '',
-        count: 3,
+        count: taskCount,
         requirements: userPrompt,
       },
     });
@@ -37,11 +38,11 @@ export const CreateTaskListsWithAI = () => {
   };
 
   useEffect(() => {
-    if (jobId) {
-      console.log('Job ID received:', jobId);
+    if (data?.jobId) {
+      console.log('Job ID received:', data.jobId);
       // polling logic to check job status
     }
-  }, [jobId]);
+  }, [data?.jobId]);
 
   return (
     <div>
@@ -56,6 +57,17 @@ export const CreateTaskListsWithAI = () => {
           placeholder="Enter your task list here..."
           value={userPrompt}
           onChange={(e) => setUserPrompt(e.currentTarget.value)}
+        />
+      </FormField>
+      <FormField>
+        <Label htmlFor="task-list-count">Number of task lists to create:</Label>
+        <Input
+          id="task-list-count"
+          type="number"
+          min={1}
+          max={5}
+          value={taskCount}
+          onChange={(e) => setTaskCount(Number(e.currentTarget.value))}
         />
         <Button disabled={isButtonDisabled} onClick={handleClick}>
           {isCreating ? 'Creating...' : 'Create Task Lists with AI'}
