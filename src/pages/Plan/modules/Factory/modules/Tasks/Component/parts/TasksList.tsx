@@ -21,6 +21,8 @@ import { AddTaskButton } from './AddTaskButton';
 import { TasksModal } from './modal';
 import { TasksContainerAnimation } from './TasksContainerAnimation';
 import { CreateTaskListsWithAI } from './CreateTaskListsWithAI';
+import { useGetServicesApiKHealthQuery } from 'src/features/api';
+import { a } from 'motion/dist/react-client';
 
 const StyledCard = styled(ContainerCard)`
   background-color: transparent;
@@ -52,6 +54,7 @@ const TasksList = () => {
   const { getPlanStatus } = useModuleConfiguration();
   const { t } = useTranslation();
   const { hasFeatureFlag } = useFeatureFlag();
+  const { data: apiK_HealthResponse } = useGetServicesApiKHealthQuery();
   const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false);
   const Icon = useIconWithValidation();
   const { width } = useWindowSize();
@@ -101,7 +104,12 @@ const TasksList = () => {
             {t('__PLAN_PAGE_MODULE_TASKS_SUBTITLE')}
             <Span style={{ color: appTheme.palette.red[600] }}>*</Span>
           </MD>
-          <CreateTaskListsWithAI />
+          {apiK_HealthResponse?.success &&
+          apiK_HealthResponse?.status === 'healthy' ? (
+            <CreateTaskListsWithAI />
+          ) : (
+            'API-K endpoint not healthy: AI features are unavailable.'
+          )}
           {error &&
             (errorEmpty ? (
               <Message
