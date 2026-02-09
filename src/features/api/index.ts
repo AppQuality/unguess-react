@@ -573,6 +573,28 @@ const injectedRtkApi = api.injectEndpoints({
         url: `/public/bugs/${queryArg.defectId}/tokens/${queryArg.token}`,
       }),
     }),
+    postServicesApiKUsecases: build.mutation<
+      PostServicesApiKUsecasesApiResponse,
+      PostServicesApiKUsecasesApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/services/api-k/usecases`,
+        method: 'POST',
+        body: queryArg.body,
+      }),
+    }),
+    getServicesApiKJobsByJobId: build.query<
+      GetServicesApiKJobsByJobIdApiResponse,
+      GetServicesApiKJobsByJobIdApiArg
+    >({
+      query: (queryArg) => ({ url: `/services/api-k/jobs/${queryArg.jobId}` }),
+    }),
+    getServicesApiKHealth: build.query<
+      GetServicesApiKHealthApiResponse,
+      GetServicesApiKHealthApiArg
+    >({
+      query: () => ({ url: `/services/api-k/health` }),
+    }),
     getTemplatesCategories: build.query<
       GetTemplatesCategoriesApiResponse,
       GetTemplatesCategoriesApiArg
@@ -856,15 +878,11 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({ url: `/workflows/${queryArg.slug}` }),
     }),
-    postWorkflowsBySlugChat: build.mutation<
-      PostWorkflowsBySlugChatApiResponse,
-      PostWorkflowsBySlugChatApiArg
+    getWorkflowsBySlugThreads: build.query<
+      GetWorkflowsBySlugThreadsApiResponse,
+      GetWorkflowsBySlugThreadsApiArg
     >({
-      query: (queryArg) => ({
-        url: `/workflows/${queryArg.slug}/chat`,
-        method: 'POST',
-        body: queryArg.body,
-      }),
+      query: (queryArg) => ({ url: `/workflows/${queryArg.slug}/threads` }),
     }),
     postWorkflowsBySlugThreads: build.mutation<
       PostWorkflowsBySlugThreadsApiResponse,
@@ -873,6 +891,24 @@ const injectedRtkApi = api.injectEndpoints({
       query: (queryArg) => ({
         url: `/workflows/${queryArg.slug}/threads`,
         method: 'POST',
+      }),
+    }),
+    getWorkflowsBySlugThreadsAndId: build.query<
+      GetWorkflowsBySlugThreadsAndIdApiResponse,
+      GetWorkflowsBySlugThreadsAndIdApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/workflows/${queryArg.slug}/threads/${queryArg.id}`,
+      }),
+    }),
+    postWorkflowsBySlugThreadsAndIdChat: build.mutation<
+      PostWorkflowsBySlugThreadsAndIdChatApiResponse,
+      PostWorkflowsBySlugThreadsAndIdChatApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/workflows/${queryArg.slug}/threads/${queryArg.id}/chat`,
+        method: 'POST',
+        body: queryArg.body,
       }),
     }),
     getWorkspacesByWidTemplates: build.query<
@@ -1847,6 +1883,49 @@ export type GetPublicBugsByDefectIdTokensAndTokenApiArg = {
   defectId: number;
   token: string;
 };
+export type PostServicesApiKUsecasesApiResponse =
+  /** status 200 Job created successfully */ {
+    jobId: string;
+  };
+export type PostServicesApiKUsecasesApiArg = {
+  body: {
+    /** The requirements text to generate use cases from */
+    requirements: string;
+    /** Number of use cases to generate */
+    count: number;
+    /** The plan ID to associate with the generation */
+    planId: string;
+  };
+};
+export type GetServicesApiKJobsByJobIdApiResponse =
+  /** status 200 Job status retrieved successfully */ {
+    status: 'processing' | 'completed';
+    progress: number;
+    result?: {
+      useCases: {
+        id: string;
+        title: string;
+        mainFlow?: string;
+        priority?: string;
+        guidelines?: string;
+        description?: string;
+        preconditions?: string;
+        postconditions?: string;
+        relatedSections?: string[];
+        alternativeFlows?: string;
+      }[];
+      useCaseCount: number;
+    };
+  };
+export type GetServicesApiKJobsByJobIdApiArg = {
+  /** The job ID returned from the use cases generation endpoint */
+  jobId: string;
+};
+export type GetServicesApiKHealthApiResponse = /** status 200 OK */ {
+  status: 'healthy';
+  success: 1;
+};
+export type GetServicesApiKHealthApiArg = void;
 export type GetTemplatesCategoriesApiResponse = /** status 200 OK */ {
   description?: string;
   id: number;
@@ -2224,18 +2303,50 @@ export type GetWorkflowsBySlugApiResponse = /** status 200 OK */ {
 export type GetWorkflowsBySlugApiArg = {
   slug: string;
 };
-export type PostWorkflowsBySlugChatApiResponse = /** status 200 OK */ {};
-export type PostWorkflowsBySlugChatApiArg = {
+export type GetWorkflowsBySlugThreadsApiResponse = /** status 200 OK */ {
+  items: {
+    id: number;
+    slug: string;
+    created: string;
+  }[];
+};
+export type GetWorkflowsBySlugThreadsApiArg = {
   slug: string;
-  body: {
-    messages: ChatMessage[];
-  };
 };
 export type PostWorkflowsBySlugThreadsApiResponse = /** status 200 OK */ {
   id: number;
 };
 export type PostWorkflowsBySlugThreadsApiArg = {
   slug: string;
+};
+export type GetWorkflowsBySlugThreadsAndIdApiResponse = /** status 200 OK */ {
+  id: number;
+  name: string;
+  created: string;
+  runs?: {
+    id?: number;
+    mastraRunId?: string;
+    messages?: {
+      userMessage?: string;
+      aiResponse?: string;
+    }[];
+  }[];
+};
+export type GetWorkflowsBySlugThreadsAndIdApiArg = {
+  slug: string;
+  id: string;
+};
+export type PostWorkflowsBySlugThreadsAndIdChatApiResponse =
+  /** status 200 OK */ {};
+export type PostWorkflowsBySlugThreadsAndIdChatApiArg = {
+  slug: string;
+  id: string;
+  body: {
+    messages: ChatMessage[];
+    context?: {
+      workspace?: Workspace;
+    };
+  };
 };
 export type GetWorkspacesByWidTemplatesApiResponse = /** status 200 OK */ {
   items: CpReqTemplate[];
@@ -3289,6 +3400,9 @@ export const {
   useGetProjectsByPidUsersQuery,
   usePostProjectsByPidUsersMutation,
   useGetPublicBugsByDefectIdTokensAndTokenQuery,
+  usePostServicesApiKUsecasesMutation,
+  useGetServicesApiKJobsByJobIdQuery,
+  useGetServicesApiKHealthQuery,
   useGetTemplatesCategoriesQuery,
   usePostUsersMutation,
   useHeadUsersByEmailByEmailMutation,
@@ -3323,8 +3437,10 @@ export const {
   useGetCampaignsByCidWatchersQuery,
   usePostCampaignsByCidWatchersMutation,
   useGetWorkflowsBySlugQuery,
-  usePostWorkflowsBySlugChatMutation,
+  useGetWorkflowsBySlugThreadsQuery,
   usePostWorkflowsBySlugThreadsMutation,
+  useGetWorkflowsBySlugThreadsAndIdQuery,
+  usePostWorkflowsBySlugThreadsAndIdChatMutation,
   useGetWorkspacesByWidTemplatesQuery,
   usePostWorkspacesByWidTemplatesMutation,
   useDeleteWorkspacesByWidTemplatesAndTidMutation,
