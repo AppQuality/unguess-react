@@ -6,9 +6,13 @@ import {
   Message,
   Input,
 } from '@appquality/unguess-design-system';
+import { is } from 'date-fns/locale';
 import { useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { usePostServicesApiKUsecasesMutation } from 'src/features/api';
+import {
+  useGetServicesApiKJobsByJobIdQuery,
+  usePostServicesApiKUsecasesMutation,
+} from 'src/features/api';
 
 export const CreateTaskListsWithAI = () => {
   const { planId } = useParams();
@@ -16,14 +20,29 @@ export const CreateTaskListsWithAI = () => {
   const [userPrompt, setUserPrompt] = useState('');
   const [taskCount, setTaskCount] = useState(3);
   const [isCreating, setIsCreating] = useState(false);
-  const [postServicesApiKUsecases, { data, error }] =
+  const [pollingInterval, setPollingInterval] = useState(0);
+  const [postServicesApiKUsecases, { data: jobData, error: postError }] =
     usePostServicesApiKUsecasesMutation();
-  const isButtonDisabled = useMemo(
-    () => userPrompt.length < MIN_LENGTH || isCreating,
-    [userPrompt, isCreating]
+
+  const {
+    data: useCasesData,
+    isFetching,
+    isLoading,
+    error: useCasesError,
+  } = useGetServicesApiKJobsByJobIdQuery(
+    { jobId: jobData?.jobId || '' },
+    {
+      skip: !jobData?.jobId,
+      pollingInterval: pollingInterval,
+    }
   );
 
-  // planid dalla url
+  const isButtonDisabled = useMemo(
+    () =>
+      userPrompt.length < MIN_LENGTH || isCreating || isFetching || isLoading,
+    [userPrompt, isCreating, isFetching, isLoading]
+  );
+
   const handleClick = async () => {
     setIsCreating(true);
     console.log('Button clicked', userPrompt);
@@ -37,12 +56,21 @@ export const CreateTaskListsWithAI = () => {
     setIsCreating(false);
   };
 
+  // Polling for job status every 3 seconds when jobId is available
   useEffect(() => {
-    if (data?.jobId) {
-      console.log('Job ID received:', data.jobId);
-      // polling logic to check job status
+    if (jobData?.jobId) {
+      console.log('Job ID received:', jobData.jobId);
+      setPollingInterval(3000);
     }
-  }, [data?.jobId]);
+  }, [jobData?.jobId]);
+
+  // Stop polling when job is completed
+  useEffect(() => {
+    if (useCasesData?.status === 'completed' && useCasesData?.result) {
+      console.log('Use cases data received:', useCasesData);
+      setPollingInterval(0);
+    }
+  }, [useCasesData]);
 
   return (
     <div>
@@ -69,13 +97,16 @@ export const CreateTaskListsWithAI = () => {
           value={taskCount}
           onChange={(e) => setTaskCount(Number(e.currentTarget.value))}
         />
-        <Button disabled={isButtonDisabled} onClick={handleClick}>
-          {isCreating ? 'Creating...' : 'Create Task Lists with AI'}
-        </Button>
-        {error && (
-          <Message validation="error">Error submitting task list</Message>
-        )}
       </FormField>
+      <Button disabled={isButtonDisabled} onClick={handleClick}>
+        {isCreating ? 'Creating...' : 'Create Task Lists with AI'}
+      </Button>
+      {postError && (
+        <Message validation="error">Error submitting task list</Message>
+      )}
+      {useCasesError && (
+        <Message validation="error">Error fetching task list results</Message>
+      )}
     </div>
   );
 };
