@@ -6,17 +6,19 @@ import {
   Message,
   Input,
   AccordionNew,
+  LG,
 } from '@appquality/unguess-design-system';
-import { is } from 'date-fns/locale';
-import { use } from 'i18next';
 import { useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { appTheme } from 'src/app/theme';
 import {
   useGetServicesApiKJobsByJobIdQuery,
   usePostServicesApiKUsecasesMutation,
 } from 'src/features/api';
+import { useModule } from 'src/features/modules/useModule';
 
 export const CreateTaskListsWithAI = () => {
+  const { set } = useModule('tasks');
   const { planId } = useParams();
   const MIN_LENGTH = 1;
   const [userPrompt, setUserPrompt] = useState('');
@@ -26,17 +28,14 @@ export const CreateTaskListsWithAI = () => {
   const [postServicesApiKUsecases, { data: jobData, error: postError }] =
     usePostServicesApiKUsecasesMutation();
 
-  const {
-    data: useCasesData,
-    isFetching: isFetchingUsecases,
-    error: useCasesError,
-  } = useGetServicesApiKJobsByJobIdQuery(
-    { jobId: jobData?.jobId || '' },
-    {
-      skip: !jobData?.jobId,
-      pollingInterval: pollingInterval, // 0 for no polling, 3000 for polling every 3 seconds
-    }
-  );
+  const { data: useCasesData, error: useCasesError } =
+    useGetServicesApiKJobsByJobIdQuery(
+      { jobId: jobData?.jobId || '' },
+      {
+        skip: !jobData?.jobId,
+        pollingInterval: pollingInterval, // 0 for no polling, 3000 for polling every 3 seconds
+      }
+    );
 
   const isFormDisabled = useMemo(
     () => isCreating || pollingInterval > 0,
@@ -86,53 +85,59 @@ export const CreateTaskListsWithAI = () => {
 
   return (
     <div>
-      <FormField>
-        <Label htmlFor="task-list-prompt">
-          Describe the tasks you want to create:
-        </Label>
-        <Textarea
-          disabled={isFormDisabled}
-          id="task-list-prompt"
-          minLength={MIN_LENGTH}
-          maxLength={102300}
-          placeholder="Enter your task list here..."
-          value={userPrompt}
-          onChange={(e) => setUserPrompt(e.currentTarget.value)}
-        />
-      </FormField>
-      <FormField>
-        <Label htmlFor="task-list-count">Number of task lists to create:</Label>
-        <Input
-          id="task-list-count"
-          type="number"
-          min={1}
-          max={5}
-          value={taskCount}
-          onChange={(e) => setTaskCount(Number(e.currentTarget.value))}
-          disabled={isFormDisabled}
-        />
-      </FormField>
-      <Button disabled={isButtonDisabled} onClick={handleClick}>
-        {isButtonDisabled ? 'Creating...' : 'Create Task Lists with AI'}
-      </Button>
-      {postError && (
-        <Message validation="error">Error submitting task list</Message>
-      )}
-      {useCasesError && (
-        <Message validation="error">Error fetching task list results</Message>
-      )}
+      <div style={{ marginBottom: appTheme.space.md }}>
+        <FormField>
+          <Label htmlFor="task-list-prompt">
+            Describe the tasks you want to create:
+          </Label>
+          <Textarea
+            disabled={isFormDisabled}
+            id="task-list-prompt"
+            minLength={MIN_LENGTH}
+            maxLength={102300}
+            placeholder="Enter your task list here..."
+            value={userPrompt}
+            onChange={(e) => setUserPrompt(e.currentTarget.value)}
+          />
+        </FormField>
+        <FormField>
+          <Label htmlFor="task-list-count">
+            Number of task lists to create:
+          </Label>
+          <Input
+            id="task-list-count"
+            type="number"
+            min={1}
+            max={5}
+            value={taskCount}
+            onChange={(e) => setTaskCount(Number(e.currentTarget.value))}
+            disabled={isFormDisabled}
+          />
+        </FormField>
+        <Button disabled={isButtonDisabled} onClick={handleClick}>
+          {isButtonDisabled ? 'Creating...' : 'Create Task Lists with AI'}
+        </Button>
+        {postError && (
+          <Message validation="error">Error submitting task list</Message>
+        )}
+        {useCasesError && (
+          <Message validation="error">Error fetching task list results</Message>
+        )}
+      </div>
       {useCasesData?.result && (
         <div>
-          <h1>Generated Task Lists:</h1>
-          <pre>{JSON.stringify(useCasesData.result, null, 2)}</pre>
+          <LG style={{ marginBottom: appTheme.space.sm }}>
+            Generated Task Lists:
+          </LG>
           {useCasesData.result.useCases.map((useCase: any, index: number) => (
             <AccordionNew level={3} id={useCase.id} key={useCase.id}>
               <AccordionNew.Section>
-                <AccordionNew.Header icon="code">
+                <AccordionNew.Header icon="🤖">
                   <AccordionNew.Label label={`[title] ${useCase.title}`} />
                 </AccordionNew.Header>
                 <AccordionNew.Panel>
-                  <textarea
+                  <Textarea
+                    isResizable
                     value={`
                     [mainFlow] ${useCase.mainFlow} \n
                     [priority] ${useCase.priority} \n
