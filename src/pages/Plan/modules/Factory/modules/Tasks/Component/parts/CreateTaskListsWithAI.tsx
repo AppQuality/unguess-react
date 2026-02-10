@@ -15,10 +15,8 @@ import {
   useGetServicesApiKJobsByJobIdQuery,
   usePostServicesApiKUsecasesMutation,
 } from 'src/features/api';
-import { useModule } from 'src/features/modules/useModule';
 
 export const CreateTaskListsWithAI = () => {
-  const { set } = useModule('tasks');
   const { planId } = useParams();
   const MIN_LENGTH = 1;
   const [userPrompt, setUserPrompt] = useState('');
@@ -33,7 +31,7 @@ export const CreateTaskListsWithAI = () => {
       { jobId: jobData?.jobId || '' },
       {
         skip: !jobData?.jobId,
-        pollingInterval: pollingInterval, // 0 for no polling, 3000 for polling every 3 seconds
+        pollingInterval, // number in ms or 0 for no polling
       }
     );
 
