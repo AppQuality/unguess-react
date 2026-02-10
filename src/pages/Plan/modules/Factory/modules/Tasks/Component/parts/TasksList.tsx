@@ -9,6 +9,7 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { FEATURE_FLAG_CHANGE_MODULES_VARIANTS } from 'src/constants';
+import { useGetServicesApiKHealthQuery } from 'src/features/api';
 import { useModule } from 'src/features/modules/useModule';
 import { useModuleConfiguration } from 'src/features/modules/useModuleConfiguration';
 import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
@@ -18,11 +19,9 @@ import styled from 'styled-components';
 import { useIconWithValidation } from '../../useIcon';
 import { useModuleTasks } from '../hooks';
 import { AddTaskButton } from './AddTaskButton';
+import { CreateTaskListsWithAI } from './CreateTaskListsWithAI';
 import { TasksModal } from './modal';
 import { TasksContainerAnimation } from './TasksContainerAnimation';
-import { CreateTaskListsWithAI } from './CreateTaskListsWithAI';
-import { useGetServicesApiKHealthQuery } from 'src/features/api';
-import { a } from 'motion/dist/react-client';
 
 const StyledCard = styled(ContainerCard)`
   background-color: transparent;
