@@ -5,8 +5,10 @@ import {
   Label,
   Message,
   Input,
+  AccordionNew,
 } from '@appquality/unguess-design-system';
 import { is } from 'date-fns/locale';
+import { use } from 'i18next';
 import { useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import {
@@ -123,6 +125,29 @@ export const CreateTaskListsWithAI = () => {
         <div>
           <h1>Generated Task Lists:</h1>
           <pre>{JSON.stringify(useCasesData.result, null, 2)}</pre>
+          {useCasesData.result.useCases.map((useCase: any, index: number) => (
+            <AccordionNew level={3} id={useCase.id} key={useCase.id}>
+              <AccordionNew.Section>
+                <AccordionNew.Header icon="code">
+                  <AccordionNew.Label label={`[title] ${useCase.title}`} />
+                </AccordionNew.Header>
+                <AccordionNew.Panel>
+                  <textarea
+                    value={`
+                    [mainFlow] ${useCase.mainFlow} \n
+                    [priority] ${useCase.priority} \n
+                    [guidelines] ${useCase.guidelines} \n
+                    [description] ${useCase.description} \n
+                    [preconditions] ${useCase.preconditions} \n
+                    [postconditions] ${useCase.postconditions} \n
+                    [relatedSections] ${useCase.relatedSections.join(', ')} \n
+                    [alternativeFlows] ${useCase.alternativeFlows} \n
+                  `}
+                  />
+                </AccordionNew.Panel>
+              </AccordionNew.Section>
+            </AccordionNew>
+          ))}
         </div>
       )}
     </div>
