@@ -14,6 +14,7 @@ import { useModule } from 'src/features/modules/useModule';
 import { useModuleConfiguration } from 'src/features/modules/useModuleConfiguration';
 import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
 import useWindowSize from 'src/hooks/useWindowSize';
+import { useCanShowAiChat } from 'src/pages/Dashboard/hooks/useCanShowAiChat';
 import { DeleteModuleConfirmationModal } from 'src/pages/Plan/modules/modal/DeleteModuleConfirmationModal';
 import styled from 'styled-components';
 import { useIconWithValidation } from '../../useIcon';
@@ -22,7 +23,6 @@ import { AddTaskButton } from './AddTaskButton';
 import { CreateTaskListsWithAI } from './CreateTaskListsWithAI';
 import { TasksModal } from './modal';
 import { TasksContainerAnimation } from './TasksContainerAnimation';
-import { useCanShowAiChat } from 'src/pages/Dashboard/hooks/useCanShowAiChat';
 
 const StyledCard = styled(ContainerCard)`
   background-color: transparent;
