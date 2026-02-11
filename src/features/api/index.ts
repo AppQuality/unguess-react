@@ -1907,8 +1907,6 @@ export type GetServicesApiKJobsByJobIdApiResponse =
         title: string;
         mainFlow?: string;
         priority?: string;
-        guidelines?: string;
-        description?: string;
         preconditions?: string;
         postconditions?: string;
         relatedSections?: string[];

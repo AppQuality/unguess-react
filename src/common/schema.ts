@@ -3950,8 +3950,6 @@ export interface operations {
                 title: string;
                 mainFlow?: string;
                 priority?: string;
-                guidelines?: string;
-                description?: string;
                 preconditions?: string;
                 postconditions?: string;
                 relatedSections?: string[];
