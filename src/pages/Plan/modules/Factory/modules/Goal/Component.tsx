@@ -1,15 +1,15 @@
 import {
   AccordionNew,
   Editor,
+  EditorRef,
   FormField,
   IconButton,
   Label,
   SM,
   Span,
-  Textarea,
   Tooltip,
 } from '@appquality/unguess-design-system';
-import { ChangeEvent, useState } from 'react';
+import { useRef, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as AlertIcon } from 'src/assets/icons/alert-icon.svg';
@@ -23,6 +23,7 @@ import useWindowSize from 'src/hooks/useWindowSize';
 import { DeleteModuleConfirmationModal } from 'src/pages/Plan/modules/modal/DeleteModuleConfirmationModal';
 import styled from 'styled-components';
 import { useIconWithValidation } from './useIcon';
+import { CommandBar } from './bar';
 
 const StyledInfoBox = styled.div`
   display: flex;
@@ -40,7 +41,7 @@ const Goal = () => {
   const { width } = useWindowSize();
   const breakpointSm = parseInt(appTheme.breakpoints.sm, 10);
   const isMobile = width < breakpointSm;
-
+  const editorRef = useRef<EditorRef>(null);
   const validation = (
     module: components['schemas']['Module'] & { type: 'goal' }
   ) => {
@@ -120,7 +121,7 @@ const Goal = () => {
                   onUpdate={(content) => {
                     handleChange(content.editor.getHTML());
                   }}
-                  hasInlineMenu
+                  ref={editorRef}
                   placeholderOptions={{
                     placeholder: t('__PLAN_PAGE_MODULE_GOAL_PLACEHOLDER'),
                   }}
@@ -132,6 +133,7 @@ const Goal = () => {
                 >
                   {value?.output}
                 </Editor>
+                <CommandBar editorRef={editorRef.current} />
                 <StyledInfoBox>
                   {error && typeof error === 'string' ? (
                     <>
