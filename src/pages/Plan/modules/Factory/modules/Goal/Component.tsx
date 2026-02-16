@@ -1,5 +1,6 @@
 import {
   AccordionNew,
+  Editor,
   FormField,
   IconButton,
   Label,
@@ -64,9 +65,9 @@ const Goal = () => {
     validate();
   };
 
-  const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    const inputValue = e.target.value;
-    setOutput(inputValue);
+  const handleChange = (content: string) => {
+    const strippedContent = content.replace(/<[^>]+>/g, '').trim();
+    setOutput(strippedContent);
   };
 
   const handleDelete = () => {
@@ -113,17 +114,24 @@ const Goal = () => {
                   </Trans>
                   <Span style={{ color: appTheme.palette.red[700] }}>*</Span>
                 </Label>
-                <Textarea
-                  readOnly={getPlanStatus() !== 'draft'}
+                <Editor
+                  editable={getPlanStatus() === 'draft'}
                   data-qa="goal-input"
-                  isResizable
-                  value={value?.output || ''}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
+                  onUpdate={(content) => {
+                    handleChange(content.editor.getHTML());
+                  }}
+                  hasInlineMenu
+                  placeholderOptions={{
+                    placeholder: t('__PLAN_PAGE_MODULE_GOAL_PLACEHOLDER'),
+                  }}
+                  headerTitle={' '}
+                  disableSaveShortcut
                   validation={error ? 'error' : undefined}
-                  placeholder={t('__PLAN_PAGE_MODULE_GOAL_PLACEHOLDER')}
-                  minRows={5}
-                />
+                  onBlur={handleBlur}
+                  {...(error && { validation: 'error' })}
+                >
+                  {value?.output}
+                </Editor>
                 <StyledInfoBox>
                   {error && typeof error === 'string' ? (
                     <>
