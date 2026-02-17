@@ -1011,6 +1011,13 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: () => ({ url: `/users/me/token` }),
     }),
+    postAiJobs: build.mutation<PostAiJobsApiResponse, PostAiJobsApiArg>({
+      query: (queryArg) => ({
+        url: `/ai/jobs`,
+        method: 'POST',
+        body: queryArg.body,
+      }),
+    }),
   }),
   overrideExisting: false,
 });
@@ -2465,6 +2472,17 @@ export type GetUsersMeTokenApiResponse = /** status 200 OK */ {
   token: string;
 };
 export type GetUsersMeTokenApiArg = void;
+export type PostAiJobsApiResponse = /** status 200 OK */ {
+  original_input: string;
+  output: string;
+};
+export type PostAiJobsApiArg = {
+  body: {
+    action: string;
+    target: string;
+    input: string;
+  };
+};
 export type Error = {
   code: number;
   error: boolean;
@@ -3449,4 +3467,5 @@ export const {
   useDeletePlansByPidWatchersAndProfileIdMutation,
   useDeleteCampaignsByCidWatchersAndProfileIdMutation,
   useGetUsersMeTokenQuery,
+  usePostAiJobsMutation,
 } = injectedRtkApi;

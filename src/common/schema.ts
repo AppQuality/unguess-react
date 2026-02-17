@@ -772,6 +772,9 @@ export interface paths {
   "/users/me/token": {
     get: operations["get-users-me-token"];
   };
+  "/ai/jobs": {
+    post: operations["post-ai-jobs"];
+  };
 }
 
 export interface components {
@@ -5239,6 +5242,32 @@ export interface operations {
       };
       400: components["responses"]["Error"];
       403: components["responses"]["Error"];
+    };
+  };
+  "post-ai-jobs": {
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          "application/json": {
+            original_input: string;
+            output: string;
+          };
+        };
+      };
+      400: components["responses"]["Error"];
+      403: components["responses"]["Error"];
+      404: components["responses"]["Error"];
+      500: components["responses"]["Error"];
+    };
+    requestBody: {
+      content: {
+        "application/json": {
+          action: string;
+          target: string;
+          input: string;
+        };
+      };
     };
   };
 }

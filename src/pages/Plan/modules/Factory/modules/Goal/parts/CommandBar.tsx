@@ -4,11 +4,10 @@ import {
   IconButton,
   EditorRef,
 } from '@appquality/unguess-design-system';
-import { ReactComponent as BoldIcon } from '../../../../../../assets/icons/bold-fill.svg';
-import { ReactComponent as ItalicIcon } from '../../../../../../assets/icons/italic-fill.svg';
+import { ReactComponent as BoldIcon } from 'src/assets/icons/bold-fill.svg';
+import { ReactComponent as ItalicIcon } from 'src/assets/icons/italic-fill.svg';
 
 const MenuContainer = styled.div`
-  padding: ${({ theme }) => theme.space.xs} 0;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
@@ -16,16 +15,8 @@ const MenuContainer = styled.div`
   gap: ${({ theme }) => theme.space.xxs};
 `;
 
-const VerticalDivider = styled.div`
-  width: 2px;
-  height: 24px;
-  background-color: ${({ theme }) => theme.palette.grey[300]};
-  margin: 0 ${({ theme }) => theme.space.xs};
-`;
-
 const CommandBar = ({ editorRef }: { editorRef: EditorRef | null }) => {
   if (!editorRef) return null;
-
   const editor = editorRef.getEditor();
 
   const handleBoldClick = () => {
