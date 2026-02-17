@@ -61,6 +61,7 @@ const TasksList = () => {
   const breakpointSm = parseInt(appTheme.breakpoints.sm, 10);
   const isMobile = width < breakpointSm;
 
+  // Determine if AI features can be shown based on API-K health and chat availability
   const canShowChat = useCanShowAiChat();
   const canShowAiFeatures = useMemo(
     () =>
