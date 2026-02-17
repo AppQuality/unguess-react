@@ -5,7 +5,7 @@ import {
   Message,
   Span,
 } from '@appquality/unguess-design-system';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { FEATURE_FLAG_CHANGE_MODULES_VARIANTS } from 'src/constants';
@@ -14,6 +14,7 @@ import { useModule } from 'src/features/modules/useModule';
 import { useModuleConfiguration } from 'src/features/modules/useModuleConfiguration';
 import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
 import useWindowSize from 'src/hooks/useWindowSize';
+import { useCanShowAiChat } from 'src/pages/Dashboard/hooks/useCanShowAiChat';
 import { DeleteModuleConfirmationModal } from 'src/pages/Plan/modules/modal/DeleteModuleConfirmationModal';
 import styled from 'styled-components';
 import { useIconWithValidation } from '../../useIcon';
@@ -60,6 +61,15 @@ const TasksList = () => {
   const breakpointSm = parseInt(appTheme.breakpoints.sm, 10);
   const isMobile = width < breakpointSm;
 
+  const canShowChat = useCanShowAiChat();
+  const canShowAiFeatures = useMemo(
+    () =>
+      canShowChat &&
+      apiK_HealthResponse?.success &&
+      apiK_HealthResponse?.status === 'healthy',
+    [apiK_HealthResponse, canShowChat]
+  );
+
   const handleDelete = () => {
     setIsOpenDeleteModal(true);
   };
@@ -103,8 +113,7 @@ const TasksList = () => {
             {t('__PLAN_PAGE_MODULE_TASKS_SUBTITLE')}
             <Span style={{ color: appTheme.palette.red[600] }}>*</Span>
           </MD>
-          {apiK_HealthResponse?.success &&
-          apiK_HealthResponse?.status === 'healthy' ? (
+          {canShowAiFeatures ? (
             <CreateTaskListsWithAI />
           ) : (
             'API-K endpoint not healthy: AI features are unavailable.'
