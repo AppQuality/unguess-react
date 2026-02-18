@@ -108,10 +108,7 @@ const GoalContent = () => {
   const handleChange = (content: {
     editor: { getHTML: () => string; getText: () => string };
   }) => {
-    const strippedContent = content.editor
-      .getHTML()
-      .replace(/<[^>]+>/g, '')
-      .trim();
+    const strippedContent = content.editor.getText().trim();
     setOutput(strippedContent);
     setWordCount(getWordCount(content.editor.getText()));
     setEditorContent(content.editor.getText());
