@@ -1544,6 +1544,8 @@
   "PLAN_PAGE_MODULE_GOAL_AI_SUGGESTION_BETA_TAG": "Beta",
   "PLAN_PAGE_MODULE_GOAL_AI_SUGGESTION_ERROR_MESSAGE": "Describe your test objective more thoroughly to enable AI improvement.",
   "PLAN_PAGE_MODULE_GOAL_AI_SUGGESTION_ERROR_TITLE": "Not enough details or irrelevant topic",
+  "PLAN_PAGE_MODULE_GOAL_AI_SUGGESTION_GENERIC_ERROR_MESSAGE": "Unable to generate suggestion",
+  "PLAN_PAGE_MODULE_GOAL_AI_SUGGESTION_GENERIC_ERROR_TITLE": "Something went wrong with the AI service. Please try again later.",
   "PLAN_PAGE_MODULE_GOAL_AI_SUGGESTION_LABEL": "AI Suggestion",
   "PLAN_PAGE_MODULE_GOAL_AI_SUGGESTION_REGENERATE_BUTTON": "Try again",
   "PLAN_PAGE_MODULE_GOAL_AI_SUGGESTION_TOOLTIP_DISABLE_BUTTON": "Write a short draft (min. 4 words) to enable AI",

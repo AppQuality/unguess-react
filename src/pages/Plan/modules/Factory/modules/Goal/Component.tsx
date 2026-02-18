@@ -120,7 +120,7 @@ const GoalContent = () => {
     setModalRef(aiButtonRef.current);
     setIsAiLoading(true);
     setAiSuggestion(null);
-    setAiError(false);
+    setAiError(null);
     try {
       const response = await generateAISuggestion({
         body: {
@@ -130,8 +130,12 @@ const GoalContent = () => {
         },
       }).unwrap();
       setAiSuggestion(response.output);
-    } catch {
-      setAiError(true);
+    } catch (e: any) {
+      const message =
+        e instanceof Error
+          ? e.message
+          : e?.data?.message ?? e?.message ?? String(e);
+      setAiError(message);
     } finally {
       setIsAiLoading(false);
     }

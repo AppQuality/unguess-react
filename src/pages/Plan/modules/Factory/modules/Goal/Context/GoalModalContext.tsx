@@ -16,8 +16,8 @@ interface ModuleGoalContextType {
   setAiSuggestion: (suggestion: string | null) => void;
   isAiLoading: boolean;
   setIsAiLoading: (loading: boolean) => void;
-  aiError: boolean;
-  setAiError: (error: boolean) => void;
+  aiError: string | null;
+  setAiError: (error: string | null) => void;
   generateSuggestion: () => void;
   registerGenerateSuggestion: (fn: () => void) => void;
   acceptSuggestion: () => void;
@@ -36,7 +36,7 @@ export const ModuleGoalContextProvider = ({
   const [editorContent, setEditorContent] = useState('');
   const [aiSuggestion, setAiSuggestion] = useState<string | null>(null);
   const [isAiLoading, setIsAiLoading] = useState(false);
-  const [aiError, setAiError] = useState(false);
+  const [aiError, setAiError] = useState<string | null>(null);
   const generateSuggestionRef = useRef<() => void>(() => {});
   const acceptSuggestionRef = useRef<() => void>(() => {});
 

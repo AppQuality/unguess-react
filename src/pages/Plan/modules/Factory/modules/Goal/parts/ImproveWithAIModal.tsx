@@ -30,17 +30,36 @@ const StyledTooltipFooter = styled(TooltipModal.Footer)`
   gap: ${({ theme }) => theme.space.xs};
 `;
 
+const EMPTY_RESPONSE_ERROR = 'AI Agent returned an empty response.';
+
 const AiModalBody = ({
   isAiLoading,
   aiError,
   aiSuggestion,
 }: {
   isAiLoading: boolean;
-  aiError: boolean;
+  aiError: string | null;
   aiSuggestion: string | null;
 }) => {
+  const { t } = useTranslation();
   if (isAiLoading) return <AiModalSkeleton />;
-  if (aiError) return <AiErrorAlert />;
+  if (aiError) {
+    const isEmptyResponse = aiError === EMPTY_RESPONSE_ERROR;
+    return (
+      <AiErrorAlert
+        title={
+          isEmptyResponse
+            ? t('PLAN_PAGE_MODULE_GOAL_AI_SUGGESTION_ERROR_TITLE')
+            : t('PLAN_PAGE_MODULE_GOAL_AI_SUGGESTION_GENERIC_ERROR_TITLE')
+        }
+        message={
+          isEmptyResponse
+            ? t('PLAN_PAGE_MODULE_GOAL_AI_SUGGESTION_ERROR_MESSAGE')
+            : t('PLAN_PAGE_MODULE_GOAL_AI_SUGGESTION_GENERIC_ERROR_MESSAGE')
+        }
+      />
+    );
+  }
   return <div>{aiSuggestion}</div>;
 };
 
