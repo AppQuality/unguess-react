@@ -26,6 +26,10 @@ const StyledTooltipModalTitle = styled(TooltipModal.Title)`
   align-items: center;
 `;
 
+const StyledTooltipFooter = styled(TooltipModal.Footer)`
+  gap: ${({ theme }) => theme.space.xs};
+`;
+
 const AiModalBody = ({
   isAiLoading,
   aiError,
@@ -56,7 +60,7 @@ const ImproveWithAIModal = () => {
     <TooltipModal
       referenceElement={modalRef}
       onClose={() => setModalRef(null)}
-      placement="bottom-end"
+      placement="bottom"
       hasArrow={false}
     >
       <StyledTooltipModalTitle>
@@ -76,7 +80,7 @@ const ImproveWithAIModal = () => {
           aiSuggestion={aiSuggestion}
         />
       </TooltipModal.Body>
-      <TooltipModal.Footer>
+      <StyledTooltipFooter>
         <Button isBasic disabled={isAiLoading} onClick={generateSuggestion}>
           <Button.StartIcon>
             <ReloadIcon />
@@ -91,7 +95,7 @@ const ImproveWithAIModal = () => {
         >
           {t('PLAN_PAGE_MODULE_GOAL_AI_SUGGESTION_ACCEPT_BUTTON')}
         </Button>
-      </TooltipModal.Footer>
+      </StyledTooltipFooter>
     </TooltipModal>
   );
 };
