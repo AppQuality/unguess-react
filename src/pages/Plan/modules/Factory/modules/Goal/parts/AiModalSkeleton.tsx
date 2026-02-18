@@ -4,7 +4,7 @@ import styled from 'styled-components';
 const StyledRowContainer = styled(Row)`
   background-color: ${({ theme }) => theme.palette.grey[100]};
   border-radius: ${({ theme }) => theme.borderRadii.lg};
-  padding: ${({ theme }) => theme.space.sm};
+  padding: ${({ theme }) => theme.space.xs};
 `;
 export const AiModalSkeleton = () => (
   <StyledRowContainer>

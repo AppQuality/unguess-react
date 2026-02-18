@@ -6,9 +6,11 @@ import {
   FormField,
   IconButton,
   Label,
+  Notification,
   SM,
   Span,
   Tooltip,
+  useToast,
 } from '@appquality/unguess-design-system';
 import { useEffect, useRef, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
@@ -58,6 +60,7 @@ const GoalContent = () => {
   const { t } = useTranslation();
   const Icon = useIconWithValidation();
   const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false);
+  const { addToast } = useToast();
   const aiButtonRef = useRef<HTMLButtonElement>(null);
   const {
     setModalRef,
@@ -148,6 +151,20 @@ const GoalContent = () => {
       setWordCount(getWordCount(aiSuggestion));
     }
     setModalRef(null);
+    addToast(
+      ({ close }) => (
+        <Notification
+          onClose={close}
+          type="success"
+          message={t('PLAN_PAGE_MODULE_GOAL_AI_SUGGESTION_ACCEPT_TOAST')}
+          closeText={t(
+            'PLAN_PAGE_MODULE_GOAL_AI_SUGGESTION_ACCEPT_TOAST_CLOSE'
+          )}
+          isPrimary
+        />
+      ),
+      { placement: 'top' }
+    );
   };
 
   useEffect(() => {
@@ -218,17 +235,34 @@ const GoalContent = () => {
                 </Editor>
                 <BarContainer>
                   <CommandBar editorRef={editorRef.current} />
-                  <Button
-                    isBasic
-                    disabled={isGenerateDisabled}
-                    ref={aiButtonRef}
-                    onClick={handleAiSuggestion}
+                  <Tooltip
+                    content={
+                      isGenerateDisabled
+                        ? t(
+                            'PLAN_PAGE_MODULE_GOAL_AI_SUGGESTION_TOOLTIP_DISABLE_BUTTON'
+                          )
+                        : t(
+                            'PLAN_PAGE_MODULE_GOAL_AI_SUGGESTION_TOOLTIP_ENABLE_BUTTON'
+                          )
+                    }
+                    placement="bottom"
+                    type="light"
+                    size="large"
                   >
-                    <Button.StartIcon>
-                      <AiPencilIcon />
-                    </Button.StartIcon>
-                    {t('GENERATE_WITH_AI_CTA_LABEL')}
-                  </Button>
+                    <span>
+                      <Button
+                        isBasic
+                        disabled={isGenerateDisabled}
+                        ref={aiButtonRef}
+                        onClick={handleAiSuggestion}
+                      >
+                        <Button.StartIcon>
+                          <AiPencilIcon />
+                        </Button.StartIcon>
+                        {t('GENERATE_WITH_AI_CTA_LABEL')}
+                      </Button>
+                    </span>
+                  </Tooltip>
                 </BarContainer>
                 <StyledInfoBox>
                   {error && typeof error === 'string' ? (
