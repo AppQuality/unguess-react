@@ -98,7 +98,9 @@ const GoalContent = () => {
   const handleBlur = () => {
     validate();
   };
-  const [wordCount, setWordCount] = useState(0);
+  const [wordCount, setWordCount] = useState(() =>
+    getWordCount(value?.output ?? '')
+  );
   const isGenerateDisabled = wordCount < MIN_WORDS;
   const handleChange = (content: {
     editor: { getHTML: () => string; getText: () => string };
