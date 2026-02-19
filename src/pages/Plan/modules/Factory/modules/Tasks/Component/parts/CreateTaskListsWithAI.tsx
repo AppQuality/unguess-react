@@ -16,6 +16,7 @@ import {
   useGetServicesApiKJobsByJobIdQuery,
   usePostServicesApiKUsecasesMutation,
 } from 'src/features/api';
+import { processItemOutput } from './processItemOutput';
 
 // constants
 const MODULES_TO_PROMPT = [
@@ -179,21 +180,4 @@ export const CreateTaskListsWithAI = () => {
       )}
     </div>
   );
-};
-
-// Helper function to process module item output for better readability in the prompt
-const processItemOutput = (item: any): any => {
-  if (Array.isArray(item)) {
-    // If it's an array, process each item in the array
-    return item.map((subItem) => processItemOutput(subItem));
-  } else if (typeof item === 'object' && item !== null) {
-    // Process object: strip out id and recursively process nested values
-    const { id, ...rest } = item;
-    const processedRest: any = {};
-    for (const [key, value] of Object.entries(rest)) {
-      processedRest[key] = processItemOutput(value);
-    }
-    return processedRest;
-  }
-  return item;
 };
