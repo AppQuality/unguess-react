@@ -54,6 +54,16 @@ const getWordCount = (text: string) => text.split(/\s+/).filter(Boolean).length;
 
 const MIN_WORDS = 4;
 
+const sanitizeText = (text: string): string =>
+  // eslint-disable-next-line no-control-regex
+  text.replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/g, '').trim();
+
+const stripHtml = (html: string): string => {
+  const div = document.createElement('div');
+  div.innerHTML = html;
+  return div.textContent ?? div.innerText ?? '';
+};
+
 const GoalContent = () => {
   const { value, setOutput, remove } = useModule('goal');
   const { getPlanStatus } = useModuleConfiguration();
@@ -108,10 +118,10 @@ const GoalContent = () => {
   const handleChange = (content: {
     editor: { getHTML: () => string; getText: () => string };
   }) => {
-    const strippedContent = content.editor.getText().trim();
+    const strippedContent = sanitizeText(content.editor.getText());
     setOutput(strippedContent);
-    setWordCount(getWordCount(content.editor.getText()));
-    setEditorContent(content.editor.getText());
+    setWordCount(getWordCount(strippedContent));
+    setEditorContent(strippedContent);
   };
   const handleAiSuggestion = async () => {
     setModalRef(aiButtonRef.current);
@@ -146,10 +156,11 @@ const GoalContent = () => {
     if (!aiSuggestion) return;
     const editor = editorRef.current?.getEditor();
     if (editor) {
-      editor.commands.setContent(aiSuggestion);
-      setOutput(aiSuggestion);
-      setEditorContent(aiSuggestion);
-      setWordCount(getWordCount(aiSuggestion));
+      const sanitized = sanitizeText(stripHtml(aiSuggestion));
+      editor.commands.setContent(sanitized);
+      setOutput(sanitized);
+      setEditorContent(sanitized);
+      setWordCount(getWordCount(sanitized));
     }
     setModalRef(null);
     addToast(
