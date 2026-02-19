@@ -28,6 +28,7 @@ import Profile from 'src/pages/Profile';
 import Template from 'src/pages/Template';
 import Templates from 'src/pages/Templates';
 import Video from 'src/pages/Video';
+import JoinPageNew from 'src/pages/JoinPage-new';
 import Videos from 'src/pages/Videos';
 import { Redirect } from './Redirect';
 
@@ -73,10 +74,14 @@ const Pages = () => {
                     path={`/${langPrefix}/login`}
                     element={<LoginPage />}
                   />
-                  <Route path={`/${langPrefix}/join`} element={<JoinPage />} />
+                  {/* <Route path={`/${langPrefix}/join`} element={<JoinPage />} />
                   <Route
                     path={`/${langPrefix}/join/invites/:profile/:token`}
                     element={<JoinPage />}
+                  /> */}
+                  <Route
+                    path={`/${langPrefix}/join/*`}
+                    element={<JoinPageNew />}
                   />
 
                   <Route
@@ -164,7 +169,10 @@ const Pages = () => {
                 errorElement={<ErrorBoundaryPage />}
               />
 
-              <Route
+              {/**
+               * TODO: capire il perchè di questa rotta
+               */}
+              {/* <Route
                 path="/join"
                 element={
                   <Redirect
@@ -176,7 +184,7 @@ const Pages = () => {
                   />
                 }
                 errorElement={<ErrorBoundaryPage />}
-              />
+              /> */}
 
               <Route
                 path="/defect/:defectId/:token"
