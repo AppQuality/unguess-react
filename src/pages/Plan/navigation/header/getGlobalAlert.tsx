@@ -27,12 +27,21 @@ export const useGlobalAlert = () => {
         />
       );
     case 'AwaitingApproval':
+      return (
+        <GlobalAlert
+          message={
+            <>{t('PLAN_GLOBAL_ALERT_AWAITING_APPROVAL_STATE_MESSAGE')}</>
+          }
+          title={t('PLAN_GLOBAL_ALERT_AWAITING_APPROVAL_STATE_TITLE')}
+          type="accent"
+        />
+      );
     case 'AwaitingPayment':
       return (
         <GlobalAlert
           message={<>{t('PLAN_GLOBAL_ALERT_AWATING_STATE_MESSAGE')}</>}
           title={t('PLAN_GLOBAL_ALERT_AWATING_STATE_TITLE')}
-          type="info"
+          type="accent"
         />
       );
     case 'Accepted':
