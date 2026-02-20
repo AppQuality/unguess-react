@@ -2,7 +2,7 @@ import { BankType } from './types';
 
 export const defaultBanks: BankType[] = [
   {
-    name: 'Intesa San Paolo',
+    name: 'Intesa SanPaolo',
     isOther: 0,
   },
   {
