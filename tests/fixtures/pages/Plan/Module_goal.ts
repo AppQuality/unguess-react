@@ -13,20 +13,17 @@ export class GoalModule {
   }
 
   elements() {
-    const module = this.page.locator('[data-qa="plan_page_module_goal"]');
+    const module = this.page.getByTestId('plan_page_module_goal');
     return {
       module: () => module,
       tab: () => this.page.getByTestId('setup-tab'),
-      moduleError: () => module.locator('[data-qa="goal-error"]'),
-      moduleInput: () =>
-        module
-          .locator('[data-qa="goal-input"]')
-          .locator('[contenteditable="true"]'),
+      moduleError: () => module.getByTestId('goal-error'),
+      moduleInput: () => module.getByTestId('goal-input').getByRole('textbox'),
       aiButton: () =>
-        this.page.getByRole('button', {
+        module.getByRole('button', {
           name: this.i18n.t('GENERATE_WITH_AI_CTA_LABEL'),
         }),
-      aiModal: () => this.page.locator('[role="dialog"]'),
+      aiModal: () => this.page.getByRole('dialog'),
       aiModalAcceptButton: () =>
         this.page.getByRole('button', {
           name: this.i18n.t(
@@ -54,6 +51,9 @@ export class GoalModule {
   }
 
   async expectToBeReadonly() {
-    await expect(this.elements().moduleInput()).not.toBeEditable();
+    await expect(this.elements().moduleInput()).toBeVisible();
+    await expect(
+      this.elements().moduleInput().locator('[contenteditable="true"]')
+    ).toBeHidden();
   }
 }
