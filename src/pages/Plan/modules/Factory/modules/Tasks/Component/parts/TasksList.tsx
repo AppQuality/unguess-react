@@ -5,23 +5,21 @@ import {
   Message,
   Span,
 } from '@appquality/unguess-design-system';
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { FEATURE_FLAG_CHANGE_MODULES_VARIANTS } from 'src/constants';
-import { useGetServicesApiKHealthQuery } from 'src/features/api';
 import { useModule } from 'src/features/modules/useModule';
 import { useModuleConfiguration } from 'src/features/modules/useModuleConfiguration';
 import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
 import useWindowSize from 'src/hooks/useWindowSize';
-import { useCanShowAiChat } from 'src/pages/Dashboard/hooks/useCanShowAiChat';
 import { DeleteModuleConfirmationModal } from 'src/pages/Plan/modules/modal/DeleteModuleConfirmationModal';
 import styled from 'styled-components';
 import { useIconWithValidation } from '../../useIcon';
 import { useModuleTasks } from '../hooks';
 import { AddTaskButton } from './AddTaskButton';
-import { CreateTaskListsWithAI } from './CreateTaskListsWithAI';
 import { TasksModal } from './modal';
+import { CreateTaskListsWithAIModal } from './modal/CreateTaskListsWithAIModal';
 import { TasksContainerAnimation } from './TasksContainerAnimation';
 
 const StyledCard = styled(ContainerCard)`
@@ -54,21 +52,13 @@ const TasksList = () => {
   const { getPlanStatus } = useModuleConfiguration();
   const { t } = useTranslation();
   const { hasFeatureFlag } = useFeatureFlag();
-  const { data: apiK_HealthResponse } = useGetServicesApiKHealthQuery();
   const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false);
+  const [isOpenCreateTasksWithAIModal, setIsOpenCreateTasksWithAIModal] =
+    useState(false);
   const Icon = useIconWithValidation();
   const { width } = useWindowSize();
   const breakpointSm = parseInt(appTheme.breakpoints.sm, 10);
   const isMobile = width < breakpointSm;
-
-  const canShowChat = useCanShowAiChat();
-  const canShowAiFeatures = useMemo(
-    () =>
-      canShowChat &&
-      apiK_HealthResponse?.success &&
-      apiK_HealthResponse?.status === 'healthy',
-    [apiK_HealthResponse, canShowChat]
-  );
 
   const handleDelete = () => {
     setIsOpenDeleteModal(true);
@@ -113,7 +103,6 @@ const TasksList = () => {
             {t('__PLAN_PAGE_MODULE_TASKS_SUBTITLE')}
             <Span style={{ color: appTheme.palette.red[600] }}>*</Span>
           </MD>
-          {!!canShowAiFeatures && <CreateTaskListsWithAI />}
           {error &&
             (errorEmpty ? (
               <Message
@@ -141,6 +130,11 @@ const TasksList = () => {
         <DeleteModuleConfirmationModal
           onQuit={() => setIsOpenDeleteModal(false)}
           onConfirm={remove}
+        />
+      )}
+      {isOpenCreateTasksWithAIModal && (
+        <CreateTaskListsWithAIModal
+          onQuit={() => setIsOpenCreateTasksWithAIModal(false)}
         />
       )}
     </>

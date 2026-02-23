@@ -2,10 +2,13 @@ import {
   AccordionNew,
   Button,
   FormField,
+  FooterItem,
   Input,
   Label,
   LG,
   Message,
+  Modal,
+  ModalClose,
   Textarea,
 } from '@appquality/unguess-design-system';
 import { useEffect, useMemo, useState } from 'react';
@@ -16,7 +19,7 @@ import {
   useGetServicesApiKJobsByJobIdQuery,
   usePostServicesApiKUsecasesMutation,
 } from 'src/features/api';
-import { processItemOutput } from './processItemOutput';
+import { processItemOutput } from '../processItemOutput';
 
 // constants
 const MODULES_TO_PROMPT = [
@@ -29,7 +32,7 @@ const MODULES_TO_PROMPT = [
 ];
 const MAX_PROMPT_LENGTH = 102300;
 
-export const CreateTaskListsWithAI = () => {
+const CreateTaskListsWithAIModal = ({ onQuit }: { onQuit: () => void }) => {
   const { planId } = useParams();
   const MIN_LENGTH = 1;
   const [userPrompt, setUserPrompt] = useState('');
@@ -107,61 +110,62 @@ export const CreateTaskListsWithAI = () => {
   }, [useCasesError]);
 
   return (
-    <div>
-      <div style={{ marginBottom: appTheme.space.md }}>
-        <FormField>
-          <Label htmlFor="task-list-prompt">
-            Describe the tasks you want to create:
-          </Label>
-          <Textarea
-            disabled={isFormDisabled}
-            id="task-list-prompt"
-            minLength={MIN_LENGTH}
-            maxLength={102300}
-            placeholder="Enter your task list here..."
-            value={userPrompt}
-            onChange={(e) => setUserPrompt(e.currentTarget.value)}
-          />
-        </FormField>
-        <FormField>
-          <Label htmlFor="task-list-count">
-            Number of task lists to create:
-          </Label>
-          <Input
-            id="task-list-count"
-            type="number"
-            min={1}
-            max={5}
-            value={taskCount}
-            onChange={(e) => setTaskCount(Number(e.currentTarget.value))}
-            disabled={isFormDisabled}
-          />
-        </FormField>
-        <Button disabled={isButtonDisabled} onClick={handleClick}>
-          {isButtonDisabled ? 'Creating...' : 'Create Task Lists with AI'}
-        </Button>
-        {postError && (
-          <Message validation="error">Error submitting task list</Message>
-        )}
-        {useCasesError && (
-          <Message validation="error">Error fetching task list results</Message>
-        )}
-      </div>
-      {useCasesData?.result && (
-        <div>
-          <LG style={{ marginBottom: appTheme.space.sm }}>
-            Generated Task Lists:
-          </LG>
-          {useCasesData.result.useCases.map((useCase: any) => (
-            <AccordionNew level={3} id={useCase.id} key={useCase.id}>
-              <AccordionNew.Section>
-                <AccordionNew.Header icon="🤖">
-                  <AccordionNew.Label label={`[title] ${useCase.title}`} />
-                </AccordionNew.Header>
-                <AccordionNew.Panel>
-                  <Textarea
-                    isResizable
-                    value={`
+    <Modal role="dialog" onClose={onQuit}>
+      <Modal.Header>Create Task Lists with AI</Modal.Header>
+      <Modal.Body>
+        <div style={{ marginBottom: appTheme.space.md }}>
+          <FormField>
+            <Label htmlFor="task-list-prompt">
+              Describe the tasks you want to create:
+            </Label>
+            <Textarea
+              disabled={isFormDisabled}
+              id="task-list-prompt"
+              minLength={MIN_LENGTH}
+              maxLength={102300}
+              placeholder="Enter your task list here..."
+              value={userPrompt}
+              onChange={(e) => setUserPrompt(e.currentTarget.value)}
+            />
+          </FormField>
+          <FormField>
+            <Label htmlFor="task-list-count">
+              Number of task lists to create:
+            </Label>
+            <Input
+              id="task-list-count"
+              type="number"
+              min={1}
+              max={5}
+              value={taskCount}
+              onChange={(e) => setTaskCount(Number(e.currentTarget.value))}
+              disabled={isFormDisabled}
+            />
+          </FormField>
+          {postError && (
+            <Message validation="error">Error submitting task list</Message>
+          )}
+          {useCasesError && (
+            <Message validation="error">
+              Error fetching task list results
+            </Message>
+          )}
+        </div>
+        {useCasesData?.result && (
+          <div>
+            <LG style={{ marginBottom: appTheme.space.sm }}>
+              Generated Task Lists:
+            </LG>
+            {useCasesData.result.useCases.map((useCase: any) => (
+              <AccordionNew level={3} id={useCase.id} key={useCase.id}>
+                <AccordionNew.Section>
+                  <AccordionNew.Header icon="🤖">
+                    <AccordionNew.Label label={`[title] ${useCase.title}`} />
+                  </AccordionNew.Header>
+                  <AccordionNew.Panel>
+                    <Textarea
+                      isResizable
+                      value={`
                     [mainFlow] ${useCase.mainFlow} \n
                     [priority] ${useCase.priority} \n
                     [guidelines] ${useCase.guidelines} \n
@@ -171,13 +175,36 @@ export const CreateTaskListsWithAI = () => {
                     [relatedSections] ${useCase.relatedSections.join(', ')} \n
                     [alternativeFlows] ${useCase.alternativeFlows} \n
                   `}
-                  />
-                </AccordionNew.Panel>
-              </AccordionNew.Section>
-            </AccordionNew>
-          ))}
-        </div>
-      )}
-    </div>
+                    />
+                  </AccordionNew.Panel>
+                </AccordionNew.Section>
+              </AccordionNew>
+            ))}
+          </div>
+        )}
+      </Modal.Body>
+      <Modal.Footer>
+        <FooterItem>
+          <Button
+            disabled={isButtonDisabled}
+            onClick={handleClick}
+            isPrimary
+            isAccent
+          >
+            {isCreating || pollingInterval > 0
+              ? 'Creating...'
+              : 'Create Task Lists with AI'}
+          </Button>
+        </FooterItem>
+        <FooterItem>
+          <Button isBasic onClick={onQuit}>
+            Close
+          </Button>
+        </FooterItem>
+      </Modal.Footer>
+      <ModalClose onClick={onQuit} />
+    </Modal>
   );
 };
+
+export { CreateTaskListsWithAIModal };
