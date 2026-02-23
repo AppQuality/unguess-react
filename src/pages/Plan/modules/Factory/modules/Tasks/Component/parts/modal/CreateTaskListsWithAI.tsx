@@ -1,14 +1,14 @@
 import {
   AccordionNew,
   Button,
-  FormField,
   FooterItem,
-  Input,
+  FormField,
   Label,
   LG,
   Message,
   Modal,
   ModalClose,
+  Spinner,
   Textarea,
 } from '@appquality/unguess-design-system';
 import { useEffect, useMemo, useState } from 'react';
@@ -32,12 +32,13 @@ const MODULES_TO_PROMPT = [
 ];
 const MAX_PROMPT_LENGTH = 102300;
 
-const CreateTaskListsWithAIModal = ({ onQuit }: { onQuit: () => void }) => {
+const CreateTaskListsWithAI = ({ onQuit }: { onQuit: () => void }) => {
   const { planId } = useParams();
   const MIN_LENGTH = 1;
   const [userPrompt, setUserPrompt] = useState('');
   const [isCreating, setIsCreating] = useState(false);
   const [pollingInterval, setPollingInterval] = useState(0);
+  const [isOpenCloseConfirmation, setIsOpenCloseConfirmation] = useState(false);
 
   const { records } = useAppSelector((state) => state.planModules);
 
@@ -64,6 +65,31 @@ const CreateTaskListsWithAIModal = ({ onQuit }: { onQuit: () => void }) => {
     () => userPrompt.length < MIN_LENGTH || isFormDisabled,
     [userPrompt, isFormDisabled]
   );
+
+  const handleCloseClick = () => {
+    if (isFormDisabled) {
+      setIsOpenCloseConfirmation(true);
+    } else {
+      onQuit();
+    }
+  };
+
+  const handleConfirmClose = () => {
+    setIsOpenCloseConfirmation(false);
+    onQuit();
+  };
+
+  const handleCancelClose = () => {
+    setIsOpenCloseConfirmation(false);
+  };
+
+  const handleModalClose = () => {
+    if (isFormDisabled) {
+      setIsOpenCloseConfirmation(true);
+    } else {
+      onQuit();
+    }
+  };
 
   const handleClick = async () => {
     setIsCreating(true);
@@ -109,48 +135,63 @@ const CreateTaskListsWithAIModal = ({ onQuit }: { onQuit: () => void }) => {
   }, [useCasesError]);
 
   return (
-    <Modal role="dialog" onClose={onQuit}>
+    <Modal role="dialog" onClose={handleModalClose}>
       <Modal.Header>Create Task Lists with AI</Modal.Header>
       <Modal.Body>
-        <div style={{ marginBottom: appTheme.space.md }}>
-          <FormField>
-            <Label htmlFor="task-list-prompt">
-              Describe the tasks you want to create:
-            </Label>
-            <Textarea
-              disabled={isFormDisabled}
-              id="task-list-prompt"
-              minLength={MIN_LENGTH}
-              maxLength={102300}
-              placeholder="Enter your task list here..."
-              value={userPrompt}
-              onChange={(e) => setUserPrompt(e.currentTarget.value)}
-            />
-          </FormField>
-          {postError && (
-            <Message validation="error">Error submitting task list</Message>
-          )}
-          {useCasesError && (
-            <Message validation="error">
-              Error fetching task list results
-            </Message>
-          )}
-        </div>
-        {useCasesData?.result && (
-          <div>
-            <LG style={{ marginBottom: appTheme.space.sm }}>
-              Generated Task Lists:
-            </LG>
-            {useCasesData.result.useCases.map((useCase: any) => (
-              <AccordionNew level={3} id={useCase.id} key={useCase.id}>
-                <AccordionNew.Section>
-                  <AccordionNew.Header icon="🤖">
-                    <AccordionNew.Label label={`[title] ${useCase.title}`} />
-                  </AccordionNew.Header>
-                  <AccordionNew.Panel>
-                    <Textarea
-                      isResizable
-                      value={`
+        {isFormDisabled ? (
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              minHeight: '200px',
+            }}
+          >
+            <Spinner />
+          </div>
+        ) : (
+          <>
+            <div style={{ marginBottom: appTheme.space.md }}>
+              <FormField>
+                <Label htmlFor="task-list-prompt">
+                  Describe the tasks you want to create:
+                </Label>
+                <Textarea
+                  disabled={isFormDisabled}
+                  id="task-list-prompt"
+                  minLength={MIN_LENGTH}
+                  maxLength={102300}
+                  placeholder="Enter your task list here..."
+                  value={userPrompt}
+                  onChange={(e) => setUserPrompt(e.currentTarget.value)}
+                />
+              </FormField>
+              {postError && (
+                <Message validation="error">Error submitting task list</Message>
+              )}
+              {useCasesError && (
+                <Message validation="error">
+                  Error fetching task list results
+                </Message>
+              )}
+            </div>
+            {useCasesData?.result && (
+              <div>
+                <LG style={{ marginBottom: appTheme.space.sm }}>
+                  Generated Task Lists:
+                </LG>
+                {useCasesData.result.useCases.map((useCase: any) => (
+                  <AccordionNew level={3} id={useCase.id} key={useCase.id}>
+                    <AccordionNew.Section>
+                      <AccordionNew.Header icon="🤖">
+                        <AccordionNew.Label
+                          label={`[title] ${useCase.title}`}
+                        />
+                      </AccordionNew.Header>
+                      <AccordionNew.Panel>
+                        <Textarea
+                          isResizable
+                          value={`
                     [mainFlow] ${useCase.mainFlow} \n
                     [priority] ${useCase.priority} \n
                     [guidelines] ${useCase.guidelines} \n
@@ -160,12 +201,14 @@ const CreateTaskListsWithAIModal = ({ onQuit }: { onQuit: () => void }) => {
                     [relatedSections] ${useCase.relatedSections.join(', ')} \n
                     [alternativeFlows] ${useCase.alternativeFlows} \n
                   `}
-                    />
-                  </AccordionNew.Panel>
-                </AccordionNew.Section>
-              </AccordionNew>
-            ))}
-          </div>
+                        />
+                      </AccordionNew.Panel>
+                    </AccordionNew.Section>
+                  </AccordionNew>
+                ))}
+              </div>
+            )}
+          </>
         )}
       </Modal.Body>
       <Modal.Footer>
@@ -182,14 +225,36 @@ const CreateTaskListsWithAIModal = ({ onQuit }: { onQuit: () => void }) => {
           </Button>
         </FooterItem>
         <FooterItem>
-          <Button isBasic onClick={onQuit}>
+          <Button isBasic onClick={handleCloseClick}>
             Close
           </Button>
         </FooterItem>
       </Modal.Footer>
-      <ModalClose onClick={onQuit} />
+      <ModalClose onClick={handleCloseClick} />
+      {isOpenCloseConfirmation && (
+        <Modal role="dialog" onClose={handleCancelClose}>
+          <Modal.Header isDanger>Close Task Creation?</Modal.Header>
+          <Modal.Body>
+            Are you sure you want to close? The task creation process is still
+            in progress and will be cancelled.
+          </Modal.Body>
+          <Modal.Footer>
+            <FooterItem>
+              <Button isDanger isBasic onClick={handleConfirmClose}>
+                Close Anyway
+              </Button>
+            </FooterItem>
+            <FooterItem>
+              <Button isPrimary isAccent onClick={handleCancelClose}>
+                Keep Processing
+              </Button>
+            </FooterItem>
+          </Modal.Footer>
+          <ModalClose onClick={handleCancelClose} />
+        </Modal>
+      )}
     </Modal>
   );
 };
 
-export { CreateTaskListsWithAIModal };
+export { CreateTaskListsWithAI };

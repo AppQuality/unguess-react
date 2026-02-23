@@ -19,7 +19,7 @@ import { useIconWithValidation } from '../../useIcon';
 import { useModuleTasks } from '../hooks';
 import { AddTaskButton } from './AddTaskButton';
 import { TasksModal } from './modal';
-import { CreateTaskListsWithAIModal } from './modal/CreateTaskListsWithAIModal';
+import { CreateTaskListsWithAI } from './modal/CreateTaskListsWithAI';
 import { TasksContainerAnimation } from './TasksContainerAnimation';
 
 const StyledCard = styled(ContainerCard)`
@@ -133,7 +133,7 @@ const TasksList = () => {
         />
       )}
       {isOpenCreateTasksWithAIModal && (
-        <CreateTaskListsWithAIModal
+        <CreateTaskListsWithAI
           onQuit={() => setIsOpenCreateTasksWithAIModal(false)}
         />
       )}
