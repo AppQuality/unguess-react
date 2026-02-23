@@ -91,6 +91,11 @@ const CreateTaskListsWithAI = ({ onQuit }: { onQuit: () => void }) => {
     }
   };
 
+  const handleStop = () => {
+    setIsCreating(false);
+    setPollingInterval(0);
+  };
+
   const handleClick = async () => {
     setIsCreating(true);
     // gather modules info to prepend to the user prompt
@@ -214,13 +219,16 @@ const CreateTaskListsWithAI = ({ onQuit }: { onQuit: () => void }) => {
       <Modal.Footer>
         <FooterItem>
           <Button
-            disabled={isButtonDisabled}
-            onClick={handleClick}
+            disabled={isFormDisabled && !pollingInterval}
+            onClick={isFormDisabled ? handleStop : handleClick}
             isPrimary
             isAccent
+            isDanger={isFormDisabled}
           >
-            {isCreating || pollingInterval > 0
+            {isCreating
               ? 'Creating...'
+              : pollingInterval > 0
+              ? 'Stop'
               : 'Create Task Lists with AI'}
           </Button>
         </FooterItem>
