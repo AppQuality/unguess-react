@@ -36,7 +36,6 @@ const CreateTaskListsWithAIModal = ({ onQuit }: { onQuit: () => void }) => {
   const { planId } = useParams();
   const MIN_LENGTH = 1;
   const [userPrompt, setUserPrompt] = useState('');
-  const [taskCount, setTaskCount] = useState(3);
   const [isCreating, setIsCreating] = useState(false);
   const [pollingInterval, setPollingInterval] = useState(0);
 
@@ -81,7 +80,7 @@ const CreateTaskListsWithAIModal = ({ onQuit }: { onQuit: () => void }) => {
     await postServicesApiKUsecases({
       body: {
         planId: planId || '',
-        count: taskCount,
+        count: 5,
         requirements: fullPrompt.slice(0, MAX_PROMPT_LENGTH),
       },
     });
@@ -126,20 +125,6 @@ const CreateTaskListsWithAIModal = ({ onQuit }: { onQuit: () => void }) => {
               placeholder="Enter your task list here..."
               value={userPrompt}
               onChange={(e) => setUserPrompt(e.currentTarget.value)}
-            />
-          </FormField>
-          <FormField>
-            <Label htmlFor="task-list-count">
-              Number of task lists to create:
-            </Label>
-            <Input
-              id="task-list-count"
-              type="number"
-              min={1}
-              max={5}
-              value={taskCount}
-              onChange={(e) => setTaskCount(Number(e.currentTarget.value))}
-              disabled={isFormDisabled}
             />
           </FormField>
           {postError && (
