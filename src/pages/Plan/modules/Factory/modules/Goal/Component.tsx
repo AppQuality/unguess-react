@@ -227,24 +227,26 @@ const GoalContent = () => {
                   </Trans>
                   <Span style={{ color: appTheme.palette.red[700] }}>*</Span>
                 </Label>
-                <Editor
-                  editable={getPlanStatus() === 'draft'}
-                  data-qa="goal-input"
-                  onUpdate={(content) => {
-                    handleChange(content);
-                  }}
-                  ref={editorRef}
-                  placeholderOptions={{
-                    placeholder: t('__PLAN_PAGE_MODULE_GOAL_PLACEHOLDER'),
-                  }}
-                  headerTitle={' '}
-                  disableSaveShortcut
-                  validation={error ? 'error' : undefined}
-                  onBlur={handleBlur}
-                  {...(error && { validation: 'error' })}
-                >
-                  {value?.output}
-                </Editor>
+                <div data-qa="goal-input">
+                  <Editor
+                    editable={getPlanStatus() === 'draft'}
+                    data-qa="goal-input"
+                    onUpdate={(content) => {
+                      handleChange(content);
+                    }}
+                    ref={editorRef}
+                    placeholderOptions={{
+                      placeholder: t('__PLAN_PAGE_MODULE_GOAL_PLACEHOLDER'),
+                    }}
+                    headerTitle={' '}
+                    disableSaveShortcut
+                    validation={error ? 'error' : undefined}
+                    onBlur={handleBlur}
+                    {...(error && { validation: 'error' })}
+                  >
+                    {value?.output}
+                  </Editor>
+                </div>
                 <BarContainer>
                   <CommandBar editorRef={editorRef.current} />
                   <Tooltip

@@ -13,26 +13,40 @@ export class GoalModule {
   }
 
   elements() {
+    const module = this.page.locator('[data-qa="plan_page_module_goal"]');
     return {
-      module: () => this.page.getByTestId('plan_page_module_goal'),
+      module: () => module,
       tab: () => this.page.getByTestId('setup-tab'),
-      moduleError: () => this.elements().module().getByTestId('goal-error'),
-      moduleInput: () => this.elements().module().getByRole('textbox'),
+      moduleError: () => module.locator('[data-qa="goal-error"]'),
+      moduleInput: () =>
+        module
+          .locator('[data-qa="goal-input"]')
+          .locator('[contenteditable="true"]'),
+      aiButton: () =>
+        this.page.getByRole('button', {
+          name: this.i18n.t('GENERATE_WITH_AI_CTA_LABEL'),
+        }),
+      aiModal: () => this.page.locator('[role="dialog"]'),
+      aiModalAcceptButton: () =>
+        this.page.getByRole('button', {
+          name: this.i18n.t(
+            'PLAN_PAGE_MODULE_GOAL_AI_SUGGESTION_ACCEPT_BUTTON'
+          ),
+        }),
     };
   }
 
   static getGoalFromPlan(plan: any) {
     const goalModule = plan.config.modules.find(
-      (module) => module.type === 'goal'
+      (module: any) => module.type === 'goal'
     );
     if (!goalModule) {
       throw new Error('No goal found in plan');
     }
-    if (!(typeof goalModule.output === 'string')) {
+    if (typeof goalModule.output !== 'string') {
       throw new Error('Invalid goal module output');
     }
-    const goalValue = goalModule.output;
-    return goalValue;
+    return goalModule.output;
   }
 
   async goToTab() {
@@ -40,6 +54,6 @@ export class GoalModule {
   }
 
   async expectToBeReadonly() {
-    await expect(this.elements().moduleInput()).toHaveAttribute('readonly', '');
+    await expect(this.elements().moduleInput()).not.toBeEditable();
   }
 }
