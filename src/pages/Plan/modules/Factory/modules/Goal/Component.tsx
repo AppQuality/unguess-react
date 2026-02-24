@@ -124,6 +124,10 @@ const GoalContent = () => {
     setEditorContent(strippedContent);
   };
   const handleAiSuggestion = async () => {
+    const editor = editorRef.current?.getEditor();
+    const currentContent = editor
+      ? sanitizeText(editor.getText())
+      : editorContent;
     setModalRef(aiButtonRef.current);
     setIsAiLoading(true);
     setAiSuggestion(null);
@@ -133,7 +137,7 @@ const GoalContent = () => {
         body: {
           action: 'improve-goal',
           target: 'goal_agent',
-          input: editorContent,
+          input: currentContent,
         },
       }).unwrap();
       setAiSuggestion(response.output);
