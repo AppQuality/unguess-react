@@ -133,11 +133,7 @@ const TasksList = () => {
           onConfirm={remove}
         />
       )}
-      {isOpenCreateTasksWithAIModal && (
-        <CreateTaskListsWithAI
-          onQuit={() => setIsOpenCreateTasksWithAIModal(false)}
-        />
-      )}
+      {isOpenCreateTasksWithAIModal && <CreateTaskListsWithAI />}
     </>
   );
 };

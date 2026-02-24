@@ -19,6 +19,7 @@ import {
   useGetServicesApiKJobsByJobIdQuery,
   usePostServicesApiKUsecasesMutation,
 } from 'src/features/api';
+import { useModuleTasksContext } from '../../context';
 import { processItemOutput } from '../processItemOutput';
 
 // constants
@@ -32,8 +33,9 @@ const MODULES_TO_PROMPT = [
 ];
 const MAX_PROMPT_LENGTH = 102300;
 
-const CreateTaskListsWithAI = ({ onQuit }: { onQuit: () => void }) => {
+const CreateTaskListsWithAI = () => {
   const { planId } = useParams();
+  const { setIsOpenCreateTasksWithAIModal } = useModuleTasksContext();
   const MIN_LENGTH = 1;
   const [userPrompt, setUserPrompt] = useState('');
   const [isCreating, setIsCreating] = useState(false);
@@ -70,13 +72,13 @@ const CreateTaskListsWithAI = ({ onQuit }: { onQuit: () => void }) => {
     if (isFormDisabled) {
       setIsOpenCloseConfirmation(true);
     } else {
-      onQuit();
+      setIsOpenCreateTasksWithAIModal(false);
     }
   };
 
   const handleConfirmClose = () => {
     setIsOpenCloseConfirmation(false);
-    onQuit();
+    setIsOpenCreateTasksWithAIModal(false);
   };
 
   const handleCancelClose = () => {
@@ -87,7 +89,7 @@ const CreateTaskListsWithAI = ({ onQuit }: { onQuit: () => void }) => {
     if (isFormDisabled) {
       setIsOpenCloseConfirmation(true);
     } else {
-      onQuit();
+      setIsOpenCreateTasksWithAIModal(false);
     }
   };
 
@@ -140,7 +142,7 @@ const CreateTaskListsWithAI = ({ onQuit }: { onQuit: () => void }) => {
   }, [useCasesError]);
 
   return (
-    <Modal role="dialog" onClose={handleModalClose}>
+    <Modal role="dialog">
       <Modal.Header>Create Task Lists with AI</Modal.Header>
       <Modal.Body>
         {isFormDisabled ? (
