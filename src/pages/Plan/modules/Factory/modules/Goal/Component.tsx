@@ -92,13 +92,14 @@ const GoalContent = () => {
     module: components['schemas']['Module'] & { type: 'goal' }
   ) => {
     let error;
+    const textOutput = stripHtml(module.output ?? '');
     if (!module.output) {
       error = t('__PLAN_GOAL_SIZE_ERROR_REQUIRED');
     }
-    if (module.output.length < 1) {
+    if (textOutput.length < 1) {
       error = t('__PLAN_GOAL_SIZE_ERROR_REQUIRED');
     }
-    if (module.output.length > 256) {
+    if (textOutput.length > 256) {
       error = t('__PLAN_GOAL_SIZE_ERROR_TOO_LONG');
     }
     return error || true;
@@ -112,14 +113,15 @@ const GoalContent = () => {
     validate();
   };
   const [wordCount, setWordCount] = useState(() =>
-    getWordCount(value?.output ?? '')
+    getWordCount(stripHtml(value?.output ?? ''))
   );
   const isGenerateDisabled = wordCount < MIN_WORDS;
   const handleChange = (content: {
     editor: { getHTML: () => string; getText: () => string };
   }) => {
+    const htmlContent = content.editor.getHTML();
     const strippedContent = sanitizeText(content.editor.getText());
-    setOutput(strippedContent);
+    setOutput(htmlContent);
     setWordCount(getWordCount(strippedContent));
     setEditorContent(strippedContent);
   };
