@@ -273,6 +273,9 @@ const GoalContent = () => {
                     placement="bottom"
                     type="light"
                     size="large"
+                    isVisible={
+                      getPlanStatus() !== 'draft' ? false : undefined
+                    }
                   >
                     <span>
                       <Button
