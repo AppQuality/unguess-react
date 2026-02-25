@@ -15,7 +15,13 @@ const MenuContainer = styled.div`
   gap: ${({ theme }) => theme.space.xxs};
 `;
 
-const CommandBar = ({ editorRef }: { editorRef: EditorRef | null }) => {
+const CommandBar = ({
+  editorRef,
+  disabled,
+}: {
+  editorRef: EditorRef | null;
+  disabled?: boolean;
+}) => {
   if (!editorRef) return null;
   const editor = editorRef.getEditor();
 
@@ -46,6 +52,7 @@ const CommandBar = ({ editorRef }: { editorRef: EditorRef | null }) => {
           isPrimary={editor?.isActive('bold')}
           isPill={false}
           onClick={handleBoldClick}
+          disabled={disabled}
         >
           <BoldIcon />
         </IconButton>
@@ -63,6 +70,7 @@ const CommandBar = ({ editorRef }: { editorRef: EditorRef | null }) => {
           isPrimary={editor?.isActive('italic')}
           isPill={false}
           onClick={handleItalicClick}
+          disabled={disabled}
         >
           <ItalicIcon />
         </IconButton>

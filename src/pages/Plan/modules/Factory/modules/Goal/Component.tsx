@@ -115,7 +115,8 @@ const GoalContent = () => {
   const [wordCount, setWordCount] = useState(() =>
     getWordCount(stripHtml(value?.output ?? ''))
   );
-  const isGenerateDisabled = wordCount < MIN_WORDS;
+  const isGenerateDisabled =
+    wordCount < MIN_WORDS || getPlanStatus() !== 'draft';
   const handleChange = (content: {
     editor: { getHTML: () => string; getText: () => string };
   }) => {
@@ -162,11 +163,12 @@ const GoalContent = () => {
     if (!aiSuggestion) return;
     const editor = editorRef.current?.getEditor();
     if (editor) {
-      const sanitized = sanitizeText(stripHtml(aiSuggestion));
-      editor.commands.setContent(sanitized);
-      setOutput(sanitized);
-      setEditorContent(sanitized);
-      setWordCount(getWordCount(sanitized));
+      const sanitizedHtml = sanitizeText(aiSuggestion);
+      const plainText = sanitizeText(stripHtml(aiSuggestion));
+      editor.commands.setContent(sanitizedHtml);
+      setOutput(sanitizedHtml);
+      setEditorContent(plainText);
+      setWordCount(getWordCount(plainText));
     }
     setModalRef(null);
     addToast(
@@ -254,7 +256,10 @@ const GoalContent = () => {
                   </Editor>
                 </div>
                 <BarContainer>
-                  <CommandBar editorRef={editorRef.current} />
+                  <CommandBar
+                    editorRef={editorRef.current}
+                    disabled={getPlanStatus() !== 'draft'}
+                  />
                   <Tooltip
                     content={
                       isGenerateDisabled
