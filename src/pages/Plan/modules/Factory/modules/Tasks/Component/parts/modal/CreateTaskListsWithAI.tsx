@@ -1,17 +1,21 @@
 import {
-  AccordionNew,
+  Alert,
   Button,
   FooterItem,
   FormField,
-  Label,
-  LG,
+  MD,
   Message,
   Modal,
   ModalClose,
+  Notification,
+  Paragraph,
+  Span,
   Spinner,
   Textarea,
+  useToast,
 } from '@appquality/unguess-design-system';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
+import { Trans, useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { useAppSelector } from 'src/app/hooks';
 import { appTheme } from 'src/app/theme';
@@ -19,8 +23,29 @@ import {
   useGetServicesApiKJobsByJobIdQuery,
   usePostServicesApiKUsecasesMutation,
 } from 'src/features/api';
+import styled from 'styled-components';
 import { useModuleTasksContext } from '../../context';
+import { useModuleTasks } from '../../hooks';
 import { processItemOutput } from '../processItemOutput';
+
+const Loading = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.75;
+  background-color: ${({ theme }) => theme.palette.white};
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: ${appTheme.space.md};
+  font-size: ${appTheme.fontSizes.md};
+  padding: 0 ${appTheme.space.lg};
+`;
 
 // constants
 const MODULES_TO_PROMPT = [
@@ -34,19 +59,23 @@ const MODULES_TO_PROMPT = [
 const MAX_PROMPT_LENGTH = 102300;
 
 const CreateTaskListsWithAI = () => {
+  const { setOutput, value: currentTasks } = useModuleTasks();
+  const { addToast } = useToast();
   const { planId } = useParams();
+  const { t } = useTranslation();
   const { setIsOpenCreateTasksWithAIModal } = useModuleTasksContext();
   const MIN_LENGTH = 1;
   const [userPrompt, setUserPrompt] = useState('');
-  const [isCreating, setIsCreating] = useState(false);
   const [pollingInterval, setPollingInterval] = useState(0);
-  const [isOpenCloseConfirmation, setIsOpenCloseConfirmation] = useState(false);
+  const [isOpenConfirmation, setIsOpenConfirmation] = useState(false);
 
   const { records } = useAppSelector((state) => state.planModules);
 
   // API hooks
-  const [postServicesApiKUsecases, { data: jobData, error: postError }] =
-    usePostServicesApiKUsecasesMutation();
+  const [
+    postServicesApiKUsecases,
+    { data: jobData, error: postError, isLoading: isPostingRequest },
+  ] = usePostServicesApiKUsecasesMutation();
   const { data: useCasesData, error: useCasesError } =
     useGetServicesApiKJobsByJobIdQuery(
       { jobId: jobData?.jobId || '' },
@@ -56,50 +85,27 @@ const CreateTaskListsWithAI = () => {
       }
     );
 
-  // Form inputs and button are disabled while creating the task lists or while polling for results
-  const isFormDisabled = useMemo(
-    () => isCreating || pollingInterval > 0,
-    [isCreating, pollingInterval]
-  );
-
-  // Button is disabled if form is disabled or if user prompt is too short
-  const isButtonDisabled = useMemo(
-    () => userPrompt.length < MIN_LENGTH || isFormDisabled,
-    [userPrompt, isFormDisabled]
-  );
-
-  const handleCloseClick = () => {
-    if (isFormDisabled) {
-      setIsOpenCloseConfirmation(true);
+  const handleClose = () => {
+    if (isPostingRequest || pollingInterval > 0) {
+      setIsOpenConfirmation(true);
     } else {
       setIsOpenCreateTasksWithAIModal(false);
     }
   };
 
   const handleConfirmClose = () => {
-    setIsOpenCloseConfirmation(false);
+    setIsOpenConfirmation(false);
     setIsOpenCreateTasksWithAIModal(false);
   };
-
   const handleCancelClose = () => {
-    setIsOpenCloseConfirmation(false);
-  };
-
-  const handleModalClose = () => {
-    if (isFormDisabled) {
-      setIsOpenCloseConfirmation(true);
-    } else {
-      setIsOpenCreateTasksWithAIModal(false);
-    }
+    setIsOpenConfirmation(false);
   };
 
   const handleStop = () => {
-    setIsCreating(false);
     setPollingInterval(0);
   };
 
   const handleClick = async () => {
-    setIsCreating(true);
     // gather modules info to prepend to the user prompt
     const modulesInfo = Object.entries(records)
       .filter(([key]) => MODULES_TO_PROMPT.includes(key))
@@ -117,7 +123,6 @@ const CreateTaskListsWithAI = () => {
         requirements: fullPrompt.slice(0, MAX_PROMPT_LENGTH),
       },
     });
-    setIsCreating(false);
   };
 
   // Polling for job status every 5 seconds when jobId becomes available or changes
@@ -127,10 +132,36 @@ const CreateTaskListsWithAI = () => {
     }
   }, [jobData?.jobId]);
 
-  // Stop polling when job is completed
+  // Stop polling when job is completed and process the results
   useEffect(() => {
     if (useCasesData?.status === 'completed' && useCasesData?.result) {
       setPollingInterval(0);
+      if (useCasesData?.result) {
+        const newTasks = useCasesData.result.useCases.map((useCase) => ({
+          kind: 'bug' as const,
+          title: useCase.title,
+          description: useCase.mainFlow,
+          id: useCase.id,
+        }));
+        setOutput([...currentTasks, ...newTasks]);
+      }
+      // show a success message
+      addToast(
+        ({ close }) => (
+          <Notification
+            onClose={close}
+            type="success"
+            message={t(
+              '__PLAN_PAGE_MODULE_TASKS_ADD_TASK_MODAL_CREATE_WITH_AI_SUCCESS_TOAST'
+            )}
+            closeText={t('__TOAST_CLOSE_TEXT')}
+            isPrimary
+          />
+        ),
+        { placement: 'top' }
+      );
+      // close the modal after processing the result
+      setIsOpenCreateTasksWithAIModal(false);
     }
   }, [useCasesData]);
 
@@ -143,120 +174,142 @@ const CreateTaskListsWithAI = () => {
 
   return (
     <Modal role="dialog">
-      <Modal.Header>Create Task Lists with AI</Modal.Header>
+      <Modal.Header>
+        {t(
+          '__PLAN_PAGE_MODULE_TASKS_ADD_TASK_MODAL_CREATE_WITH_AI_MODAL_HEADER'
+        )}
+      </Modal.Header>
       <Modal.Body>
-        {isFormDisabled ? (
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              minHeight: '200px',
-            }}
-          >
-            <Spinner />
-          </div>
-        ) : (
-          <>
-            <div style={{ marginBottom: appTheme.space.md }}>
-              <FormField>
-                <Label htmlFor="task-list-prompt">
-                  Describe the tasks you want to create:
-                </Label>
-                <Textarea
-                  disabled={isFormDisabled}
-                  id="task-list-prompt"
-                  minLength={MIN_LENGTH}
-                  maxLength={102300}
-                  placeholder="Enter your task list here..."
-                  value={userPrompt}
-                  onChange={(e) => setUserPrompt(e.currentTarget.value)}
-                />
-              </FormField>
-              {postError && (
-                <Message validation="error">Error submitting task list</Message>
-              )}
-              {useCasesError && (
-                <Message validation="error">
-                  Error fetching task list results
-                </Message>
+        <div>
+          <FormField>
+            <MD style={{ marginBottom: appTheme.space.sm }}>
+              <Trans
+                i18nKey="__PLAN_PAGE_MODULE_TASKS_ADD_TASK_MODAL_CREATE_WITH_AI_PROMPT_LABEL"
+                components={{
+                  title: <MD isBold />,
+                  bold: <Span isBold />,
+                }}
+              />
+            </MD>
+            <div style={{ position: 'relative' }}>
+              <Textarea
+                disabled={isPostingRequest || pollingInterval > 0}
+                id="task-list-prompt"
+                minLength={MIN_LENGTH}
+                maxLength={102300}
+                rows={8}
+                placeholder={t(
+                  '__PLAN_PAGE_MODULE_TASKS_ADD_TASK_MODAL_CREATE_WITH_AI_PROMPT_PLACEHOLDER'
+                )}
+                value={userPrompt}
+                onChange={(e) => setUserPrompt(e.currentTarget.value)}
+              />
+              {(isPostingRequest || pollingInterval > 0) && (
+                <Loading>
+                  <Spinner style={{ width: '28px', height: '28px' }} />
+                  <Paragraph>
+                    {t(
+                      '__PLAN_PAGE_MODULE_TASKS_ADD_TASK_MODAL_CREATE_WITH_AI_LOADING'
+                    )}
+                  </Paragraph>
+                </Loading>
               )}
             </div>
-            {useCasesData?.result && (
-              <div>
-                <LG style={{ marginBottom: appTheme.space.sm }}>
-                  Generated Task Lists:
-                </LG>
-                {useCasesData.result.useCases.map((useCase: any) => (
-                  <AccordionNew level={3} id={useCase.id} key={useCase.id}>
-                    <AccordionNew.Section>
-                      <AccordionNew.Header icon="🤖">
-                        <AccordionNew.Label
-                          label={`[title] ${useCase.title}`}
-                        />
-                      </AccordionNew.Header>
-                      <AccordionNew.Panel>
-                        <Textarea
-                          isResizable
-                          value={`
-                    [mainFlow] ${useCase.mainFlow} \n
-                    [priority] ${useCase.priority} \n
-                    [guidelines] ${useCase.guidelines} \n
-                    [description] ${useCase.description} \n
-                    [preconditions] ${useCase.preconditions} \n
-                    [postconditions] ${useCase.postconditions} \n
-                    [relatedSections] ${useCase.relatedSections.join(', ')} \n
-                    [alternativeFlows] ${useCase.alternativeFlows} \n
-                  `}
-                        />
-                      </AccordionNew.Panel>
-                    </AccordionNew.Section>
-                  </AccordionNew>
-                ))}
-              </div>
-            )}
-          </>
-        )}
+            <Alert type="info" style={{ marginTop: appTheme.space.md }}>
+              <Alert.Title>
+                {t(
+                  '__PLAN_PAGE_MODULE_TASKS_ADD_TASK_MODAL_CREATE_WITH_AI_ALERT_TITLE'
+                )}
+              </Alert.Title>
+              <Trans
+                i18nKey="__PLAN_PAGE_MODULE_TASKS_ADD_TASK_MODAL_CREATE_WITH_AI_ALERT_TEXT"
+                components={{
+                  ul: (
+                    <ul
+                      style={{
+                        paddingTop: '0.5em',
+                        paddingLeft: appTheme.space.md,
+                        listStyle: 'disc',
+                      }}
+                    />
+                  ),
+                  li: <li />,
+                }}
+              />
+            </Alert>
+          </FormField>
+          {postError && (
+            <Message validation="error">
+              {t(
+                '__PLAN_PAGE_MODULE_TASKS_ADD_TASK_MODAL_CREATE_WITH_AI_ERROR_SUBMITTING'
+              )}
+            </Message>
+          )}
+          {useCasesError && (
+            <Message validation="error">
+              {t(
+                '__PLAN_PAGE_MODULE_TASKS_ADD_TASK_MODAL_CREATE_WITH_AI_ERROR_FETCHING'
+              )}
+            </Message>
+          )}
+        </div>
       </Modal.Body>
       <Modal.Footer>
         <FooterItem>
-          <Button
-            disabled={isFormDisabled && !pollingInterval}
-            onClick={isFormDisabled ? handleStop : handleClick}
-            isPrimary
-            isAccent
-            isDanger={isFormDisabled}
-          >
-            {isCreating
-              ? 'Creating...'
-              : pollingInterval > 0
-              ? 'Stop'
-              : 'Create Task Lists with AI'}
+          <Button isBasic onClick={handleClose}>
+            {t('__PLAN_PAGE_MODULE_TASKS_ADD_TASK_MODAL_CREATE_WITH_AI_CANCEL')}
           </Button>
         </FooterItem>
         <FooterItem>
-          <Button isBasic onClick={handleCloseClick}>
-            Close
+          <Button
+            disabled={isPostingRequest || userPrompt.length < MIN_LENGTH}
+            onClick={pollingInterval > 0 ? handleStop : handleClick}
+            isPrimary={pollingInterval === 0 && !isPostingRequest}
+            isAccent={pollingInterval === 0 && !isPostingRequest}
+          >
+            {isPostingRequest
+              ? t(
+                  '__PLAN_PAGE_MODULE_TASKS_ADD_TASK_MODAL_CREATE_WITH_AI_CREATING',
+                  'Creating...'
+                )
+              : pollingInterval > 0
+              ? t(
+                  '__PLAN_PAGE_MODULE_TASKS_ADD_TASK_MODAL_CREATE_WITH_AI_STOP',
+                  'Stop Generation'
+                )
+              : t(
+                  '__PLAN_PAGE_MODULE_TASKS_ADD_TASK_MODAL_CREATE_WITH_AI_CREATE_BUTTON',
+                  'Create'
+                )}
           </Button>
         </FooterItem>
       </Modal.Footer>
-      <ModalClose onClick={handleCloseClick} />
-      {isOpenCloseConfirmation && (
+      <ModalClose onClick={handleClose} />
+      {isOpenConfirmation && (
         <Modal role="dialog" onClose={handleCancelClose}>
-          <Modal.Header isDanger>Close Task Creation?</Modal.Header>
+          <Modal.Header isDanger>
+            {t(
+              '__PLAN_PAGE_MODULE_TASKS_ADD_TASK_MODAL_CREATE_WITH_AI_CONFIRM_CLOSE_HEADER'
+            )}
+          </Modal.Header>
           <Modal.Body>
-            Are you sure you want to close? The task creation process is still
-            in progress and will be cancelled.
+            {t(
+              '__PLAN_PAGE_MODULE_TASKS_ADD_TASK_MODAL_CREATE_WITH_AI_CONFIRM_CLOSE_BODY'
+            )}
           </Modal.Body>
           <Modal.Footer>
             <FooterItem>
               <Button isDanger isBasic onClick={handleConfirmClose}>
-                Close Anyway
+                {t(
+                  '__PLAN_PAGE_MODULE_TASKS_ADD_TASK_MODAL_CREATE_WITH_AI_CONFIRM_CLOSE_CLOSE_ANYWAY'
+                )}
               </Button>
             </FooterItem>
             <FooterItem>
               <Button isPrimary isAccent onClick={handleCancelClose}>
-                Keep Processing
+                {t(
+                  '__PLAN_PAGE_MODULE_TASKS_ADD_TASK_MODAL_CREATE_WITH_AI_CONFIRM_CLOSE_KEEP_PROCESSING'
+                )}
               </Button>
             </FooterItem>
           </Modal.Footer>
