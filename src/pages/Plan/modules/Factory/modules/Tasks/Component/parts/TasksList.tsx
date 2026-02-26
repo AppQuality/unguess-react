@@ -113,11 +113,7 @@ const TasksList = () => {
             {t('__PLAN_PAGE_MODULE_TASKS_SUBTITLE')}
             <Span style={{ color: appTheme.palette.red[600] }}>*</Span>
           </MD>
-          {canShowAiFeatures ? (
-            <CreateTaskListsWithAI />
-          ) : (
-            'API-K endpoint not healthy: AI features are unavailable.'
-          )}
+          {!!canShowAiFeatures && <CreateTaskListsWithAI />}
           {error &&
             (errorEmpty ? (
               <Message
