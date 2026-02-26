@@ -101,6 +101,7 @@ export const LightboxContainer = ({
     [onSlideChange, videoRefs]
   );
 
+  // eslint-disable-next-line security/detect-object-injection
   const activeItem = items[activeIndex];
 
   return (
@@ -150,6 +151,7 @@ export const LightboxContainer = ({
                     {item.mime_type.type === 'video' && (
                       <Player
                         ref={(ref) => {
+                          // eslint-disable-next-line security/detect-object-injection
                           videoRefs.current[index] = ref;
                         }}
                         url={item.url}
@@ -175,6 +177,7 @@ export const LightboxContainer = ({
         <Button
           isBasic
           onClick={() => {
+            // eslint-disable-next-line security/detect-object-injection
             const media = items[activeIndex];
             if (media) window.open(media.url, '_blank');
           }}

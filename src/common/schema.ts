@@ -308,7 +308,7 @@ export interface paths {
     };
   };
   "/campaigns/{cid}/videos": {
-    /** Return all published video for a specific campaign */
+    /** Return all published **video and audio files** for a specific campaign */
     get: operations["get-campaigns-cid-videos"];
     parameters: {
       path: {
@@ -454,6 +454,20 @@ export interface paths {
         token: string;
       };
     };
+  };
+  "/services/api-k/usecases": {
+    /** Creates a job to generate use cases based on requirements */
+    post: operations["post-services-api-k-usecases"];
+    parameters: {};
+  };
+  "/services/api-k/jobs/{jobId}": {
+    /** Gets the status and results of a use case generation job */
+    get: operations["get-services-api-k-jobs-jobId"];
+    parameters: {};
+  };
+  "/services/api-k/health": {
+    /** Returns the health status of the API-K service */
+    get: operations["get-services-api-k-health"];
   };
   "/templates/categories": {
     get: operations["get-templates-categories"];
@@ -666,6 +680,43 @@ export interface paths {
       };
     };
   };
+  "/workflows/{slug}": {
+    get: operations["get-workflows-slug"];
+    parameters: {
+      path: {
+        slug: string;
+      };
+    };
+  };
+  "/workflows/{slug}/threads": {
+    get: operations["get-workflows-slug-threads"];
+    post: operations["post-workflows-slug-threads"];
+    parameters: {
+      path: {
+        slug: string;
+      };
+    };
+  };
+  "/workflows/{slug}/threads/{id}": {
+    /** Returns thread information along with all chat messages from all runs */
+    get: operations["get-workflows-slug-threads-id"];
+    parameters: {
+      path: {
+        slug: string;
+        id: string;
+      };
+    };
+  };
+  "/workflows/{slug}/threads/{id}/chat": {
+    /** Example endpoint used to test connection between frontend and mastra serve */
+    post: operations["post-workflows-slug-threads-id-chat"];
+    parameters: {
+      path: {
+        slug: string;
+        id: string;
+      };
+    };
+  };
   "/workspaces/{wid}/templates": {
     get: operations["get-workspaces-templates"];
     post: operations["post-workspaces-wid-templates"];
@@ -717,6 +768,12 @@ export interface paths {
         cid: string;
       };
     };
+  };
+  "/users/me/token": {
+    get: operations["get-users-me-token"];
+  };
+  "/ai/jobs": {
+    post: operations["post-ai-jobs"];
   };
 }
 
@@ -1897,6 +1954,18 @@ export interface components {
       sharedItems?: number;
       tokens: number;
     };
+    /** ChatMessage */
+    ChatMessage: {
+      id?: string;
+      /** @enum {undefined} */
+      role?: "system" | "user" | "assistant";
+      parts?: {
+        type?: string;
+        text?: string;
+        state?: string;
+        data?: { [key: string]: unknown };
+      }[];
+    };
   };
   responses: {
     /** Shared error response */
@@ -2093,6 +2162,9 @@ export interface operations {
               };
               /** @enum {string} */
               payment_status?: "paid" | "unpaid";
+              total_details?: {
+                amount_discount?: number;
+              };
             };
           };
           /** @enum {undefined} */
@@ -3218,7 +3290,7 @@ export interface operations {
       };
     };
   };
-  /** Return all published video for a specific campaign */
+  /** Return all published **video and audio files** for a specific campaign */
   "get-campaigns-cid-videos": {
     parameters: {
       path: {
@@ -3819,6 +3891,117 @@ export interface operations {
       };
       /** Forbidden */
       403: unknown;
+    };
+  };
+  /** Creates a job to generate use cases based on requirements */
+  "post-services-api-k-usecases": {
+    parameters: {};
+    responses: {
+      /** Job created successfully */
+      200: {
+        content: {
+          "application/json": {
+            jobId: string;
+          };
+        };
+      };
+      /** Forbidden - Not authenticated */
+      403: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+      /** Service unavailable - API-K not configured */
+      503: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": {
+          /** @description The requirements text to generate use cases from */
+          requirements: string;
+          /** @description Number of use cases to generate */
+          count: number;
+          /** @description The plan ID to associate with the generation */
+          planId: string;
+        };
+      };
+    };
+  };
+  /** Gets the status and results of a use case generation job */
+  "get-services-api-k-jobs-jobId": {
+    parameters: {
+      path: {
+        /** The job ID returned from the use cases generation endpoint */
+        jobId: string;
+      };
+    };
+    responses: {
+      /** Job status retrieved successfully */
+      200: {
+        content: {
+          "application/json": {
+            /** @enum {string} */
+            status: "processing" | "completed";
+            progress: number;
+            result?: {
+              useCases: {
+                id: string;
+                title: string;
+                mainFlow?: string;
+                priority?: string;
+                preconditions?: string;
+                postconditions?: string;
+                relatedSections?: string[];
+                alternativeFlows?: string;
+              }[];
+              useCaseCount: number;
+            };
+          };
+        };
+      };
+      /** Forbidden - Not authenticated */
+      403: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+      /** Job not found */
+      404: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+      /** Service unavailable - API-K not configured */
+      503: {
+        content: {
+          "application/json": components["schemas"]["Error"];
+        };
+      };
+    };
+  };
+  /** Returns the health status of the API-K service */
+  "get-services-api-k-health": {
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          "application/json": {
+            /**
+             * @example healthy
+             * @enum {string}
+             */
+            status: "healthy";
+            /** @enum {integer} */
+            success: 1;
+          };
+        };
+      };
+      403: components["responses"]["Error"];
+      503: components["responses"]["Error"];
     };
   };
   "get-templates-categories": {
@@ -4593,6 +4776,8 @@ export interface operations {
         "application/json": {
           users: {
             id: number;
+            /** @default false */
+            notify?: boolean;
           }[];
         };
       };
@@ -4670,6 +4855,134 @@ export interface operations {
             id: number;
             notify?: boolean;
           }[];
+        };
+      };
+    };
+  };
+  "get-workflows-slug": {
+    parameters: {
+      path: {
+        slug: string;
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          "application/json": {
+            definition: string;
+            id: number;
+            /** @description Json workflow definition */
+            slug: string;
+          };
+        };
+      };
+      400: components["responses"]["Error"];
+      403: components["responses"]["Error"];
+      404: components["responses"]["Error"];
+      500: components["responses"]["Error"];
+    };
+  };
+  "get-workflows-slug-threads": {
+    parameters: {
+      path: {
+        slug: string;
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          "application/json": {
+            items: {
+              id: number;
+              slug: string;
+              /** Format: date-time */
+              created: string;
+            }[];
+          };
+        };
+      };
+      403: components["responses"]["Error"];
+      404: components["responses"]["Error"];
+    };
+  };
+  "post-workflows-slug-threads": {
+    parameters: {
+      path: {
+        slug: string;
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          "application/json": {
+            id: number;
+          };
+        };
+      };
+    };
+  };
+  /** Returns thread information along with all chat messages from all runs */
+  "get-workflows-slug-threads-id": {
+    parameters: {
+      path: {
+        slug: string;
+        id: string;
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          "application/json": {
+            id: number;
+            name: string;
+            /** Format: date-time */
+            created: string;
+            runs?: {
+              id?: number;
+              mastraRunId?: string;
+              messages?: {
+                userMessage?: string;
+                aiResponse?: string;
+              }[];
+            }[];
+          };
+        };
+      };
+      403: components["responses"]["Error"];
+      404: components["responses"]["Error"];
+      500: components["responses"]["Error"];
+    };
+  };
+  /** Example endpoint used to test connection between frontend and mastra serve */
+  "post-workflows-slug-threads-id-chat": {
+    parameters: {
+      path: {
+        slug: string;
+        id: string;
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          "text/event-stream": { [key: string]: unknown };
+          "application/json": { [key: string]: unknown };
+        };
+      };
+      403: components["responses"]["Error"];
+      500: components["responses"]["Error"];
+    };
+    requestBody: {
+      content: {
+        "application/json": {
+          messages: components["schemas"]["ChatMessage"][];
+          context?: {
+            workspace?: components["schemas"]["Workspace"];
+          };
         };
       };
     };
@@ -4915,6 +5228,46 @@ export interface operations {
       400: components["responses"]["Error"];
       403: components["responses"]["Error"];
       500: components["responses"]["Error"];
+    };
+  };
+  "get-users-me-token": {
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          "application/json": {
+            token: string;
+          };
+        };
+      };
+      400: components["responses"]["Error"];
+      403: components["responses"]["Error"];
+    };
+  };
+  "post-ai-jobs": {
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          "application/json": {
+            original_input: string;
+            output: string;
+          };
+        };
+      };
+      400: components["responses"]["Error"];
+      403: components["responses"]["Error"];
+      404: components["responses"]["Error"];
+      500: components["responses"]["Error"];
+    };
+    requestBody: {
+      content: {
+        "application/json": {
+          action: string;
+          target: string;
+          input: string;
+        };
+      };
     };
   };
 }

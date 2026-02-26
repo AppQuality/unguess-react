@@ -323,6 +323,23 @@ export class PlanPage extends UnguessPage {
     });
   }
 
+  async mockAiSuggestion(output: string) {
+    await this.page.route('*/**/api/ai/jobs', async (route) => {
+      if (route.request().method() === 'POST') {
+        await route.fulfill({
+          status: 200,
+          contentType: 'application/json',
+          headers: {
+            'Access-Control-Allow-Origin': '*',
+          },
+          body: JSON.stringify({ output }),
+        });
+      } else {
+        await route.fallback();
+      }
+    });
+  }
+
   // some modules are mandatory, in this api call we mock a plan with only mandatory modules
   async mockGetDraftWithOnlyMandatoryModulesPlan() {
     await this.page.route('*/**/api/plans/1', async (route) => {
