@@ -291,6 +291,7 @@ const AdditionalTargetContent = () => {
                     <span>
                       <Button
                         isBasic
+                        size="small"
                         disabled={isGenerateDisabled}
                         ref={aiButtonRef}
                         onClick={handleAiSuggestion}
