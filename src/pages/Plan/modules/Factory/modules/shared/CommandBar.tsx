@@ -15,7 +15,7 @@ const MenuContainer = styled.div`
   gap: ${({ theme }) => theme.space.xxs};
 `;
 
-const CommandBar = ({
+export const CommandBar = ({
   editorRef,
   disabled,
 }: {
@@ -78,5 +78,3 @@ const CommandBar = ({
     </MenuContainer>
   );
 };
-
-export { CommandBar };

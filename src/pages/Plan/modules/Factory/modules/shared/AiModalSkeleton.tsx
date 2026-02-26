@@ -6,6 +6,7 @@ const StyledRowContainer = styled(Row)`
   border-radius: ${({ theme }) => theme.borderRadii.lg};
   padding: ${({ theme }) => theme.space.xs};
 `;
+
 export const AiModalSkeleton = () => (
   <StyledRowContainer>
     <Col size={12}>
