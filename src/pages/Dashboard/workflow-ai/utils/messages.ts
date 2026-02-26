@@ -12,11 +12,9 @@ export const parseMessages = (messages: UIMessage[]) => {
     .flatMap((m) => m.parts)
     .findLast((p): p is WorkflowDataPart => p.type === 'data-workflow');
 
-  console.debug('🚀 ~ parseMessages ~ lastWorkflowPart:', lastWorkflowPart);
-
   const stepsObj = lastWorkflowPart?.data.steps || {};
   const blockingSteps = Object.entries(stepsObj).filter(
-    ([_, step]) => step.status !== 'success'
+    ([, step]) => step.status !== 'success'
   );
 
   // Considerando gli step innestato come "step1.substepA", "step1.substepB", prendiamo lo step più profondo

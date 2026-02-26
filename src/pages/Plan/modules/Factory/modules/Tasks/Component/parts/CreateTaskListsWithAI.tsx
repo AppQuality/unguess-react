@@ -47,7 +47,6 @@ export const CreateTaskListsWithAI = () => {
 
   const handleClick = async () => {
     setIsCreating(true);
-    console.log('Button clicked', userPrompt);
     await postServicesApiKUsecases({
       body: {
         planId: planId || '',
@@ -61,7 +60,6 @@ export const CreateTaskListsWithAI = () => {
   // Polling for job status every 5 seconds when jobId becomes available or changes
   useEffect(() => {
     if (jobData?.jobId) {
-      console.log('Job ID received:', jobData.jobId);
       setPollingInterval(5000);
     }
   }, [jobData?.jobId]);
@@ -69,7 +67,6 @@ export const CreateTaskListsWithAI = () => {
   // Stop polling when job is completed
   useEffect(() => {
     if (useCasesData?.status === 'completed' && useCasesData?.result) {
-      console.log('Use cases data received:', useCasesData);
       setPollingInterval(0);
     }
   }, [useCasesData]);
@@ -127,7 +124,7 @@ export const CreateTaskListsWithAI = () => {
           <LG style={{ marginBottom: appTheme.space.sm }}>
             Generated Task Lists:
           </LG>
-          {useCasesData.result.useCases.map((useCase: any, index: number) => (
+          {useCasesData.result.useCases.map((useCase: any) => (
             <AccordionNew level={3} id={useCase.id} key={useCase.id}>
               <AccordionNew.Section>
                 <AccordionNew.Header icon="🤖">

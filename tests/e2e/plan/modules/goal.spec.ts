@@ -22,16 +22,16 @@ test.describe('The title module defines the Plan title.', () => {
   test('It should have a text area that show the value of the module', async () => {
     const goal = GoalModule.getGoalFromPlan(draft);
     await expect(goalModule.elements().module()).toBeVisible();
-    await expect(goalModule.elements().moduleInput()).toHaveValue(goal);
+    await expect(goalModule.elements().moduleInput()).toHaveText(goal);
   });
 
   test('It should have a text area that show the value of the module and a way to change it', async () => {
     const goal = GoalModule.getGoalFromPlan(draft);
     await expect(goalModule.elements().module()).toBeVisible();
-    await expect(goalModule.elements().moduleInput()).toHaveValue(goal);
+    await expect(goalModule.elements().moduleInput()).toHaveText(goal);
     await goalModule.elements().moduleInput().click();
     await goalModule.elements().moduleInput().fill('New Goal');
-    await expect(goalModule.elements().moduleInput()).toHaveValue('New Goal');
+    await expect(goalModule.elements().moduleInput()).toHaveText('New Goal');
   });
 
   test('It should show an error if the textArea is empty', async () => {
@@ -51,6 +51,35 @@ test.describe('The title module defines the Plan title.', () => {
     await expect(goalModule.elements().moduleError()).toBeVisible();
     await expect(goalModule.elements().moduleError()).toHaveText(
       planPage.i18n.t('__PLAN_GOAL_SIZE_ERROR_TOO_LONG')
+    );
+  });
+
+  test('It should allow improving the goal with AI only when word count >= 4', async ({
+    page,
+  }) => {
+    const aiSuggestionText = 'This is a better goal suggested by AI';
+
+    await planPage.mockAiSuggestion(aiSuggestionText);
+
+    await goalModule.elements().moduleInput().click();
+
+    await goalModule.elements().moduleInput().fill('test this ecommerce');
+    await expect(goalModule.elements().aiButton()).toBeDisabled();
+
+    await goalModule
+      .elements()
+      .moduleInput()
+      .fill('test this ecommerce website');
+    await expect(goalModule.elements().aiButton()).toBeEnabled();
+
+    await goalModule.elements().aiButton().click();
+    await expect(goalModule.elements().aiModal()).toBeVisible();
+    await expect(page.getByText(aiSuggestionText)).toBeVisible();
+
+    await goalModule.elements().aiModalAcceptButton().click();
+    await expect(goalModule.elements().aiModal()).toBeHidden();
+    await expect(goalModule.elements().moduleInput()).toHaveText(
+      aiSuggestionText
     );
   });
 });
