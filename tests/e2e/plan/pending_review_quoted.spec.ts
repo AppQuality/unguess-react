@@ -32,9 +32,9 @@ test.describe('A Plan page in pending request with a quote from us', () => {
     ).not.toBeVisible();
     await expect(moduleBuilderPage.elements().extraActionsMenu()).toBeVisible();
     await expect(
-      page
-        .getByRole('status')
-        .filter({ hasText: i18n.t('PLAN_GLOBAL_ALERT_AWATING_STATE_TITLE') })
+      page.getByRole('status').filter({
+        hasText: i18n.t('PLAN_GLOBAL_ALERT_AWAITING_APPROVAL_STATE_MESSAGE'),
+      })
     ).toBeVisible();
     await expect(
       page.getByText(
