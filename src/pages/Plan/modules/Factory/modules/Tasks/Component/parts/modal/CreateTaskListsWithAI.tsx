@@ -9,12 +9,10 @@ import {
   Modal,
   ModalClose,
   Notification,
-  Paragraph,
   Select,
   Span,
-  Spinner,
   Textarea,
-  useToast,
+  useToast
 } from '@appquality/unguess-design-system';
 import { useEffect, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
@@ -25,29 +23,10 @@ import {
   useGetServicesApiKJobsByJobIdQuery,
   usePostServicesApiKUsecasesMutation,
 } from 'src/features/api';
-import styled from 'styled-components';
 import { useModuleTasksContext } from '../../context';
 import { useModuleTasks } from '../../hooks';
 import { processItemOutput } from '../processItemOutput';
-
-const Loading = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  width: 100%;
-  height: 100%;
-  opacity: 0.75;
-  background-color: ${({ theme }) => theme.palette.white};
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  gap: ${appTheme.space.md};
-  font-size: ${appTheme.fontSizes.md};
-  padding: 0 ${appTheme.space.lg};
-`;
+import { LoadingSpinner } from './LoadingSpinner';
 
 // constants
 const MODULES_TO_PROMPT = [
@@ -68,6 +47,7 @@ const CreateTaskListsWithAI = () => {
   const { setIsOpenCreateTasksWithAIModal } = useModuleTasksContext();
   const MIN_LENGTH = 1;
   const [userPrompt, setUserPrompt] = useState('');
+  const [usecaseNumber, setUsecaseNumber] = useState<number | undefined>(undefined);
   const [pollingInterval, setPollingInterval] = useState(0);
   const [isOpenConfirmation, setIsOpenConfirmation] = useState(false);
 
@@ -121,7 +101,7 @@ const CreateTaskListsWithAI = () => {
     await postServicesApiKUsecases({
       body: {
         planId: planId || '',
-        count: 5,
+        count: usecaseNumber as number, // usecaseNumber always have a value here because the button is disabled when it's undefined
         requirements: fullPrompt.slice(0, MAX_PROMPT_LENGTH),
       },
     });
@@ -214,6 +194,7 @@ const CreateTaskListsWithAI = () => {
             <Select
               id="tasks-qty"
               placeholder='Select'
+              inputValue={usecaseNumber !== undefined ? `${usecaseNumber}` : ''}
               label={
                 <>
                   {t(
@@ -222,7 +203,7 @@ const CreateTaskListsWithAI = () => {
                   <Span style={{ color: appTheme.palette.red[600] }}>*</Span>
                 </>
               }
-              onChange={() => {}}
+              onChange={(value) => setUsecaseNumber(Number(value))}
               isDisabled={isPostingRequest || pollingInterval > 0}
               style={{ maxWidth: '150px' }}
             >
@@ -253,15 +234,8 @@ const CreateTaskListsWithAI = () => {
                 value={userPrompt}
                 onChange={(e) => setUserPrompt(e.currentTarget.value)}
               />
-              {(isPostingRequest || pollingInterval > 0) && (
-                <Loading>
-                  <Spinner style={{ width: '28px', height: '28px' }} />
-                  <Paragraph>
-                    {t(
-                      '__PLAN_PAGE_MODULE_TASKS_ADD_TASK_MODAL_CREATE_WITH_AI_LOADING'
-                    )}
-                  </Paragraph>
-                </Loading>
+              {true && (
+                <LoadingSpinner />
               )}
             </div>
           </FormField>
@@ -311,7 +285,7 @@ const CreateTaskListsWithAI = () => {
         </FooterItem>
         <FooterItem>
           <Button
-            disabled={isPostingRequest || userPrompt.length < MIN_LENGTH}
+            disabled={isPostingRequest || userPrompt.length < MIN_LENGTH || usecaseNumber === undefined}
             onClick={pollingInterval > 0 ? handleStop : handleClick}
             isPrimary={pollingInterval === 0 && !isPostingRequest}
             isAccent={pollingInterval === 0 && !isPostingRequest}
