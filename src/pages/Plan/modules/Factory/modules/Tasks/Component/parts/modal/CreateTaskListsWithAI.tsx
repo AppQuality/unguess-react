@@ -193,8 +193,8 @@ const CreateTaskListsWithAI = () => {
           <FormField style={{ marginBottom: appTheme.space.md }}>
             <Select
               id="tasks-qty"
-              placeholder='Select'
               inputValue={usecaseNumber !== undefined ? `${usecaseNumber}` : ''}
+              selectionValue={usecaseNumber ? usecaseNumber.toString() : ''}
               label={
                 <>
                   {t(
@@ -203,12 +203,12 @@ const CreateTaskListsWithAI = () => {
                   <Span style={{ color: appTheme.palette.red[600] }}>*</Span>
                 </>
               }
-              onChange={(value) => setUsecaseNumber(Number(value))}
+              onSelect={(value) => setUsecaseNumber(Number(value))}
               isDisabled={isPostingRequest || pollingInterval > 0}
               style={{ maxWidth: '150px' }}
             >
               {[1, 2, 3, 4, 5].map((item) => (
-                <Select.Option key={item} label={`${item}`} value={`${item}`} />
+                <Select.Option key={item} label={`${item}`} value={`${item}`} isSelected={usecaseNumber === item} />
               ))}
             </Select>
           </FormField>
@@ -234,7 +234,7 @@ const CreateTaskListsWithAI = () => {
                 value={userPrompt}
                 onChange={(e) => setUserPrompt(e.currentTarget.value)}
               />
-              {true && (
+              {(isPostingRequest || pollingInterval > 0) && (
                 <LoadingSpinner />
               )}
             </div>
