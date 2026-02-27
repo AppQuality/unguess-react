@@ -142,7 +142,7 @@ const OutOfScopeContent = () => {
     try {
       const response = await generateAISuggestion({
         body: {
-          action: 'improve_out_of_scope',
+          action: 'improve-out-of-scope',
           target: 'out_of_scope_agent',
           input: currentContent,
         },

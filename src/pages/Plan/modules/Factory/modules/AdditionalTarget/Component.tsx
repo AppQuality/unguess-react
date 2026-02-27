@@ -142,7 +142,7 @@ const AdditionalTargetContent = () => {
     try {
       const response = await generateAISuggestion({
         body: {
-          action: 'improve_criteria',
+          action: 'improve-criteria',
           target: 'criteria_controller_agent',
           input: currentContent,
         },
