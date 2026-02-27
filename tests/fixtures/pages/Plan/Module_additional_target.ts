@@ -2,7 +2,7 @@ import { expect, type Page } from '@playwright/test';
 import { i18n } from 'i18next';
 import { getI18nInstance } from 'playwright-i18next-fixture';
 
-export class OutOfScopeModule {
+export class AdditionalTargetModule {
   readonly page: Page;
 
   readonly i18n: i18n;
@@ -13,13 +13,13 @@ export class OutOfScopeModule {
   }
 
   elements() {
-    const module = this.page.getByTestId('out-of-scope-module');
+    const module = this.page.getByTestId('additional-target-module');
     return {
       module: () => module,
-      tab: () => this.page.getByTestId('instructions-tab'),
-      moduleError: () => module.getByTestId('out-of-scope-error'),
+      tab: () => this.page.getByTestId('target-tab'),
+      moduleError: () => module.getByTestId('additional-target-error'),
       moduleInput: () =>
-        module.getByTestId('out-of-scope-input').getByRole('textbox'),
+        module.getByTestId('additional-target-input').getByRole('textbox'),
       aiButton: () =>
         module.getByRole('button', {
           name: this.i18n.t('GENERATE_WITH_AI_CTA_LABEL'),
@@ -34,17 +34,17 @@ export class OutOfScopeModule {
     };
   }
 
-  static getOutOfScopeFromPlan(plan: any) {
-    const outOfScopeModule = plan.config.modules.find(
-      (module: any) => module.type === 'out_of_scope'
+  static getAdditionalTargetFromPlan(plan: any) {
+    const additionalTargetModule = plan.config.modules.find(
+      (module: any) => module.type === 'additional_target'
     );
-    if (!outOfScopeModule) {
-      throw new Error('No outOfScope found in plan');
+    if (!additionalTargetModule) {
+      throw new Error('No additionalTarget found in plan');
     }
-    if (typeof outOfScopeModule.output !== 'string') {
-      throw new Error('Invalid outOfScope module output');
+    if (typeof additionalTargetModule.output !== 'string') {
+      throw new Error('Invalid additionalTarget module output');
     }
-    return outOfScopeModule.output;
+    return additionalTargetModule.output;
   }
 
   async goToTab() {

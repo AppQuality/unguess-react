@@ -1,5 +1,6 @@
 import { type Page } from '@playwright/test';
 import { UnguessPage } from '../../UnguessPage';
+import { AdditionalTargetModule } from './Module_additional_target';
 import { AgeModule } from './Module_age';
 import { BankModule } from './Module_bank';
 import { BrowserModule } from './Module_browser';
@@ -35,6 +36,7 @@ export class PlanPage extends UnguessPage {
       age: new AgeModule(page),
       gender: new GenderModule(page),
       outOfScope: new OutOfScopeModule(page),
+      additionalTarget: new AdditionalTargetModule(page),
       digitalLiteracy: new DigitalLiteracyModule(page),
       language: new LanguageModule(page),
       target: new TargetModule(page),
