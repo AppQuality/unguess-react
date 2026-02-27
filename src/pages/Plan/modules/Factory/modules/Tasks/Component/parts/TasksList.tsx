@@ -53,8 +53,7 @@ const TasksList = () => {
   const { getPlanStatus } = useModuleConfiguration();
   const { t } = useTranslation();
   const { hasFeatureFlag } = useFeatureFlag();
-  const { isOpenCreateTasksWithAIModal } =
-    useModuleTasksContext();
+  const { isOpenCreateTasksWithAIModal } = useModuleTasksContext();
   const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false);
   const Icon = useIconWithValidation();
   const { width } = useWindowSize();

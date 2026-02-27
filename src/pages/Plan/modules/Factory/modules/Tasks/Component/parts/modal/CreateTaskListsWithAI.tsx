@@ -12,7 +12,7 @@ import {
   Select,
   Span,
   Textarea,
-  useToast
+  useToast,
 } from '@appquality/unguess-design-system';
 import { useEffect, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
@@ -47,7 +47,9 @@ const CreateTaskListsWithAI = () => {
   const { setIsOpenCreateTasksWithAIModal } = useModuleTasksContext();
   const MIN_LENGTH = 1;
   const [userPrompt, setUserPrompt] = useState('');
-  const [usecaseNumber, setUsecaseNumber] = useState<number | undefined>(undefined);
+  const [usecaseNumber, setUsecaseNumber] = useState<number | undefined>(
+    undefined
+  );
   const [pollingInterval, setPollingInterval] = useState(0);
   const [isOpenConfirmation, setIsOpenConfirmation] = useState(false);
 
@@ -208,7 +210,12 @@ const CreateTaskListsWithAI = () => {
               style={{ maxWidth: '150px' }}
             >
               {[1, 2, 3, 4, 5].map((item) => (
-                <Select.Option key={item} label={`${item}`} value={`${item}`} isSelected={usecaseNumber === item} />
+                <Select.Option
+                  key={item}
+                  label={`${item}`}
+                  value={`${item}`}
+                  isSelected={usecaseNumber === item}
+                />
               ))}
             </Select>
           </FormField>
@@ -234,9 +241,7 @@ const CreateTaskListsWithAI = () => {
                 value={userPrompt}
                 onChange={(e) => setUserPrompt(e.currentTarget.value)}
               />
-              {(isPostingRequest || pollingInterval > 0) && (
-                <LoadingSpinner />
-              )}
+              {(isPostingRequest || pollingInterval > 0) && <LoadingSpinner />}
             </div>
           </FormField>
           <Alert type="info" style={{ marginTop: appTheme.space.md }}>
@@ -285,7 +290,11 @@ const CreateTaskListsWithAI = () => {
         </FooterItem>
         <FooterItem>
           <Button
-            disabled={isPostingRequest || userPrompt.length < MIN_LENGTH || usecaseNumber === undefined}
+            disabled={
+              isPostingRequest ||
+              userPrompt.length < MIN_LENGTH ||
+              usecaseNumber === undefined
+            }
             onClick={pollingInterval > 0 ? handleStop : handleClick}
             isPrimary={pollingInterval === 0 && !isPostingRequest}
             isAccent={pollingInterval === 0 && !isPostingRequest}

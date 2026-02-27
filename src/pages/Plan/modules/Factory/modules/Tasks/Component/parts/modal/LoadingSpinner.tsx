@@ -33,11 +33,14 @@ const TasksList = styled.ul`
 `;
 
 const TaskItem = styled.li<{ $isActive: boolean; $isCompleted: boolean }>`
-position: relative;
+  position: relative;
   padding-left: ${appTheme.space.lg};
-  opacity: ${({ $isActive, $isCompleted }) => ($isActive || $isCompleted ? 1 : 0.5)};
+  opacity: ${({ $isActive, $isCompleted }) =>
+    $isActive || $isCompleted ? 1 : 0.5};
   ${({ $isActive, $isCompleted }) =>
-    !$isActive && !$isCompleted ? `animation: pulse 1.5s ease-in-out infinite;` : ''}
+    !$isActive && !$isCompleted
+      ? `animation: pulse 1.5s ease-in-out infinite;`
+      : ''}
   transition: opacity 0.3s ease-in-out;
 
   &::before {
@@ -72,7 +75,8 @@ position: relative;
   }
 
   @keyframes pulse {
-    0%, 100% {
+    0%,
+    100% {
       opacity: 0.4;
     }
     50% {
@@ -92,10 +96,18 @@ const LoadingSpinner = () => {
   const [elapsedTime, setElapsedTime] = useState(0);
 
   const PROCESSING_TASKS = {
-    1: t('__PLAN_PAGE_MODULE_TASKS_ADD_TASK_MODAL_CREATE_WITH_AI_TASK_COLLECTING_INPUTS'),
-    2: t('__PLAN_PAGE_MODULE_TASKS_ADD_TASK_MODAL_CREATE_WITH_AI_TASK_ANALYZING_CONTEXT'),
-    3: t('__PLAN_PAGE_MODULE_TASKS_ADD_TASK_MODAL_CREATE_WITH_AI_TASK_IDENTIFYING_AREAS'),
-    4: t('__PLAN_PAGE_MODULE_TASKS_ADD_TASK_MODAL_CREATE_WITH_AI_TASK_GENERATING_TASKS'),
+    1: t(
+      '__PLAN_PAGE_MODULE_TASKS_ADD_TASK_MODAL_CREATE_WITH_AI_TASK_COLLECTING_INPUTS'
+    ),
+    2: t(
+      '__PLAN_PAGE_MODULE_TASKS_ADD_TASK_MODAL_CREATE_WITH_AI_TASK_ANALYZING_CONTEXT'
+    ),
+    3: t(
+      '__PLAN_PAGE_MODULE_TASKS_ADD_TASK_MODAL_CREATE_WITH_AI_TASK_IDENTIFYING_AREAS'
+    ),
+    4: t(
+      '__PLAN_PAGE_MODULE_TASKS_ADD_TASK_MODAL_CREATE_WITH_AI_TASK_GENERATING_TASKS'
+    ),
   };
 
   // Calculate which task is active based on elapsed time
@@ -103,7 +115,10 @@ const LoadingSpinner = () => {
     const processingDuration = PHASES.PROCESSING.end - PHASES.PROCESSING.start;
     const timeInProcessing = elapsedTime - PHASES.PROCESSING.start;
     if (timeInProcessing < 0) return -1;
-    return Math.floor((timeInProcessing / processingDuration) * Object.keys(PROCESSING_TASKS).length);
+    return Math.floor(
+      (timeInProcessing / processingDuration) *
+        Object.keys(PROCESSING_TASKS).length
+    );
   };
 
   const activeTaskIndex = getActiveTaskIndex();
@@ -120,20 +135,29 @@ const LoadingSpinner = () => {
     if (elapsedTime < PHASES.GATHERING.end) {
       return (
         <Paragraph>
-          {t('__PLAN_PAGE_MODULE_TASKS_ADD_TASK_MODAL_CREATE_WITH_AI_GATHERING')}
+          {t(
+            '__PLAN_PAGE_MODULE_TASKS_ADD_TASK_MODAL_CREATE_WITH_AI_GATHERING'
+          )}
         </Paragraph>
       );
     }
 
-    if (elapsedTime >= PHASES.PROCESSING.start && elapsedTime < PHASES.PROCESSING.end) {
+    if (
+      elapsedTime >= PHASES.PROCESSING.start &&
+      elapsedTime < PHASES.PROCESSING.end
+    ) {
       return (
         <TasksList>
-          {Object.entries(PROCESSING_TASKS).map(([index, taskLabel], idx) => {
+          {Object.entries(PROCESSING_TASKS).map(([, taskLabel], idx) => {
             const isCompleted = idx < activeTaskIndex;
             const isActive = idx === activeTaskIndex;
 
             return (
-              <TaskItem key={taskLabel} $isActive={isActive} $isCompleted={isCompleted}>
+              <TaskItem
+                key={taskLabel}
+                $isActive={isActive}
+                $isCompleted={isCompleted}
+              >
                 <Paragraph>{taskLabel}</Paragraph>
               </TaskItem>
             );

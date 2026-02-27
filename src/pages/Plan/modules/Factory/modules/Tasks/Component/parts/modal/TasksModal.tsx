@@ -1,8 +1,4 @@
-import {
-  MD,
-  Tabs,
-  TooltipModal,
-} from '@appquality/unguess-design-system';
+import { MD, Tabs, TooltipModal } from '@appquality/unguess-design-system';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
