@@ -1,13 +1,11 @@
 import {
-  Button,
   MD,
   Tabs,
   TooltipModal,
 } from '@appquality/unguess-design-system';
 import { useMemo } from 'react';
-import { Trans, useTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
-import { ReactComponent as AiIcon } from 'src/assets/icons/ai-icon.svg';
 import { Divider } from 'src/common/components/divider';
 import { components } from 'src/common/schema';
 import { FEATURE_FLAG_CHANGE_MODULES_VARIANTS } from 'src/constants';

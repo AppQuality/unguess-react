@@ -3,12 +3,14 @@ import {
   Button,
   FooterItem,
   FormField,
+  Label,
   MD,
   Message,
   Modal,
   ModalClose,
   Notification,
   Paragraph,
+  Select,
   Span,
   Spinner,
   Textarea,
@@ -199,17 +201,46 @@ const CreateTaskListsWithAI = () => {
       </Modal.Header>
       <Modal.Body>
         <div>
-          <FormField>
-            <MD style={{ marginBottom: appTheme.space.sm }}>
-              <Trans
-                i18nKey="__PLAN_PAGE_MODULE_TASKS_ADD_TASK_MODAL_CREATE_WITH_AI_PROMPT_LABEL"
-                components={{
-                  title: <MD isBold />,
-                  bold: <Span isBold />,
-                }}
-              />
-            </MD>
-            <div style={{ position: 'relative' }}>
+          <MD style={{ marginBottom: appTheme.space.sm }}>
+            <Trans
+              i18nKey="__PLAN_PAGE_MODULE_TASKS_ADD_TASK_MODAL_CREATE_WITH_AI_PROMPT_INFO"
+              components={{
+                title: <MD isBold />,
+                bold: <Span isBold />,
+              }}
+            />
+          </MD>
+          <FormField style={{ marginBottom: appTheme.space.md }}>
+            <Select
+              id="tasks-qty"
+              placeholder='Select'
+              label={
+                <>
+                  {t(
+                    '__PLAN_PAGE_MODULE_TASKS_ADD_TASK_MODAL_CREATE_WITH_AI_TASKS_QUANTITY_LABEL'
+                  )}
+                  <Span style={{ color: appTheme.palette.red[600] }}>*</Span>
+                </>
+              }
+              onChange={() => {}}
+              isDisabled={isPostingRequest || pollingInterval > 0}
+              style={{ maxWidth: '150px' }}
+            >
+              {[1, 2, 3, 4, 5].map((item) => (
+                <Select.Option key={item} label={`${item}`} value={`${item}`} />
+              ))}
+            </Select>
+          </FormField>
+          <FormField style={{ marginBottom: appTheme.space.md }}>
+            <Label htmlFor="task-list-prompt">
+              {t(
+                '__PLAN_PAGE_MODULE_TASKS_ADD_TASK_MODAL_CREATE_WITH_AI_PROMPT_LABEL'
+              )}
+              <Span style={{ color: appTheme.palette.red[600] }}>*</Span>
+            </Label>
+            <div
+              style={{ position: 'relative', paddingTop: appTheme.space.xs }}
+            >
               <Textarea
                 disabled={isPostingRequest || pollingInterval > 0}
                 id="task-list-prompt"
@@ -233,29 +264,29 @@ const CreateTaskListsWithAI = () => {
                 </Loading>
               )}
             </div>
-            <Alert type="info" style={{ marginTop: appTheme.space.md }}>
-              <Alert.Title>
-                {t(
-                  '__PLAN_PAGE_MODULE_TASKS_ADD_TASK_MODAL_CREATE_WITH_AI_ALERT_TITLE'
-                )}
-              </Alert.Title>
-              <Trans
-                i18nKey="__PLAN_PAGE_MODULE_TASKS_ADD_TASK_MODAL_CREATE_WITH_AI_ALERT_TEXT"
-                components={{
-                  ul: (
-                    <ul
-                      style={{
-                        paddingTop: '0.5em',
-                        paddingLeft: appTheme.space.md,
-                        listStyle: 'disc',
-                      }}
-                    />
-                  ),
-                  li: <li />,
-                }}
-              />
-            </Alert>
           </FormField>
+          <Alert type="info" style={{ marginTop: appTheme.space.md }}>
+            <Alert.Title>
+              {t(
+                '__PLAN_PAGE_MODULE_TASKS_ADD_TASK_MODAL_CREATE_WITH_AI_ALERT_TITLE'
+              )}
+            </Alert.Title>
+            <Trans
+              i18nKey="__PLAN_PAGE_MODULE_TASKS_ADD_TASK_MODAL_CREATE_WITH_AI_ALERT_TEXT"
+              components={{
+                ul: (
+                  <ul
+                    style={{
+                      paddingTop: '0.5em',
+                      paddingLeft: appTheme.space.md,
+                      listStyle: 'disc',
+                    }}
+                  />
+                ),
+                li: <li />,
+              }}
+            />
+          </Alert>
           {postError && (
             <Message validation="error">
               {t(
