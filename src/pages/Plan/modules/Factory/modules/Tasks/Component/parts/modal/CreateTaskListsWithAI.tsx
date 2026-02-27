@@ -172,6 +172,24 @@ const CreateTaskListsWithAI = () => {
     }
   }, [useCasesError]);
 
+  let buttonLabel: string;
+  if (isPostingRequest) {
+    buttonLabel = t(
+      '__PLAN_PAGE_MODULE_TASKS_ADD_TASK_MODAL_CREATE_WITH_AI_CREATING',
+      'Creating...'
+    );
+  } else if (pollingInterval > 0) {
+    buttonLabel = t(
+      '__PLAN_PAGE_MODULE_TASKS_ADD_TASK_MODAL_CREATE_WITH_AI_STOP',
+      'Stop Generation'
+    );
+  } else {
+    buttonLabel = t(
+      '__PLAN_PAGE_MODULE_TASKS_ADD_TASK_MODAL_CREATE_WITH_AI_CREATE_BUTTON',
+      'Create'
+    );
+  }
+
   return (
     <Modal role="dialog">
       <Modal.Header>
@@ -267,20 +285,7 @@ const CreateTaskListsWithAI = () => {
             isPrimary={pollingInterval === 0 && !isPostingRequest}
             isAccent={pollingInterval === 0 && !isPostingRequest}
           >
-            {isPostingRequest
-              ? t(
-                  '__PLAN_PAGE_MODULE_TASKS_ADD_TASK_MODAL_CREATE_WITH_AI_CREATING',
-                  'Creating...'
-                )
-              : pollingInterval > 0
-              ? t(
-                  '__PLAN_PAGE_MODULE_TASKS_ADD_TASK_MODAL_CREATE_WITH_AI_STOP',
-                  'Stop Generation'
-                )
-              : t(
-                  '__PLAN_PAGE_MODULE_TASKS_ADD_TASK_MODAL_CREATE_WITH_AI_CREATE_BUTTON',
-                  'Create'
-                )}
+            {buttonLabel}
           </Button>
         </FooterItem>
       </Modal.Footer>
