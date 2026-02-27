@@ -197,6 +197,7 @@ const CreateTaskListsWithAI = () => {
               id="tasks-qty"
               inputValue={usecaseNumber !== undefined ? `${usecaseNumber}` : ''}
               selectionValue={usecaseNumber ? usecaseNumber.toString() : ''}
+              placeholder='Select'
               label={
                 <>
                   {t(
