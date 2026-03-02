@@ -29,7 +29,7 @@ export function useUtmParams(): UtmParams {
   UTM_KEYS.forEach((key) => {
     const value = searchParams.get(key);
     if (value) {
-      urlParams[key] = value;
+      urlParams[`${key}`] = value;
     }
   });
 
