@@ -16,7 +16,6 @@ export function useJoinSubmit(isInvited: boolean) {
   const sendGTMevent = useSendGTMevent({ loggedUser: false });
 
   const templateParam = searchParams.get('template');
-  const utmSource = searchParams.get('utm_source');
   let templateId: number | undefined;
 
   if (templateParam !== null) {
@@ -28,10 +27,6 @@ export function useJoinSubmit(isInvited: boolean) {
       window.location.reload();
     }
     templateId = parsed;
-  }
-
-  if (utmSource !== null) {
-    sessionStorage.setItem('utmSource', utmSource);
   }
 
   const onSubmit = useCallback(
