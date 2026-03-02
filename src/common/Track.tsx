@@ -3,6 +3,7 @@ import { Helmet } from 'react-helmet';
 import { useLocation } from 'react-router-dom';
 import { useGetUsersMeQuery } from 'src/features/api';
 import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
+import { useUtmParams } from 'src/hooks/useUtmParams';
 import { useAnalytics } from 'use-analytics';
 
 export const Track = ({
@@ -19,7 +20,7 @@ export const Track = ({
   const { data: userData, isLoading, isSuccess } = useGetUsersMeQuery();
   const { activeWorkspace } = useActiveWorkspace();
   const { track, identify, page } = useAnalytics();
-  const utmSource = sessionStorage.getItem('utmSource');
+  const utmParams = useUtmParams();
   const location = useLocation();
 
   const defaultMeta = [
@@ -39,7 +40,7 @@ export const Track = ({
   ];
 
   useEffect(() => {
-    page();
+    page(utmParams);
   }, [location]);
 
   const helmet = () => (
@@ -64,7 +65,7 @@ export const Track = ({
         email: userData.email,
         company: activeWorkspace.company,
         workspace: activeWorkspace,
-        ...((utmSource && { utm_source: utmSource }) || {}),
+        ...utmParams,
       });
 
       track(
