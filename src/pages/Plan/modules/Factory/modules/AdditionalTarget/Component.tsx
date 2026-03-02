@@ -246,7 +246,7 @@ const AdditionalTargetContent = () => {
                     {t('__FORM_OPTIONAL_LABEL')}
                   </Span>
                 </Label>
-                <div data-qa="additional-target-input">
+                <div data-qa="additional-target-input" style={{ marginTop: appTheme.space.xs }}>
                   <Editor
                     editable={getPlanStatus() === 'draft'}
                     data-qa="additional-target-input"

@@ -4,8 +4,8 @@ import {
   IconButton,
   EditorRef,
 } from '@appquality/unguess-design-system';
-import { ReactComponent as BoldIcon } from 'src/assets/icons/bold-fill.svg';
-import { ReactComponent as ItalicIcon } from 'src/assets/icons/italic-fill.svg';
+import { ReactComponent as BoldIcon } from 'src/assets/icons/bold-stroke.svg';
+import { ReactComponent as ItalicIcon } from 'src/assets/icons/italic-stroke.svg';
 
 const MenuContainer = styled.div`
   display: flex;
@@ -43,7 +43,7 @@ export const CommandBar = ({
         content={`${'Bold text'}`}
         placement="top"
         type="light"
-        size="small"
+        size="medium"
         hasArrow={false}
       >
         <IconButton
@@ -61,7 +61,7 @@ export const CommandBar = ({
         content="Italic text"
         placement="top"
         type="light"
-        size="small"
+        size="medium"
         hasArrow={false}
       >
         <IconButton
