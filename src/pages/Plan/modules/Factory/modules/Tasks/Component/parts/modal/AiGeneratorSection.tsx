@@ -19,7 +19,9 @@ const AiGeneratorSection = ({
   }
 
   return (
-    <div style={{ marginBottom: appTheme.space.md, marginTop: appTheme.space.md }}>
+    <div
+      style={{ marginBottom: appTheme.space.md, marginTop: appTheme.space.md }}
+    >
       <Tag>{t('__PLAN_PAGE_MODULE_TASKS_ADD_TASK_MODAL_AI_BETA_TAG')}</Tag>
       <MD
         style={{
