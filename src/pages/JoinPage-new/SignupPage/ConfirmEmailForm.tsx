@@ -31,19 +31,21 @@ interface ConfirmEmailFormValues {
   code: string;
 }
 
-interface ConfirmEmailFormProps {
-  email: string;
-}
-
 const confirmEmailValidationSchema = Yup.object().shape({
   code: Yup.string()
     .required('CONFIRM_EMAIL_CODE_REQUIRED')
     .min(6, 'CONFIRM_EMAIL_CODE_MIN_LENGTH'),
 });
 
-export const ConfirmEmailForm = ({ email }: ConfirmEmailFormProps) => {
+export const ConfirmEmailForm = ({
+  email,
+  password,
+}: {
+  email: string;
+  password: string;
+}) => {
   const { t } = useTranslation();
-  const { confirmSignup } = useAuth();
+  const { confirmSignup, login } = useAuth();
   const navigate = useNavigate();
   const sendGTMevent = useSendGTMevent({ loggedUser: false });
 
@@ -52,6 +54,7 @@ export const ConfirmEmailForm = ({ email }: ConfirmEmailFormProps) => {
     { setSubmitting, setFieldError }: FormikHelpers<ConfirmEmailFormValues>
   ) => {
     try {
+      // Conferma email
       await confirmSignup(email, values.code);
 
       sendGTMevent({
@@ -60,8 +63,22 @@ export const ConfirmEmailForm = ({ email }: ConfirmEmailFormProps) => {
         action: 'email confirmed',
       });
 
-      // Redirect all'onboarding
-      navigate('/join/onboarding');
+      // Login immediato dopo conferma
+      await login(email, password);
+
+      sendGTMevent({
+        event: 'sign-up-flow',
+        category: 'not invited',
+        action: 'auto-login completed',
+      });
+
+      // Redirect all'onboarding già autenticato
+      navigate('/join/onboarding', {
+        state: {
+          type: 'new',
+          email,
+        },
+      });
     } catch (error: any) {
       // eslint-disable-next-line no-console
       console.error('Confirmation error:', error);

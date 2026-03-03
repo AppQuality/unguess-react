@@ -46,14 +46,13 @@ const FormContainer = styled.div`
 const SignupPage = () => {
   const { t } = useTranslation();
   const [userEmail, setUserEmail] = useState('');
+  const [userPassword, setUserPassword] = useState('');
   const [needsConfirmation, setNeedsConfirmation] = useState(false);
 
   const meta = [
     { name: 'og:description', content: t('__PAGE_JOIN_DESCRIPTION') },
     { name: 'robots', content: 'index, follow' },
   ];
-
-  console.log('SignupPage render - needsConfirmation:', needsConfirmation);
 
   return (
     <Track
@@ -71,11 +70,15 @@ const SignupPage = () => {
                 </LogoWrapper>
                 <FormContainer>
                   {needsConfirmation ? (
-                    <ConfirmEmailForm email={userEmail} />
+                    <ConfirmEmailForm
+                      email={userEmail}
+                      password={userPassword}
+                    />
                   ) : (
                     <SignupForm
-                      onSignupSuccess={(email) => {
+                      onSignupSuccess={(email, password) => {
                         setUserEmail(email);
+                        setUserPassword(password);
                         setNeedsConfirmation(true);
                       }}
                     />

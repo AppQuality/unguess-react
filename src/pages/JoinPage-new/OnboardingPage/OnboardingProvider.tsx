@@ -12,9 +12,18 @@ export interface OnboardingData {
   workspace: string;
 }
 
+export interface OnboardingUserData {
+  email?: string;
+  password?: string;
+  profileId?: number;
+  token?: string;
+  type: 'new' | 'invite';
+}
+
 interface OnboardingContextType {
   step: number;
   data: OnboardingData;
+  userData: OnboardingUserData;
   setStep: (step: number) => void;
   updateData: (data: Partial<OnboardingData>) => void;
 }
@@ -22,10 +31,14 @@ interface OnboardingContextType {
 const OnboardingContext = createContext<OnboardingContextType | null>(null);
 
 interface OnboardingProviderProps {
+  userData: OnboardingUserData;
   children: (context: OnboardingContextType) => ReactNode;
 }
 
-export const OnboardingProvider = ({ children }: OnboardingProviderProps) => {
+export const OnboardingProvider = ({
+  userData,
+  children,
+}: OnboardingProviderProps) => {
   const [step, setStep] = useState(1);
   const [data, setData] = useState<OnboardingData>({
     name: '',
@@ -44,9 +57,10 @@ export const OnboardingProvider = ({ children }: OnboardingProviderProps) => {
       step,
       setStep,
       data,
+      userData,
       updateData,
     }),
-    [step, data]
+    [step, data, userData]
   );
 
   return (

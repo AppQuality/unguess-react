@@ -10,8 +10,9 @@ import {
 } from '@appquality/unguess-design-system';
 import { Field, FieldProps, Form, Formik, FormikHelpers } from 'formik';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
+import { usePostUsersMutation } from 'src/features/api';
 import { useSendGTMevent } from 'src/hooks/useGTMevent';
 import styled from 'styled-components';
 import { useOnboarding } from '../OnboardingProvider';
@@ -35,9 +36,21 @@ interface WorkspaceFormValues {
 
 export const WorkspaceStep = () => {
   const { t } = useTranslation();
-  const { data, updateData, setStep } = useOnboarding();
+  const { data, userData, updateData, setStep } = useOnboarding();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const sendGTMevent = useSendGTMevent({ loggedUser: false });
+  const [postUsers] = usePostUsersMutation();
+
+  const templateParam = searchParams.get('template');
+  let templateId: number | undefined;
+
+  if (templateParam !== null) {
+    const parsed = Number(templateParam);
+    if (Number.isInteger(parsed)) {
+      templateId = parsed;
+    }
+  }
 
   const handleSubmit = async (
     values: WorkspaceFormValues,
@@ -46,25 +59,66 @@ export const WorkspaceStep = () => {
     try {
       updateData(values);
 
-      // TODO: Chiamata API per salvare tutti i dati dell'onboarding
+      const basicInfo = {
+        name: data.name,
+        surname: data.surname,
+        roleId: Number(data.roleId),
+        companySizeId: Number(data.companySizeId),
+        ...(templateId !== undefined && { templateId }),
+      };
+
       sendGTMevent({
         event: 'onboarding-flow',
-        action: 'completed',
+        category: `type: ${userData.type}`,
+        action: 'start submit',
       });
 
-      // TODO: Recuperare logica redirect dalla vecchia join
-      navigate('/');
+      let res;
+      if (userData.type === 'invite') {
+        res = await postUsers({
+          body: {
+            type: 'invite',
+            ...basicInfo,
+            profileId: userData.profileId!,
+            token: userData.token!,
+          },
+        }).unwrap();
+      } else {
+        res = await postUsers({
+          body: {
+            type: 'new',
+            ...basicInfo,
+            email: userData.email!,
+            workspace: values.workspace,
+          },
+        }).unwrap();
+      }
+
+      sendGTMevent({
+        event: 'onboarding-flow',
+        category: `type: ${userData.type}`,
+        action: 'completed',
+        content: res.projectId ? 'with project' : 'without project',
+      });
+
+      // Redirect appropriato (utente già loggato)
+      if (res.projectId) {
+        navigate(`/projects/${res.projectId}`);
+      } else {
+        navigate('/');
+      }
     } catch (error: any) {
       // eslint-disable-next-line no-console
       console.error('Onboarding save error:', error);
       sendGTMevent({
         event: 'onboarding-flow',
+        category: `type: ${userData.type}`,
         action: 'error',
         content: error.message,
       });
       setFieldError(
         'workspace',
-        error.message || t('ONBOARDING_ERROR_GENERIC')
+        error.data?.message || error.message || t('ONBOARDING_ERROR_GENERIC')
       );
     } finally {
       setSubmitting(false);

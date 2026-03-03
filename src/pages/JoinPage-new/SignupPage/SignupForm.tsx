@@ -43,7 +43,7 @@ interface SignupFormValues {
 }
 
 interface SignupFormProps {
-  onSignupSuccess: (email: string) => void;
+  onSignupSuccess: (email: string, password: string) => void;
 }
 
 export const SignupForm = ({ onSignupSuccess }: SignupFormProps) => {
@@ -89,7 +89,7 @@ export const SignupForm = ({ onSignupSuccess }: SignupFormProps) => {
         action: 'signup success',
       });
 
-      onSignupSuccess(values.email);
+      onSignupSuccess(values.email, values.password);
     } catch (error: any) {
       // eslint-disable-next-line no-console
       console.error('Signup error:', error);
@@ -227,10 +227,7 @@ export const SignupForm = ({ onSignupSuccess }: SignupFormProps) => {
                               components={{
                                 'terms-link': (
                                   <Anchor
-                                    style={{
-                                      fontStyle: 'italic',
-                                      color: appTheme.palette.blue[600],
-                                    }}
+                                    isExternal
                                     href="https://unguess.io/terms-and-conditions/"
                                     target="_blank"
                                     title="Terms and Conditions"
@@ -238,10 +235,7 @@ export const SignupForm = ({ onSignupSuccess }: SignupFormProps) => {
                                 ),
                                 'privacy-link': (
                                   <Anchor
-                                    style={{
-                                      fontStyle: 'italic',
-                                      color: appTheme.palette.blue[600],
-                                    }}
+                                    isExternal
                                     href="https://unguess.io/privacy-policy/"
                                     target="_blank"
                                     title="Privacy Policy"

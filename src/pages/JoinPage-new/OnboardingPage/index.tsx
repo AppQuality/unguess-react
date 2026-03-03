@@ -4,10 +4,12 @@
  * Step 2: Nome workspace
  */
 import { Col, Grid, Logo, Row } from '@appquality/unguess-design-system';
+import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { Track } from 'src/common/Track';
 import styled from 'styled-components';
-import { OnboardingProvider } from './OnboardingProvider';
+import { OnboardingProvider, OnboardingUserData } from './OnboardingProvider';
 import { PersonalInfoStep } from './Steps/PersonalInfoStep';
 import { WorkspaceStep } from './Steps/WorkspaceStep';
 
@@ -45,6 +47,22 @@ const FormContainer = styled.div`
 
 const OnboardingPage = () => {
   const { t } = useTranslation();
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  // Recupera i dati dell'utente dal navigation state
+  const userData = location.state as OnboardingUserData | undefined;
+
+  useEffect(() => {
+    // Se non ci sono dati utente, redirect al signup
+    if (!userData || !userData.type) {
+      navigate('/join/signup', { replace: true });
+    }
+  }, [userData, navigate]);
+
+  if (!userData || !userData.type) {
+    return null;
+  }
 
   const meta = [
     { name: 'og:description', content: t('__PAGE_ONBOARDING_DESCRIPTION') },
@@ -66,7 +84,7 @@ const OnboardingPage = () => {
                   <Logo type="vertical" size={100} />
                 </LogoWrapper>
                 <FormContainer>
-                  <OnboardingProvider>
+                  <OnboardingProvider userData={userData}>
                     {({ step }) => (
                       <>
                         {step === 1 && <PersonalInfoStep />}

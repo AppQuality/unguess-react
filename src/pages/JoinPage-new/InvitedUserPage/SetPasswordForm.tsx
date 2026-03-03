@@ -16,6 +16,7 @@ import { Trans, useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
 import { PasswordRequirements } from 'src/common/components/PasswordRequirements';
+import { useAuth } from 'src/features/auth/context';
 import { useSendGTMevent } from 'src/hooks/useGTMevent';
 import styled from 'styled-components';
 import { setPasswordValidationSchema } from './validationSchema';
@@ -33,10 +34,17 @@ interface SetPasswordFormValues {
 
 interface SetPasswordFormProps {
   inviteData: any; // TODO: tipizzare con il tipo corretto dall'API
+  profileId: number;
+  token: string;
 }
 
-export const SetPasswordForm = ({ inviteData }: SetPasswordFormProps) => {
+export const SetPasswordForm = ({
+  inviteData,
+  profileId,
+  token,
+}: SetPasswordFormProps) => {
   const { t } = useTranslation();
+  const { signup, login } = useAuth();
   const navigate = useNavigate();
   const sendGTMevent = useSendGTMevent({ loggedUser: false });
   const [passwordInputType, setPasswordInputType] = useState('password');
@@ -64,17 +72,53 @@ export const SetPasswordForm = ({ inviteData }: SetPasswordFormProps) => {
         action: 'set-password-start',
       });
 
-      // TODO: Implementare cambio password con Cognito
-      // await changePasswordWithCognito(inviteData.email, values.password);
+      // Signup con Cognito usando email dall'invito
+      const email = inviteData?.email;
+      if (!email) {
+        throw new Error('Email not found in invite data');
+      }
+
+      await signup(email, values.password, inviteData?.name || email);
 
       sendGTMevent({
         event: 'sign-up-flow',
         category: 'invited',
-        action: 'set-password-success',
+        action: 'signup-completed',
       });
 
-      // Redirect all'onboarding
-      navigate('/join/onboarding');
+      // Login immediato dopo signup
+      // Nota: se Cognito richiede conferma email, questo potrebbe fallire
+      // In quel caso l'utente dovrebbe confermare l'email prima
+      try {
+        await login(email, values.password);
+
+        sendGTMevent({
+          event: 'sign-up-flow',
+          category: 'invited',
+          action: 'auto-login-completed',
+        });
+
+        // Redirect all'onboarding già loggato
+        navigate('/join/onboarding', {
+          state: {
+            type: 'invite',
+            profileId,
+            token,
+          },
+        });
+      } catch (loginError: any) {
+        // Se il login fallisce perché serve conferma email
+        if (loginError.message?.includes('User is not confirmed')) {
+          // Redirect a una pagina di conferma email per invitati
+          // TODO: implementare ConfirmEmailForm per invitati
+          setFieldError(
+            'password',
+            t('INVITED_USER_EMAIL_CONFIRMATION_REQUIRED')
+          );
+        } else {
+          throw loginError;
+        }
+      }
     } catch (error: any) {
       // eslint-disable-next-line no-console
       console.error('Set password error:', error);

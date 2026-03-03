@@ -12,6 +12,7 @@ import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
 import WPAPI from 'src/common/wpapi';
 import { useGetUsersMeQuery } from 'src/features/api';
+import { useAuth } from 'src/features/auth/context';
 import styled from 'styled-components';
 
 import { appTheme } from 'src/app/theme';
@@ -51,6 +52,7 @@ const LoginPage = () => {
   const navigate = useNavigate();
   const { state: locationState } = useLocation();
   const { addToast } = useToast();
+  const { login: cognitoLogin } = useAuth();
 
   const from = (locationState as NavigationState)?.from || '/';
 
@@ -79,6 +81,37 @@ const LoginPage = () => {
     values: LoginFormFields,
     { setSubmitting, setStatus }: FormikHelpers<LoginFormFields>
   ) => {
+    // STEP 1: Tenta login con Cognito
+    try {
+      await cognitoLogin(values.email, values.password);
+
+      // Login Cognito riuscito (TODO: gestire redirect)
+      setCta(`${t('__LOGIN_FORM_CTA_REDIRECT_STATE')}`);
+      document.location.href = from || '/';
+      return;
+    } catch (cognitoError: any) {
+      // Gestione errori Cognito
+      const errorCode = cognitoError?.name || cognitoError?.code;
+
+      // Se l'utente NON esiste su Cognito, prova con il sistema legacy
+      if (errorCode === 'UserNotFoundException') {
+        // Fallback to legacy WordPress login
+        // eslint-disable-next-line no-console
+        console.log('User not found in Cognito, trying legacy login...'); // TODO: rimuovere log
+      } else {
+        // Altri errori Cognito (password sbagliata, account disabilitato, ecc.)
+        if (errorCode === 'NotAuthorizedException') {
+          setStatus({ message: `${t('__LOGIN_FORM_FAILED_INVALID')}` });
+        } else {
+          // Errore generico Cognito
+          showGenericErrorToast('Cognito Login: ');
+        }
+        setSubmitting(false);
+        return;
+      }
+    }
+
+    // STEP 2: Fallback a WordPress legacy login (se utente non esiste su Cognito)
     let nonce;
     try {
       nonce = await WPAPI.getNonce();

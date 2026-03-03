@@ -124,7 +124,11 @@ const InvitedUserPage = () => {
                   <Logo type="vertical" size={100} />
                 </LogoWrapper>
                 <FormContainer>
-                  <SetPasswordForm inviteData={data} />
+                  <SetPasswordForm
+                    inviteData={data}
+                    profileId={Number(profile)}
+                    token={token || ''}
+                  />
                 </FormContainer>
               </Col>
             </Row>
