@@ -3249,6 +3249,7 @@ export type User = {
   tryber_wp_user_id: number;
   unguess_wp_user_id: number;
   authType: 'legacy' | 'cognito';
+  onboarding_pending?: boolean;
 };
 export type UserPreference = {
   name: string;
