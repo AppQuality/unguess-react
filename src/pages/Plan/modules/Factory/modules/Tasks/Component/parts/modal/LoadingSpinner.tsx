@@ -167,7 +167,7 @@ const LoadingSpinner = () => {
     }
 
     return (
-      <Paragraph>
+      <Paragraph style={{textAlign: 'center'}}>
         {t('__PLAN_PAGE_MODULE_TASKS_ADD_TASK_MODAL_CREATE_WITH_AI_FINALIZING')}
       </Paragraph>
     );
