@@ -84,10 +84,6 @@ const TasksModal = () => {
             <ExperientialTasks />
             <SurveyTasks />
             <AccessibilityTasks />
-            <AiGeneratorSection
-              canShowAiFeatures={canShowAiFeatures}
-              onOpenCreateWithAI={() => setIsOpenCreateTasksWithAIModal(true)}
-            />
           </Tabs.Panel>
           <Tabs.Panel
             key="functional"

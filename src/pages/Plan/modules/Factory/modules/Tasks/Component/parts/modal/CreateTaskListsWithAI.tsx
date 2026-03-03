@@ -11,14 +11,16 @@ import {
   Notification,
   Select,
   Span,
+  Tag,
   Textarea,
   useToast,
 } from '@appquality/unguess-design-system';
-import { useEffect, useState } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { useAppSelector } from 'src/app/hooks';
 import { appTheme } from 'src/app/theme';
+import { ReactComponent as StopIcon } from 'src/assets/icons/stop.svg';
 import {
   useGetServicesApiKJobsByJobIdQuery,
   usePostServicesApiKUsecasesMutation,
@@ -156,21 +158,23 @@ const CreateTaskListsWithAI = () => {
     }
   }, [useCasesError]);
 
-  let buttonLabel: string;
+  let buttonLabel: ReactNode;
   if (isPostingRequest) {
     buttonLabel = t(
-      '__PLAN_PAGE_MODULE_TASKS_ADD_TASK_MODAL_CREATE_WITH_AI_CREATING',
-      'Creating...'
+      '__PLAN_PAGE_MODULE_TASKS_ADD_TASK_MODAL_CREATE_WITH_AI_CREATING'
     );
   } else if (pollingInterval > 0) {
-    buttonLabel = t(
-      '__PLAN_PAGE_MODULE_TASKS_ADD_TASK_MODAL_CREATE_WITH_AI_STOP',
-      'Stop Generation'
+    buttonLabel = (
+      <>
+        <Button.StartIcon>
+          <StopIcon />
+        </Button.StartIcon>
+        {t('__PLAN_PAGE_MODULE_TASKS_ADD_TASK_MODAL_CREATE_WITH_AI_STOP')}
+      </>
     );
   } else {
     buttonLabel = t(
-      '__PLAN_PAGE_MODULE_TASKS_ADD_TASK_MODAL_CREATE_WITH_AI_CREATE_BUTTON',
-      'Create'
+      '__PLAN_PAGE_MODULE_TASKS_ADD_TASK_MODAL_CREATE_WITH_AI_CREATE_BUTTON'
     );
   }
 
@@ -179,7 +183,8 @@ const CreateTaskListsWithAI = () => {
       <Modal.Header>
         {t(
           '__PLAN_PAGE_MODULE_TASKS_ADD_TASK_MODAL_CREATE_WITH_AI_MODAL_HEADER'
-        )}
+        )}{' '}
+        <Tag>{t('__PLAN_PAGE_MODULE_TASKS_ADD_TASK_MODAL_AI_BETA_TAG')}</Tag>
       </Modal.Header>
       <Modal.Body>
         <div>
@@ -197,7 +202,7 @@ const CreateTaskListsWithAI = () => {
               id="tasks-qty"
               inputValue={usecaseNumber !== undefined ? `${usecaseNumber}` : ''}
               selectionValue={usecaseNumber ? usecaseNumber.toString() : ''}
-              placeholder='Select'
+              placeholder="Select"
               label={
                 <>
                   {t(
@@ -297,8 +302,8 @@ const CreateTaskListsWithAI = () => {
               usecaseNumber === undefined
             }
             onClick={pollingInterval > 0 ? handleStop : handleClick}
-            isPrimary={pollingInterval === 0 && !isPostingRequest}
-            isAccent={pollingInterval === 0 && !isPostingRequest}
+            isPrimary
+            isAccent
           >
             {buttonLabel}
           </Button>
