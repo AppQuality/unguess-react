@@ -1,20 +1,33 @@
 import {
-  Button,
-  Textarea,
-  FormField,
-  Label,
-  Message,
-  Input,
   AccordionNew,
+  Button,
+  FormField,
+  Input,
+  Label,
   LG,
+  Message,
+  Textarea,
 } from '@appquality/unguess-design-system';
 import { useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { useAppSelector } from 'src/app/hooks';
 import { appTheme } from 'src/app/theme';
 import {
   useGetServicesApiKJobsByJobIdQuery,
   usePostServicesApiKUsecasesMutation,
 } from 'src/features/api';
+import { processItemOutput } from './processItemOutput';
+
+// constants
+const MODULES_TO_PROMPT = [
+  'title',
+  'goal',
+  'out_of_scope',
+  'tasks',
+  'language',
+  'touchpoints',
+];
+const MAX_PROMPT_LENGTH = 102300;
 
 export const CreateTaskListsWithAI = () => {
   const { planId } = useParams();
@@ -23,9 +36,12 @@ export const CreateTaskListsWithAI = () => {
   const [taskCount, setTaskCount] = useState(3);
   const [isCreating, setIsCreating] = useState(false);
   const [pollingInterval, setPollingInterval] = useState(0);
+
+  const { records } = useAppSelector((state) => state.planModules);
+
+  // API hooks
   const [postServicesApiKUsecases, { data: jobData, error: postError }] =
     usePostServicesApiKUsecasesMutation();
-
   const { data: useCasesData, error: useCasesError } =
     useGetServicesApiKJobsByJobIdQuery(
       { jobId: jobData?.jobId || '' },
@@ -35,11 +51,13 @@ export const CreateTaskListsWithAI = () => {
       }
     );
 
+  // Form inputs and button are disabled while creating the task lists or while polling for results
   const isFormDisabled = useMemo(
     () => isCreating || pollingInterval > 0,
     [isCreating, pollingInterval]
   );
 
+  // Button is disabled if form is disabled or if user prompt is too short
   const isButtonDisabled = useMemo(
     () => userPrompt.length < MIN_LENGTH || isFormDisabled,
     [userPrompt, isFormDisabled]
@@ -47,11 +65,21 @@ export const CreateTaskListsWithAI = () => {
 
   const handleClick = async () => {
     setIsCreating(true);
+    // gather modules info to prepend to the user prompt
+    const modulesInfo = Object.entries(records)
+      .filter(([key]) => MODULES_TO_PROMPT.includes(key))
+      .map(
+        ([key, item]) =>
+          `Module: ${key}, Config: ${JSON.stringify(processItemOutput(item))}`
+      )
+      .join('\n');
+    const fullPrompt = `User prompt:\n${userPrompt}\nModules info:\n${modulesInfo}`;
+
     await postServicesApiKUsecases({
       body: {
         planId: planId || '',
         count: taskCount,
-        requirements: userPrompt,
+        requirements: fullPrompt.slice(0, MAX_PROMPT_LENGTH),
       },
     });
     setIsCreating(false);

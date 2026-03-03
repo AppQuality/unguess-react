@@ -15,7 +15,7 @@ export const MODULE_GROUPS: Record<PlanTabName, ModuleGroup[]> = {
     {
       id: 'essentials',
       title: '__PLAN_PAGE_GROUP_TITLE_ESSENTIALS',
-      modules: ['goal'],
+      modules: ['goal', 'out_of_scope'],
     },
     {
       id: 'technicalRequirements',
@@ -75,11 +75,6 @@ export const MODULE_GROUPS: Record<PlanTabName, ModuleGroup[]> = {
       title: '__PLAN_PAGE_GROUP_TITLE_ACTIVITY_SCOPE',
       modules: ['tasks'],
     },
-    {
-      id: 'additionalDetails',
-      title: '__PLAN_PAGE_GROUP_TITLE_ADDITIONAL_DETAILS',
-      modules: ['out_of_scope'],
-    },
   ],
   summary: [],
 };
@@ -99,7 +94,6 @@ const i18nPlanTitles = () => {
   t('__PLAN_PAGE_GROUP_TITLE_BEHAVIOURAL_DATA');
   t('__PLAN_PAGE_GROUP_TITLE_ADVANCED_CRITERIA');
   t('__PLAN_PAGE_GROUP_TITLE_ACTIVITY_SCOPE');
-  t('__PLAN_PAGE_GROUP_TITLE_ADDITIONAL_DETAILS');
   // Tab titles
   t('__PLAN_PAGE_TAB_SETUP_TAB_TITLE');
   t('__PLAN_PAGE_TAB_TARGET_TAB_TITLE');
