@@ -9,7 +9,8 @@ import { useAppDispatch, useAppSelector } from 'src/app/hooks';
 import { isDev } from 'src/common/isDevEnvironment';
 import { prepareGravatar } from 'src/common/utils';
 import WPAPI from 'src/common/wpapi';
-import { useGetUsersMeQuery } from 'src/features/api';
+import { useGetUsersMeQuery, unguessApi } from 'src/features/api';
+import { useAuth } from 'src/features/auth/context';
 import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
 import { setProfileModalOpen } from '../navigationSlice';
 import { usePathWithoutLocale } from '../usePathWithoutLocale';
@@ -26,6 +27,7 @@ export const NavigationProfileModal = () => {
   const { t, i18n } = useTranslation();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const { logout: cognitoLogout, user: cognitoUser } = useAuth();
 
   const pathWithoutLocale = usePathWithoutLocale();
 
@@ -100,7 +102,21 @@ export const NavigationProfileModal = () => {
       }
     },
     onLogout: async () => {
-      await WPAPI.logout();
+      // TODO: rimuovere wp dopo migration completa
+      try {
+        if (cognitoUser || user?.authType === 'cognito') {
+          await cognitoLogout();
+        }
+
+        await WPAPI.logout();
+
+        // Reset rtk query cache
+        dispatch(unguessApi.util.resetApiState());
+      } catch (err) {
+        // eslint-disable-next-line no-console
+        console.error('logout error:', err);
+        document.location.href = '/login';
+      }
     },
     onCopyEmail: () => {
       addToast(

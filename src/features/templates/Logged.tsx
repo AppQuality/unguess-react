@@ -47,6 +47,22 @@ export const Logged = ({
     }
   }, [error]);
 
+  useEffect(() => {
+    // Se l'utente ha l'onboarding pending, redirect a /join/onboarding
+    if (
+      userData?.onboarding_pending &&
+      !pathname.includes('/join/onboarding')
+    ) {
+      navigate('/join/onboarding', {
+        state: {
+          type: 'new', // TODO: da gestire meglio
+          email: userData.email,
+        },
+        replace: true,
+      });
+    }
+  }, [userData, pathname, navigate]);
+
   if (isLoading || isFetching || !userData) {
     return <PageLoader />;
   }

@@ -6,17 +6,36 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 import SignupPage from './SignupPage';
 import OnboardingPage from './OnboardingPage';
 import InvitedUserPage from './InvitedUserPage';
+import { PublicRoute, OnboardingRoute, InvitedRoute } from './RouteGuards';
 
-const JoinPageNew = () => {
-  console.log('JoinPageNew render');
-  return (
-    <Routes>
-      <Route path="signup" element={<SignupPage />} />
-      <Route path="onboarding" element={<OnboardingPage />} />
-      <Route path=":profile/:token" element={<InvitedUserPage />} />
-      <Route path="*" element={<Navigate to="signup" replace />} />
-    </Routes>
-  );
-};
+const JoinPageNew = () => (
+  <Routes>
+    <Route
+      path="signup"
+      element={
+        <PublicRoute>
+          <SignupPage />
+        </PublicRoute>
+      }
+    />
+    <Route
+      path="onboarding"
+      element={
+        <OnboardingRoute>
+          <OnboardingPage />
+        </OnboardingRoute>
+      }
+    />
+    <Route
+      path=":profile/:token"
+      element={
+        <InvitedRoute>
+          <InvitedUserPage />
+        </InvitedRoute>
+      }
+    />
+    <Route path="*" element={<Navigate to="signup" replace />} />
+  </Routes>
+);
 
 export default JoinPageNew;
