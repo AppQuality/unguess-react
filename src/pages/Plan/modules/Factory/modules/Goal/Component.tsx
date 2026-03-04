@@ -240,7 +240,10 @@ const GoalContent = () => {
                   </Trans>
                   <Span style={{ color: appTheme.palette.red[700] }}>*</Span>
                 </Label>
-                <div data-qa="goal-input" style={{ marginTop: appTheme.space.xs }}>
+                <div
+                  data-qa="goal-input"
+                  style={{ marginTop: appTheme.space.xs }}
+                >
                   <Editor
                     editable={getPlanStatus() === 'draft'}
                     data-qa="goal-input"

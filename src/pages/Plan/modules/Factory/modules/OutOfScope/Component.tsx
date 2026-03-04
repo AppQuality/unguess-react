@@ -246,7 +246,10 @@ const OutOfScopeContent = () => {
                     (optional)
                   </Span>
                 </Label>
-                <div data-qa="out-of-scope-input" style={{ marginTop: appTheme.space.xs }}>
+                <div
+                  data-qa="out-of-scope-input"
+                  style={{ marginTop: appTheme.space.xs }}
+                >
                   <Editor
                     editable={getPlanStatus() === 'draft'}
                     data-qa="out-of-scope-input"
