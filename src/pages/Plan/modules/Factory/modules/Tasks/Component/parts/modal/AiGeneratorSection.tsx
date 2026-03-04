@@ -1,19 +1,29 @@
 import { Button, MD, Tag } from '@appquality/unguess-design-system';
+import { useMemo } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as AiIcon } from 'src/assets/icons/ai-icon.svg';
+import { useGetServicesApiKHealthQuery } from 'src/features/api';
+import { useCanShowAiChat } from 'src/pages/Dashboard/hooks/useCanShowAiChat';
 
 type AiGeneratorSectionProps = {
-  canShowAiFeatures?: boolean;
   onOpenCreateWithAI: () => void;
 };
 
 const AiGeneratorSection = ({
-  canShowAiFeatures,
   onOpenCreateWithAI,
 }: AiGeneratorSectionProps) => {
   const { t } = useTranslation();
+  const canShowChat = useCanShowAiChat();
+  const { data: apiK_HealthResponse } = useGetServicesApiKHealthQuery();
 
+  const canShowAiFeatures = useMemo(
+    () =>
+      canShowChat &&
+      apiK_HealthResponse?.success &&
+      apiK_HealthResponse?.status === 'healthy',
+    [apiK_HealthResponse, canShowChat]
+  );
   if (!canShowAiFeatures) {
     return null;
   }

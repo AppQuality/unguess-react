@@ -55,7 +55,8 @@ const CreateTaskListsWithAI = () => {
   const [pollingInterval, setPollingInterval] = useState(0);
   const [isOpenConfirmation, setIsOpenConfirmation] = useState(false);
 
-  const { records } = useAppSelector((state) => state.planModules);
+  const records = useAppSelector((state) => state.planModules);
+  console.log('records from state', records);
 
   // API hooks
   const [
@@ -100,7 +101,7 @@ const CreateTaskListsWithAI = () => {
           `Module: ${key}, Config: ${JSON.stringify(processItemOutput(item))}`
       )
       .join('\n');
-    const fullPrompt = `User prompt:\n${userPrompt}\nModules info:\n${modulesInfo}`;
+    const fullPrompt = `User prompt:\n${userPrompt}\n[Modules info]:\n${modulesInfo}`;
 
     await postServicesApiKUsecases({
       body: {

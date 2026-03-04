@@ -1,13 +1,10 @@
 import { MD, Tabs, TooltipModal } from '@appquality/unguess-design-system';
-import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { Divider } from 'src/common/components/divider';
 import { components } from 'src/common/schema';
 import { FEATURE_FLAG_CHANGE_MODULES_VARIANTS } from 'src/constants';
-import { useGetServicesApiKHealthQuery } from 'src/features/api';
 import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
-import { useCanShowAiChat } from 'src/pages/Dashboard/hooks/useCanShowAiChat';
 import styled from 'styled-components';
 import { useModuleTasksContext } from '../../context';
 import { useModuleTasks } from '../../hooks';
@@ -27,15 +24,7 @@ const TasksModal = () => {
   const { modalRef, setModalRef, setIsOpenCreateTasksWithAIModal } =
     useModuleTasksContext();
   const { hasFeatureFlag } = useFeatureFlag();
-  const { data: apiK_HealthResponse } = useGetServicesApiKHealthQuery();
-  const canShowChat = useCanShowAiChat();
-  const canShowAiFeatures = useMemo(
-    () =>
-      canShowChat &&
-      apiK_HealthResponse?.success &&
-      apiK_HealthResponse?.status === 'healthy',
-    [apiK_HealthResponse, canShowChat]
-  );
+
   const variants = [
     'default',
     'functional',
@@ -92,7 +81,6 @@ const TasksModal = () => {
             <FunctionalTasks />
             <SurveyTasks />
             <AiGeneratorSection
-              canShowAiFeatures={canShowAiFeatures}
               onOpenCreateWithAI={() => setIsOpenCreateTasksWithAIModal(true)}
             />
           </Tabs.Panel>
