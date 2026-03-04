@@ -5258,7 +5258,9 @@ export interface operations {
       400: components["responses"]["Error"];
       403: components["responses"]["Error"];
       404: components["responses"]["Error"];
+      406: components["responses"]["Error"];
       500: components["responses"]["Error"];
+      502: components["responses"]["Error"];
     };
     requestBody: {
       content: {
