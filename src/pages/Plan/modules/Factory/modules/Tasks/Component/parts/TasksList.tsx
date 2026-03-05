@@ -21,6 +21,7 @@ import { useModuleTasks } from '../hooks';
 import { AddTaskButton } from './AddTaskButton';
 import { TasksModal } from './modal';
 import { CreateTaskListsWithAI } from './modal/CreateTaskListsWithAI';
+import { CreateVideoTasksWithAI } from './modal/CreateVideoTasksWithAI';
 import { TasksContainerAnimation } from './TasksContainerAnimation';
 
 const StyledCard = styled(ContainerCard)`
@@ -53,7 +54,6 @@ const TasksList = () => {
   const { getPlanStatus } = useModuleConfiguration();
   const { t } = useTranslation();
   const { hasFeatureFlag } = useFeatureFlag();
-  const { isOpenCreateTasksWithAIModal } = useModuleTasksContext();
   const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false);
   const Icon = useIconWithValidation();
   const { width } = useWindowSize();
@@ -132,7 +132,6 @@ const TasksList = () => {
           onConfirm={remove}
         />
       )}
-      {isOpenCreateTasksWithAIModal && <CreateTaskListsWithAI />}
     </>
   );
 };
