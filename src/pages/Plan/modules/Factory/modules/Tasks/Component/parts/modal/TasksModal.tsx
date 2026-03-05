@@ -10,6 +10,8 @@ import { useModuleTasksContext } from '../../context';
 import { useModuleTasks } from '../../hooks';
 import { AccessibilityTasks } from './AccessibilityTasks';
 import { AiGeneratorSection } from './AiGeneratorSection';
+import { CreateTaskListsWithAI } from './CreateTaskListsWithAI';
+import { CreateVideoTasksWithAI } from './CreateVideoTasksWithAI';
 import { ExperientialTasks } from './ExperientialTasks';
 import { FunctionalTasks } from './FunctionalTasks';
 import { SurveyTasks } from './SurveyTasks';
@@ -21,8 +23,14 @@ const StyledTabs = styled(Tabs)`
 const TasksModal = () => {
   const { t } = useTranslation();
   const { variant, setVariant } = useModuleTasks();
-  const { modalRef, setModalRef, setIsOpenCreateTasksWithAIModal } =
-    useModuleTasksContext();
+  const {
+    modalRef,
+    setModalRef,
+    setIsOpenCreateTasksWithAIModal,
+    setIsOpenCreateVideoTasksWithAIModal,
+    isOpenCreateTasksWithAIModal,
+    isOpenCreateVideoTasksWithAIModal,
+  } = useModuleTasksContext();
   const { hasFeatureFlag } = useFeatureFlag();
 
   const variants = [
@@ -45,6 +53,7 @@ const TasksModal = () => {
   };
 
   return (
+    <>
     <TooltipModal
       referenceElement={modalRef}
       onClose={() => setModalRef(null)}
@@ -93,6 +102,12 @@ const TasksModal = () => {
             <ExperientialTasks />
             <Divider />
             <SurveyTasks />
+            <AiGeneratorSection
+              onOpenCreateWithAI={() =>
+                setIsOpenCreateVideoTasksWithAIModal(true)
+              }
+              checkApiHealth={false}
+            />
           </Tabs.Panel>
           <Tabs.Panel
             key="accessibility"
@@ -105,6 +120,9 @@ const TasksModal = () => {
         </StyledTabs>
       </TooltipModal.Body>
     </TooltipModal>
+    {isOpenCreateTasksWithAIModal && <CreateTaskListsWithAI />}
+    {isOpenCreateVideoTasksWithAIModal && <CreateVideoTasksWithAI />}
+    </>
   );
 };
 
