@@ -56,7 +56,6 @@ const CreateTaskListsWithAI = () => {
   const [isOpenConfirmation, setIsOpenConfirmation] = useState(false);
 
   const records = useAppSelector((state) => state.planModules);
-  console.log('records from state', records);
 
   // API hooks
   const [
