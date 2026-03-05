@@ -9,6 +9,7 @@ import styled from 'styled-components';
 import { useModuleTasksContext } from '../../context';
 import { useModuleTasks } from '../../hooks';
 import { AccessibilityTasks } from './AccessibilityTasks';
+import { AiGeneratorSection } from './AiGeneratorSection';
 import { ExperientialTasks } from './ExperientialTasks';
 import { FunctionalTasks } from './FunctionalTasks';
 import { SurveyTasks } from './SurveyTasks';
@@ -20,8 +21,10 @@ const StyledTabs = styled(Tabs)`
 const TasksModal = () => {
   const { t } = useTranslation();
   const { variant, setVariant } = useModuleTasks();
-  const { modalRef, setModalRef } = useModuleTasksContext();
+  const { modalRef, setModalRef, setIsOpenCreateTasksWithAIModal } =
+    useModuleTasksContext();
   const { hasFeatureFlag } = useFeatureFlag();
+
   const variants = [
     'default',
     'functional',
@@ -76,8 +79,10 @@ const TasksModal = () => {
             title={t('__PLAN_PAGE_MODULE_TASKS_ADD_TASK_MODAL_FUNCTIONAL_TAB')}
           >
             <FunctionalTasks />
-
             <SurveyTasks />
+            <AiGeneratorSection
+              onOpenCreateWithAI={() => setIsOpenCreateTasksWithAIModal(true)}
+            />
           </Tabs.Panel>
           <Tabs.Panel
             key="experiential"
