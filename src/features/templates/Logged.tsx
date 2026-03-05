@@ -1,5 +1,4 @@
 import { Anchor, Chrome, Main } from '@appquality/unguess-design-system';
-import * as Sentry from '@sentry/react';
 import React, { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
@@ -50,15 +49,6 @@ export const Logged = ({
   if (isLoading || isFetching || !userData) {
     return <PageLoader />;
   }
-
-  Sentry.setUser({
-    id: userData.id ?? 0,
-    email: userData.email ?? 'unknown',
-    wp_user_id: userData.unguess_wp_user_id ?? 0,
-    tryber_id: userData.tryber_wp_user_id ?? 0,
-    role: userData.role ?? 'unknown',
-    customer_role: userData.customer_role,
-  });
 
   return (
     <>

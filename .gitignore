@@ -32,8 +32,6 @@ generate-local-token.json
 
 # vs code configuration
 .vscode
-# Sentry Config File
-.sentryclirc
 /test-results/
 /playwright-report/
 /blob-report/
