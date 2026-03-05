@@ -10,7 +10,6 @@ import styled from 'styled-components';
 import { ReactComponent as CancelIcon } from 'src/assets/icons/cancel-icon.svg';
 import { ReactComponent as ReloadIcon } from 'src/assets/icons/reload-icon.svg';
 import { useTranslation } from 'react-i18next';
-import { useModuleGoalContext } from '../Context/GoalModalContext';
 import { AiErrorAlert } from './AiErrorAlert';
 import { AiModalSkeleton } from './AiModalSkeleton';
 
@@ -63,16 +62,25 @@ const AiModalBody = ({
   return <div>{aiSuggestion}</div>;
 };
 
-const ImproveWithAIModal = () => {
-  const {
-    modalRef,
-    setModalRef,
-    aiSuggestion,
-    isAiLoading,
-    aiError,
-    generateSuggestion,
-    acceptSuggestion,
-  } = useModuleGoalContext();
+export interface ImproveWithAIModalProps {
+  modalRef: HTMLButtonElement | null;
+  setModalRef: (ref: HTMLButtonElement | null) => void;
+  aiSuggestion: string | null;
+  isAiLoading: boolean;
+  aiError: string | null;
+  generateSuggestion: () => void;
+  acceptSuggestion: () => void;
+}
+
+export const ImproveWithAIModal = ({
+  modalRef,
+  setModalRef,
+  aiSuggestion,
+  isAiLoading,
+  aiError,
+  generateSuggestion,
+  acceptSuggestion,
+}: ImproveWithAIModalProps) => {
   const { t } = useTranslation();
 
   return (
@@ -118,5 +126,3 @@ const ImproveWithAIModal = () => {
     </TooltipModal>
   );
 };
-
-export { ImproveWithAIModal };
