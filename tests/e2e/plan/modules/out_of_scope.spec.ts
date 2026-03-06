@@ -18,6 +18,7 @@ test.describe('The out of scope module defines the areas excluded from the activ
     await planPage.mockGetDraftPlan();
     await planPage.open();
     await planPage.elements().tabInstructions().click();
+    await expect(outOfScopeModule.elements().module()).toBeVisible();
   });
 
   test('It should have a text area that show the value of the module', async () => {
@@ -60,10 +61,7 @@ test.describe('The out of scope module defines the areas excluded from the activ
 
     await outOfScopeModule.elements().moduleInput().click();
 
-    await outOfScopeModule
-      .elements()
-      .moduleInput()
-      .fill('test this ecommerce');
+    await outOfScopeModule.elements().moduleInput().fill('test this ecommerce');
     await expect(outOfScopeModule.elements().aiButton()).toBeDisabled();
 
     await outOfScopeModule

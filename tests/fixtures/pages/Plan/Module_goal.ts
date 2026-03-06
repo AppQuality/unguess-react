@@ -18,7 +18,7 @@ export class GoalModule {
       module: () => module,
       tab: () => this.page.getByTestId('setup-tab'),
       moduleError: () => module.getByTestId('goal-error'),
-      moduleInput: () => module.getByTestId('goal-input'),
+      moduleInput: () => module.locator('[role="textbox"]').first(),
       aiButton: () =>
         module.getByRole('button', {
           name: this.i18n.t('GENERATE_WITH_AI_CTA_LABEL'),

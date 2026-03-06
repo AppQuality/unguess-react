@@ -18,7 +18,7 @@ export class OutOfScopeModule {
       module: () => module,
       tab: () => this.page.getByTestId('instructions-tab'),
       moduleError: () => module.getByTestId('out-of-scope-error'),
-      moduleInput: () => module.getByTestId('out-of-scope-input'),
+      moduleInput: () => module.locator('[role="textbox"]').first(),
       aiButton: () =>
         module.getByRole('button', {
           name: this.i18n.t('GENERATE_WITH_AI_CTA_LABEL'),
