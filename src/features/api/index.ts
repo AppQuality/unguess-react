@@ -3180,6 +3180,14 @@ export type ModuleAnnualIncomeRange = {
   type: 'annual_income_range';
   variant: string;
 };
+export type OutputModulePersonas = {
+  name: string;
+}[];
+export type ModulePersonas = {
+  output: OutputModulePersonas;
+  type: 'personas';
+  variant: string;
+};
 export type Module =
   | ModuleTitle
   | ModuleDate
@@ -3204,7 +3212,8 @@ export type Module =
   | ModuleMobileInternet
   | ModuleHomeInternet
   | ModuleGasSupply
-  | ModuleAnnualIncomeRange;
+  | ModuleAnnualIncomeRange
+  | ModulePersonas;
 export type PlanStatus = 'pending_review' | 'draft' | 'approved' | 'paying';
 export type PurchasablePlanRules =
   | 'number_of_modules'

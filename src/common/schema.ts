@@ -1115,7 +1115,8 @@ export interface components {
       | components["schemas"]["ModuleMobileInternet"]
       | components["schemas"]["ModuleHomeInternet"]
       | components["schemas"]["ModuleGasSupply"]
-      | components["schemas"]["ModuleAnnualIncomeRange"];
+      | components["schemas"]["ModuleAnnualIncomeRange"]
+      | components["schemas"]["ModulePersonas"];
     /** ModuleAdditionalTarget */
     ModuleAdditionalTarget: {
       output: string;
@@ -1966,6 +1967,17 @@ export interface components {
         data?: { [key: string]: unknown };
       }[];
     };
+    /** ModulePersonas */
+    ModulePersonas: {
+      output: components["schemas"]["OutputModulePersonas"];
+      /** @enum {undefined} */
+      type: "personas";
+      variant: string;
+    };
+    /** OutputModulePersonas */
+    OutputModulePersonas: {
+      name: string;
+    }[];
   };
   responses: {
     /** Shared error response */
