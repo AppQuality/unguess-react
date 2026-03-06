@@ -12,5 +12,5 @@ export const OutOfScopeModule = createModuleDefinition({
   useSubtitle,
   defaultData: '',
   defaultVariant: 'default',
-  tab: 'instructions',
+  tab: 'setup',
 });

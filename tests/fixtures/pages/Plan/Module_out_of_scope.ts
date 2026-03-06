@@ -16,7 +16,7 @@ export class OutOfScopeModule {
     const module = this.page.getByTestId('out-of-scope-module');
     return {
       module: () => module,
-      tab: () => this.page.getByTestId('instructions-tab'),
+      tab: () => this.page.getByTestId('setup-tab'),
       moduleError: () => module.getByTestId('out-of-scope-error'),
       moduleInput: () => module.locator('[role="textbox"]').first(),
       aiButton: () =>

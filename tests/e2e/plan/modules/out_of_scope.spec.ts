@@ -17,7 +17,6 @@ test.describe('The out of scope module defines the areas excluded from the activ
     await planPage.mockWorkspacesList();
     await planPage.mockGetDraftPlan();
     await planPage.open();
-    await planPage.elements().tabInstructions().click();
     await expect(outOfScopeModule.elements().module()).toBeVisible();
   });
 
