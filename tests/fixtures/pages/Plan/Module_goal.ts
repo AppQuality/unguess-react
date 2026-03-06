@@ -18,7 +18,7 @@ export class GoalModule {
       module: () => module,
       tab: () => this.page.getByTestId('setup-tab'),
       moduleError: () => module.getByTestId('goal-error'),
-      moduleInput: () => module.getByTestId('goal-input').getByRole('textbox'),
+      moduleInput: () => module.locator('[role="textbox"]').first(),
       aiButton: () =>
         module.getByRole('button', {
           name: this.i18n.t('GENERATE_WITH_AI_CTA_LABEL'),
@@ -51,9 +51,9 @@ export class GoalModule {
   }
 
   async expectToBeReadonly() {
-    await expect(this.elements().moduleInput()).toBeVisible();
+    await expect(this.elements().module()).toBeVisible();
     await expect(
-      this.elements().moduleInput().locator('[contenteditable="true"]')
-    ).toBeHidden();
+      this.elements().module().locator('[contenteditable="true"]')
+    ).toHaveCount(0);
   }
 }

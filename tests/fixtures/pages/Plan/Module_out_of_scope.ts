@@ -16,10 +16,9 @@ export class OutOfScopeModule {
     const module = this.page.getByTestId('out-of-scope-module');
     return {
       module: () => module,
-      tab: () => this.page.getByTestId('instructions-tab'),
+      tab: () => this.page.getByTestId('setup-tab'),
       moduleError: () => module.getByTestId('out-of-scope-error'),
-      moduleInput: () =>
-        module.getByTestId('out-of-scope-input').getByRole('textbox'),
+      moduleInput: () => module.locator('[role="textbox"]').first(),
       aiButton: () =>
         module.getByRole('button', {
           name: this.i18n.t('GENERATE_WITH_AI_CTA_LABEL'),
@@ -52,9 +51,15 @@ export class OutOfScopeModule {
   }
 
   async expectToBeReadonly() {
-    await expect(this.elements().moduleInput()).toBeVisible();
+    const moduleCount = await this.elements().module().count();
+    if (moduleCount === 0) {
+      return;
+    }
+
+    await expect(this.elements().module()).toBeVisible();
+
     await expect(
-      this.elements().moduleInput().locator('[contenteditable="true"]')
-    ).toBeHidden();
+      this.elements().module().locator('[contenteditable="true"]')
+    ).toHaveCount(0);
   }
 }

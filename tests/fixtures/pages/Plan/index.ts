@@ -238,9 +238,10 @@ export class PlanPage extends UnguessPage {
     await this.elements().tabSetup().click();
     await Promise.all([
       this.modules.goal.expectToBeReadonly(),
+      this.modules.outOfScope.expectToBeReadonly(),
       this.modules.touchpoints.expectToBeReadonly(),
-      this.modules.browser.expectToBeReadonly(),
     ]);
+    await Promise.all([this.modules.browser.expectToBeReadonly()]);
 
     // tab target
     await this.elements().tabTarget().click();
@@ -263,10 +264,7 @@ export class PlanPage extends UnguessPage {
 
     // tab instructions
     await this.elements().tabInstructions().click();
-    await Promise.all([
-      this.modules.outOfScope.expectToBeReadonly(),
-      this.modules.tasks.expectToBeReadonly(),
-    ]);
+    await Promise.all([this.modules.tasks.expectToBeReadonly()]);
   }
 
   async mockGetDraftPlan() {
