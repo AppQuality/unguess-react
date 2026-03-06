@@ -6,6 +6,7 @@ import WPAPI from 'src/common/wpapi';
 import { usePostUsersMutation } from 'src/features/api';
 import { useSendGTMevent } from 'src/hooks/useGTMevent';
 import { JoinFormValues } from './valuesType';
+import { sendToHubspot } from './sendToHubspot';
 
 export function useJoinSubmit(isInvited: boolean) {
   const [postFormValues] = usePostUsersMutation();
@@ -74,6 +75,20 @@ export function useJoinSubmit(isInvited: boolean) {
             },
           }).unwrap();
         }
+
+        try {
+          // TODO: fake form submission
+          const hsRes = await sendToHubspot({
+            email: values.email,
+            firstName: values.name,
+            lastName: values.surname,
+          });
+
+          console.log('HubSpot response:', hsRes);
+        } catch (err) {
+          console.error('Error sending data to HubSpot:', err);
+        }
+
         const nonce = await WPAPI.getNonce();
         const login = await WPAPI.login({
           username: values.email,
