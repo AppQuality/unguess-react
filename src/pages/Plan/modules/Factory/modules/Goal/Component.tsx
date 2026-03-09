@@ -32,9 +32,9 @@ import {
   ModuleGoalContextProvider,
   useModuleGoalContext,
 } from './Context/GoalModalContext';
-import { ImproveWithAIModal } from './parts/ImproveWithAIModal';
+import { ImproveWithAIModal } from '../shared/ImproveWithAIModal';
 import { useIconWithValidation } from './useIcon';
-import { CommandBar } from './parts/CommandBar';
+import { CommandBar } from '../shared/CommandBar';
 
 const StyledInfoBox = styled.div`
   display: flex;
@@ -73,6 +73,7 @@ const GoalContent = () => {
   const { addToast } = useToast();
   const aiButtonRef = useRef<HTMLButtonElement>(null);
   const {
+    modalRef,
     setModalRef,
     setEditorContent,
     editorContent,
@@ -80,6 +81,10 @@ const GoalContent = () => {
     setIsAiLoading,
     setAiError,
     aiSuggestion,
+    isAiLoading,
+    aiError,
+    generateSuggestion,
+    acceptSuggestion,
     registerGenerateSuggestion,
     registerAcceptSuggestion,
   } = useModuleGoalContext();
@@ -235,7 +240,7 @@ const GoalContent = () => {
                   </Trans>
                   <Span style={{ color: appTheme.palette.red[700] }}>*</Span>
                 </Label>
-                <div data-qa="goal-input">
+                <div style={{ marginTop: appTheme.space.xs }}>
                   <Editor
                     editable={getPlanStatus() === 'draft'}
                     data-qa="goal-input"
@@ -278,6 +283,7 @@ const GoalContent = () => {
                     <span>
                       <Button
                         isBasic
+                        size="small"
                         disabled={isGenerateDisabled}
                         ref={aiButtonRef}
                         onClick={handleAiSuggestion}
@@ -321,7 +327,15 @@ const GoalContent = () => {
           onConfirm={remove}
         />
       )}
-      <ImproveWithAIModal />
+      <ImproveWithAIModal
+        modalRef={modalRef}
+        setModalRef={setModalRef}
+        aiSuggestion={aiSuggestion}
+        isAiLoading={isAiLoading}
+        aiError={aiError}
+        generateSuggestion={generateSuggestion}
+        acceptSuggestion={acceptSuggestion}
+      />
     </>
   );
 };

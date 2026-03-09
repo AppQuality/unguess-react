@@ -13,13 +13,23 @@ export class OutOfScopeModule {
   }
 
   elements() {
+    const module = this.page.getByTestId('out-of-scope-module');
     return {
-      tab: () => this.page.getByTestId('instructions-tab'),
-      module: () => this.page.getByTestId('out-of-scope-module'),
-      moduleError: () =>
-        this.elements().module().getByTestId('out-of-scope-error'),
-      moduleInput: () =>
-        this.elements().module().getByTestId('out-of-scope-input'),
+      module: () => module,
+      tab: () => this.page.getByTestId('setup-tab'),
+      moduleError: () => module.getByTestId('out-of-scope-error'),
+      moduleInput: () => module.locator('[role="textbox"]').first(),
+      aiButton: () =>
+        module.getByRole('button', {
+          name: this.i18n.t('GENERATE_WITH_AI_CTA_LABEL'),
+        }),
+      aiModal: () => this.page.getByRole('dialog'),
+      aiModalAcceptButton: () =>
+        this.page.getByRole('button', {
+          name: this.i18n.t(
+            'PLAN_PAGE_MODULE_GOAL_AI_SUGGESTION_ACCEPT_BUTTON'
+          ),
+        }),
     };
   }
 
@@ -30,8 +40,10 @@ export class OutOfScopeModule {
     if (!outOfScopeModule) {
       throw new Error('No outOfScope found in plan');
     }
-    const outOfScopeValue = outOfScopeModule.output;
-    return outOfScopeValue;
+    if (typeof outOfScopeModule.output !== 'string') {
+      throw new Error('Invalid outOfScope module output');
+    }
+    return outOfScopeModule.output;
   }
 
   async goToTab() {
@@ -39,6 +51,15 @@ export class OutOfScopeModule {
   }
 
   async expectToBeReadonly() {
-    await expect(this.elements().moduleInput()).not.toBeVisible();
+    const moduleCount = await this.elements().module().count();
+    if (moduleCount === 0) {
+      return;
+    }
+
+    await expect(this.elements().module()).toBeVisible();
+
+    await expect(
+      this.elements().module().locator('[contenteditable="true"]')
+    ).toHaveCount(0);
   }
 }

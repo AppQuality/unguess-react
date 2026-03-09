@@ -1,46 +1,77 @@
-# Getting Started with Create React App
+# UNGUESS React
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Frontend web app della piattaforma UNGUESS.
 
-## Available Scripts
+## Tech Stack
 
-In the project directory, you can run:
+React, TypeScript, Vite, Redux Toolkit, styled-components
 
-### `npm start`
+## Setup locale
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### Prerequisiti
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+- Node.js >= 20
+- npm
 
-### `npm test`
+### Installazione
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```bash
+npm ci
+```
 
-### `npm run build`
+### Configurazione environment
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Copia il template e personalizza i valori:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```bash
+cp .env.template .env.local
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Le variabili principali da configurare in `.env.local`:
 
-### `npm run eject`
+| Variabile                    | Descrizione                                                                        |
+| ---------------------------- | ---------------------------------------------------------------------------------- |
+| `REACT_APP_API_URL`          | URL delle API (locale: `http://localhost:3002`, dev: `https://dev.unguess.io/api`) |
+| `REACT_APP_DEFAULT_TOKEN`    | JWT token per bypassare il login in sviluppo                                       |
+| `REACT_APP_STRAPI_API_TOKEN` | Token di autenticazione per le API Strapi                                          |
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+Le altre variabili nel template hanno gia' valori di default adatti allo sviluppo.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Avvio
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+```bash
+npm start
+```
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+Apri [http://localhost:3000](http://localhost:3000).
 
-## Learn More
+## Script principali
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+| Comando                   | Descrizione                                 |
+| ------------------------- | ------------------------------------------- |
+| `npm start`               | Avvia il dev server Vite                    |
+| `npm run build`           | Build di produzione nella cartella `build/` |
+| `npm run generate-api`    | Genera i tipi TypeScript dall'OpenAPI spec  |
+| `npm run generate-schema` | Genera lo schema TypeScript dall'API        |
+| `npm run lint`            | Esegue ESLint                               |
+| `npm run format:check`    | Verifica la formattazione con Prettier      |
+| `npm run type:check`      | Verifica i tipi TypeScript                  |
+| `npm run validate`        | Esegue lint + type check + format check     |
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Environment: build-time vs runtime
+
+L'app usa due meccanismi diversi per le variabili d'ambiente:
+
+### Build-time (Vite)
+
+Le variabili `REACT_APP_*` definite nei file `.env.*` vengono iniettate al momento del build da Vite come `process.env.REACT_APP_*`. Sono fissate nel bundle JavaScript e non modificabili dopo il build.
+
+File coinvolti: `.env.development`, `.env.production`, `.env.local`
+
+### Runtime (Docker)
+
+Le variabili `REACT_APP_ENVIRONMENT` e `REACT_APP_VERSION` vengono iniettate a runtime dal container Docker tramite `docker-entrypoint.sh`, che genera il file `public/static/env-config.js` con l'oggetto `window.react_env`.
+
+Questo permette di usare la stessa immagine Docker in ambienti diversi (staging, production) cambiando solo le variabili d'ambiente del container.
+
+File coinvolti: `docker-entrypoint.sh`, `public/static/env-config.js`, `src/types.d.ts`

@@ -1,5 +1,6 @@
 import { type Page } from '@playwright/test';
 import { UnguessPage } from '../../UnguessPage';
+import { AdditionalTargetModule } from './Module_additional_target';
 import { AgeModule } from './Module_age';
 import { BankModule } from './Module_bank';
 import { BrowserModule } from './Module_browser';
@@ -35,6 +36,7 @@ export class PlanPage extends UnguessPage {
       age: new AgeModule(page),
       gender: new GenderModule(page),
       outOfScope: new OutOfScopeModule(page),
+      additionalTarget: new AdditionalTargetModule(page),
       digitalLiteracy: new DigitalLiteracyModule(page),
       language: new LanguageModule(page),
       target: new TargetModule(page),
@@ -236,9 +238,10 @@ export class PlanPage extends UnguessPage {
     await this.elements().tabSetup().click();
     await Promise.all([
       this.modules.goal.expectToBeReadonly(),
+      this.modules.outOfScope.expectToBeReadonly(),
       this.modules.touchpoints.expectToBeReadonly(),
-      this.modules.browser.expectToBeReadonly(),
     ]);
+    await Promise.all([this.modules.browser.expectToBeReadonly()]);
 
     // tab target
     await this.elements().tabTarget().click();
@@ -261,10 +264,7 @@ export class PlanPage extends UnguessPage {
 
     // tab instructions
     await this.elements().tabInstructions().click();
-    await Promise.all([
-      this.modules.outOfScope.expectToBeReadonly(),
-      this.modules.tasks.expectToBeReadonly(),
-    ]);
+    await Promise.all([this.modules.tasks.expectToBeReadonly()]);
   }
 
   async mockGetDraftPlan() {

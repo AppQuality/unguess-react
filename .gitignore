@@ -17,7 +17,6 @@
 .env
 .env.local
 .env.development.local
-.env.test.local
 .env.production.local
 
 npm-debug.log*
@@ -32,8 +31,6 @@ generate-local-token.json
 
 # vs code configuration
 .vscode
-# Sentry Config File
-.sentryclirc
 /test-results/
 /playwright-report/
 /blob-report/

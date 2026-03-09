@@ -1,4 +1,3 @@
-import * as Sentry from '@sentry/react';
 import { useTranslation } from 'react-i18next';
 import {
   createBrowserRouter,
@@ -8,7 +7,6 @@ import {
   RouterProvider,
 } from 'react-router-dom';
 import ErrorBoundaryPage from 'src/common/components/ErrorBoundary/ErrorBoundaryPage';
-import SentryWrapper from 'src/features/SentryWrapper';
 import Bug from 'src/pages/Bug';
 import PublicBugPage from 'src/pages/BugPublic/PublicBugPage';
 import BugForm from 'src/pages/Bugform';
@@ -35,160 +33,150 @@ const Pages = () => {
   const { i18n } = useTranslation();
 
   const langPathPrefixes = [...i18n.languages, ''];
-  const sentryCreateBrowserRouter =
-    Sentry.wrapCreateBrowserRouter(createBrowserRouter);
   return (
-    <SentryWrapper>
-      <RouterProvider
-        router={sentryCreateBrowserRouter(
-          createRoutesFromElements(
-            <>
-              {langPathPrefixes.map((langPrefix) => (
+    <RouterProvider
+      router={createBrowserRouter(
+        createRoutesFromElements(
+          <>
+            {langPathPrefixes.map((langPrefix) => (
+              <Route
+                path={`/${langPrefix}`}
+                key={`react-router-${langPrefix}`}
+                errorElement={
+                  process.env.NODE_ENV === 'development' ? undefined : (
+                    <ErrorBoundaryPage />
+                  )
+                }
+              >
                 <Route
-                  path={`/${langPrefix}`}
-                  key={`react-router-${langPrefix}`}
-                  errorElement={
-                    process.env.NODE_ENV === 'development' ? undefined : (
-                      <ErrorBoundaryPage />
-                    )
-                  }
-                >
-                  <Route
-                    path={`/${langPrefix}/campaigns/:campaignId`}
-                    element={<Campaign />}
-                  />
-                  <Route
-                    path={`/${langPrefix}/campaigns/:campaignId/preview`}
-                    element={<CampaignPreview />}
-                  />
-                  <Route
-                    path={`/${langPrefix}/campaigns/:campaignId/bugform`}
-                    element={<BugForm />}
-                  />
-                  <Route
-                    path={`/${langPrefix}/campaigns/:campaignId/manual`}
-                    element={<Manual />}
-                  />
-                  <Route
-                    path={`/${langPrefix}/login`}
-                    element={<LoginPage />}
-                  />
-                  <Route path={`/${langPrefix}/join`} element={<JoinPage />} />
-                  <Route
-                    path={`/${langPrefix}/join/invites/:profile/:token`}
-                    element={<JoinPage />}
-                  />
+                  path={`/${langPrefix}/campaigns/:campaignId`}
+                  element={<Campaign />}
+                />
+                <Route
+                  path={`/${langPrefix}/campaigns/:campaignId/preview`}
+                  element={<CampaignPreview />}
+                />
+                <Route
+                  path={`/${langPrefix}/campaigns/:campaignId/bugform`}
+                  element={<BugForm />}
+                />
+                <Route
+                  path={`/${langPrefix}/campaigns/:campaignId/manual`}
+                  element={<Manual />}
+                />
+                <Route path={`/${langPrefix}/login`} element={<LoginPage />} />
+                <Route path={`/${langPrefix}/join`} element={<JoinPage />} />
+                <Route
+                  path={`/${langPrefix}/join/invites/:profile/:token`}
+                  element={<JoinPage />}
+                />
 
-                  <Route
-                    path={`/${langPrefix}/projects/:projectId`}
-                    element={<Project />}
-                  />
-                  <Route
-                    path={`/${langPrefix}/campaigns/:campaignId/bugs`}
-                    element={<Bugs />}
-                  />
-                  <Route
-                    path={`/${langPrefix}/campaigns/:campaignId/bugs/:bugId`}
-                    element={<Bug />}
-                  />
-                  <Route
-                    path={`/${langPrefix}/templates`}
-                    element={<Templates />}
-                  />
-                  <Route
-                    path={`/${langPrefix}/templates/:templateId`}
-                    element={<Template />}
-                  />
-                  <Route
-                    path={`/${langPrefix}/campaigns/:campaignId/videos`}
-                    element={<Videos />}
-                  />
-                  <Route
-                    path={`/${langPrefix}/campaigns/:campaignId/insights`}
-                    element={<InsightsPage />}
-                  />
-                  <Route
-                    path={`/${langPrefix}/campaigns/:campaignId/videos/:videoId`}
-                    element={<Video />}
-                  />
-                  <Route
-                    path={`/${langPrefix}/plans/:planId`}
-                    element={<Plan />}
-                  />
-                  {/* No route found */}
-                  <Route
-                    path={`/${langPrefix}/media/oops`}
-                    element={<MediaNotFound />}
-                  />
-                  <Route path={`/${langPrefix}/oops`} element={<NotFound />} />
-                  <Route index element={<Dashboard />} />
-                  <Route
-                    path={`/${langPrefix}/profile`}
-                    element={<Profile />}
-                  />
-                </Route>
-              ))}
+                <Route
+                  path={`/${langPrefix}/projects/:projectId`}
+                  element={<Project />}
+                />
+                <Route
+                  path={`/${langPrefix}/campaigns/:campaignId/bugs`}
+                  element={<Bugs />}
+                />
+                <Route
+                  path={`/${langPrefix}/campaigns/:campaignId/bugs/:bugId`}
+                  element={<Bug />}
+                />
+                <Route
+                  path={`/${langPrefix}/templates`}
+                  element={<Templates />}
+                />
+                <Route
+                  path={`/${langPrefix}/templates/:templateId`}
+                  element={<Template />}
+                />
+                <Route
+                  path={`/${langPrefix}/campaigns/:campaignId/videos`}
+                  element={<Videos />}
+                />
+                <Route
+                  path={`/${langPrefix}/campaigns/:campaignId/insights`}
+                  element={<InsightsPage />}
+                />
+                <Route
+                  path={`/${langPrefix}/campaigns/:campaignId/videos/:videoId`}
+                  element={<Video />}
+                />
+                <Route
+                  path={`/${langPrefix}/plans/:planId`}
+                  element={<Plan />}
+                />
+                {/* No route found */}
+                <Route
+                  path={`/${langPrefix}/media/oops`}
+                  element={<MediaNotFound />}
+                />
+                <Route path={`/${langPrefix}/oops`} element={<NotFound />} />
+                <Route index element={<Dashboard />} />
+                <Route path={`/${langPrefix}/profile`} element={<Profile />} />
+              </Route>
+            ))}
 
-              <Route
-                path="/it/dashboard-campagne-funzionali"
-                element={
-                  <Redirect
-                    url={({ searchParams }) => {
-                      if (!searchParams || !searchParams.get('cid'))
-                        return '/it/oops';
-                      if (!searchParams.get('bug_id'))
-                        return `/it/campaigns/${searchParams.get('cid')}`;
-                      return `/it/campaigns/${searchParams.get(
-                        'cid'
-                      )}/bugs/${searchParams.get('bug_id')}`;
-                    }}
-                  />
-                }
-                errorElement={<ErrorBoundaryPage />}
-              />
-              <Route
-                path="/functional-customer-dashboard"
-                element={
-                  <Redirect
-                    url={({ searchParams }) => {
-                      if (!searchParams || !searchParams.get('cid'))
-                        return '/oops';
-                      if (!searchParams.get('bug_id'))
-                        return `/campaigns/${searchParams.get('cid')}`;
-                      return `/campaigns/${searchParams.get(
-                        'cid'
-                      )}/bugs/${searchParams.get('bug_id')}`;
-                    }}
-                  />
-                }
-                errorElement={<ErrorBoundaryPage />}
-              />
+            <Route
+              path="/it/dashboard-campagne-funzionali"
+              element={
+                <Redirect
+                  url={({ searchParams }) => {
+                    if (!searchParams || !searchParams.get('cid'))
+                      return '/it/oops';
+                    if (!searchParams.get('bug_id'))
+                      return `/it/campaigns/${searchParams.get('cid')}`;
+                    return `/it/campaigns/${searchParams.get(
+                      'cid'
+                    )}/bugs/${searchParams.get('bug_id')}`;
+                  }}
+                />
+              }
+              errorElement={<ErrorBoundaryPage />}
+            />
+            <Route
+              path="/functional-customer-dashboard"
+              element={
+                <Redirect
+                  url={({ searchParams }) => {
+                    if (!searchParams || !searchParams.get('cid'))
+                      return '/oops';
+                    if (!searchParams.get('bug_id'))
+                      return `/campaigns/${searchParams.get('cid')}`;
+                    return `/campaigns/${searchParams.get(
+                      'cid'
+                    )}/bugs/${searchParams.get('bug_id')}`;
+                  }}
+                />
+              }
+              errorElement={<ErrorBoundaryPage />}
+            />
 
-              <Route
-                path="/join"
-                element={
-                  <Redirect
-                    url={({ searchParams }) => {
-                      if (!searchParams || !searchParams.get('redirect'))
-                        return '/oops';
-                      return `/campaigns/${searchParams.get('cid')}/bugform`;
-                    }}
-                  />
-                }
-                errorElement={<ErrorBoundaryPage />}
-              />
+            <Route
+              path="/join"
+              element={
+                <Redirect
+                  url={({ searchParams }) => {
+                    if (!searchParams || !searchParams.get('redirect'))
+                      return '/oops';
+                    return `/campaigns/${searchParams.get('cid')}/bugform`;
+                  }}
+                />
+              }
+              errorElement={<ErrorBoundaryPage />}
+            />
 
-              <Route
-                path="/defect/:defectId/:token"
-                element={<PublicBugPage />}
-              />
+            <Route
+              path="/defect/:defectId/:token"
+              element={<PublicBugPage />}
+            />
 
-              <Route path="*" element={<Navigate replace to="/oops" />} />
-            </>
-          )
-        )}
-      />
-    </SentryWrapper>
+            <Route path="*" element={<Navigate replace to="/oops" />} />
+          </>
+        )
+      )}
+    />
   );
 };
 

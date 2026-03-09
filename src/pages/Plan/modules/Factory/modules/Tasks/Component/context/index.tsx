@@ -3,6 +3,8 @@ import { createContext, useContext, useMemo, useState } from 'react';
 interface ModuleTasksContextType {
   modalRef: HTMLButtonElement | null;
   setModalRef: (ref: HTMLButtonElement | null) => void;
+  isOpenCreateTasksWithAIModal: boolean;
+  setIsOpenCreateTasksWithAIModal: (value: boolean) => void;
 }
 
 const ModuleTasksContext = createContext<ModuleTasksContextType | null>(null);
@@ -14,13 +16,17 @@ export const ModuleTasksContextProvider = ({
 }) => {
   const [modalRef, setModalRef] =
     useState<ModuleTasksContextType['modalRef']>(null);
+  const [isOpenCreateTasksWithAIModal, setIsOpenCreateTasksWithAIModal] =
+    useState(false);
 
   const moduleTasksContextValue = useMemo(
     () => ({
       modalRef,
       setModalRef,
+      isOpenCreateTasksWithAIModal,
+      setIsOpenCreateTasksWithAIModal,
     }),
-    [modalRef, setModalRef]
+    [modalRef, setModalRef, isOpenCreateTasksWithAIModal]
   );
 
   return (
