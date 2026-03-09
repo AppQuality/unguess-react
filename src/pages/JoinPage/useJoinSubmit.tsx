@@ -78,13 +78,11 @@ export function useJoinSubmit(isInvited: boolean) {
 
         try {
           // TODO: fake form submission
-          const hsRes = await sendToHubspot({
+          await sendToHubspot({
             email: values.email,
             firstName: values.name,
             lastName: values.surname,
           });
-
-          console.log('HubSpot response:', hsRes);
         } catch (err) {
           console.error('Error sending data to HubSpot:', err);
         }

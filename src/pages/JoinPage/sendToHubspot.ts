@@ -1,11 +1,15 @@
-const PORTAL_ID = '50612068';
-const FORM_ID = 'fbacb24e-bbdd-449e-9b4c-55e8aa6d2728';
+import { isDev } from 'src/common/isDevEnvironment';
+
+const STAGING_FORM_ID = 'fbacb24e-bbdd-449e-9b4c-55e8aa6d2728';
+const PRODUCTION_FORM_ID = '33260366-dbe1-4889-b4ba-9386f8d9416c';
 
 export async function sendToHubspot(data: {
   email: string;
   firstName: string;
   lastName: string;
 }) {
+  const PORTAL_ID = isDev() ? '50612068' : '6087279';
+  const FORM_ID = isDev() ? STAGING_FORM_ID : PRODUCTION_FORM_ID;
   const url = `https://api.hsforms.com/submissions/v3/integration/submit/${PORTAL_ID}/${FORM_ID}`;
 
   // Get hubspot utk cookie value if available
@@ -25,10 +29,6 @@ export async function sendToHubspot(data: {
     content: params.get('utm_content'),
   };
 
-  console.log('UTM parameters:', utm);
-  console.log('HubSpot UTK:', hutk);
-  console.log('pageUri:', pageUri);
-
   const payload = {
     fields: [
       {
@@ -43,26 +43,46 @@ export async function sendToHubspot(data: {
         name: 'lastname',
         value: data.lastName,
       },
-      {
-        name: 'utm_source',
-        value: utm.source,
-      },
-      {
-        name: 'utm_medium',
-        value: utm.medium,
-      },
-      {
-        name: 'utm_campaign',
-        value: utm.campaign,
-      },
-      {
-        name: 'utm_term',
-        value: utm.term,
-      },
-      {
-        name: 'utm_content',
-        value: utm.content,
-      },
+      ...(utm.source
+        ? [
+            {
+              name: 'utm_source',
+              value: utm.source,
+            },
+          ]
+        : []),
+      ...(utm.medium
+        ? [
+            {
+              name: 'utm_medium',
+              value: utm.medium,
+            },
+          ]
+        : []),
+      ...(utm.campaign
+        ? [
+            {
+              name: 'utm_campaign',
+              value: utm.campaign,
+            },
+          ]
+        : []),
+      ...(utm.term
+        ? [
+            {
+              name: 'utm_term',
+              value: utm.term,
+            },
+          ]
+        : []),
+      ...(utm.content
+        ? [
+            {
+              name: 'utm_content',
+              value: utm.content,
+            },
+          ]
+        : []),
     ],
     context: {
       pageUri,
@@ -81,12 +101,13 @@ export async function sendToHubspot(data: {
     });
 
     if (!response.ok) {
-      throw new Error(`HubSpot API error: ${response.statusText}`);
+      console.error(`HubSpot API error: ${response.statusText}`);
+      return false;
     }
 
     return await response.json();
   } catch (error) {
     console.error('Error submitting to HubSpot:', error);
-    throw error;
+    return false;
   }
 }
