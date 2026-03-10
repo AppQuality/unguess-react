@@ -1,13 +1,13 @@
 import { useEffect } from 'react';
 import { useModule } from 'src/features/modules/useModule';
 
-const Personas = () => {
-  const { value, setOutput } = useModule('personas');
+const ACNSaverPersonas = () => {
+  const { value, setOutput } = useModule('acn_saver_personas');
 
   const isHiddenVariant = value?.variant === 'hidden';
 
   useEffect(() => {
-    if (isHiddenVariant && !value?.output) {
+    if (isHiddenVariant) {
       setOutput([]);
     }
   }, [isHiddenVariant]);
@@ -19,4 +19,4 @@ const Personas = () => {
   return <div>Personas Module - Default Variant</div>;
 };
 
-export default Personas;
+export default ACNSaverPersonas;

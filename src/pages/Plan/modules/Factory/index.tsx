@@ -18,7 +18,7 @@ import { LanguageModule } from './modules/Language';
 import { LiteracyModule } from './modules/Literacy';
 import { LocalityModule } from './modules/Locality';
 import { OutOfScopeModule } from './modules/OutOfScope';
-import { PersonasModule } from './modules/Personas';
+import { ACNSaverPersonasModule } from './modules/CustomModules/Accenture/ACNSaverPersonas';
 import { SetupNoteModule } from './modules/SetupNote';
 import { TargetNoteModule } from './modules/TargetNote';
 import { TargetSizeModule } from './modules/TargetSize';
@@ -54,7 +54,7 @@ const modules: Record<
   [InternetHomeModule.slug]: InternetHomeModule,
   [TitleModule.slug]: TitleModule,
   [DatesModule.slug]: DatesModule,
-  [PersonasModule.slug]: PersonasModule,
+  [ACNSaverPersonasModule.slug]: ACNSaverPersonasModule,
 };
 
 export function getModuleBySlug(

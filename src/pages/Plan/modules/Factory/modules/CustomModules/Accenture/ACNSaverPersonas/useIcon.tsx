@@ -1,11 +1,4 @@
-import useIconColor from '../../useIconColor';
-
 const useIcon = (withValidation: boolean = true) => {
-  const color = useIconColor({
-    module_type: 'personas',
-    withValidation,
-  });
-
   return null;
 };
 
