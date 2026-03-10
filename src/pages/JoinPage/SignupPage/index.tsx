@@ -6,6 +6,7 @@
 import { Col, Grid, Logo, Row } from '@appquality/unguess-design-system';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { NotLogged } from 'src/features/templates/NotLogged';
 import { Track } from 'src/common/Track';
 import styled from 'styled-components';
 import { SignupForm } from './SignupForm';
@@ -55,7 +56,7 @@ const SignupPage = () => {
   ];
 
   return (
-    <Track
+    <NotLogged
       title={t('__PAGE_JOIN_TITLE')}
       description={t('__PAGE_JOIN_DESCRIPTION')}
       metaTags={meta}
@@ -89,7 +90,7 @@ const SignupPage = () => {
           </Grid>
         </CenteredXYContainer>
       </Background>
-    </Track>
+    </NotLogged>
   );
 };
 

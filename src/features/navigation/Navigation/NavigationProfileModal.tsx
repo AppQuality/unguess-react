@@ -27,7 +27,7 @@ export const NavigationProfileModal = () => {
   const { t, i18n } = useTranslation();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { logout: cognitoLogout, user: cognitoUser } = useAuth();
+  const { logout: cognitoLogout } = useAuth();
 
   const pathWithoutLocale = usePathWithoutLocale();
 
@@ -104,10 +104,12 @@ export const NavigationProfileModal = () => {
     onLogout: async () => {
       // TODO: rimuovere wp dopo migration completa
       try {
-        if (cognitoUser || user?.authType === 'cognito') {
+        // Se l'utente è autenticato con Cognito, esegui logout Cognito
+        if (user?.authType === 'cognito') {
           await cognitoLogout();
         }
 
+        // Logout legacy WP per utenti con cookie
         await WPAPI.logout();
 
         // Reset rtk query cache

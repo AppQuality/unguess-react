@@ -101,6 +101,12 @@ export const WorkspaceStep = () => {
         content: res.projectId ? 'with project' : 'without project',
       });
 
+      // Pulisci sessionStorage per utenti invitati
+      if (userData.type === 'invite') {
+        sessionStorage.removeItem('inviteProfileId');
+        sessionStorage.removeItem('inviteToken');
+      }
+
       // Redirect appropriato (utente già loggato)
       if (res.projectId) {
         navigate(`/projects/${res.projectId}`);

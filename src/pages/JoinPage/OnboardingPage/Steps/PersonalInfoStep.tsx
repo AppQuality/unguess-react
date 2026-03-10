@@ -12,10 +12,12 @@ import {
 import { Field, FieldProps, Form, Formik, FormikHelpers } from 'formik';
 import { useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
 import {
   useGetUsersRolesQuery,
   useGetCompaniesSizesQuery,
+  usePostUsersMutation,
 } from 'src/features/api';
 import { useSendGTMevent } from 'src/hooks/useGTMevent';
 import styled from 'styled-components';
@@ -37,14 +39,27 @@ interface PersonalInfoFormValues {
 
 export const PersonalInfoStep = () => {
   const { t } = useTranslation();
-  const { data, updateData, setStep } = useOnboarding();
+  const { data, userData, updateData, setStep } = useOnboarding();
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const sendGTMevent = useSendGTMevent({ loggedUser: false });
+  const [postUsers] = usePostUsersMutation();
   const { data: dataRoles, isLoading: isLoadingRoles } =
     useGetUsersRolesQuery();
   const { data: dataCompanySizes, isLoading: isLoadingCompanySizes } =
     useGetCompaniesSizesQuery();
   const selectRef = useRef<HTMLDivElement>(null);
   const roleSelectRef = useRef<HTMLDivElement>(null);
+
+  const templateParam = searchParams.get('template');
+  let templateId: number | undefined;
+
+  if (templateParam !== null) {
+    const parsed = Number(templateParam);
+    if (Number.isInteger(parsed)) {
+      templateId = parsed;
+    }
+  }
 
   const renderRolesOptions = useMemo(
     () =>
@@ -84,7 +99,7 @@ export const PersonalInfoStep = () => {
 
   const handleSubmit = async (
     values: PersonalInfoFormValues,
-    { setSubmitting }: FormikHelpers<PersonalInfoFormValues>
+    { setSubmitting, setFieldError }: FormikHelpers<PersonalInfoFormValues>
   ) => {
     try {
       sendGTMevent({
@@ -93,7 +108,66 @@ export const PersonalInfoStep = () => {
       });
 
       updateData(values);
-      setStep(2);
+
+      // Se è un utente invitato, fa il submit finale qui
+      if (userData.type === 'invite') {
+        const basicInfo = {
+          name: values.name,
+          surname: values.surname,
+          roleId: Number(values.roleId),
+          companySizeId: Number(values.companySizeId),
+          ...(templateId !== undefined && { templateId }),
+        };
+
+        sendGTMevent({
+          event: 'onboarding-flow',
+          category: `type: ${userData.type}`,
+          action: 'start submit',
+        });
+
+        const res = await postUsers({
+          body: {
+            type: 'invite',
+            ...basicInfo,
+            profileId: userData.profileId!,
+            token: userData.token!,
+          },
+        }).unwrap();
+
+        sendGTMevent({
+          event: 'onboarding-flow',
+          category: `type: ${userData.type}`,
+          action: 'completed',
+          content: res.projectId ? 'with project' : 'without project',
+        });
+
+        // Pulisci sessionStorage
+        sessionStorage.removeItem('inviteProfileId');
+        sessionStorage.removeItem('inviteToken');
+
+        // Redirect
+        if (res.projectId) {
+          navigate(`/projects/${res.projectId}`);
+        } else {
+          navigate('/');
+        }
+      } else {
+        // Utente nuovo: vai allo step 2 (workspace)
+        setStep(2);
+      }
+    } catch (error: any) {
+      // eslint-disable-next-line no-console
+      console.error('Onboarding error:', error);
+      sendGTMevent({
+        event: 'onboarding-flow',
+        category: `type: ${userData.type}`,
+        action: 'error',
+        content: error.message,
+      });
+      setFieldError(
+        'name',
+        error.data?.message || t('ONBOARDING_ERROR_GENERIC')
+      );
     } finally {
       setSubmitting(false);
     }

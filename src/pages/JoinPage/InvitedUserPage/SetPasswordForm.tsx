@@ -98,14 +98,13 @@ export const SetPasswordForm = ({
           action: 'auto-login-completed',
         });
 
+        // TODO: capire come gestire meglio l'onboarding nel flusso invited, per adesso
+        // salva profileId e token in sessionStorage per l'onboarding
+        sessionStorage.setItem('inviteProfileId', profileId.toString());
+        sessionStorage.setItem('inviteToken', token);
+
         // Redirect all'onboarding già loggato
-        navigate('/join/onboarding', {
-          state: {
-            type: 'invite',
-            profileId,
-            token,
-          },
-        });
+        navigate('/join/onboarding');
       } catch (loginError: any) {
         // Se il login fallisce perché serve conferma email
         if (loginError.message?.includes('User is not confirmed')) {

@@ -73,12 +73,7 @@ export const ConfirmEmailForm = ({
       });
 
       // Redirect all'onboarding già autenticato
-      navigate('/join/onboarding', {
-        state: {
-          type: 'new',
-          email,
-        },
-      });
+      navigate('/join/onboarding');
     } catch (error: any) {
       // eslint-disable-next-line no-console
       console.error('Confirmation error:', error);

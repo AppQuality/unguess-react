@@ -1,17 +1,10 @@
-import React, {
-  createContext,
-  useContext,
-  useState,
-  useEffect,
-  useMemo,
-} from 'react';
+import React, { createContext, useContext, useMemo } from 'react';
 import { Amplify } from 'aws-amplify';
 import {
   signIn,
   signUp,
   confirmSignUp,
   signOut,
-  getCurrentUser,
   fetchAuthSession,
   type SignInInput,
   type SignUpInput,
@@ -23,13 +16,12 @@ import { awsConfig } from './config';
 Amplify.configure(awsConfig);
 
 interface AuthContextType {
-  user: any | null;
-  loading: boolean;
   login: (email: string, password: string) => Promise<void>;
   signup: (email: string, password: string, name: string) => Promise<void>;
   confirmSignup: (email: string, code: string) => Promise<void>;
   logout: () => Promise<void>;
   getAccessToken: () => Promise<string | undefined>;
+  isLoggedIn?: boolean;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -37,20 +29,6 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [user, setUser] = useState<any | null>(null);
-  const [loading, setLoading] = useState(true);
-
-  const checkUser = async () => {
-    try {
-      const currentUser = await getCurrentUser();
-      setUser(currentUser);
-    } catch (error) {
-      setUser(null);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   const login = async (email: string, password: string) => {
     try {
       const signInInput: SignInInput = {
@@ -60,13 +38,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
       const { isSignedIn, nextStep } = await signIn(signInInput);
 
-      if (isSignedIn) {
-        await checkUser();
-      } else {
+      if (!isSignedIn) {
+        // eslint-disable-next-line no-console
         console.log('Next step:', nextStep);
         // TODO: Gestisci MFA o altri step se necessario
       }
     } catch (error: any) {
+      // eslint-disable-next-line no-console
       console.error('Login error:', error);
       throw new Error(error.message || 'Login failed');
     }
@@ -87,13 +65,16 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
       const { isSignUpComplete, userId, nextStep } = await signUp(signUpInput);
 
+      // eslint-disable-next-line no-console
       console.log('Signup result:', { isSignUpComplete, userId, nextStep });
 
       if (!isSignUpComplete) {
         // L'utente deve confermare l'email
+        // eslint-disable-next-line no-console
         console.log('Confirmation required');
       }
     } catch (error: any) {
+      // eslint-disable-next-line no-console
       console.error('Signup error:', error);
       throw new Error(error.message || 'Signup failed');
     }
@@ -108,8 +89,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
       const { isSignUpComplete, nextStep } = await confirmSignUp(confirmInput);
 
+      // eslint-disable-next-line no-console
       console.log('Confirm result:', { isSignUpComplete, nextStep });
     } catch (error: any) {
+      // eslint-disable-next-line no-console
       console.error('Confirmation error:', error);
       throw new Error(error.message || 'Confirmation failed');
     }
@@ -118,8 +101,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   const logout = async () => {
     try {
       await signOut();
-      setUser(null);
     } catch (error: any) {
+      // eslint-disable-next-line no-console
       console.error('Logout error:', error);
       throw new Error(error.message || 'Logout failed');
     }
@@ -130,27 +113,21 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       const session = await fetchAuthSession();
       return session.tokens?.accessToken.toString();
     } catch (error) {
+      // eslint-disable-next-line no-console
       console.error('Error getting access token:', error);
       return undefined;
     }
   };
 
-  // Verifica se l'utente è già loggato all'avvio
-  useEffect(() => {
-    checkUser();
-  }, []);
-
   const AuthProviderValue = useMemo(
     () => ({
-      user,
-      loading,
       login,
       signup,
       confirmSignup,
       logout,
       getAccessToken,
     }),
-    [user, loading]
+    []
   );
 
   return (

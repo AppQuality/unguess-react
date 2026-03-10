@@ -4,33 +4,24 @@
 import { ReactNode } from 'react';
 import { Navigate } from 'react-router-dom';
 import { PageLoader } from 'src/common/components/PageLoader';
-import { useAuth } from 'src/features/auth/context';
 import { useGetUsersMeQuery } from 'src/features/api';
 
 export const PublicRoute = ({ children }: { children: ReactNode }) => {
-  const { user, loading: authLoading } = useAuth();
-  const { data: userData, isLoading: userDataLoading } = useGetUsersMeQuery(
-    undefined,
-    {
-      skip: !user,
-    }
-  );
+  const { data: userData, isLoading } = useGetUsersMeQuery();
 
-  if (authLoading || userDataLoading) {
+  if (isLoading) {
     return <PageLoader />;
   }
 
-  // Se c'è un utente Cognito autenticato
-  if (user) {
+  // Se c'è un utente autenticato (Cognito o legacy)
+  if (userData) {
     // Se onboarding è pending
-    if (userData?.onboarding_pending) {
+    if (userData.onboarding_pending) {
       return <Navigate to="/join/onboarding" replace />;
     }
 
-    // Se l'utente loggato e ha completato l'onboarding
-    if (userData && !userData.onboarding_pending) {
-      return <Navigate to="/" replace />;
-    }
+    // Se l'utente ha completato l'onboarding
+    return <Navigate to="/" replace />;
   }
 
   // Utente non loggato - accesso consentito
@@ -41,28 +32,23 @@ export const PublicRoute = ({ children }: { children: ReactNode }) => {
  * OnboardingRoute - solo con onboarding_pending
  */
 export const OnboardingRoute = ({ children }: { children: ReactNode }) => {
-  const { user, loading: authLoading } = useAuth();
-  const { data: userData, isLoading: userDataLoading } = useGetUsersMeQuery(
-    undefined,
-    {
-      skip: !user,
-    }
-  );
+  const { data: userData, isLoading, error } = useGetUsersMeQuery();
 
-  if (authLoading || userDataLoading) {
+  if (isLoading) {
     return <PageLoader />;
   }
 
-  if (!user) {
+  // Se non c'è utente autenticato o c'è un errore (es. 401, 403)
+  if (!userData || error) {
     return <Navigate to="/join/signup" replace />;
   }
 
-  // Se onboarding NON è pending
-  if (userData && !userData.onboarding_pending) {
+  // Se onboarding NON è pending, redirect alla home
+  if (!userData.onboarding_pending) {
     return <Navigate to="/" replace />;
   }
 
-  // Utente loggato con onboarding pending
+  // Utente autenticato con onboarding pending
   return children;
 };
 

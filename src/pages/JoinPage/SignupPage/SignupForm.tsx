@@ -214,7 +214,11 @@ export const SignupForm = ({ onSignupSuccess }: SignupFormProps) => {
                 }}
               </Field>
 
-              <Field name="terms" type="checkbox">
+              <Field
+                name="terms"
+                type="checkbox"
+                data-qa="terms-and-conditions"
+              >
                 {({ field, meta }: FieldProps) => {
                   const hasError = meta.touched && Boolean(meta.error);
                   return (

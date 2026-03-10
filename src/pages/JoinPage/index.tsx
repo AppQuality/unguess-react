@@ -27,7 +27,7 @@ const JoinPage = () => (
       }
     />
     <Route
-      path=":profile/:token"
+      path="invites/:profile/:token"
       element={
         <InvitedRoute>
           <InvitedUserPage />

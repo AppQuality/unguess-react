@@ -4,10 +4,9 @@
  * Step 2: Nome workspace
  */
 import { Col, Grid, Logo, Row } from '@appquality/unguess-design-system';
-import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useLocation, useNavigate } from 'react-router-dom';
 import { Track } from 'src/common/Track';
+import { useGetUsersMeQuery } from 'src/features/api';
 import styled from 'styled-components';
 import { OnboardingProvider, OnboardingUserData } from './OnboardingProvider';
 import { PersonalInfoStep } from './Steps/PersonalInfoStep';
@@ -47,20 +46,33 @@ const FormContainer = styled.div`
 
 const OnboardingPage = () => {
   const { t } = useTranslation();
-  const location = useLocation();
-  const navigate = useNavigate();
+  const { data: currentUser, isLoading } = useGetUsersMeQuery();
 
-  // Recupera i dati dell'utente dal navigation state
-  const userData = location.state as OnboardingUserData | undefined;
+  // Costruisci userData da useGetUsersMeQuery
+  let userData: OnboardingUserData | undefined;
+  if (currentUser) {
+    // Controlla se è un utente invitato (profileId e token in sessionStorage)
+    const inviteProfileId = sessionStorage.getItem('inviteProfileId');
+    const inviteToken = sessionStorage.getItem('inviteToken');
 
-  useEffect(() => {
-    // Se non ci sono dati utente, redirect al signup
-    if (!userData || !userData.type) {
-      navigate('/join/signup', { replace: true });
+    if (inviteProfileId && inviteToken) {
+      // Utente invitato
+      userData = {
+        type: 'invite',
+        email: currentUser.email,
+        profileId: Number(inviteProfileId),
+        token: inviteToken,
+      };
+    } else {
+      // Utente nuovo
+      userData = {
+        type: 'new',
+        email: currentUser.email,
+      };
     }
-  }, [userData, navigate]);
+  }
 
-  if (!userData || !userData.type) {
+  if (isLoading || !userData) {
     return null;
   }
 
@@ -88,7 +100,9 @@ const OnboardingPage = () => {
                     {({ step }) => (
                       <>
                         {step === 1 && <PersonalInfoStep />}
-                        {step === 2 && <WorkspaceStep />}
+                        {step === 2 && userData.type === 'new' && (
+                          <WorkspaceStep />
+                        )}
                       </>
                     )}
                   </OnboardingProvider>

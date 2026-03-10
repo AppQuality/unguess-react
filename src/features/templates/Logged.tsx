@@ -53,13 +53,7 @@ export const Logged = ({
       userData?.onboarding_pending &&
       !pathname.includes('/join/onboarding')
     ) {
-      navigate('/join/onboarding', {
-        state: {
-          type: 'new', // TODO: da gestire meglio
-          email: userData.email,
-        },
-        replace: true,
-      });
+      navigate('/join/onboarding', { replace: true });
     }
   }, [userData, pathname, navigate]);
 
