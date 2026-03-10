@@ -1,6 +1,4 @@
-const useIcon = (withValidation: boolean = true) => {
-  return null;
-};
+const useIcon = (_withValidation: boolean = true) => null;
 
 export const useIconWithValidation = () => useIcon(true);
 

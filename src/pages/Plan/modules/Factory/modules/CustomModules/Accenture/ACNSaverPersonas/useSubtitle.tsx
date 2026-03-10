@@ -1,5 +1,3 @@
-const useSubtitle = () => {
-  return 'User personas';
-};
+const useSubtitle = () => 'User personas';
 
 export default useSubtitle;

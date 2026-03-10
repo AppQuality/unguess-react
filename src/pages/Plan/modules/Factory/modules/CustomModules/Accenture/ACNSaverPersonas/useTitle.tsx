@@ -1,5 +1,3 @@
-const useTitle = () => {
-  return 'Personas';
-};
+const useTitle = () => 'Personas';
 
 export default useTitle;
