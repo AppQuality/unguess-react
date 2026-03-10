@@ -3180,12 +3180,15 @@ export type ModuleAnnualIncomeRange = {
   type: 'annual_income_range';
   variant: string;
 };
-export type OutputModulePersonas = {
-  name: string;
-}[];
-export type ModulePersonas = {
-  output: OutputModulePersonas;
-  type: 'personas';
+export type ModuleAcnSaver = {
+  output: (
+    | 'PRAGMATICO DIGITALE'
+    | 'CONSERVATORE PRUDENTE'
+    | 'INVESTITORE SOFISTICATO'
+    | 'SOCIALE COLLABORATIVO'
+    | 'EMERGENTE ASPIRAZIONALE'
+  )[];
+  type: 'acn_saver_personas';
   variant: string;
 };
 export type Module =
@@ -3213,7 +3216,7 @@ export type Module =
   | ModuleHomeInternet
   | ModuleGasSupply
   | ModuleAnnualIncomeRange
-  | ModulePersonas;
+  | ModuleAcnSaver;
 export type PlanStatus = 'pending_review' | 'draft' | 'approved' | 'paying';
 export type PurchasablePlanRules =
   | 'number_of_modules'

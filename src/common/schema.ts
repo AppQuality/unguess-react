@@ -1116,7 +1116,7 @@ export interface components {
       | components["schemas"]["ModuleHomeInternet"]
       | components["schemas"]["ModuleGasSupply"]
       | components["schemas"]["ModuleAnnualIncomeRange"]
-      | components["schemas"]["ModulePersonas"];
+      | components["schemas"]["ModuleACNSaver"];
     /** ModuleAdditionalTarget */
     ModuleAdditionalTarget: {
       output: string;
@@ -1967,17 +1967,22 @@ export interface components {
         data?: { [key: string]: unknown };
       }[];
     };
-    /** ModulePersonas */
-    ModulePersonas: {
-      output: components["schemas"]["OutputModulePersonas"];
+    /**
+     * ModuleACNSaver
+     * @description This module is created ad-hoc for Accenture to target their saver/investor personas.
+     */
+    ModuleACNSaver: {
+      output: (
+        | "PRAGMATICO DIGITALE"
+        | "CONSERVATORE PRUDENTE"
+        | "INVESTITORE SOFISTICATO"
+        | "SOCIALE COLLABORATIVO"
+        | "EMERGENTE ASPIRAZIONALE"
+      )[];
       /** @enum {undefined} */
-      type: "personas";
+      type: "acn_saver_personas";
       variant: string;
     };
-    /** OutputModulePersonas */
-    OutputModulePersonas: {
-      name: string;
-    }[];
   };
   responses: {
     /** Shared error response */
