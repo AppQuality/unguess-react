@@ -32,7 +32,9 @@ const NavBody = () => {
   // Sort availableModules according to group/order structure
   const groupConfig = MODULE_GROUPS[activeTab.name] || [];
   const { getPlanStatus } = useModuleConfiguration();
-  const { currentModules } = useAppSelector((state) => state.planModules);
+  const { currentModules, records } = useAppSelector(
+    (state) => state.planModules
+  );
   const { t } = useTranslation();
   const { width } = useWindowSize();
   const breakpointSm = parseInt(appTheme.breakpoints.sm, 10);
@@ -49,9 +51,13 @@ const NavBody = () => {
       <BodyContainer data-qa={`plans-nav-${activeTab.name}`}>
         {groupConfig.map((group) => {
           // Get modules in this group that are present in currentModules
-          const groupModules = group.modules.filter((module) =>
-            currentModules.includes(module)
-          );
+          // and don't have variant "hidden"
+          const groupModules = group.modules.filter((module) => {
+            if (!currentModules.includes(module)) return false;
+            const moduleRecord = records[module];
+            if (moduleRecord?.variant === 'hidden') return false;
+            return true;
+          });
           if (groupModules.length === 0) return null;
           return (
             <div key={group.id}>
