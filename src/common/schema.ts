@@ -3927,6 +3927,7 @@ export interface operations {
           count: number;
           /** @description The plan ID to associate with the generation */
           planId: string;
+          context?: string;
         };
       };
     };
@@ -5258,7 +5259,6 @@ export interface operations {
       400: components["responses"]["Error"];
       403: components["responses"]["Error"];
       404: components["responses"]["Error"];
-      406: components["responses"]["Error"];
       500: components["responses"]["Error"];
       502: components["responses"]["Error"];
     };
