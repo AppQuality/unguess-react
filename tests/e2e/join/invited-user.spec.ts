@@ -1,16 +1,18 @@
 import { test, expect } from '../../fixtures/app';
 import { Join } from '../../fixtures/pages/Join';
-import { Step1 } from '../../fixtures/pages/Join/Step1';
-import { Step2 } from '../../fixtures/pages/Join/Step2';
-import { Step3 } from '../../fixtures/pages/Join/Step3';
+import { InvitedUserPage } from '../../fixtures/pages/Join/InvitedUserPage';
+import { OnboardingPage } from '../../fixtures/pages/Join/OnboardingPage';
 
 test.describe('The Join page if the get invites respond 400', () => {
   let join: Join;
+  let invitePage: InvitedUserPage;
 
   test.beforeEach(async ({ page }) => {
     join = new Join(page);
+    invitePage = new InvitedUserPage(page);
+
     await join.notLoggedIn();
-    await join.mockGetInvitedUserError();
+    await invitePage.mockGetInvitedUserError();
     await page.goto(join.urlInvitedUser);
   });
   test('should render an error state', async () => {
@@ -20,14 +22,15 @@ test.describe('The Join page if the get invites respond 400', () => {
 
 test.describe('The Join page first step - case valid invited user only', () => {
   let join: Join;
-  let step1: Step1;
+  let invitePage: InvitedUserPage;
 
   test.beforeEach(async ({ page }) => {
     join = new Join(page);
-    await join.notLoggedIn();
-    step1 = new Step1(page);
+    invitePage = new InvitedUserPage(page);
 
-    await join.mockGetInvitedUser();
+    await join.notLoggedIn();
+    await invitePage.mockGetInvitedUser();
+
     await page.goto(join.urlInvitedUser);
   });
 
@@ -49,70 +52,77 @@ test.describe('The Join page first step - case valid invited user only', () => {
   });
 
   test('the email input, is precompiled (with invited user email from api) and disabled', async () => {
-    await expect(step1.elements().emailInput()).toBeDisabled();
-    await expect(step1.elements().emailInput()).toHaveValue(
+    await expect(invitePage.elements().emailDisplay()).toBeDisabled();
+    await expect(invitePage.elements().emailDisplay()).toHaveValue(
       join.validInvitedUser.email
     );
   });
 });
 
-test.describe('The Join page second step - case invited user only', () => {
+test.describe('The Join page second step - invited user can see onboarding', () => {
   let join: Join;
-  let step2: Step2;
-  let step1: Step1;
+  let invitePage: InvitedUserPage;
+  let onboarding: OnboardingPage;
+
   test.beforeEach(async ({ page }) => {
     join = new Join(page);
-    step1 = new Step1(page);
-    step2 = new Step2(page);
+
+    invitePage = new InvitedUserPage(page);
+    onboarding = new OnboardingPage(page);
 
     await join.notLoggedIn();
-    await join.mockGetInvitedUser();
-    await step2.mockGetRoles();
-    await step2.mockGetCompanySizes();
+    await invitePage.mockGetInvitedUser();
+    await onboarding.mockGetRoles();
+    await onboarding.mockGetCompanySizes();
+    await onboarding.mockAuthenticatedUserWithPendingOnboarding();
+    await invitePage.mockCompleteCognitoFlow();
     await page.goto(join.urlInvitedUser);
-    await step1.goToNextStepAsInvitedUser();
+
+    await invitePage.fillValidPasswordForm();
+    await invitePage.submitForm();
   });
-  test('display two inputs for name and surname precopiled if present in api response', async () => {
-    await expect(step2.elements().nameInput()).toBeEnabled();
-    await expect(step2.elements().nameInput()).toHaveValue(
-      join.validInvitedUser.name
-    );
-    await expect(step2.elements().surnameInput()).toBeEnabled();
-    await expect(step2.elements().surnameInput()).toHaveValue(
-      join.validInvitedUser.surname
-    );
+
+  test('display two inputs for name and surname after signup, login and amplify challenge check', async () => {
+    await expect(onboarding.elements().nameInput()).toBeEnabled();
+    await expect(onboarding.elements().surnameInput()).toBeEnabled();
   });
 });
 
-test.describe('The Join page third step - case invited user only', () => {
+test.describe('Invited user onboarding skips workspace step', () => {
   let join: Join;
-  let step1: Step1;
-  let step2: Step2;
-  let step3: Step3;
+  let invitePage: InvitedUserPage;
+  let onboarding: OnboardingPage;
+
   test.beforeEach(async ({ page }) => {
     join = new Join(page);
+    invitePage = new InvitedUserPage(page);
+    onboarding = new OnboardingPage(page);
+
     await join.notLoggedIn();
-    step2 = new Step2(page);
-    step1 = new Step1(page);
-    step3 = new Step3(page);
-
-    await join.mockGetInvitedUser();
-    await step2.mockGetRoles();
-    await step2.mockGetCompanySizes();
+    await invitePage.mockGetInvitedUser();
+    await onboarding.mockGetRoles();
+    await onboarding.mockGetCompanySizes();
+    await onboarding.mockAuthenticatedUserWithPendingOnboarding();
+    await onboarding.mockPostUsersForInvited();
+    await invitePage.mockCompleteCognitoFlow();
     await page.goto(join.urlInvitedUser);
-    await step1.goToNextStepAsInvitedUser();
-    await step2.elements().roleSelect().click();
-    await step2.elements().roleSelectOptions().first().click();
-    await step2.elements().companySizeSelect().click();
-    await step2.elements().companySizeSelectOptions().first().click();
-    await step2.elements().buttonGoToStep3().click();
+
+    // Complete signup and login
+    await invitePage.fillValidPasswordForm();
+    await invitePage.submitForm();
+
+    // Fill personal info
+    await onboarding.fillPersonalInfo();
+    await onboarding.submitPersonalInfo();
   });
 
-  test('display the workspace name input precompiled from api and disabled', async () => {
-    await expect(step3.elements().workspaceInput()).not.toBeEnabled();
-    await expect(step3.elements().workspaceInput()).toHaveValue(
-      join.validInvitedUser.workspace
-    );
+  test('workspace step is not displayed and redirects to homepage', async ({
+    page,
+  }) => {
+    await page.waitForURL('**/');
+    await expect(page).toHaveURL('/');
+    await expect(
+      onboarding.workspaceElements().workspaceInput()
+    ).not.toBeVisible();
   });
-  test('the POST should NOT answer with a projectId therefore submitting the form redirect to the homepage', async () => {});
 });

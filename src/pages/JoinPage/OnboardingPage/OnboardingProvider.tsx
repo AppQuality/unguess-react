@@ -2,7 +2,15 @@
  * OnboardingProvider - Context per gestire lo stato del flusso onboarding
  * Gestisce i dati e lo step corrente
  */
-import { createContext, ReactNode, useContext, useMemo, useState } from 'react';
+import {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
+import { useGetInvitesByProfileAndTokenQuery } from 'src/features/api';
 
 export interface OnboardingData {
   name: string;
@@ -47,6 +55,30 @@ export const OnboardingProvider = ({
     companySizeId: '',
     workspace: '',
   });
+
+  // Carica i dati dell'invito se è un utente invitato
+  const { data: inviteData } = useGetInvitesByProfileAndTokenQuery(
+    {
+      profile: userData.profileId?.toString() || '',
+      token: userData.token || '',
+    },
+    {
+      skip:
+        userData.type !== 'invite' || !userData.profileId || !userData.token,
+    }
+  );
+
+  // Precompila i dati del form con i dati dell'invito
+  useEffect(() => {
+    if (inviteData && userData.type === 'invite') {
+      setData((prev) => ({
+        ...prev,
+        name: inviteData.name || '',
+        surname: inviteData.surname || '',
+        workspace: inviteData.workspace || '',
+      }));
+    }
+  }, [inviteData, userData.type]);
 
   const updateData = (newData: Partial<OnboardingData>) => {
     setData((prev) => ({ ...prev, ...newData }));

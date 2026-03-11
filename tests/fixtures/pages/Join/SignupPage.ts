@@ -129,35 +129,6 @@ export class SignupPage {
     });
   }
 
-  // Mock per Cognito login
-  async mockCognitoLogin() {
-    await this.page.route('**/cognito-idp.*.amazonaws.com/', async (route) => {
-      const request = route.request();
-      const headers = request.headers();
-      const target = headers['x-amz-target'];
-
-      // InitiateAuth operation
-      if (target?.includes('InitiateAuth')) {
-        await route.fulfill({
-          status: 200,
-          contentType: 'application/x-amz-json-1.1',
-          body: JSON.stringify({
-            AuthenticationResult: {
-              AccessToken: 'mock-access-token',
-              IdToken: 'mock-id-token',
-              RefreshToken: 'mock-refresh-token',
-              ExpiresIn: 3600,
-              TokenType: 'Bearer',
-            },
-            ChallengeParameters: {},
-          }),
-        });
-      } else {
-        await route.fallback();
-      }
-    });
-  }
-
   async mockMailExist() {
     await this.page.route(
       `*/**/api/users/by-email/user.registerd@example.com`,

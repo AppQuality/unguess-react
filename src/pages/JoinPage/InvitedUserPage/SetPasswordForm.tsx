@@ -1,6 +1,7 @@
 import {
   Button,
   FormField,
+  Input,
   Label,
   MediaInput,
   Message,
@@ -87,11 +88,9 @@ export const SetPasswordForm = ({
       });
 
       // Login immediato dopo signup
-      // Nota: se Cognito richiede conferma email, questo potrebbe fallire
-      // In quel caso l'utente dovrebbe confermare l'email prima
+      // TODO: aggiungere endpoint api per autoverificare email
       try {
         await login(email, values.password);
-
         sendGTMevent({
           event: 'sign-up-flow',
           category: 'invited',
@@ -143,19 +142,30 @@ export const SetPasswordForm = ({
 
   return (
     <>
-      <div style={{ marginBottom: appTheme.space.lg, textAlign: 'center' }}>
-        <XL isBold style={{ marginBottom: appTheme.space.xs }}>
+      <div style={{ marginBottom: appTheme.space.md }}>
+        <XL
+          isBold
+          style={{ textAlign: 'center', marginBottom: appTheme.space.md }}
+        >
           {t('INVITED_USER_TITLE')}
         </XL>
+
         <Paragraph>
-          <Trans
-            i18nKey="INVITED_USER_DESCRIPTION"
-            values={{ email: inviteData?.email }}
-            components={{ bold: <Span isBold /> }}
-          />
+          <FormField>
+            <Label>
+              {t('SIGNUP_FORM_EMAIL_LABEL')}
+              <Span style={{ color: appTheme.palette.red[600] }}> *</Span>
+            </Label>
+            <Input
+              disabled
+              type="email"
+              role="textbox"
+              title="Email"
+              value={inviteData?.email || ''}
+            />
+          </FormField>
         </Paragraph>
       </div>
-
       <Formik
         initialValues={initialValues}
         validationSchema={setPasswordValidationSchema}

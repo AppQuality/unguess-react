@@ -123,6 +123,18 @@ export class OnboardingPage {
     });
   }
 
+  async mockPostUsersForInvited() {
+    await this.page.route(`*/**/api/users`, async (route) => {
+      if (route.request().method() === 'POST') {
+        await route.fulfill({
+          path: 'tests/api/users/_post/201_Invited_user.json',
+        });
+      } else {
+        await route.fallback();
+      }
+    });
+  }
+
   async mockAuthenticatedUserWithPendingOnboarding() {
     await this.page.route('*/**/api/users/me', async (route) => {
       if (route.request().method() === 'GET') {
