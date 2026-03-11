@@ -6,6 +6,7 @@ import { Track } from 'src/common/Track';
 import { useGetInvitesByProfileAndTokenQuery } from 'src/features/api';
 import styled from 'styled-components';
 import { SetPasswordForm } from './SetPasswordForm';
+import { JoinPageError } from './JoinPageError';
 
 const CenteredXYContainer = styled.div`
   display: flex;
@@ -44,18 +45,11 @@ const LoadingMessage = styled.div`
   padding: ${(p) => p.theme.space.xl};
 `;
 
-const ErrorMessage = styled.div`
-  text-align: center;
-  padding: ${(p) => p.theme.space.xl};
-  color: ${(p) => p.theme.palette.red[600]};
-`;
-
 const InvitedUserPage = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { profile, token } = useParams();
 
-  // Verifica il token di invito
   const { isLoading, data, error } = useGetInvitesByProfileAndTokenQuery(
     {
       profile: profile || '',
@@ -94,19 +88,7 @@ const InvitedUserPage = () => {
   }
 
   if (error) {
-    return (
-      <Track
-        title={t('__PAGE_INVITED_USER_TITLE')}
-        description={t('__PAGE_INVITED_USER_DESCRIPTION')}
-        metaTags={meta}
-      >
-        <Background>
-          <CenteredXYContainer>
-            <ErrorMessage>{t('INVITED_USER_ERROR_INVALID_TOKEN')}</ErrorMessage>
-          </CenteredXYContainer>
-        </Background>
-      </Track>
-    );
+    return <JoinPageError />;
   }
 
   return (
