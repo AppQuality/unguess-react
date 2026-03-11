@@ -92,7 +92,9 @@ const CreateTaskListsWithAI = () => {
   const handleClick = async () => {
     // gather modules info to prepend to the user prompt
     const context = JSON.stringify(
-      Object.entries(records).filter(([key]) => MODULES_TO_PROMPT.includes(key))
+      Object.entries(records.records).filter(([key]) =>
+        MODULES_TO_PROMPT.includes(key)
+      )
     );
 
     await postServicesApiKUsecases({
