@@ -18,7 +18,6 @@ import CampaignPreview from 'src/pages/Campaign/preview';
 import Dashboard from 'src/pages/Dashboard';
 import Project from 'src/pages/Dashboard/Project';
 import InsightsPage from 'src/pages/Insights';
-import JoinPage from 'src/pages/JoinPage';
 import LoginPage from 'src/pages/LoginPage';
 import Manual from 'src/pages/Manual';
 import MediaNotFound from 'src/pages/NotFound/MediaNotFound';
@@ -28,6 +27,7 @@ import Profile from 'src/pages/Profile';
 import Template from 'src/pages/Template';
 import Templates from 'src/pages/Templates';
 import Video from 'src/pages/Video';
+import JoinPage from 'src/pages/JoinPage';
 import Videos from 'src/pages/Videos';
 import { Redirect } from './Redirect';
 
@@ -73,9 +73,8 @@ const Pages = () => {
                     path={`/${langPrefix}/login`}
                     element={<LoginPage />}
                   />
-                  <Route path={`/${langPrefix}/join`} element={<JoinPage />} />
                   <Route
-                    path={`/${langPrefix}/join/invites/:profile/:token`}
+                    path={`/${langPrefix}/join/*`}
                     element={<JoinPage />}
                   />
 
@@ -164,7 +163,10 @@ const Pages = () => {
                 errorElement={<ErrorBoundaryPage />}
               />
 
-              <Route
+              {/**
+               * TODO: capire il perchè di questa rotta
+               */}
+              {/* <Route
                 path="/join"
                 element={
                   <Redirect
@@ -176,7 +178,7 @@ const Pages = () => {
                   />
                 }
                 errorElement={<ErrorBoundaryPage />}
-              />
+              /> */}
 
               <Route
                 path="/defect/:defectId/:token"

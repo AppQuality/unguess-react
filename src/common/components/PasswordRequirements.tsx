@@ -34,8 +34,8 @@ const PasswordRequirements = ({ password }: { password: string }) => {
     <div data-qa="password-requirements" className="aq-mb-3">
       <SM>{t('PASSWORD_VALIDATOR_PASSWORD_REQUIREMENTS')}</SM>
       <ul>
-        <PasswordRequirement check={() => password.length >= 6}>
-          {t('PASSWORD_VALIDATOR_MINIMUM_OF_6_CHARACTERS')}
+        <PasswordRequirement check={() => password.length >= 12}>
+          {t('PASSWORD_VALIDATOR_MINIMUM_OF_12_CHARACTERS')}
         </PasswordRequirement>
         <PasswordRequirement check={() => password.match(/[A-Z]/) !== null}>
           {t('PASSWORD_VALIDATOR_CONTAIN_AN_UPPERCASE_LETTER')}

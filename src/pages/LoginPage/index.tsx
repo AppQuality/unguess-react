@@ -12,6 +12,7 @@ import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
 import WPAPI from 'src/common/wpapi';
 import { useGetUsersMeQuery } from 'src/features/api';
+import { useAuth } from 'src/features/auth/context';
 import styled from 'styled-components';
 
 import { appTheme } from 'src/app/theme';
@@ -51,6 +52,7 @@ const LoginPage = () => {
   const navigate = useNavigate();
   const { state: locationState } = useLocation();
   const { addToast } = useToast();
+  const { login: cognitoLogin } = useAuth();
 
   const from = (locationState as NavigationState)?.from || '/';
 
@@ -79,6 +81,21 @@ const LoginPage = () => {
     values: LoginFormFields,
     { setSubmitting, setStatus }: FormikHelpers<LoginFormFields>
   ) => {
+    // STEP 1: Tenta login con Cognito
+    try {
+      await cognitoLogin(values.email, values.password);
+
+      // Login Cognito riuscito (TODO: gestire redirect)
+      setCta(`${t('__LOGIN_FORM_CTA_REDIRECT_STATE')}`);
+      document.location.href = from || '/';
+      return;
+    } catch (cognitoError: any) {
+      // Non è possibile gestire l'errore, se utente Cognito sbaglia password verrà fatto fallback al login legacy
+      // eslint-disable-next-line no-console
+      console.error('Cognito login error:', cognitoError);
+    }
+
+    // STEP 2: Fallback a WordPress legacy login (se utente non esiste su Cognito)
     let nonce;
     try {
       nonce = await WPAPI.getNonce();

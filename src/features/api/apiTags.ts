@@ -96,6 +96,9 @@ unguessApi.enhanceEndpoints({
     getUsersMe: {
       providesTags: ['Users'],
     },
+    postUsers: {
+      invalidatesTags: ['Users'],
+    },
     getUsersMePreferences: {
       providesTags: ['Preferences'],
     },
