@@ -90,25 +90,9 @@ const LoginPage = () => {
       document.location.href = from || '/';
       return;
     } catch (cognitoError: any) {
-      // Gestione errori Cognito
-      const errorCode = cognitoError?.name || cognitoError?.code;
-
-      // Se l'utente NON esiste su Cognito, prova con il sistema legacy
-      if (errorCode === 'UserNotFoundException') {
-        // Fallback to legacy WordPress login
-        // eslint-disable-next-line no-console
-        console.log('User not found in Cognito, trying legacy login...'); // TODO: rimuovere log
-      } else {
-        // Altri errori Cognito (password sbagliata, account disabilitato, ecc.)
-        if (errorCode === 'NotAuthorizedException') {
-          setStatus({ message: `${t('__LOGIN_FORM_FAILED_INVALID')}` });
-        } else {
-          // Errore generico Cognito
-          showGenericErrorToast('Cognito Login: ');
-        }
-        setSubmitting(false);
-        return;
-      }
+      // Non è possibile gestire l'errore, se utente Cognito sbaglia password verrà fatto fallback al login legacy
+      // eslint-disable-next-line no-console
+      console.error('Cognito login error:', cognitoError);
     }
 
     // STEP 2: Fallback a WordPress legacy login (se utente non esiste su Cognito)
