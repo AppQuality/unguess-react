@@ -139,7 +139,7 @@ export class InvitedUserPage {
 
       // InitiateAuth operation (login with SRP)
       if (target?.includes('InitiateAuth')) {
-        const body = await request.postData();
+        const body = request.postData();
 
         // Check if it's SRP auth flow
         if (body?.includes('USER_SRP_AUTH')) {
