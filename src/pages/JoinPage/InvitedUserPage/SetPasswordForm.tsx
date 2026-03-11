@@ -13,7 +13,7 @@ import { ReactComponent as Eye } from '@zendeskgarden/svg-icons/src/16/eye-fill.
 import { ReactComponent as EyeHide } from '@zendeskgarden/svg-icons/src/16/eye-hide-fill.svg';
 import { Field, FieldProps, Form, Formik, FormikHelpers } from 'formik';
 import { useState } from 'react';
-import { Trans, useTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
 import { PasswordRequirements } from 'src/common/components/PasswordRequirements';
