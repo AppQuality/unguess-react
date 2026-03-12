@@ -142,6 +142,7 @@ export const ModulesList = () => {
             // Filter modules that are in currentModules and don't have variant "hidden"
             const groupModules = group.modules.filter((module) => {
               if (!currentModules.includes(module)) return false;
+              if (!Object.hasOwn(records, module)) return true;
               const moduleRecord = records[module];
               if (moduleRecord?.variant === 'hidden') return false;
               return true;
