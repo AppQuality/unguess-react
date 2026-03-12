@@ -1973,11 +1973,11 @@ export interface components {
      */
     ModuleACNSaver: {
       output: (
-        | "PRAGMATICO DIGITALE"
-        | "CONSERVATORE PRUDENTE"
-        | "INVESTITORE SOFISTICATO"
-        | "SOCIALE COLLABORATIVO"
-        | "EMERGENTE ASPIRAZIONALE"
+        | "ACN.PRAGMATICO DIGITALE"
+        | "ACN.EMERGENTE ASPIRAZIONALE"
+        | "ACN.INVESTITORE SOFISTICATO"
+        | "ACN.SOCIALE COLLABORATIVO"
+        | "ACN.CONSERVATORE PRUDENTE"
       )[];
       /** @enum {undefined} */
       type: "acn_saver_personas";

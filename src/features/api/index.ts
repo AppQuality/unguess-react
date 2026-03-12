@@ -3182,11 +3182,11 @@ export type ModuleAnnualIncomeRange = {
 };
 export type ModuleAcnSaver = {
   output: (
-    | 'PRAGMATICO DIGITALE'
-    | 'CONSERVATORE PRUDENTE'
-    | 'INVESTITORE SOFISTICATO'
-    | 'SOCIALE COLLABORATIVO'
-    | 'EMERGENTE ASPIRAZIONALE'
+    | 'ACN.PRAGMATICO DIGITALE'
+    | 'ACN.EMERGENTE ASPIRAZIONALE'
+    | 'ACN.INVESTITORE SOFISTICATO'
+    | 'ACN.SOCIALE COLLABORATIVO'
+    | 'ACN.CONSERVATORE PRUDENTE'
   )[];
   type: 'acn_saver_personas';
   variant: string;
