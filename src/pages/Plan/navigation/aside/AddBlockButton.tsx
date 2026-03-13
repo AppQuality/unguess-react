@@ -39,10 +39,17 @@ const AddBlockButton = () => {
   const { planComposedStatus } = usePlan(planId);
   const { activeTab } = usePlanContext();
   const availableModules = getModulesByTab(activeTab.name);
-  const { currentModules } = useAppSelector((state) => state.planModules);
+  const { currentModules, records } = useAppSelector(
+    (state) => state.planModules
+  );
 
+  // Filter out modules that are already added or have variant "hidden"
   const items = availableModules.filter((module_type) => {
+    // Don't show modules that are already added
     if (currentModules.find((module) => module === module_type)) return false;
+    // Don't show modules with variant "hidden" (preconfigurated)
+    const module = records[module_type];
+    if (module?.variant === 'hidden') return false;
     return true;
   });
 

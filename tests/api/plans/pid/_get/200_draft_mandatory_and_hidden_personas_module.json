@@ -1,0 +1,38 @@
+{
+  "campaign": {
+    "id": 0,
+    "startDate": "string",
+    "title": "string"
+  },
+  "config": {
+    "modules": [
+      {
+        "output": "string",
+        "type": "title",
+        "variant": "string"
+      },
+      {
+        "output": "My beautiful personas",
+        "type": "personas",
+        "variant": "hidden"
+      }
+    ]
+  },
+  "from_template": {
+    "id": 0,
+    "title": "string"
+  },
+  "id": 0,
+  "price": "string",
+  "project": {
+    "id": 0,
+    "name": "string"
+  },
+  "quote": {
+    "id": 0,
+    "status": "pending",
+    "value": "string"
+  },
+  "status": "pending_review",
+  "workspace_id": 0
+}
