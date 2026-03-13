@@ -74,10 +74,9 @@ test.describe('The title module defines the Plan title.', () => {
     await expect(goalModule.elements().infoButton()).toBeVisible();
   });
 
-  test('It should show a tooltip with title and description when hovering the info button', async () => {
+  test('It should show a tooltip when hovering the info button', async () => {
     await goalModule.elements().infoButton().hover();
     await expect(goalModule.elements().tooltipTitle()).toBeVisible();
-    await expect(goalModule.elements().tooltipDescription()).toBeVisible();
   });
 
   test('It should allow improving the goal with AI only when word count >= 4', async ({

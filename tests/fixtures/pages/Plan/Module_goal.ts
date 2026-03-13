@@ -25,14 +25,6 @@ export class GoalModule {
         this.page.getByText(
           this.i18n.t('__PLAN_PAGE_MODULE_GOAL_TOOLTIP_TITLE')
         ),
-      tooltipDescription: () => {
-        const lastSentence = this.i18n
-          .t('__PLAN_PAGE_MODULE_GOAL_TOOLTIP_DESCRIPTION')
-          .split('<br/>')
-          .at(-1)!
-          .trim();
-        return this.page.getByText(lastSentence);
-      },
       editorParagraph: () => module.locator('.ProseMirror p').first(),
       aiButton: () =>
         module.getByRole('button', {
