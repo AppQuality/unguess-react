@@ -6,6 +6,7 @@ import {
   FormField,
   IconButton,
   Label,
+  MD,
   Notification,
   SM,
   Span,
@@ -234,12 +235,39 @@ const GoalContent = () => {
           <AccordionNew.Panel>
             <div style={{ padding: appTheme.space.xs }}>
               <FormField style={{ marginBottom: appTheme.space.md }}>
-                <Label>
-                  <Trans i18nKey="__PLAN_PAGE_MODULE_GOAL_LABEL">
-                    Which is the objective of the test?
-                  </Trans>
-                  <Span style={{ color: appTheme.palette.red[700] }}>*</Span>
-                </Label>
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: appTheme.space.xs,
+                  }}
+                >
+                  <Label style={{ marginBottom: 0 }}>
+                    <Trans i18nKey="__PLAN_PAGE_MODULE_GOAL_LABEL">
+                      What do you want to understand from this activity?
+                    </Trans>
+                    <Span style={{ color: appTheme.palette.red[700] }}>*</Span>
+                  </Label>
+                  <Tooltip
+                    placement="end"
+                    type="light"
+                    size="large"
+                    content={
+                      <>
+                        <MD isBold style={{ marginBottom: appTheme.space.xs }}>
+                          {t('__PLAN_PAGE_MODULE_GOAL_TOOLTIP_TITLE')}
+                        </MD>
+                        <MD>
+                          {t('__PLAN_PAGE_MODULE_GOAL_TOOLTIP_DESCRIPTION')}
+                        </MD>
+                      </>
+                    }
+                  >
+                    <IconButton isBasic>
+                      <InfoIcon />
+                    </IconButton>
+                  </Tooltip>
+                </div>
                 <div style={{ marginTop: appTheme.space.xs }}>
                   <Editor
                     editable={getPlanStatus() === 'draft'}
@@ -250,6 +278,7 @@ const GoalContent = () => {
                     ref={editorRef}
                     placeholderOptions={{
                       placeholder: t('__PLAN_PAGE_MODULE_GOAL_PLACEHOLDER'),
+                      showOnlyCurrent: false,
                     }}
                     headerTitle={' '}
                     disableSaveShortcut
