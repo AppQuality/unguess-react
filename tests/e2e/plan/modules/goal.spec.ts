@@ -62,14 +62,10 @@ test.describe('The title module defines the Plan title.', () => {
 
   test('It should show the placeholder when the input is empty', async () => {
     await goalModule.elements().moduleInput().click();
-    await goalModule.elements().moduleInput().fill('');
-    const placeholder = await goalModule
-      .elements()
-      .moduleInput()
-      .locator('[data-placeholder]')
-      .first()
-      .getAttribute('data-placeholder');
-    expect(placeholder).toBe(
+    await goalModule.elements().moduleInput().press('Control+a');
+    await goalModule.elements().moduleInput().press('Backspace');
+    await expect(goalModule.elements().editorParagraph()).toHaveAttribute(
+      'data-placeholder',
       planPage.i18n.t('__PLAN_PAGE_MODULE_GOAL_PLACEHOLDER')
     );
   });
