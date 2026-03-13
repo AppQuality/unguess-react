@@ -19,6 +19,16 @@ export class GoalModule {
       tab: () => this.page.getByTestId('setup-tab'),
       moduleError: () => module.getByTestId('goal-error'),
       moduleInput: () => module.locator('[role="textbox"]').first(),
+      moduleLabel: () => module.locator('label'),
+      infoButton: () => module.getByTestId('goal-info-button'),
+      tooltipTitle: () =>
+        this.page.getByText(
+          this.i18n.t('__PLAN_PAGE_MODULE_GOAL_TOOLTIP_TITLE')
+        ),
+      tooltipDescription: () =>
+        this.page.getByText(
+          this.i18n.t('__PLAN_PAGE_MODULE_GOAL_TOOLTIP_DESCRIPTION')
+        ),
       aiButton: () =>
         module.getByRole('button', {
           name: this.i18n.t('GENERATE_WITH_AI_CTA_LABEL'),

@@ -263,7 +263,7 @@ const GoalContent = () => {
                       </>
                     }
                   >
-                    <IconButton isBasic>
+                    <IconButton isBasic data-qa="goal-info-button">
                       <InfoIcon />
                     </IconButton>
                   </Tooltip>

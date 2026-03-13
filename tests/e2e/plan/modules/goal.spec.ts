@@ -54,6 +54,36 @@ test.describe('The title module defines the Plan title.', () => {
     );
   });
 
+  test('It should show the correct label', async () => {
+    await expect(goalModule.elements().moduleLabel()).toContainText(
+      planPage.i18n.t('__PLAN_PAGE_MODULE_GOAL_LABEL')
+    );
+  });
+
+  test('It should show the placeholder when the input is empty', async () => {
+    await goalModule.elements().moduleInput().click();
+    await goalModule.elements().moduleInput().fill('');
+    const placeholder = await goalModule
+      .elements()
+      .moduleInput()
+      .locator('[data-placeholder]')
+      .first()
+      .getAttribute('data-placeholder');
+    expect(placeholder).toBe(
+      planPage.i18n.t('__PLAN_PAGE_MODULE_GOAL_PLACEHOLDER')
+    );
+  });
+
+  test('It should show the info button next to the label', async () => {
+    await expect(goalModule.elements().infoButton()).toBeVisible();
+  });
+
+  test('It should show a tooltip with title and description when hovering the info button', async () => {
+    await goalModule.elements().infoButton().hover();
+    await expect(goalModule.elements().tooltipTitle()).toBeVisible();
+    await expect(goalModule.elements().tooltipDescription()).toBeVisible();
+  });
+
   test('It should allow improving the goal with AI only when word count >= 4', async ({
     page,
   }) => {
