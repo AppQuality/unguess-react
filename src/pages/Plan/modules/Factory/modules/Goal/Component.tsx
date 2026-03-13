@@ -258,7 +258,10 @@ const GoalContent = () => {
                           {t('__PLAN_PAGE_MODULE_GOAL_TOOLTIP_TITLE')}
                         </MD>
                         <MD>
-                          {t('__PLAN_PAGE_MODULE_GOAL_TOOLTIP_DESCRIPTION')}
+                          <Trans
+                            i18nKey="__PLAN_PAGE_MODULE_GOAL_TOOLTIP_DESCRIPTION"
+                            components={{ br: <br /> }}
+                          />
                         </MD>
                       </>
                     }
