@@ -24,17 +24,13 @@ const AiGeneratorSection = ({
     }
   );
 
-  const canShowAiFeatures = useMemo(
-    () => {
-      if (!canShowChat) return false;
-      if (!checkApiHealth) return true;
-      return (
-        apiK_HealthResponse?.success &&
-        apiK_HealthResponse?.status === 'healthy'
-      );
-    },
-    [apiK_HealthResponse, canShowChat, checkApiHealth]
-  );
+  const canShowAiFeatures = useMemo(() => {
+    if (!canShowChat) return false;
+    if (!checkApiHealth) return true;
+    return (
+      apiK_HealthResponse?.success && apiK_HealthResponse?.status === 'healthy'
+    );
+  }, [apiK_HealthResponse, canShowChat, checkApiHealth]);
   if (!canShowAiFeatures) {
     return null;
   }
