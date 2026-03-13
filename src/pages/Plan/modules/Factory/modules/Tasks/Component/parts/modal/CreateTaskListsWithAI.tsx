@@ -37,6 +37,9 @@ const MODULES_TO_PROMPT = [
   'tasks',
   'language',
   'touchpoints',
+  'age',
+  'literacy',
+  'additional_target',
 ];
 
 const CreateTaskListsWithAI = () => {
