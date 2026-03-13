@@ -8,22 +8,29 @@ import { useCanShowAiChat } from 'src/pages/Dashboard/hooks/useCanShowAiChat';
 
 type AiGeneratorSectionProps = {
   onOpenCreateWithAI: () => void;
+  checkApiHealth?: boolean;
 };
 
 const AiGeneratorSection = ({
   onOpenCreateWithAI,
+  checkApiHealth = true,
 }: AiGeneratorSectionProps) => {
   const { t } = useTranslation();
   const canShowChat = useCanShowAiChat();
-  const { data: apiK_HealthResponse } = useGetServicesApiKHealthQuery();
-
-  const canShowAiFeatures = useMemo(
-    () =>
-      canShowChat &&
-      apiK_HealthResponse?.success &&
-      apiK_HealthResponse?.status === 'healthy',
-    [apiK_HealthResponse, canShowChat]
+  const { data: apiK_HealthResponse } = useGetServicesApiKHealthQuery(
+    undefined,
+    {
+      skip: !checkApiHealth,
+    }
   );
+
+  const canShowAiFeatures = useMemo(() => {
+    if (!canShowChat) return false;
+    if (!checkApiHealth) return true;
+    return (
+      apiK_HealthResponse?.success && apiK_HealthResponse?.status === 'healthy'
+    );
+  }, [apiK_HealthResponse, canShowChat, checkApiHealth]);
   if (!canShowAiFeatures) {
     return null;
   }

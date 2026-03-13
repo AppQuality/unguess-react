@@ -15,16 +15,17 @@ import {
   Textarea,
   useToast,
 } from '@appquality/unguess-design-system';
-import { ReactNode, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { useAppSelector } from 'src/app/hooks';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as StopIcon } from 'src/assets/icons/stop.svg';
 import {
-  useGetServicesApiKJobsByJobIdQuery,
-  usePostServicesApiKUsecasesMutation,
+  Module,
+  usePostAiAgentsGenerateVideoTasksMutation,
 } from 'src/features/api';
+import { v4 as uuidv4 } from 'uuid';
 import { useModuleTasksContext } from '../../context';
 import { useModuleTasks } from '../../hooks';
 import { LoadingSpinner } from './LoadingSpinner';
@@ -37,108 +38,95 @@ const MODULES_TO_PROMPT = [
   'tasks',
   'language',
   'touchpoints',
-  'age',
-  'literacy',
-  'additional_target',
 ];
+const MAX_PROMPT_LENGTH = 102300;
 
-const CreateTaskListsWithAI = () => {
+const CreateVideoTasksWithAI = () => {
   const { setOutput, value: currentTasks } = useModuleTasks();
   const { addToast } = useToast();
   const { planId } = useParams();
   const { t } = useTranslation();
-  const { setIsOpenCreateTasksWithAIModal } = useModuleTasksContext();
+  const { setIsOpenCreateVideoTasksWithAIModal } = useModuleTasksContext();
   const MIN_LENGTH = 1;
   const [userPrompt, setUserPrompt] = useState('');
   const [usecaseNumber, setUsecaseNumber] = useState<number | undefined>(
     undefined
   );
-  const [pollingInterval, setPollingInterval] = useState(0);
   const [isOpenConfirmation, setIsOpenConfirmation] = useState(false);
 
   const records = useAppSelector((state) => state.planModules);
 
   // API hooks
   const [
-    postServicesApiKUsecases,
-    { data: jobData, error: postError, isLoading: isPostingRequest },
-  ] = usePostServicesApiKUsecasesMutation();
-  const { data: useCasesData, error: useCasesError } =
-    useGetServicesApiKJobsByJobIdQuery(
-      { jobId: jobData?.jobId || '' },
-      {
-        skip: !jobData?.jobId,
-        pollingInterval, // number in ms or 0 for no polling
-      }
-    );
+    generateVideoTasks,
+    { data: useCasesData, error: useCasesError, isLoading: isPostingRequest },
+  ] = usePostAiAgentsGenerateVideoTasksMutation();
+
+  // Type for the mutation request
+  type GenerateVideoTasksRequest = ReturnType<typeof generateVideoTasks>;
+  const [request, setRequest] = useState<GenerateVideoTasksRequest | null>(
+    null
+  );
 
   const handleClose = () => {
-    if (isPostingRequest || pollingInterval > 0) {
+    if (isPostingRequest) {
       setIsOpenConfirmation(true);
     } else {
-      setIsOpenCreateTasksWithAIModal(false);
+      setIsOpenCreateVideoTasksWithAIModal(false);
     }
   };
 
   const handleConfirmClose = () => {
     setIsOpenConfirmation(false);
-    setIsOpenCreateTasksWithAIModal(false);
+    setIsOpenCreateVideoTasksWithAIModal(false);
   };
   const handleCancelClose = () => {
     setIsOpenConfirmation(false);
   };
 
   const handleStop = () => {
-    setPollingInterval(0);
+    request?.abort(); // Abort the ongoing request
   };
 
-  const handleClick = async () => {
+  const handleClick = () => {
     // gather modules info to prepend to the user prompt
-    const context = JSON.stringify(
-      Object.entries(records.records).filter(([key]) =>
-        MODULES_TO_PROMPT.includes(key)
-      )
-    );
+    const modulesInfo: Module[] = Object.entries(records)
+      .filter(([key]) => MODULES_TO_PROMPT.includes(key))
+      .map(([key, item]) => ({
+        ...item,
+        key,
+      }));
+    const fullPrompt = `User prompt:\n${userPrompt}\n[Modules info]:\n${modulesInfo}`;
 
-    await postServicesApiKUsecases({
+    const req = generateVideoTasks({
       body: {
-        planId: planId || '',
-        count: usecaseNumber as number, // usecaseNumber always have a value here because the button is disabled when it's undefined
-        requirements: userPrompt,
-        context,
+        plan_id: planId ? Number(planId) : undefined,
+        usecaseNumber: usecaseNumber as number, // usecaseNumber always have a value here because the button is disabled when it's undefined
+        inputPrompt: fullPrompt.slice(0, MAX_PROMPT_LENGTH),
+        modules: modulesInfo,
       },
     });
+    setRequest(req);
   };
-
-  // Polling for job status every 5 seconds when jobId becomes available or changes
-  useEffect(() => {
-    if (jobData?.jobId) {
-      setPollingInterval(5000);
-    }
-  }, [jobData?.jobId]);
 
   // Stop polling when job is completed and process the results
   useEffect(() => {
-    if (useCasesData?.status === 'completed' && useCasesData?.result) {
-      setPollingInterval(0);
-      if (useCasesData?.result) {
-        const newTasks = useCasesData.result.useCases.map((useCase) => ({
-          kind: 'bug' as const,
-          title: useCase.title,
-          description: useCase.mainFlow,
-          id: useCase.id,
-        }));
-        setOutput([...currentTasks, ...newTasks]);
-      }
+    if (useCasesData?.tasks) {
+      const newTasks = useCasesData.tasks.map((useCase) => ({
+        kind: useCase.kind,
+        title: useCase.title,
+        description: useCase.description || '',
+        id: useCase.id ?? uuidv4(),
+      }));
+      setOutput([...currentTasks, ...newTasks]);
+
       // show a success message
       addToast(
         ({ close }) => (
           <Notification
             onClose={close}
             type="success"
-            message={t(
-              '__PLAN_PAGE_MODULE_TASKS_ADD_TASK_MODAL_CREATE_WITH_AI_SUCCESS_TOAST'
-            )}
+            message={t('__PLAN_PAGE_ADD_VIDEO_TASK_MODAL_AI_SUCCESS_TOAST')}
             closeText={t('__TOAST_CLOSE_TEXT')}
             isPrimary
           />
@@ -146,50 +134,21 @@ const CreateTaskListsWithAI = () => {
         { placement: 'top' }
       );
       // close the modal after processing the result
-      setIsOpenCreateTasksWithAIModal(false);
+      setIsOpenCreateVideoTasksWithAIModal(false);
     }
   }, [useCasesData]);
-
-  // Stopping polling when there is an error
-  useEffect(() => {
-    if (useCasesError) {
-      setPollingInterval(0);
-    }
-  }, [useCasesError]);
-
-  let buttonLabel: ReactNode;
-  if (isPostingRequest) {
-    buttonLabel = t(
-      '__PLAN_PAGE_MODULE_TASKS_ADD_TASK_MODAL_CREATE_WITH_AI_CREATING'
-    );
-  } else if (pollingInterval > 0) {
-    buttonLabel = (
-      <>
-        <Button.StartIcon>
-          <StopIcon />
-        </Button.StartIcon>
-        {t('__PLAN_PAGE_MODULE_TASKS_ADD_TASK_MODAL_CREATE_WITH_AI_STOP')}
-      </>
-    );
-  } else {
-    buttonLabel = t(
-      '__PLAN_PAGE_MODULE_TASKS_ADD_TASK_MODAL_CREATE_WITH_AI_CREATE_BUTTON'
-    );
-  }
 
   return (
     <Modal role="dialog">
       <Modal.Header>
-        {t(
-          '__PLAN_PAGE_MODULE_TASKS_ADD_TASK_MODAL_CREATE_WITH_AI_MODAL_HEADER'
-        )}{' '}
+        {t('__PLAN_PAGE_ADD_VIDEO_TASK_MODAL_AI_HEADER')}{' '}
         <Tag>{t('__PLAN_PAGE_MODULE_TASKS_ADD_TASK_MODAL_AI_BETA_TAG')}</Tag>
       </Modal.Header>
       <Modal.Body>
         <div>
           <MD style={{ marginBottom: appTheme.space.sm }}>
             <Trans
-              i18nKey="__PLAN_PAGE_MODULE_TASKS_ADD_TASK_MODAL_CREATE_WITH_AI_PROMPT_INFO"
+              i18nKey="__PLAN_PAGE_ADD_VIDEO_TASK_MODAL_AI_PROMPT_INFO"
               components={{
                 title: <MD isBold />,
                 bold: <Span isBold />,
@@ -201,17 +160,16 @@ const CreateTaskListsWithAI = () => {
               id="tasks-qty"
               inputValue={usecaseNumber !== undefined ? `${usecaseNumber}` : ''}
               selectionValue={usecaseNumber ? usecaseNumber.toString() : ''}
-              placeholder="Select"
+              placeholder="Auto"
               label={
                 <>
                   {t(
-                    '__PLAN_PAGE_MODULE_TASKS_ADD_TASK_MODAL_CREATE_WITH_AI_TASKS_QUANTITY_LABEL'
+                    '__PLAN_PAGE_ADD_VIDEO_TASK_MODAL_AI_TASKS_QUANTITY_LABEL'
                   )}
-                  <Span style={{ color: appTheme.palette.red[600] }}>*</Span>
                 </>
               }
               onSelect={(value) => setUsecaseNumber(Number(value))}
-              isDisabled={isPostingRequest || pollingInterval > 0}
+              isDisabled={isPostingRequest}
               style={{ maxWidth: '150px' }}
             >
               {[1, 2, 3, 4, 5].map((item) => (
@@ -226,63 +184,41 @@ const CreateTaskListsWithAI = () => {
           </FormField>
           <FormField style={{ marginBottom: appTheme.space.md }}>
             <Label htmlFor="task-list-prompt">
-              {t(
-                '__PLAN_PAGE_MODULE_TASKS_ADD_TASK_MODAL_CREATE_WITH_AI_PROMPT_LABEL'
-              )}
+              {t('__PLAN_PAGE_ADD_VIDEO_TASK_MODAL_AI_PROMPT_LABEL')}
               <Span style={{ color: appTheme.palette.red[600] }}>*</Span>
             </Label>
             <div
               style={{ position: 'relative', paddingTop: appTheme.space.xs }}
             >
               <Textarea
-                disabled={isPostingRequest || pollingInterval > 0}
+                disabled={isPostingRequest}
                 id="task-list-prompt"
                 minLength={MIN_LENGTH}
                 maxLength={102300}
                 rows={8}
                 placeholder={t(
-                  '__PLAN_PAGE_MODULE_TASKS_ADD_TASK_MODAL_CREATE_WITH_AI_PROMPT_PLACEHOLDER'
+                  '__PLAN_PAGE_ADD_VIDEO_TASK_MODAL_AI_PROMPT_PLACEHOLDER'
                 )}
                 value={userPrompt}
                 onChange={(e) => setUserPrompt(e.currentTarget.value)}
               />
-              {(isPostingRequest || pollingInterval > 0) && <LoadingSpinner />}
+              {isPostingRequest && <LoadingSpinner />}
             </div>
           </FormField>
           <Alert type="info" style={{ marginTop: appTheme.space.md }}>
             <Alert.Title>
-              {t(
-                '__PLAN_PAGE_MODULE_TASKS_ADD_TASK_MODAL_CREATE_WITH_AI_ALERT_TITLE'
-              )}
+              {t('__PLAN_PAGE_ADD_VIDEO_TASK_MODAL_AI_ALERT_TITLE')}
             </Alert.Title>
             <Trans
-              i18nKey="__PLAN_PAGE_MODULE_TASKS_ADD_TASK_MODAL_CREATE_WITH_AI_ALERT_TEXT"
+              i18nKey="__PLAN_PAGE_ADD_VIDEO_TASK_MODAL_AI_ALERT_TEXT"
               components={{
-                ul: (
-                  <ul
-                    style={{
-                      paddingTop: '0.5em',
-                      paddingLeft: appTheme.space.md,
-                      listStyle: 'disc',
-                    }}
-                  />
-                ),
-                li: <li />,
+                br: <br />,
               }}
             />
           </Alert>
-          {postError && (
-            <Message validation="error">
-              {t(
-                '__PLAN_PAGE_MODULE_TASKS_ADD_TASK_MODAL_CREATE_WITH_AI_ERROR_SUBMITTING'
-              )}
-            </Message>
-          )}
           {useCasesError && (
             <Message validation="error">
-              {t(
-                '__PLAN_PAGE_MODULE_TASKS_ADD_TASK_MODAL_CREATE_WITH_AI_ERROR_FETCHING'
-              )}
+              {t('__PLAN_PAGE_ADD_VIDEO_TASK_MODAL_AI_ERROR')}
             </Message>
           )}
         </div>
@@ -290,21 +226,26 @@ const CreateTaskListsWithAI = () => {
       <Modal.Footer>
         <FooterItem>
           <Button isBasic onClick={handleClose}>
-            {t('__PLAN_PAGE_MODULE_TASKS_ADD_TASK_MODAL_CREATE_WITH_AI_CANCEL')}
+            {t('__PLAN_PAGE_ADD_VIDEO_TASK_MODAL_AI_CANCEL_BUTTON')}
           </Button>
         </FooterItem>
         <FooterItem>
           <Button
-            disabled={
-              isPostingRequest ||
-              userPrompt.length < MIN_LENGTH ||
-              usecaseNumber === undefined
-            }
-            onClick={pollingInterval > 0 ? handleStop : handleClick}
+            disabled={userPrompt.length < MIN_LENGTH}
+            onClick={isPostingRequest ? handleStop : handleClick}
             isPrimary
             isAccent
           >
-            {buttonLabel}
+            {isPostingRequest ? (
+              <>
+                <Button.StartIcon>
+                  <StopIcon />
+                </Button.StartIcon>
+                {t('__PLAN_PAGE_ADD_VIDEO_TASK_MODAL_AI_STOP_BUTTON')}
+              </>
+            ) : (
+              t('__PLAN_PAGE_ADD_VIDEO_TASK_MODAL_AI_CREATE_BUTTON')
+            )}
           </Button>
         </FooterItem>
       </Modal.Footer>
@@ -312,28 +253,20 @@ const CreateTaskListsWithAI = () => {
       {isOpenConfirmation && (
         <Modal role="dialog" onClose={handleCancelClose}>
           <Modal.Header isDanger>
-            {t(
-              '__PLAN_PAGE_MODULE_TASKS_ADD_TASK_MODAL_CREATE_WITH_AI_CONFIRM_CLOSE_HEADER'
-            )}
+            {t('__PLAN_PAGE_ADD_VIDEO_TASK_MODAL_AI_CONFIRM_CLOSE_HEADER')}
           </Modal.Header>
           <Modal.Body>
-            {t(
-              '__PLAN_PAGE_MODULE_TASKS_ADD_TASK_MODAL_CREATE_WITH_AI_CONFIRM_CLOSE_BODY'
-            )}
+            {t('__PLAN_PAGE_ADD_VIDEO_TASK_MODAL_AI_CONFIRM_CLOSE_BODY')}
           </Modal.Body>
           <Modal.Footer>
             <FooterItem>
               <Button isDanger isBasic onClick={handleConfirmClose}>
-                {t(
-                  '__PLAN_PAGE_MODULE_TASKS_ADD_TASK_MODAL_CREATE_WITH_AI_CONFIRM_CLOSE_CLOSE_ANYWAY'
-                )}
+                {t('__PLAN_PAGE_ADD_VIDEO_TASK_MODAL_AI_CONFIRM_CLOSE_ANYWAY')}
               </Button>
             </FooterItem>
             <FooterItem>
               <Button isPrimary isAccent onClick={handleCancelClose}>
-                {t(
-                  '__PLAN_PAGE_MODULE_TASKS_ADD_TASK_MODAL_CREATE_WITH_AI_CONFIRM_CLOSE_KEEP_PROCESSING'
-                )}
+                {t('__PLAN_PAGE_ADD_VIDEO_TASK_MODAL_AI_CONFIRM_CLOSE_CANCEL')}
               </Button>
             </FooterItem>
           </Modal.Footer>
@@ -344,4 +277,4 @@ const CreateTaskListsWithAI = () => {
   );
 };
 
-export { CreateTaskListsWithAI };
+export { CreateVideoTasksWithAI };
