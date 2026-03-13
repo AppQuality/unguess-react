@@ -21,7 +21,6 @@ import { ReactComponent as EyeHide } from '@zendeskgarden/svg-icons/src/16/eye-h
 import { Field, FieldProps, Form, Formik, FormikHelpers } from 'formik';
 import { useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
 import { PasswordRequirements } from 'src/common/components/PasswordRequirements';
 import { isDisposableEmail } from 'src/common/disposableEmail';
@@ -34,6 +33,10 @@ const FieldContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${(p) => p.theme.space.md};
+`;
+
+const StyledButton = styled(Button)`
+  border-radius: 999px;
 `;
 
 interface SignupFormValues {
@@ -114,13 +117,19 @@ export const SignupForm = ({ onSignupSuccess }: SignupFormProps) => {
   return (
     <>
       <div style={{ marginBottom: appTheme.space.lg, textAlign: 'center' }}>
-        <XL isBold style={{ marginBottom: appTheme.space.xs }}>
+        <XL
+          isBold
+          style={{
+            marginBottom: appTheme.space.xs,
+            color: appTheme.palette.blue[600],
+          }}
+        >
           <Trans
             i18nKey="SIGNUP_FORM_STEP_1_TITLE"
             components={{ br: <br /> }}
           />
         </XL>
-        <Paragraph>
+        <Paragraph style={{ color: appTheme.palette.grey[700] }}>
           <Trans
             i18nKey="SIGNUP_FORM_STEP_1_DESCRIPTION"
             components={{ bold: <Span isBold />, br: <br /> }}
@@ -225,7 +234,7 @@ export const SignupForm = ({ onSignupSuccess }: SignupFormProps) => {
                     <FormField>
                       <Checkbox {...field}>
                         <Label>
-                          <SM>
+                          <SM style={{ fontStyle: 'italic' }}>
                             <Trans
                               i18nKey="SIGNUP_FORM_TERMS_AND_CONDITIONS"
                               components={{
@@ -234,7 +243,8 @@ export const SignupForm = ({ onSignupSuccess }: SignupFormProps) => {
                                     isExternal
                                     href="https://unguess.io/terms-and-conditions/"
                                     target="_blank"
-                                    title="Terms and Conditions"
+                                    title="Terms of service"
+                                    style={{ fontWeight: 600 }}
                                   />
                                 ),
                                 'privacy-link': (
@@ -242,7 +252,8 @@ export const SignupForm = ({ onSignupSuccess }: SignupFormProps) => {
                                     isExternal
                                     href="https://unguess.io/privacy-policy/"
                                     target="_blank"
-                                    title="Privacy Policy"
+                                    title="Privacy policy"
+                                    style={{ fontWeight: 600 }}
                                   />
                                 ),
                               }}
@@ -258,17 +269,34 @@ export const SignupForm = ({ onSignupSuccess }: SignupFormProps) => {
                 }}
               </Field>
 
-              <Button type="submit" isPrimary isAccent disabled={isSubmitting}>
-                {isSubmitting ? t('LOADING') : t('SIGNUP_FORM_SUBMIT')}
-              </Button>
-
-              <div
-                style={{ textAlign: 'center', marginTop: appTheme.space.md }}
+              <StyledButton
+                type="submit"
+                isPrimary
+                isAccent
+                isStretched
+                disabled={isSubmitting}
               >
+                {isSubmitting ? t('LOADING') : t('SIGNUP_FORM_SUBMIT')}
+              </StyledButton>
+
+              <div style={{ marginTop: appTheme.space.md }}>
                 <SM>
                   {t('__JOIN_FORM_ALREADY_HAVE_ACCOUNT_LABEL')}{' '}
-                  <Link to="/login">{t('__JOIN_FORM_SIGNIN_CTA')}</Link>
+                  <Anchor
+                    href="/login"
+                    style={{
+                      fontWeight: 600,
+                      color: appTheme.palette.blue[600],
+                    }}
+                  >
+                    {t('__JOIN_FORM_SIGNIN_CTA')}
+                  </Anchor>
                 </SM>
+              </div>
+              <div>
+                <Anchor href={t('__AUTH_FOOTER_WEBSITE_URL')}>
+                  <SM>{t('__SIGNUP_FORM_VISIT_WEBSITE')}</SM>
+                </Anchor>
               </div>
             </FieldContainer>
           </Form>

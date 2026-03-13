@@ -28,6 +28,7 @@ import Template from 'src/pages/Template';
 import Templates from 'src/pages/Templates';
 import Video from 'src/pages/Video';
 import JoinPage from 'src/pages/JoinPage';
+import VerifyCodePage from 'src/pages/VerifyCodePage';
 import Videos from 'src/pages/Videos';
 import { Redirect } from './Redirect';
 
@@ -76,6 +77,10 @@ const Pages = () => {
                   <Route
                     path={`/${langPrefix}/join/*`}
                     element={<JoinPage />}
+                  />
+                  <Route
+                    path={`/${langPrefix}/verify-code`}
+                    element={<VerifyCodePage />}
                   />
 
                   <Route
