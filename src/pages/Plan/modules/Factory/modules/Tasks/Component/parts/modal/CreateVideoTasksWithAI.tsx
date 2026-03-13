@@ -22,13 +22,16 @@ import { useAppSelector } from 'src/app/hooks';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as StopIcon } from 'src/assets/icons/stop.svg';
 import {
+  Module,
   useGetServicesApiKJobsByJobIdQuery,
+  usePostAiAgentsGenerateVideoTasksMutation,
   usePostServicesApiKUsecasesMutation,
 } from 'src/features/api';
 import { useModuleTasksContext } from '../../context';
 import { useModuleTasks } from '../../hooks';
 import { processItemOutput } from '../processItemOutput';
 import { LoadingSpinner } from './LoadingSpinner';
+import { v4 as uuidv4 } from 'uuid';
 
 // constants
 const MODULES_TO_PROMPT = [
@@ -52,27 +55,24 @@ const CreateVideoTasksWithAI = () => {
   const [usecaseNumber, setUsecaseNumber] = useState<number | undefined>(
     undefined
   );
-  const [pollingInterval, setPollingInterval] = useState(0);
   const [isOpenConfirmation, setIsOpenConfirmation] = useState(false);
 
   const records = useAppSelector((state) => state.planModules);
 
   // API hooks
   const [
-    postServicesApiKUsecases,
-    { data: jobData, error: postError, isLoading: isPostingRequest },
-  ] = usePostServicesApiKUsecasesMutation();
-  const { data: useCasesData, error: useCasesError } =
-    useGetServicesApiKJobsByJobIdQuery(
-      { jobId: jobData?.jobId || '' },
-      {
-        skip: !jobData?.jobId,
-        pollingInterval, // number in ms or 0 for no polling
-      }
-    );
+    generateVideoTasks,
+    { data: useCasesData, error: useCasesError, isLoading: isPostingRequest },
+  ] = usePostAiAgentsGenerateVideoTasksMutation();
+
+  // Type for the mutation request
+  type GenerateVideoTasksRequest = ReturnType<typeof generateVideoTasks>;
+  const [request, setRequest] = useState<GenerateVideoTasksRequest | null>(
+    null
+  );
 
   const handleClose = () => {
-    if (isPostingRequest || pollingInterval > 0) {
+    if (isPostingRequest) {
       setIsOpenConfirmation(true);
     } else {
       setIsOpenCreateVideoTasksWithAIModal(false);
@@ -88,49 +88,41 @@ const CreateVideoTasksWithAI = () => {
   };
 
   const handleStop = () => {
-    setPollingInterval(0);
+    request?.abort(); // Abort the ongoing request
   };
 
-  const handleClick = async () => {
+  const handleClick = () => {
     // gather modules info to prepend to the user prompt
-    const modulesInfo = Object.entries(records)
+    const modulesInfo: Module[] = Object.entries(records)
       .filter(([key]) => MODULES_TO_PROMPT.includes(key))
-      .map(
-        ([key, item]) =>
-          `Module: ${key}, Config: ${JSON.stringify(processItemOutput(item))}`
-      )
-      .join('\n');
+      .map(([key, item]) => ({
+        ...item,
+        key,
+      }));
     const fullPrompt = `User prompt:\n${userPrompt}\n[Modules info]:\n${modulesInfo}`;
 
-    await postServicesApiKUsecases({
+    const req = generateVideoTasks({
       body: {
-        planId: planId || '',
-        count: usecaseNumber as number, // usecaseNumber always have a value here because the button is disabled when it's undefined
-        requirements: fullPrompt.slice(0, MAX_PROMPT_LENGTH),
+        plan_id: planId ? Number(planId) : undefined,
+        usecaseNumber: usecaseNumber as number, // usecaseNumber always have a value here because the button is disabled when it's undefined
+        inputPrompt: fullPrompt.slice(0, MAX_PROMPT_LENGTH),
+        modules: modulesInfo,
       },
     });
+    setRequest(req);
   };
-
-  // Polling for job status every 5 seconds when jobId becomes available or changes
-  useEffect(() => {
-    if (jobData?.jobId) {
-      setPollingInterval(5000);
-    }
-  }, [jobData?.jobId]);
 
   // Stop polling when job is completed and process the results
   useEffect(() => {
-    if (useCasesData?.status === 'completed' && useCasesData?.result) {
-      setPollingInterval(0);
-      if (useCasesData?.result) {
-        const newTasks = useCasesData.result.useCases.map((useCase) => ({
-          kind: 'video' as const,
-          title: useCase.title,
-          description: useCase.mainFlow,
-          id: useCase.id,
-        }));
-        setOutput([...currentTasks, ...newTasks]);
-      }
+    if (useCasesData?.tasks) {
+      const newTasks = useCasesData.tasks.map((useCase) => ({
+        kind: useCase.kind,
+        title: useCase.title,
+        description: useCase.description || '',
+        id: useCase.id ?? uuidv4(),
+      }));
+      setOutput([...currentTasks, ...newTasks]);
+
       // show a success message
       addToast(
         ({ close }) => (
@@ -151,19 +143,8 @@ const CreateVideoTasksWithAI = () => {
     }
   }, [useCasesData]);
 
-  // Stopping polling when there is an error
-  useEffect(() => {
-    if (useCasesError) {
-      setPollingInterval(0);
-    }
-  }, [useCasesError]);
-
   let buttonLabel: ReactNode;
   if (isPostingRequest) {
-    buttonLabel = t(
-      '__PLAN_PAGE_MODULE_TASKS_ADD_TASK_MODAL_CREATE_WITH_AI_CREATING'
-    );
-  } else if (pollingInterval > 0) {
     buttonLabel = (
       <>
         <Button.StartIcon>
@@ -212,7 +193,7 @@ const CreateVideoTasksWithAI = () => {
                 </>
               }
               onSelect={(value) => setUsecaseNumber(Number(value))}
-              isDisabled={isPostingRequest || pollingInterval > 0}
+              isDisabled={isPostingRequest}
               style={{ maxWidth: '150px' }}
             >
               {[1, 2, 3, 4, 5].map((item) => (
@@ -236,7 +217,7 @@ const CreateVideoTasksWithAI = () => {
               style={{ position: 'relative', paddingTop: appTheme.space.xs }}
             >
               <Textarea
-                disabled={isPostingRequest || pollingInterval > 0}
+                disabled={isPostingRequest}
                 id="task-list-prompt"
                 minLength={MIN_LENGTH}
                 maxLength={102300}
@@ -247,7 +228,7 @@ const CreateVideoTasksWithAI = () => {
                 value={userPrompt}
                 onChange={(e) => setUserPrompt(e.currentTarget.value)}
               />
-              {(isPostingRequest || pollingInterval > 0) && <LoadingSpinner />}
+              {isPostingRequest && <LoadingSpinner />}
             </div>
           </FormField>
           <Alert type="info" style={{ marginTop: appTheme.space.md }}>
@@ -272,13 +253,6 @@ const CreateVideoTasksWithAI = () => {
               }}
             />
           </Alert>
-          {postError && (
-            <Message validation="error">
-              {t(
-                '__PLAN_PAGE_MODULE_TASKS_ADD_TASK_MODAL_CREATE_WITH_AI_ERROR_SUBMITTING'
-              )}
-            </Message>
-          )}
           {useCasesError && (
             <Message validation="error">
               {t(
@@ -297,11 +271,9 @@ const CreateVideoTasksWithAI = () => {
         <FooterItem>
           <Button
             disabled={
-              isPostingRequest ||
-              userPrompt.length < MIN_LENGTH ||
-              usecaseNumber === undefined
+              userPrompt.length < MIN_LENGTH || usecaseNumber === undefined
             }
-            onClick={pollingInterval > 0 ? handleStop : handleClick}
+            onClick={isPostingRequest ? handleStop : handleClick}
             isPrimary
             isAccent
           >
