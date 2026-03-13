@@ -129,9 +129,7 @@ const CreateVideoTasksWithAI = () => {
           <Notification
             onClose={close}
             type="success"
-            message={t(
-              '__PLAN_PAGE_MODULE_TASKS_ADD_TASK_MODAL_CREATE_WITH_AI_SUCCESS_TOAST'
-            )}
+            message={t('__PLAN_PAGE_ADD_VIDEO_TASK_MODAL_AI_SUCCESS_TOAST')}
             closeText={t('__TOAST_CLOSE_TEXT')}
             isPrimary
           />
@@ -143,35 +141,17 @@ const CreateVideoTasksWithAI = () => {
     }
   }, [useCasesData]);
 
-  let buttonLabel: ReactNode;
-  if (isPostingRequest) {
-    buttonLabel = (
-      <>
-        <Button.StartIcon>
-          <StopIcon />
-        </Button.StartIcon>
-        {t('__PLAN_PAGE_MODULE_TASKS_ADD_TASK_MODAL_CREATE_WITH_AI_STOP')}
-      </>
-    );
-  } else {
-    buttonLabel = t(
-      '__PLAN_PAGE_MODULE_TASKS_ADD_TASK_MODAL_CREATE_WITH_AI_CREATE_BUTTON'
-    );
-  }
-
   return (
     <Modal role="dialog">
       <Modal.Header>
-        {t(
-          '__PLAN_PAGE_MODULE_TASKS_ADD_TASK_MODAL_CREATE_WITH_AI_MODAL_HEADER'
-        )}{' '}
+        {t('__PLAN_PAGE_ADD_VIDEO_TASK_MODAL_AI_HEADER')}{' '}
         <Tag>{t('__PLAN_PAGE_MODULE_TASKS_ADD_TASK_MODAL_AI_BETA_TAG')}</Tag>
       </Modal.Header>
       <Modal.Body>
         <div>
           <MD style={{ marginBottom: appTheme.space.sm }}>
             <Trans
-              i18nKey="__PLAN_PAGE_MODULE_TASKS_ADD_TASK_MODAL_CREATE_WITH_AI_PROMPT_INFO"
+              i18nKey="__PLAN_PAGE_ADD_VIDEO_TASK_MODAL_AI_PROMPT_INFO"
               components={{
                 title: <MD isBold />,
                 bold: <Span isBold />,
@@ -183,13 +163,12 @@ const CreateVideoTasksWithAI = () => {
               id="tasks-qty"
               inputValue={usecaseNumber !== undefined ? `${usecaseNumber}` : ''}
               selectionValue={usecaseNumber ? usecaseNumber.toString() : ''}
-              placeholder="Select"
+              placeholder="Auto"
               label={
                 <>
                   {t(
-                    '__PLAN_PAGE_MODULE_TASKS_ADD_TASK_MODAL_CREATE_WITH_AI_TASKS_QUANTITY_LABEL'
+                    '__PLAN_PAGE_ADD_VIDEO_TASK_MODAL_AI_TASKS_QUANTITY_LABEL'
                   )}
-                  <Span style={{ color: appTheme.palette.red[600] }}>*</Span>
                 </>
               }
               onSelect={(value) => setUsecaseNumber(Number(value))}
@@ -208,9 +187,7 @@ const CreateVideoTasksWithAI = () => {
           </FormField>
           <FormField style={{ marginBottom: appTheme.space.md }}>
             <Label htmlFor="task-list-prompt">
-              {t(
-                '__PLAN_PAGE_MODULE_TASKS_ADD_TASK_MODAL_CREATE_WITH_AI_PROMPT_LABEL'
-              )}
+              {t('__PLAN_PAGE_ADD_VIDEO_TASK_MODAL_AI_PROMPT_LABEL')}
               <Span style={{ color: appTheme.palette.red[600] }}>*</Span>
             </Label>
             <div
@@ -223,7 +200,7 @@ const CreateVideoTasksWithAI = () => {
                 maxLength={102300}
                 rows={8}
                 placeholder={t(
-                  '__PLAN_PAGE_MODULE_TASKS_ADD_TASK_MODAL_CREATE_WITH_AI_PROMPT_PLACEHOLDER'
+                  '__PLAN_PAGE_ADD_VIDEO_TASK_MODAL_AI_PROMPT_PLACEHOLDER'
                 )}
                 value={userPrompt}
                 onChange={(e) => setUserPrompt(e.currentTarget.value)}
@@ -233,31 +210,18 @@ const CreateVideoTasksWithAI = () => {
           </FormField>
           <Alert type="info" style={{ marginTop: appTheme.space.md }}>
             <Alert.Title>
-              {t(
-                '__PLAN_PAGE_MODULE_TASKS_ADD_TASK_MODAL_CREATE_WITH_AI_ALERT_TITLE'
-              )}
+              {t('__PLAN_PAGE_ADD_VIDEO_TASK_MODAL_AI_ALERT_TITLE')}
             </Alert.Title>
             <Trans
-              i18nKey="__PLAN_PAGE_MODULE_TASKS_ADD_TASK_MODAL_CREATE_WITH_AI_ALERT_TEXT"
+              i18nKey="__PLAN_PAGE_ADD_VIDEO_TASK_MODAL_AI_ALERT_TEXT"
               components={{
-                ul: (
-                  <ul
-                    style={{
-                      paddingTop: '0.5em',
-                      paddingLeft: appTheme.space.md,
-                      listStyle: 'disc',
-                    }}
-                  />
-                ),
-                li: <li />,
+                br: <br />,
               }}
             />
           </Alert>
           {useCasesError && (
             <Message validation="error">
-              {t(
-                '__PLAN_PAGE_MODULE_TASKS_ADD_TASK_MODAL_CREATE_WITH_AI_ERROR_FETCHING'
-              )}
+              {t('__PLAN_PAGE_ADD_VIDEO_TASK_MODAL_AI_ERROR')}
             </Message>
           )}
         </div>
@@ -265,19 +229,26 @@ const CreateVideoTasksWithAI = () => {
       <Modal.Footer>
         <FooterItem>
           <Button isBasic onClick={handleClose}>
-            {t('__PLAN_PAGE_MODULE_TASKS_ADD_TASK_MODAL_CREATE_WITH_AI_CANCEL')}
+            {t('__PLAN_PAGE_ADD_VIDEO_TASK_MODAL_AI_CANCEL_BUTTON')}
           </Button>
         </FooterItem>
         <FooterItem>
           <Button
-            disabled={
-              userPrompt.length < MIN_LENGTH || usecaseNumber === undefined
-            }
+            disabled={userPrompt.length < MIN_LENGTH}
             onClick={isPostingRequest ? handleStop : handleClick}
             isPrimary
             isAccent
           >
-            {buttonLabel}
+            {isPostingRequest ? (
+              <>
+                <Button.StartIcon>
+                  <StopIcon />
+                </Button.StartIcon>
+                {t('__PLAN_PAGE_ADD_VIDEO_TASK_MODAL_AI_STOP_BUTTON')}
+              </>
+            ) : (
+              t('__PLAN_PAGE_ADD_VIDEO_TASK_MODAL_AI_CREATE_BUTTON')
+            )}
           </Button>
         </FooterItem>
       </Modal.Footer>
@@ -285,28 +256,20 @@ const CreateVideoTasksWithAI = () => {
       {isOpenConfirmation && (
         <Modal role="dialog" onClose={handleCancelClose}>
           <Modal.Header isDanger>
-            {t(
-              '__PLAN_PAGE_MODULE_TASKS_ADD_TASK_MODAL_CREATE_WITH_AI_CONFIRM_CLOSE_HEADER'
-            )}
+            {t('__PLAN_PAGE_ADD_VIDEO_TASK_MODAL_AI_CONFIRM_CLOSE_HEADER')}
           </Modal.Header>
           <Modal.Body>
-            {t(
-              '__PLAN_PAGE_MODULE_TASKS_ADD_TASK_MODAL_CREATE_WITH_AI_CONFIRM_CLOSE_BODY'
-            )}
+            {t('__PLAN_PAGE_ADD_VIDEO_TASK_MODAL_AI_CONFIRM_CLOSE_BODY')}
           </Modal.Body>
           <Modal.Footer>
             <FooterItem>
               <Button isDanger isBasic onClick={handleConfirmClose}>
-                {t(
-                  '__PLAN_PAGE_MODULE_TASKS_ADD_TASK_MODAL_CREATE_WITH_AI_CONFIRM_CLOSE_CLOSE_ANYWAY'
-                )}
+                {t('__PLAN_PAGE_ADD_VIDEO_TASK_MODAL_AI_CONFIRM_CLOSE_ANYWAY')}
               </Button>
             </FooterItem>
             <FooterItem>
               <Button isPrimary isAccent onClick={handleCancelClose}>
-                {t(
-                  '__PLAN_PAGE_MODULE_TASKS_ADD_TASK_MODAL_CREATE_WITH_AI_CONFIRM_CLOSE_KEEP_PROCESSING'
-                )}
+                {t('__PLAN_PAGE_ADD_VIDEO_TASK_MODAL_AI_CONFIRM_CLOSE_CANCEL')}
               </Button>
             </FooterItem>
           </Modal.Footer>
