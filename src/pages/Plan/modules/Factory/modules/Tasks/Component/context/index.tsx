@@ -20,8 +20,10 @@ export const ModuleTasksContextProvider = ({
     useState<ModuleTasksContextType['modalRef']>(null);
   const [isOpenCreateTasksWithAIModal, setIsOpenCreateTasksWithAIModal] =
     useState(false);
-  const [isOpenCreateVideoTasksWithAIModal, setIsOpenCreateVideoTasksWithAIModal] =
-    useState(false);
+  const [
+    isOpenCreateVideoTasksWithAIModal,
+    setIsOpenCreateVideoTasksWithAIModal,
+  ] = useState(false);
 
   const moduleTasksContextValue = useMemo(
     () => ({
@@ -32,7 +34,12 @@ export const ModuleTasksContextProvider = ({
       isOpenCreateVideoTasksWithAIModal,
       setIsOpenCreateVideoTasksWithAIModal,
     }),
-    [modalRef, setModalRef, isOpenCreateTasksWithAIModal, isOpenCreateVideoTasksWithAIModal]
+    [
+      modalRef,
+      setModalRef,
+      isOpenCreateTasksWithAIModal,
+      isOpenCreateVideoTasksWithAIModal,
+    ]
   );
 
   return (
