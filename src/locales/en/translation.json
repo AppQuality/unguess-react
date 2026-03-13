@@ -926,7 +926,7 @@
   "__PLAN_PAGE_MODULE_GOAL_REMOVE_TOOLTIP_BUTTON": "Delete",
   "__PLAN_PAGE_MODULE_GOAL_TITLE": "Goal of the activity",
   "__PLAN_PAGE_MODULE_GOAL_TOOLTIP_TITLE": "How to write a good goal",
-  "__PLAN_PAGE_MODULE_GOAL_TOOLTIP_DESCRIPTION": "Specify the goal of this activity to help us set it up effectively. Tip: concentrate on the outcome you want to explore in the user journey, not on each step.<br/>Testers won't see this field.",
+  "__PLAN_PAGE_MODULE_GOAL_TOOLTIP_DESCRIPTION": "Specify the goal of this activity to help us set it up effectively.<br/><br/>Tip: concentrate on the outcome you want to explore in the user journey, not on each step.<br/><br/>Testers won't see this field.",
   "__PLAN_PAGE_MODULE_INCOME_25K_TO_50K_LABEL": "€25,000 - €50,000",
   "__PLAN_PAGE_MODULE_INCOME_ALL_LABEL": "All income levels",
   "__PLAN_PAGE_MODULE_INCOME_ALL_LABEL_HINT": "Participants equally distributed across income brackets",
