@@ -15,7 +15,7 @@ import {
   Textarea,
   useToast,
 } from '@appquality/unguess-design-system';
-import { ReactNode, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { useAppSelector } from 'src/app/hooks';
@@ -23,15 +23,12 @@ import { appTheme } from 'src/app/theme';
 import { ReactComponent as StopIcon } from 'src/assets/icons/stop.svg';
 import {
   Module,
-  useGetServicesApiKJobsByJobIdQuery,
   usePostAiAgentsGenerateVideoTasksMutation,
-  usePostServicesApiKUsecasesMutation,
 } from 'src/features/api';
+import { v4 as uuidv4 } from 'uuid';
 import { useModuleTasksContext } from '../../context';
 import { useModuleTasks } from '../../hooks';
-import { processItemOutput } from '../processItemOutput';
 import { LoadingSpinner } from './LoadingSpinner';
-import { v4 as uuidv4 } from 'uuid';
 
 // constants
 const MODULES_TO_PROMPT = [

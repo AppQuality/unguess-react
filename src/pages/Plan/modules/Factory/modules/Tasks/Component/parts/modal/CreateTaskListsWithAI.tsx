@@ -38,6 +38,9 @@ const MODULES_TO_PROMPT = [
   'tasks',
   'language',
   'touchpoints',
+  'age',
+  'literacy',
+  'additional_target',
 ];
 const MAX_PROMPT_LENGTH = 102300;
 
