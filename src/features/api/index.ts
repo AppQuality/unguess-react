@@ -1902,6 +1902,7 @@ export type PostServicesApiKUsecasesApiArg = {
     count: number;
     /** The plan ID to associate with the generation */
     planId: string;
+    context?: string;
   };
 };
 export type GetServicesApiKJobsByJobIdApiResponse =
@@ -3179,6 +3180,17 @@ export type ModuleAnnualIncomeRange = {
   type: 'annual_income_range';
   variant: string;
 };
+export type ModuleAcnSaver = {
+  output: (
+    | 'ACN.PRAGMATICO DIGITALE'
+    | 'ACN.EMERGENTE ASPIRAZIONALE'
+    | 'ACN.INVESTITORE SOFISTICATO'
+    | 'ACN.SOCIALE COLLABORATIVO'
+    | 'ACN.CONSERVATORE PRUDENTE'
+  )[];
+  type: 'acn_saver_personas';
+  variant: string;
+};
 export type Module =
   | ModuleTitle
   | ModuleDate
@@ -3203,7 +3215,8 @@ export type Module =
   | ModuleMobileInternet
   | ModuleHomeInternet
   | ModuleGasSupply
-  | ModuleAnnualIncomeRange;
+  | ModuleAnnualIncomeRange
+  | ModuleAcnSaver;
 export type PlanStatus = 'pending_review' | 'draft' | 'approved' | 'paying';
 export type PurchasablePlanRules =
   | 'number_of_modules'

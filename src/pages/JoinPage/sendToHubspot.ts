@@ -8,6 +8,8 @@ export async function sendToHubspot(data: {
   firstName: string;
   lastName: string;
 }) {
+  if (process.env.NODE_ENV === 'test') return false; // Skip actual API call during tests
+
   const PORTAL_ID = isDev() ? '50612068' : '6087279';
   const FORM_ID = isDev() ? STAGING_FORM_ID : PRODUCTION_FORM_ID;
   const url = `https://api.hsforms.com/submissions/v3/integration/submit/${PORTAL_ID}/${FORM_ID}`;

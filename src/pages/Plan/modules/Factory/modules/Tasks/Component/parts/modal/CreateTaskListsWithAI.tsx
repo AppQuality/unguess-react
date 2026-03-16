@@ -27,7 +27,6 @@ import {
 } from 'src/features/api';
 import { useModuleTasksContext } from '../../context';
 import { useModuleTasks } from '../../hooks';
-import { processItemOutput } from '../processItemOutput';
 import { LoadingSpinner } from './LoadingSpinner';
 
 // constants
@@ -39,7 +38,6 @@ const MODULES_TO_PROMPT = [
   'language',
   'touchpoints',
 ];
-const MAX_PROMPT_LENGTH = 102300;
 
 const CreateTaskListsWithAI = () => {
   const { setOutput, value: currentTasks } = useModuleTasks();
@@ -93,20 +91,18 @@ const CreateTaskListsWithAI = () => {
 
   const handleClick = async () => {
     // gather modules info to prepend to the user prompt
-    const modulesInfo = Object.entries(records)
-      .filter(([key]) => MODULES_TO_PROMPT.includes(key))
-      .map(
-        ([key, item]) =>
-          `Module: ${key}, Config: ${JSON.stringify(processItemOutput(item))}`
+    const context = JSON.stringify(
+      Object.entries(records.records).filter(([key]) =>
+        MODULES_TO_PROMPT.includes(key)
       )
-      .join('\n');
-    const fullPrompt = `User prompt:\n${userPrompt}\n[Modules info]:\n${modulesInfo}`;
+    );
 
     await postServicesApiKUsecases({
       body: {
         planId: planId || '',
         count: usecaseNumber as number, // usecaseNumber always have a value here because the button is disabled when it's undefined
-        requirements: fullPrompt.slice(0, MAX_PROMPT_LENGTH),
+        requirements: userPrompt,
+        context,
       },
     });
   };
