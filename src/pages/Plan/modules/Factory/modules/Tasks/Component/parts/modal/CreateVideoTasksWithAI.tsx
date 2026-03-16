@@ -93,20 +93,19 @@ const CreateVideoTasksWithAI = () => {
 
   const handleClick = () => {
     // gather modules info to prepend to the user prompt
-    const modulesInfo: Module[] = Object.entries(records)
+    const modulesInfo = Object.entries(records.records)
       .filter(([key]) => MODULES_TO_PROMPT.includes(key))
       .map(([key, item]) => ({
         ...item,
-        key,
+        type: key,
       }));
-    const fullPrompt = `User prompt:\n${userPrompt}\n[Modules info]:\n${modulesInfo}`;
 
     const req = generateVideoTasks({
       body: {
         plan_id: planId ? Number(planId) : undefined,
-        usecaseNumber: usecaseNumber as number, // usecaseNumber always have a value here because the button is disabled when it's undefined
-        inputPrompt: fullPrompt.slice(0, MAX_PROMPT_LENGTH),
-        modules: modulesInfo,
+        usecase_number: usecaseNumber as number, // usecaseNumber always have a value here because the button is disabled when it's undefined
+        input_prompt: userPrompt.slice(0, MAX_PROMPT_LENGTH),
+        modules: modulesInfo as any,
       },
     });
     setRequest(req);
