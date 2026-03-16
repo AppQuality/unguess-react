@@ -1041,8 +1041,8 @@ export type PostAiAgentsGenerateVideoTasksApiArg = {
   body: {
     modules: Module[];
     plan_id?: number;
-    inputPrompt?: string;
-    usecaseNumber?: number;
+    input_prompt?: string;
+    usecase_number?: number;
   };
 };
 export type PostAnalyticsViewsCampaignsByCidApiResponse = /** status 200 OK */ {
