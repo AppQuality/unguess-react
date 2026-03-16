@@ -2136,8 +2136,8 @@ export interface operations {
         "application/json": {
           modules: components["schemas"]["Module"][];
           plan_id?: number;
-          inputPrompt?: string;
-          usecaseNumber?: number;
+          input_prompt?: string;
+          usecase_number?: number;
         };
       };
     };
