@@ -1923,6 +1923,7 @@ export type PostServicesApiKUsecasesApiArg = {
     count: number;
     /** The plan ID to associate with the generation */
     planId: string;
+    context?: string;
   };
 };
 export type GetServicesApiKJobsByJobIdApiResponse =

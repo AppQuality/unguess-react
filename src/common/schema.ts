@@ -3956,6 +3956,7 @@ export interface operations {
           count: number;
           /** @description The plan ID to associate with the generation */
           planId: string;
+          context?: string;
         };
       };
     };
