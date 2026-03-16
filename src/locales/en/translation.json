@@ -798,6 +798,7 @@
   "__PLAN_PAGE_ADD_VIDEO_TASK_MODAL_AI_PROMPT_INFO": "The AI will use the goal and setup of your activity to generate test tasks. Describe the specific areas of your product that testers should explore.",
   "__PLAN_PAGE_ADD_VIDEO_TASK_MODAL_AI_PROMPT_LABEL": "Which areas or flows should testers explore?",
   "__PLAN_PAGE_ADD_VIDEO_TASK_MODAL_AI_PROMPT_PLACEHOLDER": "Checkout – payment step\nPromo code field\nShipping address form",
+  "__PLAN_PAGE_ADD_VIDEO_TASK_MODAL_AI_PROMPT_TOOLTIP": "Tests longer than 20 minutes may reduce data quality.<br />Most usability tests work best with 3–5 tasks.",
   "__PLAN_PAGE_ADD_VIDEO_TASK_MODAL_AI_STOP_BUTTON": "Stop Generation",
   "__PLAN_PAGE_ADD_VIDEO_TASK_MODAL_AI_SUCCESS_TOAST": "Tasks successfully generated! Review them below and save your plan to move forward.",
   "__PLAN_PAGE_ADD_VIDEO_TASK_MODAL_AI_TASKS_QUANTITY_LABEL": "Tasks to generate",

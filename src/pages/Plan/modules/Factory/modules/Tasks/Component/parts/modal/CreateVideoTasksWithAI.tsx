@@ -3,6 +3,7 @@ import {
   Button,
   FooterItem,
   FormField,
+  IconButton,
   Label,
   MD,
   Message,
@@ -13,6 +14,7 @@ import {
   Span,
   Tag,
   Textarea,
+  Tooltip,
   useToast,
 } from '@appquality/unguess-design-system';
 import { useEffect, useState } from 'react';
@@ -20,6 +22,7 @@ import { Trans, useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { useAppSelector } from 'src/app/hooks';
 import { appTheme } from 'src/app/theme';
+import { ReactComponent as InfoIcon } from 'src/assets/icons/info-icon.svg';
 import { ReactComponent as StopIcon } from 'src/assets/icons/stop.svg';
 import { usePostAiAgentsGenerateVideoTasksMutation } from 'src/features/api';
 import { v4 as uuidv4 } from 'uuid';
@@ -164,6 +167,23 @@ const CreateVideoTasksWithAI = () => {
                   {t(
                     '__PLAN_PAGE_ADD_VIDEO_TASK_MODAL_AI_TASKS_QUANTITY_LABEL'
                   )}
+                  <Tooltip
+                    placement="top"
+                    type="light"
+                    size="large"
+                    content={
+                      <Trans
+                        i18nKey="__PLAN_PAGE_ADD_VIDEO_TASK_MODAL_AI_PROMPT_TOOLTIP"
+                        components={{
+                          br: <br />,
+                        }}
+                      />
+                    }
+                  >
+                    <IconButton size="small">
+                      <InfoIcon />
+                    </IconButton>
+                  </Tooltip>
                 </>
               }
               onSelect={(value) => setUsecaseNumber(Number(value))}
