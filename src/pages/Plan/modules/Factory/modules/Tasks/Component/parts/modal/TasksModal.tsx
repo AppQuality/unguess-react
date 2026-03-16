@@ -20,6 +20,11 @@ const StyledTabs = styled(Tabs)`
   display: flex;
 `;
 
+const StyledTabsPanel = styled(Tabs.Panel)`
+  max-height: 350px;
+  overflow-y: scroll;
+`;
+
 const TasksModal = () => {
   const { t } = useTranslation();
   const { variant, setVariant } = useModuleTasks();
@@ -77,7 +82,7 @@ const TasksModal = () => {
               : { style: { display: 'none' } })}
             {...(variant && { selectedIndex: getActiveVariantIndex(variant) })}
           >
-            <Tabs.Panel
+            <StyledTabsPanel
               key="default"
               title={t('__PLAN_PAGE_MODULE_TASKS_ADD_TASK_MODAL_DEFAULT_TAB')}
             >
@@ -85,8 +90,8 @@ const TasksModal = () => {
               <ExperientialTasks />
               <SurveyTasks />
               <AccessibilityTasks />
-            </Tabs.Panel>
-            <Tabs.Panel
+            </StyledTabsPanel>
+            <StyledTabsPanel
               key="functional"
               title={t(
                 '__PLAN_PAGE_MODULE_TASKS_ADD_TASK_MODAL_FUNCTIONAL_TAB'
@@ -97,8 +102,8 @@ const TasksModal = () => {
               <AiGeneratorSection
                 onOpenCreateWithAI={() => setIsOpenCreateTasksWithAIModal(true)}
               />
-            </Tabs.Panel>
-            <Tabs.Panel
+            </StyledTabsPanel>
+            <StyledTabsPanel
               key="experiential"
               title={t(
                 '__PLAN_PAGE_MODULE_TASKS_ADD_TASK_MODAL_EXPERIENTIAL_TAB'
@@ -113,15 +118,15 @@ const TasksModal = () => {
                 }
                 checkApiHealth={false}
               />
-            </Tabs.Panel>
-            <Tabs.Panel
+            </StyledTabsPanel>
+            <StyledTabsPanel
               key="accessibility"
               title={t(
                 '__PLAN_PAGE_MODULE_TASKS_ADD_TASK_MODAL_ACCESSIBILITY_TAB'
               )}
             >
               <AccessibilityTasks />
-            </Tabs.Panel>
+            </StyledTabsPanel>
           </StyledTabs>
         </TooltipModal.Body>
       </TooltipModal>
