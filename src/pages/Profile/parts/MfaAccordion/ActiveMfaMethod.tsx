@@ -4,10 +4,10 @@ import {
   MD,
   SM,
 } from '@appquality/unguess-design-system';
-import { useTranslation } from 'react-i18next';
-import { appTheme } from 'src/app/theme';
 import { ReactComponent as DotsIcon } from '@zendeskgarden/svg-icons/src/16/overflow-vertical-stroke.svg';
 import { ReactComponent as TrashIcon } from '@zendeskgarden/svg-icons/src/16/trash-stroke.svg';
+import { useTranslation } from 'react-i18next';
+import { appTheme } from 'src/app/theme';
 import styled from 'styled-components';
 
 type MfaMethod = 'authenticator' | 'sms';

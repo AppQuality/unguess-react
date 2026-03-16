@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import {
   Anchor,
   CodeVerifier,
@@ -6,6 +5,8 @@ import {
   SM,
 } from '@appquality/unguess-design-system';
 import { setUpTOTP } from 'aws-amplify/auth';
+import QRCode from 'qrcode';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import styled from 'styled-components';
@@ -40,20 +41,28 @@ const QrPlaceholder = styled.div`
 `;
 
 interface AuthenticatorStepProps {
-  qrCodeUrl?: string;
   onCodeComplete?: (code: string) => void;
 }
 
 export const AuthenticatorStep = ({
-  qrCodeUrl,
   onCodeComplete,
 }: AuthenticatorStepProps) => {
   const { t } = useTranslation();
+  const [qrCodeUrl, setQrCodeUrl] = useState<string | undefined>(undefined);
+  console.log('🚀 ~ AuthenticatorStep ~ qrCodeUrl:', qrCodeUrl);
 
   useEffect(() => {
     const initTOTP = async () => {
-      const ciolla = await setUpTOTP();
-      console.log(ciolla);
+      const totpDetails = await setUpTOTP();
+
+      const totpUri = totpDetails.getSetupUri(
+        'APP UNGUESS',
+        'https://app.unguess.io'
+      );
+      const generatedQrCodeUrl = await QRCode.toDataURL(totpUri.href);
+      console.log(`🚀 ~ initTOTP ~ generatedQrCodeUrl:`, generatedQrCodeUrl);
+
+      setQrCodeUrl(generatedQrCodeUrl);
     };
     initTOTP();
   }, []);
