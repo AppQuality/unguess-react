@@ -2,12 +2,33 @@ import { AccordionNew, Tag } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as MfaIcon } from 'src/assets/icons/mfa.svg';
+import { useEffect, useState } from 'react';
+import { fetchMFAPreference } from 'aws-amplify/auth';
 import { ActiveMfaMethod } from './ActiveMfaMethod';
 import { EmptyStateMFA } from './EmptyStateMFA';
 
+interface MfaPreference {
+  preferred: 'SMS' | 'TOTP' | 'EMAIL';
+  enabled: ('SMS' | 'TOTP' | 'EMAIL')[];
+}
+
 export const MfaAccordion = () => {
   const { t } = useTranslation();
-  const isActive = false;
+  const [mfaPreference, setMfaPreference] = useState<MfaPreference | null>(
+    null
+  );
+  const isActive = mfaPreference?.enabled && mfaPreference.enabled.length > 0;
+
+  useEffect(() => {
+    const preferredMFA = async () => {
+      const { preferred, enabled } = await fetchMFAPreference();
+      if (preferred) {
+        setMfaPreference({ preferred, enabled: enabled || [] });
+      }
+    };
+
+    preferredMFA();
+  }, []);
   return (
     <AccordionNew hasBorder={false} level={3} defaultExpandedSections={[]}>
       <AccordionNew.Section>
@@ -39,7 +60,7 @@ export const MfaAccordion = () => {
           </AccordionNew.Meta>
         </AccordionNew.Header>
         <AccordionNew.Panel>
-          {isActive ? (
+          {mfaPreference?.enabled && mfaPreference.enabled.includes('TOTP') ? (
             <ActiveMfaMethod
               method="authenticator"
               lastChanged={t('__PROFILE_PAGE_MFA_ACTIVE_LAST_CHANGED', {
