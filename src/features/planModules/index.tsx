@@ -69,6 +69,8 @@ const planModuleSlice = createSlice({
       state.records[action.payload.type] = {
         ...oldVal,
         output: action.payload.output,
+        // Preserve variant or use 'default' if not set
+        variant: oldVal?.variant || 'default',
       };
       if (!state.currentModules.includes(action.payload.type)) {
         state.currentModules.push(action.payload.type);

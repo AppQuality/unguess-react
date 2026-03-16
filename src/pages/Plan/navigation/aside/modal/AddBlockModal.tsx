@@ -26,15 +26,24 @@ const AddBlockModal = () => {
   const { t } = useTranslation();
   const { modalRef, setModalRef } = usePlanNavContext();
   const { activeTab } = usePlanContext();
-  const { currentModules } = useAppSelector((state) => state.planModules);
+  const { currentModules, records } = useAppSelector(
+    (state) => state.planModules
+  );
   const groupConfig = MODULE_GROUPS[activeTab.name] || [];
 
   // Build grouped items with enabled/disabled state
+  // Filter out modules with variant "hidden"
   const groupedItems = groupConfig.map((group) => {
-    const items = group.modules.map((module_type) => ({
-      type: module_type as components['schemas']['Module']['type'],
-      enabled: !currentModules.includes(module_type),
-    }));
+    const items = group.modules
+      .filter((module_type) => {
+        // Hide modules with variant "hidden" from the add modal
+        const module = records[module_type];
+        return module?.variant !== 'hidden';
+      })
+      .map((module_type) => ({
+        type: module_type as components['schemas']['Module']['type'],
+        enabled: !currentModules.includes(module_type),
+      }));
     return {
       id: group.id,
       title: group.title,
