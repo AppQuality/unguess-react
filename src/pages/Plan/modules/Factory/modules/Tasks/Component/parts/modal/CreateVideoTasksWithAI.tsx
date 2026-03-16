@@ -21,10 +21,7 @@ import { useParams } from 'react-router-dom';
 import { useAppSelector } from 'src/app/hooks';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as StopIcon } from 'src/assets/icons/stop.svg';
-import {
-  Module,
-  usePostAiAgentsGenerateVideoTasksMutation,
-} from 'src/features/api';
+import { usePostAiAgentsGenerateVideoTasksMutation } from 'src/features/api';
 import { v4 as uuidv4 } from 'uuid';
 import { useModuleTasksContext } from '../../context';
 import { useModuleTasks } from '../../hooks';
@@ -42,7 +39,6 @@ const MODULES_TO_PROMPT = [
   'literacy',
   'additional_target',
 ];
-const MAX_PROMPT_LENGTH = 102300;
 
 const CreateVideoTasksWithAI = () => {
   const { setOutput, value: currentTasks } = useModuleTasks();
@@ -104,7 +100,7 @@ const CreateVideoTasksWithAI = () => {
       body: {
         plan_id: planId ? Number(planId) : undefined,
         usecase_number: usecaseNumber as number, // usecaseNumber always have a value here because the button is disabled when it's undefined
-        input_prompt: userPrompt.slice(0, MAX_PROMPT_LENGTH),
+        input_prompt: userPrompt,
         modules: modulesInfo as any,
       },
     });
