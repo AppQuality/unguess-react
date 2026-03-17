@@ -48,9 +48,7 @@ const AiGeneratorSection = ({
           marginBottom: appTheme.space.md,
         }}
       >
-        {label ? (
-          label
-        ) : (
+        {label || (
           <Trans
             i18nKey="__PLAN_PAGE_MODULE_TASKS_ADD_TASK_MODAL_AI_DISCLAIMER"
             components={{
