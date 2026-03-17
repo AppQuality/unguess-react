@@ -24,7 +24,18 @@ import { useAppSelector } from 'src/app/hooks';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as InfoIcon } from 'src/assets/icons/info-icon.svg';
 import { ReactComponent as StopIcon } from 'src/assets/icons/stop.svg';
-import { usePostAiAgentsGenerateVideoTasksMutation } from 'src/features/api';
+import {
+  ModuleAdditionalTarget,
+  ModuleAge,
+  ModuleGoal,
+  ModuleLanguage,
+  ModuleLiteracy,
+  ModuleOutOfScope,
+  ModuleTask,
+  ModuleTitle,
+  ModuleTouchpoints,
+  usePostAiAgentsGenerateVideoTasksMutation,
+} from 'src/features/api';
 import { v4 as uuidv4 } from 'uuid';
 import { useModuleTasksContext } from '../../context';
 import { useModuleTasks } from '../../hooks';
@@ -42,6 +53,17 @@ const MODULES_TO_PROMPT = [
   'literacy',
   'additional_target',
 ];
+
+type ModuleInfo =
+  | ModuleTitle
+  | ModuleGoal
+  | ModuleOutOfScope
+  | ModuleTask
+  | ModuleLanguage
+  | ModuleTouchpoints
+  | ModuleAge
+  | ModuleLiteracy
+  | ModuleAdditionalTarget;
 
 const CreateVideoTasksWithAI = () => {
   const { setOutput, value: currentTasks } = useModuleTasks();
@@ -92,19 +114,24 @@ const CreateVideoTasksWithAI = () => {
 
   const handleClick = () => {
     // gather modules info to prepend to the user prompt
-    const modulesInfo = Object.entries(records.records)
-      .filter(([key]) => MODULES_TO_PROMPT.includes(key))
-      .map(([key, item]) => ({
-        ...item,
-        type: key,
-      }));
+    const modulesInfo: Array<ModuleInfo> = Object.entries(records.records)
+      .filter(
+        ([key, item]) => MODULES_TO_PROMPT.includes(key) && 'type' in item
+      )
+      .map(([key, item]) => {
+        const module = {
+          ...item,
+          type: key as ModuleInfo['type'],
+        };
+        return module as ModuleInfo;
+      });
 
     const req = generateVideoTasks({
       body: {
         plan_id: planId ? Number(planId) : undefined,
         usecase_number: usecaseNumber,
         input_prompt: userPrompt,
-        modules: modulesInfo as any,
+        modules: modulesInfo,
       },
     });
     setRequest(req);
