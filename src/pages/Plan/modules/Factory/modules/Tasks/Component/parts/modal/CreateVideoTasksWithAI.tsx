@@ -102,7 +102,7 @@ const CreateVideoTasksWithAI = () => {
     const req = generateVideoTasks({
       body: {
         plan_id: planId ? Number(planId) : undefined,
-        usecase_number: usecaseNumber as number, // usecaseNumber always have a value here because the button is disabled when it's undefined
+        usecase_number: usecaseNumber,
         input_prompt: userPrompt,
         modules: modulesInfo as any,
       },
