@@ -95,8 +95,9 @@
     "@types/uuid": "^10.0.0",
     "@typescript-eslint/eslint-plugin": "^5.0.0",
     "@typescript-eslint/parser": "^5.0.0",
-    "@vitejs/plugin-react": "^4.3.1",
+    "@vitejs/plugin-react": "^6.0.1",
     "cz-conventional-changelog": "3.3.0",
+    "esbuild": "^0.27.0",
     "eslint": "^8.1.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-prettier": "^8.5.0",
@@ -116,8 +117,7 @@
     "prettier": "^2.6.2",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.3",
-    "vite": "^5.2.13",
-    "vite-tsconfig-paths": "^4.3.2"
+    "vite": "^8.0.0"
   },
   "config": {
     "commitizen": {
