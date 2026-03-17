@@ -1068,6 +1068,7 @@
   "__PLAN_PAGE_MODULE_TASKS_ADD_TASK_MODAL_SURVEY_TASK_SURVEY_BUTTON": "Survey",
   "__PLAN_PAGE_MODULE_TASKS_ADD_TASK_MODAL_SURVEY_TASKS_LABEL": "Survey",
   "__PLAN_PAGE_MODULE_TASKS_ADD_TASK_MODAL_TITLE": "Add task",
+  "__PLAN_PAGE_MODULE_TASKS_ADD_VIDEO_TASK_MODAL_AI_DISCLAIMER": "<bold>Want to speed things up?</bold> Automatically generate structured thinking-aloud test tasks for unmoderated tests based on your project details.",
   "__PLAN_PAGE_MODULE_TASKS_EXPERIENTIAL_TASK_MODERATE_DESCRIPTION_DEFAULT": "Insert moderate video task description",
   "__PLAN_PAGE_MODULE_TASKS_EXPERIENTIAL_TASK_MODERATE_TITLE_DEFAULT": "Moderate video",
   "__PLAN_PAGE_MODULE_TASKS_EXPERIENTIAL_TASK_THINKING_ALOUD_DESCRIPTION_DEFAULT": "Create a realistic situation for users to experience",
