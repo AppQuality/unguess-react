@@ -1,5 +1,5 @@
 import { MD, Tabs, TooltipModal } from '@appquality/unguess-design-system';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { Divider } from 'src/common/components/divider';
 import { components } from 'src/common/schema';
@@ -117,6 +117,14 @@ const TasksModal = () => {
                   setIsOpenCreateVideoTasksWithAIModal(true)
                 }
                 checkApiHealth={false}
+                label={
+                  <Trans
+                    i18nKey="__PLAN_PAGE_MODULE_TASKS_ADD_VIDEO_TASK_MODAL_AI_DISCLAIMER"
+                    components={{
+                      bold: <MD isBold />,
+                    }}
+                  />
+                }
               />
             </StyledTabsPanel>
             <StyledTabsPanel

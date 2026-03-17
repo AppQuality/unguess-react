@@ -163,7 +163,9 @@ const CreateVideoTasksWithAI = () => {
               selectionValue={usecaseNumber ? usecaseNumber.toString() : ''}
               placeholder="Auto"
               label={
-                <>
+                <div
+                  style={{ display: 'flex', alignItems: 'center', gap: '4px' }}
+                >
                   {t(
                     '__PLAN_PAGE_ADD_VIDEO_TASK_MODAL_AI_TASKS_QUANTITY_LABEL'
                   )}
@@ -184,7 +186,7 @@ const CreateVideoTasksWithAI = () => {
                       <InfoIcon />
                     </IconButton>
                   </Tooltip>
-                </>
+                </div>
               }
               onSelect={(value) => setUsecaseNumber(Number(value))}
               isDisabled={isPostingRequest}

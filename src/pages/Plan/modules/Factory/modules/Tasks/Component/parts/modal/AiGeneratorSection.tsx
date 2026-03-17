@@ -1,5 +1,5 @@
 import { Button, MD, Tag } from '@appquality/unguess-design-system';
-import { useMemo } from 'react';
+import { ReactNode, useMemo } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as AiIcon } from 'src/assets/icons/ai-icon.svg';
@@ -9,11 +9,13 @@ import { useCanShowAiChat } from 'src/pages/Dashboard/hooks/useCanShowAiChat';
 type AiGeneratorSectionProps = {
   onOpenCreateWithAI: () => void;
   checkApiHealth?: boolean;
+  label?: ReactNode;
 };
 
 const AiGeneratorSection = ({
   onOpenCreateWithAI,
   checkApiHealth = true,
+  label,
 }: AiGeneratorSectionProps) => {
   const { t } = useTranslation();
   const canShowChat = useCanShowAiChat();
@@ -46,12 +48,16 @@ const AiGeneratorSection = ({
           marginBottom: appTheme.space.md,
         }}
       >
-        <Trans
-          i18nKey="__PLAN_PAGE_MODULE_TASKS_ADD_TASK_MODAL_AI_DISCLAIMER"
-          components={{
-            bold: <MD isBold />,
-          }}
-        />
+        {label ? (
+          label
+        ) : (
+          <Trans
+            i18nKey="__PLAN_PAGE_MODULE_TASKS_ADD_TASK_MODAL_AI_DISCLAIMER"
+            components={{
+              bold: <MD isBold />,
+            }}
+          />
+        )}
       </MD>
       <Button onClick={onOpenCreateWithAI}>
         <Button.StartIcon>
