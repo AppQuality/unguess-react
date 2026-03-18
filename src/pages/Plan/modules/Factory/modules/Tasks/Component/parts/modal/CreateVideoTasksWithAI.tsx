@@ -251,6 +251,14 @@ const CreateVideoTasksWithAI = () => {
               />
               {isPostingRequest && <LoadingSpinner />}
             </div>
+            {useCasesError && (
+              <Message
+                validation="error"
+                style={{ marginTop: appTheme.space.sm }}
+              >
+                {t('__PLAN_PAGE_ADD_VIDEO_TASK_MODAL_AI_ERROR')}
+              </Message>
+            )}
           </FormField>
           <Alert type="info" style={{ marginTop: appTheme.space.md }}>
             <Alert.Title>
@@ -263,11 +271,6 @@ const CreateVideoTasksWithAI = () => {
               }}
             />
           </Alert>
-          {useCasesError && (
-            <Message validation="error">
-              {t('__PLAN_PAGE_ADD_VIDEO_TASK_MODAL_AI_ERROR')}
-            </Message>
-          )}
         </div>
       </Modal.Body>
       <Modal.Footer>
