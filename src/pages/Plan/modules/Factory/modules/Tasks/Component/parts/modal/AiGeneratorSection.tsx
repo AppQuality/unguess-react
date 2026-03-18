@@ -4,7 +4,6 @@ import { Trans, useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as AiIcon } from 'src/assets/icons/ai-icon.svg';
 import { useGetServicesApiKHealthQuery } from 'src/features/api';
-import { useCanShowAiChat } from 'src/pages/Dashboard/hooks/useCanShowAiChat';
 
 type AiGeneratorSectionProps = {
   onOpenCreateWithAI: () => void;
@@ -18,7 +17,6 @@ const AiGeneratorSection = ({
   label,
 }: AiGeneratorSectionProps) => {
   const { t } = useTranslation();
-  const canShowChat = useCanShowAiChat();
   const { data: apiK_HealthResponse } = useGetServicesApiKHealthQuery(
     undefined,
     {
@@ -27,12 +25,11 @@ const AiGeneratorSection = ({
   );
 
   const canShowAiFeatures = useMemo(() => {
-    if (!canShowChat) return false;
     if (!checkApiHealth) return true;
     return (
       apiK_HealthResponse?.success && apiK_HealthResponse?.status === 'healthy'
     );
-  }, [apiK_HealthResponse, canShowChat, checkApiHealth]);
+  }, [apiK_HealthResponse, checkApiHealth]);
   if (!canShowAiFeatures) {
     return null;
   }
