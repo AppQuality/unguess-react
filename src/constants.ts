@@ -10,7 +10,6 @@ export const FEATURE_FLAG_SKY_JOTFORM = 'sky-custom-jotform';
 export const FEATURE_FLAG_CATALOG = 'catalog-pages';
 export const FEATURE_FLAG_TAGGING_TOOL = 'tagging-tool';
 export const FEATURE_FLAG_CHANGE_MODULES_VARIANTS = 'change-modules-variants';
-export const FEATURE_FLAG_MASTRA_WORKFLOW = 'mastra-workflow-integration';
 export const BASE_DATE_FORMAT = 'yyyy-MM-dd HH:mm:ss';
 export const ZAPIER_WEBHOOK_TRIGGER =
   process.env.REACT_ZAPIER_WEBHOOK ||

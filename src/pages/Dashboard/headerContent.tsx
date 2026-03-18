@@ -22,7 +22,6 @@ import useWindowSize from 'src/hooks/useWindowSize';
 import styled from 'styled-components';
 import { Workflow } from './workflow-ai';
 import { Counters } from './Counters';
-import { useCanShowAiChat } from './hooks/useCanShowAiChat';
 
 const StyledIconButton = styled(IconButton)`
   svg {
@@ -42,8 +41,6 @@ export const DashboardHeaderContent = ({
   const { isLoading: isUserLoading, isFetching: isUserFetching } =
     useGetUsersMeQuery();
   const { isMobile } = useWindowSize();
-
-  const canShowChat = useCanShowAiChat();
 
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [threadId, setThreadId] = useState<number>();
@@ -77,19 +74,17 @@ export const DashboardHeaderContent = ({
                 >
                   {t('__DASHBOARD_CTA_NEW_ACTIVITY')}
                 </Button>
-                {canShowChat && (
-                  <StyledIconButton
-                    onClick={async () => {
-                      setIsChatOpen(!isChatOpen);
-                      const res = await createThread({
-                        slug: 'mainWorkflow',
-                      }).unwrap();
-                      setThreadId(res.id);
-                    }}
-                  >
-                    <AiIcon />
-                  </StyledIconButton>
-                )}
+                <StyledIconButton
+                  onClick={async () => {
+                    setIsChatOpen(!isChatOpen);
+                    const res = await createThread({
+                      slug: 'mainWorkflow',
+                    }).unwrap();
+                    setThreadId(res.id);
+                  }}
+                >
+                  <AiIcon />
+                </StyledIconButton>
               </div>
             )}
           </PageHeader.Meta>
