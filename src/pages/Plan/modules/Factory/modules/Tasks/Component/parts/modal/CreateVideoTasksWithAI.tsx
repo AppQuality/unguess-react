@@ -115,9 +115,7 @@ const CreateVideoTasksWithAI = () => {
   const handleClick = () => {
     // gather modules info to prepend to the user prompt
     const modulesInfo: Array<ModuleInfo> = Object.entries(records.records)
-      .filter(
-        ([key, item]) => MODULES_TO_PROMPT.includes(key) && 'type' in item
-      )
+      .filter(([key]) => MODULES_TO_PROMPT.includes(key))
       .map(([key, item]) => {
         const module = {
           ...item,
