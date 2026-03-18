@@ -16,11 +16,9 @@ import useWindowSize from 'src/hooks/useWindowSize';
 import { DeleteModuleConfirmationModal } from 'src/pages/Plan/modules/modal/DeleteModuleConfirmationModal';
 import styled from 'styled-components';
 import { useIconWithValidation } from '../../useIcon';
-import { useModuleTasksContext } from '../context';
 import { useModuleTasks } from '../hooks';
 import { AddTaskButton } from './AddTaskButton';
 import { TasksModal } from './modal';
-import { CreateTaskListsWithAI } from './modal/CreateTaskListsWithAI';
 import { TasksContainerAnimation } from './TasksContainerAnimation';
 
 const StyledCard = styled(ContainerCard)`
@@ -53,7 +51,6 @@ const TasksList = () => {
   const { getPlanStatus } = useModuleConfiguration();
   const { t } = useTranslation();
   const { hasFeatureFlag } = useFeatureFlag();
-  const { isOpenCreateTasksWithAIModal } = useModuleTasksContext();
   const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false);
   const Icon = useIconWithValidation();
   const { width } = useWindowSize();
@@ -132,7 +129,6 @@ const TasksList = () => {
           onConfirm={remove}
         />
       )}
-      {isOpenCreateTasksWithAIModal && <CreateTaskListsWithAI />}
     </>
   );
 };

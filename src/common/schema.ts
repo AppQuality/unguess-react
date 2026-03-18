@@ -9,6 +9,9 @@ export interface paths {
     get: operations["get-root"];
     parameters: {};
   };
+  "/ai/agents/generate-video-tasks": {
+    post: operations["post-ai-agents-generate-video-tasks"];
+  };
   "/analytics/views/campaigns/{cid}": {
     post: operations["post-analytics-views-campaigns-cid"];
     parameters: {
@@ -2111,6 +2114,32 @@ export interface operations {
         };
       };
       500: components["responses"]["Error"];
+    };
+  };
+  "post-ai-agents-generate-video-tasks": {
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          "application/json": {
+            tasks: components["schemas"]["OutputModuleTaskVideo"][];
+          };
+        };
+      };
+      400: components["responses"]["Error"];
+      403: components["responses"]["Error"];
+      500: components["responses"]["Error"];
+      502: components["responses"]["Error"];
+    };
+    requestBody: {
+      content: {
+        "application/json": {
+          modules: components["schemas"]["Module"][];
+          plan_id?: number;
+          input_prompt?: string;
+          usecase_number?: number;
+        };
+      };
     };
   };
   "post-analytics-views-campaigns-cid": {

@@ -5,6 +5,8 @@ interface ModuleTasksContextType {
   setModalRef: (ref: HTMLButtonElement | null) => void;
   isOpenCreateTasksWithAIModal: boolean;
   setIsOpenCreateTasksWithAIModal: (value: boolean) => void;
+  isOpenCreateVideoTasksWithAIModal: boolean;
+  setIsOpenCreateVideoTasksWithAIModal: (value: boolean) => void;
 }
 
 const ModuleTasksContext = createContext<ModuleTasksContextType | null>(null);
@@ -18,6 +20,10 @@ export const ModuleTasksContextProvider = ({
     useState<ModuleTasksContextType['modalRef']>(null);
   const [isOpenCreateTasksWithAIModal, setIsOpenCreateTasksWithAIModal] =
     useState(false);
+  const [
+    isOpenCreateVideoTasksWithAIModal,
+    setIsOpenCreateVideoTasksWithAIModal,
+  ] = useState(false);
 
   const moduleTasksContextValue = useMemo(
     () => ({
@@ -25,8 +31,15 @@ export const ModuleTasksContextProvider = ({
       setModalRef,
       isOpenCreateTasksWithAIModal,
       setIsOpenCreateTasksWithAIModal,
+      isOpenCreateVideoTasksWithAIModal,
+      setIsOpenCreateVideoTasksWithAIModal,
     }),
-    [modalRef, setModalRef, isOpenCreateTasksWithAIModal]
+    [
+      modalRef,
+      setModalRef,
+      isOpenCreateTasksWithAIModal,
+      isOpenCreateVideoTasksWithAIModal,
+    ]
   );
 
   return (
