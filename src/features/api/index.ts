@@ -2776,6 +2776,17 @@ export type ModuleAnnualIncomeRange = {
   type: 'annual_income_range';
   variant: string;
 };
+export type ModuleAcnSaver = {
+  output: (
+    | 'ACN.PRAGMATICO DIGITALE'
+    | 'ACN.EMERGENTE ASPIRAZIONALE'
+    | 'ACN.INVESTITORE SOFISTICATO'
+    | 'ACN.SOCIALE COLLABORATIVO'
+    | 'ACN.CONSERVATORE PRUDENTE'
+  )[];
+  type: 'acn_saver_personas';
+  variant: string;
+};
 export type Module =
   | ModuleTitle
   | ModuleDate
@@ -2800,7 +2811,8 @@ export type Module =
   | ModuleMobileInternet
   | ModuleHomeInternet
   | ModuleGasSupply
-  | ModuleAnnualIncomeRange;
+  | ModuleAnnualIncomeRange
+  | ModuleAcnSaver;
 export type Authentication = {
   email: string;
   exp?: number;
