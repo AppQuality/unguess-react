@@ -10,7 +10,7 @@ import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import styled from 'styled-components';
 
-type MfaMethod = 'authenticator' | 'sms';
+type MfaMethod = 'TOTP' | 'SMS' | 'EMAIL';
 
 interface ActiveMfaMethodProps {
   method: MfaMethod;
@@ -40,14 +40,12 @@ export const ActiveMfaMethod = ({
   const { t } = useTranslation();
 
   const methodLabel =
-    method === 'authenticator'
+    method === 'TOTP'
       ? t('__PROFILE_PAGE_MFA_ACTIVE_AUTHENTICATOR_LABEL')
       : t('__PROFILE_PAGE_MFA_ACTIVE_SMS_LABEL');
 
   const methodDescription =
-    method === 'authenticator'
-      ? t('__PROFILE_PAGE_MFA_ACTIVE_AUTHENTICATOR_DESCRIPTION')
-      : t('__PROFILE_PAGE_MFA_ACTIVE_SMS_DESCRIPTION');
+    method === 'SMS' ? t('__PROFILE_PAGE_MFA_ACTIVE_SMS_DESCRIPTION') : null;
 
   return (
     <Container>

@@ -1,5 +1,4 @@
 import {
-  Anchor,
   Logo,
   Notification,
   useToast,
@@ -180,11 +179,6 @@ const LoginPage = () => {
           <CardWrapper>
             <StyledLogo type="icon" size={40} />
             <LoginForm onSubmit={loginUser} buttonText={cta} />
-            {process.env.NODE_ENV === 'development' && (
-              <Anchor href={verifyCodeRoute} style={{ marginTop: '1rem' }}>
-                [DEBUG] Go to Verify Code
-              </Anchor>
-            )}
           </CardWrapper>
         </CenteredXYContainer>
         <AuthFooter />
