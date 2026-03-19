@@ -62,7 +62,7 @@ export const MfaAccordion = () => {
         <AccordionNew.Panel>
           {mfaPreference?.enabled && mfaPreference.enabled.includes('TOTP') ? (
             <ActiveMfaMethod
-              method="authenticator"
+              method={mfaPreference.preferred}
               lastChanged={t('__PROFILE_PAGE_MFA_ACTIVE_LAST_CHANGED', {
                 time: '2 months ago',
               })}
