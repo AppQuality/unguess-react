@@ -4,6 +4,7 @@ import {
   signIn,
   signUp,
   confirmSignUp,
+  confirmSignIn,
   signOut,
   fetchAuthSession,
   type SignInInput,
@@ -15,10 +16,20 @@ import { awsConfig } from './config';
 // Configura Amplify
 Amplify.configure(awsConfig);
 
+type MfaChallengeStep =
+  | 'CONFIRM_SIGN_IN_WITH_TOTP_CODE'
+  | 'CONFIRM_SIGN_IN_WITH_SMS_CODE';
+
+interface LoginResult {
+  isSignedIn: boolean;
+  mfaChallenge?: MfaChallengeStep;
+}
+
 interface AuthContextType {
-  login: (email: string, password: string) => Promise<void>;
+  login: (email: string, password: string) => Promise<LoginResult>;
   signup: (email: string, password: string, name: string) => Promise<void>;
   confirmSignup: (email: string, code: string) => Promise<void>;
+  confirmMfaSignIn: (code: string) => Promise<void>;
   logout: () => Promise<void>;
   getAccessToken: () => Promise<string | undefined>;
   isLoggedIn?: boolean;
@@ -29,7 +40,10 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const login = async (email: string, password: string) => {
+  const login = async (
+    email: string,
+    password: string
+  ): Promise<LoginResult> => {
     try {
       const signInInput: SignInInput = {
         username: email,
@@ -39,14 +53,36 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       const { isSignedIn, nextStep } = await signIn(signInInput);
 
       if (!isSignedIn) {
-        // eslint-disable-next-line no-console
-        console.log('Next step:', nextStep);
-        // TODO: Gestisci MFA o altri step se necessario
+        const mfaSteps: string[] = [
+          'CONFIRM_SIGN_IN_WITH_TOTP_CODE',
+          'CONFIRM_SIGN_IN_WITH_SMS_CODE',
+        ];
+        if (mfaSteps.includes(nextStep.signInStep)) {
+          return {
+            isSignedIn: false,
+            mfaChallenge: nextStep.signInStep as MfaChallengeStep,
+          };
+        }
       }
+
+      return { isSignedIn: true };
     } catch (error: any) {
       // eslint-disable-next-line no-console
       console.error('Login error:', error);
       throw new Error(error.message || 'Login failed');
+    }
+  };
+
+  const confirmMfaSignIn = async (code: string): Promise<void> => {
+    try {
+      const { isSignedIn } = await confirmSignIn({ challengeResponse: code });
+      if (!isSignedIn) {
+        throw new Error('MFA verification failed');
+      }
+    } catch (error: any) {
+      // eslint-disable-next-line no-console
+      console.error('MFA verification error:', error);
+      throw new Error(error.message || 'MFA verification failed');
     }
   };
 
@@ -124,6 +160,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       login,
       signup,
       confirmSignup,
+      confirmMfaSignIn,
       logout,
       getAccessToken,
     }),

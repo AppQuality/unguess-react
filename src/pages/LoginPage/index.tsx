@@ -7,7 +7,7 @@ import {
 import { FormikHelpers } from 'formik';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import WPAPI from 'src/common/wpapi';
 import { useGetUsersMeQuery } from 'src/features/api';
 import { useAuth } from 'src/features/auth/context';
@@ -64,12 +64,30 @@ const LoginPage = () => {
   const verifyCodeRoute = useLocalizeRoute('verify-code');
 
   const from = (locationState as NavigationState)?.from || '/';
+  const [searchParams] = useSearchParams();
 
   useEffect(() => {
     if (isSuccess) {
       navigate(from || '/');
     }
   }, [navigate, isSuccess]);
+
+  useEffect(() => {
+    if (searchParams.get('session_expired') === 'true') {
+      addToast(
+        ({ close }) => (
+          <Notification
+            onClose={close}
+            type="error"
+            message={t('__LOGIN_SESSION_EXPIRED_MESSAGE')}
+            closeText={t('__TOAST_CLOSE_TEXT')}
+            isPrimary
+          />
+        ),
+        { placement: 'top' }
+      );
+    }
+  }, []);
 
   const showGenericErrorToast = (title?: string) => {
     addToast(
@@ -92,9 +110,20 @@ const LoginPage = () => {
   ) => {
     // STEP 1: Tenta login con Cognito
     try {
-      await cognitoLogin(values.email, values.password);
+      const result = await cognitoLogin(values.email, values.password);
 
-      // Login Cognito riuscito (TODO: gestire redirect)
+      if (result.mfaChallenge) {
+        navigate(verifyCodeRoute, {
+          state: {
+            email: values.email,
+            challengeType: result.mfaChallenge,
+            from,
+          },
+        });
+        return;
+      }
+
+      // Login Cognito riuscito
       setCta(`${t('__LOGIN_FORM_CTA_REDIRECT_STATE')}`);
       document.location.href = from || '/';
       return;
