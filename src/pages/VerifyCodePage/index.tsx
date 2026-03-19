@@ -1,23 +1,19 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { Track } from 'src/common/Track';
 import {
-  Anchor,
-  Avatar,
   Button,
   CodeVerifier,
   MD,
-  SM,
+  Message,
   Title,
   XL,
 } from '@appquality/unguess-design-system';
-import { useGetUsersMeQuery } from 'src/features/api';
-import { prepareGravatar } from 'src/common/utils';
-import { getInitials } from 'src/common/components/navigation/header/utils';
 import { appTheme } from 'src/app/theme';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
+import { useAuth } from 'src/features/auth/context';
 import { AuthHeader } from '../LoginPage/parts/AuthHeader';
 import { AuthFooter } from '../LoginPage/parts/AuthFooter';
 
@@ -51,41 +47,61 @@ const FormContainer = styled.div`
   padding: ${({ theme }) => theme.space.lg} 0;
 `;
 
-const RESEND_COOLDOWN_SECONDS = 60;
+interface VerifyCodeState {
+  email: string;
+  challengeType: string;
+  from: string;
+}
 
 const VerifyCodePage = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const { state: locationState } = useLocation();
   const loginRoute = useLocalizeRoute('login');
-  const [secondsLeft, setSecondsLeft] = useState(RESEND_COOLDOWN_SECONDS);
+  const { confirmMfaSignIn } = useAuth();
+
+  const { email, from } = (locationState as VerifyCodeState) || {};
+
+  const [code, setCode] = useState('');
+  const [isVerifying, setIsVerifying] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (secondsLeft <= 0) return undefined;
-    const timer = setInterval(() => {
-      setSecondsLeft((prev) => prev - 1);
-    }, 1000);
-    return () => clearInterval(timer);
-  }, [secondsLeft]);
+    if (!email) {
+      navigate(loginRoute, { replace: true });
+    }
+  }, [email, navigate, loginRoute]);
 
-  const handleResend = useCallback(() => {
-    // TODO: call resend code API
-    setSecondsLeft(RESEND_COOLDOWN_SECONDS);
-  }, []);
+  const handleVerify = useCallback(async () => {
+    if (code.length < 6) return;
+    setError(null);
+    setIsVerifying(true);
+    try {
+      await confirmMfaSignIn(code);
+      document.location.href = from || '/';
+    } catch (err: any) {
+      const errorMsg = err.message || err.name || '';
+      const isSessionExpired =
+        errorMsg.includes('session is expired') ||
+        errorMsg.includes('Invalid session') ||
+        errorMsg.includes('NotAuthorizedException');
+      if (isSessionExpired) {
+        window.location.href = `${loginRoute}?session_expired=true`;
+        return;
+      }
+      setError(t('__VERIFY_CODE_INVALID_CODE'));
+      setIsVerifying(false);
+    }
+  }, [confirmMfaSignIn, from, t, code]);
 
-  const { data: user, isLoading, isError } = useGetUsersMeQuery();
+  if (!email) return null;
+
   return (
     <Track title={t('__PAGE_TITLE_VERIFY_CODE')}>
       <PageWrapper>
         <AuthHeader />
         <CenteredXYContainer>
           <CardWrapper>
-            {user && (
-              <Avatar avatarType={user.picture ? 'image' : 'text'}>
-                {user.picture
-                  ? prepareGravatar(user.picture, 64)
-                  : getInitials(user.name)}
-              </Avatar>
-            )}
             <Title
               style={{
                 textAlign: 'center',
@@ -103,7 +119,7 @@ const VerifyCodePage = () => {
                 marginBottom: appTheme.space.lg,
               }}
             >
-              {user?.email}
+              {email}
             </MD>
             <FormContainer>
               <MD
@@ -113,41 +129,34 @@ const VerifyCodePage = () => {
                   marginBottom: appTheme.space.lg,
                 }}
               >
-                Enter the code from the email
+                {t('__VERIFY_CODE_TOTP_INSTRUCTIONS')}
               </MD>
-              <CodeVerifier length={6} />
-              <SM
-                style={{
-                  color: appTheme.palette.grey[600],
-                  marginTop: appTheme.space.md,
-                }}
-              >
-                {secondsLeft > 0 ? (
-                  `${t('__VERIFY_CODE_RESEND_TIMER_PREFIX')} ${Math.floor(
-                    secondsLeft / 60
-                  )}:${String(secondsLeft % 60).padStart(2, '0')}`
-                ) : (
-                  <Anchor
-                    onClick={handleResend}
-                    style={{
-                      color: appTheme.palette.blue[600],
-                      cursor: 'pointer',
-                    }}
-                  >
-                    {t('__VERIFY_CODE_RESEND_CTA')}
-                  </Anchor>
-                )}
-              </SM>
+              <CodeVerifier
+                length={6}
+                onComplete={(completedCode) => setCode(completedCode)}
+                autoFocus
+              />
+              {error && (
+                <Message
+                  validation="error"
+                  style={{ marginTop: appTheme.space.md, textAlign: 'center' }}
+                >
+                  {error}
+                </Message>
+              )}
               <Button
                 isPrimary
                 isAccent
                 isStretched
-                disabled
+                disabled={code.length < 6 || isVerifying}
+                onClick={handleVerify}
                 style={{
                   marginTop: appTheme.space.lg,
                 }}
               >
-                {t('__LOGIN_FORM_CTA')}
+                {isVerifying
+                  ? t('__VERIFY_CODE_VERIFYING')
+                  : t('__LOGIN_FORM_CTA')}
               </Button>
               <Button
                 isBasic
