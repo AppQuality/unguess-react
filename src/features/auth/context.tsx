@@ -8,6 +8,8 @@ import {
   signOut,
   fetchAuthSession,
   resendSignUpCode,
+  resetPassword,
+  confirmResetPassword,
   type SignInInput,
   type SignUpInput,
   type ConfirmSignUpInput,
@@ -26,12 +28,23 @@ interface LoginResult {
   mfaChallenge?: MfaChallengeStep;
 }
 
+interface ForgotPasswordResult {
+  deliveryMedium?: string;
+  destination?: string;
+}
+
 interface AuthContextType {
   login: (email: string, password: string) => Promise<LoginResult>;
   signup: (email: string, password: string, name: string) => Promise<void>;
   confirmSignup: (email: string, code: string) => Promise<void>;
   resendSignupCode: (email: string) => Promise<void>;
   confirmMfaSignIn: (code: string) => Promise<void>;
+  forgotPassword: (email: string) => Promise<ForgotPasswordResult>;
+  confirmForgotPassword: (
+    email: string,
+    code: string,
+    newPassword: string
+  ) => Promise<void>;
   logout: () => Promise<void>;
   getAccessToken: () => Promise<string | undefined>;
   isLoggedIn?: boolean;
@@ -146,6 +159,41 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     }
   };
 
+  const forgotPassword = async (
+    email: string
+  ): Promise<ForgotPasswordResult> => {
+    try {
+      const { nextStep } = await resetPassword({ username: email });
+      const details = nextStep?.codeDeliveryDetails;
+      return {
+        deliveryMedium: details?.deliveryMedium,
+        destination: details?.destination,
+      };
+    } catch (error: any) {
+      // eslint-disable-next-line no-console
+      console.error('Forgot password error:', error);
+      throw new Error(error.message || 'Failed to send reset code');
+    }
+  };
+
+  const confirmForgotPasswordFn = async (
+    email: string,
+    code: string,
+    newPassword: string
+  ): Promise<void> => {
+    try {
+      await confirmResetPassword({
+        username: email,
+        confirmationCode: code,
+        newPassword,
+      });
+    } catch (error: any) {
+      // eslint-disable-next-line no-console
+      console.error('Confirm forgot password error:', error);
+      throw new Error(error.message || 'Failed to reset password');
+    }
+  };
+
   const logout = async () => {
     try {
       await signOut();
@@ -174,6 +222,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       confirmSignup,
       resendSignupCode,
       confirmMfaSignIn,
+      forgotPassword,
+      confirmForgotPassword: confirmForgotPasswordFn,
       logout,
       getAccessToken,
     }),
