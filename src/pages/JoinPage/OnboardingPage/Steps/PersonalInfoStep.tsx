@@ -30,6 +30,13 @@ const FieldContainer = styled.div`
   gap: ${(p) => p.theme.space.md};
 `;
 
+const ButtonRow = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: ${(p) => p.theme.space.sm};
+`;
+
 interface PersonalInfoFormValues {
   name: string;
   surname: string;
@@ -361,9 +368,20 @@ export const PersonalInfoStep = () => {
                 }}
               </Field>
 
-              <Button type="submit" isPrimary isAccent disabled={isSubmitting}>
-                {isSubmitting ? t('LOADING') : t('SIGNUP_FORM_NEXT_STEP')}
-              </Button>
+              <ButtonRow>
+                <Button isBasic onClick={() => navigate(-1)}>
+                  {t('SIGNUP_FORM_BACK')}
+                </Button>
+                <Button
+                  type="submit"
+                  isPrimary
+                  isAccent
+                  size="medium"
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting ? t('LOADING') : t('SIGNUP_FORM_NEXT_STEP')}
+                </Button>
+              </ButtonRow>
             </FieldContainer>
           </Form>
         )}

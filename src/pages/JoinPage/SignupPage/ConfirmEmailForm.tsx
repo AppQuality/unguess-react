@@ -3,6 +3,7 @@
  * Dopo la registrazione, l'utente riceve un codice via email
  */
 import {
+  Anchor,
   Button,
   CodeVerifier,
   MD,
@@ -123,10 +124,23 @@ export const ConfirmEmailForm = ({
         style={{
           textAlign: 'center',
           color: appTheme.palette.grey[600],
+          marginBottom: appTheme.space.xxs,
+        }}
+      >
+        {t('CONFIRM_EMAIL_DESCRIPTION')}
+      </MD>
+      <MD
+        isBold
+        style={{
+          textAlign: 'center',
+          color: appTheme.palette.grey[800],
           marginBottom: appTheme.space.lg,
         }}
       >
-        {t('CONFIRM_EMAIL_DESCRIPTION', { email })}
+        {email}
+      </MD>
+      <MD isBold style={{ marginBottom: appTheme.space.sm }}>
+        {t('CONFIRM_EMAIL_CODE_LABEL')}
       </MD>
       <CodeVerifier
         length={6}
@@ -141,6 +155,23 @@ export const ConfirmEmailForm = ({
           {error}
         </Message>
       )}
+      <MD
+        style={{
+          marginTop: appTheme.space.md,
+          color: appTheme.palette.grey[600],
+        }}
+      >
+        {t('CONFIRM_EMAIL_DIDNT_RECEIVE')}{' '}
+        <Anchor
+          onClick={handleResend}
+          disabled={resendTimer > 0 || isResending}
+          style={{ fontWeight: 600 }}
+        >
+          {resendTimer > 0
+            ? `${t('__VERIFY_CODE_RESEND_TIMER_PREFIX')} ${resendTimer}s`
+            : t('__VERIFY_CODE_RESEND_CTA')}
+        </Anchor>
+      </MD>
       <Button
         isPrimary
         isAccent
@@ -153,16 +184,10 @@ export const ConfirmEmailForm = ({
       </Button>
       <Button
         isBasic
-        disabled={resendTimer > 0 || isResending}
-        onClick={handleResend}
-        style={{
-          marginTop: appTheme.space.xs,
-          color: appTheme.palette.blue[600],
-        }}
+        onClick={() => navigate(-1)}
+        style={{ marginTop: appTheme.space.xs }}
       >
-        {resendTimer > 0
-          ? `${t('__VERIFY_CODE_RESEND_TIMER_PREFIX')} ${resendTimer}s`
-          : t('__VERIFY_CODE_RESEND_CTA')}
+        {t('SIGNUP_FORM_BACK')}
       </Button>
     </FormContainer>
   );
