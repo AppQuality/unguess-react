@@ -8,8 +8,6 @@ import { AuthHeader } from '../LoginPage/parts/AuthHeader';
 import { AuthFooter } from '../LoginPage/parts/AuthFooter';
 import { ForgotPasswordForm } from './ForgotPasswordForm';
 import { CheckEmailStep } from './CheckEmailStep';
-import { VerifyIdentityStep } from './VerifyIdentityStep';
-import { ChangePasswordForm } from './ChangePasswordForm';
 
 const PageWrapper = styled.div`
   display: flex;
@@ -28,7 +26,7 @@ const CenteredXYContainer = styled.div`
 
 const CardWrapper = styled.div`
   width: 100%;
-  max-width: 376px;
+  max-width: 500px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -41,45 +39,23 @@ const StyledLogo = styled(Logo)`
   width: 100%;
 `;
 
-type Step = 'request' | 'emailSent' | 'verify' | 'changePassword';
+type Step = 'request' | 'emailSent';
 
 const ForgotPasswordPage = () => {
   const { t } = useTranslation();
-  const { forgotPassword, confirmForgotPassword } = useAuth();
+  const { forgotPassword } = useAuth();
 
   const [step, setStep] = useState<Step>('request');
   const [email, setEmail] = useState('');
-  const [smsDestination, setSmsDestination] = useState('');
-  const [code, setCode] = useState('');
 
   const handleSendResetCode = async (userEmail: string) => {
-    const result = await forgotPassword(userEmail);
+    await forgotPassword(userEmail);
     setEmail(userEmail);
-
-    if (result.deliveryMedium === 'SMS') {
-      setSmsDestination(result.destination || '');
-      setStep('verify');
-    } else {
-      setStep('emailSent');
-    }
+    setStep('emailSent');
   };
 
   const handleResend = async () => {
     await forgotPassword(email);
-  };
-
-  const handleVerifyCode = (verifiedCode: string) => {
-    setCode(verifiedCode);
-    setStep('changePassword');
-  };
-
-  const handleResetPassword = async (newPassword: string) => {
-    await confirmForgotPassword(email, code, newPassword);
-  };
-
-  const handleEmailCodeSubmit = (emailCode: string) => {
-    setCode(emailCode);
-    setStep('changePassword');
   };
 
   return (
@@ -96,22 +72,7 @@ const ForgotPasswordPage = () => {
               <ForgotPasswordForm onSubmit={handleSendResetCode} />
             )}
             {step === 'emailSent' && (
-              <CheckEmailStep
-                email={email}
-                onResend={handleResend}
-                onSubmitCode={handleEmailCodeSubmit}
-              />
-            )}
-            {step === 'verify' && (
-              <VerifyIdentityStep
-                email={email}
-                smsDestination={smsDestination}
-                onVerify={handleVerifyCode}
-                onResend={handleResend}
-              />
-            )}
-            {step === 'changePassword' && (
-              <ChangePasswordForm onSubmit={handleResetPassword} />
+              <CheckEmailStep email={email} onResend={handleResend} />
             )}
           </CardWrapper>
         </CenteredXYContainer>
