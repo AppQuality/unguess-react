@@ -12,6 +12,7 @@ import { AuthHeader } from '../../LoginPage/parts/AuthHeader';
 import { AuthFooter } from '../../LoginPage/parts/AuthFooter';
 import { NotLogged } from '../../../features/templates/NotLogged';
 import { ImagesColumn } from '../ImagesColumn';
+import { JoinBackground } from '../JoinBackground';
 
 const PageWrapper = styled.div`
   display: flex;
@@ -19,9 +20,16 @@ const PageWrapper = styled.div`
   min-height: 100vh;
 `;
 
-const ContentWrapper = styled.div`
+const ContentRow = styled.div`
   display: flex;
   flex: 1;
+`;
+
+const CenteredContent = styled.div`
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 const LeftColumn = styled.div`
@@ -43,13 +51,11 @@ const RightColumn = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: ${({ theme }) => theme.palette.grey[100]};
 
   @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
     display: none;
   }
 `;
-
 
 const SignupPage = () => {
   const { t } = useTranslation();
@@ -70,11 +76,13 @@ const SignupPage = () => {
     >
       <PageWrapper>
         <AuthHeader />
-        <ContentWrapper>
-          <LeftColumn>
-            {needsConfirmation ? (
-              <ConfirmEmailForm email={userEmail} password={userPassword} />
-            ) : (
+        {needsConfirmation ? (
+          <CenteredContent>
+            <ConfirmEmailForm email={userEmail} password={userPassword} />
+          </CenteredContent>
+        ) : (
+          <ContentRow>
+            <LeftColumn>
               <SignupForm
                 onSignupSuccess={(email, password) => {
                   setUserEmail(email);
@@ -82,12 +90,14 @@ const SignupPage = () => {
                   setNeedsConfirmation(true);
                 }}
               />
-            )}
-          </LeftColumn>
-          <RightColumn>
-            <ImagesColumn step={1} />
-          </RightColumn>
-        </ContentWrapper>
+            </LeftColumn>
+            <RightColumn>
+              <JoinBackground step={1}>
+                <ImagesColumn step={1} />
+              </JoinBackground>
+            </RightColumn>
+          </ContentRow>
+        )}
         <AuthFooter />
       </PageWrapper>
     </NotLogged>

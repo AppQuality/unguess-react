@@ -27,7 +27,7 @@ const FieldContainer = styled.div`
 const ButtonContainer = styled.div`
   display: flex;
   gap: ${(p) => p.theme.space.sm};
-  justify-content: space-between;
+  justify-content: flex-end;
 `;
 
 interface WorkspaceFormValues {
@@ -198,6 +198,7 @@ export const WorkspaceStep = () => {
                   type="submit"
                   isPrimary
                   isAccent
+                  size="medium"
                   disabled={isSubmitting}
                 >
                   {isSubmitting ? t('LOADING') : t('SIGNUP_FORM_SUBMIT')}

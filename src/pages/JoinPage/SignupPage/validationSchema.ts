@@ -10,7 +10,10 @@ export const signupValidationSchema = Yup.object().shape({
     .matches(/[0-9]/, 'SIGNUP_FORM_PASSWORD_NUMBER')
     .matches(/[A-Z]/, 'SIGNUP_FORM_PASSWORD_UPPERCASE')
     .required('SIGNUP_FORM_PASSWORD_REQUIRED'),
-  terms: Yup.boolean()
+  termsAccepted: Yup.boolean()
     .oneOf([true], 'SIGNUP_FORM_TERMS_REQUIRED')
     .required('SIGNUP_FORM_TERMS_REQUIRED'),
+  privacyAccepted: Yup.boolean()
+    .oneOf([true], 'SIGNUP_FORM_PRIVACY_REQUIRED')
+    .required('SIGNUP_FORM_PRIVACY_REQUIRED'),
 });

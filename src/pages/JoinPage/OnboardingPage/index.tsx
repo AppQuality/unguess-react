@@ -10,6 +10,7 @@ import styled from 'styled-components';
 import { AuthHeader } from '../../LoginPage/parts/AuthHeader';
 import { AuthFooter } from '../../LoginPage/parts/AuthFooter';
 import { ImagesColumn } from '../ImagesColumn';
+import { JoinBackground } from '../JoinBackground';
 import { OnboardingProvider, OnboardingUserData } from './OnboardingProvider';
 import { PersonalInfoStep } from './Steps/PersonalInfoStep';
 import { WorkspaceStep } from './Steps/WorkspaceStep';
@@ -20,7 +21,7 @@ const PageWrapper = styled.div`
   min-height: 100vh;
 `;
 
-const ContentWrapper = styled.div`
+const ContentRow = styled.div`
   display: flex;
   flex: 1;
 `;
@@ -44,7 +45,6 @@ const RightColumn = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: ${({ theme }) => theme.palette.grey[100]};
 
   @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
     display: none;
@@ -98,15 +98,17 @@ const OnboardingPage = () => {
         <AuthHeader />
         <OnboardingProvider userData={userData}>
           {({ step }) => (
-            <ContentWrapper>
+            <ContentRow>
               <LeftColumn>
                 {step === 1 && <PersonalInfoStep />}
                 {step === 2 && userData.type === 'new' && <WorkspaceStep />}
               </LeftColumn>
               <RightColumn>
-                <ImagesColumn step={step + 1} />
+                <JoinBackground step={step + 1}>
+                  <ImagesColumn step={step + 1} />
+                </JoinBackground>
               </RightColumn>
-            </ContentWrapper>
+            </ContentRow>
           )}
         </OnboardingProvider>
         <AuthFooter />
