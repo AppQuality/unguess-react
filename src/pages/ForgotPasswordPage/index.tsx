@@ -7,7 +7,8 @@ import { useAuth } from 'src/features/auth/context';
 import { AuthHeader } from '../LoginPage/parts/AuthHeader';
 import { AuthFooter } from '../LoginPage/parts/AuthFooter';
 import { ForgotPasswordForm } from './ForgotPasswordForm';
-import { CheckEmailStep } from './CheckEmailStep';
+import { VerifyIdentityStep } from './VerifyIdentityStep';
+import { ChangePasswordForm } from './ChangePasswordForm';
 
 const PageWrapper = styled.div`
   display: flex;
@@ -39,23 +40,35 @@ const StyledLogo = styled(Logo)`
   width: 100%;
 `;
 
-type Step = 'request' | 'emailSent';
+type Step = 'request' | 'verify' | 'changePassword';
 
 const ForgotPasswordPage = () => {
   const { t } = useTranslation();
-  const { forgotPassword } = useAuth();
+  const { forgotPassword, confirmForgotPassword } = useAuth();
 
   const [step, setStep] = useState<Step>('request');
   const [email, setEmail] = useState('');
+  const [smsDestination, setSmsDestination] = useState('');
+  const [code, setCode] = useState('');
 
   const handleSendResetCode = async (userEmail: string) => {
-    await forgotPassword(userEmail);
+    const result = await forgotPassword(userEmail);
     setEmail(userEmail);
-    setStep('emailSent');
+    setSmsDestination(result.destination || '');
+    setStep('verify');
   };
 
   const handleResend = async () => {
     await forgotPassword(email);
+  };
+
+  const handleVerifyCode = (verifiedCode: string) => {
+    setCode(verifiedCode);
+    setStep('changePassword');
+  };
+
+  const handleResetPassword = async (newPassword: string) => {
+    await confirmForgotPassword(email, code, newPassword);
   };
 
   return (
@@ -71,8 +84,16 @@ const ForgotPasswordPage = () => {
             {step === 'request' && (
               <ForgotPasswordForm onSubmit={handleSendResetCode} />
             )}
-            {step === 'emailSent' && (
-              <CheckEmailStep email={email} onResend={handleResend} />
+            {step === 'verify' && (
+              <VerifyIdentityStep
+                email={email}
+                smsDestination={smsDestination}
+                onVerify={handleVerifyCode}
+                onResend={handleResend}
+              />
+            )}
+            {step === 'changePassword' && (
+              <ChangePasswordForm onSubmit={handleResetPassword} />
             )}
           </CardWrapper>
         </CenteredXYContainer>
