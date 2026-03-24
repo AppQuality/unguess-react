@@ -1574,7 +1574,7 @@
   "FORGOT_PASSWORD_BACK_TO_LOGIN": "Back to log in",
   "FORGOT_PASSWORD_CHANGE_SUBTITLE": "Enter a new password for your account",
   "FORGOT_PASSWORD_CHANGE_TITLE": "Change your password",
-  "FORGOT_PASSWORD_CHECK_EMAIL_SUBTITLE": "We sent a password reset link to {{email}}.",
+  "FORGOT_PASSWORD_CHECK_EMAIL_SUBTITLE": "We sent a password reset link to <bold>{{email}}</bold>.",
   "FORGOT_PASSWORD_CHECK_EMAIL_TITLE": "Check your email",
   "FORGOT_PASSWORD_CLICK_RESEND": "Click to resend",
   "FORGOT_PASSWORD_CONFIRM_LABEL": "Confirm password",
