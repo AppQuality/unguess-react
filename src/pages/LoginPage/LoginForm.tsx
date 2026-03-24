@@ -156,7 +156,7 @@ const LoginForm = ({ onSubmit, buttonText }: LoginFormProps) => {
                 )}
               </Field>
               <Anchor
-                href="/wp-login.php?action=lostpassword"
+                href="/forgot-password"
                 style={{
                   color: appTheme.palette.blue[600],
                   marginTop: appTheme.space.xs,
