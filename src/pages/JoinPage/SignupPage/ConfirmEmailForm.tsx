@@ -4,38 +4,30 @@
  */
 import {
   Button,
-  FormField,
-  Input,
-  Label,
+  CodeVerifier,
+  MD,
   Message,
-  Paragraph,
-  Span,
   XL,
 } from '@appquality/unguess-design-system';
-import { Field, FieldProps, Form, Formik, FormikHelpers } from 'formik';
+import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
 import { useAuth } from 'src/features/auth/context';
 import { useSendGTMevent } from 'src/hooks/useGTMevent';
 import styled from 'styled-components';
-import * as Yup from 'yup';
 
-const FieldContainer = styled.div`
+const RESEND_COOLDOWN_SECONDS = 60;
+
+const FormContainer = styled.div`
+  width: 100%;
+  max-width: 376px;
   display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
   flex-direction: column;
-  gap: ${(p) => p.theme.space.md};
 `;
-
-interface ConfirmEmailFormValues {
-  code: string;
-}
-
-const confirmEmailValidationSchema = Yup.object().shape({
-  code: Yup.string()
-    .required('CONFIRM_EMAIL_CODE_REQUIRED')
-    .min(6, 'CONFIRM_EMAIL_CODE_MIN_LENGTH'),
-});
 
 export const ConfirmEmailForm = ({
   email,
@@ -45,17 +37,30 @@ export const ConfirmEmailForm = ({
   password: string;
 }) => {
   const { t } = useTranslation();
-  const { confirmSignup, login } = useAuth();
+  const { confirmSignup, login, resendSignupCode } = useAuth();
   const navigate = useNavigate();
   const sendGTMevent = useSendGTMevent({ loggedUser: false });
 
-  const handleSubmit = async (
-    values: ConfirmEmailFormValues,
-    { setSubmitting, setFieldError }: FormikHelpers<ConfirmEmailFormValues>
-  ) => {
+  const [code, setCode] = useState('');
+  const [isVerifying, setIsVerifying] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [resendTimer, setResendTimer] = useState(RESEND_COOLDOWN_SECONDS);
+  const [isResending, setIsResending] = useState(false);
+
+  useEffect(() => {
+    if (resendTimer <= 0) return;
+    const interval = setInterval(() => {
+      setResendTimer((prev) => prev - 1);
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [resendTimer]);
+
+  const handleVerify = useCallback(async () => {
+    if (code.length < 6) return;
+    setError(null);
+    setIsVerifying(true);
     try {
-      // Conferma email
-      await confirmSignup(email, values.code);
+      await confirmSignup(email, code);
 
       sendGTMevent({
         event: 'sign-up-flow',
@@ -63,7 +68,6 @@ export const ConfirmEmailForm = ({
         action: 'email confirmed',
       });
 
-      // Login immediato dopo conferma
       await login(email, password);
 
       sendGTMevent({
@@ -72,81 +76,94 @@ export const ConfirmEmailForm = ({
         action: 'auto-login completed',
       });
 
-      // Redirect all'onboarding già autenticato
       navigate('/join/onboarding');
-    } catch (error: any) {
+    } catch (err: any) {
       // eslint-disable-next-line no-console
-      console.error('Confirmation error:', error);
+      console.error('Confirmation error:', err);
       sendGTMevent({
         event: 'sign-up-flow',
         category: 'not invited',
         action: 'confirmation error',
-        content: error.message,
+        content: err.message,
       });
-      setFieldError('code', error.message || t('CONFIRM_EMAIL_ERROR_GENERIC'));
-    } finally {
-      setSubmitting(false);
+      setError(err.message || t('CONFIRM_EMAIL_ERROR_GENERIC'));
+      setIsVerifying(false);
     }
-  };
+  }, [code, confirmSignup, email, login, password, navigate, sendGTMevent, t]);
 
-  const initialValues: ConfirmEmailFormValues = {
-    code: '',
-  };
+  const handleResend = useCallback(async () => {
+    if (resendTimer > 0 || isResending) return;
+    setIsResending(true);
+    setError(null);
+    try {
+      await resendSignupCode(email);
+      setResendTimer(RESEND_COOLDOWN_SECONDS);
+    } catch (err: any) {
+      // eslint-disable-next-line no-console
+      console.error('Resend error:', err);
+      setError(err.message || t('CONFIRM_EMAIL_ERROR_GENERIC'));
+    } finally {
+      setIsResending(false);
+    }
+  }, [resendTimer, isResending, resendSignupCode, email, t]);
 
   return (
-    <>
-      <div style={{ marginBottom: appTheme.space.lg, textAlign: 'center' }}>
-        <XL isBold style={{ marginBottom: appTheme.space.xs }}>
-          {t('CONFIRM_EMAIL_TITLE')}
-        </XL>
-        <Paragraph>{t('CONFIRM_EMAIL_DESCRIPTION', { email })}</Paragraph>
-      </div>
-
-      <Formik
-        initialValues={initialValues}
-        validationSchema={confirmEmailValidationSchema}
-        onSubmit={handleSubmit}
+    <FormContainer>
+      <XL
+        isBold
+        style={{
+          textAlign: 'center',
+          color: appTheme.palette.blue[600],
+          marginBottom: appTheme.space.xs,
+        }}
       >
-        {({ isSubmitting }) => (
-          <Form>
-            <FieldContainer>
-              <Field name="code">
-                {({ field, meta }: FieldProps) => {
-                  const hasError = meta.touched && Boolean(meta.error);
-                  return (
-                    <FormField>
-                      <Label>
-                        {t('CONFIRM_EMAIL_CODE_LABEL')}
-                        <Span style={{ color: appTheme.palette.red[600] }}>
-                          *
-                        </Span>
-                      </Label>
-                      <Input
-                        type="text"
-                        {...field}
-                        placeholder={t('CONFIRM_EMAIL_CODE_PLACEHOLDER')}
-                        {...(hasError && { validation: 'error' })}
-                      />
-                      {hasError && (
-                        <Message
-                          data-qa="confirm-code-error"
-                          validation="error"
-                        >
-                          {t(meta.error as string)}
-                        </Message>
-                      )}
-                    </FormField>
-                  );
-                }}
-              </Field>
-
-              <Button type="submit" isPrimary isAccent disabled={isSubmitting}>
-                {isSubmitting ? t('LOADING') : t('CONFIRM_EMAIL_BUTTON')}
-              </Button>
-            </FieldContainer>
-          </Form>
-        )}
-      </Formik>
-    </>
+        {t('CONFIRM_EMAIL_TITLE')}
+      </XL>
+      <MD
+        style={{
+          textAlign: 'center',
+          color: appTheme.palette.grey[600],
+          marginBottom: appTheme.space.lg,
+        }}
+      >
+        {t('CONFIRM_EMAIL_DESCRIPTION', { email })}
+      </MD>
+      <CodeVerifier
+        length={6}
+        onComplete={(completedCode) => setCode(completedCode)}
+        autoFocus
+      />
+      {error && (
+        <Message
+          validation="error"
+          style={{ marginTop: appTheme.space.md, textAlign: 'center' }}
+        >
+          {error}
+        </Message>
+      )}
+      <Button
+        isPrimary
+        isAccent
+        isStretched
+        disabled={code.length < 6 || isVerifying}
+        onClick={handleVerify}
+        style={{ marginTop: appTheme.space.lg }}
+      >
+        {isVerifying ? t('LOADING') : t('CONFIRM_EMAIL_BUTTON')}
+      </Button>
+      <Button
+        isBasic
+        disabled={resendTimer > 0 || isResending}
+        onClick={handleResend}
+        style={{
+          marginTop: appTheme.space.xs,
+          color: appTheme.palette.blue[600],
+        }}
+      >
+        {resendTimer > 0
+          ? `${t('__VERIFY_CODE_RESEND_TIMER_PREFIX')} ${resendTimer}s`
+          : t('__VERIFY_CODE_RESEND_CTA')}
+      </Button>
+    </FormContainer>
   );
 };

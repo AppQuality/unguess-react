@@ -11,6 +11,7 @@ import { ConfirmEmailForm } from './ConfirmEmailForm';
 import { AuthHeader } from '../../LoginPage/parts/AuthHeader';
 import { AuthFooter } from '../../LoginPage/parts/AuthFooter';
 import { NotLogged } from '../../../features/templates/NotLogged';
+import { ImagesColumn } from '../ImagesColumn';
 
 const PageWrapper = styled.div`
   display: flex;
@@ -49,18 +50,6 @@ const RightColumn = styled.div`
   }
 `;
 
-const PlaceholderImage = styled.div`
-  width: 80%;
-  max-width: 500px;
-  aspect-ratio: 4 / 3;
-  background-color: ${({ theme }) => theme.palette.grey[200]};
-  border-radius: ${({ theme }) => theme.borderRadii.lg};
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: ${({ theme }) => theme.palette.grey[500]};
-  font-size: ${({ theme }) => theme.fontSizes.lg};
-`;
 
 const SignupPage = () => {
   const { t } = useTranslation();
@@ -96,7 +85,7 @@ const SignupPage = () => {
             )}
           </LeftColumn>
           <RightColumn>
-            <PlaceholderImage>Placeholder</PlaceholderImage>
+            <ImagesColumn step={1} />
           </RightColumn>
         </ContentWrapper>
         <AuthFooter />

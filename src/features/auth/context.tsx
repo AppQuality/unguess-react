@@ -7,6 +7,7 @@ import {
   confirmSignIn,
   signOut,
   fetchAuthSession,
+  resendSignUpCode,
   type SignInInput,
   type SignUpInput,
   type ConfirmSignUpInput,
@@ -29,6 +30,7 @@ interface AuthContextType {
   login: (email: string, password: string) => Promise<LoginResult>;
   signup: (email: string, password: string, name: string) => Promise<void>;
   confirmSignup: (email: string, code: string) => Promise<void>;
+  resendSignupCode: (email: string) => Promise<void>;
   confirmMfaSignIn: (code: string) => Promise<void>;
   logout: () => Promise<void>;
   getAccessToken: () => Promise<string | undefined>;
@@ -116,6 +118,16 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     }
   };
 
+  const resendSignupCode = async (email: string) => {
+    try {
+      await resendSignUpCode({ username: email });
+    } catch (error: any) {
+      // eslint-disable-next-line no-console
+      console.error('Resend code error:', error);
+      throw new Error(error.message || 'Resend code failed');
+    }
+  };
+
   const confirmSignup = async (email: string, code: string) => {
     try {
       const confirmInput: ConfirmSignUpInput = {
@@ -160,6 +172,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       login,
       signup,
       confirmSignup,
+      resendSignupCode,
       confirmMfaSignIn,
       logout,
       getAccessToken,
