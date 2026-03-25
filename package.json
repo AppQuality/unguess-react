@@ -3,8 +3,8 @@
   "version": "1.4.0",
   "private": true,
   "dependencies": {
-    "@analytics/google-analytics": "^1.1.0",
     "@ai-sdk/react": "^3.0.52",
+    "@analytics/google-analytics": "^1.1.0",
     "@analytics/google-tag-manager": "^0.6.0",
     "@analytics/hubspot": "^0.5.1",
     "@appquality/languages": "1.4.3",
@@ -19,6 +19,7 @@
     "@zendeskgarden/svg-icons": "^7.2.0",
     "ai": "^6.0.50",
     "analytics": "^0.8.16",
+    "aws-amplify": "^6.16.2",
     "comuni-province-regioni": "^0.4.3",
     "date-fns": "^2.28.0",
     "formik": "^2.2.9",
