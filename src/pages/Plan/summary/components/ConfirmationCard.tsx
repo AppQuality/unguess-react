@@ -140,7 +140,11 @@ export const ConfirmationCard = () => {
               patchStatus({
                 pid: planId?.toString() ?? '',
                 body: { status: 'approved' },
-              }).unwrap();
+              })
+                .unwrap()
+                .then(() => {
+                  setIsSubmitted(false);
+                });
               track('planActivityConfirmed', {
                 planId: planId?.toString(),
                 templateId: plan?.from_template?.id.toString(),
@@ -149,7 +153,6 @@ export const ConfirmationCard = () => {
                 newStatus: 'Accepted',
                 confirmedPrice: plan?.price,
               });
-              setIsSubmitted(false);
             }}
           >
             {t('__PLAN_PAGE_SUMMARY_TAB_CONFIRMATION_CARD_CONFIRM_CTA')}
