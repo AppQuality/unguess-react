@@ -21,7 +21,9 @@ test.describe('The confirm button should be disabled while the API call is in pr
     // Mock PATCH status with a delay to observe the disabled state
     await page.route('*/**/api/plans/1/status', async (route) => {
       if (route.request().method() === 'PATCH') {
-        await new Promise((resolve) => setTimeout(resolve, 1000));
+        await new Promise<void>((resolve) => {
+          setTimeout(resolve, 1000);
+        });
         await route.fulfill({
           status: 200,
           json: { status: 'approved' },
@@ -67,7 +69,9 @@ test.describe('The confirm button in SendRequestModal should be disabled while t
           path: 'tests/api/plans/pid/watchers/_get/200_Example_1.json',
         });
       } else if (route.request().method() === 'PUT') {
-        await new Promise((resolve) => setTimeout(resolve, 1000));
+        await new Promise<void>((resolve) => {
+          setTimeout(resolve, 1000);
+        });
         await route.fulfill({
           status: 200,
           body: JSON.stringify({}),
