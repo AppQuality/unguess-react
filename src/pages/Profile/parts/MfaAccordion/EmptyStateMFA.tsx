@@ -14,7 +14,11 @@ const EmptyStateContainer = styled.div`
   padding: ${({ theme }) => theme.space.lg};
 `;
 
-export const EmptyStateMFA = () => {
+export const EmptyStateMFA = ({
+  onSetupComplete,
+}: {
+  onSetupComplete?: () => void;
+}) => {
   const { t } = useTranslation();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -39,7 +43,14 @@ export const EmptyStateMFA = () => {
       >
         {t('__PROFILE_PAGE_MFA_ACCORDION_EMPTY_STATE_BUTTON_LABEL')}
       </Button>
-      {isModalOpen && <SetupMfaModal onClose={() => setIsModalOpen(false)} />}
+      {isModalOpen && (
+        <SetupMfaModal
+          onClose={() => {
+            setIsModalOpen(false);
+            onSetupComplete?.();
+          }}
+        />
+      )}
     </EmptyStateContainer>
   );
 };
