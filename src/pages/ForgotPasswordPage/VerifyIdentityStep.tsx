@@ -40,6 +40,7 @@ export const VerifyIdentityStep = ({
       }, 1000);
       return () => clearInterval(interval);
     }
+    return undefined;
   }, [resendTimer]);
 
   const handleVerify = useCallback(() => {
@@ -123,9 +124,14 @@ export const VerifyIdentityStep = ({
           `${t('__VERIFY_CODE_RESEND_TIMER_PREFIX')} ${resendTimer}s`
         ) : (
           <Anchor
-            onClick={handleResend}
-            disabled={isResending}
-            style={{ fontWeight: 400 }}
+            onClick={isResending ? undefined : handleResend}
+            style={{
+              fontWeight: 400,
+              ...(isResending && {
+                opacity: 0.5,
+                pointerEvents: 'none' as const,
+              }),
+            }}
           >
             {t('__VERIFY_CODE_RESEND_CTA')}
           </Anchor>

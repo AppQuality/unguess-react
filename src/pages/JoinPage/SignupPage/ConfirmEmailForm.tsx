@@ -55,6 +55,7 @@ export const ConfirmEmailForm = ({
       }, 1000);
       return () => clearInterval(interval);
     }
+    return undefined;
   }, [resendTimer]);
 
   const handleVerify = useCallback(async () => {
@@ -163,15 +164,13 @@ export const ConfirmEmailForm = ({
         }}
       >
         {t('CONFIRM_EMAIL_DIDNT_RECEIVE')}{' '}
-        <Anchor
-          onClick={handleResend}
-          disabled={resendTimer > 0 || isResending}
-          style={{ fontWeight: 600 }}
-        >
-          {resendTimer > 0
-            ? `${t('__VERIFY_CODE_RESEND_TIMER_PREFIX')} ${resendTimer}s`
-            : t('__VERIFY_CODE_RESEND_CTA')}
-        </Anchor>
+        {resendTimer > 0 || isResending ? (
+          `${t('__VERIFY_CODE_RESEND_TIMER_PREFIX')} ${resendTimer}s`
+        ) : (
+          <Anchor onClick={handleResend} style={{ fontWeight: 600 }}>
+            {t('__VERIFY_CODE_RESEND_CTA')}
+          </Anchor>
+        )}
       </MD>
       <Button
         isPrimary

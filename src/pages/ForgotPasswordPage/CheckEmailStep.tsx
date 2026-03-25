@@ -25,6 +25,7 @@ export const CheckEmailStep = ({ email, onResend }: CheckEmailStepProps) => {
       }, 1000);
       return () => clearInterval(interval);
     }
+    return undefined;
   }, [resendTimer]);
 
   const handleResend = useCallback(async () => {
@@ -92,15 +93,13 @@ export const CheckEmailStep = ({ email, onResend }: CheckEmailStepProps) => {
         }}
       >
         {t('FORGOT_PASSWORD_DIDNT_RECEIVE')}{' '}
-        <Anchor
-          onClick={handleResend}
-          disabled={resendTimer > 0 || isResending}
-          style={{ fontWeight: 400 }}
-        >
-          {resendTimer > 0
-            ? `${t('__VERIFY_CODE_RESEND_TIMER_PREFIX')} ${resendTimer}s`
-            : t('FORGOT_PASSWORD_CLICK_RESEND')}
-        </Anchor>
+        {resendTimer > 0 || isResending ? (
+          `${t('__VERIFY_CODE_RESEND_TIMER_PREFIX')} ${resendTimer}s`
+        ) : (
+          <Anchor onClick={handleResend} style={{ fontWeight: 400 }}>
+            {t('FORGOT_PASSWORD_CLICK_RESEND')}
+          </Anchor>
+        )}
       </MD>
 
       <div style={{ textAlign: 'center', marginTop: appTheme.space.lg }}>
