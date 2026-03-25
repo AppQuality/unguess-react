@@ -46,6 +46,7 @@ const SendRequestModal = ({
     pid: planId || '',
   });
   const [watchers, setWatchers] = useState<number[]>([]);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const isFailed = isPurchasable && data && data.failed.length > 0;
   const { addToast } = useToast();
@@ -58,6 +59,7 @@ const SendRequestModal = ({
   if (!planId) return null;
 
   const handleConfirm = async () => {
+    setIsSubmitting(true);
     try {
       await updateWatchers({
         pid: planId,
@@ -110,6 +112,8 @@ const SendRequestModal = ({
         { placement: 'top' }
       );
       return;
+    } finally {
+      setIsSubmitting(false);
     }
     onQuit();
   };
@@ -230,7 +234,7 @@ const SendRequestModal = ({
             </FooterItem>
             <FooterItem>
               <Button
-                disabled={watchers.length === 0}
+                disabled={watchers.length === 0 || isSubmitting}
                 isAccent
                 isPrimary
                 onClick={handleConfirm}
