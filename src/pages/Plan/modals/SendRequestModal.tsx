@@ -40,7 +40,8 @@ const SendRequestModal = ({
   const { planId } = useParams();
   const { planComposedStatus, plan } = usePlan(planId);
   const { t } = useTranslation();
-  const [updateWatchers] = usePutPlansByPidWatchersMutation();
+  const [updateWatchers, { isLoading: isUpdatingWatchers }] =
+    usePutPlansByPidWatchersMutation();
   const { isRequestingQuote, handleQuoteRequest } = useRequestQuotation();
   const { data, isLoading } = useGetPlansByPidRulesEvaluationQuery({
     pid: planId || '',
@@ -234,7 +235,7 @@ const SendRequestModal = ({
             </FooterItem>
             <FooterItem>
               <Button
-                disabled={watchers.length === 0 || isSubmitting}
+                disabled={watchers.length === 0 || isUpdatingWatchers}
                 isAccent
                 isPrimary
                 onClick={handleConfirm}
