@@ -49,11 +49,12 @@ export const ConfirmEmailForm = ({
   const [isResending, setIsResending] = useState(false);
 
   useEffect(() => {
-    if (resendTimer <= 0) return;
-    const interval = setInterval(() => {
-      setResendTimer((prev) => prev - 1);
-    }, 1000);
-    return () => clearInterval(interval);
+    if (resendTimer > 0) {
+      const interval = setInterval(() => {
+        setResendTimer((prev) => prev - 1);
+      }, 1000);
+      return () => clearInterval(interval);
+    }
   }, [resendTimer]);
 
   const handleVerify = useCallback(async () => {

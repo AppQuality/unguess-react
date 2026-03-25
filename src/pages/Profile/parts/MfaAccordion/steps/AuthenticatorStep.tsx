@@ -49,7 +49,6 @@ export const AuthenticatorStep = ({
 }: AuthenticatorStepProps) => {
   const { t } = useTranslation();
   const [qrCodeUrl, setQrCodeUrl] = useState<string | undefined>(undefined);
-  console.log('🚀 ~ AuthenticatorStep ~ qrCodeUrl:', qrCodeUrl);
 
   useEffect(() => {
     const initTOTP = async () => {
@@ -60,8 +59,6 @@ export const AuthenticatorStep = ({
         'https://app.unguess.io'
       );
       const generatedQrCodeUrl = await QRCode.toDataURL(totpUri.href);
-      console.log(`🚀 ~ initTOTP ~ generatedQrCodeUrl:`, generatedQrCodeUrl);
-
       setQrCodeUrl(generatedQrCodeUrl);
     };
     initTOTP();

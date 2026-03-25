@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
+  Anchor,
   Button,
   CodeVerifier,
   MD,
@@ -33,11 +34,12 @@ export const VerifyIdentityStep = ({
   const [isResending, setIsResending] = useState(false);
 
   useEffect(() => {
-    if (resendTimer <= 0) return;
-    const interval = setInterval(() => {
-      setResendTimer((prev) => prev - 1);
-    }, 1000);
-    return () => clearInterval(interval);
+    if (resendTimer > 0) {
+      const interval = setInterval(() => {
+        setResendTimer((prev) => prev - 1);
+      }, 1000);
+      return () => clearInterval(interval);
+    }
   }, [resendTimer]);
 
   const handleVerify = useCallback(() => {
@@ -117,9 +119,17 @@ export const VerifyIdentityStep = ({
           color: appTheme.palette.grey[600],
         }}
       >
-        {resendTimer > 0
-          ? `${t('__VERIFY_CODE_RESEND_TIMER_PREFIX')} ${resendTimer}s`
-          : null}
+        {resendTimer > 0 ? (
+          `${t('__VERIFY_CODE_RESEND_TIMER_PREFIX')} ${resendTimer}s`
+        ) : (
+          <Anchor
+            onClick={handleResend}
+            disabled={isResending}
+            style={{ fontWeight: 400 }}
+          >
+            {t('__VERIFY_CODE_RESEND_CTA')}
+          </Anchor>
+        )}
       </MD>
       <Button
         isPrimary
