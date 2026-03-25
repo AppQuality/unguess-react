@@ -14,7 +14,11 @@ import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as InfoIcon } from 'src/assets/icons/info-icon.svg';
 import styled from 'styled-components';
-import { updateMFAPreference, verifyTOTPSetup } from 'aws-amplify/auth';
+import {
+  updateMFAPreference,
+  updateUserAttributes,
+  verifyTOTPSetup,
+} from 'aws-amplify/auth';
 import { AuthenticatorStep } from './steps/AuthenticatorStep';
 import { SmsStep } from './steps/SmsStep';
 
@@ -51,10 +55,14 @@ export const SetupMfaModal = ({ onClose }: { onClose: () => void }) => {
     }
     await verifyTOTPSetup({ code: authCode });
     // TODO: handle other method verification
-    updateMFAPreference({
+    await updateMFAPreference({
       totp: 'PREFERRED',
     });
-    // TODO: call API to verify code / send SMS
+    await updateUserAttributes({
+      userAttributes: {
+        'custom:mfa_activated_at': new Date().toISOString(),
+      },
+    });
     onClose();
   };
 
