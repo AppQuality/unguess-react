@@ -2,7 +2,8 @@ import { Notification, useToast } from '@appquality/unguess-design-system';
 import { Formik } from 'formik';
 import { useTranslation } from 'react-i18next';
 import WPAPI from 'src/common/wpapi';
-import { usePatchUsersMeMutation } from 'src/features/api';
+import { useGetUsersMeQuery } from 'src/features/api';
+import { updatePassword } from 'aws-amplify/auth';
 import * as Yup from 'yup';
 import { Loader } from './parts/cardLoader';
 import { PasswordAccordion } from './parts/PasswordAccordion';
@@ -12,8 +13,8 @@ import { PasswordFormValues } from './valuesType';
 export const FormPassword = () => {
   const { t } = useTranslation();
   const { addToast } = useToast();
-  const { data, isLoading } = useProfileData();
-  const [updateProfile] = usePatchUsersMeMutation();
+  const { isLoading } = useProfileData();
+  const { data: userData } = useGetUsersMeQuery();
 
   const initialValues: PasswordFormValues = {
     currentPassword: '',
@@ -25,7 +26,7 @@ export const FormPassword = () => {
 
   const schema = Yup.object().shape({
     newPassword: Yup.string()
-      .min(6, t('SIGNUP_FORM_PASSWORD_MUST_BE_AT_LEAST_6_CHARACTER_LONG'))
+      .min(12, t('SIGNUP_FORM_PASSWORD_MUST_BE_AT_LEAST_12_CHARACTER_LONG'))
       .matches(
         /[0-9]/,
         t('SIGNUP_FORM_PASSWORD_MUST_CONTAIN_AT_LEAST_A_NUMBER')
@@ -57,22 +58,28 @@ export const FormPassword = () => {
       onSubmit={async (values, actions) => {
         actions.setSubmitting(true);
         try {
-          await updateProfile({
-            body: {
-              password: {
-                current: values.currentPassword,
-                new: values.newPassword,
-              },
-            },
-          }).unwrap();
-          await WPAPI.destroyOtherSessions();
+          const isCognitoUser = userData?.authType === 'cognito';
 
-          const nonce = await WPAPI.getNonce();
-          await WPAPI.login({
-            username: data?.email || '',
-            password: values.newPassword,
-            security: nonce,
-          });
+          if (isCognitoUser) {
+            await updatePassword({
+              oldPassword: values.currentPassword,
+              newPassword: values.newPassword,
+            });
+          } else {
+            // Utente legacy: verifica password con WP e poi cambia su Cognito
+            // Step 1: Verifica la password corrente con WP
+            const nonce = await WPAPI.getNonce();
+            await WPAPI.login({
+              username: userData?.email || '',
+              password: values.currentPassword,
+              security: nonce,
+            });
+
+            await updatePassword({
+              oldPassword: values.currentPassword,
+              newPassword: values.newPassword,
+            });
+          }
 
           addToast(
             ({ close }) => (
@@ -85,9 +92,39 @@ export const FormPassword = () => {
             ),
             { placement: 'top' }
           );
-        } catch (e) {
-          const error = e as { status: number; data: { message: string } };
-          if (error.status === 417) {
+        } catch (e: any) {
+          // eslint-disable-next-line no-console
+          console.error('Password update error:', e);
+
+          // Gestione errori specifici
+          let isInvalidPasswordError = false;
+
+          // Errore API backend
+          if (e?.status === 417) {
+            isInvalidPasswordError = true;
+          }
+
+          // Errore Cognito password errata
+          if (e?.name === 'NotAuthorizedException') {
+            isInvalidPasswordError = true;
+          }
+
+          // WP login failed - l'errore è un JSON stringificato
+          if (e?.message && typeof e.message === 'string') {
+            try {
+              const errorData = JSON.parse(e.message);
+              if (errorData.type === 'invalid') {
+                isInvalidPasswordError = true;
+              }
+            } catch {
+              // Se non è un JSON valido, controlla se contiene 'invalid'
+              if (e.message.includes('invalid')) {
+                isInvalidPasswordError = true;
+              }
+            }
+          }
+
+          if (isInvalidPasswordError) {
             addToast(
               ({ close }) => (
                 <Notification

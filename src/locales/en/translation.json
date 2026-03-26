@@ -1674,7 +1674,7 @@
   "SIGNUP_FORM_NAME_PLACEHOLDER": "Insert name",
   "SIGNUP_FORM_NEXT_STEP": "Next",
   "SIGNUP_FORM_PASSWORD_LABEL": "Insert password",
-  "SIGNUP_FORM_PASSWORD_MUST_BE_AT_LEAST_6_CHARACTER_LONG": "The password must be at least 6 characters long",
+  "SIGNUP_FORM_PASSWORD_MUST_BE_AT_LEAST_12_CHARACTER_LONG": "The password must be at least 12 characters long",
   "SIGNUP_FORM_PASSWORD_MUST_CONTAIN_AT_LEAST_A_LOWERCASE_LETTER": "The password must contain at least one lowercase letter",
   "SIGNUP_FORM_PASSWORD_MUST_CONTAIN_AT_LEAST_A_NUMBER": "The password must contain at least one number",
   "SIGNUP_FORM_PASSWORD_MUST_CONTAIN_AT_LEAST_AN_UPPERCASE_LETTER": "The password must contain at least one uppercase letter",
