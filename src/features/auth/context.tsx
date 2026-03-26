@@ -1,5 +1,4 @@
 import React, { createContext, useContext, useMemo } from 'react';
-import { Amplify } from 'aws-amplify';
 import {
   signIn,
   signUp,
@@ -14,10 +13,6 @@ import {
   type SignUpInput,
   type ConfirmSignUpInput,
 } from 'aws-amplify/auth';
-import { awsConfig } from './config';
-
-// Configura Amplify
-Amplify.configure(awsConfig);
 
 type MfaChallengeStep =
   | 'CONFIRM_SIGN_IN_WITH_TOTP_CODE'

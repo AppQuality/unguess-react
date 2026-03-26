@@ -179,7 +179,7 @@ const LoginForm = ({ onSubmit, buttonText }: LoginFormProps) => {
               <MD>
                 {t('__LOGIN_FORM_NO_ACCOUNT_LABEL')}
                 <Anchor
-                  href="/join"
+                  href="/join/signup"
                   style={{
                     marginLeft: appTheme.space.xs,
                     color: appTheme.palette.blue[600],
