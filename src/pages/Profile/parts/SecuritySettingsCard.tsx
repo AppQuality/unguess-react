@@ -8,6 +8,7 @@ import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as ShieldIcon } from 'src/assets/icons/shield-fill.svg';
 import { Divider } from 'src/common/components/divider';
+import { useGetUsersMeQuery } from 'src/features/api';
 import styled from 'styled-components';
 import { FormPassword } from '../FormPassword';
 import {
@@ -25,6 +26,7 @@ const AccordionWrapper = styled.div`
 
 export const SecuritySettingsCard = () => {
   const { t } = useTranslation();
+  const { data: currentUser } = useGetUsersMeQuery();
 
   return (
     <ContainerCard
@@ -62,7 +64,7 @@ export const SecuritySettingsCard = () => {
         />
         <AccordionWrapper>
           <FormPassword />
-          <MfaAccordion />
+          {currentUser?.authType !== 'legacy' && <MfaAccordion />}
         </AccordionWrapper>
       </div>
       <MD
