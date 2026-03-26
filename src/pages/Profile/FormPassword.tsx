@@ -69,9 +69,8 @@ export const FormPassword = () => {
             // Utente legacy: verifica password con WP e poi cambia su Cognito
             // Step 1: Verifica la password corrente con WP
             const nonce = await WPAPI.getNonce();
-            await WPAPI.login({
-              username: userData?.email || '',
-              password: values.currentPassword,
+            await WPAPI.checkPassword({
+              currentPassword: values.currentPassword,
               security: nonce,
             });
 
