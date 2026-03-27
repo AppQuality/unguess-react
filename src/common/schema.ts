@@ -1095,32 +1095,32 @@ export interface components {
       value: number;
     };
     Module:
-      | components["schemas"]["ModuleTitle"]
-      | components["schemas"]["ModuleDate"]
-      | components["schemas"]["ModuleTask"]
-      | components["schemas"]["ModuleAge"]
-      | components["schemas"]["ModuleLanguage"]
-      | components["schemas"]["ModuleLiteracy"]
-      | components["schemas"]["ModuleTarget"]
-      | components["schemas"]["ModuleGoal"]
-      | components["schemas"]["ModuleGender"]
-      | components["schemas"]["ModuleOutOfScope"]
-      | components["schemas"]["ModuleBrowser"]
-      | components["schemas"]["ModuleTargetNote"]
-      | components["schemas"]["ModuleInstructionNote"]
-      | components["schemas"]["ModuleSetupNote"]
-      | components["schemas"]["ModuleTouchpoints"]
+      | components["schemas"]["ModuleACNSaver"]
       | components["schemas"]["ModuleAdditionalTarget"]
+      | components["schemas"]["ModuleAge"]
+      | components["schemas"]["ModuleAnnualIncomeRange"]
+      | components["schemas"]["ModuleBank"]
+      | components["schemas"]["ModuleBrowser"]
+      | components["schemas"]["ModuleDate"]
+      | components["schemas"]["ModuleElettricitySupply"]
       | components["schemas"]["ModuleEmployment"]
       | components["schemas"]["ModuleEnvironment"]
-      | components["schemas"]["ModuleLocality"]
-      | components["schemas"]["ModuleBank"]
-      | components["schemas"]["ModuleElettricitySupply"]
-      | components["schemas"]["ModuleMobileInternet"]
-      | components["schemas"]["ModuleHomeInternet"]
       | components["schemas"]["ModuleGasSupply"]
-      | components["schemas"]["ModuleAnnualIncomeRange"]
-      | components["schemas"]["ModuleACNSaver"];
+      | components["schemas"]["ModuleGender"]
+      | components["schemas"]["ModuleGoal"]
+      | components["schemas"]["ModuleHomeInternet"]
+      | components["schemas"]["ModuleInstructionNote"]
+      | components["schemas"]["ModuleLanguage"]
+      | components["schemas"]["ModuleLiteracy"]
+      | components["schemas"]["ModuleLocality"]
+      | components["schemas"]["ModuleMobileInternet"]
+      | components["schemas"]["ModuleOutOfScope"]
+      | components["schemas"]["ModuleSetupNote"]
+      | components["schemas"]["ModuleTarget"]
+      | components["schemas"]["ModuleTargetNote"]
+      | components["schemas"]["ModuleTask"]
+      | components["schemas"]["ModuleTitle"]
+      | components["schemas"]["ModuleTouchpoints"];
     /** ModuleAdditionalTarget */
     ModuleAdditionalTarget: {
       output: string;
@@ -1188,9 +1188,9 @@ export interface components {
     };
     /** ModuleEnvironment */
     ModuleEnvironment: {
-      output: string;
+      output: components["schemas"]["OutputModuleEnvironment"];
       /** @enum {string} */
-      type: "environment";
+      type: "environments";
       variant: string;
     };
     /** ModuleGasSupply */
@@ -1333,6 +1333,12 @@ export interface components {
       name: "firefox" | "edge" | "chrome" | "safari";
       percentage: number;
     }[];
+    /** OutputModuleEnvironment */
+    OutputModuleEnvironment: {
+      /** @enum {string} */
+      envType: "production" | "staging" | "prototype" | "other" | "app-beta";
+      description?: string;
+    };
     /** OutputModuleGender */
     OutputModuleGender: {
       /** @enum {string} */
@@ -1989,6 +1995,7 @@ export interface components {
         | "ACN.INVESTITORE SOFISTICATO"
         | "ACN.SOCIALE COLLABORATIVO"
         | "ACN.CONSERVATORE PRUDENTE"
+        | "TRYBER.EXPERT_BUG_HUNTER"
       )[];
       /** @enum {undefined} */
       type: "acn_saver_personas";
