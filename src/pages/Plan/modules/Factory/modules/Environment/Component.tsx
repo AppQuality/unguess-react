@@ -1,15 +1,14 @@
 import {
   AccordionNew,
-  Alert,
   FormField,
   IconButton,
-  Input,
   Label,
+  Select,
   SM,
   Span,
   Tooltip,
 } from '@appquality/unguess-design-system';
-import { ChangeEvent, useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as AlertIcon } from 'src/assets/icons/alert-icon.svg';
@@ -30,45 +29,59 @@ const StyledInfoBox = styled.div`
   gap: ${appTheme.space.xxs};
 `;
 
+type EnvType = 'production' | 'staging' | 'prototype' | 'other' | 'app-beta';
+
 const Environment = () => {
-  const { value, setOutput, remove } = useModule('environment');
+  const { value, setOutput, remove } = useModule('environments');
   const { t } = useTranslation();
   const { getPlanStatus } = useModuleConfiguration();
-  const [currentValue, setCurrentValue] = useState<string | undefined>(
-    value?.output
-  );
   const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false);
   const Icon = useIconWithValidation();
   const { width } = useWindowSize();
   const breakpointSm = parseInt(appTheme.breakpoints.sm, 10);
   const isMobile = width < breakpointSm;
 
-  useEffect(() => {
-    setOutput(currentValue || '');
-  }, [currentValue]);
+  const options: Array<{ value: EnvType; label: string }> = [
+    {
+      value: 'production',
+      label: t('__PLAN_PAGE_MODULE_ENVIRONMENT_OPTION_PRODUCTION'),
+    },
+    {
+      value: 'staging',
+      label: t('__PLAN_PAGE_MODULE_ENVIRONMENT_OPTION_STAGING'),
+    },
+    {
+      value: 'prototype',
+      label: t('__PLAN_PAGE_MODULE_ENVIRONMENT_OPTION_PROTOTYPE'),
+    },
+    {
+      value: 'other',
+      label: t('__PLAN_PAGE_MODULE_ENVIRONMENT_OPTION_OTHER'),
+    },
+    {
+      value: 'app-beta',
+      label: t('__PLAN_PAGE_MODULE_ENVIRONMENT_OPTION_APP_BETA'),
+    },
+  ];
 
   const validation = (
-    module: components['schemas']['Module'] & { type: 'environment' }
+    module: components['schemas']['Module'] & { type: 'environments' }
   ) => {
     let error;
-    if (!module.output || module.output.trim().length === 0) {
+    if (!module.output?.envType) {
       error = t('__PLAN_ENVIRONMENT_ERROR_REQUIRED');
     }
     return error || true;
   };
 
   const { error, validate } = useValidation({
-    type: 'environment',
+    type: 'environments',
     validate: validation,
   });
 
-  const handleBlur = () => {
+  const handleChange = (item: EnvType) => {
+    setOutput({ envType: item });
     validate();
-  };
-
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const inputValue = e.target.value;
-    setCurrentValue(inputValue);
   };
 
   const handleDelete = () => {
@@ -78,7 +91,7 @@ const Environment = () => {
   return (
     <>
       <AccordionNew
-        data-qa="plan-environment-module"
+        data-qa="environments-module"
         level={3}
         hasBorder
         type={error ? 'danger' : 'default'}
@@ -116,36 +129,49 @@ const Environment = () => {
               <FormField>
                 <Label>
                   <Trans i18nKey="__PLAN_PAGE_MODULE_ENVIRONMENT_LABEL">
-                    Specify the product state
+                    Select the product environment type
                   </Trans>
                   <Span style={{ color: appTheme.palette.red[700] }}>*</Span>
                 </Label>
-                <Input
-                  readOnly={getPlanStatus() !== 'draft'}
-                  data-qa="plan-environment-input"
-                  type="text"
-                  value={currentValue}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
+                <Select
+                  isDisabled={getPlanStatus() !== 'draft'}
+                  data-qa="environments-select"
+                  isCompact
+                  inputValue={value?.output?.envType || ''}
+                  selectionValue={value?.output?.envType || ''}
+                  renderValue={() => {
+                    const selected = options.find(
+                      (opt) => opt.value === value?.output?.envType
+                    );
+                    return (
+                      selected?.label ||
+                      t('__PLAN_PAGE_MODULE_ENVIRONMENT_SELECT_PLACEHOLDER')
+                    );
+                  }}
+                  onSelect={(item) => handleChange(item as EnvType)}
                   validation={error ? 'error' : undefined}
-                  placeholder={t('__PLAN_PAGE_MODULE_ENVIRONMENT_PLACEHOLDER')}
-                />
+                >
+                  {options.map((option) => (
+                    <Select.Option
+                      key={option.value}
+                      value={option.value}
+                      label={option.label}
+                    />
+                  ))}
+                </Select>
                 <StyledInfoBox>
                   {error && typeof error === 'string' && (
                     <>
                       <AlertIcon />
                       <SM
                         style={{ color: appTheme.components.text.dangerColor }}
-                        data-qa="plan-environment-error"
+                        data-qa="environments-error"
                       >
                         {error}
                       </SM>
                     </>
                   )}
                 </StyledInfoBox>
-                <Alert style={{ marginTop: appTheme.space.sm }} type="info">
-                  {t('__PLAN_PAGE_MODULE_ENVIRONMENT_ALERT')}
-                </Alert>
               </FormField>
             </div>
           </AccordionNew.Panel>

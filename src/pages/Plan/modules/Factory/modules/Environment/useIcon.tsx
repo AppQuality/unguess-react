@@ -3,7 +3,7 @@ import useIconColor from '../../useIconColor';
 
 const useIcon = (withValidation: boolean = true) => {
   const color = useIconColor({
-    module_type: 'environment',
+    module_type: 'environments',
     withValidation,
   });
 

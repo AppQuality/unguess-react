@@ -4,13 +4,13 @@ import useIcon from './useIcon';
 import useSubtitle from './useSubtitle';
 import useTitle from './useTitle';
 
-export const EnvironmentModule = createModuleDefinition({
-  slug: 'environment',
+export const EnvironmentsModule = createModuleDefinition({
+  slug: 'environments',
   Component,
   useTitle,
   useIcon,
   useSubtitle,
-  defaultData: '',
+  defaultData: { envType: 'production' },
   defaultVariant: 'default',
   tab: 'setup',
 });
