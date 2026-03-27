@@ -2,7 +2,7 @@ import { Notification, useToast } from '@appquality/unguess-design-system';
 import { Formik } from 'formik';
 import { useTranslation } from 'react-i18next';
 import WPAPI from 'src/common/wpapi';
-import { useGetUsersMeQuery } from 'src/features/api';
+import { useGetUsersMeQuery, usePatchUsersMeMutation } from 'src/features/api';
 import { updatePassword } from 'aws-amplify/auth';
 import * as Yup from 'yup';
 import { Loader } from './parts/cardLoader';
@@ -15,6 +15,7 @@ export const FormPassword = () => {
   const { addToast } = useToast();
   const { isLoading } = useProfileData();
   const { data: userData } = useGetUsersMeQuery();
+  const [updateProfile] = usePatchUsersMeMutation();
 
   const initialValues: PasswordFormValues = {
     currentPassword: '',
@@ -67,17 +68,15 @@ export const FormPassword = () => {
             });
           } else {
             // Utente legacy: verifica password con WP e poi cambia su Cognito
-            // Step 1: Verifica la password corrente con WP
-            const nonce = await WPAPI.getNonce();
-            await WPAPI.checkPassword({
-              currentPassword: values.currentPassword,
-              security: nonce,
-            });
-
-            await updatePassword({
-              oldPassword: values.currentPassword,
-              newPassword: values.newPassword,
-            });
+            await updateProfile({
+              body: {
+                password: {
+                  current: values.currentPassword,
+                  new: values.newPassword,
+                },
+              },
+            }).unwrap();
+            await WPAPI.destroyOtherSessions();
           }
 
           addToast(
