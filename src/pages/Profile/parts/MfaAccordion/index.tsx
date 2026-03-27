@@ -85,7 +85,10 @@ export const MfaAccordion = () => {
                 {t('__PROFILE_PAGE_MFA_STATUS_ACTIVE')}
               </Tag>
             ) : (
-              <Tag color={appTheme.palette.yellow[800]}>
+              <Tag
+                color={appTheme.palette.yellow[700]}
+                hue={`${appTheme.palette.yellow[700]}14`}
+              >
                 {t('__PROFILE_PAGE_MFA_STATUS_INACTIVE')}
               </Tag>
             )}
