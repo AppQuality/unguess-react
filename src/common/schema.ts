@@ -1190,7 +1190,7 @@ export interface components {
     ModuleEnvironment: {
       output: components["schemas"]["OutputModuleEnvironment"];
       /** @enum {string} */
-      type: "environments";
+      type: "environment";
       variant: string;
     };
     /** ModuleGasSupply */

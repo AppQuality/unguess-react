@@ -2603,7 +2603,7 @@ export type OutputModuleEnvironment = {
 };
 export type ModuleEnvironment = {
   output: OutputModuleEnvironment;
-  type: 'environments';
+  type: 'environment';
   variant: string;
 };
 export type ModuleGasSupply = {
