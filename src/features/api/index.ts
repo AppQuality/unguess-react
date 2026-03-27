@@ -2728,6 +2728,14 @@ export type ModuleEmployment = {
   type: 'employment';
   variant: string;
 };
+export type ModuleEnvironment = {
+  output: {
+    envType: 'production' | 'staging' | 'prototype' | 'app-beta' | 'other';
+    description?: string;
+  };
+  type: 'environment';
+  variant: string;
+};
 export type OutputModuleLocality = {
   type: string;
   values: string[];
@@ -2805,6 +2813,7 @@ export type Module =
   | ModuleTouchpoints
   | ModuleAdditionalTarget
   | ModuleEmployment
+  | ModuleEnvironment
   | ModuleLocality
   | ModuleBank
   | ModuleElettricitySupply

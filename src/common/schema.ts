@@ -1112,6 +1112,7 @@ export interface components {
       | components["schemas"]["ModuleTouchpoints"]
       | components["schemas"]["ModuleAdditionalTarget"]
       | components["schemas"]["ModuleEmployment"]
+      | components["schemas"]["ModuleEnvironment"]
       | components["schemas"]["ModuleLocality"]
       | components["schemas"]["ModuleBank"]
       | components["schemas"]["ModuleElettricitySupply"]
@@ -1183,6 +1184,13 @@ export interface components {
       )[];
       /** @enum {string} */
       type: "employment";
+      variant: string;
+    };
+    /** ModuleEnvironment */
+    ModuleEnvironment: {
+      output: string;
+      /** @enum {string} */
+      type: "environment";
       variant: string;
     };
     /** ModuleGasSupply */
