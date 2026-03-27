@@ -3,6 +3,7 @@ import {
   ContainerCard,
   LG,
   MD,
+  SM,
 } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
@@ -67,7 +68,7 @@ export const SecuritySettingsCard = () => {
           {currentUser?.authType !== 'legacy' && <MfaAccordion />}
         </AccordionWrapper>
       </div>
-      <MD
+      <SM
         color={appTheme.palette.grey[600]}
         style={{ marginTop: appTheme.space.sm }}
       >
@@ -78,7 +79,7 @@ export const SecuritySettingsCard = () => {
         >
           {t('__PROFILE_PAGE_SECURITY_CONTACT_SUPPORT')}
         </Anchor>
-      </MD>
+      </SM>
     </ContainerCard>
   );
 };
