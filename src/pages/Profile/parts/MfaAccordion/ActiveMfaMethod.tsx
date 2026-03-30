@@ -27,6 +27,7 @@ const Container = styled.div`
   padding: ${({ theme }) => theme.space.sm} ${({ theme }) => theme.space.md};
   border: 1px solid ${({ theme }) => theme.palette.grey[300]};
   border-radius: ${({ theme }) => theme.borderRadii.md};
+  background-color: ${({ theme }) => theme.palette.grey[100]};
 `;
 
 const Info = styled.div`
@@ -60,7 +61,7 @@ export const ActiveMfaMethod = ({
           {methodDescription}
         </SM>
         {lastChanged && (
-          <SM style={{ color: appTheme.palette.grey[500] }}>{lastChanged}</SM>
+          <SM style={{ color: appTheme.palette.grey[600] }}>{lastChanged}</SM>
         )}
       </Info>
       <ButtonMenu
