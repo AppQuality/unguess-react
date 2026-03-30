@@ -32,7 +32,7 @@ export const SetupMfaModal = ({ onClose }: { onClose: () => void }) => {
         <AuthenticatorStep onCodeComplete={(code) => setAuthCode(code)} />
       </Modal.Body>
       <Modal.Footer>
-        <Button isLink onClick={onClose} style={{ paddingRight: 20 }}>
+        <Button isBasic onClick={onClose} style={{ paddingRight: 20 }}>
           {t('__PROFILE_PAGE_MFA_SETUP_MODAL_CANCEL')}
         </Button>
         <Button
