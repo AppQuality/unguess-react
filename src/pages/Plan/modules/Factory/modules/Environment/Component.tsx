@@ -32,7 +32,7 @@ const StyledInfoBox = styled.div`
 type EnvType = 'production' | 'staging' | 'prototype' | 'other' | 'app-beta';
 
 const Environment = () => {
-  const { value, setOutput, remove } = useModule('environments');
+  const { value, setOutput, remove } = useModule('environment');
   const { t } = useTranslation();
   const { getPlanStatus } = useModuleConfiguration();
   const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false);
@@ -65,7 +65,7 @@ const Environment = () => {
   ];
 
   const validation = (
-    module: components['schemas']['Module'] & { type: 'environments' }
+    module: components['schemas']['Module'] & { type: 'environment' }
   ) => {
     let error;
     if (!module.output?.envType) {
@@ -75,7 +75,7 @@ const Environment = () => {
   };
 
   const { error, validate } = useValidation({
-    type: 'environments',
+    type: 'environment',
     validate: validation,
   });
 
@@ -91,7 +91,7 @@ const Environment = () => {
   return (
     <>
       <AccordionNew
-        data-qa="environments-module"
+        data-qa="environment-module"
         level={3}
         hasBorder
         type={error ? 'danger' : 'default'}

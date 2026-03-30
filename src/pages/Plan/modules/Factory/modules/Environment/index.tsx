@@ -5,7 +5,7 @@ import useSubtitle from './useSubtitle';
 import useTitle from './useTitle';
 
 export const EnvironmentsModule = createModuleDefinition({
-  slug: 'environments',
+  slug: 'environment',
   Component,
   useTitle,
   useIcon,
