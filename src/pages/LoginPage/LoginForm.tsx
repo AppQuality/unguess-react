@@ -88,7 +88,6 @@ const LoginForm = ({ onSubmit, buttonText }: LoginFormProps) => {
         style={{
           textAlign: 'center',
           color: appTheme.palette.grey[700],
-          marginBottom: appTheme.space.lg,
         }}
       >
         {t('__LOGIN_FORM_SUBTITLE')}
