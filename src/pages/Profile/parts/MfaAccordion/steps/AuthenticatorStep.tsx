@@ -123,7 +123,7 @@ export const AuthenticatorStep = ({
             alignItems: 'center',
           }}
         >
-          <SM
+          <MD
             style={{
               color: appTheme.palette.grey[800],
               marginTop: appTheme.space.sm,
@@ -131,7 +131,7 @@ export const AuthenticatorStep = ({
             }}
           >
             {t('__PROFILE_PAGE_MFA_AUTH_STEP_CODE_DESCRIPTION')}
-          </SM>
+          </MD>
           <CodeVerifier length={6} onComplete={onCodeComplete} autoFocus />
         </div>
       </StepItem>
