@@ -136,6 +136,7 @@ const Environment = () => {
                 <Select
                   isDisabled={getPlanStatus() !== 'draft'}
                   data-qa="environments-select"
+                  listboxAppendToNode={document.body}
                   isCompact
                   inputValue={value?.output?.envType || ''}
                   selectionValue={value?.output?.envType || ''}
