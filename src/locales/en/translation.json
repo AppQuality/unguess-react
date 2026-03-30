@@ -1589,7 +1589,7 @@
   "FORGOT_PASSWORD_NEW_PASSWORD_PLACEHOLDER": "Enter new password",
   "FORGOT_PASSWORD_PASSWORDS_DONT_MATCH": "Passwords don't match",
   "FORGOT_PASSWORD_RESET_CTA": "Reset password",
-  "FORGOT_PASSWORD_SEND_CTA": "Send reset link",
+  "FORGOT_PASSWORD_SEND_CTA": "Send reset code",
   "FORGOT_PASSWORD_SMS_CODE_INSTRUCTIONS": "Enter the 6-digit code sent to {{destination}}",
   "FORGOT_PASSWORD_SUBTITLE": "Enter your work email address.\nWe'll send you a link to reset your password.",
   "FORGOT_PASSWORD_TITLE": "Forgot your password?",
