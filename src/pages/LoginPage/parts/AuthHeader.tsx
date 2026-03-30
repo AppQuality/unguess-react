@@ -6,7 +6,8 @@ const AuthHeaderWrapper = styled.div`
   justify-content: flex-start;
   align-items: center;
   width: 100%;
-  padding: ${({ theme }) => `${theme.space.lg} ${theme.space.xl}`};
+  padding: ${({ theme }) =>
+    `${theme.space.lg} ${theme.space.xxl} ${theme.space.md}`};
 `;
 
 export const AuthHeader = () => (

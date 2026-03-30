@@ -332,7 +332,6 @@ export const SignupForm = ({ onSignupSuccess }: SignupFormProps) => {
                   <Anchor
                     href="/login"
                     style={{
-                      fontWeight: 600,
                       color: appTheme.palette.blue[600],
                     }}
                   >

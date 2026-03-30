@@ -98,7 +98,7 @@ const SignupPage = () => {
             </RightColumn>
           </ContentRow>
         )}
-        <AuthFooter />
+        <AuthFooter showTryberLink />
       </PageWrapper>
     </NotLogged>
   );
