@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as MfaIcon } from 'src/assets/icons/mfa.svg';
 import { useEffect, useState } from 'react';
+import styled from 'styled-components';
 import {
   fetchMFAPreference,
   fetchUserAttributes,
@@ -10,7 +11,11 @@ import {
 } from 'aws-amplify/auth';
 import { ActiveMfaMethod } from './ActiveMfaMethod';
 import { EmptyStateMFA } from './EmptyStateMFA';
-import { SetupMfaModal } from './SetupMfaModal';
+import { TurnOffMfaModal } from './TurnOffMfaModal';
+
+const AccordionHeader = styled(AccordionNew.Header)`
+  align-items: flex-start;
+`;
 
 interface MfaPreference {
   preferred: 'SMS' | 'TOTP' | 'EMAIL';
@@ -23,7 +28,7 @@ export const MfaAccordion = () => {
     null
   );
   const [mfaActivatedAt, setMfaActivatedAt] = useState<string | undefined>();
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [isTurnOffModalOpen, setIsTurnOffModalOpen] = useState(false);
   const isActive = mfaPreference?.enabled && mfaPreference.enabled.length > 0;
 
   const loadMfaPreference = async () => {
@@ -62,72 +67,78 @@ export const MfaAccordion = () => {
   };
 
   return (
-    <AccordionNew hasBorder={false} level={3} defaultExpandedSections={[]}>
-      <AccordionNew.Section>
-        <AccordionNew.Header
-          icon={
-            <MfaIcon
-              style={{
-                width: appTheme.iconSizes.md,
-                height: appTheme.iconSizes.md,
-                color: appTheme.palette.blue[600],
-              }}
+    <>
+      <AccordionNew hasBorder={false} level={3} defaultExpandedSections={[]}>
+        <AccordionNew.Section>
+          <AccordionHeader
+            icon={
+              <MfaIcon
+                style={{
+                  width: appTheme.iconSizes.md,
+                  height: appTheme.iconSizes.md,
+                  color: appTheme.palette.blue[600],
+                }}
+              />
+            }
+          >
+            <AccordionNew.Label
+              label={t('__PROFILE_PAGE_MFA_ACCORDION_LABEL')}
+              subtitle={t('__PROFILE_PAGE_MFA_ACCORDION_SUBTITLE')}
             />
-          }
-        >
-          <AccordionNew.Label label={t('__PROFILE_PAGE_MFA_ACCORDION_LABEL')} />
-          <AccordionNew.Meta>
-            {isActive ? (
-              <Tag
-                color={appTheme.palette.green[800]}
-                hue={appTheme.palette.green[10]}
-              >
-                {t('__PROFILE_PAGE_MFA_STATUS_ACTIVE')}
-              </Tag>
+            <AccordionNew.Meta>
+              {isActive ? (
+                <Tag
+                  color={appTheme.palette.green[800]}
+                  hue={appTheme.palette.green[10]}
+                >
+                  {t('__PROFILE_PAGE_MFA_STATUS_ACTIVE')}
+                </Tag>
+              ) : (
+                <Tag
+                  color={appTheme.palette.yellow[700]}
+                  hue={`${appTheme.palette.yellow[700]}14`}
+                >
+                  {t('__PROFILE_PAGE_MFA_STATUS_INACTIVE')}
+                </Tag>
+              )}
+            </AccordionNew.Meta>
+          </AccordionHeader>
+          <AccordionNew.Panel>
+            {mfaPreference?.enabled &&
+            mfaPreference.enabled.includes('TOTP') ? (
+              <ActiveMfaMethod
+                method={mfaPreference.preferred}
+                lastChanged={
+                  mfaActivatedAt
+                    ? t('__PROFILE_PAGE_MFA_ACTIVE_LAST_CHANGED', {
+                        time: new Date(mfaActivatedAt).toLocaleDateString(
+                          undefined,
+                          {
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric',
+                          }
+                        ),
+                      })
+                    : undefined
+                }
+                onRemove={() => setIsTurnOffModalOpen(true)}
+              />
             ) : (
-              <Tag
-                color={appTheme.palette.yellow[700]}
-                hue={`${appTheme.palette.yellow[700]}14`}
-              >
-                {t('__PROFILE_PAGE_MFA_STATUS_INACTIVE')}
-              </Tag>
+              <EmptyStateMFA onSetupComplete={loadMfaPreference} />
             )}
-          </AccordionNew.Meta>
-        </AccordionNew.Header>
-        <AccordionNew.Panel>
-          {mfaPreference?.enabled && mfaPreference.enabled.includes('TOTP') ? (
-            <ActiveMfaMethod
-              method={mfaPreference.preferred}
-              lastChanged={
-                mfaActivatedAt
-                  ? t('__PROFILE_PAGE_MFA_ACTIVE_LAST_CHANGED', {
-                      time: new Date(mfaActivatedAt).toLocaleDateString(
-                        undefined,
-                        {
-                          year: 'numeric',
-                          month: 'long',
-                          day: 'numeric',
-                        }
-                      ),
-                    })
-                  : undefined
-              }
-              onRemove={handleRemoveMfa}
-              onEdit={() => setIsEditModalOpen(true)}
-            />
-          ) : (
-            <EmptyStateMFA onSetupComplete={loadMfaPreference} />
-          )}
-        </AccordionNew.Panel>
-      </AccordionNew.Section>
-      {isEditModalOpen && (
-        <SetupMfaModal
+          </AccordionNew.Panel>
+        </AccordionNew.Section>
+      </AccordionNew>
+      {isTurnOffModalOpen && (
+        <TurnOffMfaModal
           onClose={() => {
-            setIsEditModalOpen(false);
+            setIsTurnOffModalOpen(false);
             loadMfaPreference();
           }}
+          onRemove={handleRemoveMfa}
         />
       )}
-    </AccordionNew>
+    </>
   );
 };

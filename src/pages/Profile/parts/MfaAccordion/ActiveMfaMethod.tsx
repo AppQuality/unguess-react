@@ -1,12 +1,4 @@
-import {
-  ButtonMenu,
-  IconButton,
-  MD,
-  SM,
-} from '@appquality/unguess-design-system';
-import { ReactComponent as DotsIcon } from '@zendeskgarden/svg-icons/src/16/overflow-vertical-stroke.svg';
-import { ReactComponent as PencilIcon } from '@zendeskgarden/svg-icons/src/16/pencil-stroke.svg';
-import { ReactComponent as TrashIcon } from '@zendeskgarden/svg-icons/src/16/trash-stroke.svg';
+import { Button, MD, SM } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import styled from 'styled-components';
@@ -17,7 +9,6 @@ interface ActiveMfaMethodProps {
   method: MfaMethod;
   lastChanged?: string;
   onRemove?: () => void;
-  onEdit?: () => void;
 }
 
 const Container = styled.div`
@@ -39,7 +30,6 @@ export const ActiveMfaMethod = ({
   method,
   lastChanged,
   onRemove,
-  onEdit,
 }: ActiveMfaMethodProps) => {
   const { t } = useTranslation();
 
@@ -64,28 +54,9 @@ export const ActiveMfaMethod = ({
           <SM style={{ color: appTheme.palette.grey[600] }}>{lastChanged}</SM>
         )}
       </Info>
-      <ButtonMenu
-        onSelect={(value) => {
-          if (value === 'edit' && onEdit) {
-            onEdit();
-          }
-          if (value === 'remove' && onRemove) {
-            onRemove();
-          }
-        }}
-        label={(props) => (
-          <IconButton {...props}>
-            <DotsIcon />
-          </IconButton>
-        )}
-      >
-        <ButtonMenu.Item value="edit" icon={<PencilIcon />}>
-          {t('__PROFILE_PAGE_MFA_ACTIVE_EDIT')}
-        </ButtonMenu.Item>
-        <ButtonMenu.Item value="remove" type="danger" icon={<TrashIcon />}>
-          {t('__PROFILE_PAGE_MFA_ACTIVE_REMOVE')}
-        </ButtonMenu.Item>
-      </ButtonMenu>
+      <Button size="small" isDanger onClick={onRemove}>
+        {t('__PROFILE_PAGE_MFA_ACTIVE_TURN_OFF')}
+      </Button>
     </Container>
   );
 };
