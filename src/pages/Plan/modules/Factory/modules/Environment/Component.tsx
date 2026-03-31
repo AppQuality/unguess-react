@@ -21,6 +21,7 @@ import useWindowSize from 'src/hooks/useWindowSize';
 import { DeleteModuleConfirmationModal } from 'src/pages/Plan/modules/modal/DeleteModuleConfirmationModal';
 import styled from 'styled-components';
 import { useIconWithValidation } from './useIcon';
+import { OutputModuleEnvironment } from 'src/features/api';
 
 const StyledInfoBox = styled.div`
   display: flex;
@@ -29,7 +30,7 @@ const StyledInfoBox = styled.div`
   gap: ${appTheme.space.xxs};
 `;
 
-type EnvType = 'production' | 'staging' | 'prototype' | 'other' | 'app-beta';
+type EnvType = OutputModuleEnvironment['envType'];
 
 const Environment = () => {
   const { value, setOutput, remove } = useModule('environment');
