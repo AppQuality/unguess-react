@@ -1,4 +1,4 @@
-import { ReactComponent as GlobeIcon } from '@zendeskgarden/svg-icons/src/16/globe-fill.svg';
+import { ReactComponent as GlobeIcon } from '@zendeskgarden/svg-icons/src/16/signpost-fill.svg';
 import useIconColor from '../../useIconColor';
 
 const useIcon = (withValidation: boolean = true) => {

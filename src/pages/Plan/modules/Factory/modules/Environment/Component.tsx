@@ -127,7 +127,12 @@ const Environment = () => {
           <AccordionNew.Panel>
             <div style={{ padding: appTheme.space.xs }}>
               <FormField>
-                <Label>
+                <Label
+                  style={{
+                    marginBottom: appTheme.space.xs,
+                    display: 'inline-block',
+                  }}
+                >
                   <Trans i18nKey="__PLAN_PAGE_MODULE_ENVIRONMENT_LABEL">
                     Select the product environment type
                   </Trans>
