@@ -4,13 +4,12 @@ import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
 import {
   AsideNav,
   StickyNavItem,
-  StickyNavItemLabel,
 } from 'src/common/components/navigation/asideNav';
 import { Page } from 'src/features/templates/Page';
 import ProfilePageHeader from 'src/pages/Profile/Header';
-import { FormPassword } from './FormPassword';
 import { FormProfile } from './FormProfile';
 import { FormNotificationSettings } from './FormNotificationSettings';
+import { SecuritySettingsCard } from './parts/SecuritySettingsCard';
 
 const Profile = () => {
   const { t } = useTranslation();
@@ -57,12 +56,8 @@ const Profile = () => {
                     {t('__PROFILE_PAGE_NAV_ITEM_NOTIFICATION_SETTINGS')}
                   </StickyNavItem>
 
-                  <StickyNavItemLabel>
-                    {t('__PROFILE_PAGE_NAV_SECTION_PASSWORD')}
-                  </StickyNavItemLabel>
-
                   <StickyNavItem
-                    to="anchor-password-id"
+                    to="anchor-security-settings-id"
                     containerId="main"
                     spy
                     smooth
@@ -70,7 +65,7 @@ const Profile = () => {
                     offset={-30}
                     activeClass="isCurrent"
                   >
-                    {t('__PROFILE_PAGE_NAV_ITEM_PASSWORD')}
+                    {t('__PROFILE_PAGE_NAV_ITEM_SECURITY')}
                   </StickyNavItem>
                 </>
               </AsideNav>
@@ -90,7 +85,7 @@ const Profile = () => {
                   >
                     <FormProfile />
                     <FormNotificationSettings />
-                    <FormPassword />
+                    <SecuritySettingsCard />
                   </Col>
                 </Row>
               </Grid>

@@ -9,9 +9,6 @@ export interface paths {
     get: operations["get-root"];
     parameters: {};
   };
-  "/ai/agents/generate-video-tasks": {
-    post: operations["post-ai-agents-generate-video-tasks"];
-  };
   "/analytics/views/campaigns/{cid}": {
     post: operations["post-analytics-views-campaigns-cid"];
     parameters: {
@@ -1118,8 +1115,7 @@ export interface components {
       | components["schemas"]["ModuleMobileInternet"]
       | components["schemas"]["ModuleHomeInternet"]
       | components["schemas"]["ModuleGasSupply"]
-      | components["schemas"]["ModuleAnnualIncomeRange"]
-      | components["schemas"]["ModuleACNSaver"];
+      | components["schemas"]["ModuleAnnualIncomeRange"];
     /** ModuleAdditionalTarget */
     ModuleAdditionalTarget: {
       output: string;
@@ -1970,22 +1966,6 @@ export interface components {
         data?: { [key: string]: unknown };
       }[];
     };
-    /**
-     * ModuleACNSaver
-     * @description This module is created ad-hoc for Accenture to target their saver/investor personas.
-     */
-    ModuleACNSaver: {
-      output: (
-        | "ACN.PRAGMATICO DIGITALE"
-        | "ACN.EMERGENTE ASPIRAZIONALE"
-        | "ACN.INVESTITORE SOFISTICATO"
-        | "ACN.SOCIALE COLLABORATIVO"
-        | "ACN.CONSERVATORE PRUDENTE"
-      )[];
-      /** @enum {undefined} */
-      type: "acn_saver_personas";
-      variant: string;
-    };
   };
   responses: {
     /** Shared error response */
@@ -2114,32 +2094,6 @@ export interface operations {
         };
       };
       500: components["responses"]["Error"];
-    };
-  };
-  "post-ai-agents-generate-video-tasks": {
-    responses: {
-      /** OK */
-      200: {
-        content: {
-          "application/json": {
-            tasks: components["schemas"]["OutputModuleTaskVideo"][];
-          };
-        };
-      };
-      400: components["responses"]["Error"];
-      403: components["responses"]["Error"];
-      500: components["responses"]["Error"];
-      502: components["responses"]["Error"];
-    };
-    requestBody: {
-      content: {
-        "application/json": {
-          modules: components["schemas"]["Module"][];
-          plan_id?: number;
-          input_prompt?: string;
-          usecase_number?: number;
-        };
-      };
     };
   };
   "post-analytics-views-campaigns-cid": {
@@ -3973,7 +3927,6 @@ export interface operations {
           count: number;
           /** @description The plan ID to associate with the generation */
           planId: string;
-          context?: string;
         };
       };
     };
@@ -5305,6 +5258,7 @@ export interface operations {
       400: components["responses"]["Error"];
       403: components["responses"]["Error"];
       404: components["responses"]["Error"];
+      406: components["responses"]["Error"];
       500: components["responses"]["Error"];
       502: components["responses"]["Error"];
     };

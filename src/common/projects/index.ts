@@ -5,7 +5,7 @@ import {
   GetWorkspacesByWidApiResponse,
   GetWorkspacesByWidProjectsApiResponse,
 } from 'src/features/api';
-
+import { fetchAuthSession } from 'aws-amplify/auth';
 import { stringify } from 'qs';
 import HttpError from '../HttpError';
 
@@ -17,6 +17,13 @@ export const projects = async (
 
   if (process.env.REACT_APP_DEFAULT_TOKEN)
     currentToken = process.env.REACT_APP_DEFAULT_TOKEN;
+
+  try {
+    const session = await fetchAuthSession();
+    currentToken = session.tokens?.idToken?.toString();
+  } catch (error) {
+    // Utente non autenticato con Cognito, continua
+  }
 
   const requestHeaders: HeadersInit = new Headers();
   requestHeaders.set('Content-Type', 'application/json');
@@ -46,6 +53,12 @@ export const project = async (
   if (process.env.REACT_APP_DEFAULT_TOKEN)
     currentToken = process.env.REACT_APP_DEFAULT_TOKEN;
 
+  try {
+    const session = await fetchAuthSession();
+    currentToken = session.tokens?.idToken?.toString();
+  } catch (error) {
+    // Utente non autenticato con Cognito, continua
+  }
   const requestHeaders: HeadersInit = new Headers();
   requestHeaders.set('Content-Type', 'application/json');
 
@@ -74,6 +87,12 @@ export const workspaces = async (
   if (process.env.REACT_APP_DEFAULT_TOKEN)
     currentToken = process.env.REACT_APP_DEFAULT_TOKEN;
 
+  try {
+    const session = await fetchAuthSession();
+    currentToken = session.tokens?.idToken?.toString();
+  } catch (error) {
+    // Utente non autenticato con Cognito, continua
+  }
   const requestHeaders: HeadersInit = new Headers();
   requestHeaders.set('Content-Type', 'application/json');
 
@@ -108,6 +127,12 @@ export const workspacesById = async (
   if (process.env.REACT_APP_DEFAULT_TOKEN)
     currentToken = process.env.REACT_APP_DEFAULT_TOKEN;
 
+  try {
+    const session = await fetchAuthSession();
+    currentToken = session.tokens?.idToken?.toString();
+  } catch (error) {
+    // Utente non autenticato con Cognito, continua
+  }
   const requestHeaders: HeadersInit = new Headers();
   requestHeaders.set('Content-Type', 'application/json');
 

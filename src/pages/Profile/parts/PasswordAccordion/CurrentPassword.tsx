@@ -12,10 +12,12 @@ import { Field, FieldProps } from 'formik';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
+import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { FieldExtraContent } from '../common';
 
 const CurrentPassword = () => {
   const { t } = useTranslation();
+  const forgotPasswordRoute = useLocalizeRoute('forgot-password');
 
   const [inputType, setInputType] = useState('password');
   const handleChangeInputType = () => {
@@ -72,9 +74,7 @@ const CurrentPassword = () => {
       </Field>
       <FieldExtraContent>
         <Anchor
-          href={`${window.location.origin}/wp-login.php?action=lostpassword`}
-          isExternal
-          externalIconLabel={t('__PAGE_PROFILE_FORGOT_PASSWORD')}
+          href={forgotPasswordRoute}
           style={{ color: appTheme.palette.grey[600] }}
         >
           {t('__PAGE_PROFILE_FORGOT_PASSWORD')}

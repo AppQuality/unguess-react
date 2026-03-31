@@ -1,38 +1,20 @@
-import {
-  AccordionNew,
-  Button,
-  ContainerCard,
-} from '@appquality/unguess-design-system';
+import { AccordionNew, Button, Tag } from '@appquality/unguess-design-system';
 import { useFormikContext } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as KeyIcon } from 'src/assets/icons/key.svg';
 import { styled } from 'styled-components';
 import { PasswordRequirements } from 'src/common/components/PasswordRequirements';
+import { useGetUsersMeQuery } from 'src/features/api';
 import { PasswordFormValues } from '../../valuesType';
 import { CardInnerPanel, FieldExtraContent, StyledFooter } from '../common';
 import ConfirmPassword from './ConfirmPassword';
 import CurrentPassword from './CurrentPassword';
 import NewPassword from './NewPassword';
 
-const StyledAccordionSection = styled(AccordionNew.Section)`
-  // workaround for the accordion panel overflow hidden that cuts off the input selected shadow
-  #accordions.step_inner_panel {
-    margin-left: -5px;
-    margin-right: -5px;
-  }
-`;
-
 const AccordionPanel = styled(CardInnerPanel)`
   container-type: inline-size;
   container-name: passwordSettings;
-  // workaround for the accordion panel overflow hidden that cuts off the input selected shadow
-  padding-left: 5px;
-  padding-right: 5px;
-`;
-
-const AccordionHeader = styled(AccordionNew.Header)`
-  padding: ${({ theme }) => theme.space.md};
 `;
 
 const NewPasswordContainer = styled.div`
@@ -71,6 +53,7 @@ const NewPasswordContainer = styled.div`
 
 export const PasswordAccordion = () => {
   const { t } = useTranslation();
+  const { data: currentUser } = useGetUsersMeQuery();
 
   const {
     values: formValues,
@@ -81,68 +64,73 @@ export const PasswordAccordion = () => {
   const isOpen = false;
 
   return (
-    <ContainerCard style={{ padding: 0 }}>
-      <AccordionNew
-        level={3}
-        id="anchor-password-id"
-        data-qa="password-accordion"
-        key={`password_accordion_${isOpen}`}
-        defaultExpandedSections={isOpen ? [0, 1] : []}
-      >
-        <StyledAccordionSection>
-          <AccordionHeader
-            icon={
-              <KeyIcon
-                style={{
-                  width: appTheme.iconSizes.md,
-                  height: appTheme.iconSizes.md,
-                  color: appTheme.palette.blue[600],
-                }}
-              />
-            }
-          >
-            <AccordionNew.Label
+    <AccordionNew
+      hasBorder={false}
+      level={3}
+      data-qa="password-accordion"
+      key={`password_accordion_${isOpen}`}
+      defaultExpandedSections={isOpen ? [0, 1] : []}
+    >
+      <AccordionNew.Section>
+        <AccordionNew.Header
+          icon={
+            <KeyIcon
               style={{
-                color: appTheme.palette.grey[800],
+                width: appTheme.iconSizes.md,
+                height: appTheme.iconSizes.md,
+                color: appTheme.palette.blue[600],
               }}
-              label={t('__PROFILE_PAGE_PASSWORD_ACCORDION_LABEL')}
             />
-          </AccordionHeader>
-          <AccordionNew.Panel>
-            <AccordionPanel>
-              <CurrentPassword />
-              <NewPasswordContainer>
-                <div className="newPassword">
-                  <NewPassword />
-                </div>
-                <div className="passwordRequirements">
-                  <FieldExtraContent>
-                    <PasswordRequirements password={formValues.newPassword} />
-                  </FieldExtraContent>
-                </div>
-                <div className="confirmPassword">
-                  <ConfirmPassword />
-                </div>
-              </NewPasswordContainer>
-              <StyledFooter>
-                <Button
-                  isAccent
-                  isPrimary
-                  disabled={
-                    isSubmitting ||
-                    !formValues.currentPassword ||
-                    !formValues.newPassword ||
-                    !formValues.confirmPassword
-                  }
-                  onClick={submitForm}
-                >
-                  {t('__PAGE_PROFILE_SAVE_CHANGES_BUTTON')}
-                </Button>
-              </StyledFooter>
-            </AccordionPanel>
-          </AccordionNew.Panel>
-        </StyledAccordionSection>
-      </AccordionNew>
-    </ContainerCard>
+          }
+        >
+          <AccordionNew.Label
+            label={t('__PROFILE_PAGE_PASSWORD_ACCORDION_LABEL')}
+          />
+          {currentUser?.authType === 'legacy' && (
+            <AccordionNew.Meta>
+              <Tag
+                color={appTheme.palette.yellow[700]}
+                hue={`${appTheme.palette.yellow[700]}14`}
+              >
+                {t('__PROFILE_PAGE_PASSWORD_ACCORDION_LEGACY_TAG')}
+              </Tag>
+            </AccordionNew.Meta>
+          )}
+        </AccordionNew.Header>
+        <AccordionNew.Panel>
+          <AccordionPanel>
+            <CurrentPassword />
+            <NewPasswordContainer>
+              <div className="newPassword">
+                <NewPassword />
+              </div>
+              <div className="passwordRequirements">
+                <FieldExtraContent>
+                  <PasswordRequirements password={formValues.newPassword} />
+                </FieldExtraContent>
+              </div>
+              <div className="confirmPassword">
+                <ConfirmPassword />
+              </div>
+            </NewPasswordContainer>
+            <StyledFooter>
+              <Button
+                isAccent
+                isPrimary
+                disabled={
+                  isSubmitting ||
+                  !formValues.currentPassword ||
+                  !formValues.newPassword ||
+                  !formValues.confirmPassword
+                }
+                onClick={submitForm}
+              >
+                {t('__PAGE_PROFILE_SAVE_CHANGES_BUTTON')}
+              </Button>
+            </StyledFooter>
+          </AccordionPanel>
+        </AccordionNew.Panel>
+      </AccordionNew.Section>
+    </AccordionNew>
   );
 };

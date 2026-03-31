@@ -108,6 +108,32 @@ const WPAPI = {
       // eslint-disable-next-line no-console
       console.error(e.message);
     }),
+
+  checkPassword: ({
+    currentPassword,
+    security,
+  }: {
+    currentPassword: string;
+    security: string;
+  }) =>
+    fetch(`${process.env.REACT_APP_CROWD_WP_URL}/wp-admin/admin-ajax.php`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: queryString.stringify({
+        current_password: currentPassword,
+        security,
+        action: 'unguess_verify_password',
+      }),
+    })
+      .then((data) => data.json())
+      .then((res) => {
+        if (res.success) {
+          return res.data.valid;
+        }
+        throw new Error('Password verification failed.');
+      }),
 };
 
 export default WPAPI;
