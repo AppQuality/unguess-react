@@ -2517,9 +2517,59 @@ export type SubcomponentTaskVideo = {
   title: string;
   url?: string;
 };
-export type ModuleTitle = {
+export type ModuleAcnSaver = {
+  output: (
+    | 'ACN.PRAGMATICO DIGITALE'
+    | 'ACN.EMERGENTE ASPIRAZIONALE'
+    | 'ACN.INVESTITORE SOFISTICATO'
+    | 'ACN.SOCIALE COLLABORATIVO'
+    | 'ACN.CONSERVATORE PRUDENTE'
+    | 'TRYBER.EXPERT_BUG_HUNTER'
+  )[];
+  type: 'acn_saver_personas';
+  variant: string;
+};
+export type ModuleAdditionalTarget = {
   output: string;
-  type: 'title';
+  type: 'additional_target';
+  variant: string;
+};
+export type OutputModuleAge = {
+  max: number;
+  min: number;
+  percentage: number;
+}[];
+export type ModuleAge = {
+  output: OutputModuleAge;
+  type: 'age';
+  variant: string;
+};
+export type OutputModuleIncomeRange = {
+  max: number;
+  min: number;
+  percentage: number;
+}[];
+export type ModuleAnnualIncomeRange = {
+  output: OutputModuleIncomeRange;
+  type: 'annual_income_range';
+  variant: string;
+};
+export type OutputServiceProviders = {
+  isOther?: number;
+  name: string;
+}[];
+export type ModuleBank = {
+  output: OutputServiceProviders;
+  type: 'bank';
+  variant: string;
+};
+export type OutputModuleBrowser = {
+  name: 'firefox' | 'edge' | 'chrome' | 'safari';
+  percentage: number;
+}[];
+export type ModuleBrowser = {
+  output: OutputModuleBrowser;
+  type: 'browser';
   variant: string;
 };
 export type ModuleDate = {
@@ -2527,6 +2577,110 @@ export type ModuleDate = {
     start: string;
   };
   type: 'dates';
+  variant: string;
+};
+export type ModuleElettricitySupply = {
+  output: OutputServiceProviders;
+  type: 'elettricity_supply';
+  variant: string;
+};
+export type ModuleEmployment = {
+  /** cuf values of cuf employment */
+  output: (
+    | 'EMPLOYEE'
+    | 'FREELANCER'
+    | 'RETIRED'
+    | 'STUDENT'
+    | 'UNEMPLOYED'
+    | 'HOMEMAKER'
+  )[];
+  type: 'employment';
+  variant: string;
+};
+export type OutputModuleEnvironment = {
+  envType: 'production' | 'staging' | 'prototype' | 'other' | 'app-beta';
+  description?: string;
+};
+export type ModuleEnvironment = {
+  output: OutputModuleEnvironment;
+  type: 'environment';
+  variant: string;
+};
+export type ModuleGasSupply = {
+  output: OutputServiceProviders;
+  type: 'gas_supply';
+  variant: string;
+};
+export type OutputModuleGender = {
+  gender: 'male' | 'female';
+  percentage: number;
+}[];
+export type ModuleGender = {
+  output: OutputModuleGender;
+  type: 'gender';
+  variant: string;
+};
+export type ModuleGoal = {
+  output: string;
+  type: 'goal';
+  variant: string;
+};
+export type ModuleHomeInternet = {
+  output: OutputServiceProviders;
+  type: 'home_internet';
+  variant: string;
+};
+export type ModuleInstructionNote = {
+  output: string;
+  type: 'instruction_note';
+  variant: string;
+};
+export type ModuleLanguage = {
+  output: string;
+  type: 'language';
+  variant: string;
+};
+export type OutputModuleLiteracy = {
+  level: 'beginner' | 'intermediate' | 'expert';
+  percentage: number;
+}[];
+export type ModuleLiteracy = {
+  output: OutputModuleLiteracy;
+  type: 'literacy';
+  variant: string;
+};
+export type OutputModuleLocality = {
+  type: string;
+  values: string[];
+}[];
+export type ModuleLocality = {
+  output: OutputModuleLocality;
+  type: 'locality';
+  variant: string;
+};
+export type ModuleMobileInternet = {
+  output: OutputServiceProviders;
+  type: 'mobile_internet';
+  variant: string;
+};
+export type ModuleOutOfScope = {
+  output: string;
+  type: 'out_of_scope';
+  variant: string;
+};
+export type ModuleSetupNote = {
+  output: string;
+  type: 'setup_note';
+  variant: string;
+};
+export type ModuleTarget = {
+  output: number;
+  type: 'target';
+  variant: string;
+};
+export type ModuleTargetNote = {
+  output: string;
+  type: 'target_note';
   variant: string;
 };
 export type SubcomponentTaskBug = {
@@ -2576,76 +2730,9 @@ export type ModuleTask = {
   type: 'tasks';
   variant: string;
 };
-export type OutputModuleAge = {
-  max: number;
-  min: number;
-  percentage: number;
-}[];
-export type ModuleAge = {
-  output: OutputModuleAge;
-  type: 'age';
-  variant: string;
-};
-export type ModuleLanguage = {
+export type ModuleTitle = {
   output: string;
-  type: 'language';
-  variant: string;
-};
-export type OutputModuleLiteracy = {
-  level: 'beginner' | 'intermediate' | 'expert';
-  percentage: number;
-}[];
-export type ModuleLiteracy = {
-  output: OutputModuleLiteracy;
-  type: 'literacy';
-  variant: string;
-};
-export type ModuleTarget = {
-  output: number;
-  type: 'target';
-  variant: string;
-};
-export type ModuleGoal = {
-  output: string;
-  type: 'goal';
-  variant: string;
-};
-export type OutputModuleGender = {
-  gender: 'male' | 'female';
-  percentage: number;
-}[];
-export type ModuleGender = {
-  output: OutputModuleGender;
-  type: 'gender';
-  variant: string;
-};
-export type ModuleOutOfScope = {
-  output: string;
-  type: 'out_of_scope';
-  variant: string;
-};
-export type OutputModuleBrowser = {
-  name: 'firefox' | 'edge' | 'chrome' | 'safari';
-  percentage: number;
-}[];
-export type ModuleBrowser = {
-  output: OutputModuleBrowser;
-  type: 'browser';
-  variant: string;
-};
-export type ModuleTargetNote = {
-  output: string;
-  type: 'target_note';
-  variant: string;
-};
-export type ModuleInstructionNote = {
-  output: string;
-  type: 'instruction_note';
-  variant: string;
-};
-export type ModuleSetupNote = {
-  output: string;
-  type: 'setup_note';
+  type: 'title';
   variant: string;
 };
 export type OutputModuleTouchpointsAppDesktop = {
@@ -2710,109 +2797,33 @@ export type ModuleTouchpoints = {
   type: 'touchpoints';
   variant: string;
 };
-export type ModuleAdditionalTarget = {
-  output: string;
-  type: 'additional_target';
-  variant: string;
-};
-export type ModuleEmployment = {
-  /** cuf values of cuf employment */
-  output: (
-    | 'EMPLOYEE'
-    | 'FREELANCER'
-    | 'RETIRED'
-    | 'STUDENT'
-    | 'UNEMPLOYED'
-    | 'HOMEMAKER'
-  )[];
-  type: 'employment';
-  variant: string;
-};
-export type OutputModuleLocality = {
-  type: string;
-  values: string[];
-}[];
-export type ModuleLocality = {
-  output: OutputModuleLocality;
-  type: 'locality';
-  variant: string;
-};
-export type OutputServiceProviders = {
-  isOther?: number;
-  name: string;
-}[];
-export type ModuleBank = {
-  output: OutputServiceProviders;
-  type: 'bank';
-  variant: string;
-};
-export type ModuleElettricitySupply = {
-  output: OutputServiceProviders;
-  type: 'elettricity_supply';
-  variant: string;
-};
-export type ModuleMobileInternet = {
-  output: OutputServiceProviders;
-  type: 'mobile_internet';
-  variant: string;
-};
-export type ModuleHomeInternet = {
-  output: OutputServiceProviders;
-  type: 'home_internet';
-  variant: string;
-};
-export type ModuleGasSupply = {
-  output: OutputServiceProviders;
-  type: 'gas_supply';
-  variant: string;
-};
-export type OutputModuleIncomeRange = {
-  max: number;
-  min: number;
-  percentage: number;
-}[];
-export type ModuleAnnualIncomeRange = {
-  output: OutputModuleIncomeRange;
-  type: 'annual_income_range';
-  variant: string;
-};
-export type ModuleAcnSaver = {
-  output: (
-    | 'ACN.PRAGMATICO DIGITALE'
-    | 'ACN.EMERGENTE ASPIRAZIONALE'
-    | 'ACN.INVESTITORE SOFISTICATO'
-    | 'ACN.SOCIALE COLLABORATIVO'
-    | 'ACN.CONSERVATORE PRUDENTE'
-  )[];
-  type: 'acn_saver_personas';
-  variant: string;
-};
 export type Module =
-  | ModuleTitle
-  | ModuleDate
-  | ModuleTask
+  | ModuleAcnSaver
+  | ModuleAdditionalTarget
   | ModuleAge
+  | ModuleAnnualIncomeRange
+  | ModuleBank
+  | ModuleBrowser
+  | ModuleDate
+  | ModuleElettricitySupply
+  | ModuleEmployment
+  | ModuleEnvironment
+  | ModuleGasSupply
+  | ModuleGender
+  | ModuleGoal
+  | ModuleHomeInternet
+  | ModuleInstructionNote
   | ModuleLanguage
   | ModuleLiteracy
-  | ModuleTarget
-  | ModuleGoal
-  | ModuleGender
-  | ModuleOutOfScope
-  | ModuleBrowser
-  | ModuleTargetNote
-  | ModuleInstructionNote
-  | ModuleSetupNote
-  | ModuleTouchpoints
-  | ModuleAdditionalTarget
-  | ModuleEmployment
   | ModuleLocality
-  | ModuleBank
-  | ModuleElettricitySupply
   | ModuleMobileInternet
-  | ModuleHomeInternet
-  | ModuleGasSupply
-  | ModuleAnnualIncomeRange
-  | ModuleAcnSaver;
+  | ModuleOutOfScope
+  | ModuleSetupNote
+  | ModuleTarget
+  | ModuleTargetNote
+  | ModuleTask
+  | ModuleTitle
+  | ModuleTouchpoints;
 export type Authentication = {
   email: string;
   exp?: number;
