@@ -9,6 +9,9 @@ export interface paths {
     get: operations["get-root"];
     parameters: {};
   };
+  "/ai/agents/generate-video-tasks": {
+    post: operations["post-ai-agents-generate-video-tasks"];
+  };
   "/analytics/views/campaigns/{cid}": {
     post: operations["post-analytics-views-campaigns-cid"];
     parameters: {
@@ -473,6 +476,10 @@ export interface paths {
     get: operations["get-templates-categories"];
   };
   "/users": {
+    /**
+     * This endpoint no longer creates a new user.
+     * With the introduction of Cognito, the user is now created and authenticated externally. This route is used solely to complete the user profile within our platform, starting from an existing Cognito user and enriching it with additional application‑specific data
+     */
     post: operations["post-users"];
     parameters: {};
   };
@@ -1092,30 +1099,32 @@ export interface components {
       value: number;
     };
     Module:
-      | components["schemas"]["ModuleTitle"]
-      | components["schemas"]["ModuleDate"]
-      | components["schemas"]["ModuleTask"]
+      | components["schemas"]["ModuleACNSaver"]
+      | components["schemas"]["ModuleAdditionalTarget"]
       | components["schemas"]["ModuleAge"]
+      | components["schemas"]["ModuleAnnualIncomeRange"]
+      | components["schemas"]["ModuleBank"]
+      | components["schemas"]["ModuleBrowser"]
+      | components["schemas"]["ModuleDate"]
+      | components["schemas"]["ModuleElettricitySupply"]
+      | components["schemas"]["ModuleEmployment"]
+      | components["schemas"]["ModuleEnvironment"]
+      | components["schemas"]["ModuleGasSupply"]
+      | components["schemas"]["ModuleGender"]
+      | components["schemas"]["ModuleGoal"]
+      | components["schemas"]["ModuleHomeInternet"]
+      | components["schemas"]["ModuleInstructionNote"]
       | components["schemas"]["ModuleLanguage"]
       | components["schemas"]["ModuleLiteracy"]
-      | components["schemas"]["ModuleTarget"]
-      | components["schemas"]["ModuleGoal"]
-      | components["schemas"]["ModuleGender"]
-      | components["schemas"]["ModuleOutOfScope"]
-      | components["schemas"]["ModuleBrowser"]
-      | components["schemas"]["ModuleTargetNote"]
-      | components["schemas"]["ModuleInstructionNote"]
-      | components["schemas"]["ModuleSetupNote"]
-      | components["schemas"]["ModuleTouchpoints"]
-      | components["schemas"]["ModuleAdditionalTarget"]
-      | components["schemas"]["ModuleEmployment"]
       | components["schemas"]["ModuleLocality"]
-      | components["schemas"]["ModuleBank"]
-      | components["schemas"]["ModuleElettricitySupply"]
       | components["schemas"]["ModuleMobileInternet"]
-      | components["schemas"]["ModuleHomeInternet"]
-      | components["schemas"]["ModuleGasSupply"]
-      | components["schemas"]["ModuleAnnualIncomeRange"];
+      | components["schemas"]["ModuleOutOfScope"]
+      | components["schemas"]["ModuleSetupNote"]
+      | components["schemas"]["ModuleTarget"]
+      | components["schemas"]["ModuleTargetNote"]
+      | components["schemas"]["ModuleTask"]
+      | components["schemas"]["ModuleTitle"]
+      | components["schemas"]["ModuleTouchpoints"];
     /** ModuleAdditionalTarget */
     ModuleAdditionalTarget: {
       output: string;
@@ -1179,6 +1188,13 @@ export interface components {
       )[];
       /** @enum {string} */
       type: "employment";
+      variant: string;
+    };
+    /** ModuleEnvironment */
+    ModuleEnvironment: {
+      output: components["schemas"]["OutputModuleEnvironment"];
+      /** @enum {string} */
+      type: "environment";
       variant: string;
     };
     /** ModuleGasSupply */
@@ -1321,6 +1337,12 @@ export interface components {
       name: "firefox" | "edge" | "chrome" | "safari";
       percentage: number;
     }[];
+    /** OutputModuleEnvironment */
+    OutputModuleEnvironment: {
+      /** @enum {string} */
+      envType: "production" | "staging" | "prototype" | "other" | "app-beta";
+      description?: string;
+    };
     /** OutputModuleGender */
     OutputModuleGender: {
       /** @enum {string} */
@@ -1700,6 +1722,12 @@ export interface components {
       role: string;
       tryber_wp_user_id: number;
       unguess_wp_user_id: number;
+      /**
+       * @default legacy
+       * @enum {undefined}
+       */
+      authType: "legacy" | "cognito";
+      onboarding_pending?: boolean;
     };
     /** UserPreference */
     UserPreference: {
@@ -1966,6 +1994,23 @@ export interface components {
         data?: { [key: string]: unknown };
       }[];
     };
+    /**
+     * ModuleACNSaver
+     * @description This module is created ad-hoc for Accenture to target their saver/investor personas.
+     */
+    ModuleACNSaver: {
+      output: (
+        | "ACN.PRAGMATICO DIGITALE"
+        | "ACN.EMERGENTE ASPIRAZIONALE"
+        | "ACN.INVESTITORE SOFISTICATO"
+        | "ACN.SOCIALE COLLABORATIVO"
+        | "ACN.CONSERVATORE PRUDENTE"
+        | "TRYBER.EXPERT_BUG_HUNTER"
+      )[];
+      /** @enum {undefined} */
+      type: "acn_saver_personas";
+      variant: string;
+    };
   };
   responses: {
     /** Shared error response */
@@ -2094,6 +2139,32 @@ export interface operations {
         };
       };
       500: components["responses"]["Error"];
+    };
+  };
+  "post-ai-agents-generate-video-tasks": {
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          "application/json": {
+            tasks: components["schemas"]["OutputModuleTaskVideo"][];
+          };
+        };
+      };
+      400: components["responses"]["Error"];
+      403: components["responses"]["Error"];
+      500: components["responses"]["Error"];
+      502: components["responses"]["Error"];
+    };
+    requestBody: {
+      content: {
+        "application/json": {
+          modules: components["schemas"]["Module"][];
+          plan_id?: number;
+          input_prompt?: string;
+          usecase_number?: number;
+        };
+      };
     };
   };
   "post-analytics-views-campaigns-cid": {
@@ -3927,6 +3998,7 @@ export interface operations {
           count: number;
           /** @description The plan ID to associate with the generation */
           planId: string;
+          context?: string;
         };
       };
     };
@@ -4018,6 +4090,10 @@ export interface operations {
       };
     };
   };
+  /**
+   * This endpoint no longer creates a new user.
+   * With the introduction of Cognito, the user is now created and authenticated externally. This route is used solely to complete the user profile within our platform, starting from an existing Cognito user and enriching it with additional application‑specific data
+   */
   "post-users": {
     parameters: {};
     responses: {
@@ -4037,7 +4113,6 @@ export interface operations {
         "application/json": {
           companySizeId: number;
           name: string;
-          password: string;
           roleId: number;
           surname: string;
           templateId?: number;
@@ -5258,7 +5333,6 @@ export interface operations {
       400: components["responses"]["Error"];
       403: components["responses"]["Error"];
       404: components["responses"]["Error"];
-      406: components["responses"]["Error"];
       500: components["responses"]["Error"];
       502: components["responses"]["Error"];
     };
