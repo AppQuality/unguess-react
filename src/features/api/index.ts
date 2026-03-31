@@ -4,16 +4,6 @@ const injectedRtkApi = api.injectEndpoints({
     $get: build.query<$getApiResponse, $getApiArg>({
       query: () => ({ url: `/` }),
     }),
-    postAiAgentsGenerateVideoTasks: build.mutation<
-      PostAiAgentsGenerateVideoTasksApiResponse,
-      PostAiAgentsGenerateVideoTasksApiArg
-    >({
-      query: (queryArg) => ({
-        url: `/ai/agents/generate-video-tasks`,
-        method: 'POST',
-        body: queryArg.body,
-      }),
-    }),
     postAnalyticsViewsCampaignsByCid: build.mutation<
       PostAnalyticsViewsCampaignsByCidApiResponse,
       PostAnalyticsViewsCampaignsByCidApiArg
@@ -1034,17 +1024,6 @@ const injectedRtkApi = api.injectEndpoints({
 export { injectedRtkApi as unguessApi };
 export type $getApiResponse = /** status 200 OK */ {};
 export type $getApiArg = void;
-export type PostAiAgentsGenerateVideoTasksApiResponse = /** status 200 OK */ {
-  tasks: SubcomponentTaskVideo[];
-};
-export type PostAiAgentsGenerateVideoTasksApiArg = {
-  body: {
-    modules: Module[];
-    plan_id?: number;
-    input_prompt?: string;
-    usecase_number?: number;
-  };
-};
 export type PostAnalyticsViewsCampaignsByCidApiResponse = /** status 200 OK */ {
   success?: boolean;
 };
@@ -1923,7 +1902,6 @@ export type PostServicesApiKUsecasesApiArg = {
     count: number;
     /** The plan ID to associate with the generation */
     planId: string;
-    context?: string;
   };
 };
 export type GetServicesApiKJobsByJobIdApiResponse =
@@ -1967,7 +1945,6 @@ export type PostUsersApiArg = {
   body: {
     companySizeId: number;
     name: string;
-    password: string;
     roleId: number;
     surname: string;
     templateId?: number;
@@ -2510,13 +2487,7 @@ export type Error = {
   error: boolean;
   message: string;
 };
-export type SubcomponentTaskVideo = {
-  description?: string;
-  id?: string;
-  kind: 'video';
-  title: string;
-  url?: string;
-};
+
 export type ModuleAcnSaver = {
   output: (
     | 'ACN.PRAGMATICO DIGITALE'
@@ -2529,74 +2500,7 @@ export type ModuleAcnSaver = {
   type: 'acn_saver_personas';
   variant: string;
 };
-export type ModuleAdditionalTarget = {
-  output: string;
-  type: 'additional_target';
-  variant: string;
-};
-export type OutputModuleAge = {
-  max: number;
-  min: number;
-  percentage: number;
-}[];
-export type ModuleAge = {
-  output: OutputModuleAge;
-  type: 'age';
-  variant: string;
-};
-export type OutputModuleIncomeRange = {
-  max: number;
-  min: number;
-  percentage: number;
-}[];
-export type ModuleAnnualIncomeRange = {
-  output: OutputModuleIncomeRange;
-  type: 'annual_income_range';
-  variant: string;
-};
-export type OutputServiceProviders = {
-  isOther?: number;
-  name: string;
-}[];
-export type ModuleBank = {
-  output: OutputServiceProviders;
-  type: 'bank';
-  variant: string;
-};
-export type OutputModuleBrowser = {
-  name: 'firefox' | 'edge' | 'chrome' | 'safari';
-  percentage: number;
-}[];
-export type ModuleBrowser = {
-  output: OutputModuleBrowser;
-  type: 'browser';
-  variant: string;
-};
-export type ModuleDate = {
-  output: {
-    start: string;
-  };
-  type: 'dates';
-  variant: string;
-};
-export type ModuleElettricitySupply = {
-  output: OutputServiceProviders;
-  type: 'elettricity_supply';
-  variant: string;
-};
-export type ModuleEmployment = {
-  /** cuf values of cuf employment */
-  output: (
-    | 'EMPLOYEE'
-    | 'FREELANCER'
-    | 'RETIRED'
-    | 'STUDENT'
-    | 'UNEMPLOYED'
-    | 'HOMEMAKER'
-  )[];
-  type: 'employment';
-  variant: string;
-};
+
 export type OutputModuleEnvironment = {
   envType: 'production' | 'staging' | 'prototype' | 'other' | 'app-beta';
   description?: string;
@@ -2606,224 +2510,6 @@ export type ModuleEnvironment = {
   type: 'environment';
   variant: string;
 };
-export type ModuleGasSupply = {
-  output: OutputServiceProviders;
-  type: 'gas_supply';
-  variant: string;
-};
-export type OutputModuleGender = {
-  gender: 'male' | 'female';
-  percentage: number;
-}[];
-export type ModuleGender = {
-  output: OutputModuleGender;
-  type: 'gender';
-  variant: string;
-};
-export type ModuleGoal = {
-  output: string;
-  type: 'goal';
-  variant: string;
-};
-export type ModuleHomeInternet = {
-  output: OutputServiceProviders;
-  type: 'home_internet';
-  variant: string;
-};
-export type ModuleInstructionNote = {
-  output: string;
-  type: 'instruction_note';
-  variant: string;
-};
-export type ModuleLanguage = {
-  output: string;
-  type: 'language';
-  variant: string;
-};
-export type OutputModuleLiteracy = {
-  level: 'beginner' | 'intermediate' | 'expert';
-  percentage: number;
-}[];
-export type ModuleLiteracy = {
-  output: OutputModuleLiteracy;
-  type: 'literacy';
-  variant: string;
-};
-export type OutputModuleLocality = {
-  type: string;
-  values: string[];
-}[];
-export type ModuleLocality = {
-  output: OutputModuleLocality;
-  type: 'locality';
-  variant: string;
-};
-export type ModuleMobileInternet = {
-  output: OutputServiceProviders;
-  type: 'mobile_internet';
-  variant: string;
-};
-export type ModuleOutOfScope = {
-  output: string;
-  type: 'out_of_scope';
-  variant: string;
-};
-export type ModuleSetupNote = {
-  output: string;
-  type: 'setup_note';
-  variant: string;
-};
-export type ModuleTarget = {
-  output: number;
-  type: 'target';
-  variant: string;
-};
-export type ModuleTargetNote = {
-  output: string;
-  type: 'target_note';
-  variant: string;
-};
-export type SubcomponentTaskBug = {
-  description?: string;
-  id?: string;
-  kind: 'bug';
-  title: string;
-  url?: string;
-};
-export type SubcomponentTaskSurvey = {
-  description?: string;
-  id?: string;
-  kind: 'survey';
-  title: string;
-  url?: string;
-};
-export type OutputModuleTaskModerateVideo = {
-  description?: string;
-  id?: string;
-  kind: 'moderate-video';
-  title: string;
-  url?: string;
-};
-export type OutputModuleTaskExplorativeBug = {
-  description?: string;
-  id?: string;
-  kind: 'explorative-bug';
-  title: string;
-  url?: string;
-};
-export type OutputModuleTaskAccessibility = {
-  description?: string;
-  id?: string;
-  kind: 'accessibility';
-  title: string;
-  url?: string;
-};
-export type SubcomponentTask =
-  | SubcomponentTaskVideo
-  | SubcomponentTaskBug
-  | SubcomponentTaskSurvey
-  | OutputModuleTaskModerateVideo
-  | OutputModuleTaskExplorativeBug
-  | OutputModuleTaskAccessibility;
-export type ModuleTask = {
-  output: SubcomponentTask[];
-  type: 'tasks';
-  variant: string;
-};
-export type ModuleTitle = {
-  output: string;
-  type: 'title';
-  variant: string;
-};
-export type OutputModuleTouchpointsAppDesktop = {
-  form_factor: 'desktop';
-  kind: 'app';
-  os: {
-    linux?: string;
-    macos?: string;
-    windows?: string;
-  };
-};
-export type OutputModuleTouchpointsAppTablet = {
-  form_factor: 'tablet';
-  kind: 'app';
-  os: {
-    ios?: string;
-    android?: string;
-  };
-};
-export type OutputModuleTouchpointsAppSmartphone = {
-  form_factor: 'smartphone';
-  kind: 'app';
-  os: {
-    android?: string;
-    ios?: string;
-  };
-};
-export type OutputModuleTouchpointsWebDesktop = {
-  form_factor: 'desktop';
-  kind: 'web';
-  os: {
-    linux?: string;
-    macos?: string;
-    windows?: string;
-  };
-};
-export type OutputModuleTouchpointsWebTablet = {
-  form_factor: 'tablet';
-  kind: 'web';
-  os: {
-    android?: string;
-    ios?: string;
-  };
-};
-export type OutputModuleTouchpointsWebSmartphone = {
-  form_factor: 'smartphone';
-  kind: 'web';
-  os: {
-    android?: string;
-    ios?: string;
-  };
-};
-export type SubcomponentTouchpoints =
-  | OutputModuleTouchpointsAppDesktop
-  | OutputModuleTouchpointsAppTablet
-  | OutputModuleTouchpointsAppSmartphone
-  | OutputModuleTouchpointsWebDesktop
-  | OutputModuleTouchpointsWebTablet
-  | OutputModuleTouchpointsWebSmartphone;
-export type ModuleTouchpoints = {
-  output: SubcomponentTouchpoints[];
-  type: 'touchpoints';
-  variant: string;
-};
-export type Module =
-  | ModuleAcnSaver
-  | ModuleAdditionalTarget
-  | ModuleAge
-  | ModuleAnnualIncomeRange
-  | ModuleBank
-  | ModuleBrowser
-  | ModuleDate
-  | ModuleElettricitySupply
-  | ModuleEmployment
-  | ModuleEnvironment
-  | ModuleGasSupply
-  | ModuleGender
-  | ModuleGoal
-  | ModuleHomeInternet
-  | ModuleInstructionNote
-  | ModuleLanguage
-  | ModuleLiteracy
-  | ModuleLocality
-  | ModuleMobileInternet
-  | ModuleOutOfScope
-  | ModuleSetupNote
-  | ModuleTarget
-  | ModuleTargetNote
-  | ModuleTask
-  | ModuleTitle
-  | ModuleTouchpoints;
 export type Authentication = {
   email: string;
   exp?: number;
@@ -3249,6 +2935,297 @@ export type WidgetCampaignUxMostUsedTitles = {
   };
   kind: 'uxMostUsedTitles';
 };
+export type ModuleTitle = {
+  output: string;
+  type: 'title';
+  variant: string;
+};
+export type ModuleDate = {
+  output: {
+    start: string;
+  };
+  type: 'dates';
+  variant: string;
+};
+export type SubcomponentTaskVideo = {
+  description?: string;
+  id?: string;
+  kind: 'video';
+  title: string;
+  url?: string;
+};
+export type SubcomponentTaskBug = {
+  description?: string;
+  id?: string;
+  kind: 'bug';
+  title: string;
+  url?: string;
+};
+export type SubcomponentTaskSurvey = {
+  description?: string;
+  id?: string;
+  kind: 'survey';
+  title: string;
+  url?: string;
+};
+export type OutputModuleTaskModerateVideo = {
+  description?: string;
+  id?: string;
+  kind: 'moderate-video';
+  title: string;
+  url?: string;
+};
+export type OutputModuleTaskExplorativeBug = {
+  description?: string;
+  id?: string;
+  kind: 'explorative-bug';
+  title: string;
+  url?: string;
+};
+export type OutputModuleTaskAccessibility = {
+  description?: string;
+  id?: string;
+  kind: 'accessibility';
+  title: string;
+  url?: string;
+};
+export type SubcomponentTask =
+  | SubcomponentTaskVideo
+  | SubcomponentTaskBug
+  | SubcomponentTaskSurvey
+  | OutputModuleTaskModerateVideo
+  | OutputModuleTaskExplorativeBug
+  | OutputModuleTaskAccessibility;
+export type ModuleTask = {
+  output: SubcomponentTask[];
+  type: 'tasks';
+  variant: string;
+};
+export type OutputModuleAge = {
+  max: number;
+  min: number;
+  percentage: number;
+}[];
+export type ModuleAge = {
+  output: OutputModuleAge;
+  type: 'age';
+  variant: string;
+};
+export type ModuleLanguage = {
+  output: string;
+  type: 'language';
+  variant: string;
+};
+export type OutputModuleLiteracy = {
+  level: 'beginner' | 'intermediate' | 'expert';
+  percentage: number;
+}[];
+export type ModuleLiteracy = {
+  output: OutputModuleLiteracy;
+  type: 'literacy';
+  variant: string;
+};
+export type ModuleTarget = {
+  output: number;
+  type: 'target';
+  variant: string;
+};
+export type ModuleGoal = {
+  output: string;
+  type: 'goal';
+  variant: string;
+};
+export type OutputModuleGender = {
+  gender: 'male' | 'female';
+  percentage: number;
+}[];
+export type ModuleGender = {
+  output: OutputModuleGender;
+  type: 'gender';
+  variant: string;
+};
+export type ModuleOutOfScope = {
+  output: string;
+  type: 'out_of_scope';
+  variant: string;
+};
+export type OutputModuleBrowser = {
+  name: 'firefox' | 'edge' | 'chrome' | 'safari';
+  percentage: number;
+}[];
+export type ModuleBrowser = {
+  output: OutputModuleBrowser;
+  type: 'browser';
+  variant: string;
+};
+export type ModuleTargetNote = {
+  output: string;
+  type: 'target_note';
+  variant: string;
+};
+export type ModuleInstructionNote = {
+  output: string;
+  type: 'instruction_note';
+  variant: string;
+};
+export type ModuleSetupNote = {
+  output: string;
+  type: 'setup_note';
+  variant: string;
+};
+export type OutputModuleTouchpointsAppDesktop = {
+  form_factor: 'desktop';
+  kind: 'app';
+  os: {
+    linux?: string;
+    macos?: string;
+    windows?: string;
+  };
+};
+export type OutputModuleTouchpointsAppTablet = {
+  form_factor: 'tablet';
+  kind: 'app';
+  os: {
+    ios?: string;
+    android?: string;
+  };
+};
+export type OutputModuleTouchpointsAppSmartphone = {
+  form_factor: 'smartphone';
+  kind: 'app';
+  os: {
+    android?: string;
+    ios?: string;
+  };
+};
+export type OutputModuleTouchpointsWebDesktop = {
+  form_factor: 'desktop';
+  kind: 'web';
+  os: {
+    linux?: string;
+    macos?: string;
+    windows?: string;
+  };
+};
+export type OutputModuleTouchpointsWebTablet = {
+  form_factor: 'tablet';
+  kind: 'web';
+  os: {
+    android?: string;
+    ios?: string;
+  };
+};
+export type OutputModuleTouchpointsWebSmartphone = {
+  form_factor: 'smartphone';
+  kind: 'web';
+  os: {
+    android?: string;
+    ios?: string;
+  };
+};
+export type SubcomponentTouchpoints =
+  | OutputModuleTouchpointsAppDesktop
+  | OutputModuleTouchpointsAppTablet
+  | OutputModuleTouchpointsAppSmartphone
+  | OutputModuleTouchpointsWebDesktop
+  | OutputModuleTouchpointsWebTablet
+  | OutputModuleTouchpointsWebSmartphone;
+export type ModuleTouchpoints = {
+  output: SubcomponentTouchpoints[];
+  type: 'touchpoints';
+  variant: string;
+};
+export type ModuleAdditionalTarget = {
+  output: string;
+  type: 'additional_target';
+  variant: string;
+};
+export type ModuleEmployment = {
+  /** cuf values of cuf employment */
+  output: (
+    | 'EMPLOYEE'
+    | 'FREELANCER'
+    | 'RETIRED'
+    | 'STUDENT'
+    | 'UNEMPLOYED'
+    | 'HOMEMAKER'
+  )[];
+  type: 'employment';
+  variant: string;
+};
+export type OutputModuleLocality = {
+  type: string;
+  values: string[];
+}[];
+export type ModuleLocality = {
+  output: OutputModuleLocality;
+  type: 'locality';
+  variant: string;
+};
+export type OutputServiceProviders = {
+  isOther?: number;
+  name: string;
+}[];
+export type ModuleBank = {
+  output: OutputServiceProviders;
+  type: 'bank';
+  variant: string;
+};
+export type ModuleElettricitySupply = {
+  output: OutputServiceProviders;
+  type: 'elettricity_supply';
+  variant: string;
+};
+export type ModuleMobileInternet = {
+  output: OutputServiceProviders;
+  type: 'mobile_internet';
+  variant: string;
+};
+export type ModuleHomeInternet = {
+  output: OutputServiceProviders;
+  type: 'home_internet';
+  variant: string;
+};
+export type ModuleGasSupply = {
+  output: OutputServiceProviders;
+  type: 'gas_supply';
+  variant: string;
+};
+export type OutputModuleIncomeRange = {
+  max: number;
+  min: number;
+  percentage: number;
+}[];
+export type ModuleAnnualIncomeRange = {
+  output: OutputModuleIncomeRange;
+  type: 'annual_income_range';
+  variant: string;
+};
+export type Module =
+  | ModuleTitle
+  | ModuleDate
+  | ModuleTask
+  | ModuleAge
+  | ModuleLanguage
+  | ModuleLiteracy
+  | ModuleTarget
+  | ModuleGoal
+  | ModuleGender
+  | ModuleOutOfScope
+  | ModuleBrowser
+  | ModuleTargetNote
+  | ModuleInstructionNote
+  | ModuleSetupNote
+  | ModuleTouchpoints
+  | ModuleAdditionalTarget
+  | ModuleEmployment
+  | ModuleLocality
+  | ModuleBank
+  | ModuleElettricitySupply
+  | ModuleMobileInternet
+  | ModuleHomeInternet
+  | ModuleGasSupply
+  | ModuleAnnualIncomeRange;
 export type PlanStatus = 'pending_review' | 'draft' | 'approved' | 'paying';
 export type PurchasablePlanRules =
   | 'number_of_modules'
@@ -3294,6 +3271,8 @@ export type User = {
   role: string;
   tryber_wp_user_id: number;
   unguess_wp_user_id: number;
+  authType: 'legacy' | 'cognito';
+  onboarding_pending?: boolean;
 };
 export type UserPreference = {
   name: string;
@@ -3395,7 +3374,6 @@ export type CpReqTemplate = {
 };
 export const {
   use$getQuery,
-  usePostAiAgentsGenerateVideoTasksMutation,
   usePostAnalyticsViewsCampaignsByCidMutation,
   usePostAuthenticateMutation,
   usePostBuyMutation,
