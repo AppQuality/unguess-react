@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as MfaEmpty } from 'src/assets/keep-safe.svg';
 import styled from 'styled-components';
+import { useGetUsersMeQuery } from 'src/features/api';
 import { SetupMfaModal } from './SetupMfaModal';
 
 const EmptyStateContainer = styled.div`
@@ -21,6 +22,8 @@ export const EmptyStateMFA = ({
 }) => {
   const { t } = useTranslation();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const { data: currentUser } = useGetUsersMeQuery();
+  const isLegacy = currentUser?.authType === 'legacy';
 
   return (
     <EmptyStateContainer>
@@ -39,6 +42,7 @@ export const EmptyStateMFA = ({
         style={{ marginTop: appTheme.space.sm }}
         isAccent
         isPrimary
+        disabled={isLegacy}
         onClick={() => setIsModalOpen(true)}
       >
         {t('__PROFILE_PAGE_MFA_ACCORDION_EMPTY_STATE_BUTTON_LABEL')}

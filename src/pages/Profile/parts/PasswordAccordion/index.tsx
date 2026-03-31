@@ -1,10 +1,11 @@
-import { AccordionNew, Button } from '@appquality/unguess-design-system';
+import { AccordionNew, Button, Tag } from '@appquality/unguess-design-system';
 import { useFormikContext } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as KeyIcon } from 'src/assets/icons/key.svg';
 import { styled } from 'styled-components';
 import { PasswordRequirements } from 'src/common/components/PasswordRequirements';
+import { useGetUsersMeQuery } from 'src/features/api';
 import { PasswordFormValues } from '../../valuesType';
 import { CardInnerPanel, FieldExtraContent, StyledFooter } from '../common';
 import ConfirmPassword from './ConfirmPassword';
@@ -52,6 +53,7 @@ const NewPasswordContainer = styled.div`
 
 export const PasswordAccordion = () => {
   const { t } = useTranslation();
+  const { data: currentUser } = useGetUsersMeQuery();
 
   const {
     values: formValues,
@@ -84,6 +86,16 @@ export const PasswordAccordion = () => {
           <AccordionNew.Label
             label={t('__PROFILE_PAGE_PASSWORD_ACCORDION_LABEL')}
           />
+          {currentUser?.authType === 'legacy' && (
+            <AccordionNew.Meta>
+              <Tag
+                color={appTheme.palette.yellow[700]}
+                hue={`${appTheme.palette.yellow[700]}14`}
+              >
+                {t('__PROFILE_PAGE_PASSWORD_ACCORDION_LEGACY_TAG')}
+              </Tag>
+            </AccordionNew.Meta>
+          )}
         </AccordionNew.Header>
         <AccordionNew.Panel>
           <AccordionPanel>
