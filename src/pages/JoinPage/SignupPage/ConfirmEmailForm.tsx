@@ -184,6 +184,7 @@ export const ConfirmEmailForm = ({
       </Button>
       <Button
         isBasic
+        isStretched
         onClick={() => navigate(-1)}
         style={{ marginTop: appTheme.space.xs }}
       >
