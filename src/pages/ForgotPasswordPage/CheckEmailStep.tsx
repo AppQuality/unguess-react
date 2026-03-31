@@ -96,7 +96,7 @@ export const CheckEmailStep = ({ email, onResend }: CheckEmailStepProps) => {
         {resendTimer > 0 || isResending ? (
           `${t('__VERIFY_CODE_RESEND_TIMER_PREFIX')} ${resendTimer}s`
         ) : (
-          <Anchor onClick={handleResend} style={{ fontWeight: 400 }}>
+          <Anchor onClick={handleResend}>
             {t('FORGOT_PASSWORD_CLICK_RESEND')}
           </Anchor>
         )}

@@ -167,7 +167,7 @@ export const ConfirmEmailForm = ({
         {resendTimer > 0 || isResending ? (
           `${t('__VERIFY_CODE_RESEND_TIMER_PREFIX')} ${resendTimer}s`
         ) : (
-          <Anchor onClick={handleResend} style={{ fontWeight: 600 }}>
+          <Anchor onClick={handleResend}>
             {t('__VERIFY_CODE_RESEND_CTA')}
           </Anchor>
         )}

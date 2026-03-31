@@ -126,7 +126,6 @@ export const VerifyIdentityStep = ({
           <Anchor
             onClick={isResending ? undefined : handleResend}
             style={{
-              fontWeight: 400,
               ...(isResending && {
                 opacity: 0.5,
                 pointerEvents: 'none' as const,
