@@ -1,10 +1,13 @@
 import { Notification, useToast } from '@appquality/unguess-design-system';
 import { Formik } from 'formik';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import WPAPI from 'src/common/wpapi';
 import { useGetUsersMeQuery, usePatchUsersMeMutation } from 'src/features/api';
 import { updatePassword } from 'aws-amplify/auth';
 import * as Yup from 'yup';
+import { useAuth } from 'src/features/auth/context';
+import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { Loader } from './parts/cardLoader';
 import { PasswordAccordion } from './parts/PasswordAccordion';
 import { useProfileData } from './useProfileData';
@@ -16,6 +19,9 @@ export const FormPassword = () => {
   const { isLoading } = useProfileData();
   const { data: userData } = useGetUsersMeQuery();
   const [updateProfile] = usePatchUsersMeMutation();
+  const { login: cognitoLogin, logout: cognitoLogout } = useAuth();
+  const navigate = useNavigate();
+  const verifyCodeRoute = useLocalizeRoute('verify-code');
 
   const initialValues: PasswordFormValues = {
     currentPassword: '',
@@ -76,7 +82,35 @@ export const FormPassword = () => {
                 },
               },
             }).unwrap();
+
             await WPAPI.destroyOtherSessions();
+          }
+
+          // Cambio password riuscito, ora effettua il logout e login con le nuove credenziali
+          try {
+            await cognitoLogout();
+          } catch (logoutErr) {
+            // Se logout fallisce, continua comunque (potrebbe essere già scaduta)
+            // eslint-disable-next-line no-console
+            console.warn('Logout error after password change:', logoutErr);
+          }
+
+          // Login automatico con le nuove credenziali
+          const loginResult = await cognitoLogin(
+            userData?.email || values.currentPassword,
+            values.newPassword
+          );
+
+          // Se il login ha una sfida MFA, reindirizza alla verifica
+          if (loginResult.mfaChallenge) {
+            navigate(verifyCodeRoute, {
+              state: {
+                email: userData?.email || values.currentPassword,
+                challengeType: loginResult.mfaChallenge,
+                from: '/profile', // Torna al profilo dopo verifica MFA
+              },
+            });
+            return;
           }
 
           addToast(
@@ -90,6 +124,9 @@ export const FormPassword = () => {
             ),
             { placement: 'top' }
           );
+
+          // Refresh pagina per assicurarsi che la sessione sia aggiornata
+          window.location.href = '/profile';
         } catch (e: any) {
           // eslint-disable-next-line no-console
           console.error('Password update error:', e);
