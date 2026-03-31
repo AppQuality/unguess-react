@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Track } from 'src/common/Track';
+import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
 import { useGetInvitesByProfileAndTokenQuery } from 'src/features/api';
 import styled from 'styled-components';
 import { SetPasswordForm } from './SetPasswordForm';
@@ -79,9 +80,11 @@ const InvitedUserPage = () => {
         metaTags={meta}
       >
         <Background>
-          <CenteredXYContainer>
-            <LoadingMessage>{t('LOADING')}</LoadingMessage>
-          </CenteredXYContainer>
+          <LayoutWrapper>
+            <CenteredXYContainer>
+              <LoadingMessage>{t('LOADING')}</LoadingMessage>
+            </CenteredXYContainer>
+          </LayoutWrapper>
         </Background>
       </Track>
     );
@@ -98,24 +101,26 @@ const InvitedUserPage = () => {
       metaTags={meta}
     >
       <Background>
-        <CenteredXYContainer>
-          <Grid gutters="lg">
-            <Row>
-              <Col xs={12}>
-                <LogoWrapper>
-                  <Logo type="vertical" size={100} />
-                </LogoWrapper>
-                <FormContainer>
-                  <SetPasswordForm
-                    inviteData={data}
-                    profileId={Number(profile)}
-                    token={token || ''}
-                  />
-                </FormContainer>
-              </Col>
-            </Row>
-          </Grid>
-        </CenteredXYContainer>
+        <LayoutWrapper>
+          <CenteredXYContainer>
+            <Grid gutters="lg">
+              <Row>
+                <Col xs={12}>
+                  <LogoWrapper>
+                    <Logo type="vertical" size={100} />
+                  </LogoWrapper>
+                  <FormContainer>
+                    <SetPasswordForm
+                      inviteData={data}
+                      profileId={Number(profile)}
+                      token={token || ''}
+                    />
+                  </FormContainer>
+                </Col>
+              </Row>
+            </Grid>
+          </CenteredXYContainer>
+        </LayoutWrapper>
       </Background>
     </Track>
   );

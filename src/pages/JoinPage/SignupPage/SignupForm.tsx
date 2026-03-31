@@ -27,7 +27,7 @@ import { isDisposableEmail } from 'src/common/disposableEmail';
 import { useAuth } from 'src/features/auth/context';
 import { useSendGTMevent } from 'src/hooks/useGTMevent';
 import styled from 'styled-components';
-import { signupValidationSchema } from './validationSchema';
+import { getSignupValidationSchema } from './validationSchema';
 
 const FieldContainer = styled.div`
   display: flex;
@@ -141,7 +141,7 @@ export const SignupForm = ({ onSignupSuccess }: SignupFormProps) => {
 
       <Formik
         initialValues={initialValues}
-        validationSchema={signupValidationSchema}
+        validationSchema={getSignupValidationSchema(t)}
         onSubmit={handleSubmit}
       >
         {({ isSubmitting, values }) => (

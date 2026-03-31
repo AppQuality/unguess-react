@@ -22,7 +22,7 @@ import {
 import { useSendGTMevent } from 'src/hooks/useGTMevent';
 import styled from 'styled-components';
 import { useOnboarding } from '../OnboardingProvider';
-import { personalInfoValidationSchema } from '../validationSchema';
+import { getPersonalInfoValidationSchema } from '../validationSchema';
 
 const FieldContainer = styled.div`
   display: flex;
@@ -33,7 +33,8 @@ const FieldContainer = styled.div`
 const ButtonRow = styled.div`
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  flex-direction: column;
+  justify-content: center;
   gap: ${(p) => p.theme.space.sm};
 `;
 
@@ -198,7 +199,7 @@ export const PersonalInfoStep = () => {
 
       <Formik
         initialValues={initialValues}
-        validationSchema={personalInfoValidationSchema}
+        validationSchema={getPersonalInfoValidationSchema(t)}
         onSubmit={handleSubmit}
       >
         {({ isSubmitting, setFieldValue }) => (
@@ -369,17 +370,18 @@ export const PersonalInfoStep = () => {
               </Field>
 
               <ButtonRow>
-                <Button isBasic onClick={() => navigate(-1)}>
-                  {t('SIGNUP_FORM_BACK')}
-                </Button>
                 <Button
                   type="submit"
                   isPrimary
                   isAccent
+                  isStretched
                   size="medium"
                   disabled={isSubmitting}
                 >
                   {isSubmitting ? t('LOADING') : t('SIGNUP_FORM_NEXT_STEP')}
+                </Button>
+                <Button isBasic isStretched onClick={() => navigate(-1)}>
+                  {t('SIGNUP_FORM_BACK')}
                 </Button>
               </ButtonRow>
             </FieldContainer>

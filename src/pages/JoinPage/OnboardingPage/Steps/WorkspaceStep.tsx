@@ -16,7 +16,7 @@ import { usePostUsersMutation } from 'src/features/api';
 import { useSendGTMevent } from 'src/hooks/useGTMevent';
 import styled from 'styled-components';
 import { useOnboarding } from '../OnboardingProvider';
-import { workspaceValidationSchema } from '../validationSchema';
+import { getWorkspaceValidationSchema } from '../validationSchema';
 
 const FieldContainer = styled.div`
   display: flex;
@@ -26,8 +26,10 @@ const FieldContainer = styled.div`
 
 const ButtonContainer = styled.div`
   display: flex;
+  align-items: center;
+  flex-direction: column;
   gap: ${(p) => p.theme.space.sm};
-  justify-content: flex-end;
+  justify-content: center;
 `;
 
 interface WorkspaceFormValues {
@@ -150,7 +152,7 @@ export const WorkspaceStep = () => {
 
       <Formik
         initialValues={initialValues}
-        validationSchema={workspaceValidationSchema}
+        validationSchema={getWorkspaceValidationSchema(t)}
         onSubmit={handleSubmit}
       >
         {({ isSubmitting }) => (
@@ -188,20 +190,22 @@ export const WorkspaceStep = () => {
 
               <ButtonContainer>
                 <Button
-                  onClick={goToPreviousStep}
-                  isBasic
-                  disabled={isSubmitting}
-                >
-                  {t('SIGNUP_FORM_RETURN_TO_STEP_2')}
-                </Button>
-                <Button
                   type="submit"
                   isPrimary
                   isAccent
+                  isStretched
                   size="medium"
                   disabled={isSubmitting}
                 >
                   {isSubmitting ? t('LOADING') : t('SIGNUP_FORM_SUBMIT')}
+                </Button>
+                <Button
+                  onClick={goToPreviousStep}
+                  isBasic
+                  isStretched
+                  disabled={isSubmitting}
+                >
+                  {t('SIGNUP_FORM_RETURN_TO_STEP_2')}
                 </Button>
               </ButtonContainer>
             </FieldContainer>

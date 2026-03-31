@@ -1,4 +1,9 @@
-import { AccordionNew, Tag } from '@appquality/unguess-design-system';
+import {
+  AccordionNew,
+  Notification,
+  Tag,
+  useToast,
+} from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as MfaIcon } from 'src/assets/icons/mfa.svg';
@@ -24,6 +29,7 @@ interface MfaPreference {
 
 export const MfaAccordion = () => {
   const { t } = useTranslation();
+  const { addToast } = useToast();
   const [mfaPreference, setMfaPreference] = useState<MfaPreference | null>(
     null
   );
@@ -60,9 +66,31 @@ export const MfaAccordion = () => {
       }
       await updateMFAPreference(disableOptions);
       setMfaPreference(null);
+      addToast(
+        ({ close }) => (
+          <Notification
+            onClose={close}
+            type="success"
+            message={t('__PROFILE_PAGE_TOAST_SUCCESS_MFA_REMOVED')}
+            isPrimary
+          />
+        ),
+        { placement: 'top' }
+      );
     } catch (error) {
       // eslint-disable-next-line no-console
       console.error('Failed to remove MFA:', error);
+      addToast(
+        ({ close }) => (
+          <Notification
+            onClose={close}
+            type="error"
+            message={t('__PROFILE_PAGE_TOAST_ERROR_REMOVING_MFA')}
+            isPrimary
+          />
+        ),
+        { placement: 'top' }
+      );
     }
   };
 

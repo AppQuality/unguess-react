@@ -4,6 +4,7 @@
  * Step 2: Nome workspace
  */
 import { useTranslation } from 'react-i18next';
+import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
 import { Track } from 'src/common/Track';
 import { useGetUsersMeQuery } from 'src/features/api';
 import styled from 'styled-components';
@@ -18,25 +19,25 @@ import { WorkspaceStep } from './Steps/WorkspaceStep';
 const PageWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  height: 100vh;
+  overflow: hidden;
 `;
 
-const ContentRow = styled.div`
+const BoxedContentRow = styled(LayoutWrapper)`
   display: flex;
   flex: 1;
+  min-height: 0;
 `;
 
 const LeftColumn = styled.div`
-  flex: 1;
+  flex: 0 0 41%;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: ${({ theme }) => `${theme.space.xl} ${theme.space.xxl}`};
-  max-width: 50%;
+  overflow-y: auto;
 
   @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
-    max-width: 100%;
-    padding: ${({ theme }) => `${theme.space.lg} ${theme.space.md}`};
+    flex: 1;
   }
 `;
 
@@ -98,17 +99,19 @@ const OnboardingPage = () => {
         <AuthHeader />
         <OnboardingProvider userData={userData}>
           {({ step }) => (
-            <ContentRow>
+            <BoxedContentRow>
               <LeftColumn>
-                {step === 1 && <PersonalInfoStep />}
-                {step === 2 && userData.type === 'new' && <WorkspaceStep />}
+                <LayoutWrapper>
+                  {step === 1 && <PersonalInfoStep />}
+                  {step === 2 && userData.type === 'new' && <WorkspaceStep />}
+                </LayoutWrapper>
               </LeftColumn>
               <RightColumn>
                 <JoinBackground step={step + 1}>
                   <ImagesColumn step={step + 1} />
                 </JoinBackground>
               </RightColumn>
-            </ContentRow>
+            </BoxedContentRow>
           )}
         </OnboardingProvider>
         <AuthFooter />

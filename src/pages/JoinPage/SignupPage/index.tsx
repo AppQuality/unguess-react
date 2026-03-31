@@ -5,6 +5,7 @@
  */
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
 import styled from 'styled-components';
 import { SignupForm } from './SignupForm';
 import { ConfirmEmailForm } from './ConfirmEmailForm';
@@ -17,12 +18,14 @@ import { JoinBackground } from '../JoinBackground';
 const PageWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  height: 100vh;
+  overflow: hidden;
 `;
 
-const ContentRow = styled.div`
+const BoxedContentRow = styled(LayoutWrapper)`
   display: flex;
   flex: 1;
+  min-height: 0;
 `;
 
 const CenteredContent = styled.div`
@@ -33,16 +36,14 @@ const CenteredContent = styled.div`
 `;
 
 const LeftColumn = styled.div`
-  flex: 1;
+  flex: 0 0 41%;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: ${({ theme }) => `${theme.space.xl} ${theme.space.xxl}`};
-  max-width: 50%;
+  overflow-y: auto;
 
   @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
-    max-width: 100%;
-    padding: ${({ theme }) => `${theme.space.lg} ${theme.space.md}`};
+    flex: 1;
   }
 `;
 
@@ -78,10 +79,12 @@ const SignupPage = () => {
         <AuthHeader />
         {needsConfirmation ? (
           <CenteredContent>
-            <ConfirmEmailForm email={userEmail} password={userPassword} />
+            <LayoutWrapper>
+              <ConfirmEmailForm email={userEmail} password={userPassword} />
+            </LayoutWrapper>
           </CenteredContent>
         ) : (
-          <ContentRow>
+          <BoxedContentRow>
             <LeftColumn>
               <SignupForm
                 onSignupSuccess={(email, password) => {
@@ -96,7 +99,7 @@ const SignupPage = () => {
                 <ImagesColumn step={1} />
               </JoinBackground>
             </RightColumn>
-          </ContentRow>
+          </BoxedContentRow>
         )}
         <AuthFooter showTryberLink />
       </PageWrapper>

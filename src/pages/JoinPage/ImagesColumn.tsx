@@ -18,7 +18,7 @@ const ImagesWrapper = styled.div`
   justify-content: center;
   position: relative;
   width: 100%;
-  height: calc(100vh - ${({ theme }) => theme.space.xl} * 2);
+  height: 100%;
   overflow: hidden;
 `;
 
