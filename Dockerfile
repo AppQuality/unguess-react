@@ -14,7 +14,7 @@ COPY . .
 
 RUN echo REACT_APP_STRAPI_API_TOKEN=${STRAPI_TOKEN} > .env.local
 ENV PUBLIC_URL=/
-RUN ["npm", "run", "build"]
+RUN ["npm", "run", "build", "--", "--mode", "${STAGE_ENV}"]
 
 
 FROM alpine:3.22 as web
