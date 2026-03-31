@@ -9,6 +9,9 @@ export interface paths {
     get: operations["get-root"];
     parameters: {};
   };
+  "/ai/agents/generate-video-tasks": {
+    post: operations["post-ai-agents-generate-video-tasks"];
+  };
   "/analytics/views/campaigns/{cid}": {
     post: operations["post-analytics-views-campaigns-cid"];
     parameters: {
@@ -473,6 +476,10 @@ export interface paths {
     get: operations["get-templates-categories"];
   };
   "/users": {
+    /**
+     * This endpoint no longer creates a new user.
+     * With the introduction of Cognito, the user is now created and authenticated externally. This route is used solely to complete the user profile within our platform, starting from an existing Cognito user and enriching it with additional application‑specific data
+     */
     post: operations["post-users"];
     parameters: {};
   };
@@ -1117,10 +1124,7 @@ export interface components {
       | components["schemas"]["ModuleTargetNote"]
       | components["schemas"]["ModuleTask"]
       | components["schemas"]["ModuleTitle"]
-      | components["schemas"]["ModuleTouchpoints"]
-      | components["schemas"]["ModuleHomeInternet"]
-      | components["schemas"]["ModuleGasSupply"]
-      | components["schemas"]["ModuleAnnualIncomeRange"];
+      | components["schemas"]["ModuleTouchpoints"];
     /** ModuleAdditionalTarget */
     ModuleAdditionalTarget: {
       output: string;
@@ -1718,6 +1722,12 @@ export interface components {
       role: string;
       tryber_wp_user_id: number;
       unguess_wp_user_id: number;
+      /**
+       * @default legacy
+       * @enum {undefined}
+       */
+      authType: "legacy" | "cognito";
+      onboarding_pending?: boolean;
     };
     /** UserPreference */
     UserPreference: {
@@ -2129,6 +2139,32 @@ export interface operations {
         };
       };
       500: components["responses"]["Error"];
+    };
+  };
+  "post-ai-agents-generate-video-tasks": {
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          "application/json": {
+            tasks: components["schemas"]["OutputModuleTaskVideo"][];
+          };
+        };
+      };
+      400: components["responses"]["Error"];
+      403: components["responses"]["Error"];
+      500: components["responses"]["Error"];
+      502: components["responses"]["Error"];
+    };
+    requestBody: {
+      content: {
+        "application/json": {
+          modules: components["schemas"]["Module"][];
+          plan_id?: number;
+          input_prompt?: string;
+          usecase_number?: number;
+        };
+      };
     };
   };
   "post-analytics-views-campaigns-cid": {
@@ -3962,6 +3998,7 @@ export interface operations {
           count: number;
           /** @description The plan ID to associate with the generation */
           planId: string;
+          context?: string;
         };
       };
     };
@@ -4053,6 +4090,10 @@ export interface operations {
       };
     };
   };
+  /**
+   * This endpoint no longer creates a new user.
+   * With the introduction of Cognito, the user is now created and authenticated externally. This route is used solely to complete the user profile within our platform, starting from an existing Cognito user and enriching it with additional application‑specific data
+   */
   "post-users": {
     parameters: {};
     responses: {
@@ -4072,7 +4113,6 @@ export interface operations {
         "application/json": {
           companySizeId: number;
           name: string;
-          password: string;
           roleId: number;
           surname: string;
           templateId?: number;
@@ -5293,7 +5333,6 @@ export interface operations {
       400: components["responses"]["Error"];
       403: components["responses"]["Error"];
       404: components["responses"]["Error"];
-      406: components["responses"]["Error"];
       500: components["responses"]["Error"];
       502: components["responses"]["Error"];
     };
