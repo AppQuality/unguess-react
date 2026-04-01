@@ -56,12 +56,12 @@ const Environment = () => {
       label: t('__PLAN_PAGE_MODULE_ENVIRONMENT_OPTION_PROTOTYPE'),
     },
     {
-      value: 'other',
-      label: t('__PLAN_PAGE_MODULE_ENVIRONMENT_OPTION_OTHER'),
-    },
-    {
       value: 'app-beta',
       label: t('__PLAN_PAGE_MODULE_ENVIRONMENT_OPTION_APP_BETA'),
+    },
+    {
+      value: 'other',
+      label: t('__PLAN_PAGE_MODULE_ENVIRONMENT_OPTION_OTHER'),
     },
   ];
 
