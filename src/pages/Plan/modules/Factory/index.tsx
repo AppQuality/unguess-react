@@ -7,6 +7,7 @@ import { BrowserModule } from './modules/Browser';
 import { DatesModule } from './modules/Dates';
 import { ElectricityModule } from './modules/Electricity';
 import { EmploymentModule } from './modules/Employment';
+import { EnvironmentsModule } from './modules/Environment';
 import { GasModule } from './modules/GasSupply';
 import { GenderModule } from './modules/Gender';
 import { GoalModule } from './modules/Goal';
@@ -47,6 +48,7 @@ const modules: Record<
   [TargetSizeModule.slug]: TargetSizeModule,
   [LiteracyModule.slug]: LiteracyModule,
   [TouchpointsModule.slug]: TouchpointsModule,
+  [EnvironmentsModule.slug]: EnvironmentsModule,
   [BankModule.slug]: BankModule,
   [InternetMobileModule.slug]: InternetMobileModule,
   [ElectricityModule.slug]: ElectricityModule,
