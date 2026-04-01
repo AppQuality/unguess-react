@@ -2,6 +2,7 @@ ARG STAGE_ENV
 
 FROM node:24-alpine as base
 
+ARG STAGE_ENV
 ARG STRAPI_TOKEN
 
 
@@ -14,7 +15,7 @@ COPY . .
 
 RUN echo REACT_APP_STRAPI_API_TOKEN=${STRAPI_TOKEN} > .env.local
 ENV PUBLIC_URL=/
-RUN ["npm", "run", "build", "--", "--mode", "${STAGE_ENV}"]
+RUN npm run build -- --mode ${STAGE_ENV}
 
 
 FROM alpine:3.22 as web
