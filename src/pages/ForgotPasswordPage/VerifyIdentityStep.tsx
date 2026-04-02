@@ -4,7 +4,6 @@ import {
   Anchor,
   Button,
   CodeVerifier,
-  Logo,
   MD,
   Message,
   Title,
@@ -72,7 +71,7 @@ export const VerifyIdentityStep = ({
 
   return (
     <>
-      <Logo type="icon" size={40} style={{ marginBottom: appTheme.space.md }} />
+
       <Title
         style={{
           textAlign: 'center',
