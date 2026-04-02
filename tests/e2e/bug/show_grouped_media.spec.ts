@@ -26,14 +26,11 @@ test.describe('Bug page', () => {
     await expect(bugPage.elements().filtersDetailsButton()).not.toBeVisible();
     await expect(bugPage.elements().usecaseSelect()).not.toBeVisible();
     await expect(bugPage.elements().pagination()).not.toBeVisible();
-    await expect(bugPage.elements().uploadedMediaDateTitle()).toHaveCount(2);
     const locator = bugPage.elements().uploadedMediaDateTitle();
-    const titles = await Promise.all([
-      locator.nth(0).textContent(),
-      locator.nth(1).textContent(),
-    ]);
+    await expect(locator).toHaveCount(2);
+    const titles = await locator.allTextContents();
     expect(titles[0]).not.toEqual(titles[1]);
-    expect(locator.nth(0)).toHaveCSS('font-size', '14px');
-    expect(locator.nth(1)).toHaveCSS('font-size', '14px');
+    await expect(locator.nth(0)).toHaveCSS('font-size', '14px');
+    await expect(locator.nth(1)).toHaveCSS('font-size', '14px');
   });
 });

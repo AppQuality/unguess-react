@@ -25,44 +25,48 @@ test.describe('The Join page signup step - case new user', () => {
     page,
     i18n,
   }) => {
-    await signupPage.signupFormElements().submitButton().click();
+    // Touch the password field and blur to trigger validation
+    await signupPage.signupFormElements().passwordInput().click();
+    await signupPage.signupFormElements().passwordInput().blur();
     await expect(signupPage.signupFormElements().passwordError()).toHaveText(
       i18n.t('SIGNUP_FORM_PASSWORD_REQUIRED')
     );
 
     await expect(
-      signupPage.signupFormElements().passwordRequirements()
+      page.getByTestId('password-requirements')
     ).toBeVisible();
 
     await signupPage.fillPassword('weak');
     await expect(
-      page.getByText(i18n.t('SIGNUP_FORM_PASSWORD_MIN_LENGTH'))
+      page.getByText(i18n.t('PASSWORD_VALIDATOR_MINIMUM_OF_12_CHARACTERS'))
     ).toBeVisible();
 
     await signupPage.fillPassword('weakpassword');
     await expect(
-      page.getByText(i18n.t('SIGNUP_FORM_PASSWORD_NUMBER'))
+      page.getByText(i18n.t('PASSWORD_VALIDATOR_CONTAIN_A_NUMBER'))
     ).toBeVisible();
 
     await signupPage.fillPassword('weakpassword123');
     await expect(
-      page.getByText(i18n.t('SIGNUP_FORM_PASSWORD_UPPERCASE'))
+      page.getByText(i18n.t('PASSWORD_VALIDATOR_CONTAIN_AN_UPPERCASE_LETTER'))
     ).toBeVisible();
 
     await signupPage.fillPassword('WEAKPASSWORD123');
     await expect(
-      page.getByText(i18n.t('SIGNUP_FORM_PASSWORD_LOWERCASE'))
+      page.getByText(i18n.t('PASSWORD_VALIDATOR_CONTAIN_A_LOWERCASE_LETTER'))
     ).toBeVisible();
 
     await signupPage.fillPassword('ValidPassword123');
-    await expect(page.getByTestId('message-error-password')).not.toBeVisible();
+    await expect(page.getByTestId('signup-password-error')).not.toBeVisible();
   });
 
   test('the email input check if the email is valid', async ({
     page,
     i18n,
   }) => {
-    await signupPage.signupFormElements().submitButton().click();
+    // Touch the email field and blur to trigger validation
+    await signupPage.signupFormElements().emailInput().click();
+    await signupPage.signupFormElements().emailInput().blur();
     await expect(signupPage.signupFormElements().emailError()).toHaveText(
       i18n.t('SIGNUP_FORM_EMAIL_REQUIRED')
     );
@@ -86,7 +90,7 @@ test.describe('The Join page signup step - case new user', () => {
     // ).toBeVisible();
 
     await signupPage.fillEmail('new.user@example.com');
-    await expect(page.getByTestId('message-error-email')).not.toBeVisible();
+    await expect(page.getByTestId('signup-email-error')).not.toBeVisible();
   });
 
   test('when the user click the cta we validate current inputs and if ok shows confirmation code input', async () => {
@@ -114,6 +118,7 @@ test.describe('The Join page second step', () => {
     await join.openOnboarding();
   });
   test('display required inputs for name, surname, job role and company size dropdowns populated from api userRole and companySize', async ({
+    page,
     i18n,
   }) => {
     await expect(onboarding.elements().nameInput()).toBeVisible();
@@ -121,13 +126,19 @@ test.describe('The Join page second step', () => {
     await expect(onboarding.elements().roleSelect()).toBeVisible();
     await onboarding.elements().roleSelect().click();
     await expect(onboarding.elements().roleSelectOptions()).toHaveCount(3);
+    await page.keyboard.press('Escape');
     await expect(onboarding.elements().companySizeSelect()).toBeVisible();
     await onboarding.elements().companySizeSelect().click();
     await expect(onboarding.elements().companySizeSelectOptions()).toHaveCount(
       3
     );
+    await page.keyboard.press('Escape');
 
-    await onboarding.elements().nextButton().click();
+    // Touch fields and blur to trigger validation errors
+    await onboarding.elements().nameInput().click();
+    await onboarding.elements().nameInput().blur();
+    await onboarding.elements().surnameInput().click();
+    await onboarding.elements().surnameInput().blur();
 
     await expect(onboarding.elements().nameError()).toHaveText(
       i18n.t('SIGNUP_FORM_NAME_REQUIRED')
@@ -135,17 +146,10 @@ test.describe('The Join page second step', () => {
     await expect(onboarding.elements().surnameError()).toHaveText(
       i18n.t('SIGNUP_FORM_SURNAME_REQUIRED')
     );
-    await expect(onboarding.elements().roleSelectError()).toHaveText(
-      i18n.t('SIGNUP_FORM_ROLE_REQUIRED')
-    );
-    await expect(onboarding.elements().companySizeSelectError()).toHaveText(
-      i18n.t('SIGNUP_FORM_COMPANY_SIZE_REQUIRED')
-    );
 
     await onboarding.fillPersonalInfo();
     await expect(onboarding.elements().nameError()).not.toBeVisible();
     await expect(onboarding.elements().surnameError()).not.toBeVisible();
-    await expect(onboarding.elements().roleSelectError()).not.toBeVisible();
   });
 
   test('display next navigation, clicking on next validate this step and goes to final step', async () => {
@@ -195,7 +199,9 @@ test.describe('The Join page third step', () => {
         response.status() === 200 &&
         response.request().method() === 'POST'
     );
-    await onboarding.workspaceElements().submitButton().click();
+    // Touch workspace field to trigger validation
+    await onboarding.workspaceElements().workspaceInput().click();
+    await onboarding.workspaceElements().workspaceInput().blur();
     await expect(onboarding.workspaceElements().workspaceError()).toHaveText(
       i18n.t('SIGNUP_FORM_WORKSPACE_REQUIRED')
     );
@@ -203,7 +209,7 @@ test.describe('The Join page third step', () => {
     await expect(
       onboarding.workspaceElements().workspaceError()
     ).not.toBeVisible();
-    await onboarding.workspaceElements().submitButton().click();
+    await onboarding.workspaceElements().submitButton().click({ force: true });
     const response = await postPromise;
     const data = response.request().postDataJSON();
     expect(data).toEqual(

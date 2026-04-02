@@ -23,13 +23,7 @@ test.describe('The tasks module defines the testers language', () => {
 
     await planPage.elements().tabTarget().click();
     await expect(languageModule.elements().module()).toBeVisible();
-    const radioButtons = languageModule.elements().languageRadioInput();
-    const checkedCount = await radioButtons.evaluateAll(
-      (elements) =>
-        elements.filter((el) => el instanceof HTMLInputElement && el.checked)
-          .length
-    );
-    expect(checkedCount).toBe(1);
+    await expect(languageModule.elements().module().locator('input[type="radio"]:checked')).toHaveCount(1);
     const checkedRadio = languageModule
       .elements()
       .module()

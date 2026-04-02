@@ -35,16 +35,19 @@ export class UnguessPage {
   }
 
   async loggedIn({ addFeatures = [], userRole = '' }: LoggedInParams = {}) {
+    const response = JSON.parse(JSON.stringify(userResponse));
     if (userRole) {
-      userResponse.role = userRole;
+      response.role = userRole;
     }
-    userResponse.features = [...userResponse.features, ...addFeatures];
+    if (addFeatures.length > 0) {
+      response.features = [...response.features, ...addFeatures];
+    }
     await this.page.route('*/**/api/users/me', async (route) => {
       if (route.request().method() === 'GET') {
         await route.fulfill({
           status: 200,
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(userResponse),
+          body: JSON.stringify(response),
         });
       } else {
         await route.fallback();

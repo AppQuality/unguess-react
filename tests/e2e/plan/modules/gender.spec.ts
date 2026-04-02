@@ -23,19 +23,9 @@ test.describe('The gender module defines the panel gender distribution.', () => 
     const { module, moduleInput, modulepercentageInput } =
       genderModule.elements();
     await expect(module()).toBeVisible();
-    const genderCheckboxes = moduleInput();
-    const checkedCount = await genderCheckboxes.evaluateAll(
-      (elements) =>
-        elements.filter(
-          (el) =>
-            el instanceof HTMLInputElement &&
-            el.type === 'checkbox' &&
-            el.checked
-        ).length
-    );
+    await expect(module().locator('input[type="checkbox"]:checked')).toHaveCount(1);
     const femaleCheckbox = module().locator('input[value="female"]');
-    expect(checkedCount).toBe(1);
-    expect(femaleCheckbox).toBeChecked();
+    await expect(femaleCheckbox).toBeChecked();
     await expect(modulepercentageInput()).not.toBeVisible();
   });
 
@@ -90,23 +80,13 @@ test.describe('The gender module defines the panel gender distribution.', () => 
       moduleMalePercentageInput,
     } = genderModule.elements();
     await expect(module()).toBeVisible();
-    const genderCheckboxes = moduleInput();
-    const checkedCount = await genderCheckboxes.evaluateAll(
-      (elements) =>
-        elements.filter(
-          (el) =>
-            el instanceof HTMLInputElement &&
-            el.type === 'checkbox' &&
-            el.checked
-        ).length
-    );
+    await expect(module().locator('input[type="checkbox"]:checked')).toHaveCount(1);
     const femaleCheckbox = module().locator('input[value="female"]');
-    expect(checkedCount).toBe(1);
-    expect(femaleCheckbox).toBeChecked();
+    await expect(femaleCheckbox).toBeChecked();
     await moduleChangeVariantButton().click();
     await module().locator('label[for="gender-male"]').check();
-    expect(await moduleFemalePercentageInput().inputValue()).toBe('100');
-    expect(await moduleMalePercentageInput().inputValue()).toBe('0');
+    await expect(moduleFemalePercentageInput()).toHaveValue('100');
+    await expect(moduleMalePercentageInput()).toHaveValue('0');
     await expect(moduleUnassignedPercentageError()).toBeVisible();
     await expect(modulePercentageError()).not.toBeVisible();
     await genderModule.fillFemalePercentageInput('50');
@@ -141,21 +121,11 @@ test.describe('The gender module defines the panel gender distribution.', () => 
     - the module should not be visible anymore
     - the output should not contain the module gender
     */
-    const { module, moduleInput, removeButton } = genderModule.elements();
+    const { module, removeButton } = genderModule.elements();
     await expect(module()).toBeVisible();
-    const genderCheckboxes = moduleInput();
-    const checkedCount = await genderCheckboxes.evaluateAll(
-      (elements) =>
-        elements.filter(
-          (el) =>
-            el instanceof HTMLInputElement &&
-            el.type === 'checkbox' &&
-            el.checked
-        ).length
-    );
+    await expect(module().locator('input[type="checkbox"]:checked')).toHaveCount(1);
     const femaleCheckbox = module().locator('input[value="female"]');
-    expect(checkedCount).toBe(1);
-    expect(femaleCheckbox).toBeChecked();
+    await expect(femaleCheckbox).toBeChecked();
 
     await removeButton().click();
     await moduleBuilderPage.elements().removeModuleModalConfirm().click();

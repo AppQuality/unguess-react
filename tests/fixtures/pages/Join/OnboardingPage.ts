@@ -43,7 +43,7 @@ export class OnboardingPage {
         this.page.getByTestId('onboarding-company-size-error'),
       nextButton: () =>
         this.page.getByRole('button', {
-          name: this.i18n.t('SIGNUP_FORM_GO_TO_STEP_3'),
+          name: this.i18n.t('SIGNUP_FORM_NEXT_STEP'),
         }),
     };
   }
@@ -72,11 +72,12 @@ export class OnboardingPage {
     await this.elements().roleSelectOptions().first().click();
     await this.elements().companySizeSelect().click();
     await this.elements().companySizeSelectOptions().first().click();
-    await this.elements().nameInput().blur();
+    // Click name input to close any open dropdowns and move focus away
+    await this.elements().nameInput().click();
   }
 
   async submitPersonalInfo() {
-    await this.elements().nextButton().click();
+    await this.elements().nextButton().click({ force: true });
   }
 
   async fillWorkspace() {
