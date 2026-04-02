@@ -29,7 +29,7 @@ export const Changelog = () => {
         window.Headway.init(HW_config);
       } else {
         // eslint-disable-next-line no-console
-        console.warn('Headway not found, retrying...');
+        console.warn('Headway not found');
       }
     };
 
