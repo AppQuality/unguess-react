@@ -26,6 +26,15 @@ test.describe('project page', () => {
     await planCreationInterface.mockPostProject();
     await promoList.mockPromoTemplates();
     await project.mockWorkspacesList();
+    await page.route('*/**/api/workspaces/*/templates/*', async (route) => {
+      if (route.request().method() === 'GET') {
+        await route.fulfill({
+          path: 'tests/api/workspaces/wid/templates/tid/_get/200_Example_1.json',
+        });
+      } else {
+        await route.fallback();
+      }
+    });
     await project.open();
   });
 
@@ -141,6 +150,15 @@ test.describe('project page empty state', () => {
     await planCreationInterface.mockGetNewPlan();
     await project.mockWorkspacesList();
     await promoList.mockPromoTemplates();
+    await page.route('*/**/api/workspaces/*/templates/*', async (route) => {
+      if (route.request().method() === 'GET') {
+        await route.fulfill({
+          path: 'tests/api/workspaces/wid/templates/tid/_get/200_Example_1.json',
+        });
+      } else {
+        await route.fallback();
+      }
+    });
     await project.open();
   });
 

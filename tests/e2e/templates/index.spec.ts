@@ -17,6 +17,15 @@ test.describe('Templates page', () => {
     await templates.mockGetCategories();
     await templates.mockGetProjects();
     await templates.mockPostPlans();
+    await page.route('*/**/api/workspaces/*/templates/*', async (route) => {
+      if (route.request().method() === 'GET') {
+        await route.fulfill({
+          path: 'tests/api/workspaces/wid/templates/tid/_get/200_Example_1.json',
+        });
+      } else {
+        await route.fallback();
+      }
+    });
     await templates.open();
   });
 

@@ -19,7 +19,10 @@ export class SignupPage {
       passwordInput: () =>
         this.page.getByRole('textbox', { name: /password/i }),
       passwordError: () => this.page.getByTestId('signup-password-error'),
-      termsCheckbox: () => this.page.getByRole('checkbox'),
+      termsCheckbox: () =>
+        this.page.getByTestId('terms-and-conditions').getByRole('checkbox'),
+      privacyCheckbox: () =>
+        this.page.getByTestId('privacy-policy').getByRole('checkbox'),
       submitButton: () =>
         this.page.getByRole('button', {
           name: this.i18n.t('SIGNUP_FORM_SUBMIT'),
@@ -32,9 +35,9 @@ export class SignupPage {
   confirmEmailFormElements() {
     return {
       codeInput: () =>
-        this.page.getByRole('textbox', {
-          name: this.i18n.t('CONFIRM_EMAIL_CODE_LABEL'),
-        }),
+        this.page.getByRole('textbox', { name: /Digit 1/i }),
+      codeLabel: () =>
+        this.page.getByText(this.i18n.t('CONFIRM_EMAIL_CODE_LABEL')),
       codeError: () => this.page.getByTestId('confirm-code-error'),
       confirmButton: () =>
         this.page.getByRole('button', {
@@ -57,6 +60,7 @@ export class SignupPage {
 
   async acceptTerms() {
     await this.signupFormElements().termsCheckbox().click({ force: true });
+    await this.signupFormElements().privacyCheckbox().click({ force: true });
   }
 
   async fillValidSignupForm() {

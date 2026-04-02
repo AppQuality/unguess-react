@@ -25,25 +25,14 @@ test.describe('The bank module defines the testers bank accounts', () => {
     await planPage.elements().tabTarget().click();
     await expect(module()).toBeVisible();
 
-    const checkboxes = moduleCheckboxes();
-
-    const checkedCount = await checkboxes.evaluateAll(
-      (elements) =>
-        elements.filter(
-          (el) =>
-            el instanceof HTMLInputElement &&
-            el.type === 'checkbox' &&
-            el.checked
-        ).length
-    );
-    expect(checkedCount).toBe(2);
+    await expect(module().locator('input[type="checkbox"]:checked')).toHaveCount(2);
     const INGCheckbox = module().locator('input[value="ING"]');
-    expect(INGCheckbox).toBeChecked();
+    await expect(INGCheckbox).toBeChecked();
     const otherBanksCheckbox = module().locator(
       'input[value="Other providers"]'
     );
-    expect(otherBanksCheckbox).toBeChecked();
-    expect(otherBanksTextArea()).toBeVisible();
+    await expect(otherBanksCheckbox).toBeChecked();
+    await expect(otherBanksTextArea()).toBeVisible();
     await expect(otherBanksTextArea()).toHaveValue('ImportantBank');
   });
 });
