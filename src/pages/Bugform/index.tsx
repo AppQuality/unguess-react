@@ -1,6 +1,5 @@
 import { useParams, useSearchParams } from 'react-router-dom';
 import { Header } from 'src/common/components/navigation/header/header';
-import { isDev } from 'src/common/isDevEnvironment';
 import i18n from 'src/i18n';
 import styled from 'styled-components';
 
