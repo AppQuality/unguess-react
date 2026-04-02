@@ -25,8 +25,17 @@ export const Changelog = () => {
     const initHeadway = () => {
       // @ts-ignore
       if (window.Headway && typeof window.Headway.init === 'function') {
-        // @ts-ignore
-        window.Headway.init(HW_config);
+        // Check is Headway is already initialized to prevent multiple initializations
+        const headwayElement = document.querySelector('#headway-widget');
+        const isAlreadyInitialized = !!headwayElement;
+
+        if (!isAlreadyInitialized) {
+          // @ts-ignore
+          window.Headway.init(HW_config);
+        } else {
+          // eslint-disable-next-line no-console
+          console.warn('Headway is already initialized');
+        }
       } else {
         // eslint-disable-next-line no-console
         console.warn('Headway not found');
