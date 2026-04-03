@@ -2,11 +2,12 @@ import {
   Anchor,
   CodeVerifier,
   MD,
+  Message,
   SM,
 } from '@appquality/unguess-design-system';
 import { setUpTOTP } from 'aws-amplify/auth';
 import QRCode from 'qrcode';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import styled from 'styled-components';
@@ -42,17 +43,22 @@ const QrPlaceholder = styled.div`
 
 interface AuthenticatorStepProps {
   onCodeComplete?: (code: string) => void;
+  error?: string | null;
 }
 
 export const AuthenticatorStep = ({
   onCodeComplete,
+  error,
 }: AuthenticatorStepProps) => {
   const { t } = useTranslation();
   const [qrCodeUrl, setQrCodeUrl] = useState<string | undefined>(undefined);
+  const [secretKey, setSecretKey] = useState<string | undefined>(undefined);
+  const [showSecretKey, setShowSecretKey] = useState(false);
 
   useEffect(() => {
     const initTOTP = async () => {
       const totpDetails = await setUpTOTP();
+      setSecretKey(totpDetails.sharedSecret);
 
       const totpUri = totpDetails.getSetupUri(
         'APP UNGUESS',
@@ -62,6 +68,10 @@ export const AuthenticatorStep = ({
       setQrCodeUrl(generatedQrCodeUrl);
     };
     initTOTP();
+  }, []);
+
+  const handleToggleSecretKey = useCallback(() => {
+    setShowSecretKey((prev) => !prev);
   }, []);
   return (
     <StepList>
@@ -103,6 +113,7 @@ export const AuthenticatorStep = ({
           <MD style={{ color: appTheme.palette.grey[800] }}>
             {t('__PROFILE_PAGE_MFA_AUTH_STEP_CANT_SCAN')}{' '}
             <Anchor
+              onClick={handleToggleSecretKey}
               style={{
                 color: appTheme.palette.blue[800],
                 cursor: 'pointer',
@@ -111,6 +122,18 @@ export const AuthenticatorStep = ({
               {t('__PROFILE_PAGE_MFA_AUTH_STEP_ENTER_KEY')}
             </Anchor>
           </MD>
+          {showSecretKey && secretKey && (
+            <SM
+              style={{
+                marginTop: appTheme.space.sm,
+                color: appTheme.palette.grey[800],
+                wordBreak: 'break-all',
+                userSelect: 'all',
+              }}
+            >
+              code: {secretKey}
+            </SM>
+          )}
         </div>
       </StepItem>
 
@@ -133,6 +156,14 @@ export const AuthenticatorStep = ({
             {t('__PROFILE_PAGE_MFA_AUTH_STEP_CODE_DESCRIPTION')}
           </MD>
           <CodeVerifier length={6} onComplete={onCodeComplete} autoFocus />
+          {error && (
+            <Message
+              validation="error"
+              style={{ marginTop: appTheme.space.md, textAlign: 'center' }}
+            >
+              {error}
+            </Message>
+          )}
         </div>
       </StepItem>
     </StepList>

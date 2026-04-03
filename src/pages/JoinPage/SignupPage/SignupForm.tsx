@@ -37,6 +37,7 @@ const FieldContainer = styled.div`
 
 const StyledButton = styled(Button)`
   border-radius: 999px;
+  margin-top: ${(p) => p.theme.space.sm};
 `;
 
 interface SignupFormValues {
@@ -327,7 +328,7 @@ export const SignupForm = ({ onSignupSuccess }: SignupFormProps) => {
                 {isSubmitting ? t('LOADING') : t('SIGNUP_FORM_SUBMIT')}
               </StyledButton>
 
-              <div style={{ marginTop: appTheme.space.md }}>
+              <div>
                 <SM>
                   {t('__JOIN_FORM_ALREADY_HAVE_ACCOUNT_LABEL')}{' '}
                   <Anchor

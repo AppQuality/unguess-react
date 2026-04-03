@@ -9,7 +9,7 @@ import {
   Message,
   retrieveComponentStyles,
 } from '@appquality/unguess-design-system';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import { verifyTOTPSetup } from 'aws-amplify/auth';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as AlertIcon } from 'src/assets/icons/alert-icon.svg';
@@ -70,7 +70,12 @@ export const TurnOffMfaModal = ({
           <MD isBold style={{ marginBottom: appTheme.space.xs }}>
             {t('__PROFILE_PAGE_MFA_TURN_OFF_CONFIRM_QUESTION')}
           </MD>
-          <MD>{t('__PROFILE_PAGE_MFA_TURN_OFF_CONFIRM_DESCRIPTION')}</MD>
+          <MD>
+            <Trans
+              i18nKey="__PROFILE_PAGE_MFA_TURN_OFF_CONFIRM_DESCRIPTION"
+              components={{ bold: <strong /> }}
+            />
+          </MD>
         </Modal.Body>
         <Modal.Footer>
           <FooterItem>
@@ -79,7 +84,7 @@ export const TurnOffMfaModal = ({
             </Button>
           </FooterItem>
           <FooterItem>
-            <Button isDanger onClick={handleTurnOff}>
+            <Button isPrimary isDanger onClick={handleTurnOff}>
               {t('__PROFILE_PAGE_MFA_TURN_OFF_CONFIRM_TURN_OFF')}
             </Button>
           </FooterItem>
@@ -104,21 +109,30 @@ export const TurnOffMfaModal = ({
         >
           {t('__PROFILE_PAGE_MFA_TURN_OFF_VERIFY_DESCRIPTION')}
         </MD>
-        <div style={{ display: 'flex', justifyContent: 'center' }}>
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+          }}
+        >
           <CodeVerifier
             length={6}
-            onComplete={(completedCode) => setCode(completedCode)}
+            onComplete={(completedCode) => {
+              setCode(completedCode);
+              setError(null);
+            }}
             autoFocus
           />
+          {error && (
+            <Message
+              validation="error"
+              style={{ marginTop: appTheme.space.md, textAlign: 'center' }}
+            >
+              {error}
+            </Message>
+          )}
         </div>
-        {error && (
-          <Message
-            validation="error"
-            style={{ marginTop: appTheme.space.md, textAlign: 'center' }}
-          >
-            {error}
-          </Message>
-        )}
       </Modal.Body>
       <Modal.Footer>
         <Button isBasic onClick={onClose}>

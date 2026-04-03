@@ -57,7 +57,7 @@ export const AuthFooter = ({ showTryberLink }: AuthFooterProps) => {
       </FooterLinks>
       <SM>
         {t('__AUTH_FOOTER_NEED_HELP')}{' '}
-        <Anchor href={t('__AUTH_FOOTER_SUPPORT_URL')}>
+        <Anchor href="mailto:support@unguess.io">
           {t('__AUTH_FOOTER_SUPPORT_LABEL')}
         </Anchor>
       </SM>

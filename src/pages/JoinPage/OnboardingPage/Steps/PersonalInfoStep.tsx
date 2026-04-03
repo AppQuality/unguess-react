@@ -26,7 +26,7 @@ import { getPersonalInfoValidationSchema } from '../validationSchema';
 
 const StepWrapper = styled.div`
   width: 100%;
-  max-width: 376px;
+  max-width: 470px;
   margin: 0 auto;
 `;
 

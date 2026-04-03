@@ -51,6 +51,7 @@ const LeftColumn = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
+  padding: ${({ theme }) => `0 ${theme.space.xl}`};
   overflow-y: auto;
 
   @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
@@ -90,9 +91,7 @@ const SignupPage = () => {
         <AuthHeader />
         {needsConfirmation ? (
           <CenteredContent>
-            <LayoutWrapper>
-              <ConfirmEmailForm email={userEmail} password={userPassword} />
-            </LayoutWrapper>
+            <ConfirmEmailForm email={userEmail} password={userPassword} />
           </CenteredContent>
         ) : (
           <BoxedContentRow>

@@ -35,7 +35,7 @@ const CenteredXYContainer = styled.div`
 
 const CardWrapper = styled.div`
   width: 100%;
-  max-width: 376px;
+  max-width: 470px;
   display: flex;
   align-items: center;
   justify-content: center;

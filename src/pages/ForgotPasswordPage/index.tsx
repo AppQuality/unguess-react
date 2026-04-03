@@ -27,7 +27,8 @@ const CenteredXYContainer = styled.div`
 
 const CardWrapper = styled.div`
   width: 100%;
-  max-width: 500px;
+  max-width: 470px;
+  padding: 0 ${({ theme }) => theme.space.md};
   display: flex;
   align-items: center;
   justify-content: center;
