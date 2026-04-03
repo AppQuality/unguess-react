@@ -27,6 +27,7 @@ import { ReactComponent as StopIcon } from 'src/assets/icons/stop.svg';
 import {
   ModuleAdditionalTarget,
   ModuleAge,
+  ModuleEnvironment,
   ModuleGoal,
   ModuleLanguage,
   ModuleLiteracy,
@@ -64,7 +65,8 @@ type ModuleInfo =
   | ModuleTouchpoints
   | ModuleAge
   | ModuleLiteracy
-  | ModuleAdditionalTarget;
+  | ModuleAdditionalTarget
+  | ModuleEnvironment;
 
 const CreateVideoTasksWithAI = () => {
   const { setOutput, value: currentTasks } = useModuleTasks();
