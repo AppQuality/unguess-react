@@ -1,10 +1,4 @@
-import {
-  Field as FormikField,
-  FieldProps,
-  Form,
-  Formik,
-  FormikHelpers,
-} from 'formik';
+import { Form, Formik, FormikHelpers } from 'formik';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
@@ -63,16 +57,19 @@ const LoginForm = ({ onSubmit, buttonText }: LoginFormProps) => {
   const { t } = useTranslation();
   const [showPassword, setShowPassword] = useState(false);
 
-  const validateEmail = (value: string) => {
-    if (!value) return t('__FORM_FIELD_REQUIRED_MESSAGE');
-    if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(value))
-      return t('__LOGIN_FORM_EMAIL_FIELD_INVALID_MESSAGE');
-    return undefined;
-  };
+  const validate = (values: LoginFormFields) => {
+    const errors: Partial<Record<keyof LoginFormFields, string>> = {};
+    if (!values.email) {
+      errors.email = t('__FORM_FIELD_REQUIRED_MESSAGE');
+    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)) {
+      errors.email = t('__LOGIN_FORM_EMAIL_FIELD_INVALID_MESSAGE');
+    }
 
-  const validatePassword = (value: string) => {
-    if (!value) return t('__FORM_FIELD_REQUIRED_MESSAGE');
-    return undefined;
+    if (!values.password) {
+      errors.password = t('__FORM_FIELD_REQUIRED_MESSAGE');
+    }
+
+    return errors;
   };
 
   return (
@@ -99,70 +96,74 @@ const LoginForm = ({ onSubmit, buttonText }: LoginFormProps) => {
         <Formik
           initialValues={{ email: '', password: '' }}
           onSubmit={onSubmit}
-          validateOnChange={false}
+          validate={validate}
+          validateOnChange
           validateOnBlur
         >
-          {({ values, status, errors, handleSubmit, isSubmitting }) => (
+          {({
+            values,
+            status,
+            errors,
+            touched,
+            handleChange,
+            handleBlur,
+            handleSubmit,
+            isSubmitting,
+          }) => (
             <StyledForm onSubmit={handleSubmit}>
-              <FormikField name="email" validate={validateEmail}>
-                {({ field, meta }: FieldProps) => (
-                  <FormField>
-                    <Label>
-                      {t('__LOGIN_FORM_EMAIL_LABEL')}
-                      <span style={{ color: appTheme.palette.red[600] }}>
-                        *
-                      </span>
-                    </Label>
-                    <MediaInput
-                      type="email"
-                      placeholder={t('__LOGIN_FORM_EMAIL_PLACEHOLDER')}
-                      {...field}
-                      {...getValidation(
-                        !!meta.error && !!meta.touched,
-                        meta.touched
-                      )}
-                    />
-                    {meta.error && meta.touched && (
-                      <Message validation="error">{meta.error}</Message>
-                    )}
-                  </FormField>
+              <FormField>
+                <Label>
+                  {t('__LOGIN_FORM_EMAIL_LABEL')}
+                  <span style={{ color: appTheme.palette.red[600] }}>*</span>
+                </Label>
+                <MediaInput
+                  type="email"
+                  name="email"
+                  placeholder={t('__LOGIN_FORM_EMAIL_PLACEHOLDER')}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.email}
+                  {...getValidation(
+                    !!errors.email && !!touched.email,
+                    touched.email
+                  )}
+                />
+                {errors.email && touched.email && (
+                  <Message validation="error">{errors.email}</Message>
                 )}
-              </FormikField>
-              <FormikField name="password" validate={validatePassword}>
-                {({ field, meta }: FieldProps) => (
-                  <FormField style={{ marginTop: appTheme.space.md }}>
-                    <Label>
-                      {t('__LOGIN_FORM_PASSWORD_LABEL')}
-                      <span style={{ color: appTheme.palette.red[600] }}>
-                        *
-                      </span>
-                    </Label>
-                    <MediaInput
-                      type={showPassword ? 'text' : 'password'}
-                      placeholder={t('__LOGIN_FORM_PASSWORD_PLACEHOLDER')}
-                      {...field}
-                      end={
-                        <ToggleButton
-                          type="button"
-                          onClick={() => setShowPassword((v) => !v)}
-                          aria-label={
-                            showPassword ? 'Hide password' : 'Show password'
-                          }
-                        >
-                          {showPassword ? <EyeOffIcon /> : <EyeIcon />}
-                        </ToggleButton>
+              </FormField>
+              <FormField style={{ marginTop: appTheme.space.md }}>
+                <Label>
+                  {t('__LOGIN_FORM_PASSWORD_LABEL')}
+                  <span style={{ color: appTheme.palette.red[600] }}>*</span>
+                </Label>
+                <MediaInput
+                  type={showPassword ? 'text' : 'password'}
+                  name="password"
+                  placeholder={t('__LOGIN_FORM_PASSWORD_PLACEHOLDER')}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.password}
+                  end={
+                    <ToggleButton
+                      type="button"
+                      onClick={() => setShowPassword((v) => !v)}
+                      aria-label={
+                        showPassword ? 'Hide password' : 'Show password'
                       }
-                      {...getValidation(
-                        !!meta.error && !!meta.touched,
-                        meta.touched
-                      )}
-                    />
-                    {meta.error && meta.touched && (
-                      <Message validation="error">{meta.error}</Message>
-                    )}
-                  </FormField>
+                    >
+                      {showPassword ? <EyeOffIcon /> : <EyeIcon />}
+                    </ToggleButton>
+                  }
+                  {...getValidation(
+                    !!errors.password && !!touched.password,
+                    touched.password
+                  )}
+                />
+                {errors.password && touched.password && (
+                  <Message validation="error">{errors.password}</Message>
                 )}
-              </FormikField>
+              </FormField>
               <Anchor
                 href="/forgot-password"
                 style={{
