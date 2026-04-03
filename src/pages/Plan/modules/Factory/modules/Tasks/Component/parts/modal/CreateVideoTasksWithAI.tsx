@@ -46,6 +46,7 @@ const MODULES_TO_PROMPT = [
   'title',
   'goal',
   'out_of_scope',
+  'environment',
   'tasks',
   'language',
   'touchpoints',
