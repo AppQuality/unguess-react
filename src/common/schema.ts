@@ -2137,7 +2137,14 @@ export interface operations {
       200: {
         content: {
           "application/json": {
-            tasks: components["schemas"]["OutputModuleTaskVideo"][];
+            tasks?: {
+              description?: string;
+              id?: string;
+              title: string;
+              /** @enum {string} */
+              kind: "video";
+              url?: string;
+            }[];
           };
         };
       };

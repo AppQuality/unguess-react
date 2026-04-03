@@ -143,6 +143,7 @@ const CreateVideoTasksWithAI = () => {
         title: useCase.title,
         description: useCase.description || '',
         id: useCase.id ?? uuidv4(),
+        url: useCase.url,
       }));
       setOutput([...currentTasks, ...newTasks]);
 
