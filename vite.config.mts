@@ -8,30 +8,7 @@ import {
   loadEnv,
   transformWithEsbuild,
 } from 'vite';
-import tsconfigPaths from 'vite-tsconfig-paths';
 
-// https://vitejs.dev/config/
-export default defineConfig(({ mode }) => {
-  setEnv(mode);
-  return {
-    optimizeDeps: {
-      include: ['react-dom'],
-      exclude: ['@appquality/unguess-design-system'],
-    },
-    plugins: [
-      react(),
-      tsconfigPaths(),
-      envPlugin(),
-      devServerPlugin(),
-      sourcemapPlugin(),
-      buildPathPlugin(),
-      basePlugin(),
-      importPrefixPlugin(),
-      htmlPlugin(mode),
-      svgrPlugin(),
-    ],
-  };
-});
 
 function setEnv(mode: string) {
   Object.assign(
@@ -168,6 +145,7 @@ function importPrefixPlugin(): Plugin {
 
 // In Create React App, SVGs can be imported directly as React components. This is achieved by svgr libraries.
 // https://create-react-app.dev/docs/adding-images-fonts-and-files/#adding-svgs
+// Note: TODO: remove esbuild because is deprecated
 function svgrPlugin(): Plugin {
   const filter = createFilter('**/*.svg');
   const postfixRE = /[?#].*$/s;
@@ -189,21 +167,31 @@ function svgrPlugin(): Plugin {
             defaultPlugins: [jsx],
           },
         });
+        
+        // Add color and style props support by wrapping the original component
         const patched = componentCode
           .replace(
-            /const (\w+) = props => /,
-            'const $1 = (props) => {\n  const { color, style, ...rest } = props || {};\n  const mergedStyle = color ? { ...(style || {}), color } : style;\n  return '
+            /const\s+(\w+)\s*=/,
+            'const Original$1 ='
           )
-          .replace('{...props}', '{...rest} style={mergedStyle}')
-          .replace('export {', '}\nexport {');
+          .replace(
+            /export\s*\{\s*(\w+)\s+as\s+ReactComponent\s*\}/,
+            (match, componentName) => `const ${componentName} = (props) => {
+  const { color, style, ...rest } = props || {};
+  const mergedStyle = color ? { ...(style || {}), color } : style;
+  return <Original${componentName} {...rest} style={mergedStyle} />;
+};
+export { ${componentName} as ReactComponent }`
+          );
 
-        const res = await transformWithEsbuild(patched, id, {
+        // Transform JSX to JavaScript using esbuild
+        const result = await transformWithEsbuild(patched, id, {
           loader: 'jsx',
         });
 
         return {
-          code: res.code,
-          map: null,
+          code: result.code,
+          map: result.map,
         };
       }
     },
@@ -226,3 +214,71 @@ function htmlPlugin(mode: string): Plugin {
     },
   };
 }
+
+
+// https://vitejs.dev/config/
+export default defineConfig(({ mode }) => {
+  setEnv(mode);
+  return {
+    optimizeDeps: {
+      include: ['react-dom'],
+      exclude: ['@appquality/unguess-design-system'],
+    },
+    resolve: {
+      tsconfigPaths: true,
+    },
+    build: {
+      rolldownOptions: {
+        output: {
+          // https://rolldown.rs/reference/OutputOptions.codeSplitting
+          codeSplitting: {
+            strategy: 'auto',
+            groups: [
+              {
+                name: 'react-vendor',
+                test: /[\\/]node_modules[\\/](react|react-dom|react-router-dom)[\\/]/,
+                priority: 10,
+              },
+              {
+                name: 'redux-vendor',
+                test: /[\\/]node_modules[\\/](@reduxjs|react-redux)[\\/]/,
+                priority: 10,
+              },
+              {
+                name: 'design-system',
+                test: /[\\/]node_modules[\\/](@appquality|@zendeskgarden|styled-components)[\\/]/,
+                priority: 10,
+              },
+              {
+                name: 'analytics-vendor',
+                test: /[\\/]node_modules[\\/](@analytics|analytics|use-analytics)[\\/]/,
+                priority: 10,
+              },
+              {
+                name: 'ai-vendor',
+                test: /[\\/]node_modules[\\/](@ai-sdk|@mastra|ai)[\\/]/,
+                priority: 10,
+              },
+              {
+                name: 'vendor',
+                test: /[\\/]node_modules[\\/]/,
+                priority: 5,
+              },
+            ],
+          },
+        },
+      },
+    },
+    plugins: [
+      react(),
+      envPlugin(),
+      devServerPlugin(),
+      sourcemapPlugin(),
+      buildPathPlugin(),
+      basePlugin(),
+      importPrefixPlugin(),
+      htmlPlugin(mode),
+      svgrPlugin(),
+    ],
+  };
+});
