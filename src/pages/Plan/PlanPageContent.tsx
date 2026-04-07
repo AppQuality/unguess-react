@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSearchParams } from 'react-router-dom';
 import { GetPlansByPidApiResponse } from 'src/features/api';
+import { useAnalytics } from 'use-analytics';
 import { usePlanContext } from './context/planContext';
 import PlanPageHeader from './navigation/header/Header';
 import { PlanBody } from './PlanBody';
@@ -15,7 +16,9 @@ export const PlanPageContent = ({
   const { t } = useTranslation();
   const { activeTab, setActiveTab } = usePlanContext();
   const [searchParams, setSearchParams] = useSearchParams();
+
   const { addToast } = useToast();
+  const { track } = useAnalytics();
 
   useEffect(() => {
     if (!plan) return;
@@ -40,6 +43,18 @@ export const PlanPageContent = ({
       );
       searchParams.delete('payment');
       setSearchParams(searchParams);
+      if (plan) {
+        track('planPurchaseSuccessful', {
+          planId: plan.id.toString(),
+          templateId: plan.from_template?.id.toString(),
+          templateName: plan.from_template?.title ?? 'Unknown Template',
+          previousStatus: 'AwaitingPayment',
+          planStatus: 'PurchasedPlan',
+          standardPrice: plan?.price ?? 'Unknown Price',
+          isTailored: 'Unknown',
+          confirmedPrice: plan?.price ?? 'Unknown Price',
+        });
+      }
     }
   }, []);
 

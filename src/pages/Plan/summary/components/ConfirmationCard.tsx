@@ -39,7 +39,7 @@ export const ConfirmationCard = () => {
   const { planId } = useParams();
   const { t } = useTranslation();
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const { planComposedStatus, plan } = usePlan(planId);
+  const { planComposedStatus, plan, template } = usePlan(planId);
   const { track } = useAnalytics();
 
   const [patchStatus] = usePatchPlansByPidStatusMutation();
@@ -144,9 +144,11 @@ export const ConfirmationCard = () => {
               track('planActivityConfirmed', {
                 planId: planId?.toString(),
                 templateId: plan?.from_template?.id.toString(),
-                templateName: plan?.from_template?.title,
+                templateName: template?.name ?? 'Unknown Template',
                 previousStatus: 'AwaitingApproval', // should be AwaitingApproval
-                newStatus: 'Accepted',
+                planStatus: 'Accepted',
+                standardPrice: template?.price ?? 'Unknown Price',
+                isTailored: !!template?.workspace_id,
                 confirmedPrice: plan?.price,
               });
               setIsSubmitted(false);
