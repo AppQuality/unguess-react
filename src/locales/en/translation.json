@@ -53,7 +53,7 @@
   "__AUTH_FOOTER_PRIVACY_LABEL": "Privacy Policy",
   "__AUTH_FOOTER_PRIVACY_URL": "https://www.unguess.io/privacy-policy",
   "__AUTH_FOOTER_SUPPORT_LABEL": "Contact support",
-  "__AUTH_FOOTER_SUPPORT_URL": "https://www.unguess.io/contact-support",
+  "__AUTH_FOOTER_SUPPORT_URL": "mailto:support@unguess.io",
   "__AUTH_FOOTER_TOS_LABEL": "Terms of Service",
   "__AUTH_FOOTER_TOS_URL": "https://www.unguess.io/terms-and-conditions",
   "__AUTH_FOOTER_WEBSITE_LABEL": "Visit UNGUESS website",

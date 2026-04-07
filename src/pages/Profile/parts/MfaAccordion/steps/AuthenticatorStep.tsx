@@ -44,11 +44,13 @@ const QrPlaceholder = styled.div`
 interface AuthenticatorStepProps {
   onCodeComplete?: (code: string) => void;
   error?: string | null;
+  userEmail?: string;
 }
 
 export const AuthenticatorStep = ({
   onCodeComplete,
   error,
+  userEmail,
 }: AuthenticatorStepProps) => {
   const { t } = useTranslation();
   const [qrCodeUrl, setQrCodeUrl] = useState<string | undefined>(undefined);
@@ -61,8 +63,8 @@ export const AuthenticatorStep = ({
       setSecretKey(totpDetails.sharedSecret);
 
       const totpUri = totpDetails.getSetupUri(
-        'APP UNGUESS',
-        'https://app.unguess.io'
+        userEmail || 'UNGUESS',
+        'UNGUESS'
       );
       const generatedQrCodeUrl = await QRCode.toDataURL(totpUri.href);
       setQrCodeUrl(generatedQrCodeUrl);
@@ -131,7 +133,7 @@ export const AuthenticatorStep = ({
                 userSelect: 'all',
               }}
             >
-              code: {secretKey}
+              {secretKey}
             </SM>
           )}
         </div>

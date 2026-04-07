@@ -17,19 +17,9 @@ import { useNavigate } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
 import { useAuth } from 'src/features/auth/context';
 import { useSendGTMevent } from 'src/hooks/useGTMevent';
-import styled from 'styled-components';
+import { AuthCardWrapper } from 'src/common/components/AuthCardWrapper';
 
 const RESEND_COOLDOWN_SECONDS = 60;
-
-const FormContainer = styled.div`
-  width: 100%;
-  max-width: 470px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  flex-direction: column;
-`;
 
 export const ConfirmEmailForm = ({
   email,
@@ -112,7 +102,7 @@ export const ConfirmEmailForm = ({
   }, [resendTimer, isResending, resendSignupCode, email, t]);
 
   return (
-    <FormContainer>
+    <AuthCardWrapper>
       <Logo type="icon" size={40} style={{ marginBottom: appTheme.space.md }} />
       <XL
         isBold
@@ -192,6 +182,6 @@ export const ConfirmEmailForm = ({
       >
         {t('SIGNUP_FORM_BACK')}
       </Button>
-    </FormContainer>
+    </AuthCardWrapper>
   );
 };

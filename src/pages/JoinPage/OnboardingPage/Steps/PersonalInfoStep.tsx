@@ -21,14 +21,9 @@ import {
 } from 'src/features/api';
 import { useSendGTMevent } from 'src/hooks/useGTMevent';
 import styled from 'styled-components';
+import { AuthStepWrapper } from 'src/common/components/AuthCardWrapper';
 import { useOnboarding } from '../OnboardingProvider';
 import { getPersonalInfoValidationSchema } from '../validationSchema';
-
-const StepWrapper = styled.div`
-  width: 100%;
-  max-width: 470px;
-  margin: 0 auto;
-`;
 
 const FieldContainer = styled.div`
   display: flex;
@@ -195,7 +190,7 @@ export const PersonalInfoStep = () => {
   };
 
   return (
-    <StepWrapper>
+    <AuthStepWrapper>
       <div style={{ marginBottom: appTheme.space.lg, textAlign: 'center' }}>
         <XL isBold style={{ marginBottom: appTheme.space.xs }}>
           {t('SIGNUP_FORM_STEP_2_TITLE')}
@@ -391,6 +386,6 @@ export const PersonalInfoStep = () => {
           </Form>
         )}
       </Formik>
-    </StepWrapper>
+    </AuthStepWrapper>
   );
 };

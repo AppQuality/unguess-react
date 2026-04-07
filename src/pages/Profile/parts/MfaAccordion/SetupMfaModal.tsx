@@ -12,12 +12,13 @@ import {
   updateUserAttributes,
   verifyTOTPSetup,
 } from 'aws-amplify/auth';
-import { appTheme } from 'src/app/theme';
+import { useGetUsersMeQuery } from 'src/features/api';
 import { AuthenticatorStep } from './steps/AuthenticatorStep';
 
 export const SetupMfaModal = ({ onClose }: { onClose: () => void }) => {
   const { t } = useTranslation();
   const { addToast } = useToast();
+  const { data: currentUser } = useGetUsersMeQuery();
   const [authCode, setAuthCode] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [isVerifying, setIsVerifying] = useState(false);
@@ -49,6 +50,7 @@ export const SetupMfaModal = ({ onClose }: { onClose: () => void }) => {
       onClose();
     } catch {
       setError(t('__VERIFY_CODE_INVALID_CODE'));
+    } finally {
       setIsVerifying(false);
     }
   };
@@ -63,6 +65,7 @@ export const SetupMfaModal = ({ onClose }: { onClose: () => void }) => {
             setError(null);
           }}
           error={error}
+          userEmail={currentUser?.email}
         />
       </Modal.Body>
       <Modal.Footer>

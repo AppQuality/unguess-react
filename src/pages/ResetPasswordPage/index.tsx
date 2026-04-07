@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Logo } from '@appquality/unguess-design-system';
 import styled from 'styled-components';
+import { AuthCardWrapper } from 'src/common/components/AuthCardWrapper';
 import { NotLogged } from 'src/features/templates/NotLogged';
 import { useAuth } from 'src/features/auth/context';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
@@ -24,16 +25,6 @@ const CenteredXYContainer = styled.div`
   text-align: center;
   flex-direction: column;
   flex: 1;
-`;
-
-const CardWrapper = styled.div`
-  width: 100%;
-  max-width: 470px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  flex-direction: column;
 `;
 
 const StyledLogo = styled(Logo)`
@@ -88,7 +79,7 @@ const ResetPasswordPage = () => {
       <PageWrapper>
         <AuthHeader />
         <CenteredXYContainer>
-          <CardWrapper>
+          <AuthCardWrapper>
             <StyledLogo type="icon" size={40} />
             {step === 'verify' && (
               <VerifyIdentityStep
@@ -101,7 +92,7 @@ const ResetPasswordPage = () => {
             {step === 'changePassword' && (
               <ChangePasswordForm onSubmit={handleResetPassword} />
             )}
-          </CardWrapper>
+          </AuthCardWrapper>
         </CenteredXYContainer>
         <AuthFooter />
       </PageWrapper>

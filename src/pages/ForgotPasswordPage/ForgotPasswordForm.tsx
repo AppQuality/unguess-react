@@ -104,6 +104,7 @@ export const ForgotPasswordForm = ({ onSubmit }: ForgotPasswordFormProps) => {
           {isSubmitting ? t('LOADING') : t('FORGOT_PASSWORD_SEND_CTA')}
         </Button>
         <Button
+          type="button"
           onClick={() => {
             window.location.href = loginRoute;
           }}

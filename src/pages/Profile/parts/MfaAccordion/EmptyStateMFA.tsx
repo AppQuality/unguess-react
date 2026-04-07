@@ -44,14 +44,13 @@ export const EmptyStateMFA = ({
           type="light"
           content={t('__PROFILE_PAGE_MFA_ACCORDION_EMPTY_STATE_BUTTON_TOOLTIP')}
         >
-          <Button
-            style={{ marginTop: appTheme.space.sm }}
-            isAccent
-            isPrimary
-            disabled
+          <span
+            style={{ marginTop: appTheme.space.sm, display: 'inline-block' }}
           >
-            {t('__PROFILE_PAGE_MFA_ACCORDION_EMPTY_STATE_BUTTON_LABEL')}
-          </Button>
+            <Button isAccent isPrimary disabled>
+              {t('__PROFILE_PAGE_MFA_ACCORDION_EMPTY_STATE_BUTTON_LABEL')}
+            </Button>
+          </span>
         </Tooltip>
       ) : (
         <Button

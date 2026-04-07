@@ -35,11 +35,6 @@ const FieldContainer = styled.div`
   gap: ${(p) => p.theme.space.md};
 `;
 
-const StyledButton = styled(Button)`
-  border-radius: 999px;
-  margin-top: ${(p) => p.theme.space.sm};
-`;
-
 interface SignupFormValues {
   email: string;
   password: string;
@@ -313,7 +308,7 @@ export const SignupForm = ({ onSignupSuccess }: SignupFormProps) => {
                 }}
               </Field>
 
-              <StyledButton
+              <Button
                 type="submit"
                 isPrimary
                 isAccent
@@ -324,9 +319,10 @@ export const SignupForm = ({ onSignupSuccess }: SignupFormProps) => {
                   !values.termsAccepted ||
                   !values.privacyAccepted
                 }
+                style={{ marginTop: appTheme.space.sm }}
               >
                 {isSubmitting ? t('LOADING') : t('SIGNUP_FORM_SUBMIT')}
-              </StyledButton>
+              </Button>
 
               <div>
                 <SM>
