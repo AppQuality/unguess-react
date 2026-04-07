@@ -29,6 +29,7 @@ const WatcherList = ({ planId }: { planId: string }) => {
       isWatching={isWatching}
       count={watchersCount}
       isLoading={isLoading}
+      placement="bottom-start"
       i18n={{
         tooltip: {
           title: t('__PLAN_PAGE_WATCHER_LIST_TOOLTIP'),
