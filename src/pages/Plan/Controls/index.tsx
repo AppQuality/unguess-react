@@ -2,6 +2,7 @@ import { Notification, useToast } from '@appquality/unguess-design-system';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
+import styled from 'styled-components';
 import { appTheme } from 'src/app/theme';
 import { useModule } from 'src/features/modules/useModule';
 import useWindowSize from 'src/hooks/useWindowSize';
@@ -18,6 +19,12 @@ import { IconButtonMenu } from './IconButtonMenu';
 import { RequestQuotationButton } from './RequestQuotationButton';
 import { SaveConfigurationButton } from './SaveConfigurationButton';
 import { WatcherList } from './WatcherList';
+
+const VerticalDivider = styled.span`
+  border-left: 1px solid ${({ theme }) => theme.palette.grey['300']};
+  height: ${({ theme }) => theme.space.md};
+  width: 1px;
+`;
 
 export const Controls = () => {
   const { t } = useTranslation();
@@ -71,7 +78,6 @@ export const Controls = () => {
     <div
       style={{ display: 'flex', gap: appTheme.space.xs, alignItems: 'center' }}
     >
-      <WatcherList planId={planId} />
       {(planComposedStatus === 'Accepted' ||
         planComposedStatus === 'PurchasedPlan') && <GoToCampaignButton />}
       {(planComposedStatus === 'AwaitingApproval' ||
@@ -87,7 +93,8 @@ export const Controls = () => {
           <RequestQuotationButton onClick={handleRequestQuotation} />
         </>
       )}
-
+      <VerticalDivider />
+      <WatcherList planId={planId} />
       {planComposedStatus !== 'AwaitingPayment' &&
         planComposedStatus !== 'Paying' &&
         planComposedStatus !== 'PurchasedPlan' &&
