@@ -26,7 +26,7 @@ export const Changelog = () => {
       // @ts-ignore
       if (window.Headway && typeof window.Headway.init === 'function') {
         // Check is Headway is already initialized to prevent multiple initializations
-        const headwayElement = document.querySelector('#headway-widget');
+        const headwayElement = document.querySelector('#HW_badge_cont');
         const isAlreadyInitialized = !!headwayElement;
 
         if (!isAlreadyInitialized) {
