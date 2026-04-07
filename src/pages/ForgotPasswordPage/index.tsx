@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Logo } from '@appquality/unguess-design-system';
 import styled from 'styled-components';
+import { AuthCardWrapper } from 'src/common/components/AuthCardWrapper';
 import { NotLogged } from 'src/features/templates/NotLogged';
 import { useAuth } from 'src/features/auth/context';
 import { AuthHeader } from '../LoginPage/parts/AuthHeader';
@@ -25,14 +26,8 @@ const CenteredXYContainer = styled.div`
   flex: 1;
 `;
 
-const CardWrapper = styled.div`
-  width: 100%;
-  max-width: 500px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  flex-direction: column;
+const CardWrapper = styled(AuthCardWrapper)`
+  padding: 0 ${({ theme }) => theme.space.md};
 `;
 
 const StyledLogo = styled(Logo)`

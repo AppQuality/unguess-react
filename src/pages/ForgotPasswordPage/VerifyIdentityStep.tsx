@@ -71,7 +71,6 @@ export const VerifyIdentityStep = ({
 
   return (
     <>
-
       <Title
         style={{
           textAlign: 'center',
@@ -149,6 +148,7 @@ export const VerifyIdentityStep = ({
       </Button>
       <Button
         isBasic
+        isStretched
         onClick={() => window.history.back()}
         style={{
           marginTop: appTheme.space.xs,

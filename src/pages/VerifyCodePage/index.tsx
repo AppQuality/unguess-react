@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { AuthCardWrapper } from 'src/common/components/AuthCardWrapper';
 import { Track } from 'src/common/Track';
 import {
   Button,
@@ -31,16 +32,6 @@ const CenteredXYContainer = styled.div`
   text-align: center;
   flex-direction: column;
   flex: 1;
-`;
-
-const CardWrapper = styled.div`
-  width: 100%;
-  max-width: 376px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  flex-direction: column;
 `;
 
 const FormContainer = styled.div`
@@ -102,7 +93,7 @@ const VerifyCodePage = () => {
       <PageWrapper>
         <AuthHeader />
         <CenteredXYContainer>
-          <CardWrapper>
+          <AuthCardWrapper>
             <Logo
               type="icon"
               size={40}
@@ -175,7 +166,7 @@ const VerifyCodePage = () => {
                 {t('__VERIFY_CODE_BACK_CTA')}
               </Button>
             </FormContainer>
-          </CardWrapper>
+          </AuthCardWrapper>
         </CenteredXYContainer>
         <AuthFooter />
       </PageWrapper>

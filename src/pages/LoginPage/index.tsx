@@ -12,6 +12,7 @@ import { useGetUsersMeQuery } from 'src/features/api';
 import { useAuth } from 'src/features/auth/context';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import styled from 'styled-components';
+import { AuthCardWrapper } from 'src/common/components/AuthCardWrapper';
 import { Track } from 'src/common/Track';
 import { LoginForm } from './LoginForm';
 import { LoginFormFields } from './type';
@@ -36,16 +37,6 @@ const CenteredXYContainer = styled.div`
   text-align: center;
   flex-direction: column;
   flex: 1;
-`;
-
-const CardWrapper = styled.div`
-  width: 100%;
-  max-width: 376px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  flex-direction: column;
 `;
 
 interface NavigationState {
@@ -176,10 +167,10 @@ const LoginPage = () => {
       <PageWrapper>
         <AuthHeader />
         <CenteredXYContainer>
-          <CardWrapper>
+          <AuthCardWrapper>
             <StyledLogo type="icon" size={40} />
             <LoginForm onSubmit={loginUser} buttonText={cta} />
-          </CardWrapper>
+          </AuthCardWrapper>
         </CenteredXYContainer>
         <AuthFooter />
       </PageWrapper>

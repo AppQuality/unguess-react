@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
-  Anchor,
   Button,
   FormField,
   Label,
@@ -72,7 +71,6 @@ export const ForgotPasswordForm = ({ onSubmit }: ForgotPasswordFormProps) => {
         style={{
           textAlign: 'center',
           color: appTheme.palette.grey[700],
-          marginBottom: appTheme.space.lg,
           whiteSpace: 'pre-line',
         }}
       >
@@ -105,14 +103,17 @@ export const ForgotPasswordForm = ({ onSubmit }: ForgotPasswordFormProps) => {
         >
           {isSubmitting ? t('LOADING') : t('FORGOT_PASSWORD_SEND_CTA')}
         </Button>
-        <div style={{ textAlign: 'center', marginTop: appTheme.space.md }}>
-          <Anchor
-            href={loginRoute}
-            style={{ color: appTheme.palette.blue[600] }}
-          >
-            {t('FORGOT_PASSWORD_BACK_TO_LOGIN')}
-          </Anchor>
-        </div>
+        <Button
+          type="button"
+          onClick={() => {
+            window.location.href = loginRoute;
+          }}
+          isBasic
+          isStretched
+          style={{ marginTop: appTheme.space.xs }}
+        >
+          {t('FORGOT_PASSWORD_BACK_TO_LOGIN')}
+        </Button>
       </StyledForm>
     </>
   );

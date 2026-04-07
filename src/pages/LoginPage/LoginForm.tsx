@@ -6,7 +6,7 @@ import {
   Anchor,
   Button,
   ContainerCard,
-  FormField as Field,
+  FormField,
   Label,
   MD,
   MediaInput,
@@ -98,6 +98,7 @@ const LoginForm = ({ onSubmit, buttonText }: LoginFormProps) => {
           onSubmit={onSubmit}
           validate={validate}
           validateOnChange
+          validateOnBlur
         >
           {({
             values,
@@ -105,11 +106,12 @@ const LoginForm = ({ onSubmit, buttonText }: LoginFormProps) => {
             errors,
             touched,
             handleChange,
+            handleBlur,
             handleSubmit,
             isSubmitting,
           }) => (
             <StyledForm onSubmit={handleSubmit}>
-              <Field>
+              <FormField>
                 <Label>
                   {t('__LOGIN_FORM_EMAIL_LABEL')}
                   <span style={{ color: appTheme.palette.red[600] }}>*</span>
@@ -119,14 +121,18 @@ const LoginForm = ({ onSubmit, buttonText }: LoginFormProps) => {
                   name="email"
                   placeholder={t('__LOGIN_FORM_EMAIL_PLACEHOLDER')}
                   onChange={handleChange}
+                  onBlur={handleBlur}
                   value={values.email}
-                  {...getValidation(!!errors.email, touched.email)}
+                  {...getValidation(
+                    !!errors.email && !!touched.email,
+                    touched.email
+                  )}
                 />
-                {errors.email && (
+                {errors.email && touched.email && (
                   <Message validation="error">{errors.email}</Message>
                 )}
-              </Field>
-              <Field style={{ marginTop: appTheme.space.md }}>
+              </FormField>
+              <FormField style={{ marginTop: appTheme.space.md }}>
                 <Label>
                   {t('__LOGIN_FORM_PASSWORD_LABEL')}
                   <span style={{ color: appTheme.palette.red[600] }}>*</span>
@@ -136,6 +142,7 @@ const LoginForm = ({ onSubmit, buttonText }: LoginFormProps) => {
                   name="password"
                   placeholder={t('__LOGIN_FORM_PASSWORD_PLACEHOLDER')}
                   onChange={handleChange}
+                  onBlur={handleBlur}
                   value={values.password}
                   end={
                     <ToggleButton
@@ -148,12 +155,15 @@ const LoginForm = ({ onSubmit, buttonText }: LoginFormProps) => {
                       {showPassword ? <EyeOffIcon /> : <EyeIcon />}
                     </ToggleButton>
                   }
-                  {...getValidation(!!errors.password, touched.password)}
+                  {...getValidation(
+                    !!errors.password && !!touched.password,
+                    touched.password
+                  )}
                 />
-                {errors.password && (
+                {errors.password && touched.password && (
                   <Message validation="error">{errors.password}</Message>
                 )}
-              </Field>
+              </FormField>
               <Anchor
                 href="/forgot-password"
                 style={{

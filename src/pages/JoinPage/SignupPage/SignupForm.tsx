@@ -35,10 +35,6 @@ const FieldContainer = styled.div`
   gap: ${(p) => p.theme.space.md};
 `;
 
-const StyledButton = styled(Button)`
-  border-radius: 999px;
-`;
-
 interface SignupFormValues {
   email: string;
   password: string;
@@ -312,7 +308,7 @@ export const SignupForm = ({ onSignupSuccess }: SignupFormProps) => {
                 }}
               </Field>
 
-              <StyledButton
+              <Button
                 type="submit"
                 isPrimary
                 isAccent
@@ -323,11 +319,12 @@ export const SignupForm = ({ onSignupSuccess }: SignupFormProps) => {
                   !values.termsAccepted ||
                   !values.privacyAccepted
                 }
+                style={{ marginTop: appTheme.space.sm }}
               >
                 {isSubmitting ? t('LOADING') : t('SIGNUP_FORM_SUBMIT')}
-              </StyledButton>
+              </Button>
 
-              <div style={{ marginTop: appTheme.space.md }}>
+              <div>
                 <SM>
                   {t('__JOIN_FORM_ALREADY_HAVE_ACCOUNT_LABEL')}{' '}
                   <Anchor
