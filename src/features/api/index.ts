@@ -1035,7 +1035,13 @@ export { injectedRtkApi as unguessApi };
 export type $getApiResponse = /** status 200 OK */ {};
 export type $getApiArg = void;
 export type PostAiAgentsGenerateVideoTasksApiResponse = /** status 200 OK */ {
-  tasks: SubcomponentTaskVideo[];
+  tasks?: {
+    description?: string;
+    id?: string;
+    title: string;
+    kind: 'video';
+    url?: string;
+  }[];
 };
 export type PostAiAgentsGenerateVideoTasksApiArg = {
   body: {
@@ -2510,13 +2516,6 @@ export type Error = {
   error: boolean;
   message: string;
 };
-export type SubcomponentTaskVideo = {
-  description?: string;
-  id?: string;
-  kind: 'video';
-  title: string;
-  url?: string;
-};
 export type ModuleAcnSaver = {
   output: (
     | 'ACN.PRAGMATICO DIGITALE'
@@ -2682,6 +2681,13 @@ export type ModuleTargetNote = {
   output: string;
   type: 'target_note';
   variant: string;
+};
+export type SubcomponentTaskVideo = {
+  description?: string;
+  id?: string;
+  kind: 'video';
+  title: string;
+  url?: string;
 };
 export type SubcomponentTaskBug = {
   description?: string;

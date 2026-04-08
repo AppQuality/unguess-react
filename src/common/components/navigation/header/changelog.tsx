@@ -21,8 +21,36 @@ export const Changelog = () => {
       selector: '#headway-widget',
       account: 'Jn0mVx',
     };
-    // @ts-ignore
-    window.Headway.init(HW_config);
+
+    const initHeadway = () => {
+      // @ts-ignore
+      if (window.Headway && typeof window.Headway.init === 'function') {
+        // Check is Headway is already initialized to prevent multiple initializations
+        const headwayElement = document.querySelector('#HW_badge_cont');
+        const isAlreadyInitialized = !!headwayElement;
+
+        if (!isAlreadyInitialized) {
+          // @ts-ignore
+          window.Headway.init(HW_config);
+        } else {
+          // eslint-disable-next-line no-console
+          console.warn('Headway is already initialized');
+        }
+      } else {
+        // eslint-disable-next-line no-console
+        console.warn('Headway not found');
+      }
+    };
+
+    initHeadway();
+
+    return () => {
+      // @ts-ignore
+      if (window.Headway && window.Headway.destroy) {
+        // @ts-ignore
+        window.Headway.destroy();
+      }
+    };
   }, []);
 
   return (

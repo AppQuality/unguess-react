@@ -1,8 +1,8 @@
 import googleAnalytics from '@analytics/google-analytics';
 import googleTagManager from '@analytics/google-tag-manager';
-import hubspotPlugin from '@analytics/hubspot';
 import Analytics from 'analytics';
 import userpilot from './common/analytics-plugins/userpilot';
+import hubspot from './common/analytics-plugins/hubspot';
 import { isDev } from './common/isDevEnvironment';
 
 const analytics = Analytics({
@@ -23,7 +23,7 @@ const analytics = Analytics({
       userpilot({
         token: 'NX-54e88e10',
       }),
-      hubspotPlugin({
+      hubspot({
         portalId: isDev() ? '50612068' : '6087279',
       }),
     ],

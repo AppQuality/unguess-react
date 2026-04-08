@@ -121,7 +121,7 @@ const Cta = ({
   const { t } = useTranslation();
   const campaignRoute = useLocalizeRoute(`campaigns/${campaignId}`);
   const { planId } = useParams();
-  const { planComposedStatus, plan } = usePlan(planId);
+  const { planComposedStatus, plan, template } = usePlan(planId);
   const { track } = useAnalytics();
 
   if (
@@ -140,9 +140,11 @@ const Cta = ({
     track('planActivityConfirmed', {
       planId: planId?.toString(),
       templateId: plan?.from_template?.id.toString(),
-      templateName: plan?.from_template?.title,
+      templateName: template?.name ?? 'Unknown Template',
       previousStatus: 'AwaitingApproval', // should be AwaitingApproval
-      newStatus: 'Accepted',
+      planStatus: 'Accepted',
+      standardPrice: template?.price ?? 'Unknown Price',
+      isTailored: !!template?.workspace_id,
       confirmedPrice: plan?.price,
     });
     onClick();

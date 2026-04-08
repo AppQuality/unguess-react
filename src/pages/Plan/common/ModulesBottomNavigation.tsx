@@ -34,7 +34,6 @@ export const ModulesBottomNavigation = () => {
       break;
     case 'instructions':
       leftLabel = t('__MODULES_BOTTOM_NAVIGATION_TASKS_TAB_LEFT_LABEL');
-      rightLabel = t('__MODULES_BOTTOM_NAVIGATION_TASKS_TAB_RIGHT_LABEL');
       break;
     case 'summary':
       leftLabel = t('__MODULES_BOTTOM_NAVIGATION_SUMMARY_TAB_LEFT_LABEL');
@@ -68,24 +67,25 @@ export const ModulesBottomNavigation = () => {
           {leftLabel}
         </Button>
       )}
-
-      <Button
-        isBasic
-        size="small"
-        data-qa={`modules-bottom-navigation-${nextTab.name}`}
-        onClick={() => {
-          setActiveTab(nextTab);
-          if (main) {
-            main.scrollTop = 0;
-          }
-        }}
-        disabled={isInstructionsTabRightButtonDisabled}
-      >
-        {rightLabel}
-        <Button.EndIcon>
-          <ChevronRightIcon />
-        </Button.EndIcon>
-      </Button>
+      {rightLabel && (
+        <Button
+          isBasic
+          size="small"
+          data-qa={`modules-bottom-navigation-${nextTab.name}`}
+          onClick={() => {
+            setActiveTab(nextTab);
+            if (main) {
+              main.scrollTop = 0;
+            }
+          }}
+          disabled={isInstructionsTabRightButtonDisabled}
+        >
+          {rightLabel}
+          <Button.EndIcon>
+            <ChevronRightIcon />
+          </Button.EndIcon>
+        </Button>
+      )}
     </div>
   );
 };

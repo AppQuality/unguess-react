@@ -105,9 +105,11 @@ const DrawerFooter = ({
           planId: id.toString(),
           templateId: selectedTemplate.id.toString(),
           templateName: selectedTemplate.name,
-          planStatus: selectedTemplate,
+          previousStatus: 'none',
+          planStatus: 'draft',
           standardPrice: selectedTemplate.price,
           isTailored: selectedTemplate.isTailored,
+          confirmedPrice: 'none',
         });
         navigate(planRoute);
       })

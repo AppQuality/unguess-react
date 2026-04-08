@@ -38,7 +38,7 @@ const SendRequestModal = ({
   isPurchasable: boolean;
 }) => {
   const { planId } = useParams();
-  const { planComposedStatus, plan } = usePlan(planId);
+  const { planComposedStatus, plan, template } = usePlan(planId);
   const { t } = useTranslation();
   const [updateWatchers, { isLoading: isUpdatingWatchers }] =
     usePutPlansByPidWatchersMutation();
@@ -73,21 +73,25 @@ const SendRequestModal = ({
         track('planQuotationRequested', {
           planId: planId.toString(),
           templateId: plan?.from_template?.id.toString(),
-          templateName: plan?.from_template?.title,
+          templateName: template?.name ?? 'Unknown Template',
           previousStatus: planComposedStatus,
-          newStatus:
+          planStatus:
             planComposedStatus === 'PrequotedDraft' ? 'OpsCheck' : 'Submitted',
-          estimatedPrice: plan?.price,
+          standardPrice: template?.price ?? plan?.price ?? 'Unknown Price',
+          isTailored: !!template?.workspace_id,
+          confirmedPrice: 'none',
           ctaSource: 'modal_submit',
         });
       } else if (planComposedStatus === 'PurchasableDraft' && isFailed) {
         track('planQuotationRequested', {
           planId: planId.toString(),
           templateId: plan?.from_template?.id.toString(),
-          templateName: plan?.from_template?.title,
+          templateName: template?.name ?? 'Unknown Template',
           previousStatus: 'PurchasableDraft',
-          newStatus: 'OpsCheck',
-          estimatedPrice: plan?.price,
+          planStatus: 'OpsCheck',
+          standardPrice: template?.price ?? plan?.price ?? 'Unknown Price',
+          isTailored: !!template?.workspace_id,
+          confirmedPrice: 'none',
           ctaSource: 'modal_submit',
         });
       }

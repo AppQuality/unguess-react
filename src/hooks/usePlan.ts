@@ -99,6 +99,7 @@ const usePlan = (planId?: string) => {
       activeWorkspace,
       plan: undefined,
       planComposedStatus,
+      template: undefined,
     };
   }
 
@@ -108,6 +109,7 @@ const usePlan = (planId?: string) => {
     activeWorkspace,
     plan,
     planComposedStatus,
+    template: planTemplate,
   };
 };
 

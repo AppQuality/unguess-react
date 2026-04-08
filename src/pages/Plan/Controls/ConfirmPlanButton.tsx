@@ -12,7 +12,7 @@ const ConfirmPlanButton = () => {
   const [patchStatus] = usePatchPlansByPidStatusMutation();
 
   const { planId } = useParams();
-  const { plan, planComposedStatus } = usePlan(planId);
+  const { plan, planComposedStatus, template } = usePlan(planId);
   const { t } = useTranslation();
   const isPurchasable = usePlanIsPurchasable(planId);
   const { track } = useAnalytics();
@@ -48,9 +48,12 @@ const ConfirmPlanButton = () => {
         track('planActivityConfirmed', {
           planId: planId?.toString(),
           templateId: plan?.from_template?.id.toString(),
-          templateName: plan?.from_template?.title,
+          templateName:
+            template?.name ?? plan?.from_template?.title ?? 'Unknown Template',
           previousStatus: 'AwaitingApproval', // should be AwaitingApproval
-          newStatus: 'Accepted',
+          planStatus: 'Accepted',
+          standardPrice: template?.price ?? 'Unknown Price',
+          isTailored: !!template?.workspace_id,
           confirmedPrice: plan.price,
         });
       }}
