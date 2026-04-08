@@ -87,6 +87,7 @@ const ResetPasswordPage = () => {
                 smsDestination={smsDestination}
                 onVerify={handleVerifyCode}
                 onResend={handleResend}
+                onBack={() => navigate(loginRoute, { replace: true })}
               />
             )}
             {step === 'changePassword' && (

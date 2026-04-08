@@ -18,6 +18,7 @@ interface VerifyIdentityStepProps {
   smsDestination: string;
   onVerify: (code: string) => void;
   onResend: () => Promise<void>;
+  onBack: () => void;
 }
 
 export const VerifyIdentityStep = ({
@@ -25,6 +26,7 @@ export const VerifyIdentityStep = ({
   smsDestination,
   onVerify,
   onResend,
+  onBack,
 }: VerifyIdentityStepProps) => {
   const { t } = useTranslation();
   const [code, setCode] = useState('');
@@ -149,7 +151,7 @@ export const VerifyIdentityStep = ({
       <Button
         isBasic
         isStretched
-        onClick={() => window.history.back()}
+        onClick={onBack}
         style={{
           marginTop: appTheme.space.xs,
           color: appTheme.palette.blue[600],

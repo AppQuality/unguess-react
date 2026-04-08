@@ -85,6 +85,7 @@ const ForgotPasswordPage = () => {
                 smsDestination={smsDestination}
                 onVerify={handleVerifyCode}
                 onResend={handleResend}
+                onBack={() => setStep('request')}
               />
             )}
             {step === 'changePassword' && (
