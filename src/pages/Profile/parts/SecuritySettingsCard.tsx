@@ -1,7 +1,7 @@
 import {
+  Alert,
   Anchor,
   ContainerCard,
-  GlobalAlert,
   LG,
   MD,
   SM,
@@ -70,12 +70,12 @@ export const SecuritySettingsCard = () => {
         </AccordionWrapper>
       </div>
       {currentUser?.authType === 'legacy' && (
-        <GlobalAlert
-          type="info"
-          title={t('__PROFILE_PAGE_SECURITY_LEGACY_ALERT_TITLE')}
-          message={t('__PROFILE_PAGE_SECURITY_LEGACY_ALERT_MESSAGE')}
-          style={{ marginTop: appTheme.space.sm }}
-        />
+        <Alert type="info" style={{ marginTop: appTheme.space.sm }}>
+          <Alert.Title>
+            {t('__PROFILE_PAGE_SECURITY_LEGACY_ALERT_TITLE')}
+          </Alert.Title>
+          {t('__PROFILE_PAGE_SECURITY_LEGACY_ALERT_MESSAGE')}
+        </Alert>
       )}
       <SM
         color={appTheme.palette.grey[600]}
