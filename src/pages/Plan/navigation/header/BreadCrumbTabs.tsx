@@ -1,4 +1,4 @@
-import { Breadcrumb, Button } from '@appquality/unguess-design-system';
+import { Breadcrumb, Button, Tooltip } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { useAppSelector } from 'src/app/hooks';
 import { useModuleConfiguration } from 'src/features/modules/useModuleConfiguration';
@@ -95,16 +95,25 @@ export const BreadCrumbTabs = () => {
       >
         {t('__PLAN_PAGE_HEADER_BREADCRUMBS_INSTRUCTIONS_TAB')}
       </Button>
-      <Button
-        isBasic
-        size="small"
-        isPrimary={activeTab.name === 'summary'}
-        disabled={getPlanStatus() === 'draft'}
-        onClick={() => handleGoToTab('summary')}
-        data-qa="summary-tab"
+      <Tooltip
+        size="large"
+        type="light"
+        placement="auto"
+        content={t('__PLAN_PAGE_SUMMARY_TAB_TOOLTIP')}
       >
-        {t('__PLAN_PAGE_HEADER_BREADCRUMBS_SUMMARY_TAB')}
-      </Button>
+        <span>
+          <Button
+            isBasic
+            size="small"
+            isPrimary={activeTab.name === 'summary'}
+            disabled={getPlanStatus() === 'draft'}
+            onClick={() => handleGoToTab('summary')}
+            data-qa="summary-tab"
+          >
+            {t('__PLAN_PAGE_HEADER_BREADCRUMBS_SUMMARY_TAB')}
+          </Button>
+        </span>
+      </Tooltip>
     </StyledBreadcrumb>
   );
 };

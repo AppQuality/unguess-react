@@ -8,7 +8,7 @@ import {
   TooltipModal,
 } from '@appquality/unguess-design-system';
 
-import React, { ReactNode, useRef, useState } from 'react';
+import React, { ComponentProps, ReactNode, useRef, useState } from 'react';
 import { Divider } from 'src/common/components/divider';
 import { styled, useTheme } from 'styled-components';
 
@@ -58,6 +58,7 @@ const WatcherList = ({
   size,
   hideWatchButton,
   i18n,
+  placement,
 }: {
   children?: ReactNode;
   isWatching: boolean;
@@ -65,6 +66,7 @@ const WatcherList = ({
   isLoading: boolean;
   hideWatchButton?: boolean;
   size?: 'small' | 'medium';
+  placement?: ComponentProps<typeof TooltipModal>['placement'];
   i18n: {
     tooltip: {
       title: ReactNode;
@@ -149,7 +151,7 @@ const WatcherList = ({
       </Tooltip>
       <TooltipModal
         referenceElement={referenceElement}
-        placement="auto"
+        placement={placement || 'auto'}
         hasArrow={false}
         onClose={() => setReferenceElement(null)}
         role="dialog"
