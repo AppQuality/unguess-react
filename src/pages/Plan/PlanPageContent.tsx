@@ -51,7 +51,7 @@ export const PlanPageContent = ({
           previousStatus: 'AwaitingPayment',
           planStatus: 'PurchasedPlan',
           standardPrice: plan?.price ?? 'Unknown Price',
-          isTailored: 'Unknown',
+          isTailored: false,
           confirmedPrice: plan?.price ?? 'Unknown Price',
         });
       }

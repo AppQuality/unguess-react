@@ -77,7 +77,7 @@ const SendRequestModal = ({
           previousStatus: planComposedStatus,
           planStatus:
             planComposedStatus === 'PrequotedDraft' ? 'OpsCheck' : 'Submitted',
-          standardPrice: plan?.price ?? 'Unknown Price',
+          standardPrice: template?.price ?? plan?.price ?? 'Unknown Price',
           isTailored: !!template?.workspace_id,
           confirmedPrice: 'none',
           ctaSource: 'modal_submit',
@@ -89,7 +89,7 @@ const SendRequestModal = ({
           templateName: template?.name ?? 'Unknown Template',
           previousStatus: 'PurchasableDraft',
           planStatus: 'OpsCheck',
-          standardPrice: plan?.price ?? 'Unknown Price',
+          standardPrice: template?.price ?? plan?.price ?? 'Unknown Price',
           isTailored: !!template?.workspace_id,
           confirmedPrice: 'none',
           ctaSource: 'modal_submit',

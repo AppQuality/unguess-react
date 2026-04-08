@@ -48,7 +48,8 @@ const ConfirmPlanButton = () => {
         track('planActivityConfirmed', {
           planId: planId?.toString(),
           templateId: plan?.from_template?.id.toString(),
-          templateName: template?.name ?? 'Unknown Template',
+          templateName:
+            template?.name ?? plan?.from_template?.title ?? 'Unknown Template',
           previousStatus: 'AwaitingApproval', // should be AwaitingApproval
           planStatus: 'Accepted',
           standardPrice: template?.price ?? 'Unknown Price',

@@ -47,9 +47,9 @@ function loadHubspotScript(portalId: string) {
 // Mapping between internal event names and HubSpot event names
 const DEV_EVENT_NAME_MAPPING: Record<string, string> = {
   planDraftCreated: 'pe50612068_plandraftcreated',
-  planActivityConfirmed: '',
-  planQuotationRequested: '',
-  planPurchaseSuccessful: '',
+  planActivityConfirmed: 'pe50612068_planactivityconfirmed',
+  planQuotationRequested: 'pe50612068_planquotationrequested',
+  planPurchaseSuccessful: 'pe50612068_planpurchasesuccessful',
 };
 
 const EVENT_NAME_MAPPING: Record<string, string> = {
@@ -108,16 +108,18 @@ export default function hubspotPlugin(pluginSettings: HubspotConfig) {
     name: 'hubspot',
     config: { ...pluginSettings },
     initialize: ({ config }: { config: HubspotConfig }) => {
-      console.log(
-        'Initializing HubSpot plugin with portal ID:',
-        config.portalId
-      );
+      if (isDev()) {
+        console.log('Initializing HubSpot plugin');
+      }
       loadHubspotScript(config.portalId);
     },
     identify: ({ payload }: { payload: IIdentifyPayload }) => {
       const { userId, traits } = payload;
       const { workspace, ...basicTraits } = traits;
-      console.log('Identifying user in HubSpot with traits:', traits);
+
+      if (isDev()) {
+        console.log('Identifying user in HubSpot', { userId, traits });
+      }
 
       const properties = {
         ...basicTraits,
