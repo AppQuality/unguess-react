@@ -112,8 +112,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
       const { isSignUpComplete, userId, nextStep } = await signUp(signUpInput);
 
-      // eslint-disable-next-line no-console
       if (isDev()) {
+        // eslint-disable-next-line no-console
         console.log('Signup result:', { isSignUpComplete, userId, nextStep });
 
         if (!isSignUpComplete) {

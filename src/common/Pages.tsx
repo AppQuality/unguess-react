@@ -78,8 +78,14 @@ const Pages = () => {
                   path={`/${langPrefix}/forgot-password`}
                   element={<ForgotPasswordPage />}
                 />
-                <Route path="/callback" element={<CallbackPage />} />
-                <Route path="/logout" element={<LogoutPage />} />
+                <Route
+                  path={`/${langPrefix}/callback`}
+                  element={<CallbackPage />}
+                />
+                <Route
+                  path={`/${langPrefix}/logout`}
+                  element={<LogoutPage />}
+                />
 
                 <Route
                   path={`/${langPrefix}/projects/:projectId`}
