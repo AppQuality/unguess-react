@@ -12,6 +12,7 @@ import { appTheme } from 'src/app/theme';
 import Pages from 'src/common/Pages';
 import { StyleSheetManager } from 'styled-components';
 import { AnalyticsProvider } from 'use-analytics';
+import { AuthProvider } from 'src/features/auth/context';
 import '../i18n';
 import { store } from './store';
 
@@ -30,34 +31,39 @@ const App = () => {
   return (
     <StyleSheetManager shouldForwardProp={shouldForwardProp}>
       <Provider store={store}>
-        <AnalyticsProvider instance={analytics}>
-          <ThemeProvider theme={appTheme}>
-            <GlobalStyle />
-            <Helmet>
-              <meta
-                property="og:title"
-                content={`UNGUESS - ${t('__APP_META_PAYOFF')}`}
-              />
-              <title>UNGUESS - {t('__APP_META_PAYOFF')}</title>
-              <meta name="description" content={t('__APP_META_DESCRIPTION')} />
-            </Helmet>
-            <ToastProvider
-              limit={5}
-              zIndex={500}
-              placementProps={{
-                top: {
-                  style: {
-                    top:
-                      parseInt(appTheme.components.chrome.header.height, 10) +
-                      appTheme.space.base * 4,
+        <AuthProvider>
+          <AnalyticsProvider instance={analytics}>
+            <ThemeProvider theme={appTheme}>
+              <GlobalStyle />
+              <Helmet>
+                <meta
+                  property="og:title"
+                  content={`UNGUESS - ${t('__APP_META_PAYOFF')}`}
+                />
+                <title>UNGUESS - {t('__APP_META_PAYOFF')}</title>
+                <meta
+                  name="description"
+                  content={t('__APP_META_DESCRIPTION')}
+                />
+              </Helmet>
+              <ToastProvider
+                limit={5}
+                zIndex={500}
+                placementProps={{
+                  top: {
+                    style: {
+                      top:
+                        parseInt(appTheme.components.chrome.header.height, 10) +
+                        appTheme.space.base * 4,
+                    },
                   },
-                },
-              }}
-            >
-              <Pages />
-            </ToastProvider>
-          </ThemeProvider>
-        </AnalyticsProvider>
+                }}
+              >
+                <Pages />
+              </ToastProvider>
+            </ThemeProvider>
+          </AnalyticsProvider>
+        </AuthProvider>
       </Provider>
     </StyleSheetManager>
   );

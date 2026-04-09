@@ -147,7 +147,7 @@ test.describe('Locality Module', () => {
     await expect(citySelectionPanel()).toBeVisible();
 
     // Click outside to trigger validation (no city selected)
-    await page.click('body', { position: { x: 0, y: 0 } });
+    await page.locator('body').click({ position: { x: 0, y: 0 } });
     await expect(errorMessage()).toBeVisible();
     await expect(errorMessage()).toContainText(
       i18n.t('__PLAN_PAGE_MODULE_LOCALITY_CITY_ERROR')
@@ -215,7 +215,7 @@ test.describe('Locality Module', () => {
       .click();
 
     // Click outside to trigger validation
-    await page.click('body', { position: { x: 0, y: 0 } });
+    await page.locator('body').click({ position: { x: 0, y: 0 } });
     await expect(errorMessage()).toBeVisible();
     await expect(errorMessage()).toContainText(
       i18n.t('__PLAN_PAGE_MODULE_LOCALITY_REGION_ERROR')

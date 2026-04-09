@@ -21,6 +21,15 @@ test.describe('Home page', () => {
     await planCreationInterface.mockGetNewPlan();
     await dashboard.mockWorkspacesList();
     await promoList.mockPromoTemplates();
+    await dashboard.page.route('*/**/api/workspaces/*/templates/*', async (route) => {
+      if (route.request().method() === 'GET') {
+        await route.fulfill({
+          path: 'tests/api/workspaces/wid/templates/tid/_get/200_Example_1.json',
+        });
+      } else {
+        await route.fallback();
+      }
+    });
     await dashboard.open();
   });
   test('has title', async ({ i18n }) => {

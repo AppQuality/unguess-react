@@ -476,6 +476,10 @@ export interface paths {
     get: operations["get-templates-categories"];
   };
   "/users": {
+    /**
+     * This endpoint no longer creates a new user.
+     * With the introduction of Cognito, the user is now created and authenticated externally. This route is used solely to complete the user profile within our platform, starting from an existing Cognito user and enriching it with additional application‑specific data
+     */
     post: operations["post-users"];
     parameters: {};
   };
@@ -1718,6 +1722,12 @@ export interface components {
       role: string;
       tryber_wp_user_id: number;
       unguess_wp_user_id: number;
+      /**
+       * @default legacy
+       * @enum {undefined}
+       */
+      authType: "legacy" | "cognito";
+      onboarding_pending?: boolean;
     };
     /** UserPreference */
     UserPreference: {
@@ -4087,6 +4097,10 @@ export interface operations {
       };
     };
   };
+  /**
+   * This endpoint no longer creates a new user.
+   * With the introduction of Cognito, the user is now created and authenticated externally. This route is used solely to complete the user profile within our platform, starting from an existing Cognito user and enriching it with additional application‑specific data
+   */
   "post-users": {
     parameters: {};
     responses: {
@@ -4106,7 +4120,6 @@ export interface operations {
         "application/json": {
           companySizeId: number;
           name: string;
-          password: string;
           roleId: number;
           surname: string;
           templateId?: number;

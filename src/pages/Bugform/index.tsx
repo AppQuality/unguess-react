@@ -1,6 +1,5 @@
 import { useParams, useSearchParams } from 'react-router-dom';
 import { Header } from 'src/common/components/navigation/header/header';
-import { isDev } from 'src/common/isDevEnvironment';
 import i18n from 'src/i18n';
 import styled from 'styled-components';
 
@@ -38,9 +37,7 @@ const BugForm = () => {
   const { campaignId } = useParams<{ campaignId: string }>();
   const [query] = useSearchParams();
   const token = query.get('token') || '';
-  const tryberUrl = isDev()
-    ? 'https://dev.tryber.me'
-    : process.env.REACT_APP_TRYBER_URL;
+  const tryberUrl = process.env.REACT_APP_TRYBER_URL;
   const lang = i18n.language !== 'en' ? `/${i18n.language}` : '';
 
   return (

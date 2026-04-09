@@ -1395,8 +1395,7 @@ export type GetCampaignsByCidMetaApiArg = {
   /** Campaign id */
   cid: string;
 };
-export type GetCampaignsByCidObservationsApiResponse =
-  /** status 200 OK */
+export type GetCampaignsByCidObservationsApiResponse = /** status 200 OK */
   | {
       kind: 'usecase-grapes';
       results: {
@@ -1657,8 +1656,7 @@ export type GetCampaignsByCidVideosApiArg = {
   /** filterBy[<fieldName>]=<fieldValue> */
   filterBy?: any;
 };
-export type GetCampaignsByCidWidgetsApiResponse =
-  /** status 200 OK */
+export type GetCampaignsByCidWidgetsApiResponse = /** status 200 OK */
   | WidgetBugsByUseCase
   | WidgetBugsByDevice
   | WidgetCampaignProgress
@@ -1973,7 +1971,6 @@ export type PostUsersApiArg = {
   body: {
     companySizeId: number;
     name: string;
-    password: string;
     roleId: number;
     surname: string;
     templateId?: number;
@@ -3300,6 +3297,8 @@ export type User = {
   role: string;
   tryber_wp_user_id: number;
   unguess_wp_user_id: number;
+  authType: 'legacy' | 'cognito';
+  onboarding_pending?: boolean;
 };
 export type UserPreference = {
   name: string;

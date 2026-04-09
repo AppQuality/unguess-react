@@ -7,6 +7,10 @@ export class Join extends UnguessPage {
 
   readonly url = '/join';
 
+  readonly signupUrl = '/join/signup';
+
+  readonly onboardingUrl = '/join/onboarding';
+
   readonly profileId = '1';
 
   readonly token = 'token123';
@@ -26,6 +30,14 @@ export class Join extends UnguessPage {
       loader: () => this.page.getByTestId('join-page-loader'),
       errorState: () => this.page.getByTestId('join-page-error'),
     };
+  }
+
+  async openSignup() {
+    await this.page.goto(this.signupUrl);
+  }
+
+  async openOnboarding() {
+    await this.page.goto(this.onboardingUrl);
   }
 
   async mockGetInvitedUser() {

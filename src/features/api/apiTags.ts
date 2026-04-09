@@ -96,6 +96,9 @@ unguessApi.enhanceEndpoints({
     getUsersMe: {
       providesTags: ['Users'],
     },
+    postUsers: {
+      invalidatesTags: ['Users'],
+    },
     getUsersMePreferences: {
       providesTags: ['Preferences'],
     },
@@ -317,6 +320,9 @@ unguessApi.enhanceEndpoints({
     },
     patchPlansByPidStatus: {
       invalidatesTags: ['Plans', 'Projects', 'CheckoutItem'],
+    },
+    deletePlansByPid: {
+      invalidatesTags: ['Plans'],
     },
     getPlansByPidCheckoutItem: {
       providesTags: ['CheckoutItem'],

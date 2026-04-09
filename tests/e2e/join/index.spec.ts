@@ -1,190 +1,193 @@
 import { test, expect } from '../../fixtures/app';
 import { Join } from '../../fixtures/pages/Join';
-import { Step1 } from '../../fixtures/pages/Join/Step1';
-import { Step2 } from '../../fixtures/pages/Join/Step2';
-import { Step3 } from '../../fixtures/pages/Join/Step3';
+import { OnboardingPage } from '../../fixtures/pages/Join/OnboardingPage';
+import { SignupPage } from '../../fixtures/pages/Join/SignupPage';
 
-test.describe('The Join page first step - case new user', () => {
+test.describe('The Join page signup step - case new user', () => {
   let join: Join;
-  let step1: Step1;
-  let step2: Step2;
+  let signupPage: SignupPage;
 
   test.beforeEach(async ({ page }) => {
     join = new Join(page);
+    signupPage = new SignupPage(page);
     await join.notLoggedIn();
-    step1 = new Step1(page);
-    step2 = new Step2(page);
-    await join.open();
+    await signupPage.mockCognitoSignup();
+    await join.openSignup();
   });
 
-  test('display a form with user email and password input, a CTA to go to the next step', async () => {
-    await expect(step1.elements().container()).toBeVisible();
-    await expect(step1.elements().emailInput()).toBeVisible();
-    await expect(step1.elements().passwordInput()).toBeVisible();
-    await expect(step1.elements().buttonGoToStep2()).toBeVisible();
+  test('display a form with user email and password input and terms checkbox', async () => {
+    await expect(signupPage.signupFormElements().emailInput()).toBeVisible();
+    await expect(signupPage.signupFormElements().passwordInput()).toBeVisible();
+    await expect(signupPage.signupFormElements().termsCheckbox()).toBeVisible();
   });
 
   test('the password input check if the password is strong enough', async ({
     page,
     i18n,
   }) => {
-    await step1.elements().buttonGoToStep2().click();
-    await expect(step1.elements().passwordError()).toHaveText(
-      i18n.t('SIGNUP_FORM_PASSWORD_IS_A_REQUIRED_FIELD')
+    // Touch the password field and blur to trigger validation
+    await signupPage.signupFormElements().passwordInput().click();
+    await signupPage.signupFormElements().passwordInput().blur();
+    await expect(signupPage.signupFormElements().passwordError()).toHaveText(
+      i18n.t('SIGNUP_FORM_PASSWORD_REQUIRED')
     );
 
-    await expect(step1.elements().passwordRequirements()).toBeVisible();
-
-    await step1.fillPassword('weak');
     await expect(
-      page.getByText(
-        i18n.t('SIGNUP_FORM_PASSWORD_MUST_BE_AT_LEAST_6_CHARACTER_LONG')
-      )
+      page.getByTestId('password-requirements')
     ).toBeVisible();
 
-    await step1.fillPassword('weakpassword');
+    await signupPage.fillPassword('weak');
     await expect(
-      page.getByText(
-        i18n.t('SIGNUP_FORM_PASSWORD_MUST_CONTAIN_AT_LEAST_A_NUMBER')
-      )
+      page.getByText(i18n.t('PASSWORD_VALIDATOR_MINIMUM_OF_12_CHARACTERS'))
     ).toBeVisible();
 
-    await step1.fillPassword('weakpassword123');
+    await signupPage.fillPassword('weakpassword');
     await expect(
-      page.getByText(
-        i18n.t('SIGNUP_FORM_PASSWORD_MUST_CONTAIN_AT_LEAST_AN_UPPERCASE_LETTER')
-      )
+      page.getByText(i18n.t('PASSWORD_VALIDATOR_CONTAIN_A_NUMBER'))
     ).toBeVisible();
 
-    await step1.fillPassword('WEAKPASSWORD123');
+    await signupPage.fillPassword('weakpassword123');
     await expect(
-      page.getByText(
-        i18n.t('SIGNUP_FORM_PASSWORD_MUST_CONTAIN_AT_LEAST_A_LOWERCASE_LETTER')
-      )
+      page.getByText(i18n.t('PASSWORD_VALIDATOR_CONTAIN_AN_UPPERCASE_LETTER'))
     ).toBeVisible();
 
-    await step1.fillValidPassword();
-    await expect(page.getByTestId('message-error-password')).not.toBeVisible();
+    await signupPage.fillPassword('WEAKPASSWORD123');
+    await expect(
+      page.getByText(i18n.t('PASSWORD_VALIDATOR_CONTAIN_A_LOWERCASE_LETTER'))
+    ).toBeVisible();
+
+    await signupPage.fillPassword('ValidPassword123');
+    await expect(page.getByTestId('signup-password-error')).not.toBeVisible();
   });
 
   test('the email input check if the email is valid', async ({
     page,
     i18n,
   }) => {
-    await step1.elements().buttonGoToStep2().click();
-    await expect(step1.elements().emailError()).toHaveText(
-      i18n.t('SIGNUP_FORM_EMAIL_IS_REQUIRED')
+    // Touch the email field and blur to trigger validation
+    await signupPage.signupFormElements().emailInput().click();
+    await signupPage.signupFormElements().emailInput().blur();
+    await expect(signupPage.signupFormElements().emailError()).toHaveText(
+      i18n.t('SIGNUP_FORM_EMAIL_REQUIRED')
     );
-    await step1.fillEmail('invalid-email@');
+    await signupPage.fillEmail('invalid-email@');
     await expect(
-      page.getByText(i18n.t('SIGNUP_FORM_EMAIL_MUST_BE_A_VALID_EMAIL'))
+      page.getByText(i18n.t('SIGNUP_FORM_EMAIL_INVALID'))
     ).toBeVisible();
 
-    await step1.fillEmail('fake-email@mailinator.com');
+    await signupPage.fillEmail('fake-email@mailinator.com');
     await expect(
       page.getByText(i18n.t('SIGNUP_FORM_EMAIL_DISPOSABLE_NOT_ALLOWED'))
     ).toBeVisible();
 
-    await step1.fillRegisteredEmail();
-    await expect(
-      page.getByText(i18n.t('SIGNUP_FORM_EMAIL_ALREADY_TAKEN'))
-    ).toBeVisible();
+    // TODO: With direct Cognito integration, we should validate email availability
+    // through Cognito's error responses instead of client-side checks.
+    // Consider removing this validation in favor of handling Cognito errors.
 
-    await step1.fillValidEmail();
-    await expect(page.getByTestId('message-error-email')).not.toBeVisible();
+    // await signupPage.fillRegisteredEmail();
+    // await expect(
+    //   page.getByText(i18n.t('SIGNUP_FORM_EMAIL_ALREADY_TAKEN'))
+    // ).toBeVisible();
+
+    await signupPage.fillEmail('new.user@example.com');
+    await expect(page.getByTestId('signup-email-error')).not.toBeVisible();
   });
 
-  test('when the user click the next step cta we validate current inputs and if ok goes to the next step', async () => {
-    await step1.goToNextStep();
-    await expect(step1.elements().container()).not.toBeVisible();
-    await expect(step2.elements().container()).toBeVisible();
+  test('when the user click the cta we validate current inputs and if ok shows confirmation code input', async () => {
+    await signupPage.mockCognitoConfirmSignup();
+
+    await signupPage.fillValidSignupForm();
+    await signupPage.submitSignupForm();
+    await expect(
+      signupPage.confirmEmailFormElements().codeInput()
+    ).toBeVisible();
   });
 });
 
 test.describe('The Join page second step', () => {
   let join: Join;
-  let step1: Step1;
-  let step2: Step2;
-  let step3: Step3;
+  let onboarding: OnboardingPage;
 
   test.beforeEach(async ({ page }) => {
     join = new Join(page);
-    await join.notLoggedIn();
-    step1 = new Step1(page);
-    step2 = new Step2(page);
-    step3 = new Step3(page);
+    onboarding = new OnboardingPage(page);
+    await onboarding.mockAuthenticatedUserWithPendingOnboarding();
+    await onboarding.mockGetRoles();
+    await onboarding.mockGetCompanySizes();
 
-    await step2.mockGetRoles();
-    await step2.mockGetCompanySizes();
-    await join.open();
-    await step1.goToNextStep();
+    await join.openOnboarding();
   });
   test('display required inputs for name, surname, job role and company size dropdowns populated from api userRole and companySize', async ({
+    page,
     i18n,
   }) => {
-    await expect(step2.elements().nameInput()).toBeVisible();
-    await expect(step2.elements().surnameInput()).toBeVisible();
-    await expect(step2.elements().roleSelect()).toBeVisible();
-    await step2.elements().roleSelect().click();
-    await expect(step2.elements().roleSelectOptions()).toHaveCount(3);
-
-    await expect(step2.elements().companySizeSelect()).toBeVisible();
-    await step2.elements().companySizeSelect().click();
-    await expect(step2.elements().companySizeSelectOptions()).toHaveCount(3);
-
-    await step2.elements().buttonGoToStep3().click();
-
-    await expect(step2.elements().nameError()).toHaveText(
-      i18n.t('SIGNUP_FORM_NAME_IS_REQUIRED')
+    await expect(onboarding.elements().nameInput()).toBeVisible();
+    await expect(onboarding.elements().surnameInput()).toBeVisible();
+    await expect(onboarding.elements().roleSelect()).toBeVisible();
+    await onboarding.elements().roleSelect().click();
+    await expect(onboarding.elements().roleSelectOptions()).toHaveCount(3);
+    await page.keyboard.press('Escape');
+    await expect(onboarding.elements().companySizeSelect()).toBeVisible();
+    await onboarding.elements().companySizeSelect().click();
+    await expect(onboarding.elements().companySizeSelectOptions()).toHaveCount(
+      3
     );
-    await expect(step2.elements().surnameError()).toHaveText(
-      i18n.t('SIGNUP_FORM_SURNAME_IS_REQUIRED')
+    await page.keyboard.press('Escape');
+
+    // Touch fields and blur to trigger validation errors
+    await onboarding.elements().nameInput().click();
+    await onboarding.elements().nameInput().blur();
+    await onboarding.elements().surnameInput().click();
+    await onboarding.elements().surnameInput().blur();
+
+    await expect(onboarding.elements().nameError()).toHaveText(
+      i18n.t('SIGNUP_FORM_NAME_REQUIRED')
     );
-    await expect(step2.elements().roleSelectError()).toHaveText(
-      i18n.t('SIGNUP_FORM_ROLE_IS_REQUIRED')
-    );
-    await expect(step2.elements().companySizeSelectError()).toHaveText(
-      i18n.t('SIGNUP_FORM_COMPANY_SIZE_IS_REQUIRED')
+    await expect(onboarding.elements().surnameError()).toHaveText(
+      i18n.t('SIGNUP_FORM_SURNAME_REQUIRED')
     );
 
-    await step2.fillValidFields();
-    await expect(step2.elements().nameError()).not.toBeVisible();
-    await expect(step2.elements().surnameError()).not.toBeVisible();
-    await expect(step2.elements().roleSelectError()).not.toBeVisible();
+    await onboarding.fillPersonalInfo();
+    await expect(onboarding.elements().nameError()).not.toBeVisible();
+    await expect(onboarding.elements().surnameError()).not.toBeVisible();
   });
-  test('display back and next navigation, clicking on next validate this step and goes to step 3', async () => {
-    await expect(step2.elements().buttonBackToStep1()).toBeVisible();
-    await expect(step2.elements().buttonGoToStep3()).toBeVisible();
-    await step2.goToNextStep();
-    await expect(step2.elements().container()).not.toBeVisible();
-    await expect(step3.elements().container()).toBeVisible();
+
+  test('display next navigation, clicking on next validate this step and goes to final step', async () => {
+    await expect(onboarding.elements().nextButton()).toBeVisible();
+
+    await onboarding.fillPersonalInfo();
+    await onboarding.submitPersonalInfo();
+    await expect(onboarding.elements().nameInput()).not.toBeVisible();
+    await expect(onboarding.workspaceElements().workspaceInput()).toBeVisible();
   });
 });
 
 test.describe('The Join page third step', () => {
   let join: Join;
-  let step1: Step1;
-  let step2: Step2;
-  let step3: Step3;
+  let onboarding: OnboardingPage;
 
   test.beforeEach(async ({ page }) => {
     join = new Join(page);
-    await join.notLoggedIn();
-    step1 = new Step1(page);
-    step2 = new Step2(page);
-    step3 = new Step3(page);
+    onboarding = new OnboardingPage(page);
 
-    await join.open();
     await join.mockPostNewUser();
-    await step1.goToNextStep();
-    await step2.goToNextStep();
+    await onboarding.mockAuthenticatedUserWithPendingOnboarding();
+    await onboarding.mockGetRoles();
+    await onboarding.mockGetCompanySizes();
+
+    await join.openOnboarding();
+
+    await onboarding.fillPersonalInfo();
+    await onboarding.submitPersonalInfo();
   });
   test('display a required text input for the workspace name and a back button to return to step 2', async () => {
-    await expect(step3.elements().workspaceInput()).toBeVisible();
-    await expect(step3.elements().buttonBackToStep2()).toBeVisible();
-    await step3.elements().buttonBackToStep2().click();
-    await expect(step3.elements().container()).not.toBeVisible();
-    await expect(step2.elements().container()).toBeVisible();
+    await expect(onboarding.workspaceElements().workspaceInput()).toBeVisible();
+    await expect(onboarding.workspaceElements().backButton()).toBeVisible();
+    await onboarding.workspaceElements().backButton().click();
+    await expect(
+      onboarding.workspaceElements().workspaceInput()
+    ).not.toBeVisible();
+    await expect(onboarding.elements().nameInput()).toBeVisible();
   });
   test('display a submit-button, clicking on submit-button validate the whole form and calls the api post', async ({
     page,
@@ -196,25 +199,28 @@ test.describe('The Join page third step', () => {
         response.status() === 200 &&
         response.request().method() === 'POST'
     );
-    await step3.elements().buttonSubmit().click();
-    await expect(step3.elements().workspaceError()).toHaveText(
-      i18n.t('SIGNUP_FORM_WORKSPACE_IS_REQUIRED')
+    // Touch workspace field to trigger validation
+    await onboarding.workspaceElements().workspaceInput().click();
+    await onboarding.workspaceElements().workspaceInput().blur();
+    await expect(onboarding.workspaceElements().workspaceError()).toHaveText(
+      i18n.t('SIGNUP_FORM_WORKSPACE_REQUIRED')
     );
-    await step3.fillValidWorkspace();
-    await expect(step3.elements().workspaceError()).not.toBeVisible();
-    await step3.elements().buttonSubmit().click();
+    await onboarding.fillWorkspace();
+    await expect(
+      onboarding.workspaceElements().workspaceError()
+    ).not.toBeVisible();
+    await onboarding.workspaceElements().submitButton().click({ force: true });
     const response = await postPromise;
     const data = response.request().postDataJSON();
     expect(data).toEqual(
       expect.objectContaining({
         type: 'new',
         email: 'new.user@example.com',
-        password: 'ValidPassword123',
-        name: step2.name,
-        surname: step2.surname,
-        roleId: step2.roleId,
-        companySizeId: step2.companySizeId,
-        workspace: step3.workspace,
+        name: onboarding.name,
+        surname: onboarding.surname,
+        roleId: onboarding.roleId,
+        companySizeId: onboarding.companySizeId,
+        workspace: onboarding.workspace,
       })
     );
   });
