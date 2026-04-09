@@ -1,3 +1,5 @@
+import { isDev } from 'src/common/isDevEnvironment';
+
 export const awsConfig = {
   Auth: {
     Cognito: {
@@ -18,6 +20,16 @@ export const awsConfig = {
         requireUppercase: true,
         requireNumbers: true,
         requireSpecialCharacters: false,
+      },
+
+      oauth: {
+        domain: isDev()
+          ? 'unguess-auth-staging.auth.eu-west-1.amazoncognito.com'
+          : 'unguess-auth-production.auth.eu-west-1.amazoncognito.com',
+        scope: ['email', 'openid', 'profile'],
+        redirectSignIn: '/callback',
+        redirectSignOut: '/logout',
+        responseType: 'code',
       },
     },
   },
