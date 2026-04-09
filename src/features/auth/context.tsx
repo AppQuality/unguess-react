@@ -13,6 +13,7 @@ import {
   type SignUpInput,
   type ConfirmSignUpInput,
 } from 'aws-amplify/auth';
+import { isDev } from 'src/common/isDevEnvironment';
 
 type MfaChallengeStep =
   | 'CONFIRM_SIGN_IN_WITH_TOTP_CODE'
@@ -112,16 +113,16 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       const { isSignUpComplete, userId, nextStep } = await signUp(signUpInput);
 
       // eslint-disable-next-line no-console
-      console.log('Signup result:', { isSignUpComplete, userId, nextStep });
+      if (isDev()) {
+        console.log('Signup result:', { isSignUpComplete, userId, nextStep });
 
-      if (!isSignUpComplete) {
-        // L'utente deve confermare l'email
-        // eslint-disable-next-line no-console
-        console.log('Confirmation required');
+        if (!isSignUpComplete) {
+          // L'utente deve confermare l'email
+          // eslint-disable-next-line no-console
+          console.log('Confirmation required');
+        }
       }
     } catch (error: any) {
-      // eslint-disable-next-line no-console
-      console.error('Signup error:', error);
       throw new Error(error.message || 'Signup failed');
     }
   };
@@ -130,8 +131,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     try {
       await resendSignUpCode({ username: email });
     } catch (error: any) {
-      // eslint-disable-next-line no-console
-      console.error('Resend code error:', error);
       throw new Error(error.message || 'Resend code failed');
     }
   };
@@ -145,11 +144,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
       const { isSignUpComplete, nextStep } = await confirmSignUp(confirmInput);
 
-      // eslint-disable-next-line no-console
-      console.log('Confirm result:', { isSignUpComplete, nextStep });
+      if (isDev()) {
+        // eslint-disable-next-line no-console
+        console.log('Confirm result:', { isSignUpComplete, nextStep });
+      }
     } catch (error: any) {
-      // eslint-disable-next-line no-console
-      console.error('Confirmation error:', error);
       throw new Error(error.message || 'Confirmation failed');
     }
   };
@@ -165,8 +164,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         destination: details?.destination,
       };
     } catch (error: any) {
-      // eslint-disable-next-line no-console
-      console.error('Forgot password error:', error);
       throw new Error(error.message || 'Failed to send reset code');
     }
   };
@@ -183,8 +180,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         newPassword,
       });
     } catch (error: any) {
-      // eslint-disable-next-line no-console
-      console.error('Confirm forgot password error:', error);
       throw new Error(error.message || 'Failed to reset password');
     }
   };
@@ -193,8 +188,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     try {
       await signOut();
     } catch (error: any) {
-      // eslint-disable-next-line no-console
-      console.error('Logout error:', error);
       throw new Error(error.message || 'Logout failed');
     }
   };
@@ -204,8 +197,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       const session = await fetchAuthSession();
       return session.tokens?.accessToken.toString();
     } catch (error) {
-      // eslint-disable-next-line no-console
-      console.error('Error getting access token:', error);
       return undefined;
     }
   };

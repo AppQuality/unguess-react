@@ -65,7 +65,11 @@ export const FormPassword = () => {
       onSubmit={async (values, actions) => {
         actions.setSubmitting(true);
         try {
-          const isCognitoUser = userData?.authType === 'cognito';
+          if (!userData) {
+            throw new Error('User data not available');
+          }
+
+          const isCognitoUser = userData.authType === 'cognito';
 
           if (isCognitoUser) {
             await updatePassword({
@@ -97,7 +101,7 @@ export const FormPassword = () => {
 
           // Login automatico con le nuove credenziali
           const loginResult = await cognitoLogin(
-            userData?.email || values.currentPassword,
+            userData.email,
             values.newPassword
           );
 
@@ -105,7 +109,7 @@ export const FormPassword = () => {
           if (loginResult.mfaChallenge) {
             navigate(verifyCodeRoute, {
               state: {
-                email: userData?.email || values.currentPassword,
+                email: userData.email,
                 challengeType: loginResult.mfaChallenge,
                 from: '/profile', // Torna al profilo dopo verifica MFA
               },
