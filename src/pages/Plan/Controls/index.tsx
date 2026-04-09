@@ -21,9 +21,12 @@ import { SaveConfigurationButton } from './SaveConfigurationButton';
 import { WatcherList } from './WatcherList';
 
 const VerticalDivider = styled.span`
-  border-left: 1px solid ${({ theme }) => theme.palette.grey['300']};
-  height: ${({ theme }) => theme.space.md};
-  width: 1px;
+  display: none;
+  @media (min-width: ${appTheme.breakpoints.sm}) {
+    border-left: 1px solid ${({ theme }) => theme.palette.grey['300']};
+    height: ${({ theme }) => theme.space.md};
+    width: 1px;
+  }
 `;
 
 export const Controls = () => {
