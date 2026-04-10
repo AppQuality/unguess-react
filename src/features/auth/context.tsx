@@ -14,6 +14,7 @@ import {
   type ConfirmSignUpInput,
 } from 'aws-amplify/auth';
 import { isDev } from 'src/common/isDevEnvironment';
+import { syncWordpress } from './syncWordpress';
 
 type MfaChallengeStep =
   | 'CONFIRM_SIGN_IN_WITH_TOTP_CODE'
@@ -75,6 +76,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
           };
         }
       }
+
+      await syncWordpress();
 
       return { isSignedIn: true };
     } catch (error: any) {
