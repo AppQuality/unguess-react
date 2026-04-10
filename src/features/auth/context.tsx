@@ -93,6 +93,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       if (!isSignedIn) {
         throw new Error('MFA verification failed');
       }
+      await syncWordpress();
     } catch (error: any) {
       // eslint-disable-next-line no-console
       console.error('MFA verification error:', error);
