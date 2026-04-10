@@ -3553,6 +3553,7 @@ export interface operations {
             name: string;
             surname: string;
             workspace: string;
+            code: string;
           };
         };
       };

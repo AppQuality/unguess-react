@@ -20,6 +20,7 @@ import { PasswordRequirements } from 'src/common/components/PasswordRequirements
 import { useAuth } from 'src/features/auth/context';
 import { useSendGTMevent } from 'src/hooks/useGTMevent';
 import styled from 'styled-components';
+import { GetInvitesByProfileAndTokenApiResponse } from 'src/features/api';
 import { setPasswordValidationSchema } from './validationSchema';
 
 const FieldContainer = styled.div`
@@ -34,7 +35,7 @@ interface SetPasswordFormValues {
 }
 
 interface SetPasswordFormProps {
-  inviteData: any; // TODO: tipizzare con il tipo corretto dall'API
+  inviteData: GetInvitesByProfileAndTokenApiResponse; // TODO: tipizzare con il tipo corretto dall'API
   profileId: number;
   token: string;
 }
@@ -45,7 +46,7 @@ export const SetPasswordForm = ({
   token,
 }: SetPasswordFormProps) => {
   const { t } = useTranslation();
-  const { signup, login } = useAuth();
+  const { signup, login, setNewPassword } = useAuth();
   const navigate = useNavigate();
   const sendGTMevent = useSendGTMevent({ loggedUser: false });
   const [passwordInputType, setPasswordInputType] = useState('password');
@@ -73,12 +74,36 @@ export const SetPasswordForm = ({
         action: 'set-password-start',
       });
 
-      // Signup con Cognito usando email dall'invito
       const email = inviteData?.email;
       if (!email) {
         throw new Error('Email not found in invite data');
       }
 
+      // Uso la temp password per autenticare l'utente
+      if (inviteData?.code) {
+        // 1. Login con password temporanea
+        const loginResult = await login(email, inviteData.code);
+
+        // 2. Se richiede cambio password, imposta la nuova
+        if (loginResult.requiresNewPassword) {
+          await setNewPassword(values.password);
+
+          sendGTMevent({
+            event: 'sign-up-flow',
+            category: 'invited',
+            action: 'password-changed-completed',
+          });
+        }
+
+        // 3. L'utente è ora loggato, salva i dati dell'invito e vai all'onboarding
+        sessionStorage.setItem('inviteProfileId', profileId.toString());
+        sessionStorage.setItem('inviteToken', token);
+        navigate('/join/onboarding');
+
+        return;
+      }
+
+      // VECCHIO FLUSSO (backward compatibility): Signup tradizionale
       await signup(email, values.password, inviteData?.name || email);
 
       sendGTMevent({
@@ -88,7 +113,6 @@ export const SetPasswordForm = ({
       });
 
       // Login immediato dopo signup
-      // TODO: aggiungere endpoint api per autoverificare email
       try {
         await login(email, values.password);
         sendGTMevent({
@@ -97,8 +121,7 @@ export const SetPasswordForm = ({
           action: 'auto-login-completed',
         });
 
-        // TODO: capire come gestire meglio l'onboarding nel flusso invited, per adesso
-        // salva profileId e token in sessionStorage per l'onboarding
+        // Salva profileId e token in sessionStorage per l'onboarding
         sessionStorage.setItem('inviteProfileId', profileId.toString());
         sessionStorage.setItem('inviteToken', token);
 
