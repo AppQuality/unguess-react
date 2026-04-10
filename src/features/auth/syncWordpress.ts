@@ -7,7 +7,9 @@ export const syncWordpress = async (): Promise<void> => {
   const idToken = session.tokens?.idToken?.toString();
 
   if (!idToken) {
-    throw new Error('No ID token available');
+    // eslint-disable-next-line no-console
+    console.error('SyncWP: No ID token available');
+    return;
   }
 
   const response = await fetch(
