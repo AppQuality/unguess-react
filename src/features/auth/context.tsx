@@ -14,6 +14,7 @@ import {
   type ConfirmSignUpInput,
 } from 'aws-amplify/auth';
 import { isDev } from 'src/common/isDevEnvironment';
+import { syncWordpress } from './syncWordpress';
 
 type MfaChallengeStep =
   | 'CONFIRM_SIGN_IN_WITH_TOTP_CODE'
@@ -76,6 +77,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         }
       }
 
+      await syncWordpress();
+
       return { isSignedIn: true };
     } catch (error: any) {
       // eslint-disable-next-line no-console
@@ -90,6 +93,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       if (!isSignedIn) {
         throw new Error('MFA verification failed');
       }
+      await syncWordpress();
     } catch (error: any) {
       // eslint-disable-next-line no-console
       console.error('MFA verification error:', error);
