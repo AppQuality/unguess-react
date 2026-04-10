@@ -1390,7 +1390,7 @@
   "__PROFILE_PAGE_SECURITY_CARD_DESCRIPTION": "Manage your password and authentication methods",
   "__PROFILE_PAGE_SECURITY_CARD_LABEL": "Security settings",
   "__PROFILE_PAGE_SECURITY_CONTACT_SUPPORT": "Contact support",
-  "__PROFILE_PAGE_SECURITY_LEGACY_ALERT_MESSAGE": "To upgrade your account protection, please change your password by 12/05/2026. Note that your new password cannot match the current one. This update is a mandatory prerequisite for enabling two-factor authentication.",
+  "__PROFILE_PAGE_SECURITY_LEGACY_ALERT_MESSAGE": "To upgrade your account protection, please change your password by May 12, 2026. Note that your new password cannot match the current one. This update is a mandatory prerequisite for enabling two-factor authentication.",
   "__PROFILE_PAGE_SECURITY_LEGACY_ALERT_TITLE": "Security update: change your password",
   "__PROFILE_PAGE_SECURITY_NEED_HELP": "Need help?",
   "__PROFILE_PAGE_SURNAME_REQUIRED_ERROR": "Surname is required",
