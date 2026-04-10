@@ -14,6 +14,7 @@ import {
 import { ReactComponent as EyeIcon } from '@zendeskgarden/svg-icons/src/16/eye-fill.svg';
 import { ReactComponent as EyeOffIcon } from '@zendeskgarden/svg-icons/src/16/eye-hide-fill.svg';
 import { appTheme } from 'src/app/theme';
+import { PasswordRequirements } from 'src/common/components/PasswordRequirements';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import styled from 'styled-components';
 
@@ -48,6 +49,8 @@ export const ChangePasswordForm = ({ onSubmit }: ChangePasswordFormProps) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  const [passwordTouched, setPasswordTouched] = useState(false);
+
   const validatePassword = () => {
     if (newPassword.length < 12) return false;
     if (!/[A-Z]/.test(newPassword)) return false;
@@ -55,6 +58,23 @@ export const ChangePasswordForm = ({ onSubmit }: ChangePasswordFormProps) => {
     if (!/[0-9]/.test(newPassword)) return false;
     return true;
   };
+
+  const getPasswordError = (): string | null => {
+    if (!newPassword) return t('SIGNUP_FORM_PASSWORD_REQUIRED');
+    if (newPassword.length < 12)
+      return t('SIGNUP_FORM_PASSWORD_MUST_BE_AT_LEAST_12_CHARACTER_LONG');
+    if (!/[a-z]/.test(newPassword))
+      return t('SIGNUP_FORM_PASSWORD_MUST_CONTAIN_AT_LEAST_A_LOWERCASE_LETTER');
+    if (!/[A-Z]/.test(newPassword))
+      return t(
+        'SIGNUP_FORM_PASSWORD_MUST_CONTAIN_AT_LEAST_AN_UPPERCASE_LETTER'
+      );
+    if (!/[0-9]/.test(newPassword))
+      return t('SIGNUP_FORM_PASSWORD_MUST_CONTAIN_AT_LEAST_A_NUMBER');
+    return null;
+  };
+
+  const passwordError = passwordTouched ? getPasswordError() : null;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -114,6 +134,7 @@ export const ChangePasswordForm = ({ onSubmit }: ChangePasswordFormProps) => {
             onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
               setNewPassword(e.target.value)
             }
+            onBlur={() => setPasswordTouched(true)}
             end={
               <ToggleButton
                 type="button"
@@ -123,7 +144,12 @@ export const ChangePasswordForm = ({ onSubmit }: ChangePasswordFormProps) => {
                 {showNewPassword ? <EyeOffIcon /> : <EyeIcon />}
               </ToggleButton>
             }
+            {...(passwordError ? { validation: 'error' as const } : {})}
           />
+          <PasswordRequirements password={newPassword} />
+          {passwordError && (
+            <Message validation="error">{passwordError}</Message>
+          )}
         </FormField>
         <FormField style={{ marginTop: appTheme.space.md }}>
           <Label>
