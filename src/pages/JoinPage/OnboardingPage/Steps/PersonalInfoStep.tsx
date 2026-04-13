@@ -19,7 +19,7 @@ import {
 } from 'formik';
 import { useCallback, useEffect, useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
 import {
   useGetUsersRolesQuery,
@@ -116,9 +116,8 @@ const AutofillSync = () => {
 
 export const PersonalInfoStep = () => {
   const { t } = useTranslation();
-  const { data, userData, updateData, setStep } = useOnboarding();
+  const { data, userData, updateData, setStep, queryParams } = useOnboarding();
   const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
   const sendGTMevent = useSendGTMevent({ loggedUser: false });
   const [postUsers] = usePostUsersMutation();
   const { data: dataRoles, isLoading: isLoadingRoles } =
@@ -128,15 +127,8 @@ export const PersonalInfoStep = () => {
   const selectRef = useRef<HTMLDivElement>(null);
   const roleSelectRef = useRef<HTMLDivElement>(null);
 
-  const templateParam = searchParams.get('template');
-  let templateId: number | undefined;
-
-  if (templateParam !== null) {
-    const parsed = Number(templateParam);
-    if (Number.isInteger(parsed)) {
-      templateId = parsed;
-    }
-  }
+  // Usa il templateId dai queryParams del provider
+  const templateId = queryParams.template;
 
   const renderRolesOptions = useMemo(
     () =>

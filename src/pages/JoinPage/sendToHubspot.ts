@@ -7,6 +7,7 @@ export async function sendToHubspot(data: {
   email: string;
   firstName: string;
   lastName: string;
+  searchParams: Record<string, string | number | undefined>;
 }) {
   if (process.env.NODE_ENV === 'test') return false; // Skip actual API call during tests
 
