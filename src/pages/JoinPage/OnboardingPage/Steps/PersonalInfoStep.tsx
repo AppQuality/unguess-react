@@ -202,8 +202,9 @@ export const PersonalInfoStep = () => {
         initialValues={initialValues}
         validationSchema={getPersonalInfoValidationSchema(t)}
         onSubmit={handleSubmit}
+        validateOnMount
       >
-        {({ isSubmitting, isValid, dirty, setFieldValue }) => (
+        {({ isSubmitting, isValid, setFieldValue }) => (
           <Form>
             <FieldContainer>
               <Field name="name">
@@ -377,7 +378,7 @@ export const PersonalInfoStep = () => {
                   isAccent
                   isStretched
                   size="medium"
-                  disabled={isSubmitting || !isValid || !dirty}
+                  disabled={isSubmitting || !isValid}
                 >
                   {isSubmitting ? t('LOADING') : t('SIGNUP_FORM_NEXT_STEP')}
                 </Button>
