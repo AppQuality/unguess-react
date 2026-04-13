@@ -102,4 +102,31 @@ export class Login extends UnguessPage {
       }
     });
   }
+
+  // Mock Cognito user not found (triggers legacy fallback)
+  async mockCognitoUserNotFound() {
+    await this.page.route('**/cognito-idp.*.amazonaws.com/', async (route) => {
+      const request = route.request();
+      const headers = request.headers();
+      const target = headers['x-amz-target'];
+
+      if (target?.includes('InitiateAuth')) {
+        await route.fulfill({
+          status: 400,
+          headers: {
+            'Content-Type': 'application/x-amz-json-1.1',
+            'x-amzn-RequestId': 'mock-request-id',
+            'x-amzn-ErrorType': 'UserNotFoundException',
+          },
+          body: JSON.stringify({
+            __type: 'UserNotFoundException',
+            name: 'UserNotFoundException',
+            message: 'User does not exist.',
+          }),
+        });
+      } else {
+        await route.fallback();
+      }
+    });
+  }
 }

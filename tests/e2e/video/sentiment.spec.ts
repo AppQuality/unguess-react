@@ -17,17 +17,9 @@ test.describe('Video page', () => {
   });
 
   test('Should print the content of the paragraphs', async () => {
-    const paragraphCount = await videopage
-      .elements()
-      .paragraphContent()
-      .count();
-    expect(paragraphCount).toBe(5);
+    await expect(videopage.elements().paragraphContent()).toHaveCount(5);
 
-    const paragraphs = await videopage.elements().paragraphContent().all();
-
-    const contents = await Promise.all(
-      paragraphs.map(async (paragraph) => paragraph.innerText())
-    );
+    const contents = await videopage.elements().paragraphContent().allInnerTexts();
 
     expect(contents).toEqual([
       'ciao \n',
@@ -39,17 +31,9 @@ test.describe('Video page', () => {
   });
 
   test('Should print the sentiment values', async ({ i18n }) => {
-    const sentimentCount = await videopage
-      .elements()
-      .sentimentWrapper()
-      .count();
-    expect(sentimentCount).toBe(5);
+    await expect(videopage.elements().sentimentWrapper()).toHaveCount(5);
 
-    const sentiments = await videopage.elements().sentimentItem().all();
-
-    const contents = await Promise.all(
-      sentiments.map(async (paragraph) => paragraph.innerText())
-    );
+    const contents = await videopage.elements().sentimentItem().allInnerTexts();
 
     expect(contents).toEqual([
       i18n.t('__TRANSCRIPT_SENTIMENT_VALUE_VERY_NEGATIVE'),

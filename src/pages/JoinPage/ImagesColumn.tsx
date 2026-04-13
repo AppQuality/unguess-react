@@ -1,4 +1,3 @@
-import { useFormikContext } from 'formik';
 import { AnimatePresence } from 'motion/react';
 import * as motion from 'motion/react-client';
 import { useEffect, useMemo, useState } from 'react';
@@ -11,7 +10,6 @@ import joinImg2webp from 'src/assets/join-step-2.webp';
 import joinImg3 from 'src/assets/join-step-3.png';
 import joinImg3webp from 'src/assets/join-step-3.webp';
 import styled from 'styled-components';
-import { JoinFormValues } from './valuesType';
 
 const ImagesWrapper = styled.div`
   display: flex;
@@ -20,7 +18,7 @@ const ImagesWrapper = styled.div`
   justify-content: center;
   position: relative;
   width: 100%;
-  height: calc(100vh - ${({ theme }) => theme.space.xl} * 2);
+  height: 100%;
   overflow: hidden;
 `;
 
@@ -31,16 +29,15 @@ const LogoPicture = styled.picture`
   width: 100%;
 `;
 
-export const ImagesColumn = () => {
-  const { values } = useFormikContext<JoinFormValues>();
-  const [step, setStep] = useState(values.step);
+export const ImagesColumn = ({ step: currentStep }: { step: number }) => {
+  const [step, setStep] = useState(currentStep);
   const forwardAnimation = useMemo(
-    () => values.step - step * 10,
-    [values.step, step]
+    () => currentStep - step * 10,
+    [currentStep, step]
   );
   useEffect(() => {
-    setStep(values.step);
-  }, [values.step]);
+    setStep(currentStep);
+  }, [currentStep]);
   return (
     <ImagesWrapper>
       <AnimatePresence mode="wait">

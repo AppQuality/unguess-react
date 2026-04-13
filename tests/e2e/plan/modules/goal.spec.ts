@@ -62,7 +62,7 @@ test.describe('The title module defines the Plan title.', () => {
 
   test('It should show the placeholder when the input is empty', async () => {
     await goalModule.elements().moduleInput().click();
-    await goalModule.elements().moduleInput().press('Control+a');
+    await goalModule.elements().moduleInput().press('ControlOrMeta+a');
     await goalModule.elements().moduleInput().press('Backspace');
     await expect(goalModule.elements().editorParagraph()).toHaveAttribute(
       'data-placeholder',
@@ -87,14 +87,15 @@ test.describe('The title module defines the Plan title.', () => {
     await planPage.mockAiSuggestion(aiSuggestionText);
 
     await goalModule.elements().moduleInput().click();
-
-    await goalModule.elements().moduleInput().fill('test this ecommerce');
+    await goalModule.elements().moduleInput().press('ControlOrMeta+a');
+    await goalModule.elements().moduleInput().pressSequentially('test this ecommerce');
     await expect(goalModule.elements().aiButton()).toBeDisabled();
 
+    await goalModule.elements().moduleInput().press('ControlOrMeta+a');
     await goalModule
       .elements()
       .moduleInput()
-      .fill('test this ecommerce website');
+      .pressSequentially('test this ecommerce website');
     await expect(goalModule.elements().aiButton()).toBeEnabled();
 
     await goalModule.elements().aiButton().click();

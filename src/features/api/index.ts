@@ -1730,6 +1730,7 @@ export type GetInvitesByProfileAndTokenApiResponse = /** status 200 OK */ {
   name: string;
   surname: string;
   workspace: string;
+  code: string;
 };
 export type GetInvitesByProfileAndTokenApiArg = {
   profile: string;
@@ -1973,7 +1974,6 @@ export type PostUsersApiArg = {
   body: {
     companySizeId: number;
     name: string;
-    password: string;
     roleId: number;
     surname: string;
     templateId?: number;
@@ -3300,6 +3300,8 @@ export type User = {
   role: string;
   tryber_wp_user_id: number;
   unguess_wp_user_id: number;
+  authType: 'legacy' | 'cognito';
+  onboarding_pending?: boolean;
 };
 export type UserPreference = {
   name: string;

@@ -1,4 +1,5 @@
 import { createRoot } from 'react-dom/client';
+import './amplify-init';
 import { getWorkspaces } from 'src/features/workspaces/actions';
 import App from './app/App';
 import { store } from './app/store';
