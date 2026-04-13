@@ -10,7 +10,7 @@ import {
 } from '@appquality/unguess-design-system';
 import { Field, FieldProps, Form, Formik, FormikHelpers } from 'formik';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
+
 import { appTheme } from 'src/app/theme';
 import { usePostUsersMutation } from 'src/features/api';
 import { useSendGTMevent } from 'src/hooks/useGTMevent';
