@@ -344,7 +344,6 @@ export const PersonalInfoStep = () => {
                       <Select
                         placeholder={t('SIGNUP_FORM_ROLE_PLACEHOLDER')}
                         data-qa="roleId-select"
-                        name={field.name}
                         inputValue={
                           field.value
                             ? dataRoles?.find(
@@ -396,7 +395,6 @@ export const PersonalInfoStep = () => {
                       <Select
                         placeholder={t('SIGNUP_FORM_COMPANY_SIZE_PLACEHOLDER')}
                         data-qa="companySizeId-select"
-                        name={field.name}
                         inputValue={
                           field.value
                             ? dataCompanySizes?.find(
