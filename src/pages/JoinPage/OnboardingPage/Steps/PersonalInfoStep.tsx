@@ -275,7 +275,7 @@ export const PersonalInfoStep = () => {
                       <Select
                         placeholder={t('SIGNUP_FORM_ROLE_PLACEHOLDER')}
                         data-qa="roleId-select"
-                        {...field}
+                        name={field.name}
                         inputValue={
                           field.value
                             ? dataRoles?.find(
@@ -295,7 +295,7 @@ export const PersonalInfoStep = () => {
                           </>
                         }
                         onSelect={(roleId) => {
-                          setFieldValue('roleId', Number(roleId));
+                          setFieldValue('roleId', Number(roleId), true);
                           (
                             roleSelectRef.current?.querySelector(
                               '[role="combobox"]'
@@ -327,7 +327,7 @@ export const PersonalInfoStep = () => {
                       <Select
                         placeholder={t('SIGNUP_FORM_COMPANY_SIZE_PLACEHOLDER')}
                         data-qa="companySizeId-select"
-                        {...field}
+                        name={field.name}
                         inputValue={
                           field.value
                             ? dataCompanySizes?.find(
@@ -347,7 +347,7 @@ export const PersonalInfoStep = () => {
                           </>
                         }
                         onSelect={(sizeId) => {
-                          setFieldValue('companySizeId', Number(sizeId));
+                          setFieldValue('companySizeId', Number(sizeId), true);
                           (
                             selectRef.current?.querySelector(
                               '[role="combobox"]'
