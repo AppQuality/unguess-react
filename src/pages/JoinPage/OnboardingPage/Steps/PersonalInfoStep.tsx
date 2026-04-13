@@ -75,7 +75,7 @@ const AutofillSync = () => {
       if (
         input &&
         input.value &&
-        input.value !== valuesRef.current[fieldName]
+        input.value !== valuesRef.current[`${fieldName}`]
       ) {
         setFieldValue(fieldName, input.value, true);
       }
