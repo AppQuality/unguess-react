@@ -11,20 +11,25 @@ export const syncWordpress = async (): Promise<void> => {
     console.error('SyncWP: No ID token available');
     return;
   }
+  try {
+    const response = await fetch(
+      `${process.env.REACT_APP_CROWD_WP_URL}/wp-json/cognito-sync/v1/login`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ id_token: idToken }),
+      }
+    );
 
-  const response = await fetch(
-    `${process.env.REACT_APP_CROWD_WP_URL}/wp-json/cognito-sync/v1/login`,
-    {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      credentials: 'include',
-      body: JSON.stringify({ id_token: idToken }),
+    const result = await response.json();
+
+    if (isDev()) {
+      // eslint-disable-next-line no-console
+      console.log('🚀 ~ syncWordpress ~ result:', result);
     }
-  );
-
-  const result = await response.json();
-  if (isDev()) {
+  } catch (error: any) {
     // eslint-disable-next-line no-console
-    console.log('🚀 ~ syncWordpress ~ result:', result);
+    console.error('SyncWP error:', error);
   }
 };

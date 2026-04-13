@@ -10,7 +10,7 @@ import {
 } from '@appquality/unguess-design-system';
 import { Field, FieldProps, Form, Formik, FormikHelpers } from 'formik';
 import { useTranslation } from 'react-i18next';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+
 import { appTheme } from 'src/app/theme';
 import { usePostUsersMutation } from 'src/features/api';
 import { useSendGTMevent } from 'src/hooks/useGTMevent';
@@ -18,6 +18,7 @@ import styled from 'styled-components';
 import { AuthStepWrapper } from 'src/common/components/AuthCardWrapper';
 import { useOnboarding } from '../OnboardingProvider';
 import { getWorkspaceValidationSchema } from '../validationSchema';
+import { sendToHubspot } from '../../sendToHubspot';
 
 const FieldContainer = styled.div`
   display: flex;
@@ -39,21 +40,11 @@ interface WorkspaceFormValues {
 
 export const WorkspaceStep = () => {
   const { t } = useTranslation();
-  const { data, userData, updateData, setStep } = useOnboarding();
-  const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
+  const { data, userData, updateData, setStep, queryParams } = useOnboarding();
   const sendGTMevent = useSendGTMevent({ loggedUser: false });
   const [postUsers] = usePostUsersMutation();
-
-  const templateParam = searchParams.get('template');
-  let templateId: number | undefined;
-
-  if (templateParam !== null) {
-    const parsed = Number(templateParam);
-    if (Number.isInteger(parsed)) {
-      templateId = parsed;
-    }
-  }
+  const templateId = queryParams.template;
+  const redirectTo = queryParams.redirect as string | undefined;
 
   const handleSubmit = async (
     values: WorkspaceFormValues,
@@ -104,6 +95,17 @@ export const WorkspaceStep = () => {
         content: res.projectId ? 'with project' : 'without project',
       });
 
+      try {
+        await sendToHubspot({
+          email: userData.email!,
+          firstName: data.name,
+          lastName: data.surname,
+          searchParams: queryParams,
+        });
+      } catch (err) {
+        console.error('Error sending data to HubSpot:', err);
+      }
+
       // Pulisci sessionStorage per utenti invitati
       if (userData.type === 'invite') {
         sessionStorage.removeItem('inviteProfileId');
@@ -111,11 +113,8 @@ export const WorkspaceStep = () => {
       }
 
       // Redirect appropriato (utente già loggato)
-      if (res.projectId) {
-        navigate(`/projects/${res.projectId}`);
-      } else {
-        navigate('/');
-      }
+      const redirectTarget = res.projectId ? `/projects/${res.projectId}` : '/';
+      window.location.href = redirectTo || redirectTarget;
     } catch (error: any) {
       // eslint-disable-next-line no-console
       console.error('Onboarding save error:', error);

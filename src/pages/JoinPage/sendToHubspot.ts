@@ -7,6 +7,7 @@ export async function sendToHubspot(data: {
   email: string;
   firstName: string;
   lastName: string;
+  searchParams: Record<string, string | number | undefined>;
 }) {
   if (process.env.NODE_ENV === 'test') return false; // Skip actual API call during tests
 
@@ -21,14 +22,12 @@ export async function sendToHubspot(data: {
 
   const pageName = document.title;
 
-  const params = new URLSearchParams(window.location.search);
-
   const utm = {
-    source: params.get('utm_source'),
-    medium: params.get('utm_medium'),
-    campaign: params.get('utm_campaign'),
-    term: params.get('utm_term'),
-    content: params.get('utm_content'),
+    source: data.searchParams.utm_source,
+    medium: data.searchParams.utm_medium,
+    campaign: data.searchParams.utm_campaign,
+    term: data.searchParams.utm_term,
+    content: data.searchParams.utm_content,
   };
 
   const payload = {
