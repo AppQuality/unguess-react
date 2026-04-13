@@ -63,8 +63,8 @@ export const AuthenticatorStep = ({
       setSecretKey(totpDetails.sharedSecret);
 
       const totpUri = totpDetails.getSetupUri(
-        userEmail || 'UNGUESS',
-        'UNGUESS'
+        'UNGUESS',
+        userEmail || 'UNGUESS'
       );
       const generatedQrCodeUrl = await QRCode.toDataURL(totpUri.href);
       setQrCodeUrl(generatedQrCodeUrl);

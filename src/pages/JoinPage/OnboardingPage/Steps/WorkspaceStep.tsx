@@ -155,8 +155,9 @@ export const WorkspaceStep = () => {
         initialValues={initialValues}
         validationSchema={getWorkspaceValidationSchema(t)}
         onSubmit={handleSubmit}
+        validateOnMount
       >
-        {({ isSubmitting, isValid, dirty }) => (
+        {({ isSubmitting, isValid }) => (
           <Form>
             <FieldContainer>
               <Field name="workspace">
@@ -196,7 +197,7 @@ export const WorkspaceStep = () => {
                   isAccent
                   isStretched
                   size="medium"
-                  disabled={isSubmitting || !isValid || !dirty}
+                  disabled={isSubmitting || !isValid}
                 >
                   {isSubmitting ? t('LOADING') : t('SIGNUP_FORM_SUBMIT')}
                 </Button>
