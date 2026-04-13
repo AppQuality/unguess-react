@@ -90,7 +90,7 @@ const InvitedUserPage = () => {
     );
   }
 
-  if (error) {
+  if (error || !data) {
     return <JoinPageError />;
   }
 

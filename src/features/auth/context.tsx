@@ -23,6 +23,7 @@ type MfaChallengeStep =
 interface LoginResult {
   isSignedIn: boolean;
   mfaChallenge?: MfaChallengeStep;
+  requiresNewPassword?: boolean;
 }
 
 interface ForgotPasswordResult {
@@ -36,6 +37,7 @@ interface AuthContextType {
   confirmSignup: (email: string, code: string) => Promise<void>;
   resendSignupCode: (email: string) => Promise<void>;
   confirmMfaSignIn: (code: string) => Promise<void>;
+  setNewPassword: (newPassword: string) => Promise<void>;
   forgotPassword: (email: string) => Promise<ForgotPasswordResult>;
   confirmForgotPassword: (
     email: string,
@@ -75,6 +77,16 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
             mfaChallenge: nextStep.signInStep as MfaChallengeStep,
           };
         }
+
+        // Gestione utenti invitati che devono cambiare password
+        if (
+          nextStep.signInStep === 'CONFIRM_SIGN_IN_WITH_NEW_PASSWORD_REQUIRED'
+        ) {
+          return {
+            isSignedIn: false,
+            requiresNewPassword: true,
+          };
+        }
       }
 
       await syncWordpress();
@@ -98,6 +110,22 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       // eslint-disable-next-line no-console
       console.error('MFA verification error:', error);
       throw new Error(error.message || 'MFA verification failed');
+    }
+  };
+
+  const setNewPassword = async (newPassword: string): Promise<void> => {
+    try {
+      const { isSignedIn } = await confirmSignIn({
+        challengeResponse: newPassword,
+      });
+      if (!isSignedIn) {
+        throw new Error('Password update failed');
+      }
+      await syncWordpress();
+    } catch (error: any) {
+      // eslint-disable-next-line no-console
+      console.error('Set new password error:', error);
+      throw new Error(error.message || 'Failed to set new password');
     }
   };
 
@@ -212,6 +240,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       confirmSignup,
       resendSignupCode,
       confirmMfaSignIn,
+      setNewPassword,
       forgotPassword,
       confirmForgotPassword: confirmForgotPasswordFn,
       logout,
