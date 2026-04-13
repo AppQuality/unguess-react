@@ -13,7 +13,7 @@ import {
 } from '@appquality/unguess-design-system';
 import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
 import { useAuth } from 'src/features/auth/context';
 import { useSendGTMevent } from 'src/hooks/useGTMevent';
@@ -31,6 +31,7 @@ export const ConfirmEmailForm = ({
   const { t } = useTranslation();
   const { confirmSignup, login, resendSignupCode } = useAuth();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const sendGTMevent = useSendGTMevent({ loggedUser: false });
 
   const [code, setCode] = useState('');
@@ -70,7 +71,8 @@ export const ConfirmEmailForm = ({
         action: 'auto-login completed',
       });
 
-      navigate('/join/onboarding');
+      const queryString = searchParams.toString();
+      navigate(`/join/onboarding${queryString ? `?${queryString}` : ''}`);
     } catch (err: any) {
       // eslint-disable-next-line no-console
       console.error('Confirmation error:', err);

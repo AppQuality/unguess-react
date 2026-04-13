@@ -4,6 +4,7 @@
  * Step 2: Nome workspace
  */
 import { useTranslation } from 'react-i18next';
+import { useSearchParams } from 'react-router-dom';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
 import { Track } from 'src/common/Track';
 import { useGetUsersMeQuery } from 'src/features/api';
@@ -15,7 +16,11 @@ import styled from 'styled-components';
 import { AuthHeader } from '../../LoginPage/parts/AuthHeader';
 import { AuthFooter } from '../../LoginPage/parts/AuthFooter';
 import { ImagesColumn } from '../ImagesColumn';
-import { OnboardingProvider, OnboardingUserData } from './OnboardingProvider';
+import {
+  OnboardingProvider,
+  OnboardingUserData,
+  QueryParams,
+} from './OnboardingProvider';
 import { PersonalInfoStep } from './Steps/PersonalInfoStep';
 import { WorkspaceStep } from './Steps/WorkspaceStep';
 
@@ -80,6 +85,24 @@ const RightColumn = styled.div`
 const OnboardingPage = () => {
   const { t } = useTranslation();
   const { data: currentUser, isLoading } = useGetUsersMeQuery();
+  const [searchParams] = useSearchParams();
+
+  // Estrai i parametri query string
+  const queryParams: QueryParams = {};
+  const templateParam = searchParams.get('template');
+  if (templateParam !== null) {
+    const parsed = Number(templateParam);
+    if (Number.isInteger(parsed)) {
+      queryParams.template = parsed;
+    }
+  }
+
+  // Copia tutti gli altri parametri (utm_source, utm_medium, utm_campaign, etc.)
+  searchParams.forEach((value, key) => {
+    if (key !== 'template') {
+      queryParams[key] = value;
+    }
+  });
 
   // Costruisci userData da useGetUsersMeQuery
   let userData: OnboardingUserData | undefined;
@@ -120,7 +143,7 @@ const OnboardingPage = () => {
       description={t('__PAGE_ONBOARDING_DESCRIPTION')}
       metaTags={meta}
     >
-      <OnboardingProvider userData={userData}>
+      <OnboardingProvider userData={userData} queryParams={queryParams}>
         {({ step }) => (
           <PageWrapper step={step + 1}>
             <AuthHeader />

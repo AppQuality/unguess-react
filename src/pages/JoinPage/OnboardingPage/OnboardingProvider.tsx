@@ -28,10 +28,16 @@ export interface OnboardingUserData {
   type: 'new' | 'invite';
 }
 
+export interface QueryParams {
+  template?: number;
+  [key: string]: string | number | undefined;
+}
+
 interface OnboardingContextType {
   step: number;
   data: OnboardingData;
   userData: OnboardingUserData;
+  queryParams: QueryParams;
   setStep: (step: number) => void;
   updateData: (data: Partial<OnboardingData>) => void;
 }
@@ -40,11 +46,13 @@ const OnboardingContext = createContext<OnboardingContextType | null>(null);
 
 interface OnboardingProviderProps {
   userData: OnboardingUserData;
+  queryParams?: QueryParams;
   children: (context: OnboardingContextType) => ReactNode;
 }
 
 export const OnboardingProvider = ({
   userData,
+  queryParams = {},
   children,
 }: OnboardingProviderProps) => {
   const [step, setStep] = useState(1);
@@ -90,9 +98,10 @@ export const OnboardingProvider = ({
       setStep,
       data,
       userData,
+      queryParams,
       updateData,
     }),
-    [step, data, userData]
+    [step, data, userData, queryParams]
   );
 
   return (
