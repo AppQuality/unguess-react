@@ -1,7 +1,7 @@
 import { Button } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
-
+import { useAnalytics } from 'use-analytics';
 import { useModule } from 'src/features/modules/useModule';
 import { usePlan } from '../../../../hooks/usePlan';
 import { usePlanContext } from '../../context/planContext';
@@ -20,8 +20,8 @@ const BuyButton = ({
   const { setDateInThePastAlertModalOpen, buyPlanAction } = usePlanContext();
   const { value } = useModule('dates');
   const { planId } = useParams();
-  const { plan, planComposedStatus } = usePlan(planId);
-
+  const { plan, planComposedStatus, template } = usePlan(planId);
+  const { track } = useAnalytics();
   const { t } = useTranslation();
 
   if (!plan) return null;
@@ -47,7 +47,19 @@ const BuyButton = ({
 
   const handleBuyButtonClick = async () => {
     if (checkIfDateIsValid(value?.output.start) && buyPlanAction) {
+      track('planPaymentInProgress', {
+        planId: planId?.toString(),
+        templateId: plan?.from_template?.id.toString(),
+        templateName:
+          template?.name ?? plan?.from_template?.title ?? 'Unknown Template',
+        previousStatus: 'AwaitingPayment',
+        planStatus: 'Paying',
+        standardPrice: template?.price ?? 'Unknown Price',
+        isTailored: !!template?.workspace_id,
+        confirmedPrice: plan.price,
+      });
       await buyPlanAction();
+      console.log('Buy action completed');
     }
   };
 

@@ -50,6 +50,7 @@ const DEV_EVENT_NAME_MAPPING: Record<string, string> = {
   planActivityConfirmed: 'pe50612068_planactivityconfirmed',
   planQuotationRequested: 'pe50612068_planquotationrequested',
   planPurchaseSuccessful: 'pe50612068_planpurchasesuccessful',
+  planPaymentInProgress: 'pe50612068_planpaymentinprogress',
 };
 
 const EVENT_NAME_MAPPING: Record<string, string> = {
@@ -57,6 +58,7 @@ const EVENT_NAME_MAPPING: Record<string, string> = {
   planActivityConfirmed: 'pe6087279_planactivityconfirmed',
   planQuotationRequested: 'pe6087279_planquotationrequested',
   planPurchaseSuccessful: 'pe6087279_planpurchasesuccessful',
+  planPaymentInProgress: 'pe6087279_planpaymentinprogress',
 };
 
 function getHubspotEventName(eventName: string, isDevEnv?: boolean): string {
