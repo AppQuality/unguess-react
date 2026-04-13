@@ -1318,6 +1318,8 @@ export interface components {
       tags: components["schemas"]["VideoTag"][];
       title: string;
       uxNote?: string;
+      /** @enum {string} */
+      creatorType: "human" | "ai";
     };
     /**
      * Output
@@ -4401,6 +4403,8 @@ export interface operations {
           start?: number;
           tags?: number[];
           title?: string;
+          /** @enum {string} */
+          creatorType?: "human" | "ai";
         };
       };
     };
