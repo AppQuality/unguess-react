@@ -24,6 +24,7 @@ interface LoginResult {
   isSignedIn: boolean;
   mfaChallenge?: MfaChallengeStep;
   requiresNewPassword?: boolean;
+  requiresSignUpConfirmation?: boolean;
 }
 
 interface ForgotPasswordResult {
@@ -85,6 +86,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
           return {
             isSignedIn: false,
             requiresNewPassword: true,
+          };
+        }
+
+        // Utente registrato ma non ha confermato l'email
+        if (nextStep.signInStep === 'CONFIRM_SIGN_UP') {
+          return {
+            isSignedIn: false,
+            requiresSignUpConfirmation: true,
           };
         }
       }

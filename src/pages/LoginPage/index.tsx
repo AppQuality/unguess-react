@@ -52,6 +52,7 @@ const LoginPage = () => {
   const { addToast } = useToast();
   const { login: cognitoLogin } = useAuth();
   const verifyCodeRoute = useLocalizeRoute('verify-code');
+  const signupRoute = useLocalizeRoute('join/signup');
 
   const from = (locationState as NavigationState)?.from || '/';
   const [searchParams] = useSearchParams();
@@ -108,6 +109,17 @@ const LoginPage = () => {
             email: values.email,
             challengeType: result.mfaChallenge,
             from,
+          },
+        });
+        return;
+      }
+
+      if (result.requiresSignUpConfirmation) {
+        navigate(signupRoute, {
+          state: {
+            email: values.email,
+            password: values.password,
+            needsConfirmation: true,
           },
         });
         return;
