@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { Anchor, MD, Span, Title, XL } from '@appquality/unguess-design-system';
 import { appTheme } from 'src/app/theme';
+import { useGetUsersMeQuery } from 'src/features/api';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import emailEnvelope from 'src/assets/email-envelop-onboarding.svg';
 
@@ -15,6 +16,9 @@ interface CheckEmailStepProps {
 export const CheckEmailStep = ({ email, onResend }: CheckEmailStepProps) => {
   const { t } = useTranslation();
   const loginRoute = useLocalizeRoute('login');
+  const profileRoute = useLocalizeRoute('profile');
+  const { data: userData } = useGetUsersMeQuery();
+  const isLoggedIn = !!userData;
   const [resendTimer, setResendTimer] = useState(0);
   const [isResending, setIsResending] = useState(false);
 
@@ -103,8 +107,13 @@ export const CheckEmailStep = ({ email, onResend }: CheckEmailStepProps) => {
       </MD>
 
       <div style={{ textAlign: 'center', marginTop: appTheme.space.lg }}>
-        <Anchor href={loginRoute} style={{ color: appTheme.palette.blue[600] }}>
-          {t('FORGOT_PASSWORD_BACK_TO_LOGIN')}
+        <Anchor
+          href={isLoggedIn ? profileRoute : loginRoute}
+          style={{ color: appTheme.palette.blue[600] }}
+        >
+          {isLoggedIn
+            ? t('FORGOT_PASSWORD_BACK_TO_PROFILE')
+            : t('FORGOT_PASSWORD_BACK_TO_LOGIN')}
         </Anchor>
       </div>
     </>

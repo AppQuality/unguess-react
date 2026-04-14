@@ -11,6 +11,7 @@ import {
   XL,
 } from '@appquality/unguess-design-system';
 import { appTheme } from 'src/app/theme';
+import { useGetUsersMeQuery } from 'src/features/api';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import styled from 'styled-components';
 
@@ -27,6 +28,9 @@ interface ForgotPasswordFormProps {
 export const ForgotPasswordForm = ({ onSubmit }: ForgotPasswordFormProps) => {
   const { t } = useTranslation();
   const loginRoute = useLocalizeRoute('login');
+  const profileRoute = useLocalizeRoute('profile');
+  const { data: userData } = useGetUsersMeQuery();
+  const isLoggedIn = !!userData;
   const [email, setEmail] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -106,13 +110,15 @@ export const ForgotPasswordForm = ({ onSubmit }: ForgotPasswordFormProps) => {
         <Button
           type="button"
           onClick={() => {
-            window.location.href = loginRoute;
+            window.location.href = isLoggedIn ? profileRoute : loginRoute;
           }}
           isBasic
           isStretched
           style={{ marginTop: appTheme.space.xs }}
         >
-          {t('FORGOT_PASSWORD_BACK_TO_LOGIN')}
+          {isLoggedIn
+            ? t('FORGOT_PASSWORD_BACK_TO_PROFILE')
+            : t('FORGOT_PASSWORD_BACK_TO_LOGIN')}
         </Button>
       </StyledForm>
     </>

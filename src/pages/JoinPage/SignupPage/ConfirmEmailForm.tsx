@@ -174,14 +174,6 @@ export const ConfirmEmailForm = ({
       >
         {isVerifying ? t('LOADING') : t('CONFIRM_EMAIL_BUTTON')}
       </Button>
-      <Button
-        isBasic
-        isStretched
-        onClick={() => navigate(-1)}
-        style={{ marginTop: appTheme.space.xs }}
-      >
-        {t('SIGNUP_FORM_BACK')}
-      </Button>
     </AuthCardWrapper>
   );
 };

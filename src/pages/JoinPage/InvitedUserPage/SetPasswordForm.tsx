@@ -21,7 +21,7 @@ import { useAuth } from 'src/features/auth/context';
 import { useSendGTMevent } from 'src/hooks/useGTMevent';
 import styled from 'styled-components';
 import { GetInvitesByProfileAndTokenApiResponse } from 'src/features/api';
-import { setPasswordValidationSchema } from './validationSchema';
+import { getSetPasswordValidationSchema } from './validationSchema';
 
 const FieldContainer = styled.div`
   display: flex;
@@ -191,7 +191,7 @@ export const SetPasswordForm = ({
       </div>
       <Formik
         initialValues={initialValues}
-        validationSchema={setPasswordValidationSchema}
+        validationSchema={getSetPasswordValidationSchema(t)}
         onSubmit={handleSubmit}
       >
         {({ isSubmitting, values }) => (
