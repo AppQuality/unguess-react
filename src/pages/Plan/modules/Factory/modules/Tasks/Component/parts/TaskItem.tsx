@@ -12,8 +12,10 @@ import {
   Span,
   Tooltip,
 } from '@appquality/unguess-design-system';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useParams } from 'react-router-dom';
+import { useAnalytics } from 'use-analytics';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as LinkIcon } from 'src/assets/icons/link-stroke.svg';
 import { ReactComponent as TrashIcon } from 'src/assets/icons/trash-stroke.svg';
@@ -23,6 +25,14 @@ import { TTask, useModuleTasks } from '../hooks';
 import { getIconFromTaskOutput } from '../utils';
 import { DeleteTaskConfirmationModal } from './modal/DeleteTaskConfirmationModal';
 
+// Analytics event interface
+interface AiTaskEditedPayload {
+  PlanID: string;
+  taskType: 'quality' | 'experience';
+  fieldEdited: 'title' | 'scenario' | 'description' | 'url';
+  editedInSameSession: true;
+}
+
 type TaskItemProps = {
   task: TTask;
   index: number;
@@ -30,11 +40,20 @@ type TaskItemProps = {
 
 const TaskItem = ({ task, index }: TaskItemProps) => {
   const { t } = useTranslation();
+  const { planId } = useParams();
+  const { track } = useAnalytics();
   const { update, validate, error } = useModuleTasks();
   const { getPlanStatus } = useModuleConfiguration();
   const { width } = useWindowSize();
   const breakpointSm = parseInt(appTheme.breakpoints.sm, 10);
   const isMobile = width < breakpointSm;
+
+  // Track original values to detect changes
+  const originalValuesRef = useRef({
+    title: task.title,
+    description: task.description,
+    url: task.url || '',
+  });
 
   const confirmationState = useState<{
     isOpen: boolean;
@@ -62,6 +81,61 @@ const TaskItem = ({ task, index }: TaskItemProps) => {
 
   const handleBlur = () => {
     validate();
+  };
+
+  const handleTitleBlur = () => {
+    // Track edit only for AI-generated tasks if value changed
+    if (
+      (task as any).isAiGenerated &&
+      title !== originalValuesRef.current.title
+    ) {
+      track('aiTaskEdited', {
+        PlanID: planId || '',
+        taskType: 'experience',
+        fieldEdited: 'title',
+        editedInSameSession: true,
+      } as AiTaskEditedPayload);
+      // Update original value to avoid duplicate tracking
+      originalValuesRef.current.title = title;
+    }
+    handleBlur();
+  };
+
+  const handleDescriptionBlur = () => {
+    // Track edit only for AI-generated tasks if value changed
+    if (
+      (task as any).isAiGenerated &&
+      description !== originalValuesRef.current.description
+    ) {
+      track('aiTaskEdited', {
+        PlanID: planId || '',
+        taskType: 'experience',
+        fieldEdited: 'description',
+        editedInSameSession: true,
+      } as AiTaskEditedPayload);
+      // Update original value to avoid duplicate tracking
+      originalValuesRef.current.description = description;
+    }
+    handleBlur();
+  };
+
+  const handleUrlBlur = () => {
+    const currentUrl = task.url || '';
+    // Track edit only for AI-generated tasks if value changed
+    if (
+      (task as any).isAiGenerated &&
+      currentUrl !== originalValuesRef.current.url
+    ) {
+      track('aiTaskEdited', {
+        PlanID: planId || '',
+        taskType: 'experience',
+        fieldEdited: 'url',
+        editedInSameSession: true,
+      } as AiTaskEditedPayload);
+      // Update original value to avoid duplicate tracking
+      originalValuesRef.current.url = currentUrl;
+    }
+    handleBlur();
   };
 
   const isSimpleInterface = ['explorative-bug', 'accessibility'].includes(kind);
@@ -125,7 +199,7 @@ const TaskItem = ({ task, index }: TaskItemProps) => {
                     placeholder={t(
                       '__PLAN_PAGE_MODULE_TASKS_TASK_TITLE_PLACEHOLDER'
                     )}
-                    onBlur={handleBlur}
+                    onBlur={handleTitleBlur}
                     {...(titleError && { validation: 'error' })}
                     style={{ marginTop: appTheme.space.xs }}
                   />
@@ -169,7 +243,7 @@ const TaskItem = ({ task, index }: TaskItemProps) => {
                       ),
                     }}
                     disableSaveShortcut
-                    onBlur={handleBlur}
+                    onBlur={handleDescriptionBlur}
                     {...(descriptionError && { validation: 'error' })}
                   >
                     {description}
@@ -197,7 +271,7 @@ const TaskItem = ({ task, index }: TaskItemProps) => {
                   <MediaInput
                     start={<LinkIcon />}
                     value={task.url}
-                    onBlur={handleBlur}
+                    onBlur={handleUrlBlur}
                     onChange={(e) => update(id, { url: e.target.value })}
                     placeholder={t(
                       '__PLAN_PAGE_MODULE_TASKS_TASK_LINK_PLACEHOLDER'

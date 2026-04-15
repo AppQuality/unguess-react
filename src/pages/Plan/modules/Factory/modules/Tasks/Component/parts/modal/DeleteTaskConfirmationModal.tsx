@@ -6,7 +6,17 @@ import {
 } from '@appquality/unguess-design-system';
 import { Dispatch, SetStateAction } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useParams } from 'react-router-dom';
+import { useAnalytics } from 'use-analytics';
 import { useModuleTasks } from '../../hooks';
+
+// Analytics event interface
+interface AiTaskDeletedPayload {
+  PlanID: string;
+  taskType: 'quality' | 'experience';
+  remainingAiTaskCount: number;
+  editedInSameSession: true;
+}
 
 const DeleteTaskConfirmationModal = ({
   state,
@@ -25,7 +35,9 @@ const DeleteTaskConfirmationModal = ({
   ];
 }) => {
   const { t } = useTranslation();
-  const { remove } = useModuleTasks();
+  const { planId } = useParams();
+  const { track } = useAnalytics();
+  const { remove, value: tasks } = useModuleTasks();
 
   const onQuit = () => {
     state[1]({
@@ -35,6 +47,24 @@ const DeleteTaskConfirmationModal = ({
   };
 
   const onConfirm = () => {
+    // Find the task being deleted
+    const taskToDelete = tasks.find((task) => task.id === state[0].taskId);
+
+    // Track deletion only for AI-generated tasks
+    if (taskToDelete && (taskToDelete as any).isAiGenerated) {
+      // Count remaining AI tasks after deletion (excluding the one being deleted)
+      const remainingAiTaskCount = tasks.filter(
+        (task) => (task as any).isAiGenerated && task.id !== state[0].taskId
+      ).length;
+
+      track('aiTaskDeleted', {
+        PlanID: planId || '',
+        taskType: 'experience',
+        remainingAiTaskCount,
+        editedInSameSession: true,
+      } as AiTaskDeletedPayload);
+    }
+
     remove(state[0].taskId);
     state[1]({
       isOpen: false,

@@ -20,6 +20,7 @@ import {
 import { useEffect, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
+import { useAnalytics } from 'use-analytics';
 import { useAppSelector } from 'src/app/hooks';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as InfoIcon } from 'src/assets/icons/info-icon.svg';
@@ -41,6 +42,22 @@ import { v4 as uuidv4 } from 'uuid';
 import { useModuleTasksContext } from '../../context';
 import { useModuleTasks } from '../../hooks';
 import { LoadingSpinner } from './LoadingSpinner';
+
+// Analytics event interfaces
+interface AiTaskGenerationRequestedPayload {
+  PlanID: string;
+  taskType: 'quality' | 'experience';
+  tasksToGenerate: number | 'auto';
+  isRegeneration: boolean;
+  existingTaskCount: number;
+}
+
+interface AiTaskGenerationCompletedPayload {
+  PlanID: string;
+  taskType: 'quality' | 'experience';
+  tasksGenerated: number;
+  totalTaskCount: number;
+}
 
 // constants
 const MODULES_TO_PROMPT = [
@@ -73,6 +90,7 @@ const CreateVideoTasksWithAI = () => {
   const { addToast } = useToast();
   const { planId } = useParams();
   const { t } = useTranslation();
+  const { track } = useAnalytics();
   const { setIsOpenCreateVideoTasksWithAIModal } = useModuleTasksContext();
   const MIN_LENGTH = 1;
   const [userPrompt, setUserPrompt] = useState('');
@@ -116,6 +134,19 @@ const CreateVideoTasksWithAI = () => {
   };
 
   const handleClick = () => {
+    // Track AI task generation request
+    const isRegeneration = currentTasks.some(
+      (task: any) => task.isAiGenerated === true
+    );
+
+    track('aiTaskGenerationRequested', {
+      PlanID: planId || '',
+      taskType: 'experience',
+      tasksToGenerate: usecaseNumber === undefined ? 'auto' : usecaseNumber,
+      isRegeneration,
+      existingTaskCount: currentTasks.length,
+    } as AiTaskGenerationRequestedPayload);
+
     // gather modules info to prepend to the user prompt
     const modulesInfo: Array<ModuleInfo> = Object.entries(records.records)
       .filter(([key]) => MODULES_TO_PROMPT.includes(key))
@@ -147,8 +178,18 @@ const CreateVideoTasksWithAI = () => {
         description: useCase.description || '',
         id: useCase.id ?? uuidv4(),
         url: useCase.url,
+        isAiGenerated: true, // Mark as AI-generated for tracking purposes
       }));
-      setOutput([...currentTasks, ...newTasks]);
+      const updatedTasks = [...currentTasks, ...newTasks];
+      setOutput(updatedTasks);
+
+      // Track AI task generation completion
+      track('aiTaskGenerationCompleted', {
+        PlanID: planId || '',
+        taskType: 'experience',
+        tasksGenerated: newTasks.length,
+        totalTaskCount: updatedTasks.length,
+      } as AiTaskGenerationCompletedPayload);
 
       // show a success message
       addToast(
