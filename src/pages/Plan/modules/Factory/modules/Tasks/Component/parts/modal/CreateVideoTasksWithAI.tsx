@@ -217,10 +217,18 @@ const CreateVideoTasksWithAI = () => {
                   </Tooltip>
                 </div>
               }
-              onSelect={(value) => setUsecaseNumber(Number(value))}
+              onSelect={(value) =>
+                setUsecaseNumber(value === 'auto' ? undefined : Number(value))
+              }
               isDisabled={isPostingRequest}
               style={{ maxWidth: '150px' }}
             >
+              <Select.Option
+                key="auto"
+                label="Auto"
+                value="auto"
+                isSelected={usecaseNumber === undefined}
+              />
               {[1, 2, 3, 4, 5].map((item) => (
                 <Select.Option
                   key={item}
