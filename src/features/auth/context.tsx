@@ -9,6 +9,7 @@ import {
   resendSignUpCode,
   resetPassword,
   confirmResetPassword,
+  updatePassword,
   type SignInInput,
   type SignUpInput,
   type ConfirmSignUpInput,
@@ -39,6 +40,7 @@ interface AuthContextType {
   resendSignupCode: (email: string) => Promise<void>;
   confirmMfaSignIn: (code: string) => Promise<void>;
   setNewPassword: (newPassword: string) => Promise<void>;
+  changePassword: (oldPassword: string, newPassword: string) => Promise<void>;
   forgotPassword: (email: string) => Promise<ForgotPasswordResult>;
   confirmForgotPassword: (
     email: string,
@@ -135,6 +137,20 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       // eslint-disable-next-line no-console
       console.error('Set new password error:', error);
       throw new Error(error.message || 'Failed to set new password');
+    }
+  };
+
+  const changePassword = async (
+    oldPassword: string,
+    newPassword: string
+  ): Promise<void> => {
+    try {
+      await updatePassword({ oldPassword, newPassword });
+      await syncWordpress();
+    } catch (error: any) {
+      // eslint-disable-next-line no-console
+      console.error('Change password error:', error);
+      throw new Error(error.message || 'Failed to change password');
     }
   };
 
@@ -250,6 +266,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       resendSignupCode,
       confirmMfaSignIn,
       setNewPassword,
+      changePassword,
       forgotPassword,
       confirmForgotPassword: confirmForgotPasswordFn,
       logout,

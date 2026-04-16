@@ -46,7 +46,7 @@ export const SetPasswordForm = ({
   token,
 }: SetPasswordFormProps) => {
   const { t } = useTranslation();
-  const { signup, login, setNewPassword } = useAuth();
+  const { signup, login, setNewPassword, changePassword } = useAuth();
   const navigate = useNavigate();
   const sendGTMevent = useSendGTMevent({ loggedUser: false });
   const [passwordInputType, setPasswordInputType] = useState('password');
@@ -79,12 +79,31 @@ export const SetPasswordForm = ({
         throw new Error('Email not found in invite data');
       }
 
-      // Uso la temp password per autenticare l'utente
+      // Uso la password permanente per autenticare l'utente
       if (inviteData?.code) {
-        // 1. Login con password temporanea
+        // 1. Login con password permanente
         const loginResult = await login(email, inviteData.code);
 
-        // 2. Se richiede cambio password, imposta la nuova
+        // Se il login è riuscito direttamente (utente già confermato)
+        if (loginResult.isSignedIn) {
+          // 2. Cambia la password dalla password permanente a quella scelta dall'utente
+          await changePassword(inviteData.code, values.password);
+
+          sendGTMevent({
+            event: 'sign-up-flow',
+            category: 'invited',
+            action: 'password-changed-completed',
+          });
+
+          // 3. L'utente è ora loggato, salva i dati dell'invito e vai all'onboarding
+          sessionStorage.setItem('inviteProfileId', profileId.toString());
+          sessionStorage.setItem('inviteToken', token);
+          navigate('/join/onboarding');
+
+          return;
+        }
+
+        // Se il login richiede una nuova password, procedi a cambiarla
         if (loginResult.requiresNewPassword) {
           await setNewPassword(values.password);
 
@@ -93,14 +112,18 @@ export const SetPasswordForm = ({
             category: 'invited',
             action: 'password-changed-completed',
           });
+
+          sessionStorage.setItem('inviteProfileId', profileId.toString());
+          sessionStorage.setItem('inviteToken', token);
+          navigate('/join/onboarding');
+
+          return;
         }
 
-        // 3. L'utente è ora loggato, salva i dati dell'invito e vai all'onboarding
-        sessionStorage.setItem('inviteProfileId', profileId.toString());
-        sessionStorage.setItem('inviteToken', token);
-        navigate('/join/onboarding');
-
-        return;
+        // Se ci sono altre necessità (MFA, conferma email, etc.)
+        throw new Error(
+          `Unexpected sign-in result: ${JSON.stringify(loginResult)}`
+        );
       }
 
       // VECCHIO FLUSSO (backward compatibility): Signup tradizionale
