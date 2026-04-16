@@ -202,9 +202,14 @@ export const PersonalInfoStep = () => {
         initialValues={initialValues}
         validationSchema={getPersonalInfoValidationSchema(t)}
         onSubmit={handleSubmit}
-        validateOnMount
       >
-        {({ isSubmitting, errors, setFieldValue, setFieldTouched }) => (
+        {({
+          isSubmitting,
+          values,
+          setFieldValue,
+          validateForm,
+          setTouched,
+        }) => (
           <Form>
             <FieldContainer>
               <Field name="name">
@@ -220,12 +225,7 @@ export const PersonalInfoStep = () => {
                       </Label>
                       <Input
                         type="text"
-                        name={field.name}
-                        value={field.value}
-                        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                          setFieldValue('name', e.target.value)
-                        }
-                        onBlur={() => setFieldTouched('name', true)}
+                        {...field}
                         placeholder={t('SIGNUP_FORM_NAME_PLACEHOLDER')}
                         {...(hasError && { validation: 'error' })}
                       />
@@ -255,12 +255,7 @@ export const PersonalInfoStep = () => {
                       </Label>
                       <Input
                         type="text"
-                        name={field.name}
-                        value={field.value}
-                        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                          setFieldValue('surname', e.target.value)
-                        }
-                        onBlur={() => setFieldTouched('surname', true)}
+                        {...field}
                         placeholder={t('SIGNUP_FORM_SURNAME_PLACEHOLDER')}
                         {...(hasError && { validation: 'error' })}
                       />
@@ -388,7 +383,27 @@ export const PersonalInfoStep = () => {
                   isAccent
                   isStretched
                   size="medium"
-                  disabled={isSubmitting || Object.keys(errors).length > 0}
+                  disabled={
+                    isSubmitting ||
+                    !values.name ||
+                    !values.surname ||
+                    !values.roleId ||
+                    !values.companySizeId
+                  }
+                  onClick={async (e) => {
+                    e.preventDefault();
+                    await setTouched({
+                      name: true,
+                      surname: true,
+                      roleId: true,
+                      companySizeId: true,
+                    });
+                    const formErrors = await validateForm();
+                    if (Object.keys(formErrors).length === 0) {
+                      const form = (e.target as HTMLElement).closest('form');
+                      form?.requestSubmit();
+                    }
+                  }}
                 >
                   {isSubmitting ? t('LOADING') : t('SIGNUP_FORM_NEXT_STEP')}
                 </Button>
