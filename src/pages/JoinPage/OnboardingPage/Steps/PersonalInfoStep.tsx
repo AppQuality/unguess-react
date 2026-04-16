@@ -204,7 +204,7 @@ export const PersonalInfoStep = () => {
         onSubmit={handleSubmit}
         validateOnMount
       >
-        {({ isSubmitting, isValid, setFieldValue }) => (
+        {({ isSubmitting, errors, setFieldValue }) => (
           <Form>
             <FieldContainer>
               <Field name="name">
@@ -378,7 +378,7 @@ export const PersonalInfoStep = () => {
                   isAccent
                   isStretched
                   size="medium"
-                  disabled={isSubmitting || !isValid}
+                  disabled={isSubmitting || Object.keys(errors).length > 0}
                 >
                   {isSubmitting ? t('LOADING') : t('SIGNUP_FORM_NEXT_STEP')}
                 </Button>
