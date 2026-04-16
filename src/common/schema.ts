@@ -1728,6 +1728,7 @@ export interface components {
        */
       authType: "legacy" | "cognito";
       onboarding_pending?: boolean;
+      invitation_token?: string;
     };
     /** UserPreference */
     UserPreference: {
