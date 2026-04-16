@@ -22,7 +22,7 @@ import { ReactComponent as TrashIcon } from 'src/assets/icons/trash-stroke.svg';
 import { useModuleConfiguration } from 'src/features/modules/useModuleConfiguration';
 import useWindowSize from 'src/hooks/useWindowSize';
 import { TTask, useModuleTasks } from '../hooks';
-import { getIconFromTaskOutput } from '../utils';
+import { getIconFromTaskOutput, getTaskTypeFromKind } from '../utils';
 import { DeleteTaskConfirmationModal } from './modal/DeleteTaskConfirmationModal';
 
 // Analytics event interface
@@ -30,7 +30,6 @@ interface AiTaskEditedPayload {
   PlanID: string;
   taskType: 'quality' | 'experience';
   fieldEdited: 'title' | 'scenario' | 'description' | 'url';
-  editedInSameSession: true;
 }
 
 type TaskItemProps = {
@@ -88,9 +87,8 @@ const TaskItem = ({ task, index }: TaskItemProps) => {
     if (task.isAiGenerated && title !== originalValuesRef.current.title) {
       track('aiTaskEdited', {
         PlanID: planId || '',
-        taskType: 'experience',
+        taskType: getTaskTypeFromKind(kind),
         fieldEdited: 'title',
-        editedInSameSession: true,
       } as AiTaskEditedPayload);
       // Update original value to avoid duplicate tracking
       originalValuesRef.current.title = title;
@@ -106,9 +104,8 @@ const TaskItem = ({ task, index }: TaskItemProps) => {
     ) {
       track('aiTaskEdited', {
         PlanID: planId || '',
-        taskType: 'experience',
+        taskType: getTaskTypeFromKind(kind),
         fieldEdited: 'description',
-        editedInSameSession: true,
       } as AiTaskEditedPayload);
       // Update original value to avoid duplicate tracking
       originalValuesRef.current.description = description;
@@ -122,9 +119,8 @@ const TaskItem = ({ task, index }: TaskItemProps) => {
     if (task.isAiGenerated && currentUrl !== originalValuesRef.current.url) {
       track('aiTaskEdited', {
         PlanID: planId || '',
-        taskType: 'experience',
+        taskType: getTaskTypeFromKind(kind),
         fieldEdited: 'url',
-        editedInSameSession: true,
       } as AiTaskEditedPayload);
       // Update original value to avoid duplicate tracking
       originalValuesRef.current.url = currentUrl;

@@ -9,13 +9,13 @@ import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { useAnalytics } from 'use-analytics';
 import { useModuleTasks } from '../../hooks';
+import { getTaskTypeFromKind } from '../../utils';
 
 // Analytics event interface
 interface AiTaskDeletedPayload {
   PlanID: string;
   taskType: 'quality' | 'experience';
   remainingAiTaskCount: number;
-  editedInSameSession: true;
 }
 
 const DeleteTaskConfirmationModal = ({
@@ -59,9 +59,8 @@ const DeleteTaskConfirmationModal = ({
 
       track('aiTaskDeleted', {
         PlanID: planId || '',
-        taskType: 'experience',
+        taskType: getTaskTypeFromKind(taskToDelete.kind),
         remainingAiTaskCount,
-        editedInSameSession: true,
       } as AiTaskDeletedPayload);
     }
 
