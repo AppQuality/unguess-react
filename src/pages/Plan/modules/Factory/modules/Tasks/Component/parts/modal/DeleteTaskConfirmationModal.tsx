@@ -9,14 +9,6 @@ import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { useAnalytics } from 'use-analytics';
 import { useModuleTasks } from '../../hooks';
-import { getTaskTypeFromKind } from '../../utils';
-
-// Analytics event interface
-interface AiTaskDeletedPayload {
-  PlanID: string;
-  taskType: 'quality' | 'experience';
-  remainingAiTaskCount: number;
-}
 
 const DeleteTaskConfirmationModal = ({
   state,
@@ -51,17 +43,17 @@ const DeleteTaskConfirmationModal = ({
     const taskToDelete = tasks.find((task) => task.id === state[0].taskId);
 
     // Track deletion only for AI-generated tasks
-    if (taskToDelete?.isAiGenerated) {
+    if (taskToDelete?.isAiGeneratedInSession) {
       // Count remaining AI tasks after deletion (excluding the one being deleted)
       const remainingAiTaskCount = tasks.filter(
-        (task) => task.isAiGenerated && task.id !== state[0].taskId
+        (task) => task.isAiGeneratedInSession && task.id !== state[0].taskId
       ).length;
 
       track('aiTaskDeleted', {
         PlanID: planId || '',
-        taskType: getTaskTypeFromKind(taskToDelete.kind),
+        taskType: taskToDelete.kind,
         remainingAiTaskCount,
-      } as AiTaskDeletedPayload);
+      });
     }
 
     remove(state[0].taskId);

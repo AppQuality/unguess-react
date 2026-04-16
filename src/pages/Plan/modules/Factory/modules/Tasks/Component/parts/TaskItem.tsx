@@ -15,22 +15,15 @@ import {
 import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
-import { useAnalytics } from 'use-analytics';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as LinkIcon } from 'src/assets/icons/link-stroke.svg';
 import { ReactComponent as TrashIcon } from 'src/assets/icons/trash-stroke.svg';
 import { useModuleConfiguration } from 'src/features/modules/useModuleConfiguration';
 import useWindowSize from 'src/hooks/useWindowSize';
+import { useAnalytics } from 'use-analytics';
 import { TTask, useModuleTasks } from '../hooks';
-import { getIconFromTaskOutput, getTaskTypeFromKind } from '../utils';
+import { getIconFromTaskOutput } from '../utils';
 import { DeleteTaskConfirmationModal } from './modal/DeleteTaskConfirmationModal';
-
-// Analytics event interface
-interface AiTaskEditedPayload {
-  PlanID: string;
-  taskType: 'quality' | 'experience';
-  fieldEdited: 'title' | 'scenario' | 'description' | 'url';
-}
 
 type TaskItemProps = {
   task: TTask;
@@ -84,12 +77,15 @@ const TaskItem = ({ task, index }: TaskItemProps) => {
 
   const handleTitleBlur = () => {
     // Track edit only for AI-generated tasks if value changed
-    if (task.isAiGenerated && title !== originalValuesRef.current.title) {
+    if (
+      task.isAiGeneratedInSession &&
+      title !== originalValuesRef.current.title
+    ) {
       track('aiTaskEdited', {
         PlanID: planId || '',
-        taskType: getTaskTypeFromKind(kind),
+        taskType: kind,
         fieldEdited: 'title',
-      } as AiTaskEditedPayload);
+      });
       // Update original value to avoid duplicate tracking
       originalValuesRef.current.title = title;
     }
@@ -99,14 +95,14 @@ const TaskItem = ({ task, index }: TaskItemProps) => {
   const handleDescriptionBlur = () => {
     // Track edit only for AI-generated tasks if value changed
     if (
-      task.isAiGenerated &&
+      task.isAiGeneratedInSession &&
       description !== originalValuesRef.current.description
     ) {
       track('aiTaskEdited', {
         PlanID: planId || '',
-        taskType: getTaskTypeFromKind(kind),
+        taskType: kind,
         fieldEdited: 'description',
-      } as AiTaskEditedPayload);
+      });
       // Update original value to avoid duplicate tracking
       originalValuesRef.current.description = description;
     }
@@ -116,12 +112,15 @@ const TaskItem = ({ task, index }: TaskItemProps) => {
   const handleUrlBlur = () => {
     const currentUrl = task.url || '';
     // Track edit only for AI-generated tasks if value changed
-    if (task.isAiGenerated && currentUrl !== originalValuesRef.current.url) {
+    if (
+      task.isAiGeneratedInSession &&
+      currentUrl !== originalValuesRef.current.url
+    ) {
       track('aiTaskEdited', {
         PlanID: planId || '',
-        taskType: getTaskTypeFromKind(kind),
+        taskType: kind,
         fieldEdited: 'url',
-      } as AiTaskEditedPayload);
+      });
       // Update original value to avoid duplicate tracking
       originalValuesRef.current.url = currentUrl;
     }

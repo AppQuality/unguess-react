@@ -18,7 +18,6 @@ import {
 import { ReactNode, useEffect, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
-import { useAnalytics } from 'use-analytics';
 import { useAppSelector } from 'src/app/hooks';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as StopIcon } from 'src/assets/icons/stop.svg';
@@ -26,25 +25,10 @@ import {
   useGetServicesApiKJobsByJobIdQuery,
   usePostServicesApiKUsecasesMutation,
 } from 'src/features/api';
+import { useAnalytics } from 'use-analytics';
 import { useModuleTasksContext } from '../../context';
 import { useModuleTasks } from '../../hooks';
 import { LoadingSpinner } from './LoadingSpinner';
-
-// Analytics event interfaces
-interface AiTaskGenerationRequestedPayload {
-  PlanID: string;
-  taskType: 'quality' | 'experience';
-  tasksToGenerate: number | 'auto';
-  isRegeneration: boolean;
-  existingTaskCount: number;
-}
-
-interface AiTaskGenerationCompletedPayload {
-  PlanID: string;
-  taskType: 'quality' | 'experience';
-  tasksGenerated: number;
-  totalTaskCount: number;
-}
 
 // constants
 const MODULES_TO_PROMPT = [
@@ -111,7 +95,7 @@ const CreateTaskListsWithAI = () => {
   const handleClick = async () => {
     // Track AI task generation request
     const isRegeneration = currentTasks.some(
-      (task) => task.isAiGenerated === true
+      (task) => task.isAiGeneratedInSession === true
     );
 
     track('aiTaskGenerationRequested', {
@@ -120,7 +104,7 @@ const CreateTaskListsWithAI = () => {
       tasksToGenerate: usecaseNumber === undefined ? 'auto' : usecaseNumber,
       isRegeneration,
       existingTaskCount: currentTasks.length,
-    } as AiTaskGenerationRequestedPayload);
+    });
 
     // gather modules info to prepend to the user prompt
     const context = JSON.stringify(
@@ -167,7 +151,7 @@ const CreateTaskListsWithAI = () => {
           taskType: 'quality',
           tasksGenerated: newTasks.length,
           totalTaskCount: updatedTasks.length,
-        } as AiTaskGenerationCompletedPayload);
+        });
       }
       // show a success message
       addToast(
