@@ -140,7 +140,7 @@ const CreateTaskListsWithAI = () => {
           title: useCase.title,
           description: useCase.mainFlow,
           id: useCase.id,
-          isAiGenerated: true, // Mark as AI-generated for tracking purposes
+          isAiGeneratedInSession: true, // Mark as AI-generated for tracking purposes
         }));
         const updatedTasks = [...currentTasks, ...newTasks];
         setOutput(updatedTasks);

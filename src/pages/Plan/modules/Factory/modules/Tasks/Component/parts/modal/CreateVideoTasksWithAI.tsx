@@ -162,7 +162,7 @@ const CreateVideoTasksWithAI = () => {
         description: useCase.description || '',
         id: useCase.id ?? uuidv4(),
         url: useCase.url,
-        isAiGenerated: true, // Mark as AI-generated for tracking purposes
+        isAiGeneratedInSession: true, // Mark as AI-generated for tracking purposes
       }));
       const updatedTasks = [...currentTasks, ...newTasks];
       setOutput(updatedTasks);
