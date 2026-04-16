@@ -204,7 +204,7 @@ export const PersonalInfoStep = () => {
         onSubmit={handleSubmit}
         validateOnMount
       >
-        {({ isSubmitting, errors, setFieldValue }) => (
+        {({ isSubmitting, errors, setFieldValue, setFieldTouched }) => (
           <Form>
             <FieldContainer>
               <Field name="name">
@@ -220,7 +220,12 @@ export const PersonalInfoStep = () => {
                       </Label>
                       <Input
                         type="text"
-                        {...field}
+                        name={field.name}
+                        value={field.value}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                          setFieldValue('name', e.target.value)
+                        }
+                        onBlur={() => setFieldTouched('name', true)}
                         placeholder={t('SIGNUP_FORM_NAME_PLACEHOLDER')}
                         {...(hasError && { validation: 'error' })}
                       />
@@ -250,7 +255,12 @@ export const PersonalInfoStep = () => {
                       </Label>
                       <Input
                         type="text"
-                        {...field}
+                        name={field.name}
+                        value={field.value}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                          setFieldValue('surname', e.target.value)
+                        }
+                        onBlur={() => setFieldTouched('surname', true)}
                         placeholder={t('SIGNUP_FORM_SURNAME_PLACEHOLDER')}
                         {...(hasError && { validation: 'error' })}
                       />
