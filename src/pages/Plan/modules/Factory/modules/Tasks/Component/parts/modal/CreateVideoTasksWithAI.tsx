@@ -136,7 +136,7 @@ const CreateVideoTasksWithAI = () => {
   const handleClick = () => {
     // Track AI task generation request
     const isRegeneration = currentTasks.some(
-      (task: any) => task.isAiGenerated === true
+      (task) => task.isAiGenerated === true
     );
 
     track('aiTaskGenerationRequested', {

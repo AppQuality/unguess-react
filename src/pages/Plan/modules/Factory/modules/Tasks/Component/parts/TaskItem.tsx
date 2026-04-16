@@ -85,10 +85,7 @@ const TaskItem = ({ task, index }: TaskItemProps) => {
 
   const handleTitleBlur = () => {
     // Track edit only for AI-generated tasks if value changed
-    if (
-      (task as any).isAiGenerated &&
-      title !== originalValuesRef.current.title
-    ) {
+    if (task.isAiGenerated && title !== originalValuesRef.current.title) {
       track('aiTaskEdited', {
         PlanID: planId || '',
         taskType: 'experience',
@@ -104,7 +101,7 @@ const TaskItem = ({ task, index }: TaskItemProps) => {
   const handleDescriptionBlur = () => {
     // Track edit only for AI-generated tasks if value changed
     if (
-      (task as any).isAiGenerated &&
+      task.isAiGenerated &&
       description !== originalValuesRef.current.description
     ) {
       track('aiTaskEdited', {
@@ -122,10 +119,7 @@ const TaskItem = ({ task, index }: TaskItemProps) => {
   const handleUrlBlur = () => {
     const currentUrl = task.url || '';
     // Track edit only for AI-generated tasks if value changed
-    if (
-      (task as any).isAiGenerated &&
-      currentUrl !== originalValuesRef.current.url
-    ) {
+    if (task.isAiGenerated && currentUrl !== originalValuesRef.current.url) {
       track('aiTaskEdited', {
         PlanID: planId || '',
         taskType: 'experience',

@@ -51,10 +51,10 @@ const DeleteTaskConfirmationModal = ({
     const taskToDelete = tasks.find((task) => task.id === state[0].taskId);
 
     // Track deletion only for AI-generated tasks
-    if (taskToDelete && (taskToDelete as any).isAiGenerated) {
+    if (taskToDelete?.isAiGenerated) {
       // Count remaining AI tasks after deletion (excluding the one being deleted)
       const remainingAiTaskCount = tasks.filter(
-        (task) => (task as any).isAiGenerated && task.id !== state[0].taskId
+        (task) => task.isAiGenerated && task.id !== state[0].taskId
       ).length;
 
       track('aiTaskDeleted', {
