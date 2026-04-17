@@ -5,6 +5,7 @@
  */
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useLocation } from 'react-router-dom';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
 import joinBg from 'src/assets/join-bg-1.png';
 import joingBgwebp from 'src/assets/join-bg-1.webp';
@@ -70,11 +71,22 @@ const RightColumn = styled.div`
   }
 `;
 
+interface SignupLocationState {
+  email?: string;
+  password?: string;
+  needsConfirmation?: boolean;
+}
+
 const SignupPage = () => {
   const { t } = useTranslation();
-  const [userEmail, setUserEmail] = useState('');
-  const [userPassword, setUserPassword] = useState('');
-  const [needsConfirmation, setNeedsConfirmation] = useState(false);
+  const { state: locationState } = useLocation();
+  const navState = locationState as SignupLocationState | null;
+
+  const [userEmail, setUserEmail] = useState(navState?.email || '');
+  const [userPassword, setUserPassword] = useState(navState?.password || '');
+  const [needsConfirmation, setNeedsConfirmation] = useState(
+    navState?.needsConfirmation || false
+  );
 
   const meta = [
     { name: 'og:description', content: t('__PAGE_JOIN_DESCRIPTION') },

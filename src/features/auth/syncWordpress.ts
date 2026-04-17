@@ -2,16 +2,17 @@ import { fetchAuthSession } from 'aws-amplify/auth';
 import { isDev } from 'src/common/isDevEnvironment';
 
 export const syncWordpress = async (): Promise<void> => {
-  const session = await fetchAuthSession();
-
-  const idToken = session.tokens?.idToken?.toString();
-
-  if (!idToken) {
-    // eslint-disable-next-line no-console
-    console.error('SyncWP: No ID token available');
-    return;
-  }
   try {
+    const session = await fetchAuthSession();
+
+    const idToken = session.tokens?.idToken?.toString();
+
+    if (!idToken) {
+      // eslint-disable-next-line no-console
+      console.error('SyncWP: No ID token available');
+      return;
+    }
+
     const response = await fetch(
       `${process.env.REACT_APP_CROWD_WP_URL}/wp-json/cognito-sync/v1/login`,
       {
@@ -23,12 +24,11 @@ export const syncWordpress = async (): Promise<void> => {
     );
 
     const result = await response.json();
-
     if (isDev()) {
       // eslint-disable-next-line no-console
       console.log('🚀 ~ syncWordpress ~ result:', result);
     }
-  } catch (error: any) {
+  } catch (error) {
     // eslint-disable-next-line no-console
     console.error('SyncWP error:', error);
   }
