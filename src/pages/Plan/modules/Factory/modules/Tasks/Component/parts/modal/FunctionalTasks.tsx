@@ -1,4 +1,5 @@
 import { Button } from '@appquality/unguess-design-system';
+import { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ReactComponent as ExploratoryTaskIcon } from 'src/assets/icons/exploratory-task-icon.svg';
 import { ReactComponent as FunctionalTaskIcon } from 'src/assets/icons/functional-task-icon.svg';
@@ -6,7 +7,7 @@ import { useHandleModalItemClick } from '../../utils';
 import { ButtonsContainer } from './ButtonsContainer';
 import { TaskTypeTitle } from './TaskTypeTitle';
 
-const FunctionalTasks = () => {
+const FunctionalTasks = ({ children }: { children?: ReactNode }) => {
   const { t } = useTranslation();
   const handleModalItemClick = useHandleModalItemClick();
 
@@ -17,6 +18,7 @@ const FunctionalTasks = () => {
           '__PLAN_PAGE_MODULE_TASKS_ADD_TASK_MODAL_FUNCTIONAL_TASKS_LABEL'
         ).toUpperCase()}
       </TaskTypeTitle>
+      {children}
       <ButtonsContainer>
         <Button
           isBasic
