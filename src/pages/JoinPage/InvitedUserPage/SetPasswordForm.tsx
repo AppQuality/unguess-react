@@ -114,18 +114,19 @@ export const SetPasswordForm = ({
             action: 'password-changed-completed',
           });
 
-        // 3. L'utente è ora loggato, salva i dati dell'invito e vai all'onboarding
-        sessionStorage.setItem('inviteProfileId', profileId.toString());
-        sessionStorage.setItem('inviteToken', token);
+          // 3. L'utente è ora loggato, salva i dati dell'invito e vai all'onboarding
+          sessionStorage.setItem('inviteProfileId', profileId.toString());
+          sessionStorage.setItem('inviteToken', token);
 
-        // Preserva i query params durante la navigazione
-        const queryString = searchParams.toString();
-        navigate(`/join/onboarding${queryString ? `?${queryString}` : ''}`);
+          // Preserva i query params durante la navigazione
+          const queryString = searchParams.toString();
+          navigate(`/join/onboarding${queryString ? `?${queryString}` : ''}`);
 
-        // Se ci sono altre necessità (MFA, conferma email, etc.)
-        throw new Error(
-          `Unexpected sign-in result: ${JSON.stringify(loginResult)}`
-        );
+          // Se ci sono altre necessità (MFA, conferma email, etc.)
+          throw new Error(
+            `Unexpected sign-in result: ${JSON.stringify(loginResult)}`
+          );
+        }
       }
 
       // VECCHIO FLUSSO (backward compatibility): Signup tradizionale
