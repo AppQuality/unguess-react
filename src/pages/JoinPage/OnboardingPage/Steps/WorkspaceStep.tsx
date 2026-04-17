@@ -46,7 +46,6 @@ export const WorkspaceStep = () => {
   const [postUsers] = usePostUsersMutation();
   const templateParam = searchParams.get('template');
   const templateId = templateParam !== null ? Number(templateParam) : undefined;
-  const redirectTo = searchParams.get('redirect') || undefined;
 
   const handleSubmit = async (
     values: WorkspaceFormValues,

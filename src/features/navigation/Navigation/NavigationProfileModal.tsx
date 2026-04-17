@@ -8,8 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
 import { isDev } from 'src/common/isDevEnvironment';
 import { prepareGravatar } from 'src/common/utils';
-import WPAPI from 'src/common/wpapi';
-import { useGetUsersMeQuery, unguessApi } from 'src/features/api';
+import { useGetUsersMeQuery } from 'src/features/api';
 import { useAuth } from 'src/features/auth/context';
 import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
 import { setProfileModalOpen } from '../navigationSlice';
@@ -27,7 +26,6 @@ export const NavigationProfileModal = () => {
   const { t, i18n } = useTranslation();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { logout: cognitoLogout } = useAuth();
 
   const pathWithoutLocale = usePathWithoutLocale();
 
@@ -102,27 +100,7 @@ export const NavigationProfileModal = () => {
       }
     },
     onLogout: async () => {
-      try {
-        if (user?.authType === 'cognito') {
-          await cognitoLogout();
-        }
-      } catch (err) {
-        // eslint-disable-next-line no-console
-        console.error('Cognito logout error:', err);
-      }
-
-      try {
-        await fetch(
-          `${process.env.REACT_APP_CROWD_WP_URL}/wp-admin/admin-ajax.php?action=unguess_wp_logout`,
-          { method: 'GET', credentials: 'include' }
-        );
-      } catch (err) {
-        // eslint-disable-next-line no-console
-        console.error('WP logout error:', err);
-      }
-
-      dispatch(unguessApi.util.resetApiState());
-      window.location.href = '/login';
+      navigate('/logout');
     },
     onCopyEmail: () => {
       addToast(

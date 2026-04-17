@@ -129,6 +129,7 @@ export const PersonalInfoStep = () => {
 
   const templateParam = searchParams.get('template');
   const templateId = templateParam !== null ? Number(templateParam) : undefined;
+  const redirectTo = searchParams.get('redirect') || undefined;
 
   const renderRolesOptions = useMemo(
     () =>
@@ -214,8 +215,8 @@ export const PersonalInfoStep = () => {
         sessionStorage.removeItem('inviteProfileId');
         sessionStorage.removeItem('inviteToken');
 
-        if (res.projectId) {
-          window.location.href = `/projects/${res.projectId}`;
+        if (redirectTo) {
+          window.location.href = redirectTo;
         } else {
           window.location.href = '/';
         }
