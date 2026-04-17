@@ -97,11 +97,16 @@ const TasksModal = () => {
                 '__PLAN_PAGE_MODULE_TASKS_ADD_TASK_MODAL_FUNCTIONAL_TAB'
               )}
             >
-              <FunctionalTasks />
+              <FunctionalTasks>
+                <AiGeneratorSection
+                  onOpenCreateWithAI={() =>
+                    setIsOpenCreateTasksWithAIModal(true)
+                  }
+                />
+                <Divider />
+              </FunctionalTasks>
+              <Divider />
               <SurveyTasks />
-              <AiGeneratorSection
-                onOpenCreateWithAI={() => setIsOpenCreateTasksWithAIModal(true)}
-              />
             </StyledTabsPanel>
             <StyledTabsPanel
               key="experiential"
@@ -109,23 +114,25 @@ const TasksModal = () => {
                 '__PLAN_PAGE_MODULE_TASKS_ADD_TASK_MODAL_EXPERIENTIAL_TAB'
               )}
             >
-              <ExperientialTasks />
+              <ExperientialTasks>
+                <AiGeneratorSection
+                  onOpenCreateWithAI={() =>
+                    setIsOpenCreateVideoTasksWithAIModal(true)
+                  }
+                  checkApiHealth={false}
+                  label={
+                    <Trans
+                      i18nKey="__PLAN_PAGE_MODULE_TASKS_ADD_VIDEO_TASK_MODAL_AI_DISCLAIMER"
+                      components={{
+                        bold: <MD isBold />,
+                      }}
+                    />
+                  }
+                />
+                <Divider />
+              </ExperientialTasks>
               <Divider />
               <SurveyTasks />
-              <AiGeneratorSection
-                onOpenCreateWithAI={() =>
-                  setIsOpenCreateVideoTasksWithAIModal(true)
-                }
-                checkApiHealth={false}
-                label={
-                  <Trans
-                    i18nKey="__PLAN_PAGE_MODULE_TASKS_ADD_VIDEO_TASK_MODAL_AI_DISCLAIMER"
-                    components={{
-                      bold: <MD isBold />,
-                    }}
-                  />
-                }
-              />
             </StyledTabsPanel>
             <StyledTabsPanel
               key="accessibility"
