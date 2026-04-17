@@ -102,22 +102,23 @@ export const NavigationProfileModal = () => {
       }
     },
     onLogout: async () => {
-      // TODO: rimuovere wp dopo migration completa
       try {
-        // Se l'utente è autenticato con Cognito, esegui logout Cognito
         if (user?.authType === 'cognito') {
           await cognitoLogout();
         }
 
-        // Logout legacy WP per utenti con cookie
-        await WPAPI.logout();
+        // Fire-and-forget WP session destroy without page reload
+        fetch(
+          `${process.env.REACT_APP_CROWD_WP_URL}/wp-admin/admin-ajax.php?action=unguess_wp_logout`,
+          { method: 'GET' }
+        ).catch(() => {});
 
-        // Reset rtk query cache
         dispatch(unguessApi.util.resetApiState());
       } catch (err) {
         // eslint-disable-next-line no-console
         console.error('logout error:', err);
-        document.location.href = '/login';
+      } finally {
+        window.location.href = '/login';
       }
     },
     onCopyEmail: () => {

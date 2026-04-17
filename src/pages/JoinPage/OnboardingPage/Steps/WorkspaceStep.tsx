@@ -10,7 +10,7 @@ import {
 } from '@appquality/unguess-design-system';
 import { Field, FieldProps, Form, Formik, FormikHelpers } from 'formik';
 import { useTranslation } from 'react-i18next';
-
+import { useSearchParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
 import { usePostUsersMutation } from 'src/features/api';
 import { useSendGTMevent } from 'src/hooks/useGTMevent';
@@ -40,11 +40,13 @@ interface WorkspaceFormValues {
 
 export const WorkspaceStep = () => {
   const { t } = useTranslation();
-  const { data, userData, updateData, setStep, queryParams } = useOnboarding();
+  const { data, userData, updateData, setStep } = useOnboarding();
+  const [searchParams] = useSearchParams();
   const sendGTMevent = useSendGTMevent({ loggedUser: false });
   const [postUsers] = usePostUsersMutation();
-  const templateId = queryParams.template;
-  const redirectTo = queryParams.redirect as string | undefined;
+  const templateParam = searchParams.get('template');
+  const templateId = templateParam !== null ? Number(templateParam) : undefined;
+  const redirectTo = searchParams.get('redirect') || undefined;
 
   const handleSubmit = async (
     values: WorkspaceFormValues,
@@ -100,7 +102,7 @@ export const WorkspaceStep = () => {
           email: userData.email!,
           firstName: data.name,
           lastName: data.surname,
-          searchParams: queryParams,
+          searchParams: Object.fromEntries(searchParams.entries()),
         });
       } catch (err) {
         console.error('Error sending data to HubSpot:', err);
@@ -112,9 +114,11 @@ export const WorkspaceStep = () => {
         sessionStorage.removeItem('inviteToken');
       }
 
-      // Redirect appropriato (utente già loggato)
-      const redirectTarget = res.projectId ? `/projects/${res.projectId}` : '/';
-      window.location.href = redirectTo || redirectTarget;
+      if (res.projectId) {
+        window.location.href = `/projects/${res.projectId}`;
+      } else {
+        window.location.href = '/';
+      }
     } catch (error: any) {
       // eslint-disable-next-line no-console
       console.error('Onboarding save error:', error);

@@ -19,7 +19,7 @@ import {
 } from 'formik';
 import { useCallback, useEffect, useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
 import {
   useGetUsersRolesQuery,
@@ -116,8 +116,8 @@ const AutofillSync = () => {
 
 export const PersonalInfoStep = () => {
   const { t } = useTranslation();
-  const { data, userData, updateData, setStep, queryParams } = useOnboarding();
-  const navigate = useNavigate();
+  const { data, userData, updateData, setStep } = useOnboarding();
+  const [searchParams] = useSearchParams();
   const sendGTMevent = useSendGTMevent({ loggedUser: false });
   const [postUsers] = usePostUsersMutation();
   const { data: dataRoles, isLoading: isLoadingRoles } =
@@ -127,8 +127,8 @@ export const PersonalInfoStep = () => {
   const selectRef = useRef<HTMLDivElement>(null);
   const roleSelectRef = useRef<HTMLDivElement>(null);
 
-  // Usa il templateId dai queryParams del provider
-  const templateId = queryParams.template;
+  const templateParam = searchParams.get('template');
+  const templateId = templateParam !== null ? Number(templateParam) : undefined;
 
   const renderRolesOptions = useMemo(
     () =>
@@ -214,11 +214,10 @@ export const PersonalInfoStep = () => {
         sessionStorage.removeItem('inviteProfileId');
         sessionStorage.removeItem('inviteToken');
 
-        // Redirect
         if (res.projectId) {
-          navigate(`/projects/${res.projectId}`);
+          window.location.href = `/projects/${res.projectId}`;
         } else {
-          navigate('/');
+          window.location.href = '/';
         }
       } else {
         // Utente nuovo: vai allo step 2 (workspace)

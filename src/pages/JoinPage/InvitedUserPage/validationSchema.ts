@@ -21,4 +21,10 @@ export const getSetPasswordValidationSchema = (t: TFunction) =>
     confirmPassword: Yup.string()
       .oneOf([Yup.ref('password')], t('CONFIRM_PASSWORD_MUST_MATCH'))
       .required(t('CONFIRM_PASSWORD_REQUIRED')),
+    termsAccepted: Yup.boolean()
+      .oneOf([true], t('SIGNUP_FORM_TERMS_REQUIRED'))
+      .required(t('SIGNUP_FORM_TERMS_REQUIRED')),
+    privacyAccepted: Yup.boolean()
+      .oneOf([true], t('SIGNUP_FORM_PRIVACY_REQUIRED'))
+      .required(t('SIGNUP_FORM_PRIVACY_REQUIRED')),
   });
