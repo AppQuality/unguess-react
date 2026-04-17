@@ -106,20 +106,23 @@ export const NavigationProfileModal = () => {
         if (user?.authType === 'cognito') {
           await cognitoLogout();
         }
-
-        // Fire-and-forget WP session destroy without page reload
-        fetch(
-          `${process.env.REACT_APP_CROWD_WP_URL}/wp-admin/admin-ajax.php?action=unguess_wp_logout`,
-          { method: 'GET' }
-        ).catch(() => {});
-
-        dispatch(unguessApi.util.resetApiState());
       } catch (err) {
         // eslint-disable-next-line no-console
-        console.error('logout error:', err);
-      } finally {
-        window.location.href = '/login';
+        console.error('Cognito logout error:', err);
       }
+
+      try {
+        await fetch(
+          `${process.env.REACT_APP_CROWD_WP_URL}/wp-admin/admin-ajax.php?action=unguess_wp_logout`,
+          { method: 'GET', credentials: 'include' }
+        );
+      } catch (err) {
+        // eslint-disable-next-line no-console
+        console.error('WP logout error:', err);
+      }
+
+      dispatch(unguessApi.util.resetApiState());
+      window.location.href = '/login';
     },
     onCopyEmail: () => {
       addToast(
