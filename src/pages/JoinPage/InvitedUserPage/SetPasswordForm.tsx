@@ -14,7 +14,7 @@ import { ReactComponent as EyeHide } from '@zendeskgarden/svg-icons/src/16/eye-h
 import { Field, FieldProps, Form, Formik, FormikHelpers } from 'formik';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
 import { PasswordRequirements } from 'src/common/components/PasswordRequirements';
 import { useAuth } from 'src/features/auth/context';
@@ -48,6 +48,7 @@ export const SetPasswordForm = ({
   const { t } = useTranslation();
   const { signup, login, setNewPassword, changePassword } = useAuth();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const sendGTMevent = useSendGTMevent({ loggedUser: false });
   const [passwordInputType, setPasswordInputType] = useState('password');
   const [confirmPasswordInputType, setConfirmPasswordInputType] =
@@ -113,12 +114,13 @@ export const SetPasswordForm = ({
             action: 'password-changed-completed',
           });
 
-          sessionStorage.setItem('inviteProfileId', profileId.toString());
-          sessionStorage.setItem('inviteToken', token);
-          navigate('/join/onboarding');
+        // 3. L'utente è ora loggato, salva i dati dell'invito e vai all'onboarding
+        sessionStorage.setItem('inviteProfileId', profileId.toString());
+        sessionStorage.setItem('inviteToken', token);
 
-          return;
-        }
+        // Preserva i query params durante la navigazione
+        const queryString = searchParams.toString();
+        navigate(`/join/onboarding${queryString ? `?${queryString}` : ''}`);
 
         // Se ci sono altre necessità (MFA, conferma email, etc.)
         throw new Error(
@@ -148,8 +150,9 @@ export const SetPasswordForm = ({
         sessionStorage.setItem('inviteProfileId', profileId.toString());
         sessionStorage.setItem('inviteToken', token);
 
-        // Redirect all'onboarding già loggato
-        navigate('/join/onboarding');
+        // Preserva i query params durante la navigazione
+        const queryString = searchParams.toString();
+        navigate(`/join/onboarding${queryString ? `?${queryString}` : ''}`);
       } catch (loginError: any) {
         // Se il login fallisce perché serve conferma email
         if (loginError.message?.includes('User is not confirmed')) {

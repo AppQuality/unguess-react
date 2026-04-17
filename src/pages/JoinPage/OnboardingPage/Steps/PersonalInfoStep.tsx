@@ -9,10 +9,17 @@ import {
   Span,
   XL,
 } from '@appquality/unguess-design-system';
-import { Field, FieldProps, Form, Formik, FormikHelpers } from 'formik';
-import { useMemo, useRef } from 'react';
+import {
+  Field,
+  FieldProps,
+  Form,
+  Formik,
+  FormikHelpers,
+  useFormikContext,
+} from 'formik';
+import { useCallback, useEffect, useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
 import {
   useGetUsersRolesQuery,
@@ -46,11 +53,71 @@ interface PersonalInfoFormValues {
   companySizeId: string;
 }
 
+const TEXT_FIELDS: (keyof PersonalInfoFormValues)[] = ['name', 'surname'];
+
+/**
+ * Syncs browser-autofilled input values into Formik state.
+ * Chrome autofill often skips React synthetic events, leaving Formik
+ * unaware of pre-filled values. This component listens for native DOM
+ * change events (which Chrome does fire for autofill on user interaction)
+ * and pushes them into Formik.
+ */
+const AutofillSync = () => {
+  const { setFieldValue, values } = useFormikContext<PersonalInfoFormValues>();
+  const valuesRef = useRef(values);
+  valuesRef.current = values;
+
+  const syncAutofill = useCallback(() => {
+    TEXT_FIELDS.forEach((fieldName) => {
+      const input = document.querySelector<HTMLInputElement>(
+        `input[name="${fieldName}"]`
+      );
+      if (
+        input &&
+        input.value &&
+        input.value !== valuesRef.current[`${fieldName}`]
+      ) {
+        setFieldValue(fieldName, input.value, true);
+      }
+    });
+  }, [setFieldValue]);
+
+  // Catch Chrome's delayed native change events for autofilled inputs
+  useEffect(() => {
+    const handleChange = (e: Event) => {
+      const target = e.target as HTMLInputElement;
+      if (
+        target.tagName === 'INPUT' &&
+        target.name &&
+        TEXT_FIELDS.includes(target.name as keyof PersonalInfoFormValues)
+      ) {
+        if (
+          target.value !==
+          valuesRef.current[target.name as keyof PersonalInfoFormValues]
+        ) {
+          setFieldValue(target.name, target.value, true);
+        }
+      }
+    };
+
+    document.addEventListener('change', handleChange, true);
+    return () => document.removeEventListener('change', handleChange, true);
+  }, [setFieldValue]);
+
+  // Also check once shortly after mount for autofill that happened before
+  // any user interaction
+  useEffect(() => {
+    const timer = setTimeout(syncAutofill, 300);
+    return () => clearTimeout(timer);
+  }, [syncAutofill]);
+
+  return null;
+};
+
 export const PersonalInfoStep = () => {
   const { t } = useTranslation();
-  const { data, userData, updateData, setStep } = useOnboarding();
+  const { data, userData, updateData, setStep, queryParams } = useOnboarding();
   const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
   const sendGTMevent = useSendGTMevent({ loggedUser: false });
   const [postUsers] = usePostUsersMutation();
   const { data: dataRoles, isLoading: isLoadingRoles } =
@@ -60,15 +127,8 @@ export const PersonalInfoStep = () => {
   const selectRef = useRef<HTMLDivElement>(null);
   const roleSelectRef = useRef<HTMLDivElement>(null);
 
-  const templateParam = searchParams.get('template');
-  let templateId: number | undefined;
-
-  if (templateParam !== null) {
-    const parsed = Number(templateParam);
-    if (Number.isInteger(parsed)) {
-      templateId = parsed;
-    }
-  }
+  // Usa il templateId dai queryParams del provider
+  const templateId = queryParams.template;
 
   const renderRolesOptions = useMemo(
     () =>
@@ -211,6 +271,7 @@ export const PersonalInfoStep = () => {
           setTouched,
         }) => (
           <Form>
+            <AutofillSync />
             <FieldContainer>
               <Field name="name">
                 {({ field, meta }: FieldProps) => {
@@ -280,7 +341,6 @@ export const PersonalInfoStep = () => {
                       <Select
                         placeholder={t('SIGNUP_FORM_ROLE_PLACEHOLDER')}
                         data-qa="roleId-select"
-                        {...field}
                         inputValue={
                           field.value
                             ? dataRoles?.find(
@@ -300,7 +360,7 @@ export const PersonalInfoStep = () => {
                           </>
                         }
                         onSelect={(roleId) => {
-                          setFieldValue('roleId', Number(roleId));
+                          setFieldValue('roleId', Number(roleId), true);
                           (
                             roleSelectRef.current?.querySelector(
                               '[role="combobox"]'
@@ -332,7 +392,6 @@ export const PersonalInfoStep = () => {
                       <Select
                         placeholder={t('SIGNUP_FORM_COMPANY_SIZE_PLACEHOLDER')}
                         data-qa="companySizeId-select"
-                        {...field}
                         inputValue={
                           field.value
                             ? dataCompanySizes?.find(
@@ -352,7 +411,7 @@ export const PersonalInfoStep = () => {
                           </>
                         }
                         onSelect={(sizeId) => {
-                          setFieldValue('companySizeId', Number(sizeId));
+                          setFieldValue('companySizeId', Number(sizeId), true);
                           (
                             selectRef.current?.querySelector(
                               '[role="combobox"]'

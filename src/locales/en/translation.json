@@ -1734,6 +1734,7 @@
   "SIGNUP_FORM_EMAIL_DISPOSABLE_NOT_ALLOWED": "Temporary email addresses are not allowed",
   "SIGNUP_FORM_EMAIL_INVALID": "Please enter a valid email address",
   "SIGNUP_FORM_EMAIL_LABEL": "Work Email",
+  "SIGNUP_FORM_EMAIL_MUST_BE_A_WORK_EMAIL": "Oops! It looks like a personal email. Please use your work email.",
   "SIGNUP_FORM_EMAIL_PLACEHOLDER": "Insert Email",
   "SIGNUP_FORM_EMAIL_REQUIRED": "Email is required",
   "SIGNUP_FORM_NAME_LABEL": "First name",

@@ -2,12 +2,13 @@
  * RouteGuards - Componenti per proteggere le route di JoinPage
  */
 import { ReactNode } from 'react';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useSearchParams } from 'react-router-dom';
 import { PageLoader } from 'src/common/components/PageLoader';
 import { useGetUsersMeQuery } from 'src/features/api';
 
 export const PublicRoute = ({ children }: { children: ReactNode }) => {
   const { data: userData, isLoading } = useGetUsersMeQuery();
+  const [searchParams] = useSearchParams();
 
   if (isLoading) {
     return <PageLoader />;
@@ -17,7 +18,13 @@ export const PublicRoute = ({ children }: { children: ReactNode }) => {
   if (userData) {
     // Se onboarding è pending
     if (userData.onboarding_pending) {
-      return <Navigate to="/join/onboarding" replace />;
+      const queryString = searchParams.toString();
+      return (
+        <Navigate
+          to={`/join/onboarding${queryString ? `?${queryString}` : ''}`}
+          replace
+        />
+      );
     }
 
     // Se l'utente ha completato l'onboarding
@@ -33,6 +40,7 @@ export const PublicRoute = ({ children }: { children: ReactNode }) => {
  */
 export const OnboardingRoute = ({ children }: { children: ReactNode }) => {
   const { data: userData, isLoading, error } = useGetUsersMeQuery();
+  const [searchParams] = useSearchParams();
 
   if (isLoading) {
     return <PageLoader />;
@@ -40,7 +48,13 @@ export const OnboardingRoute = ({ children }: { children: ReactNode }) => {
 
   // Se non c'è utente autenticato o c'è un errore (es. 401, 403)
   if (!userData || error) {
-    return <Navigate to="/join/signup" replace />;
+    const queryString = searchParams.toString();
+    return (
+      <Navigate
+        to={`/join/signup${queryString ? `?${queryString}` : ''}`}
+        replace
+      />
+    );
   }
 
   // Se onboarding NON è pending, redirect alla home
