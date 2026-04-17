@@ -10,7 +10,7 @@ const taskDataKey = Symbol('task');
 
 export type TTask = components['schemas']['OutputModuleTask'] & {
   id: string;
-  isAiGeneratedInSession?: boolean; // Flag to track AI-generated tasks in current session
+  isAiGenerated?: boolean; // Flag to track AI-generated
 };
 
 export type TTaskData = { [taskDataKey]: true; taskId: TTask['id'] };

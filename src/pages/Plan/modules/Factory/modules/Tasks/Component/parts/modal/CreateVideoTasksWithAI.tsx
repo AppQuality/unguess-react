@@ -120,7 +120,7 @@ const CreateVideoTasksWithAI = () => {
   const handleClick = () => {
     // Track AI task generation request
     const isRegeneration = currentTasks.some(
-      (task) => task.isAiGeneratedInSession === true
+      (task) => task.isAiGenerated === true
     );
 
     track('aiTaskGenerationRequested', {
@@ -162,7 +162,7 @@ const CreateVideoTasksWithAI = () => {
         description: useCase.description || '',
         id: useCase.id ?? uuidv4(),
         url: useCase.url,
-        isAiGeneratedInSession: true, // Mark as AI-generated for tracking purposes
+        isAiGenerated: true, // Mark as AI-generated for tracking purposes
       }));
       const updatedTasks = [...currentTasks, ...newTasks];
       setOutput(updatedTasks);

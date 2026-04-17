@@ -95,7 +95,7 @@ const CreateTaskListsWithAI = () => {
   const handleClick = async () => {
     // Track AI task generation request
     const isRegeneration = currentTasks.some(
-      (task) => task.isAiGeneratedInSession === true
+      (task) => task.isAiGenerated === true
     );
 
     track('aiTaskGenerationRequested', {
@@ -140,7 +140,7 @@ const CreateTaskListsWithAI = () => {
           title: useCase.title,
           description: useCase.mainFlow,
           id: useCase.id,
-          isAiGeneratedInSession: true, // Mark as AI-generated for tracking purposes
+          isAiGenerated: true, // Mark as AI-generated for tracking purposes
         }));
         const updatedTasks = [...currentTasks, ...newTasks];
         setOutput(updatedTasks);
