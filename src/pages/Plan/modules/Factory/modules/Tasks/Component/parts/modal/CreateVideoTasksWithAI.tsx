@@ -37,6 +37,7 @@ import {
   ModuleTouchpoints,
   usePostAiAgentsGenerateVideoTasksMutation,
 } from 'src/features/api';
+import { useAnalytics } from 'use-analytics';
 import { v4 as uuidv4 } from 'uuid';
 import { useModuleTasksContext } from '../../context';
 import { useModuleTasks } from '../../hooks';
@@ -73,6 +74,7 @@ const CreateVideoTasksWithAI = () => {
   const { addToast } = useToast();
   const { planId } = useParams();
   const { t } = useTranslation();
+  const { track } = useAnalytics();
   const { setIsOpenCreateVideoTasksWithAIModal } = useModuleTasksContext();
   const MIN_LENGTH = 1;
   const [userPrompt, setUserPrompt] = useState('');
@@ -116,6 +118,19 @@ const CreateVideoTasksWithAI = () => {
   };
 
   const handleClick = () => {
+    // Track AI task generation request
+    const isRegeneration = currentTasks.some(
+      (task) => task.isAiGenerated === true
+    );
+
+    track('aiTaskGenerationRequested', {
+      PlanID: planId || '',
+      taskType: 'experience',
+      tasksToGenerate: usecaseNumber === undefined ? 'auto' : usecaseNumber,
+      isRegeneration,
+      existingTaskCount: currentTasks.length,
+    });
+
     // gather modules info to prepend to the user prompt
     const modulesInfo: Array<ModuleInfo> = Object.entries(records.records)
       .filter(([key]) => MODULES_TO_PROMPT.includes(key))
@@ -147,8 +162,18 @@ const CreateVideoTasksWithAI = () => {
         description: useCase.description || '',
         id: useCase.id ?? uuidv4(),
         url: useCase.url,
+        isAiGenerated: true, // Mark as AI-generated for tracking purposes
       }));
-      setOutput([...currentTasks, ...newTasks]);
+      const updatedTasks = [...currentTasks, ...newTasks];
+      setOutput(updatedTasks);
+
+      // Track AI task generation completion
+      track('aiTaskGenerationCompleted', {
+        PlanID: planId || '',
+        taskType: 'experience',
+        tasksGenerated: newTasks.length,
+        totalTaskCount: updatedTasks.length,
+      });
 
       // show a success message
       addToast(
