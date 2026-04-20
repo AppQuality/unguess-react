@@ -2,11 +2,19 @@
  * JoinPage - Router principale
  * Gestisce il routing tra Signup, Onboarding e Invited User flows
  */
-import { Navigate, Route, Routes } from 'react-router-dom';
+import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import SignupPage from './SignupPage';
 import OnboardingPage from './OnboardingPage';
 import InvitedUserPage from './InvitedUserPage';
 import { PublicRoute, OnboardingRoute, InvitedRoute } from './RouteGuards';
+
+/**
+ * Componente per reindirizzare a signup mantenendo i search params
+ */
+const DefaultRedirect = () => {
+  const location = useLocation();
+  return <Navigate to={`signup${location.search}`} replace />;
+};
 
 const JoinPage = () => (
   <Routes>
@@ -34,7 +42,7 @@ const JoinPage = () => (
         </InvitedRoute>
       }
     />
-    <Route path="*" element={<Navigate to="signup" replace />} />
+    <Route path="*" element={<DefaultRedirect />} />
   </Routes>
 );
 
