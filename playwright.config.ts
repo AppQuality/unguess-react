@@ -1,5 +1,8 @@
 import { defineConfig, devices } from '@playwright/test';
 
+// Set NODE_ENV to test for test environment
+process.env.NODE_ENV = 'test';
+
 /**
  * Read environment variables from file.
  * https://github.com/motdotla/dotenv

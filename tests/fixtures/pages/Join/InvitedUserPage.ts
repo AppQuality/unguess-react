@@ -39,6 +39,10 @@ export class InvitedUserPage {
         this.page.getByTestId('confirm-password-error'),
       passwordRequirements: () =>
         this.page.getByTestId('password-requirements'),
+      termsCheckbox: () =>
+        this.page.getByTestId('terms-and-conditions').locator('input'),
+      privacyCheckbox: () =>
+        this.page.getByTestId('privacy-policy').locator('input'),
       submitButton: () =>
         this.page.getByRole('button', {
           name: this.i18n.t('SET_PASSWORD_BUTTON'),
@@ -58,9 +62,15 @@ export class InvitedUserPage {
     await confirmPasswordInput.blur();
   }
 
+  async acceptTermsAndPrivacy() {
+    await this.elements().termsCheckbox().check({ force: true });
+    await this.elements().privacyCheckbox().check({ force: true });
+  }
+
   async fillValidPasswordForm() {
     await this.fillPassword('ValidPassword123');
     await this.fillConfirmPassword('ValidPassword123');
+    await this.acceptTermsAndPrivacy();
   }
 
   async submitForm() {

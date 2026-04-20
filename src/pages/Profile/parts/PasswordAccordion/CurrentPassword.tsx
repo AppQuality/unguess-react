@@ -74,7 +74,7 @@ const CurrentPassword = () => {
       </Field>
       <FieldExtraContent>
         <Anchor
-          href={forgotPasswordRoute}
+          href={`${forgotPasswordRoute}?from=profile`}
           style={{ color: appTheme.palette.grey[600] }}
         >
           {t('__PAGE_PROFILE_FORGOT_PASSWORD')}

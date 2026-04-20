@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import WPAPI from 'src/common/wpapi';
 import { useGetUsersMeQuery, usePatchUsersMeMutation } from 'src/features/api';
-import { updatePassword } from 'aws-amplify/auth';
+import { fetchAuthSession, updatePassword } from 'aws-amplify/auth';
 import * as Yup from 'yup';
 import { useAuth } from 'src/features/auth/context';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
@@ -72,6 +72,8 @@ export const FormPassword = () => {
           const isCognitoUser = userData.authType === 'cognito';
 
           if (isCognitoUser) {
+            // Refresh della sessione per assicurarsi che l'access token sia valido
+            await fetchAuthSession({ forceRefresh: true });
             await updatePassword({
               oldPassword: values.currentPassword,
               newPassword: values.newPassword,

@@ -108,8 +108,11 @@ const OnboardingPage = () => {
   let userData: OnboardingUserData | undefined;
   if (currentUser) {
     // Controlla se è un utente invitato (profileId e token in sessionStorage)
-    const inviteProfileId = sessionStorage.getItem('inviteProfileId');
-    const inviteToken = sessionStorage.getItem('inviteToken');
+    const inviteProfileId =
+      sessionStorage.getItem('inviteProfileId') ||
+      currentUser.profile_id?.toString();
+    const inviteToken =
+      sessionStorage.getItem('inviteToken') || currentUser.invitation_token;
 
     if (inviteProfileId && inviteToken) {
       // Utente invitato
