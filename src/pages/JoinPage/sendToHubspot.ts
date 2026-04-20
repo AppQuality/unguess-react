@@ -102,12 +102,14 @@ export async function sendToHubspot(data: {
     });
 
     if (!response.ok) {
+      // eslint-disable-next-line no-console
       console.error(`HubSpot API error: ${response.statusText}`);
       return false;
     }
 
     return await response.json();
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.error('Error submitting to HubSpot:', error);
     return false;
   }
