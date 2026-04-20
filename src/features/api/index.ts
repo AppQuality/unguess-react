@@ -3302,6 +3302,7 @@ export type User = {
   unguess_wp_user_id: number;
   authType: 'legacy' | 'cognito';
   onboarding_pending?: boolean;
+  invitation_token?: string;
 };
 export type UserPreference = {
   name: string;

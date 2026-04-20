@@ -1,11 +1,14 @@
 import {
+  Anchor,
   Button,
+  Checkbox,
   FormField,
   Input,
   Label,
   MediaInput,
   Message,
   Paragraph,
+  SM,
   Span,
   XL,
 } from '@appquality/unguess-design-system';
@@ -13,15 +16,19 @@ import { ReactComponent as Eye } from '@zendeskgarden/svg-icons/src/16/eye-fill.
 import { ReactComponent as EyeHide } from '@zendeskgarden/svg-icons/src/16/eye-hide-fill.svg';
 import { Field, FieldProps, Form, Formik, FormikHelpers } from 'formik';
 import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
 import { PasswordRequirements } from 'src/common/components/PasswordRequirements';
 import { useAuth } from 'src/features/auth/context';
 import { useSendGTMevent } from 'src/hooks/useGTMevent';
 import styled from 'styled-components';
-import { GetInvitesByProfileAndTokenApiResponse } from 'src/features/api';
-import { setPasswordValidationSchema } from './validationSchema';
+import {
+  GetInvitesByProfileAndTokenApiResponse,
+  unguessApi,
+} from 'src/features/api';
+import { useAppDispatch } from 'src/app/hooks';
+import { getSetPasswordValidationSchema } from './validationSchema';
 
 const FieldContainer = styled.div`
   display: flex;
@@ -32,6 +39,8 @@ const FieldContainer = styled.div`
 interface SetPasswordFormValues {
   password: string;
   confirmPassword: string;
+  termsAccepted: boolean;
+  privacyAccepted: boolean;
 }
 
 interface SetPasswordFormProps {
@@ -46,7 +55,8 @@ export const SetPasswordForm = ({
   token,
 }: SetPasswordFormProps) => {
   const { t } = useTranslation();
-  const { signup, login, setNewPassword } = useAuth();
+  const { signup, login, setNewPassword, changePassword } = useAuth();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const sendGTMevent = useSendGTMevent({ loggedUser: false });
@@ -80,12 +90,31 @@ export const SetPasswordForm = ({
         throw new Error('Email not found in invite data');
       }
 
-      // Uso la temp password per autenticare l'utente
+      // Uso la password permanente per autenticare l'utente
       if (inviteData?.code) {
-        // 1. Login con password temporanea
+        // 1. Login con password permanente
         const loginResult = await login(email, inviteData.code);
 
-        // 2. Se richiede cambio password, imposta la nuova
+        // Se il login è riuscito direttamente (utente già confermato)
+        if (loginResult.isSignedIn) {
+          // 2. Cambia la password dalla password permanente a quella scelta dall'utente
+          await changePassword(inviteData.code, values.password);
+
+          sendGTMevent({
+            event: 'sign-up-flow',
+            category: 'invited',
+            action: 'password-changed-completed',
+          });
+
+          sessionStorage.setItem('inviteProfileId', profileId.toString());
+          sessionStorage.setItem('inviteToken', token);
+          await dispatch(unguessApi.util.invalidateTags(['Users']));
+          const queryString = searchParams.toString();
+          navigate(`/join/onboarding${queryString ? `?${queryString}` : ''}`);
+
+          return;
+        }
+
         if (loginResult.requiresNewPassword) {
           await setNewPassword(values.password);
 
@@ -94,17 +123,19 @@ export const SetPasswordForm = ({
             category: 'invited',
             action: 'password-changed-completed',
           });
+
+          sessionStorage.setItem('inviteProfileId', profileId.toString());
+          sessionStorage.setItem('inviteToken', token);
+          await dispatch(unguessApi.util.invalidateTags(['Users']));
+          const queryString = searchParams.toString();
+          navigate(`/join/onboarding${queryString ? `?${queryString}` : ''}`);
+
+          return;
         }
 
-        // 3. L'utente è ora loggato, salva i dati dell'invito e vai all'onboarding
-        sessionStorage.setItem('inviteProfileId', profileId.toString());
-        sessionStorage.setItem('inviteToken', token);
-
-        // Preserva i query params durante la navigazione
-        const queryString = searchParams.toString();
-        navigate(`/join/onboarding${queryString ? `?${queryString}` : ''}`);
-
-        return;
+        throw new Error(
+          `Unexpected sign-in result: ${JSON.stringify(loginResult)}`
+        );
       }
 
       // VECCHIO FLUSSO (backward compatibility): Signup tradizionale
@@ -129,7 +160,7 @@ export const SetPasswordForm = ({
         sessionStorage.setItem('inviteProfileId', profileId.toString());
         sessionStorage.setItem('inviteToken', token);
 
-        // Preserva i query params durante la navigazione
+        await dispatch(unguessApi.util.invalidateTags(['Users']));
         const queryString = searchParams.toString();
         navigate(`/join/onboarding${queryString ? `?${queryString}` : ''}`);
       } catch (loginError: any) {
@@ -166,6 +197,8 @@ export const SetPasswordForm = ({
   const initialValues: SetPasswordFormValues = {
     password: '',
     confirmPassword: '',
+    termsAccepted: false,
+    privacyAccepted: false,
   };
 
   return (
@@ -196,7 +229,7 @@ export const SetPasswordForm = ({
       </div>
       <Formik
         initialValues={initialValues}
-        validationSchema={setPasswordValidationSchema}
+        validationSchema={getSetPasswordValidationSchema(t)}
         onSubmit={handleSubmit}
       >
         {({ isSubmitting, values }) => (
@@ -297,7 +330,103 @@ export const SetPasswordForm = ({
                 }}
               </Field>
 
-              <Button type="submit" isPrimary isAccent disabled={isSubmitting}>
+              <Field name="termsAccepted">
+                {({ field, form, meta }: FieldProps) => {
+                  const hasError = meta.touched && Boolean(meta.error);
+                  return (
+                    <FormField data-qa="terms-and-conditions">
+                      <Checkbox
+                        checked={field.value}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                          form.setFieldValue('termsAccepted', e.target.checked)
+                        }
+                        onBlur={field.onBlur}
+                        name={field.name}
+                      >
+                        <Label>
+                          <SM style={{ fontStyle: 'italic' }}>
+                            <Trans
+                              i18nKey="SIGNUP_FORM_TERMS_CHECKBOX"
+                              components={{
+                                'terms-link': (
+                                  <Anchor
+                                    isExternal
+                                    href="https://unguess.io/terms-and-conditions/"
+                                    target="_blank"
+                                    title="Terms and Conditions of Service"
+                                    style={{ fontWeight: 600 }}
+                                  />
+                                ),
+                              }}
+                            />
+                          </SM>
+                        </Label>
+                      </Checkbox>
+                      {hasError && (
+                        <Message validation="error">
+                          {t(meta.error as string)}
+                        </Message>
+                      )}
+                    </FormField>
+                  );
+                }}
+              </Field>
+
+              <Field name="privacyAccepted">
+                {({ field, form, meta }: FieldProps) => {
+                  const hasError = meta.touched && Boolean(meta.error);
+                  return (
+                    <FormField data-qa="privacy-policy">
+                      <Checkbox
+                        checked={field.value}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                          form.setFieldValue(
+                            'privacyAccepted',
+                            e.target.checked
+                          )
+                        }
+                        onBlur={field.onBlur}
+                        name={field.name}
+                      >
+                        <Label>
+                          <SM style={{ fontStyle: 'italic' }}>
+                            <Trans
+                              i18nKey="SIGNUP_FORM_PRIVACY_CHECKBOX"
+                              components={{
+                                'privacy-link': (
+                                  <Anchor
+                                    isExternal
+                                    href="https://unguess.io/privacy-policy/"
+                                    target="_blank"
+                                    title="Privacy Policy"
+                                    style={{ fontWeight: 600 }}
+                                  />
+                                ),
+                              }}
+                            />
+                          </SM>
+                        </Label>
+                      </Checkbox>
+                      {hasError && (
+                        <Message validation="error">
+                          {t(meta.error as string)}
+                        </Message>
+                      )}
+                    </FormField>
+                  );
+                }}
+              </Field>
+
+              <Button
+                type="submit"
+                isPrimary
+                isAccent
+                disabled={
+                  isSubmitting ||
+                  !values.termsAccepted ||
+                  !values.privacyAccepted
+                }
+              >
                 {isSubmitting ? t('LOADING') : t('SET_PASSWORD_BUTTON')}
               </Button>
             </FieldContainer>

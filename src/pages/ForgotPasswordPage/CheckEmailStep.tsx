@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
+import { useSearchParams } from 'react-router-dom';
 import { Anchor, MD, Span, Title, XL } from '@appquality/unguess-design-system';
 import { appTheme } from 'src/app/theme';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
@@ -14,7 +15,10 @@ interface CheckEmailStepProps {
 
 export const CheckEmailStep = ({ email, onResend }: CheckEmailStepProps) => {
   const { t } = useTranslation();
+  const [searchParams] = useSearchParams();
+  const isFromProfile = searchParams.get('from') === 'profile';
   const loginRoute = useLocalizeRoute('login');
+  const profileRoute = useLocalizeRoute('profile');
   const [resendTimer, setResendTimer] = useState(0);
   const [isResending, setIsResending] = useState(false);
 
@@ -103,8 +107,13 @@ export const CheckEmailStep = ({ email, onResend }: CheckEmailStepProps) => {
       </MD>
 
       <div style={{ textAlign: 'center', marginTop: appTheme.space.lg }}>
-        <Anchor href={loginRoute} style={{ color: appTheme.palette.blue[600] }}>
-          {t('FORGOT_PASSWORD_BACK_TO_LOGIN')}
+        <Anchor
+          href={isFromProfile ? profileRoute : loginRoute}
+          style={{ color: appTheme.palette.blue[600] }}
+        >
+          {isFromProfile
+            ? t('FORGOT_PASSWORD_BACK_TO_PROFILE')
+            : t('FORGOT_PASSWORD_BACK_TO_LOGIN')}
         </Anchor>
       </div>
     </>
