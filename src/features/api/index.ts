@@ -2091,6 +2091,7 @@ export type PatchVideosByVidObservationsAndOidApiArg = {
     start?: number;
     tags?: number[];
     title?: string;
+    creatorType?: 'human' | 'ai';
   };
 };
 export type GetVideosByVidTranslationApiResponse = /** status 200 OK */ {
@@ -3038,6 +3039,7 @@ export type Observation = {
   tags: VideoTag[];
   title: string;
   uxNote?: string;
+  creatorType: 'human' | 'ai';
 };
 export type Insight = {
   comment?: string;
