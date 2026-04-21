@@ -576,6 +576,10 @@ export interface paths {
       };
     };
   };
+  "/workflows/generate-observations": {
+    /** Generate observations with AI mastra workflow for a given video. Admin only. */
+    post: operations["post-workflows-generate-observations"];
+  };
   "/workspaces": {
     get: operations["get-workspaces"];
     /** This endpoint is useful to add a new workspace. Only admin can use this. */
@@ -4475,6 +4479,32 @@ export interface operations {
       content: {
         "application/json": {
           language: string;
+        };
+      };
+    };
+  };
+  /** Generate observations with AI mastra workflow for a given video. Admin only. */
+  "post-workflows-generate-observations": {
+    parameters: {};
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          "application/json": {
+            message: string;
+          };
+        };
+      };
+      400: components["responses"]["Error"];
+      403: components["responses"]["Error"];
+      404: components["responses"]["Error"];
+      500: components["responses"]["Error"];
+    };
+    requestBody: {
+      content: {
+        "application/json": {
+          /** @description The video media ID */
+          media_id: number;
         };
       };
     };
