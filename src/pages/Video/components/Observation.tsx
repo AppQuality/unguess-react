@@ -170,6 +170,8 @@ const Observation = ({
                 {observation.creatorType === 'ai' ? (
                   <TagIconBot
                     style={{
+                      width: '12px',
+                      height: '12px',
                       color:
                         observation.tags.find(
                           (tag) => tag.group.name.toLowerCase() === 'severity'
