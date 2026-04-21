@@ -1,5 +1,8 @@
 import { Col, Grid, Row, theme } from '@appquality/unguess-design-system';
+import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useSearchParams } from 'react-router-dom';
+import { scroller } from 'react-scroll';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
 import {
   AsideNav,
@@ -13,6 +16,20 @@ import { SecuritySettingsCard } from './parts/SecuritySettingsCard';
 
 const Profile = () => {
   const { t } = useTranslation();
+  const [searchParams] = useSearchParams();
+
+  useEffect(() => {
+    if (searchParams.get('openPassword') !== 'true') return undefined;
+    const id = requestAnimationFrame(() => {
+      scroller.scrollTo('anchor-security-settings-id', {
+        containerId: 'main',
+        smooth: true,
+        duration: 500,
+        offset: -30,
+      });
+    });
+    return () => cancelAnimationFrame(id);
+  }, [searchParams]);
 
   return (
     <Page

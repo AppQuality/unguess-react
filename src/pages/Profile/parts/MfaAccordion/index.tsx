@@ -1,5 +1,6 @@
 import {
   AccordionNew,
+  Alert,
   Notification,
   Tag,
   useToast,
@@ -158,6 +159,14 @@ export const MfaAccordion = () => {
           </AccordionNew.Panel>
         </AccordionNew.Section>
       </AccordionNew>
+      {!isActive && (
+        <Alert type="info">
+          <Alert.Title>
+            {t('__PROFILE_PAGE_MFA_INACTIVE_ALERT_TITLE')}
+          </Alert.Title>
+          {t('__PROFILE_PAGE_MFA_INACTIVE_ALERT_MESSAGE')}
+        </Alert>
+      )}
       {isTurnOffModalOpen && (
         <TurnOffMfaModal
           onClose={() => {
