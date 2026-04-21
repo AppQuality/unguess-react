@@ -3,6 +3,7 @@ import {
   useVideoContext as usePlayerContext,
 } from '@appquality/unguess-design-system';
 import { ReactComponent as TagIcon } from 'src/assets/icons/tag-icon.svg';
+import { ReactComponent as TagIconBot } from 'src/assets/icons/tag-icon-bot.svg';
 import { getColorWithAlpha } from 'src/common/utils';
 import styled from 'styled-components';
 import { useVideoContext } from '../context/VideoContext';
@@ -48,15 +49,18 @@ export const ObservationTooltip = ({
   label,
   isSelecting,
   start,
+  creatorType,
 }: {
   start?: number;
   observationId: number;
   color?: string;
   label?: string;
   isSelecting?: boolean;
+  creatorType?: 'human' | 'ai';
 }) => {
   const { context, setIsPlaying } = usePlayerContext();
   const { setOpenAccordion } = useVideoContext();
+  const Icon = creatorType === 'ai' ? TagIconBot : TagIcon;
   return (
     <StyledTag
       size="large"
@@ -71,7 +75,7 @@ export const ObservationTooltip = ({
       }}
       isSelecting={isSelecting}
     >
-      <TagIcon />
+      <Icon />
       {label}
     </StyledTag>
   );
