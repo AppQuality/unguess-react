@@ -3,7 +3,7 @@ import {
   useVideoContext as usePlayerContext,
 } from '@appquality/unguess-design-system';
 import { ReactComponent as TagIcon } from 'src/assets/icons/tag-icon.svg';
-import { ReactComponent as TagIconBot } from 'src/assets/icons/tag-icon-bot.svg';
+import { ReactComponent as TagIconAi } from 'src/assets/icons/tag-icon-ai.svg';
 import { getColorWithAlpha } from 'src/common/utils';
 import styled from 'styled-components';
 import { useVideoContext } from '../context/VideoContext';
@@ -60,7 +60,7 @@ export const ObservationTooltip = ({
 }) => {
   const { context, setIsPlaying } = usePlayerContext();
   const { setOpenAccordion } = useVideoContext();
-  const Icon = creatorType === 'ai' ? TagIconBot : TagIcon;
+  const Icon = creatorType === 'ai' ? TagIconAi : TagIcon;
   return (
     <StyledTag
       size="large"

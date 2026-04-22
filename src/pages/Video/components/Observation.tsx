@@ -11,7 +11,7 @@ import { useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as LinkIcon } from 'src/assets/icons/link-stroke.svg';
 import { ReactComponent as TagIcon } from 'src/assets/icons/tag-icon.svg';
-import { ReactComponent as TagIconBot } from 'src/assets/icons/tag-icon-bot.svg';
+import { ReactComponent as TagIconAi } from 'src/assets/icons/tag-icon-ai.svg';
 import { Divider } from 'src/common/components/divider';
 import { getColorWithAlpha } from 'src/common/utils';
 import {
@@ -168,10 +168,8 @@ const Observation = ({
                 }}
               >
                 {observation.creatorType === 'ai' ? (
-                  <TagIconBot
+                  <TagIconAi
                     style={{
-                      width: '12px',
-                      height: '12px',
                       color:
                         observation.tags.find(
                           (tag) => tag.group.name.toLowerCase() === 'severity'
