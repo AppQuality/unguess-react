@@ -728,6 +728,16 @@ const injectedRtkApi = api.injectEndpoints({
         body: queryArg.body,
       }),
     }),
+    postWorkflowsGenerateObservations: build.mutation<
+      PostWorkflowsGenerateObservationsApiResponse,
+      PostWorkflowsGenerateObservationsApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/workflows/generate-observations`,
+        method: 'POST',
+        body: queryArg.body,
+      }),
+    }),
     getWorkspaces: build.query<GetWorkspacesApiResponse, GetWorkspacesApiArg>({
       query: (queryArg) => ({
         url: `/workspaces`,
@@ -2115,6 +2125,16 @@ export type PostVideosByVidTranslationApiArg = {
     language: string;
   };
 };
+export type PostWorkflowsGenerateObservationsApiResponse =
+  /** status 200 OK */ {
+    message: string;
+  };
+export type PostWorkflowsGenerateObservationsApiArg = {
+  body: {
+    /** The video media ID */
+    media_id: number;
+  };
+};
 export type GetWorkspacesApiResponse = /** status 200 OK */ {
   items?: Workspace[];
   limit?: number;
@@ -3493,6 +3513,7 @@ export const {
   usePatchVideosByVidObservationsAndOidMutation,
   useGetVideosByVidTranslationQuery,
   usePostVideosByVidTranslationMutation,
+  usePostWorkflowsGenerateObservationsMutation,
   useGetWorkspacesQuery,
   usePostWorkspacesMutation,
   useGetWorkspacesByWidQuery,
