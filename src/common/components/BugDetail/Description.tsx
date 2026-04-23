@@ -1,4 +1,4 @@
-import { MD, TextDescription } from '@appquality/unguess-design-system';
+import { Editor, MD, TextDescription } from '@appquality/unguess-design-system';
 import { Bug } from 'src/features/api';
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
@@ -40,25 +40,25 @@ export default ({
         <StyledLabel>
           {t('__BUGS_PAGE_BUG_DETAIL_DESCRIPTION_LABEL')}
         </StyledLabel>
-        <Text>
-          <WrappedText>{bug.step_by_step}</WrappedText>
-        </Text>
+        <Editor contentType="markdown" editable={false}>
+          {bug.step_by_step}
+        </Editor>
       </TextBlock>
       <TextBlock>
         <StyledLabel>
           {t('__BUGS_PAGE_BUG_DETAIL_EXPECTED_RESULT_LABEL')}
         </StyledLabel>
-        <Text>
-          <WrappedText>{bug.expected_result}</WrappedText>
-        </Text>
+        <Editor contentType="markdown" editable={false}>
+          {bug.expected_result}
+        </Editor>
       </TextBlock>
       <TextBlock>
         <StyledLabel>
           {t('__BUGS_PAGE_BUG_DETAIL_CURRENT_RESULT_LABEL')}
         </StyledLabel>
-        <Text>
-          <WrappedText>{bug.current_result}</WrappedText>
-        </Text>
+        <Editor contentType="markdown" editable={false}>
+          {bug.current_result}
+        </Editor>
       </TextBlock>
 
       <TextBlock>
