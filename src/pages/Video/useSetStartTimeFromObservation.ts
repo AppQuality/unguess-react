@@ -4,14 +4,15 @@ function parseTimeParam(t: string): number {
   if (/^\d+$/.test(t)) return parseInt(t, 10);
 
   let total = 0;
-  const hours = t.match(/(\d+)h/);
-  const minutes = t.match(/(\d+)m/);
-  const seconds = t.match(/(\d+)s/);
+  if (!/^[\dhms]+$/.test(t)) return 0;
 
-  if (hours) total += parseInt(hours[1], 10) * 3600;
-  if (minutes) total += parseInt(minutes[1], 10) * 60;
-  if (seconds) total += parseInt(seconds[1], 10);
+  const h = t.match(/(\d+)h/);
+  const m = t.match(/(\d+)m/);
+  const s = t.match(/(\d+)s/);
 
+  if (h) total += parseInt(h[1], 10) * 3600;
+  if (m) total += parseInt(m[1], 10) * 60;
+  if (s) total += parseInt(s[1], 10);
   return total;
 }
 
