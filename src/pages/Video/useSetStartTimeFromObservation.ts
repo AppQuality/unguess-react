@@ -1,26 +1,47 @@
 import { useEffect, useMemo } from 'react';
 
-/**
- * Sets the video player's currentTime based on the observation anchor in the URL.
- * @param observations List of observations (array of objects with id and start)
- * @param videoRef Ref to the HTMLVideoElement
- * @returns startTime (number)
- */
+function parseTimeParam(t: string): number {
+  if (/^\d+$/.test(t)) return parseInt(t, 10);
+
+  let total = 0;
+  const hours = t.match(/(\d+)h/);
+  const minutes = t.match(/(\d+)m/);
+  const seconds = t.match(/(\d+)s/);
+
+  if (hours) total += parseInt(hours[1], 10) * 3600;
+  if (minutes) total += parseInt(minutes[1], 10) * 60;
+  if (seconds) total += parseInt(seconds[1], 10);
+
+  return total;
+}
+
 export function useSetStartTimeFromObservation(
   observations: { id: number; start: number }[] | undefined,
   videoRef: React.RefObject<HTMLVideoElement | null>
 ) {
   const startTime = useMemo(() => {
-    const url = window.location.href;
-    const urlAnchor = url.split('#')[1];
-    if (urlAnchor) {
-      const observationId = parseInt(urlAnchor.replace('observation-', ''), 10);
-      return observations?.find((obs) => obs.id === observationId)?.start || 0;
+    const url = new URL(window.location.href);
+
+    const tParam = url.searchParams.get('t');
+    if (tParam) {
+      const seconds = parseTimeParam(tParam);
+      if (seconds > 0) return seconds;
     }
+
+    if (observations) {
+      const urlAnchor = url.hash.replace('#', '');
+      if (urlAnchor) {
+        const observationId = parseInt(
+          urlAnchor.replace('observation-', ''),
+          10
+        );
+        return observations.find((obs) => obs.id === observationId)?.start || 0;
+      }
+    }
+
     return 0;
   }, [observations]);
 
-  // Effect to set the video player's currentTime based only on the startTime, regardless of observations changing
   useEffect(() => {
     if (!videoRef.current) return;
     if (startTime > 0) {
