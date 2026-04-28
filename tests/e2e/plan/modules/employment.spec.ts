@@ -54,13 +54,7 @@ test.describe('The employment module defines the screen participants employments
   });
 
   test('It should have a number > 0 as an output', async ({ i18n, page }) => {
-    await employmentModule
-      .elements()
-      .module()
-      .getByLabel('Employment status')
-      .locator('svg')
-      .nth(2)
-      .click();
+    await employmentModule.elements().module().getByRole('combobox').click();
     await page
       .getByRole('option', {
         name: i18n.t('__PLAN_PAGE_MODULE_EMPLOYMENT_OPTION_UNEMPLOYED'),
@@ -68,7 +62,6 @@ test.describe('The employment module defines the screen participants employments
       .click();
     const response = await planPage.saveConfiguration();
     const data = response.request().postDataJSON();
-    // Find the locality module and check its output
     const localityModuleData = data.config.modules.find(
       (m: any) => m.type === 'employment'
     );
