@@ -1,5 +1,6 @@
 import { useEffect, useMemo } from 'react';
 
+// Accepted: "135" (seconds), "135s", "2m15s", "1h2m3s", "0m135s"
 function parseTimeParam(t: string): number {
   if (/^\d+$/.test(t)) return parseInt(t, 10);
 
