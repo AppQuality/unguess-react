@@ -60,6 +60,16 @@ test.describe('The employment module defines the screen participants employments
         name: i18n.t('__PLAN_PAGE_MODULE_EMPLOYMENT_OPTION_UNEMPLOYED'),
       })
       .click();
+    await expect(
+      employmentModule
+        .elements()
+        .module()
+        .getByLabel(
+          `${i18n.t(
+            '__PLAN_PAGE_MODULE_EMPLOYMENT_OPTION_UNEMPLOYED'
+          )}, press delete or`
+        )
+    ).toBeVisible();
     const response = await planPage.saveConfiguration();
     const data = response.request().postDataJSON();
     const localityModuleData = data.config.modules.find(
