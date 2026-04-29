@@ -72,9 +72,10 @@ test.describe('The employment module defines the screen participants employments
     // triggers input:change, so matchingOptions filters down to only UNEMPLOYED
     await comboboxInput.fill(optionLabel);
 
-    // Verify the filtered option is visible in the portal listbox
-    const unemployedOption = page.getByRole('option', { name: optionLabel });
-    await expect(unemployedOption).toBeVisible();
+    // Wait for Garden v9 to finish filtering: hidden options receive aria-hidden=true
+    // which removes them from getByRole results. Only UNEMPLOYED should remain.
+    // This ensures ne.values (Downshift's navigation pool) is updated before ArrowDown.
+    await expect(page.getByRole('option')).toHaveCount(1);
 
     // Select via keyboard on the input element - avoids mousedown/blur race
     // condition that occurs when clicking a portal-rendered option
