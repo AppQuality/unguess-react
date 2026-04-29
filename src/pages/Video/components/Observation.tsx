@@ -69,7 +69,9 @@ const Observation = ({
     (anchor: string, event: React.MouseEvent) => {
       event.stopPropagation();
       navigator.clipboard.writeText(
-        `${window.location.origin}${pageUrl}#${anchor}`
+        `${window.location.origin}${pageUrl}${
+          start > 0 ? `?t=${Math.floor(start)}` : ''
+        }#${anchor}`
       );
       addToast(
         ({ close }) => (
