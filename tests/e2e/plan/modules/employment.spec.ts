@@ -55,11 +55,11 @@ test.describe('The employment module defines the screen participants employments
 
   test('It should have a number > 0 as an output', async ({ i18n, page }) => {
     await employmentModule.elements().moduleInput().click();
-    await page
-      .getByRole('option', {
-        name: i18n.t('__PLAN_PAGE_MODULE_EMPLOYMENT_OPTION_UNEMPLOYED'),
-      })
-      .click();
+    const unemployedOption = page.getByRole('option', {
+      name: i18n.t('__PLAN_PAGE_MODULE_EMPLOYMENT_OPTION_UNEMPLOYED'),
+    });
+    await expect(unemployedOption).toBeVisible();
+    await unemployedOption.click();
     await expect(
       employmentModule
         .elements()

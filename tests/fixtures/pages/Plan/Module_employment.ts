@@ -18,7 +18,10 @@ export class EmploymentModule {
       module: () => this.page.getByTestId('employment-module'),
       moduleError: () =>
         this.elements().module().getByTestId('employment-error'),
-      moduleInput: () => this.page.getByTestId('employment-input'),
+      moduleInput: () =>
+        this.page
+          .getByTestId('employment-module')
+          .locator('[data-garden-id="dropdowns.combobox.trigger"]'),
     };
   }
 
