@@ -1,8 +1,9 @@
 import { Form, Formik, FormikHelpers } from 'formik';
 import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import {
+  Alert,
   Anchor,
   Button,
   ContainerCard,
@@ -11,6 +12,7 @@ import {
   MD,
   MediaInput,
   Message,
+  Span,
   Title,
   XL,
 } from '@appquality/unguess-design-system';
@@ -207,6 +209,13 @@ const LoginForm = ({ onSubmit, buttonText }: LoginFormProps) => {
                   <Message validation="error">{status.message}</Message>
                 </div>
               )}
+              <Alert type="info" style={{ marginTop: appTheme.space.xl }}>
+                <Alert.Title>{t('__LOGIN_FORM_SSO_INFO_TITLE')}</Alert.Title>
+                <Trans
+                  i18nKey="__LOGIN_FORM_SSO_INFO_MESSAGE"
+                  components={{ strong: <Span isBold /> }}
+                />
+              </Alert>
             </StyledForm>
           )}
         </Formik>
