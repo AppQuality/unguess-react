@@ -16,7 +16,7 @@ export const LegacyAuthBanner = forwardRef<HTMLDivElement>((_, ref) => {
   return (
     <div ref={ref}>
       <GlobalAlert
-        type="accent"
+        type="primary"
         title={t('__APP_LEGACY_AUTH_BANNER_TITLE')}
         message={t('__APP_LEGACY_AUTH_BANNER_MESSAGE')}
         cta={{
