@@ -209,13 +209,19 @@ const LoginForm = ({ onSubmit, buttonText }: LoginFormProps) => {
                   <Message validation="error">{status.message}</Message>
                 </div>
               )}
-              <Alert type="info" style={{ marginTop: appTheme.space.xl }}>
-                <Alert.Title>{t('__LOGIN_FORM_SSO_INFO_TITLE')}</Alert.Title>
-                <Trans
-                  i18nKey="__LOGIN_FORM_SSO_INFO_MESSAGE"
-                  components={{ strong: <Span isBold /> }}
-                />
-              </Alert>
+              {new Date() <= new Date('2026-05-12') && (
+                <>
+                  <Alert type="info" style={{ marginTop: appTheme.space.xl }}>
+                    <Alert.Title>
+                      {t('__LOGIN_FORM_SSO_INFO_TITLE')}
+                    </Alert.Title>
+                    <Trans
+                      i18nKey="__LOGIN_FORM_SSO_INFO_MESSAGE"
+                      components={{ strong: <Span isBold /> }}
+                    />
+                  </Alert>
+                </>
+              )}
             </StyledForm>
           )}
         </Formik>
