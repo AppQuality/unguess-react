@@ -710,6 +710,8 @@
   "__LOGIN_FORM_PASSWORD_LABEL": "Password",
   "__LOGIN_FORM_PASSWORD_PLACEHOLDER": "Inserisci password",
   "__LOGIN_FORM_SIGNUP_CTA": "Registrati",
+  "__LOGIN_FORM_SSO_INFO_MESSAGE": "To comply with new security protocols, please update your password by <strong>May 12, 2026</strong>.",
+  "__LOGIN_FORM_SSO_INFO_TITLE": "Update your password for data security",
   "__LOGIN_FORM_SUBTITLE": "Accedi al tuo account UNGUESS",
   "__LOGIN_FORM_TITLE": "Bentornato!",
   "__LOGIN_SESSION_EXPIRED_MESSAGE": "La sessione è scaduta. Effettua nuovamente il login.",
