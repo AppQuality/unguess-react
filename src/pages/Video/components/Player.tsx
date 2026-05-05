@@ -187,6 +187,7 @@ const CorePlayer = () => {
               )?.tag.style || appTheme.palette.grey[600]
             }
             label={obs.title}
+            creatorType={obs.creatorType}
           />
         ),
         onClick: () => {

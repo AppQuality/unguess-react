@@ -11,6 +11,7 @@ import { useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as LinkIcon } from 'src/assets/icons/link-stroke.svg';
 import { ReactComponent as TagIcon } from 'src/assets/icons/tag-icon.svg';
+import { ReactComponent as TagIconAi } from 'src/assets/icons/tag-icon-ai.svg';
 import { Divider } from 'src/common/components/divider';
 import { getColorWithAlpha } from 'src/common/utils';
 import {
@@ -68,7 +69,9 @@ const Observation = ({
     (anchor: string, event: React.MouseEvent) => {
       event.stopPropagation();
       navigator.clipboard.writeText(
-        `${window.location.origin}${pageUrl}#${anchor}`
+        `${window.location.origin}${pageUrl}${
+          start > 0 ? `?t=${Math.floor(start)}` : ''
+        }#${anchor}`
       );
       addToast(
         ({ close }) => (
@@ -166,14 +169,25 @@ const Observation = ({
                   ),
                 }}
               >
-                <TagIcon
-                  style={{
-                    color:
-                      observation.tags.find(
-                        (tag) => tag.group.name.toLowerCase() === 'severity'
-                      )?.tag.style || appTheme.palette.grey[600],
-                  }}
-                />
+                {observation.creatorType === 'ai' ? (
+                  <TagIconAi
+                    style={{
+                      color:
+                        observation.tags.find(
+                          (tag) => tag.group.name.toLowerCase() === 'severity'
+                        )?.tag.style || appTheme.palette.grey[600],
+                    }}
+                  />
+                ) : (
+                  <TagIcon
+                    style={{
+                      color:
+                        observation.tags.find(
+                          (tag) => tag.group.name.toLowerCase() === 'severity'
+                        )?.tag.style || appTheme.palette.grey[600],
+                    }}
+                  />
+                )}
               </Circle>
             }
           >

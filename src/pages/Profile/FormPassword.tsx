@@ -72,7 +72,6 @@ export const FormPassword = () => {
           const isCognitoUser = userData.authType === 'cognito';
 
           if (isCognitoUser) {
-            // Refresh della sessione per assicurarsi che l'access token sia valido
             await fetchAuthSession({ forceRefresh: true });
             await updatePassword({
               oldPassword: values.currentPassword,

@@ -728,6 +728,16 @@ const injectedRtkApi = api.injectEndpoints({
         body: queryArg.body,
       }),
     }),
+    postWorkflowsGenerateObservations: build.mutation<
+      PostWorkflowsGenerateObservationsApiResponse,
+      PostWorkflowsGenerateObservationsApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/workflows/generate-observations`,
+        method: 'POST',
+        body: queryArg.body,
+      }),
+    }),
     getWorkspaces: build.query<GetWorkspacesApiResponse, GetWorkspacesApiArg>({
       query: (queryArg) => ({
         url: `/workspaces`,
@@ -2091,6 +2101,7 @@ export type PatchVideosByVidObservationsAndOidApiArg = {
     start?: number;
     tags?: number[];
     title?: string;
+    creatorType?: 'human' | 'ai';
   };
 };
 export type GetVideosByVidTranslationApiResponse = /** status 200 OK */ {
@@ -2112,6 +2123,16 @@ export type PostVideosByVidTranslationApiArg = {
   vid: string;
   body: {
     language: string;
+  };
+};
+export type PostWorkflowsGenerateObservationsApiResponse =
+  /** status 200 OK */ {
+    message: string;
+  };
+export type PostWorkflowsGenerateObservationsApiArg = {
+  body: {
+    /** The video media ID */
+    media_id: number;
   };
 };
 export type GetWorkspacesApiResponse = /** status 200 OK */ {
@@ -3038,6 +3059,7 @@ export type Observation = {
   tags: VideoTag[];
   title: string;
   uxNote?: string;
+  creatorType: 'human' | 'ai';
 };
 export type Insight = {
   comment?: string;
@@ -3491,6 +3513,7 @@ export const {
   usePatchVideosByVidObservationsAndOidMutation,
   useGetVideosByVidTranslationQuery,
   usePostVideosByVidTranslationMutation,
+  usePostWorkflowsGenerateObservationsMutation,
   useGetWorkspacesQuery,
   usePostWorkspacesMutation,
   useGetWorkspacesByWidQuery,

@@ -1,11 +1,12 @@
 import { Button } from '@appquality/unguess-design-system';
+import { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ReactComponent as ThinkingAloudTaskIcon } from 'src/assets/icons/thinking-aloud-task-icon.svg';
 import { useHandleModalItemClick } from '../../utils';
 import { ButtonsContainer } from './ButtonsContainer';
 import { TaskTypeTitle } from './TaskTypeTitle';
 
-const ExperientialTasks = () => {
+const ExperientialTasks = ({ children }: { children?: ReactNode }) => {
   const { t } = useTranslation();
   const handleModalItemClick = useHandleModalItemClick();
 
@@ -16,6 +17,7 @@ const ExperientialTasks = () => {
           '__PLAN_PAGE_MODULE_TASKS_ADD_TASK_MODAL_EXPERIENTIAL_TASKS_LABEL'
         ).toUpperCase()}
       </TaskTypeTitle>
+      {children}
       <ButtonsContainer>
         <Button
           isBasic

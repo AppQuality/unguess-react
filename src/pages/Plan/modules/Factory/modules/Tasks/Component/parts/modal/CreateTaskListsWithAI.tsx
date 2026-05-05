@@ -25,6 +25,7 @@ import {
   useGetServicesApiKJobsByJobIdQuery,
   usePostServicesApiKUsecasesMutation,
 } from 'src/features/api';
+import { useAnalytics } from 'use-analytics';
 import { useModuleTasksContext } from '../../context';
 import { useModuleTasks } from '../../hooks';
 import { LoadingSpinner } from './LoadingSpinner';
@@ -45,6 +46,7 @@ const CreateTaskListsWithAI = () => {
   const { addToast } = useToast();
   const { planId } = useParams();
   const { t } = useTranslation();
+  const { track } = useAnalytics();
   const { setIsOpenCreateTasksWithAIModal } = useModuleTasksContext();
   const MIN_LENGTH = 1;
   const [userPrompt, setUserPrompt] = useState('');
@@ -91,6 +93,19 @@ const CreateTaskListsWithAI = () => {
   };
 
   const handleClick = async () => {
+    // Track AI task generation request
+    const isRegeneration = currentTasks.some(
+      (task) => task.isAiGenerated === true
+    );
+
+    track('aiTaskGenerationRequested', {
+      PlanID: planId || '',
+      taskType: 'quality',
+      tasksToGenerate: usecaseNumber === undefined ? 'auto' : usecaseNumber,
+      isRegeneration,
+      existingTaskCount: currentTasks.length,
+    });
+
     // gather modules info to prepend to the user prompt
     const context = JSON.stringify(
       Object.entries(records.records).filter(([key]) =>
@@ -125,8 +140,18 @@ const CreateTaskListsWithAI = () => {
           title: useCase.title,
           description: useCase.mainFlow,
           id: useCase.id,
+          isAiGenerated: true, // Mark as AI-generated for tracking purposes
         }));
-        setOutput([...currentTasks, ...newTasks]);
+        const updatedTasks = [...currentTasks, ...newTasks];
+        setOutput(updatedTasks);
+
+        // Track AI task generation completion
+        track('aiTaskGenerationCompleted', {
+          PlanID: planId || '',
+          taskType: 'quality',
+          tasksGenerated: newTasks.length,
+          totalTaskCount: updatedTasks.length,
+        });
       }
       // show a success message
       addToast(
