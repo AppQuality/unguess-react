@@ -1,6 +1,7 @@
 import { AccordionNew, Button, Tag } from '@appquality/unguess-design-system';
 import { useFormikContext } from 'formik';
 import { useTranslation } from 'react-i18next';
+import { useSearchParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as KeyIcon } from 'src/assets/icons/key.svg';
 import { styled } from 'styled-components';
@@ -54,6 +55,7 @@ const NewPasswordContainer = styled.div`
 export const PasswordAccordion = () => {
   const { t } = useTranslation();
   const { data: currentUser } = useGetUsersMeQuery();
+  const [searchParams] = useSearchParams();
 
   const {
     values: formValues,
@@ -61,7 +63,7 @@ export const PasswordAccordion = () => {
     submitForm,
   } = useFormikContext<PasswordFormValues>();
 
-  const isOpen = false;
+  const isOpen = searchParams.get('openPassword') === 'true';
 
   return (
     <AccordionNew
