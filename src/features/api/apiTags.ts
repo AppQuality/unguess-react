@@ -103,12 +103,7 @@ unguessApi.enhanceEndpoints({
       providesTags: ['Preferences'],
     },
     patchUsersMe: {
-      onQueryStarted: async (arg, { dispatch, queryFulfilled }) => {
-        await queryFulfilled;
-        if (!arg?.body?.password) {
-          dispatch(unguessApi.util.invalidateTags(['Users']));
-        }
-      },
+      invalidatesTags: ['Users'],
     },
     putUsersMePreferencesBySlug: {
       invalidatesTags: ['Preferences'],
