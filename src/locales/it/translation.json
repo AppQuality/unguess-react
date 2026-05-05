@@ -739,6 +739,8 @@
   "__LOGIN_FORM_PASSWORD_LABEL": "Password",
   "__LOGIN_FORM_PASSWORD_PLACEHOLDER": "Inserisci password",
   "__LOGIN_FORM_SIGNUP_CTA": "Registrati",
+  "__LOGIN_FORM_SSO_INFO_MESSAGE": "",
+  "__LOGIN_FORM_SSO_INFO_TITLE": "",
   "__LOGIN_FORM_SUBTITLE": "Accedi al tuo account UNGUESS",
   "__LOGIN_FORM_TITLE": "Bentornato!",
   "__LOGIN_SESSION_EXPIRED_MESSAGE": "La sessione è scaduta. Effettua nuovamente il login.",
