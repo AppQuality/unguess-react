@@ -1,8 +1,7 @@
 import { Editor, MD, TextDescription } from '@appquality/unguess-design-system';
+import { useTranslation } from 'react-i18next';
 import { Bug } from 'src/features/api';
 import styled from 'styled-components';
-import { useTranslation } from 'react-i18next';
-import { WrappedText } from 'src/common/components/WrappedText';
 
 const Container = styled.div`
   display: inline-block;
@@ -40,25 +39,19 @@ export default ({
         <StyledLabel>
           {t('__BUGS_PAGE_BUG_DETAIL_DESCRIPTION_LABEL')}
         </StyledLabel>
-        <Editor contentType="markdown" editable={false}>
-          {bug.step_by_step}
-        </Editor>
+        <Editor editable={false}>{bug.step_by_step}</Editor>
       </TextBlock>
       <TextBlock>
         <StyledLabel>
           {t('__BUGS_PAGE_BUG_DETAIL_EXPECTED_RESULT_LABEL')}
         </StyledLabel>
-        <Editor contentType="markdown" editable={false}>
-          {bug.expected_result}
-        </Editor>
+        <Editor editable={false}>{bug.expected_result}</Editor>
       </TextBlock>
       <TextBlock>
         <StyledLabel>
           {t('__BUGS_PAGE_BUG_DETAIL_CURRENT_RESULT_LABEL')}
         </StyledLabel>
-        <Editor contentType="markdown" editable={false}>
-          {bug.current_result}
-        </Editor>
+        <Editor editable={false}>{bug.current_result}</Editor>
       </TextBlock>
 
       <TextBlock>
