@@ -202,12 +202,7 @@ const LoginForm = ({ onSubmit, buttonText }: LoginFormProps) => {
               <Button
                 type="submit"
                 isStretched
-                disabled={
-                  Object.keys(errors).length > 0 ||
-                  isSubmitting ||
-                  !values.email ||
-                  !values.password
-                }
+                disabled={isSubmitting}
                 isPrimary
                 isAccent
                 style={{ marginBottom: appTheme.space.md }}
