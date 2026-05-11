@@ -1,11 +1,12 @@
 import {
   Logo,
   Notification,
+  Span,
   useToast,
 } from '@appquality/unguess-design-system';
 import { FormikHelpers } from 'formik';
 import { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import WPAPI from 'src/common/wpapi';
 import { useGetUsersMeQuery } from 'src/features/api';
@@ -95,6 +96,28 @@ const LoginPage = () => {
     );
   };
 
+  const showInvalidCredentialsToast = () => {
+    addToast(
+      ({ close }) => (
+        <Notification
+          onClose={close}
+          type="error"
+          message={
+            (
+              <Trans
+                i18nKey="__LOGIN_FORM_INVALID_CREDENTIALS_TOAST"
+                components={{ bold: <Span isBold /> }}
+              />
+            ) as unknown as string
+          }
+          closeText={t('__TOAST_CLOSE_TEXT')}
+          isPrimary
+        />
+      ),
+      { placement: 'top' }
+    );
+  };
+
   const loginUser = async (
     values: LoginFormFields,
     { setSubmitting, setStatus }: FormikHelpers<LoginFormFields>
@@ -141,7 +164,11 @@ const LoginPage = () => {
       nonce = await WPAPI.getNonce();
     } catch (err: any) {
       if (err?.status !== 200) {
-        showGenericErrorToast('Get Nonce: ');
+        showInvalidCredentialsToast();
+        setStatus({
+          message: t('__LOGIN_FORM_FAILED_INVALID'),
+          type: 'invalid',
+        });
         setSubmitting(false);
         return;
       }
@@ -165,7 +192,10 @@ const LoginPage = () => {
       const error = JSON.parse(message);
 
       if (error.type === 'invalid') {
-        setStatus({ message: `${t('__LOGIN_FORM_FAILED_INVALID')}` });
+        setStatus({
+          message: t('__LOGIN_FORM_FAILED_INVALID'),
+          type: 'invalid',
+        });
       } else {
         showGenericErrorToast();
       }
