@@ -27,7 +27,7 @@ export const getSignupValidationSchema = (t: TFunction) =>
             'mac.com',
             'aol.com',
             'protonmail.com',
-            'Proton: Privacy by default',
+            'proton.me',
             'gmx.com',
             'gmx.net',
             'mail.com',
