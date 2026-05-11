@@ -209,7 +209,9 @@ const LoginForm = ({ onSubmit, buttonText }: LoginFormProps) => {
                   <Message validation="error">{status.message}</Message>
                 </div>
               )}
-              {new Date() <= new Date('2026-05-12') && (
+
+              {new Date() <= new Date('2026-09-12') && (
+                /* leave it here? */
                 <Alert type="info" style={{ marginTop: appTheme.space.xl }}>
                   <Alert.Title>{t('__LOGIN_FORM_SSO_INFO_TITLE')}</Alert.Title>
                   <Trans

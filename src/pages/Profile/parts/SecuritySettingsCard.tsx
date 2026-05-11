@@ -1,5 +1,4 @@
 import {
-  Alert,
   Anchor,
   ContainerCard,
   LG,
@@ -10,7 +9,6 @@ import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as ShieldIcon } from 'src/assets/icons/shield-fill.svg';
 import { Divider } from 'src/common/components/divider';
-import { useGetUsersMeQuery } from 'src/features/api';
 import styled from 'styled-components';
 import { FormPassword } from '../FormPassword';
 import {
@@ -28,7 +26,6 @@ const AccordionWrapper = styled.div`
 
 export const SecuritySettingsCard = () => {
   const { t } = useTranslation();
-  const { data: currentUser } = useGetUsersMeQuery();
 
   return (
     <ContainerCard
@@ -69,14 +66,6 @@ export const SecuritySettingsCard = () => {
           <MfaAccordion />
         </AccordionWrapper>
       </div>
-      {currentUser?.authType === 'legacy' && (
-        <Alert type="info" style={{ marginTop: appTheme.space.sm }}>
-          <Alert.Title>
-            {t('__PROFILE_PAGE_SECURITY_LEGACY_ALERT_TITLE')}
-          </Alert.Title>
-          {t('__PROFILE_PAGE_SECURITY_LEGACY_ALERT_MESSAGE')}
-        </Alert>
-      )}
       <SM
         color={appTheme.palette.grey[600]}
         style={{ marginTop: appTheme.space.sm }}
