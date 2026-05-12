@@ -1918,6 +1918,10 @@ export type GetHubsByHidApiResponse = /** status 200 OK */ {
   id: number;
   title: string;
   description: string;
+  project: {
+    id: number;
+    name: string;
+  };
 };
 export type GetHubsByHidApiArg = {
   /** Hub id */

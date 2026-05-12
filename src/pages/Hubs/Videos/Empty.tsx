@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
+import { useParams } from 'react-router-dom';
 import { ReactComponent as EmptyStateImg } from 'src/assets/empty-state-videos.svg';
 import styled from 'styled-components';
 import { UploadModal } from './UploadModal';
@@ -20,6 +21,7 @@ const Container = styled.div`
 
 export const HubVideosEmpty = () => {
   const { t } = useTranslation();
+  const { hubId } = useParams();
   const [isUploadOpen, setIsUploadOpen] = useState(false);
 
   return (
@@ -38,11 +40,8 @@ export const HubVideosEmpty = () => {
           </Button>
         </Container>
       </LayoutWrapper>
-      {isUploadOpen && (
-        <UploadModal
-          onClose={() => setIsUploadOpen(false)}
-          onUpload={() => setIsUploadOpen(false)}
-        />
+      {isUploadOpen && hubId && (
+        <UploadModal hubId={hubId} onClose={() => setIsUploadOpen(false)} />
       )}
     </>
   );

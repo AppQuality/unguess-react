@@ -3975,6 +3975,10 @@ export interface operations {
             id: number;
             title: string;
             description: string;
+            project: {
+              id: number;
+              name: string;
+            };
           };
         };
       };

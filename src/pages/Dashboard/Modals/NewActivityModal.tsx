@@ -10,6 +10,7 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { usePostProjectsByPidHubsMutation } from 'src/features/api';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
+import { PendingUpload } from 'src/pages/Hubs/Videos/UploadModal';
 import * as Yup from 'yup';
 import { ChooseStep } from './steps/ChooseStep';
 import { FormStep, FormValues } from './steps/FormStep';
@@ -17,8 +18,14 @@ import { UploadStep } from './steps/UploadStep';
 
 type Step = 1 | 2 | 3;
 
-// Connects UploadStep (props-based) to Formik context
-const UploadStepConnected = () => {
+// Connects UploadStep (props-based) to Formik context + external files state
+const UploadStepConnected = ({
+  files,
+  onFilesChange,
+}: {
+  files: File[];
+  onFilesChange: (files: File[]) => void;
+}) => {
   const { values, setFieldValue } = useFormikContext<FormValues>();
   return (
     <UploadStep
@@ -26,6 +33,8 @@ const UploadStepConnected = () => {
       onLanguageChange={(lang) => {
         setFieldValue('language', lang).catch(() => undefined);
       }}
+      files={files}
+      onFilesChange={onFilesChange}
     />
   );
 };
@@ -46,6 +55,7 @@ export const NewActivityModal = ({
 
   const [step, setStep] = useState<Step>(1);
   const [createdHubId, setCreatedHubId] = useState<number | undefined>();
+  const [uploadFiles, setUploadFiles] = useState<File[]>([]);
 
   const validationSchema = Yup.object({
     projectId: Yup.number()
@@ -89,8 +99,16 @@ export const NewActivityModal = ({
   };
 
   const handleGoToHub = () => {
+    const pendingUploads: PendingUpload[] = uploadFiles.map((f) => ({
+      name: f.name,
+      size: f.size,
+      type: f.type,
+    }));
     onClose();
-    if (createdHubId) navigate(`${hubsBaseRoute}${createdHubId}/videos`);
+    if (createdHubId)
+      navigate(`${hubsBaseRoute}${createdHubId}/videos`, {
+        state: { pendingUploads },
+      });
   };
 
   const handleLaunchTest = () => {
@@ -121,7 +139,12 @@ export const NewActivityModal = ({
             />
           )}
           {step === 2 && <FormStep />}
-          {step === 3 && <UploadStepConnected />}
+          {step === 3 && (
+            <UploadStepConnected
+              files={uploadFiles}
+              onFilesChange={setUploadFiles}
+            />
+          )}
         </Modal.Body>
         <Modal.Footer>
           {step === 2 && (
