@@ -442,6 +442,26 @@ export interface paths {
       };
     };
   };
+  "/projects/{pid}/hubs": {
+    get: operations["get-projects-pid-hubs"];
+    /** An Hub is a Campaign with campaign-type hub */
+    post: operations["post-projects-pid-hubs"];
+    parameters: {
+      path: {
+        /** Project id */
+        pid: string;
+      };
+    };
+  };
+  "/hubs/{hid}": {
+    get: operations["get-hub"];
+    parameters: {
+      path: {
+        /** Hub id */
+        hid: components["parameters"]["hid"];
+      };
+    };
+  };
   "/projects/{pid}/users": {
     /** Return a list of users from a specific project */
     get: operations["get-projects-users"];
@@ -1579,6 +1599,7 @@ export interface components {
     Project: {
       campaigns_count: number;
       description?: string;
+      hubs_count: number;
       id: number;
       is_archive?: number;
       name: string;
@@ -2041,6 +2062,8 @@ export interface components {
     csid: string;
     /** @description filterBy[<fieldName>]=<fieldValue> */
     filterBy: unknown;
+    /** @description Hub id */
+    hid: string;
     /** @description Insight id */
     iid: string;
     /** @description Limit pagination parameter */
@@ -3887,6 +3910,76 @@ export interface operations {
       403: components["responses"]["Error"];
       404: components["responses"]["Error"];
       500: components["responses"]["Error"];
+    };
+  };
+  "get-projects-pid-hubs": {
+    parameters: {
+      path: {
+        /** Project id */
+        pid: string;
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          "application/json": {
+            items: {
+              id: number;
+            }[];
+          };
+        };
+      };
+    };
+  };
+  /** An Hub is a Campaign with campaign-type hub */
+  "post-projects-pid-hubs": {
+    parameters: {
+      path: {
+        /** Project id */
+        pid: string;
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          "application/json": {
+            hubId: number;
+            usecases: number[];
+          };
+        };
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": {
+          name: string;
+          description?: string;
+        };
+      };
+    };
+  };
+  "get-hub": {
+    parameters: {
+      path: {
+        /** Hub id */
+        hid: components["parameters"]["hid"];
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          "application/json": {
+            id: number;
+            title: string;
+            description: string;
+          };
+        };
+      };
+      /** Forbidden */
+      403: unknown;
     };
   };
   /** Return a list of users from a specific project */
