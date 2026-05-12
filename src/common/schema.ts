@@ -780,9 +780,6 @@ export interface paths {
       };
     };
   };
-  "/users/me/token": {
-    get: operations["get-users-me-token"];
-  };
   "/ai/jobs": {
     post: operations["post-ai-jobs"];
   };
@@ -5346,20 +5343,6 @@ export interface operations {
       400: components["responses"]["Error"];
       403: components["responses"]["Error"];
       500: components["responses"]["Error"];
-    };
-  };
-  "get-users-me-token": {
-    responses: {
-      /** OK */
-      200: {
-        content: {
-          "application/json": {
-            token: string;
-          };
-        };
-      };
-      400: components["responses"]["Error"];
-      403: components["responses"]["Error"];
     };
   };
   "post-ai-jobs": {

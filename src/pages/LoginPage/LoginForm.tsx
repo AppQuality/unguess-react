@@ -12,13 +12,13 @@ import {
   MD,
   MediaInput,
   Message,
-  Span,
   Title,
   XL,
 } from '@appquality/unguess-design-system';
 import { ReactComponent as EyeIcon } from '@zendeskgarden/svg-icons/src/16/eye-fill.svg';
 import { ReactComponent as EyeOffIcon } from '@zendeskgarden/svg-icons/src/16/eye-hide-fill.svg';
 import { appTheme } from 'src/app/theme';
+import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { LoginFormFields } from './type';
 
 const StyledCard = styled(ContainerCard)`
@@ -58,6 +58,7 @@ interface LoginFormProps {
 const LoginForm = ({ onSubmit, buttonText }: LoginFormProps) => {
   const { t } = useTranslation();
   const [showPassword, setShowPassword] = useState(false);
+  const forgotPasswordRoute = useLocalizeRoute('forgot-password');
 
   const validate = (values: LoginFormFields) => {
     const errors: Partial<Record<keyof LoginFormFields, string>> = {};
@@ -167,7 +168,7 @@ const LoginForm = ({ onSubmit, buttonText }: LoginFormProps) => {
                 )}
               </FormField>
               <Anchor
-                href="/forgot-password"
+                href={forgotPasswordRoute}
                 style={{
                   color: appTheme.palette.blue[600],
                   marginTop: appTheme.space.xs,
@@ -177,15 +178,31 @@ const LoginForm = ({ onSubmit, buttonText }: LoginFormProps) => {
               >
                 {t('__LOGIN_FORM_PASSWORD_FORGOT_LABEL')}
               </Anchor>
+              {status?.type === 'invalid' && (
+                <Alert
+                  type="warning"
+                  style={{ marginBottom: appTheme.space.lg }}
+                >
+                  <Alert.Title>
+                    {t('__LOGIN_FORM_INVALID_CREDENTIALS_ALERT_TITLE')}
+                  </Alert.Title>
+                  <Trans
+                    i18nKey="__LOGIN_FORM_INVALID_CREDENTIALS_ALERT_MESSAGE"
+                    components={{
+                      forgotLink: (
+                        <Anchor
+                          href={forgotPasswordRoute}
+                          style={{ color: appTheme.palette.blue[600] }}
+                        />
+                      ),
+                    }}
+                  />
+                </Alert>
+              )}
               <Button
                 type="submit"
                 isStretched
-                disabled={
-                  Object.keys(errors).length > 0 ||
-                  isSubmitting ||
-                  !values.email ||
-                  !values.password
-                }
+                disabled={isSubmitting}
                 isPrimary
                 isAccent
                 style={{ marginBottom: appTheme.space.md }}
@@ -204,20 +221,6 @@ const LoginForm = ({ onSubmit, buttonText }: LoginFormProps) => {
                   {t('__LOGIN_FORM_SIGNUP_CTA')}
                 </Anchor>
               </MD>
-              {status && (
-                <div style={{ textAlign: 'center' }}>
-                  <Message validation="error">{status.message}</Message>
-                </div>
-              )}
-              {new Date() <= new Date('2026-05-12') && (
-                <Alert type="info" style={{ marginTop: appTheme.space.xl }}>
-                  <Alert.Title>{t('__LOGIN_FORM_SSO_INFO_TITLE')}</Alert.Title>
-                  <Trans
-                    i18nKey="__LOGIN_FORM_SSO_INFO_MESSAGE"
-                    components={{ strong: <Span isBold /> }}
-                  />
-                </Alert>
-              )}
             </StyledForm>
           )}
         </Formik>

@@ -12,14 +12,14 @@ test.describe('Login page - legacy WordPress authentication', () => {
     await login.open();
   });
 
-  test('shows a generic error toast whenever wpapi getnonce responds with a 403', async ({
+  test('shows the invalid-credentials toast whenever wpapi getnonce responds with a 403', async ({
     i18n,
   }) => {
     await login.mockGetNonce403();
     await login.fillValidInputs();
     await login.submit();
     await expect(login.elements().errorToast()).toContainText(
-      `Get Nonce: ${i18n.t('__TOAST_GENERIC_ERROR_MESSAGE')}`
+      i18n.t('__LOGIN_FORM_INVALID_CREDENTIALS_TOAST').replace(/<\/?bold>/g, '')
     );
   });
 

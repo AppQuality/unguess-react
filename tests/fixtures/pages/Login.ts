@@ -26,7 +26,8 @@ export class Login extends UnguessPage {
         this.page.getByRole('button', {
           name: this.i18n.t('__LOGIN_FORM_CTA'),
         }),
-      errorToast: () => this.page.getByRole('alert'),
+      errorToast: () =>
+        this.page.locator('[data-garden-id="notifications.notification"]'),
     };
   }
 
