@@ -24,7 +24,7 @@ const UploadStepConnected = ({
   onFilesChange,
 }: {
   files: File[];
-  onFilesChange: (files: File[]) => void;
+  onFilesChange: (newFiles: File[]) => void;
 }) => {
   const { values, setFieldValue } = useFormikContext<FormValues>();
   return (

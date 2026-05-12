@@ -1,15 +1,17 @@
 import {
+  ContainerCard,
   Dots,
   IconButton,
   MD,
   SM,
+  Span,
   Tag,
+  Title,
 } from '@appquality/unguess-design-system';
 import { ReactComponent as TrashIcon } from '@zendeskgarden/svg-icons/src/16/trash-stroke.svg';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as PlaceholderVideo } from 'src/assets/icons/placeholder-video.svg';
-import { ContainerCard, Span, Title } from '@appquality/unguess-design-system';
 import { styled } from 'styled-components';
 import { PendingUpload } from './UploadModal';
 
@@ -133,7 +135,7 @@ export const PendingVideoContainer = ({
         >
           {files.map((f, i) => (
             <PendingVideoItem
-              key={`${f.name}-${i}`}
+              key={f.name}
               file={f}
               onRemove={() => onRemove(i)}
             />

@@ -158,7 +158,7 @@ const UploadStepBody = ({
       {files.length > 0 && (
         <FileList>
           {files.map((file, i) => (
-            <FileItem key={`${file.name}-${i}`}>
+            <FileItem key={file.name}>
               <SM isBold>{file.name}</SM>
               <RemoveButton
                 type="button"
