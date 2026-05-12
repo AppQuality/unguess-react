@@ -7,7 +7,6 @@ import {
 } from '@appquality/unguess-design-system';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as AiIcon } from 'src/assets/icons/ai-icon-gradient.svg';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
@@ -17,12 +16,12 @@ import {
   usePostWorkflowsBySlugThreadsMutation,
 } from 'src/features/api';
 import { useCanAccessToActiveWorkspace } from 'src/hooks/useCanAccessToActiveWorkspace';
-import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import useWindowSize from 'src/hooks/useWindowSize';
 import styled from 'styled-components';
 import { Workflow } from './workflow-ai';
 import { Counters } from './Counters';
 import { useCanShowAiChat } from './hooks/useCanShowAiChat';
+import { NewActivityModal } from './Modals/NewActivityModal';
 
 const StyledIconButton = styled(IconButton)`
   svg {
@@ -49,8 +48,7 @@ export const DashboardHeaderContent = ({
   const [threadId, setThreadId] = useState<number>();
 
   const hasWorksPacePermission = useCanAccessToActiveWorkspace();
-  const navigate = useNavigate();
-  const templatesRoute = useLocalizeRoute('templates');
+  const [isNewActivityModalOpen, setIsNewActivityModalOpen] = useState(false);
 
   const [createThread] = usePostWorkflowsBySlugThreadsMutation();
 
@@ -71,9 +69,7 @@ export const DashboardHeaderContent = ({
                 <Button
                   isAccent
                   isPrimary
-                  onClick={() => {
-                    navigate(templatesRoute);
-                  }}
+                  onClick={() => setIsNewActivityModalOpen(true)}
                 >
                   {t('__DASHBOARD_CTA_NEW_ACTIVITY')}
                 </Button>
@@ -113,6 +109,9 @@ export const DashboardHeaderContent = ({
             {threadId && <Workflow threadId={threadId} />}
           </Drawer.Body>
         </Drawer>
+      )}
+      {isNewActivityModalOpen && (
+        <NewActivityModal onClose={() => setIsNewActivityModalOpen(false)} />
       )}
     </LayoutWrapper>
   );
