@@ -1,16 +1,8 @@
 import { Content } from '@appquality/unguess-design-system';
-import {
-  ComponentProps,
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
+import { ComponentProps, useEffect, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import { useAppDispatch } from 'src/app/hooks';
 import { appTheme } from 'src/app/theme';
-import { LegacyAuthBanner } from 'src/common/components/LegacyAuthBanner';
 import { AppSidebar } from 'src/common/components/navigation/sidebar';
 import {
   setSidebarOpen,
@@ -26,14 +18,13 @@ import { NavigationProfileModal } from './NavigationProfileModal';
 const StyledContent = styled(Content)<
   ComponentProps<typeof Content> & {
     $isMinimal?: boolean;
-    $bannerHeight?: number;
     children?: React.ReactNode;
   }
 >`
-  height: ${({ $isMinimal, $bannerHeight = 0, theme }) =>
+  height: ${({ $isMinimal, theme }) =>
     $isMinimal
       ? '100%'
-      : `calc(100% - ${theme.components.chrome.header.height} - ${$bannerHeight}px)`};
+      : `calc(100% - ${theme.components.chrome.header.height})`};
 `;
 
 export const Navigation = ({
@@ -93,31 +84,13 @@ export const Navigation = ({
     dispatch(toggleSidebar());
   };
 
-  const [bannerHeight, setBannerHeight] = useState(0);
-  const bannerObserverRef = useRef<ResizeObserver | null>(null);
-  const bannerRefCallback = useCallback((node: HTMLDivElement | null) => {
-    bannerObserverRef.current?.disconnect();
-    if (!node) {
-      bannerObserverRef.current = null;
-      setBannerHeight(0);
-      return;
-    }
-    setBannerHeight(node.getBoundingClientRect().height);
-    const observer = new ResizeObserver((entries) => {
-      setBannerHeight(entries[0].contentRect.height);
-    });
-    observer.observe(node);
-    bannerObserverRef.current = observer;
-  }, []);
-
   if (!activeWorkspace && !isLoading) return <NoActiveWorkSpaceState />;
 
   return (
     <>
       <NavigationHeader isMinimal={isMinimal} />
       <NavigationProfileModal />
-      {!isMinimal && <LegacyAuthBanner ref={bannerRefCallback} />}
-      <StyledContent $isMinimal={isMinimal} $bannerHeight={bannerHeight}>
+      <StyledContent $isMinimal={isMinimal}>
         <AppSidebar
           route={
             route === 'projects' && parameter !== ''

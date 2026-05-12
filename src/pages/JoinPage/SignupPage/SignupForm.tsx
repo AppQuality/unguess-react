@@ -313,12 +313,7 @@ export const SignupForm = ({ onSignupSuccess }: SignupFormProps) => {
                 isPrimary
                 isAccent
                 isStretched
-                disabled={
-                  isSubmitting ||
-                  !isValid ||
-                  !values.termsAccepted ||
-                  !values.privacyAccepted
-                }
+                disabled={isSubmitting}
                 style={{ marginTop: appTheme.space.sm }}
               >
                 {isSubmitting ? t('LOADING') : t('SIGNUP_FORM_SUBMIT')}

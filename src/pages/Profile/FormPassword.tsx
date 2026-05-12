@@ -69,27 +69,11 @@ export const FormPassword = () => {
             throw new Error('User data not available');
           }
 
-          const isCognitoUser = userData.authType === 'cognito';
-
-          if (isCognitoUser) {
-            await fetchAuthSession({ forceRefresh: true });
-            await updatePassword({
-              oldPassword: values.currentPassword,
-              newPassword: values.newPassword,
-            });
-          } else {
-            // Utente legacy: verifica password con WP e poi cambia su Cognito
-            await updateProfile({
-              body: {
-                password: {
-                  current: values.currentPassword,
-                  new: values.newPassword,
-                },
-              },
-            }).unwrap();
-
-            await WPAPI.destroyOtherSessions();
-          }
+          await fetchAuthSession({ forceRefresh: true });
+          await updatePassword({
+            oldPassword: values.currentPassword,
+            newPassword: values.newPassword,
+          });
 
           // Cambio password riuscito, ora effettua il logout e login con le nuove credenziali
           try {
@@ -147,21 +131,6 @@ export const FormPassword = () => {
           // Errore Cognito password errata
           if (e?.name === 'NotAuthorizedException') {
             isInvalidPasswordError = true;
-          }
-
-          // WP login failed - l'errore è un JSON stringificato
-          if (e?.message && typeof e.message === 'string') {
-            try {
-              const errorData = JSON.parse(e.message);
-              if (errorData.type === 'invalid') {
-                isInvalidPasswordError = true;
-              }
-            } catch {
-              // Se non è un JSON valido, controlla se contiene 'invalid'
-              if (e.message.includes('invalid')) {
-                isInvalidPasswordError = true;
-              }
-            }
           }
 
           if (isInvalidPasswordError) {
