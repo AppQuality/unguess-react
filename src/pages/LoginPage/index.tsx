@@ -8,17 +8,16 @@ import { FormikHelpers } from 'formik';
 import { useEffect, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
-import WPAPI from 'src/common/wpapi';
+import { AuthCardWrapper } from 'src/common/components/AuthCardWrapper';
+import { Track } from 'src/common/Track';
 import { useGetUsersMeQuery } from 'src/features/api';
 import { useAuth } from 'src/features/auth/context';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import styled from 'styled-components';
-import { AuthCardWrapper } from 'src/common/components/AuthCardWrapper';
-import { Track } from 'src/common/Track';
 import { LoginForm } from './LoginForm';
-import { LoginFormFields } from './type';
-import { AuthHeader } from './parts/AuthHeader';
 import { AuthFooter } from './parts/AuthFooter';
+import { AuthHeader } from './parts/AuthHeader';
+import { LoginFormFields } from './type';
 
 const StyledLogo = styled(Logo)`
   margin: ${({ theme }) => theme.space.md};
@@ -81,21 +80,6 @@ const LoginPage = () => {
     }
   }, []);
 
-  const showGenericErrorToast = (title?: string) => {
-    addToast(
-      ({ close }) => (
-        <Notification
-          onClose={close}
-          type="error"
-          message={`${title}${t('__TOAST_GENERIC_ERROR_MESSAGE')}`}
-          closeText={t('__TOAST_CLOSE_TEXT')}
-          isPrimary
-        />
-      ),
-      { placement: 'top' }
-    );
-  };
-
   const showInvalidCredentialsToast = () => {
     addToast(
       ({ close }) => (
@@ -151,57 +135,16 @@ const LoginPage = () => {
       // Login Cognito riuscito
       setCta(`${t('__LOGIN_FORM_CTA_REDIRECT_STATE')}`);
       document.location.href = from || '/';
-      return;
     } catch (cognitoError: any) {
-      // Non è possibile gestire l'errore, se utente Cognito sbaglia password verrà fatto fallback al login legacy
+      showInvalidCredentialsToast();
+      setStatus({
+        message: t('__LOGIN_FORM_FAILED_INVALID'),
+        type: 'invalid',
+      });
+      setSubmitting(false);
       // eslint-disable-next-line no-console
       console.error('Cognito login error:', cognitoError);
     }
-
-    // STEP 2: Fallback a WordPress legacy login (se utente non esiste su Cognito)
-    let nonce;
-    try {
-      nonce = await WPAPI.getNonce();
-    } catch (err: any) {
-      if (err?.status !== 200) {
-        showInvalidCredentialsToast();
-        setStatus({
-          message: t('__LOGIN_FORM_FAILED_INVALID'),
-          type: 'invalid',
-        });
-        setSubmitting(false);
-        return;
-      }
-    }
-    try {
-      await WPAPI.login({
-        username: values.email,
-        password: values.password,
-        security: nonce,
-      });
-
-      setCta(`${t('__LOGIN_FORM_CTA_REDIRECT_STATE')}`);
-      document.location.href = from || '/';
-    } catch (e: any) {
-      if (e?.status !== 200) {
-        showGenericErrorToast('Login: ');
-        setSubmitting(false);
-        return;
-      }
-      const { message } = e as Error;
-      const error = JSON.parse(message);
-
-      if (error.type === 'invalid') {
-        setStatus({
-          message: t('__LOGIN_FORM_FAILED_INVALID'),
-          type: 'invalid',
-        });
-      } else {
-        showGenericErrorToast();
-      }
-    }
-
-    setSubmitting(false);
   };
 
   return (
