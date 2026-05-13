@@ -14,6 +14,7 @@ const StyledMain = styled(Main)`
   overflow-y: auto;
   overflow-x: hidden;
   height: 100%;
+  overscroll-behavior: contain;
 `;
 
 const HeaderContainer = styled.div`

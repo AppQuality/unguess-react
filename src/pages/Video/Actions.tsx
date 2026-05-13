@@ -32,6 +32,7 @@ const Container = styled.div`
   overflow-y: auto;
   border-left: 1px solid ${({ theme }) => theme.palette.grey[200]};
   scroll-behavior: smooth;
+  overscroll-behavior: contain;
 `;
 const MetaContainer = styled.div`
   display: flex;
