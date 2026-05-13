@@ -24,6 +24,7 @@ const ObservationWrapper = ({
     id: number;
     title: string;
     color: string;
+    creatorType?: 'human' | 'ai';
   }[];
 }) => {
   const background = `${color}33`;
@@ -49,6 +50,7 @@ const ObservationWrapper = ({
                   observationId={o.id}
                   color={o.color}
                   label={o.title}
+                  creatorType={o.creatorType}
                 />
               </div>
             ))}
