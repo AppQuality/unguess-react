@@ -33,6 +33,7 @@ export const useObservations = (videoId: string) => {
           start: o.start,
           end: o.end,
           color: isHexColor(color) ? color : defaultColor,
+          creatorType: o.creatorType,
         };
       }),
     [observations]
