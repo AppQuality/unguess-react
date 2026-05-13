@@ -39,12 +39,12 @@ const ObservationWrapper = ({
       }}
     >
       <Tooltip
-        size="medium"
+        size="small"
         isTransparent
         content={
           <TagWrapper>
             {observations.map((o) => (
-              <div>
+              <div key={o.id}>
                 <ObservationTooltip
                   start={o.start}
                   observationId={o.id}
