@@ -451,6 +451,12 @@ const injectedRtkApi = api.injectEndpoints({
     getMediaById: build.query<GetMediaByIdApiResponse, GetMediaByIdApiArg>({
       query: (queryArg) => ({ url: `/media/${queryArg.id}` }),
     }),
+    getSignedMediaById: build.query<
+      GetSignedMediaByIdApiResponse,
+      GetSignedMediaByIdApiArg
+    >({
+      query: (queryArg) => ({ url: `/signedMedia/${queryArg.id}` }),
+    }),
     deletePlansByPid: build.mutation<
       DeletePlansByPidApiResponse,
       DeletePlansByPidApiArg
@@ -1746,6 +1752,12 @@ export type DeleteMediaCommentByMcidApiArg = {
 };
 export type GetMediaByIdApiResponse = unknown;
 export type GetMediaByIdApiArg = {
+  id: string;
+};
+export type GetSignedMediaByIdApiResponse = /** status 200 OK */ {
+  url: string;
+};
+export type GetSignedMediaByIdApiArg = {
   id: string;
 };
 export type DeletePlansByPidApiResponse = unknown;
@@ -3468,6 +3480,7 @@ export const {
   useGetInvitesByProfileAndTokenQuery,
   useDeleteMediaCommentByMcidMutation,
   useGetMediaByIdQuery,
+  useGetSignedMediaByIdQuery,
   useDeletePlansByPidMutation,
   useGetPlansByPidQuery,
   usePatchPlansByPidMutation,
