@@ -9,7 +9,7 @@ import {
 import { useEffect, useState } from 'react';
 import { ReactComponent as PlayIcon } from '@zendeskgarden/svg-icons/src/16/play-circle-stroke.svg';
 import { useTranslation } from 'react-i18next';
-import { useParams } from 'react-router-dom';
+import { useOutletContext, useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
 import { styled } from 'styled-components';
@@ -29,6 +29,11 @@ const VideosPageContent = () => {
   const { campaignId } = useParams();
   const [totalVideos, setTotalVideos] = useState<number>(0);
   const { t } = useTranslation();
+
+  // Use context from Outlet to get "isHub" param
+  const { isHub } = useOutletContext<{ isHub: boolean }>();
+
+  console.log('🚀 ~ file: index.tsx:17 ~ HubVideosPage ~ isHub:', isHub);
 
   const {
     sorted: videos,
