@@ -114,7 +114,7 @@ const Pages = () => {
 
                 <Route
                   path={`/${langPrefix}/hubs/:campaignId`}
-                  element={<Campaign />}
+                  element={<Navigate to="videos" replace />}
                 />
                 <Route
                   path={`/${langPrefix}/hubs/:campaignId/videos`}
