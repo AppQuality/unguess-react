@@ -39,7 +39,7 @@ const ObservationWrapper = ({
       }}
     >
       <Tooltip
-        size="small"
+        size="medium"
         isTransparent
         content={
           <TagWrapper>
