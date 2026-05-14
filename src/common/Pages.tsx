@@ -12,8 +12,6 @@ import PublicBugPage from 'src/pages/BugPublic/PublicBugPage';
 import BugForm from 'src/pages/Bugform';
 import Bugs from 'src/pages/Bugs';
 import Campaign from 'src/pages/Campaign';
-import Hubs from 'src/pages/Hubs';
-import HubVideosPage from 'src/pages/Hubs/Videos';
 import CampaignPreview from 'src/pages/Campaign/preview';
 import Dashboard from 'src/pages/Dashboard';
 import Project from 'src/pages/Dashboard/Project';
@@ -114,12 +112,12 @@ const Pages = () => {
                   />
 
                   <Route
-                    path={`/${langPrefix}/hubs/:hubId`}
-                    element={<Hubs />}
+                    path={`/${langPrefix}/hubs/:campaignId`}
+                    element={<Navigate to="videos" replace />}
                   />
                   <Route
                     path={`/${langPrefix}/hubs/:hubId/videos`}
-                    element={<HubVideosPage />}
+                    element={<Videos />}
                   />
                 </Route>
 
