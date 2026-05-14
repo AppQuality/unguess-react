@@ -113,15 +113,15 @@ const Pages = () => {
                 />
 
                 <Route
-                  path={`/${langPrefix}/hubs/:hubId`}
+                  path={`/${langPrefix}/hubs/:campaignId`}
                   element={<Campaign />}
                 />
                 <Route
-                  path={`/${langPrefix}/hubs/:hubId/videos`}
+                  path={`/${langPrefix}/hubs/:campaignId/videos`}
                   element={<Videos />}
                 />
                 <Route
-                  path={`/${langPrefix}/hubs/:hubId/videos/:videoId`}
+                  path={`/${langPrefix}/hubs/:campaignId/videos/:videoId`}
                   element={<Video />}
                 />
 
