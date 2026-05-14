@@ -372,6 +372,14 @@ export interface paths {
       };
     };
   };
+  "/signedMedia/{id}": {
+    get: operations["get-signedMedia-id"];
+    parameters: {
+      path: {
+        id: string;
+      };
+    };
+  };
   "/plans/{pid}": {
     /**  */
     get: operations["get-workspaces-wid-plans-pid"];
@@ -3594,6 +3602,26 @@ export interface operations {
     responses: {
       /** Found */
       302: never;
+    };
+  };
+  /** Returns a short-lived presigned S3 URL for a media item if the caller has access. Returns 403 otherwise. Public bugs (unexpired wp_appq_bug_link) bypass auth. */
+  "get-signedMedia-id": {
+    parameters: {
+      path: {
+        id: string;
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          "application/json": {
+            url: string;
+          };
+        };
+      };
+      /** Forbidden */
+      403: unknown;
     };
   };
   /**  */
