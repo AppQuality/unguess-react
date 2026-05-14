@@ -52,22 +52,6 @@ const Pages = () => {
                   )
                 }
               >
-                <Route
-                  path={`/${langPrefix}/campaigns/:campaignId`}
-                  element={<Campaign />}
-                />
-                <Route
-                  path={`/${langPrefix}/campaigns/:campaignId/preview`}
-                  element={<CampaignPreview />}
-                />
-                <Route
-                  path={`/${langPrefix}/campaigns/:campaignId/bugform`}
-                  element={<BugForm />}
-                />
-                <Route
-                  path={`/${langPrefix}/campaigns/:campaignId/manual`}
-                  element={<Manual />}
-                />
                 <Route path={`/${langPrefix}/login`} element={<LoginPage />} />
                 <Route path={`/${langPrefix}/join/*`} element={<JoinPage />} />
                 <Route
@@ -87,9 +71,25 @@ const Pages = () => {
                   element={<LogoutPage />}
                 />
 
+                <Route index element={<Dashboard />} />
+
+                <Route path={`/${langPrefix}/profile`} element={<Profile />} />
+
                 <Route
-                  path={`/${langPrefix}/projects/:projectId`}
-                  element={<Project />}
+                  path={`/${langPrefix}/campaigns/:campaignId`}
+                  element={<Campaign />}
+                />
+                <Route
+                  path={`/${langPrefix}/campaigns/:campaignId/preview`}
+                  element={<CampaignPreview />}
+                />
+                <Route
+                  path={`/${langPrefix}/campaigns/:campaignId/bugform`}
+                  element={<BugForm />}
+                />
+                <Route
+                  path={`/${langPrefix}/campaigns/:campaignId/manual`}
+                  element={<Manual />}
                 />
                 <Route
                   path={`/${langPrefix}/campaigns/:campaignId/bugs`}
@@ -100,6 +100,37 @@ const Pages = () => {
                   element={<Bug />}
                 />
                 <Route
+                  path={`/${langPrefix}/campaigns/:campaignId/videos`}
+                  element={<Videos />}
+                />
+                <Route
+                  path={`/${langPrefix}/campaigns/:campaignId/videos/:videoId`}
+                  element={<Video />}
+                />
+                <Route
+                  path={`/${langPrefix}/campaigns/:campaignId/insights`}
+                  element={<InsightsPage />}
+                />
+
+                <Route
+                  path={`/${langPrefix}/hubs/:hubId`}
+                  element={<Campaign />}
+                />
+                <Route
+                  path={`/${langPrefix}/hubs/:hubId/videos`}
+                  element={<Videos />}
+                />
+                <Route
+                  path={`/${langPrefix}/hubs/:hubId/videos/:videoId`}
+                  element={<Video />}
+                />
+
+                <Route
+                  path={`/${langPrefix}/projects/:projectId`}
+                  element={<Project />}
+                />
+
+                <Route
                   path={`/${langPrefix}/templates`}
                   element={<Templates />}
                 />
@@ -107,30 +138,18 @@ const Pages = () => {
                   path={`/${langPrefix}/templates/:templateId`}
                   element={<Template />}
                 />
-                <Route
-                  path={`/${langPrefix}/campaigns/:campaignId/videos`}
-                  element={<Videos />}
-                />
-                <Route
-                  path={`/${langPrefix}/campaigns/:campaignId/insights`}
-                  element={<InsightsPage />}
-                />
-                <Route
-                  path={`/${langPrefix}/campaigns/:campaignId/videos/:videoId`}
-                  element={<Video />}
-                />
+
                 <Route
                   path={`/${langPrefix}/plans/:planId`}
                   element={<Plan />}
                 />
+
                 {/* No route found */}
                 <Route
                   path={`/${langPrefix}/media/oops`}
                   element={<MediaNotFound />}
                 />
                 <Route path={`/${langPrefix}/oops`} element={<NotFound />} />
-                <Route index element={<Dashboard />} />
-                <Route path={`/${langPrefix}/profile`} element={<Profile />} />
               </Route>
             ))}
 
@@ -168,23 +187,6 @@ const Pages = () => {
               }
               errorElement={<ErrorBoundaryPage />}
             />
-
-            {/**
-             * TODO: capire il perchè di questa rotta
-             */}
-            {/* <Route
-                path="/join"
-                element={
-                  <Redirect
-                    url={({ searchParams }) => {
-                      if (!searchParams || !searchParams.get('redirect'))
-                        return '/oops';
-                      return `/campaigns/${searchParams.get('cid')}/bugform`;
-                    }}
-                  />
-                }
-                errorElement={<ErrorBoundaryPage />}
-              /> */}
 
             <Route
               path="/defect/:defectId/:token"
