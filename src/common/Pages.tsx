@@ -18,6 +18,7 @@ import Project from 'src/pages/Dashboard/Project';
 import InsightsPage from 'src/pages/Insights';
 import LoginPage from 'src/pages/LoginPage';
 import Manual from 'src/pages/Manual';
+import MediaPage from 'src/pages/Media';
 import MediaNotFound from 'src/pages/NotFound/MediaNotFound';
 import NotFound from 'src/pages/NotFound/NotFound';
 import Plan from 'src/pages/Plan';
@@ -127,6 +128,10 @@ const Pages = () => {
                 <Route
                   path={`/${langPrefix}/media/oops`}
                   element={<MediaNotFound />}
+                />
+                <Route
+                  path={`/${langPrefix}/media/:id`}
+                  element={<MediaPage />}
                 />
                 <Route path={`/${langPrefix}/oops`} element={<NotFound />} />
                 <Route index element={<Dashboard />} />
