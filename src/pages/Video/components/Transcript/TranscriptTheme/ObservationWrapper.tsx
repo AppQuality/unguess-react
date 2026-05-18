@@ -24,6 +24,7 @@ const ObservationWrapper = ({
     id: number;
     title: string;
     color: string;
+    creatorType?: 'human' | 'ai';
   }[];
 }) => {
   const background = `${color}33`;
@@ -43,12 +44,13 @@ const ObservationWrapper = ({
         content={
           <TagWrapper>
             {observations.map((o) => (
-              <div>
+              <div key={o.id}>
                 <ObservationTooltip
                   start={o.start}
                   observationId={o.id}
                   color={o.color}
                   label={o.title}
+                  creatorType={o.creatorType}
                 />
               </div>
             ))}
