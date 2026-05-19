@@ -12,6 +12,7 @@ import { Field, FieldProps, Form, Formik, FormikHelpers } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { useSearchParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
+import { normalizeEmail } from 'src/common/normalizeEmail';
 import { usePostUsersMutation } from 'src/features/api';
 import { useSendGTMevent } from 'src/hooks/useGTMevent';
 import styled from 'styled-components';
@@ -68,6 +69,10 @@ export const WorkspaceStep = () => {
         action: 'start submit',
       });
 
+      const normalizedEmail = userData.email
+        ? normalizeEmail(userData.email)
+        : '';
+
       let res;
       if (userData.type === 'invite') {
         res = await postUsers({
@@ -83,7 +88,7 @@ export const WorkspaceStep = () => {
           body: {
             type: 'new',
             ...basicInfo,
-            email: userData.email!,
+            email: normalizedEmail,
             workspace: values.workspace,
           },
         }).unwrap();
@@ -98,7 +103,7 @@ export const WorkspaceStep = () => {
 
       try {
         await sendToHubspot({
-          email: userData.email!,
+          email: normalizedEmail,
           firstName: data.name,
           lastName: data.surname,
           searchParams: Object.fromEntries(searchParams.entries()),

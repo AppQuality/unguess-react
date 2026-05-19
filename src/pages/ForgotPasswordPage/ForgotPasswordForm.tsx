@@ -12,6 +12,7 @@ import {
   XL,
 } from '@appquality/unguess-design-system';
 import { appTheme } from 'src/app/theme';
+import { normalizeEmail } from 'src/common/normalizeEmail';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import styled from 'styled-components';
 
@@ -44,7 +45,8 @@ export const ForgotPasswordForm = ({ onSubmit }: ForgotPasswordFormProps) => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const validationError = validateEmail(email);
+    const normalizedEmail = normalizeEmail(email);
+    const validationError = validateEmail(normalizedEmail);
     if (validationError) {
       setError(validationError);
       return;
@@ -52,7 +54,7 @@ export const ForgotPasswordForm = ({ onSubmit }: ForgotPasswordFormProps) => {
     setError(null);
     setIsSubmitting(true);
     try {
-      await onSubmit(email);
+      await onSubmit(normalizedEmail);
     } catch (err: any) {
       setError(err.message || t('FORGOT_PASSWORD_ERROR_GENERIC'));
       setIsSubmitting(false);
