@@ -7,6 +7,12 @@ import ErrorBoundary from '../../common/components/ErrorBoundary';
 import { Container } from './Container';
 import { usePathWithoutLocale } from '../navigation/usePathWithoutLocale';
 
+const generalStyles = `
+  html {
+    overflow: hidden;
+  }
+`;
+
 export const Page = ({
   children,
   title = 'UNGUESS - BE SMART FROM THE START',
@@ -41,6 +47,7 @@ export const Page = ({
 
   return (
     <Track title={title}>
+      <style>{generalStyles}</style>
       <ErrorBoundary>
         <Logged route={route} pageHeader={pageHeader} isMinimal={isMinimal}>
           <Container
