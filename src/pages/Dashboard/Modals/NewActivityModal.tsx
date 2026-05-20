@@ -10,13 +10,18 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { usePostProjectsByPidHubsMutation } from 'src/features/api';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
-import { PendingUpload } from 'src/pages/Hubs/Videos/UploadModal';
 import * as Yup from 'yup';
 import { ChooseStep } from './steps/ChooseStep';
 import { FormStep, FormValues } from './steps/FormStep';
 import { UploadStep } from './steps/UploadStep';
 
 type Step = 1 | 2 | 3;
+
+type PendingUpload = {
+  name: string;
+  size: number;
+  type: string;
+};
 
 // Connects UploadStep (props-based) to Formik context + external files state
 const UploadStepConnected = ({
