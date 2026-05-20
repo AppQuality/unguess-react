@@ -1,10 +1,20 @@
 import { Navigate, Outlet } from 'react-router-dom';
+import { useGetCampaignsByCidQuery, useGetHubsByHidQuery } from '../api';
 
 const CampaignsHubsMiddleware = () => {
-  // TODO: GET /campaigns/:cid and /hubs/:hid to check if the campaign or hub exists, if not navigate to 404 page
-  // Set a props "isHub" and send it to the page to know if it's a hub or a campaign, and use it to fetch the right data in the page
-  const isHub = window.location.pathname.includes('/hubs/'); // TODO: implement logic
-  return <Outlet context={{ isHub }} />;
+  const isHub = useGetHubsByHidQuery({
+    hid: window.location.pathname.split('/hubs/')[1],
+  });
+  const isCampaign = useGetCampaignsByCidQuery({
+    cid: window.location.pathname.split('/campaigns/')[1],
+  });
+  if (isHub.isSuccess) {
+    return <Outlet context={{ isHub: true }} />;
+  }
+  if (isCampaign.isSuccess) {
+    return <Outlet context={{ isHub: false }} />;
+  }
+  return <Navigate to="/404" />;
 };
 
 export default CampaignsHubsMiddleware;
