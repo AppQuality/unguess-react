@@ -1,16 +1,21 @@
 import React, { useEffect } from 'react';
-import { Track } from 'src/common/Track';
 import { useNavigate } from 'react-router-dom';
+import { Track } from 'src/common/Track';
 import i18n from 'src/i18n';
-import { Logged } from './Logged';
+import { createGlobalStyle } from 'styled-components';
 import ErrorBoundary from '../../common/components/ErrorBoundary';
-import { Container } from './Container';
 import { usePathWithoutLocale } from '../navigation/usePathWithoutLocale';
+import { Container } from './Container';
+import { Logged } from './Logged';
 
-const generalStyles = `
-  html {
-    overflow: hidden;
-  }
+const GeneralStyles = createGlobalStyle`
+  ${({ theme }) => `
+    @media screen and (min-width: ${theme.breakpoints.sm}) {
+      html {
+        overflow: hidden !important;
+      }
+    }
+  `}
 `;
 
 export const Page = ({
@@ -47,7 +52,7 @@ export const Page = ({
 
   return (
     <Track title={title}>
-      <style>{generalStyles}</style>
+      <GeneralStyles />
       <ErrorBoundary>
         <Logged route={route} pageHeader={pageHeader} isMinimal={isMinimal}>
           <Container
