@@ -547,6 +547,25 @@ const injectedRtkApi = api.injectEndpoints({
         },
       }),
     }),
+    postProjectsByPidHubs: build.mutation<
+      PostProjectsByPidHubsApiResponse,
+      PostProjectsByPidHubsApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/projects/${queryArg.pid}/hubs`,
+        method: 'POST',
+        body: queryArg.body,
+      }),
+    }),
+    getProjectsByPidHubs: build.query<
+      GetProjectsByPidHubsApiResponse,
+      GetProjectsByPidHubsApiArg
+    >({
+      query: (queryArg) => ({ url: `/projects/${queryArg.pid}/hubs` }),
+    }),
+    getHubsByHid: build.query<GetHubsByHidApiResponse, GetHubsByHidApiArg>({
+      query: (queryArg) => ({ url: `/hubs/${queryArg.hid}` }),
+    }),
     deleteProjectsByPidUsers: build.mutation<
       DeleteProjectsByPidUsersApiResponse,
       DeleteProjectsByPidUsersApiArg
@@ -1873,6 +1892,40 @@ export type GetProjectsByPidCampaignsApiArg = {
   order?: string;
   /** Order by accepted field */
   orderBy?: string;
+};
+export type PostProjectsByPidHubsApiResponse = /** status 200 OK */ {
+  hubId: number;
+  usecases: number[];
+};
+export type PostProjectsByPidHubsApiArg = {
+  /** Project id */
+  pid: string;
+  body: {
+    name: string;
+    description?: string;
+  };
+};
+export type GetProjectsByPidHubsApiResponse = /** status 200 OK */ {
+  items: {
+    id: number;
+  }[];
+};
+export type GetProjectsByPidHubsApiArg = {
+  /** Project id */
+  pid: string;
+};
+export type GetHubsByHidApiResponse = /** status 200 OK */ {
+  id: number;
+  title: string;
+  description: string;
+  project: {
+    id: number;
+    name: string;
+  };
+};
+export type GetHubsByHidApiArg = {
+  /** Hub id */
+  hid: string;
 };
 export type DeleteProjectsByPidUsersApiResponse = /** status 200 OK */ {
   items: Tenant[];
@@ -3290,6 +3343,7 @@ export type PurchasablePlanRules =
 export type Project = {
   campaigns_count: number;
   description?: string;
+  hubs_count: number;
   id: number;
   is_archive?: number;
   name: string;
@@ -3492,6 +3546,9 @@ export const {
   useGetProjectsByPidQuery,
   usePatchProjectsByPidMutation,
   useGetProjectsByPidCampaignsQuery,
+  usePostProjectsByPidHubsMutation,
+  useGetProjectsByPidHubsQuery,
+  useGetHubsByHidQuery,
   useDeleteProjectsByPidUsersMutation,
   useGetProjectsByPidUsersQuery,
   usePostProjectsByPidUsersMutation,

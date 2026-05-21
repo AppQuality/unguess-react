@@ -22,6 +22,7 @@ import { EditableDescription } from './EditableDescription';
 import { EditableTitle } from './EditableTitle';
 import { useProjectPlans } from './hooks/useProjectPlans';
 import { DeleteProjectModal } from './Modals/DeleteProjectModal';
+import { NewActivityModal } from './Modals/NewActivityModal';
 
 const StyledPageHeaderMeta = styled(PageHeader.Meta)`
   justify-content: space-between;
@@ -53,8 +54,8 @@ export const ProjectPageHeader = ({ projectId }: { projectId: number }) => {
   const { isLoading: isUserLoading, isFetching: isUserFetching } =
     useGetUsersMeQuery();
 
-  const templatesRoute = useLocalizeRoute('templates');
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [newActivityModalOpen, setNewActivityModalOpen] = useState(false);
 
   const { items: plans, isLoading: isLoadingPlans } = useProjectPlans({
     projectId: projectId || 0,
@@ -131,9 +132,7 @@ export const ProjectPageHeader = ({ projectId }: { projectId: number }) => {
                   <Button
                     isAccent
                     isPrimary
-                    onClick={() => {
-                      navigate(templatesRoute, { state: { projectId } });
-                    }}
+                    onClick={() => setNewActivityModalOpen(true)}
                   >
                     {t('__DASHBOARD_CTA_NEW_ACTIVITY')}
                   </Button>
@@ -152,6 +151,12 @@ export const ProjectPageHeader = ({ projectId }: { projectId: number }) => {
             <DeleteProjectModal
               projectId={projectId}
               onQuit={() => setDeleteModalOpen(false)}
+            />
+          )}
+          {newActivityModalOpen && (
+            <NewActivityModal
+              projectId={projectId}
+              onClose={() => setNewActivityModalOpen(false)}
             />
           )}
         </PageHeader.Main>
