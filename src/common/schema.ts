@@ -453,8 +453,28 @@ export interface paths {
       };
     };
   };
+  "/hubs/{hid}/assets/{mid}": {
+    /** Delete a video asset belonging to the authenticated user on the given hub */
+    delete: operations["delete-hub-asset"];
+    parameters: {
+      path: {
+        /** Hub id */
+        hid: components["parameters"]["hid"];
+        mid: number;
+      };
+    };
+  };
   "/hubs/{hid}": {
     get: operations["get-hub"];
+    parameters: {
+      path: {
+        /** Hub id */
+        hid: components["parameters"]["hid"];
+      };
+    };
+  };
+  "/hubs/{hid}/assets": {
+    post: operations["post-hub-assets"];
     parameters: {
       path: {
         /** Hub id */
@@ -3429,6 +3449,8 @@ export interface operations {
           "application/json": {
             items: (components["schemas"]["Video"] & {
               usecaseId: number;
+              /** @enum {string} */
+              processingStatus: "processing" | "ready";
             })[];
           } & components["schemas"]["PaginationData"];
         };
@@ -3946,7 +3968,6 @@ export interface operations {
         content: {
           "application/json": {
             hubId: number;
-            usecases: number[];
           };
         };
       };
@@ -3958,6 +3979,28 @@ export interface operations {
           description?: string;
         };
       };
+    };
+  };
+  /** Delete a video asset belonging to the authenticated user on the given hub */
+  "delete-hub-asset": {
+    parameters: {
+      path: {
+        /** Hub id */
+        hid: components["parameters"]["hid"];
+        mid: number;
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          "application/json": { [key: string]: unknown };
+        };
+      };
+      /** Forbidden */
+      403: unknown;
+      /** Not Found */
+      404: unknown;
     };
   };
   "get-hub": {
@@ -3984,6 +4027,45 @@ export interface operations {
       };
       /** Forbidden */
       403: unknown;
+    };
+  };
+  "post-hub-assets": {
+    parameters: {
+      path: {
+        /** Hub id */
+        hid: components["parameters"]["hid"];
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          "application/json": {
+            failed?: {
+              name: string;
+              /** @enum {string} */
+              errorCode:
+                | "FILE_TOO_BIG"
+                | "INVALID_FILE_EXTENSION"
+                | "GENERIC_ERROR";
+            }[];
+            uploaded_ids?: {
+              id: number;
+            }[];
+          };
+        };
+      };
+      /** Forbidden */
+      403: unknown;
+    };
+    requestBody: {
+      content: {
+        "multipart/form-data": {
+          media: string | string[];
+          /** @description Language code of the video (e.g. it, en, de) */
+          language: string;
+        };
+      };
     };
   };
   /** Return a list of users from a specific project */

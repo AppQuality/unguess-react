@@ -563,8 +563,27 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({ url: `/projects/${queryArg.pid}/hubs` }),
     }),
+    deleteHubsByHidAssetsAndMid: build.mutation<
+      DeleteHubsByHidAssetsAndMidApiResponse,
+      DeleteHubsByHidAssetsAndMidApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/hubs/${queryArg.hid}/assets/${queryArg.mid}`,
+        method: 'DELETE',
+      }),
+    }),
     getHubsByHid: build.query<GetHubsByHidApiResponse, GetHubsByHidApiArg>({
       query: (queryArg) => ({ url: `/hubs/${queryArg.hid}` }),
+    }),
+    postHubsByHidAssets: build.mutation<
+      PostHubsByHidAssetsApiResponse,
+      PostHubsByHidAssetsApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/hubs/${queryArg.hid}/assets`,
+        method: 'POST',
+        body: queryArg.body,
+      }),
     }),
     deleteProjectsByPidUsers: build.mutation<
       DeleteProjectsByPidUsersApiResponse,
@@ -1671,6 +1690,7 @@ export type PatchCampaignsByCidVideoTagsAndTagIdApiArg = {
 export type GetCampaignsByCidVideosApiResponse = /** status 200 OK */ {
   items: (Video & {
     usecaseId: number;
+    processingStatus: 'processing' | 'ready';
   })[];
 } & PaginationData;
 export type GetCampaignsByCidVideosApiArg = {
@@ -1895,7 +1915,6 @@ export type GetProjectsByPidCampaignsApiArg = {
 };
 export type PostProjectsByPidHubsApiResponse = /** status 200 OK */ {
   hubId: number;
-  usecases: number[];
 };
 export type PostProjectsByPidHubsApiArg = {
   /** Project id */
@@ -1914,6 +1933,13 @@ export type GetProjectsByPidHubsApiArg = {
   /** Project id */
   pid: string;
 };
+export type DeleteHubsByHidAssetsAndMidApiResponse =
+  /** status 200 OK */ object;
+export type DeleteHubsByHidAssetsAndMidApiArg = {
+  /** Hub id */
+  hid: string;
+  mid: number;
+};
 export type GetHubsByHidApiResponse = /** status 200 OK */ {
   id: number;
   title: string;
@@ -1926,6 +1952,24 @@ export type GetHubsByHidApiResponse = /** status 200 OK */ {
 export type GetHubsByHidApiArg = {
   /** Hub id */
   hid: string;
+};
+export type PostHubsByHidAssetsApiResponse = /** status 200 OK */ {
+  failed?: {
+    name: string;
+    errorCode: 'FILE_TOO_BIG' | 'INVALID_FILE_EXTENSION' | 'GENERIC_ERROR';
+  }[];
+  uploaded_ids?: {
+    id: number;
+  }[];
+};
+export type PostHubsByHidAssetsApiArg = {
+  /** Hub id */
+  hid: string;
+  body: {
+    media: string | string[];
+    /** Language code of the video (e.g. it, en, de) */
+    language: string;
+  };
 };
 export type DeleteProjectsByPidUsersApiResponse = /** status 200 OK */ {
   items: Tenant[];
@@ -3548,7 +3592,9 @@ export const {
   useGetProjectsByPidCampaignsQuery,
   usePostProjectsByPidHubsMutation,
   useGetProjectsByPidHubsQuery,
+  useDeleteHubsByHidAssetsAndMidMutation,
   useGetHubsByHidQuery,
+  usePostHubsByHidAssetsMutation,
   useDeleteProjectsByPidUsersMutation,
   useGetProjectsByPidUsersQuery,
   usePostProjectsByPidUsersMutation,
