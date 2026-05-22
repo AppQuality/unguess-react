@@ -73,7 +73,6 @@ const Pages = () => {
                   element={<LogoutPage />}
                 />
 
-                <Route element={<CampaignsHubsMiddleware />}>
                   <Route
                     path={`/${langPrefix}/campaigns/:campaignId`}
                     element={<Campaign />}
@@ -98,26 +97,35 @@ const Pages = () => {
                     path={`/${langPrefix}/campaigns/:campaignId/manual`}
                     element={<Manual />}
                   />
+                <Route element={<CampaignsHubsMiddleware />}>
                   <Route
-                    path={`/${langPrefix}/campaigns/:campaignId/videos`}
+                    path={`/${langPrefix}/campaigns/:entityId/videos`}
                     element={<Videos />}
                   />
                   <Route
-                    path={`/${langPrefix}/campaigns/:campaignId/insights`}
+                    path={`/${langPrefix}/campaigns/:entityId/insights`}
                     element={<InsightsPage />}
                   />
                   <Route
-                    path={`/${langPrefix}/campaigns/:campaignId/videos/:videoId`}
+                    path={`/${langPrefix}/campaigns/:entityId/videos/:videoId`}
                     element={<Video />}
                   />
 
                   <Route
-                    path={`/${langPrefix}/hubs/:campaignId`}
-                    element={<Navigate to="videos" replace />}
+                    path={`/${langPrefix}/hubs/:entityId`}
+                    element={<Videos />}
                   />
                   <Route
-                    path={`/${langPrefix}/hubs/:hubId/videos`}
+                    path={`/${langPrefix}/hubs/:entityId/videos`}
                     element={<Videos />}
+                  />
+                  <Route
+                    path={`/${langPrefix}/hubs/:entityId/insights`}
+                    element={<InsightsPage />}
+                  />
+                  <Route
+                    path={`/${langPrefix}/hubs/:entityId/videos/:videoId`}
+                    element={<Video />}
                   />
                 </Route>
 
