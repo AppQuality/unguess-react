@@ -7,17 +7,18 @@ import {
 } from '@appquality/unguess-design-system';
 import { ReactComponent as VideoListIcon } from '@zendeskgarden/svg-icons/src/16/play-circle-stroke.svg';
 import { useTranslation } from 'react-i18next';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useOutletContext } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as DashboardIcon } from 'src/assets/icons/dashboard-icon.svg';
 import { CampaignSettings } from 'src/common/components/inviteUsers/campaignSettings';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
+import type { CampaignHubContext } from 'src/features/templates/CampaignsHubsMiddleware';
 import { FEATURE_FLAG_TAGGING_TOOL } from 'src/constants';
 import { useCanAccessToActiveWorkspace } from 'src/hooks/useCanAccessToActiveWorkspace';
 import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { styled } from 'styled-components';
-import { useCampaign } from '../Campaign/pageHeader/useCampaign';
+import { useCampaignOrHub } from '../Campaign/pageHeader/useCampaign';
 
 const Wrapper = styled.div`
   display: flex;
@@ -45,16 +46,18 @@ const ButtonWrapper = styled.div`
 `;
 
 const InsightsPageHeader = () => {
-  const { campaignId } = useParams();
+  const { isHub, entityId } = useOutletContext<CampaignHubContext>();
   const { t } = useTranslation();
-  const videosRoute = useLocalizeRoute(`campaigns/${campaignId}/videos`);
-  const campaignRoute = useLocalizeRoute(`campaigns/${campaignId}`);
+  const prefix = isHub ? 'hubs' : 'campaigns';
+  const videosRoute = useLocalizeRoute(`${prefix}/${entityId}/videos`);
+  const entityRoute = useLocalizeRoute(`${prefix}/${entityId}`);
   const { hasFeatureFlag } = useFeatureFlag();
   const hasWorkspaceAccess = useCanAccessToActiveWorkspace();
   const hasTaggingToolFeature = hasFeatureFlag(FEATURE_FLAG_TAGGING_TOOL);
 
-  const { isUserLoading, isLoading, isError, campaign, project } = useCampaign(
-    Number(campaignId)
+  const { isUserLoading, isLoading, isError, campaign, project } = useCampaignOrHub(
+    entityId,
+    isHub
   );
 
   if (!campaign || isError || isUserLoading) return null;
@@ -75,7 +78,7 @@ const InsightsPageHeader = () => {
             ) : (
               project.name
             )}
-            <Link to={campaignRoute}>
+            <Link to={entityRoute}>
               <Anchor id="breadcrumb-parent">{campaign.customer_title}</Anchor>
             </Link>
           </PageHeader.Breadcrumbs>
@@ -83,10 +86,10 @@ const InsightsPageHeader = () => {
           <Wrapper>
             <PageHeader.Title>{t('__INSIGHTS_PAGE_TITLE')}</PageHeader.Title>
             <ButtonWrapper>
-              {!campaign.isArchived && hasWorkspaceAccess && (
+              {!isHub && !campaign?.isArchived && hasWorkspaceAccess && (
                 <CampaignSettings />
               )}
-              <Link to={campaignRoute}>
+              <Link to={entityRoute}>
                 <Tooltip
                   content={t('__UX_CAMPAIGN_PAGE_NAVIGATION_DASHBOARD_TOOLTIP')}
                   size="small"

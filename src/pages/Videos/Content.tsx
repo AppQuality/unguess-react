@@ -6,12 +6,13 @@ import {
   Skeleton,
   Tag,
 } from '@appquality/unguess-design-system';
-import { useEffect, useState } from 'react';
 import { ReactComponent as PlayIcon } from '@zendeskgarden/svg-icons/src/16/play-circle-stroke.svg';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useOutletContext, useParams } from 'react-router-dom';
+import { useOutletContext } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
+import { CampaignHubContext } from 'src/features/templates/CampaignsHubsMiddleware';
 import { styled } from 'styled-components';
 import { CompletionTooltip } from '../Bugs/Content/BugsTable/components/CompletionTooltip';
 import { Empty } from './Empty';
@@ -26,21 +27,18 @@ const AccordionFooter = styled.div`
 `;
 
 const VideosPageContent = () => {
-  const { campaignId } = useParams();
   const [totalVideos, setTotalVideos] = useState<number>(0);
   const { t } = useTranslation();
 
-  // Use context from Outlet to get "isHub" param
-  const { isHub } = useOutletContext<{ isHub: boolean }>();
+  const { isHub, entityId } = useOutletContext<CampaignHubContext>();
 
-  console.log('🚀 ~ file: index.tsx:17 ~ HubVideosPage ~ isHub:', isHub);
 
   const {
     sorted: videos,
     isFetching,
     isLoading,
     isError,
-  } = useVideos(campaignId ?? '');
+  } = useVideos(entityId);
   useEffect(() => {
     if (videos) {
       const groupedVideos = videos?.reduce(

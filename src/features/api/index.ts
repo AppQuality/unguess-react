@@ -1706,8 +1706,7 @@ export type GetCampaignsByCidVideosApiArg = {
   /** filterBy[<fieldName>]=<fieldValue> */
   filterBy?: any;
 };
-export type GetCampaignsByCidWidgetsApiResponse =
-  /** status 200 OK */
+export type GetCampaignsByCidWidgetsApiResponse = /** status 200 OK */
   | WidgetBugsByUseCase
   | WidgetBugsByDevice
   | WidgetCampaignProgress
@@ -1943,7 +1942,9 @@ export type DeleteHubsByHidAssetsAndMidApiArg = {
 export type GetHubsByHidApiResponse = /** status 200 OK */ {
   id: number;
   title: string;
+  customer_title: string;
   description: string;
+  isArchived?: boolean;
   project: {
     id: number;
     name: string;

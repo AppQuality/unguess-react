@@ -3,13 +3,13 @@ import {
   useGetCampaignsByCidVideosQuery,
 } from 'src/features/api';
 
-const useUsecaseWithVideos = (campaignId: string) => {
+const useUsecaseWithVideos = (entityId: string) => {
   const {
     data: videosCampaigns,
     isLoading: isLoadingVideos,
     isFetching: isFetchingVideos,
   } = useGetCampaignsByCidVideosQuery({
-    cid: campaignId || '',
+    cid: entityId,
   });
 
   const {
@@ -17,7 +17,7 @@ const useUsecaseWithVideos = (campaignId: string) => {
     isFetching: isFetchingUsecases,
     isLoading: isLoadingUsecases,
   } = useGetCampaignsByCidUsecasesQuery({
-    cid: campaignId || '',
+    cid: entityId,
     filterBy: 'videos',
   });
 

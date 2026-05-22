@@ -1,73 +1,47 @@
-import { Navigate, Outlet, useLocation } from 'react-router-dom';
+import { Navigate, Outlet, useLocation, useParams } from 'react-router-dom';
 import { useGetCampaignsByCidQuery, useGetHubsByHidQuery } from '../api';
 
-const extractIdFromPath = (pathname: string, prefix: string): string | undefined => {
-  return pathname.split(`/${prefix}/`)[1]?.split('/')[0];
-};
-
-const isHubLocation = (pathname: string): boolean => {
-  return pathname.includes('/hubs/');
-};
-
-const isCampaignLocation = (pathname: string): boolean => {
-  return pathname.includes('/campaigns/');
+export type CampaignHubContext = {
+  isHub: boolean;
+  entityId: string;
 };
 
 const CampaignsHubsMiddleware = () => {
   const location = useLocation();
+  const { entityId } = useParams<{ entityId: string }>();
   
-  const getHubId = () => extractIdFromPath(location.pathname, 'hubs');
-  const getCpId = () => extractIdFromPath(location.pathname, 'campaigns');
-  
-  const hid = getHubId();
-  const cid = getCpId();
-  
-  const isHub = useGetHubsByHidQuery({
-    hid: hid!
-  }, {
-    skip: !isHubLocation(location.pathname) || !hid,
-  });
-  const isCampaign = useGetCampaignsByCidQuery({
-    cid: cid!
-  }, {
-    skip: !isCampaignLocation(location.pathname) || !cid,
-  });
-  
-  if (isHubLocation(location.pathname)) {
-    if (!hid) {
-      return <Navigate to="/404" />;
-    }
-    // todo: sostituire con skeleton o loading state
-    if (isHub.isLoading) {
-      return <div>Loading...</div>;
-    }
-    
-    if (isHub.isError || !isHub.data) {
-      return <Navigate to="/404" />;
-    }
-    
-    if (isHub.isSuccess) {
-      return <Outlet context={{ isHub: true }} />;
-    }
+  if (!entityId) {
+    return <Navigate to="/404" />;
   }
   
-  if (isCampaignLocation(location.pathname)) {
-    if (!cid) {
-      return <Navigate to="/404" />;
-    }
-    
-    // todo: sostituire con skeleton o loading state
-    if (isCampaign.isLoading) {
-      return <div>Loading...</div>;
-    }
-    
-    if (isCampaign.isError || !isCampaign.data) {
-      return <Navigate to="/404" />;
-    }
-    
-    if (isCampaign.isSuccess) {
-      return <Outlet context={{ isHub: false }} />;
-    }
+  const isHub = location.pathname.includes('/hubs/');
+  
+  const hubQuery = useGetHubsByHidQuery({
+    hid: entityId
+  }, {
+    skip: !isHub,
+  });
+  
+  const campaignQuery = useGetCampaignsByCidQuery({
+    cid: entityId
+  }, {
+    skip: isHub,
+  });
+  
+  const query = isHub ? hubQuery : campaignQuery;
+  
+  // todo: sostituire con skeleton o loading state
+  if (query.isLoading) {
+    return <div>Loading...</div>;
+  }
+  
+  if (query.isError || !query.data) {
+    return <Navigate to="/404" />;
+  }
+  
+  if (query.isSuccess) {
+    const context: CampaignHubContext = { isHub, entityId };
+    return <Outlet context={context} />;
   }
   
   return <Navigate to="/404" />;

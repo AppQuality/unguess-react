@@ -1,5 +1,6 @@
-import { useParams } from 'react-router-dom';
+import { useOutletContext } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
+import type { CampaignHubContext } from 'src/features/templates/CampaignsHubsMiddleware';
 import styled from 'styled-components';
 import { ObservedThemesWidget } from './Widgets/ObservedThemesWidget';
 import { ProgressMonitoringWidget } from './Widgets/ProgressMonitoringWidget';
@@ -19,18 +20,18 @@ const Grid = styled.div`
 `;
 
 const Widgets = () => {
-  const { campaignId } = useParams();
+  const { entityId } = useOutletContext<CampaignHubContext>();
 
-  if (!campaignId) {
+  if (!entityId) {
     return null;
   }
 
   return (
     <div style={{ containerType: 'inline-size' }}>
       <Grid style={{ paddingTop: appTheme.space.xxl }}>
-        <UserAnalysisWidget campaignId={campaignId} />
-        <ObservedThemesWidget campaignId={campaignId} />
-        <ProgressMonitoringWidget campaignId={campaignId} />
+        <UserAnalysisWidget campaignId={entityId} />
+        <ObservedThemesWidget campaignId={entityId} />
+        <ProgressMonitoringWidget campaignId={entityId} />
       </Grid>
     </div>
   );

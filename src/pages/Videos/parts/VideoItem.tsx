@@ -1,10 +1,11 @@
 import { Anchor, MD, SM, Tag } from '@appquality/unguess-design-system';
-import { useParams } from 'react-router-dom';
+import { useOutletContext } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
 import AudioPoster from 'src/assets/audio_poster.png';
 import { ReactComponent as PlaceholderVideo } from 'src/assets/icons/placeholder-video.svg';
 import { Pipe } from 'src/common/components/Pipe';
 import { getColorWithAlpha } from 'src/common/utils';
+import type { CampaignHubContext } from 'src/features/templates/CampaignsHubsMiddleware';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { styled } from 'styled-components';
 import { VideoWithObservations } from '../useVideos';
@@ -81,9 +82,10 @@ const Poster = ({ video }: { video: VideoWithObservations }) => {
 };
 
 const Video = ({ video }: { video: VideoWithObservations }) => {
-  const { campaignId } = useParams();
+  const { isHub, entityId } = useOutletContext<CampaignHubContext>();
+  const prefix = isHub ? 'hubs' : 'campaigns';
   const videoUrl = useLocalizeRoute(
-    `campaigns/${campaignId}/videos/${video.id}`
+    `${prefix}/${entityId}/videos/${video.id}`
   );
 
   const severityTotals = video.observations

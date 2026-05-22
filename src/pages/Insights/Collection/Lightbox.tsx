@@ -25,8 +25,9 @@ import styled from 'styled-components';
 import { ReactComponent as ExternalLinkIcon } from 'src/assets/icons/external-link-icon.svg';
 import { ReactComponent as LinkIcon } from 'src/assets/icons/link-stroke.svg';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useOutletContext } from 'react-router-dom';
 import { useFormikContext } from 'formik';
+import type { CampaignHubContext } from 'src/features/templates/CampaignsHubsMiddleware';
 import { getDeviceIcon } from 'src/common/components/BugDetail/Meta';
 import { InsightFormValues } from '../FormProvider';
 
@@ -66,7 +67,7 @@ export const LightboxContainer = ({
   observation: Grape['observations'][number];
   onClose?: () => void;
 }) => {
-  const { campaignId } = useParams();
+  const { isHub, entityId } = useOutletContext<CampaignHubContext>();
   const { t } = useTranslation();
   const { width } = useWindowSize();
   const breakpointSm = parseInt(appTheme.breakpoints.sm, 10);
@@ -74,8 +75,9 @@ export const LightboxContainer = ({
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const { addToast } = useToast();
   const { values, setFieldValue } = useFormikContext<InsightFormValues>();
+  const prefix = isHub ? 'hubs' : 'campaigns';
   const observationRoute = useLocalizeRoute(
-    `campaigns/${campaignId}/videos/${observation.mediaId}#observation-${observation.id}`
+    `${prefix}/${entityId}/videos/${observation.mediaId}#observation-${observation.id}`
   );
 
   const isChecked = useMemo(

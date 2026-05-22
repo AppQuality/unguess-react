@@ -18,8 +18,9 @@ import {
 import { Field, FieldProps, useFormikContext } from 'formik';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useParams } from 'react-router-dom';
+import { useOutletContext } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
+import type { CampaignHubContext } from 'src/features/templates/CampaignsHubsMiddleware';
 import { Divider } from 'src/common/components/divider';
 import { getColorWithAlpha } from 'src/common/utils';
 import { useGetCampaignsByCidVideoTagsQuery } from 'src/features/api';
@@ -37,7 +38,7 @@ const FormContainer = styled.div`
 
 const InsightForm = () => {
   const { t } = useTranslation();
-  const { campaignId } = useParams();
+  const { entityId } = useOutletContext<CampaignHubContext>();
   const [selectedSeverity, setSelectedSeverity] = useState<
     number | undefined
   >();
@@ -50,7 +51,7 @@ const InsightForm = () => {
     isLoading,
     isFetching,
   } = useGetCampaignsByCidVideoTagsQuery({
-    cid: campaignId || '',
+    cid: entityId,
   });
 
   const severities = tags?.find((tag) => tag.group.name === 'severity');

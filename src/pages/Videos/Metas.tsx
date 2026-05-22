@@ -11,8 +11,9 @@ import { ReactComponent as InsightsIcon } from '@zendeskgarden/svg-icons/src/16/
 import queryString from 'query-string';
 import { useEffect, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useOutletContext } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
+import type { CampaignHubContext } from 'src/features/templates/CampaignsHubsMiddleware';
 import { ReactComponent as DashboardIcon } from 'src/assets/icons/dashboard-icon.svg';
 import { ReactComponent as DownloadIcon } from 'src/assets/icons/download-stroke.svg';
 import { capitalizeFirstLetter } from 'src/common/capitalizeFirstLetter';
@@ -93,10 +94,11 @@ export const Metas = ({
   campaign: GetCampaignsByCidApiResponse;
 }) => {
   const { status } = campaign;
-  const { campaignId } = useParams();
+  const { isHub, entityId } = useOutletContext<CampaignHubContext>();
   const [totalVideos, setTotalVideos] = useState<number>(0);
-  const campaignRoute = useLocalizeRoute(`campaigns/${campaignId}`);
-  const insightsRoute = useLocalizeRoute(`campaigns/${campaign.id}/insights`);
+  const prefix = isHub ? 'hubs' : 'campaigns';
+  const campaignRoute = useLocalizeRoute(`${prefix}/${entityId}`);
+  const insightsRoute = useLocalizeRoute(`${prefix}/${entityId}/insights`);
   const { t } = useTranslation();
   const { addToast } = useToast();
   const { hasFeatureFlag } = useFeatureFlag();
@@ -117,10 +119,10 @@ export const Metas = ({
     isLoading: isLoadingObservations,
   } = useGetCampaignsByCidObservationsQuery(
     {
-      cid: campaignId ?? '',
+      cid: entityId,
     },
     {
-      skip: !campaignId,
+      skip: !entityId,
     }
   );
 
@@ -141,7 +143,7 @@ export const Metas = ({
         'Content-Type': 'application/x-www-form-urlencoded',
       },
       body: queryString.stringify({
-        id: campaignId,
+        id: entityId,
         action: 'ug_generate_research_report',
       }),
     })

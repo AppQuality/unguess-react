@@ -7,20 +7,21 @@ import {
 } from '@appquality/unguess-design-system';
 import { useCallback, useState } from 'react';
 import { Trans } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useOutletContext } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
+import type { CampaignHubContext } from 'src/features/templates/CampaignsHubsMiddleware';
 import { useSendGTMevent } from 'src/hooks/useGTMevent';
 import useUsecaseWithVideos from './useUsecaseWithVideos';
 
 const UsecaseSelect = ({
   currentUsecaseId,
-  campaignId,
 }: {
   currentUsecaseId: number;
-  campaignId: string | undefined;
 }) => {
+  const { isHub, entityId } = useOutletContext<CampaignHubContext>();
   const sendGTMEvent = useSendGTMevent();
   const navigate = useNavigate();
+  const prefix = isHub ? 'hubs' : 'campaigns';
   const [selectedItem, setSelectedItem] = useState<string>(
     currentUsecaseId.toString()
   );
@@ -29,7 +30,7 @@ const UsecaseSelect = ({
     usecasesWithVideos: useUsecasesWithVideos,
     isLoading,
     isFetching,
-  } = useUsecaseWithVideos(campaignId || '');
+  } = useUsecaseWithVideos(entityId);
 
   /**
    * Navigate to the video page with the selected usecase
@@ -43,7 +44,7 @@ const UsecaseSelect = ({
         const videoId = usecase?.videos[0]?.id;
         if (!videoId) return;
 
-        navigate(`/campaigns/${campaignId}/videos/${videoId}/`);
+        navigate(`/${prefix}/${entityId}/videos/${videoId}/`);
       }
     },
     [useUsecasesWithVideos]

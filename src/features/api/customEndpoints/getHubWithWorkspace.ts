@@ -1,39 +1,39 @@
 import type { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import type {
   GetWorkspacesByWidApiResponse,
-  GetCampaignsByCidApiResponse,
-  GetCampaignsByCidApiArg,
+  GetHubsByHidApiResponse,
+  GetHubsByHidApiArg,
 } from '..';
 import { apiSlice } from '../api';
 
-type GetCampaignWithWorkspaceResponse = {
-  campaign: GetCampaignsByCidApiResponse;
+type GetHubWithWorkspaceResponse = {
+  hub: GetHubsByHidApiResponse;
   workspace: GetWorkspacesByWidApiResponse;
 };
 
 const extendedApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    getCampaignWithWorkspace: builder.query<
-      GetCampaignWithWorkspaceResponse,
-      GetCampaignsByCidApiArg
+    getHubWithWorkspace: builder.query<
+      GetHubWithWorkspaceResponse,
+      GetHubsByHidApiArg
     >({
       async queryFn(_arg, _queryApi, _extraOptions, fetchWithBQ) {
-        // get campaign by cid to retrieve also workspace id
-        const campaignResult = await fetchWithBQ(`/campaigns/${_arg.cid}`);
-        if (campaignResult.error)
-          return { error: campaignResult.error as FetchBaseQueryError };
-        const campaign = campaignResult.data as GetCampaignsByCidApiResponse;
+        // get hub by hubId to retrieve also workspace id
+        const hubResult = await fetchWithBQ(`/hubs/${_arg.hid}`);
+        if (hubResult.error)
+          return { error: hubResult.error as FetchBaseQueryError };
+        const hub = hubResult.data as GetHubsByHidApiResponse;
 
         // get workspace by id
         const workspaceResult = await fetchWithBQ(
-          `/workspaces/${campaign.workspace.id}`
+          `/workspaces/${hub.workspace.id}`
         );
 
-        // return campaign with its workspace
+        // return hub with its workspace
         return workspaceResult.data
           ? {
               data: {
-                campaign,
+                hub,
                 workspace:
                   workspaceResult.data as GetWorkspacesByWidApiResponse,
               },
@@ -45,4 +45,4 @@ const extendedApi = apiSlice.injectEndpoints({
   overrideExisting: false,
 });
 
-export const { useGetCampaignWithWorkspaceQuery } = extendedApi;
+export const { useGetHubWithWorkspaceQuery } = extendedApi;

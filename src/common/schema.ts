@@ -4018,7 +4018,9 @@ export interface operations {
           "application/json": {
             id: number;
             title: string;
+            customer_title: string;
             description: string;
+            isArchived?: boolean;
             project: {
               id: number;
               name: string;

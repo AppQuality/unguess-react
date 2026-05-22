@@ -41,6 +41,12 @@ const navigationSlice = createSlice({
     setProjectId: (state, action) => {
       state.projectId = action.payload;
     },
+    setHubId: (state, action) => {
+      state.hubId = action.payload;
+    },
+    setIsHub: (state, action) => {
+      state.isHub = action.payload;
+    },
   },
 });
 
@@ -53,6 +59,8 @@ export const {
   setSidebarOpen,
   setPermissionSettingsTitle,
   setCampaignId,
+  setHubId,
+  setIsHub,
   setProjectId,
 } = navigationSlice.actions;
 

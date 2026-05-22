@@ -13,7 +13,8 @@ import { appTheme } from 'src/app/theme';
 import { useGetCampaignsByCidInsightsQuery } from 'src/features/api';
 import { ReactComponent as InsightIcon } from '@zendeskgarden/svg-icons/src/16/lightbulb-stroke.svg';
 import { ReactComponent as EmptyInsights } from 'src/assets/empty-insights.svg';
-import { useParams } from 'react-router-dom';
+import { useOutletContext } from 'react-router-dom';
+import type { CampaignHubContext } from 'src/features/templates/CampaignsHubsMiddleware';
 import { Divider } from 'src/common/components/divider';
 import { useEffect, useMemo, useRef } from 'react';
 import { Insight } from './InsightAccordion';
@@ -48,7 +49,7 @@ const DetailContainer = styled.div<{
 `;
 
 const InsightsDrawer = () => {
-  const { campaignId } = useParams();
+  const { entityId } = useOutletContext<CampaignHubContext>();
   const { values } = useFormikContext<InsightFormValues>();
   const { t } = useTranslation();
   const ref = useRef<HTMLDivElement>(null);
@@ -59,7 +60,7 @@ const InsightsDrawer = () => {
     isLoading,
     isError,
   } = useGetCampaignsByCidInsightsQuery({
-    cid: campaignId || '',
+    cid: entityId,
   });
 
   const publishedInsights = useMemo(

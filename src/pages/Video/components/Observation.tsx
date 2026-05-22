@@ -7,8 +7,9 @@ import {
 } from '@appquality/unguess-design-system';
 import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useParams } from 'react-router-dom';
+import { useOutletContext, useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
+import type { CampaignHubContext } from 'src/features/templates/CampaignsHubsMiddleware';
 import { ReactComponent as LinkIcon } from 'src/assets/icons/link-stroke.svg';
 import { ReactComponent as TagIcon } from 'src/assets/icons/tag-icon.svg';
 import { ReactComponent as TagIconAi } from 'src/assets/icons/tag-icon-ai.svg';
@@ -48,9 +49,11 @@ const Observation = ({
   const { tags, start, end } = observation;
   const [isOpen, setIsOpen] = useState(false);
   const { openAccordion, setOpenAccordion } = useVideoContext();
-  const { campaignId, videoId } = useParams();
+  const { isHub, entityId } = useOutletContext<CampaignHubContext>();
+  const { videoId } = useParams();
+  const prefix = isHub ? 'hubs' : 'campaigns';
   const pageUrl = useLocalizeRoute(
-    `campaigns/${campaignId}/videos/${videoId}/`
+    `${prefix}/${entityId}/videos/${videoId}/`
   );
   const { addToast } = useToast();
   const { t } = useTranslation();
