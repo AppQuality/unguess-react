@@ -373,6 +373,7 @@ export interface paths {
     };
   };
   "/signedMedia/{id}": {
+    /** Returns a short-lived presigned S3 URL for a media item if the caller has access. Returns 403 otherwise. Public bugs (unexpired wp_appq_bug_link) bypass auth. */
     get: operations["get-signedMedia-id"];
     parameters: {
       path: {
@@ -4019,6 +4020,10 @@ export interface operations {
             title: string;
             description: string;
             project: {
+              id: number;
+              name: string;
+            };
+            workspace: {
               id: number;
               name: string;
             };
