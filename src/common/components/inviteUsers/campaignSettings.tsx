@@ -23,6 +23,7 @@ import {
   useDeleteCampaignsByCidUsersMutation,
   useGetCampaignsByCidQuery,
   useGetCampaignsByCidUsersQuery,
+  useGetHubsByHidQuery,
   useGetProjectsByPidUsersQuery,
   useGetWorkspacesByWidUsersQuery,
   usePostCampaignsByCidUsersMutation,
@@ -42,7 +43,7 @@ import {
 import { UserItem } from './userItem';
 
 export const CampaignSettings = ({ dataQa }: { dataQa?: string }) => {
-  const { permissionSettingsTitle, campaignId } = useAppSelector(
+  const { permissionSettingsTitle, campaignId, hubId, isHub } = useAppSelector(
     (state) => state.navigation
   );
   const { activeWorkspace } = useActiveWorkspace();
@@ -65,18 +66,42 @@ export const CampaignSettings = ({ dataQa }: { dataQa?: string }) => {
     isLoading: isLoadingCampaign,
     isFetching: isFetchingCampaign,
     data: campaign,
-  } = useGetCampaignsByCidQuery({
-    cid: campaignId?.toString() || '0',
-  });
+  } = useGetCampaignsByCidQuery(
+    {
+      cid: campaignId?.toString() || '0',
+    },
+    {
+      skip: !campaignId || isHub,
+    }
+  );
+
+  const {
+    isLoading: isLoadingHub,
+    isFetching: isFetchingHub,
+    data: hub,
+  } = useGetHubsByHidQuery(
+    {
+      hid: hubId?.toString() || '0',
+    },
+    {
+      skip: !hubId || !isHub,
+    }
+  );
+
+  // Get the entity (campaign or hub) and its project
+  const entity = isHub ? hub : campaign;
+  const projectId = entity?.project.id;
 
   const {
     isLoading: isLoadingCampaignUsers,
     isFetching: isFetchingCampaignUsers,
     data: campaignUsers,
     refetch: refetchCampaignUsers,
-  } = useGetCampaignsByCidUsersQuery({
-    cid: campaignId?.toString() || '0',
-  });
+  } = useGetCampaignsByCidUsersQuery(
+    {
+      cid: entity?.id.toString() || '0',
+    }
+  );
 
   const {
     isLoading: isLoadingProjectUsers,
@@ -86,10 +111,10 @@ export const CampaignSettings = ({ dataQa }: { dataQa?: string }) => {
     error: projectUsersError,
   } = useGetProjectsByPidUsersQuery(
     {
-      pid: campaign?.project.id.toString() || '0',
+      pid: projectId?.toString() || '0',
     },
     {
-      skip: !campaign?.project.id,
+      skip: !projectId,
     }
   );
 
@@ -320,10 +345,12 @@ export const CampaignSettings = ({ dataQa }: { dataQa?: string }) => {
             <FlexContainer
               isLoading={
                 isLoadingCampaign ||
+                isLoadingHub ||
                 isLoadingCampaignUsers ||
                 isLoadingProjectUsers ||
                 isLoadingWorkspaceUsers ||
                 isFetchingCampaign ||
+                isFetchingHub ||
                 isFetchingCampaignUsers ||
                 isFetchingProjectUsers ||
                 isFetchingWorkspaceUsers
