@@ -2,21 +2,19 @@ import {
   Button,
   ButtonMenu,
   IconButton,
-  Notification,
   Skeleton,
   Span,
   Tooltip,
   useToast,
 } from '@appquality/unguess-design-system';
+import { ReactComponent as EyeIcon } from '@zendeskgarden/svg-icons/src/16/eye-stroke.svg';
 import { ReactComponent as InsightsIcon } from '@zendeskgarden/svg-icons/src/16/lightbulb-stroke.svg';
 import { ReactComponent as DotsIcon } from '@zendeskgarden/svg-icons/src/16/overflow-vertical-stroke.svg';
-import { ReactComponent as EyeIcon } from '@zendeskgarden/svg-icons/src/16/eye-stroke.svg';
 import { format } from 'date-fns';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useOutletContext } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
-import type { CampaignHubContext } from 'src/features/templates/CampaignsHubsMiddleware';
 import { ReactComponent as DashboardIcon } from 'src/assets/icons/dashboard-icon.svg';
 import { ReactComponent as EditRedoStroke } from 'src/assets/icons/move-icon.svg';
 import { ReactComponent as InboxFill } from 'src/assets/icons/project-archive.svg';
@@ -26,26 +24,26 @@ import { Meta } from 'src/common/components/Meta';
 import { StatusMeta } from 'src/common/components/meta/StatusMeta';
 import { PageMeta } from 'src/common/components/PageMeta';
 import { Pipe } from 'src/common/components/Pipe';
-import { Divider } from 'src/common/components/divider';
 import { FEATURE_FLAG_TAGGING_TOOL } from 'src/constants';
 import {
   GetCampaignsByCidApiResponse,
   useGetCampaignsByCidObservationsQuery,
   useGetCampaignsByCidVideosQuery,
 } from 'src/features/api';
+import type { CampaignHubContext } from 'src/features/templates/CampaignsHubsMiddleware';
+import { useActiveWorkspaceProjects } from 'src/hooks/useActiveWorkspaceProjects';
 import { useCanAccessToActiveWorkspace } from 'src/hooks/useCanAccessToActiveWorkspace';
 import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
-import { CampaignStatus } from 'src/types';
-import styled from 'styled-components';
-import { getAllSeverityTags } from './utils/getSeverityTagsWithCount';
+import { ArchiveCampaignModal } from 'src/pages/Campaign/ArchiveCampaignModal';
+import { useMoveCampaignModalContext } from 'src/pages/Campaign/MoveCampaignModal';
 import { DesktopMeta } from 'src/pages/Campaign/pageHeader/Meta/DesktopMeta';
 import { SmartphoneMeta } from 'src/pages/Campaign/pageHeader/Meta/SmartphoneMeta';
 import { TabletMeta } from 'src/pages/Campaign/pageHeader/Meta/TabletMeta';
-import { ArchiveCampaignModal } from 'src/pages/Campaign/ArchiveCampaignModal';
-import { useMoveCampaignModalContext } from 'src/pages/Campaign/MoveCampaignModal';
-import { useActiveWorkspaceProjects } from 'src/hooks/useActiveWorkspaceProjects';
+import { CampaignStatus } from 'src/types';
+import styled from 'styled-components';
 import { ImportMediaModal } from './ImportMediaModal';
+import { getAllSeverityTags } from './utils/getSeverityTagsWithCount';
 
 const ButtonWrapper = styled.div`
   display: flex;
