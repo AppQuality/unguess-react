@@ -11,12 +11,12 @@ import { Metas } from './Metas';
 const VideosPageHeader = () => {
   const { t } = useTranslation();
   const { isHub, entityId } = useOutletContext<CampaignHubContext>();
-  
+
   const { campaign, project } = useCampaignOrHub(entityId, isHub);
   const projectRoute = useLocalizeRoute(`projects/${project?.id}`);
   const prefix = isHub ? 'hubs' : 'campaigns';
   const entityRoute = useLocalizeRoute(`${prefix}/${entityId}`);
-  
+
   if (!campaign || !project) return null;
 
   return (
@@ -36,11 +36,9 @@ const VideosPageHeader = () => {
         </PageHeader.Breadcrumbs>
         <PageHeader.Main mainTitle={t('__VIDEOS_PAGE_TITLE')}>
           <PageHeader.Title>{t('__VIDEOS_PAGE_TITLE')}</PageHeader.Title>
-          {!isHub && (
-            <PageHeader.Meta>
-              <Metas campaign={campaign as GetCampaignsByCidApiResponse} />
-            </PageHeader.Meta>
-          )}
+          <PageHeader.Meta>
+            <Metas campaign={campaign as GetCampaignsByCidApiResponse} />
+          </PageHeader.Meta>
         </PageHeader.Main>
       </PageHeader>
     </LayoutWrapper>

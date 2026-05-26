@@ -1553,8 +1553,6 @@
   "__VERIFY_CODE_TITLE": "Verify your identity",
   "__VERIFY_CODE_TOTP_INSTRUCTIONS": "Enter the 6-digit code from your authenticator app",
   "__VERIFY_CODE_VERIFYING": "Verifying...",
-  "__VIDEO_LIST_META_SEVERITIES_COUNT_one": "<0>You have found <2>{{count}} observations:</2></0>",
-  "__VIDEO_LIST_META_SEVERITIES_COUNT_other": "<0>You have found <2>{{count}} observations:</2></0>",
   "__VIDEO_PAGE_ACTIONS_EXPORT_BUTTON_LABEL": "Download report",
   "__VIDEO_PAGE_ACTIONS_EXPORT_TOAST_ERROR_MESSAGE": "Something went wrong, try again",
   "__VIDEO_PAGE_ACTIONS_EXPORT_TOAST_SUCCESS_MESSAGE": "Downloading report",

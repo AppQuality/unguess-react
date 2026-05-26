@@ -1,6 +1,7 @@
 import {
+  Button,
+  ButtonMenu,
   IconButton,
-  MD,
   Notification,
   Skeleton,
   Span,
@@ -8,20 +9,24 @@ import {
   useToast,
 } from '@appquality/unguess-design-system';
 import { ReactComponent as InsightsIcon } from '@zendeskgarden/svg-icons/src/16/lightbulb-stroke.svg';
-import queryString from 'query-string';
+import { ReactComponent as DotsIcon } from '@zendeskgarden/svg-icons/src/16/overflow-vertical-stroke.svg';
+import { ReactComponent as EyeIcon } from '@zendeskgarden/svg-icons/src/16/eye-stroke.svg';
+import { format } from 'date-fns';
 import { useEffect, useState } from 'react';
-import { Trans, useTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import { Link, useOutletContext } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
 import type { CampaignHubContext } from 'src/features/templates/CampaignsHubsMiddleware';
 import { ReactComponent as DashboardIcon } from 'src/assets/icons/dashboard-icon.svg';
-import { ReactComponent as DownloadIcon } from 'src/assets/icons/download-stroke.svg';
+import { ReactComponent as EditRedoStroke } from 'src/assets/icons/move-icon.svg';
+import { ReactComponent as InboxFill } from 'src/assets/icons/project-archive.svg';
 import { capitalizeFirstLetter } from 'src/common/capitalizeFirstLetter';
 import { CampaignSettings } from 'src/common/components/inviteUsers/campaignSettings';
 import { Meta } from 'src/common/components/Meta';
 import { StatusMeta } from 'src/common/components/meta/StatusMeta';
 import { PageMeta } from 'src/common/components/PageMeta';
 import { Pipe } from 'src/common/components/Pipe';
+import { Divider } from 'src/common/components/divider';
 import { FEATURE_FLAG_TAGGING_TOOL } from 'src/constants';
 import {
   GetCampaignsByCidApiResponse,
@@ -34,6 +39,13 @@ import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { CampaignStatus } from 'src/types';
 import styled from 'styled-components';
 import { getAllSeverityTags } from './utils/getSeverityTagsWithCount';
+import { DesktopMeta } from 'src/pages/Campaign/pageHeader/Meta/DesktopMeta';
+import { SmartphoneMeta } from 'src/pages/Campaign/pageHeader/Meta/SmartphoneMeta';
+import { TabletMeta } from 'src/pages/Campaign/pageHeader/Meta/TabletMeta';
+import { ArchiveCampaignModal } from 'src/pages/Campaign/ArchiveCampaignModal';
+import { useMoveCampaignModalContext } from 'src/pages/Campaign/MoveCampaignModal';
+import { useActiveWorkspaceProjects } from 'src/hooks/useActiveWorkspaceProjects';
+import { ImportMediaModal } from './ImportMediaModal';
 
 const ButtonWrapper = styled.div`
   display: flex;
@@ -57,11 +69,6 @@ const StyledPipe = styled(Pipe)`
 const SeveritiesMetaContainer = styled.div`
   display: flex;
   align-items: center;
-`;
-
-const SeveritiesMetaText = styled(MD)`
-  color: ${({ theme }) => theme.palette.grey[600]};
-  margin-right: ${({ theme }) => theme.space.sm};
 `;
 
 const FooterContainer = styled.div`
@@ -96,6 +103,9 @@ export const Metas = ({
   const { status } = campaign;
   const { isHub, entityId } = useOutletContext<CampaignHubContext>();
   const [totalVideos, setTotalVideos] = useState<number>(0);
+  const [isImportMediaModalOpen, setIsImportMediaModalOpen] = useState(false);
+  const [isArchiveModalOpen, setIsArchiveModalOpen] = useState(false);
+  const { setIsOpen: setIsMoveModalOpen } = useMoveCampaignModalContext();
   const prefix = isHub ? 'hubs' : 'campaigns';
   const campaignRoute = useLocalizeRoute(`${prefix}/${entityId}`);
   const insightsRoute = useLocalizeRoute(`${prefix}/${entityId}/insights`);
@@ -126,75 +136,37 @@ export const Metas = ({
     }
   );
 
+  const {
+    data: projectsData,
+    isLoading: isLoadingProjects,
+    isFetching: isFetchingProjects,
+    isError: isErrorProjects,
+  } = useActiveWorkspaceProjects();
+
+  const projects = projectsData?.items;
+  const filteredProjects = projects?.filter(
+    (item) => item.id !== campaign.project.id
+  );
+
   useEffect(() => {
     if (videos && videos.items.length > 0) {
       setTotalVideos(videos.items.length);
     }
   }, [videos]);
 
+  // Calculate unique device types from videos (including other)
+  const deviceTypes = new Set(
+    videos?.items.map((video) => video.tester.device.type) || []
+  );
+
+  // Count other devices
+  const otherDeviceCount =
+    videos?.items.filter((video) => video.tester.device.type === 'other')
+      .length || 0;
+
   const severities = observations ? getAllSeverityTags(observations) : [];
 
   const observationsCount = observations ? observations.results.length : 0;
-
-  const handleUseCaseExport = () => {
-    fetch(`${process.env.REACT_APP_CROWD_WP_URL}/wp-admin/admin-ajax.php`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-      body: queryString.stringify({
-        id: entityId,
-        action: 'ug_generate_research_report',
-      }),
-    })
-      .then((data) => data.json())
-      .then((res) => {
-        if (res.success) {
-          window.location.href = `${process.env.REACT_APP_CROWD_WP_URL}/wp-content/themes/unguess/report/temp/${res.data.file}`;
-          addToast(
-            ({ close }) => (
-              <Notification
-                onClose={close}
-                type="success"
-                message={t('__VIDEO_PAGE_ACTIONS_EXPORT_TOAST_SUCCESS_MESSAGE')}
-                closeText={t('__TOAST_CLOSE_TEXT')}
-                isPrimary
-              />
-            ),
-            { placement: 'top' }
-          );
-        } else {
-          addToast(
-            ({ close }) => (
-              <Notification
-                onClose={close}
-                type="error"
-                message={t('__VIDEO_PAGE_ACTIONS_EXPORT_TOAST_ERROR_MESSAGE')}
-                closeText={t('__TOAST_CLOSE_TEXT')}
-                isPrimary
-              />
-            ),
-            { placement: 'top' }
-          );
-        }
-      })
-      .catch((e) => {
-        addToast(
-          ({ close }) => (
-            <Notification
-              onClose={close}
-              type="error"
-              message={t('__VIDEO_PAGE_ACTIONS_EXPORT_TOAST_ERROR_MESSAGE')}
-              closeText={t('__TOAST_CLOSE_TEXT')}
-              isPrimary
-            />
-          ),
-          { placement: 'top' }
-        );
-        // eslint-disable-next-line no-console
-        console.error(e.message);
-      });
-  };
 
   if (
     isFetching ||
@@ -206,63 +178,82 @@ export const Metas = ({
   if (isError) return null;
 
   return (
-    <FooterContainer>
-      <PageMeta>
-        <Span isBold style={{ color: appTheme.palette.blue[600] }}>
-          {totalVideos}{' '}
-          {t('__VIDEOS_LIST_META_VIDEO_COUNT', { count: totalVideos })}
-        </Span>
-        <StyledPipe />
-        {severities && severities.length > 0 && (
-          <>
-            <SeveritiesMetaText>
-              <Trans
-                i18nKey="__VIDEO_LIST_META_SEVERITIES_COUNT"
-                values={{ count: observationsCount }}
-                count={observationsCount}
-                components={{
-                  md: <MD />,
-                  span: (
-                    <Span
-                      isBold
-                      style={{ color: appTheme.palette.blue[600] }}
-                    />
-                  ),
-                }}
-                defaults="<md>You have found <span>{{count}} observations:</span></md>"
-              />
-            </SeveritiesMetaText>
-            <SeveritiesMetaContainer>
-              {severities.map((severity) => (
-                <Meta
-                  size="large"
-                  color={severity.style}
-                  secondaryText={severity.count}
-                >
-                  {capitalizeFirstLetter(severity.name)}
-                </Meta>
-              ))}
-            </SeveritiesMetaContainer>
-            <StyledPipe />
-          </>
-        )}
-        <StatusMeta status={status.name as CampaignStatus} />
-      </PageMeta>
-      <ButtonWrapper>
-        {!campaign.isArchived && hasWorkspaceAccess && <CampaignSettings />}
-        <>
-          <Link to={campaignRoute}>
-            <Tooltip
-              content={t('__UX_CAMPAIGN_PAGE_NAVIGATION_DASHBOARD_TOOLTIP')}
-              size="medium"
-              type="light"
-              placement="auto"
+    <>
+      <FooterContainer>
+        <PageMeta>
+          <Span isBold style={{ color: appTheme.palette.blue[600] }}>
+            {totalVideos}{' '}
+            {t('__VIDEOS_LIST_META_VIDEO_COUNT', { count: totalVideos })}
+          </Span>
+          <StyledPipe />
+          {campaign.start_date && (
+            <>
+              <Span style={{ color: appTheme.palette.grey[700] }}>
+                {format(new Date(campaign.start_date), 'dd/MM/yyyy')}
+              </Span>
+              <StyledPipe />
+            </>
+          )}
+          {(deviceTypes.has('desktop') ||
+            deviceTypes.has('smartphone') ||
+            deviceTypes.has('tablet') ||
+            deviceTypes.has('other')) && (
+            <>
+              {deviceTypes.has('desktop') && <DesktopMeta />}
+              {deviceTypes.has('smartphone') && <SmartphoneMeta />}
+              {deviceTypes.has('tablet') && <TabletMeta />}
+              {deviceTypes.has('other') && (
+                <Span style={{ color: appTheme.palette.grey[700] }}>
+                  +{otherDeviceCount} unknown
+                </Span>
+              )}
+              <StyledPipe />
+            </>
+          )}
+          {severities && severities.length > 0 && (
+            <>
+              <SeveritiesMetaContainer>
+                {severities.map((severity) => (
+                  <Meta
+                    key={severity.name}
+                    size="large"
+                    color={severity.style}
+                    secondaryText={severity.count}
+                  >
+                    {capitalizeFirstLetter(severity.name)}
+                  </Meta>
+                ))}
+              </SeveritiesMetaContainer>
+              <StyledPipe />
+            </>
+          )}
+          {!isHub && <StatusMeta status={status.name as CampaignStatus} />}
+        </PageMeta>
+        <ButtonWrapper>
+          {!campaign.isArchived && hasWorkspaceAccess && <CampaignSettings />}
+          {isHub && totalVideos > 0 && (
+            <Button
+              isPrimary
+              isAccent
+              onClick={() => setIsImportMediaModalOpen(true)}
             >
-              <IconButton isBasic={false}>
-                <DashboardIcon />
-              </IconButton>
-            </Tooltip>
-          </Link>
+              {t('Import media')}
+            </Button>
+          )}
+          {!isHub && (
+            <Link to={campaignRoute}>
+              <Tooltip
+                content={t('__UX_CAMPAIGN_PAGE_NAVIGATION_DASHBOARD_TOOLTIP')}
+                size="medium"
+                type="light"
+                placement="auto"
+              >
+                <IconButton isBasic={false}>
+                  <DashboardIcon />
+                </IconButton>
+              </Tooltip>
+            </Link>
+          )}
           {hasTaggingToolFeature && totalVideos > 0 && (
             <Link to={insightsRoute}>
               <Tooltip
@@ -277,25 +268,56 @@ export const Metas = ({
               </Tooltip>
             </Link>
           )}
-        </>
-        {totalVideos > 0 && (
-          <Tooltip
-            content={t('__VIDEO_PAGE_ACTIONS_EXPORT_BUTTON_LABEL')}
-            size="medium"
-            type="light"
-            placement="auto"
+          <StyledPipe />
+          <ButtonMenu
+            onSelect={(value) => {
+              if (value === 'watcher') {
+                // TODO: wire watcher modal entry from dots menu
+              } else if (value === 'archive') {
+                setIsArchiveModalOpen(true);
+              } else if (value === 'move') {
+                setIsMoveModalOpen(true);
+              }
+            }}
+            label={(props) => (
+              <IconButton {...props}>
+                <DotsIcon />
+              </IconButton>
+            )}
           >
-            <IconButton
-              isAccent
-              isPrimary
-              onClick={handleUseCaseExport}
-              style={{ marginLeft: appTheme.space.xs }}
+            <ButtonMenu.Item value="watcher" icon={<EyeIcon />}>
+              {t('__PLAN_PAGE_WATCHER_LIST_TOOLTIP')}
+            </ButtonMenu.Item>
+            <ButtonMenu.Item
+              isDisabled={!isHub && status.name !== 'closed'}
+              value="archive"
+              icon={<InboxFill />}
             >
-              <DownloadIcon />
-            </IconButton>
-          </Tooltip>
-        )}
-      </ButtonWrapper>
-    </FooterContainer>
+              {t('__CAMPAIGN_PAGE_DOTS_MENU_ARCHIVE_CAMPAIGN_BUTTON')}
+            </ButtonMenu.Item>
+            <ButtonMenu.Item
+              isDisabled={!filteredProjects || filteredProjects.length === 0}
+              value="move"
+              icon={<EditRedoStroke />}
+            >
+              {t('__CAMPAIGN_PAGE_DOTS_MENU_MOVE_CAMPAIGN_BUTTON')}
+            </ButtonMenu.Item>
+          </ButtonMenu>
+        </ButtonWrapper>
+      </FooterContainer>
+      {isHub && (
+        <ImportMediaModal
+          isOpen={isImportMediaModalOpen}
+          onClose={() => setIsImportMediaModalOpen(false)}
+          hubId={entityId}
+        />
+      )}
+      {isArchiveModalOpen && (
+        <ArchiveCampaignModal
+          campaign={campaign}
+          onClose={() => setIsArchiveModalOpen(false)}
+        />
+      )}
+    </>
   );
 };
