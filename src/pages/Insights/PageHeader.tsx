@@ -10,7 +10,6 @@ import {
 import { ReactComponent as DownloadIcon } from '@zendeskgarden/svg-icons/src/16/download-stroke.svg';
 import { ReactComponent as VideoListIcon } from '@zendeskgarden/svg-icons/src/16/play-circle-stroke.svg';
 import queryString from 'query-string';
-import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useOutletContext } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
@@ -65,16 +64,16 @@ const InsightsPageHeader = () => {
   const { isUserLoading, isLoading, isError, campaign, project } =
     useCampaignOrHub(entityId, isHub);
 
-  if (!campaign || isError || isUserLoading) return null;
-
-  if (isLoading) return <Skeleton />;
-
   const { data: videos } = useGetCampaignsByCidVideosQuery(
-    { cid: campaign.id.toString() },
+    { cid: campaign?.id?.toString() ?? '' },
     { skip: !campaign?.id }
   );
 
-  const totalVideos = useMemo(() => videos?.items.length || 0, [videos]);
+  const totalVideos = videos?.items.length ?? 0;
+
+  if (!campaign || isError || isUserLoading) return null;
+
+  if (isLoading) return <Skeleton />;
 
   const handleUseCaseExport = () => {
     fetch(`${process.env.REACT_APP_CROWD_WP_URL}/wp-admin/admin-ajax.php`, {
