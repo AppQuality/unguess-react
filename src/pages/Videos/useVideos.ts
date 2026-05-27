@@ -40,12 +40,14 @@ export const useVideos = (cid: string) => {
     });
 
   const processingVideosCount =
-    data?.items.reduce((count, video) => {
-      return video.processingStatus === 'processing' ? count + 1 : count;
-    }, 0) ?? 0;
+    data?.items.reduce(
+      (count, video) =>
+        video.processingStatus === 'processing' ? count + 1 : count,
+      0
+    ) ?? 0;
 
   useEffect(() => {
-    if (processingVideosCount <= 1) return;
+    if (processingVideosCount <= 1) return undefined;
 
     const intervalId = window.setInterval(() => {
       refetch();

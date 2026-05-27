@@ -150,7 +150,7 @@ export const VideoContainer = ({
         >
           <TableHead>
             <HeaderRow role="row">
-              <FirstColumnHeader>{''}</FirstColumnHeader>
+              <FirstColumnHeader />
               <SmallColumnHeader>
                 {t('__VIDEOS_LIST_TABLE_DURATION', 'Duration')}
               </SmallColumnHeader>
@@ -173,7 +173,7 @@ export const VideoContainer = ({
                     ? formatDuration(v.duration)
                     : ''}
                 </TableCell>
-                <TableCell style={{ width: '10%' }}>{''}</TableCell>
+                <TableCell style={{ width: '10%' }} />
                 <ActionCell>
                   {v.processingStatus === 'error' ? (
                     <IconButton
