@@ -1,4 +1,5 @@
 import { Anchor, MD, SM, Tag } from '@appquality/unguess-design-system';
+import { useTranslation } from 'react-i18next';
 import { useOutletContext } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
 import AudioPoster from 'src/assets/audio_poster.png';
@@ -12,15 +13,10 @@ import { VideoWithObservations } from '../useVideos';
 import { formatDuration } from '../utils/formatDuration';
 import { getSeverityTagsByVideoCount } from '../utils/getSeverityTagsWithCount';
 
-const Container = styled.div`
-  padding: ${({ theme }) => `${theme.space.xs} ${theme.space.sm}`};
+const ContentContainer = styled.div`
+  padding: ${({ theme }) => `${theme.space.xs} 0`};
   display: flex;
   gap: ${({ theme }) => theme.space.md};
-  border-bottom: 2px solid ${({ theme }) => theme.palette.grey[200]};
-
-  &:hover {
-    box-shadow: ${({ theme }) => theme.shadows.card()};
-  }
 `;
 
 const ThumbnailContainer = styled.div`
@@ -82,11 +78,11 @@ const Poster = ({ video }: { video: VideoWithObservations }) => {
 };
 
 const Video = ({ video }: { video: VideoWithObservations }) => {
+  const { t } = useTranslation();
   const { isHub, entityId } = useOutletContext<CampaignHubContext>();
   const prefix = isHub ? 'hubs' : 'campaigns';
-  const videoUrl = useLocalizeRoute(
-    `${prefix}/${entityId}/videos/${video.id}`
-  );
+  const videoUrl = useLocalizeRoute(`${prefix}/${entityId}/videos/${video.id}`);
+  const isOptimizationPending = video.processingStatus === 'processing';
 
   const severityTotals = video.observations
     ? getSeverityTagsByVideoCount(video.observations)
@@ -94,7 +90,7 @@ const Video = ({ video }: { video: VideoWithObservations }) => {
 
   return (
     <StyledAnchor href={videoUrl}>
-      <Container>
+      <ContentContainer>
         <Poster video={video} />
         <div style={{ display: 'flex', flexDirection: 'column' }}>
           <MD isBold style={{ color: appTheme.palette.blue[600] }}>
@@ -109,15 +105,18 @@ const Video = ({ video }: { video: VideoWithObservations }) => {
           </SM>
           <ObservationsTotalContainer>
             <TagsContainer>
-              {video.duration && (
+              {isOptimizationPending && (
                 <Tag
-                  hue={appTheme.palette.grey[200]}
-                  color={appTheme.palette.grey[700]}
+                  hue={appTheme.palette.blue[100]}
+                  color={appTheme.palette.blue[700]}
                 >
-                  {formatDuration(video.duration)}
+                  {t(
+                    '__VIDEOS_LIST_VIDEO_OPTIMIZATION_PENDING',
+                    'Optimizing media... This may take a few minutes.'
+                  )}
                 </Tag>
               )}
-              {video.duration && severityTotals.length > 0 && <Pipe />}
+              {severityTotals.length > 0 && <Pipe />}
               {severityTotals.map((tag) => (
                 <Tag
                   hue={getColorWithAlpha(
@@ -132,7 +131,7 @@ const Video = ({ video }: { video: VideoWithObservations }) => {
             </TagsContainer>
           </ObservationsTotalContainer>
         </div>
-      </Container>
+      </ContentContainer>
     </StyledAnchor>
   );
 };

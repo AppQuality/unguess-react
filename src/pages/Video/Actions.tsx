@@ -1,5 +1,12 @@
-import { LG, Skeleton, Tag, XL } from '@appquality/unguess-design-system';
-import { useRef } from 'react';
+import {
+  IconButton,
+  LG,
+  Skeleton,
+  Tag,
+  XL,
+} from '@appquality/unguess-design-system';
+import { ReactComponent as EditIcon } from '@zendeskgarden/svg-icons/src/16/pencil-fill.svg';
+import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
@@ -9,6 +16,7 @@ import { getDeviceIcon } from 'src/common/components/BugDetail/Meta';
 import { Divider } from 'src/common/components/divider';
 import { Meta } from 'src/common/components/Meta';
 import { Pipe } from 'src/common/components/Pipe';
+import { EditVideoModal } from 'src/common/components/videos/EditVideoModal';
 import {
   useGetVideosByVidObservationsQuery,
   useGetVideosByVidQuery,
@@ -49,9 +57,21 @@ const ObservationsCountWrapper = styled.div`
   margin-top: ${({ theme }) => theme.space.sm};
 `;
 
+const Header = styled.div`
+  display: flex;
+  align-items: center;
+  gap: ${({ theme }) => theme.space.xs};
+  margin-top: 130px;
+`;
+
+const HeaderEditButton = styled(IconButton)`
+  margin-left: auto;
+`;
+
 const Actions = () => {
   const { videoId } = useParams();
   const refScroll = useRef<HTMLDivElement>(null);
+  const [isEditModalOpen, setEditModalOpen] = useState(false);
   const { t } = useTranslation();
   const {
     data: video,
@@ -83,9 +103,19 @@ const Actions = () => {
 
   return (
     <Container ref={refScroll}>
-      <XL isBold style={{ marginTop: 130 }}>
-        {video.tester.name}
-      </XL>
+      <Header>
+        <XL isBold>{video.tester.name}</XL>
+        <HeaderEditButton
+          isBasic
+          size="small"
+          aria-label={t('__VIDEOS_DETAIL_EDIT_VIDEO_ARIA_LABEL', 'Edit video')}
+          onClick={() => {
+            setEditModalOpen(true);
+          }}
+        >
+          <EditIcon />
+        </HeaderEditButton>
+      </Header>
       <MetaContainer>
         <Meta size="medium">Tester ID: {video.tester.id}</Meta>
         <Pipe />
@@ -138,6 +168,13 @@ const Actions = () => {
       ) : (
         <NoObservations />
       )}
+      <EditVideoModal
+        isOpen={isEditModalOpen}
+        video={video}
+        onClose={() => {
+          setEditModalOpen(false);
+        }}
+      />
     </Container>
   );
 };

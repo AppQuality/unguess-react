@@ -19,6 +19,7 @@ export type VideoWithObservations = Video & {
   observations: Observation[] | [];
 } & {
   usecaseId: number;
+  processingStatus?: 'processing' | 'ready';
 };
 type ObservationWithMediaId = Observation & { mediaId: number };
 type OrderedVideo = Record<DeviceTypeEnum, VideoWithObservations[]>;

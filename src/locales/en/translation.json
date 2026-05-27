@@ -1641,6 +1641,7 @@
   "__VIDEOS_LIST_OTHER_TITLE": "Other",
   "__VIDEOS_LIST_SMARTPHONE_TITLE": "Mobile",
   "__VIDEOS_LIST_TABLET_TITLE": "Tablet",
+  "__VIDEOS_LIST_VIDEO_OPTIMIZATION_PENDING": "Optimizing media... This may take a few minutes.",
   "__VIDEOS_LIST_USECASE_INFO_one": "video",
   "__VIDEOS_LIST_USECASE_INFO_other": "videos",
   "__VIDEOS_PAGE_TITLE": "Playlist",

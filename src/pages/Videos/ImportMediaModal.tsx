@@ -1,7 +1,9 @@
 import {
+  getAllLanguageTags,
+  getLanguageNameByFullTag,
+} from '@appquality/languages';
+import {
   Button,
-  File as UploadFileItem,
-  FileList as UploadFileList,
   FileUpload,
   FormField,
   IconButton,
@@ -15,18 +17,17 @@ import {
   Select,
   Spinner,
   Tooltip,
+  File as UploadFileItem,
+  FileList as UploadFileList,
   useToast,
 } from '@appquality/unguess-design-system';
 import { ReactComponent as TrahsIcon } from '@zendeskgarden/svg-icons/src/16/trash-stroke.svg';
-import {
-  getAllLanguageTags,
-  getLanguageNameByFullTag,
-} from '@appquality/languages';
 import { Formik, FormikProps } from 'formik';
-import { ReactComponent as InfoIcon } from 'src/assets/icons/info-icon.svg';
 import { useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { appTheme } from 'src/app/theme';
+import { ReactComponent as InfoIcon } from 'src/assets/icons/info-icon.svg';
 import {
   useDeleteHubsByHidAssetsAndMidMutation,
   usePostHubsByHidAssetsMutation,
@@ -34,7 +35,6 @@ import {
 import { getFileType } from 'src/pages/Videos/utils/getFileType';
 import styled from 'styled-components';
 import * as Yup from 'yup';
-import { appTheme } from 'src/app/theme';
 
 const BodyContainer = styled.div`
   display: flex;
@@ -111,6 +111,12 @@ interface ImportMediaFormValues {
   spokenLanguage: string;
   files: UploadedItem[];
 }
+
+const getUploadValidation = (status: UploadedItem['status']) => {
+  if (status === 'success') return 'success';
+  if (status === 'error') return 'error';
+  return undefined;
+};
 
 export const ImportMediaModal = ({
   isOpen,
@@ -260,9 +266,9 @@ export const ImportMediaModal = ({
     const item = formik.values.files[index];
     if (!item) return;
 
-    const mediaId = item.mediaId;
+    const { mediaId, status } = item;
 
-    if (item.status === 'success' && typeof mediaId === 'number') {
+    if (status === 'success' && typeof mediaId === 'number') {
       try {
         await deleteAsset({ hid: hubId, mid: mediaId }).unwrap();
       } catch {
@@ -341,7 +347,7 @@ export const ImportMediaModal = ({
       {(formik) => (
         <Modal
           onClose={() => {
-            void handleClose(formik);
+            handleClose(formik).catch(() => undefined);
           }}
         >
           <Modal.Header>{t('__VIDEOS_IMPORT_MEDIA_MODAL_TITLE')}</Modal.Header>
@@ -416,7 +422,9 @@ export const ImportMediaModal = ({
                   onDrop={(event) => {
                     event.preventDefault();
                     setIsDragging(false);
-                    void addFiles(formik, event.dataTransfer.files);
+                    addFiles(formik, event.dataTransfer.files).catch(
+                      () => undefined
+                    );
                   }}
                 >
                   <HiddenInput
@@ -426,7 +434,9 @@ export const ImportMediaModal = ({
                     accept="video/*,audio/*"
                     disabled={isUploading}
                     onChange={(event) => {
-                      void addFiles(formik, event.target.files);
+                      addFiles(formik, event.target.files).catch(
+                        () => undefined
+                      );
                       event.currentTarget.value = '';
                     }}
                   />
@@ -449,13 +459,7 @@ export const ImportMediaModal = ({
                     <FileRow key={item.id}>
                       <UploadFileItem
                         type={getFileType(item.file)}
-                        validation={
-                          item.status === 'success'
-                            ? 'success'
-                            : item.status === 'error'
-                            ? 'error'
-                            : undefined
-                        }
+                        validation={getUploadValidation(item.status)}
                         style={{ height: 'auto', minHeight: '40px' }}
                       >
                         <FileItemInner>
@@ -474,7 +478,9 @@ export const ImportMediaModal = ({
                                   '__VIDEOS_IMPORT_MEDIA_MODAL_REMOVE_FILE'
                                 )}
                                 onClick={() => {
-                                  void removeFile(formik, index);
+                                  removeFile(formik, index).catch(
+                                    () => undefined
+                                  );
                                 }}
                               >
                                 <TrahsIcon />
@@ -502,7 +508,7 @@ export const ImportMediaModal = ({
               isBasic
               disabled={isUploading || isClosing}
               onClick={() => {
-                void handleClose(formik);
+                handleClose(formik).catch(() => undefined);
               }}
             >
               {t('__VIDEOS_IMPORT_MEDIA_MODAL_CANCEL')}
@@ -511,7 +517,7 @@ export const ImportMediaModal = ({
               isPrimary
               isAccent
               onClick={() => {
-                void formik.submitForm();
+                formik.submitForm().catch(() => undefined);
               }}
               disabled={
                 isClosing ||

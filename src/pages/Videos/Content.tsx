@@ -32,7 +32,6 @@ const VideosPageContent = () => {
 
   const { isHub, entityId } = useOutletContext<CampaignHubContext>();
 
-
   const {
     sorted: videos,
     isFetching,
@@ -57,6 +56,9 @@ const VideosPageContent = () => {
   }
 
   const usecases = videos.filter((item) => item.videos.total > 0);
+  const defaultExpandedSections = isHub
+    ? usecases.map((_, index) => index)
+    : [];
 
   return (
     <LayoutWrapper isNotBoxed>
@@ -70,7 +72,7 @@ const VideosPageContent = () => {
                     level={3}
                     isExpandable
                     isBare
-                    defaultExpandedSections={[]}
+                    defaultExpandedSections={defaultExpandedSections}
                   >
                     {usecases.map((uc) => (
                       <AccordionNew.Section>
