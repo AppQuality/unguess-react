@@ -19,11 +19,12 @@ export type VideoWithObservations = Video & {
   observations: Observation[] | [];
 } & {
   usecaseId: number;
-  processingStatus?: 'processing' | 'ready';
+  processingStatus?: 'processing' | 'ready' | 'error';
 };
 type ObservationWithMediaId = Observation & { mediaId: number };
 type OrderedVideo = Record<DeviceTypeEnum, VideoWithObservations[]>;
 type VideosWithTotal = OrderedVideo & { total: number };
+const PROCESSING_POLLING_INTERVAL_MS = 120000;
 
 export type CampaignVideos = Array<{
   usecase: GetCampaignsByCidUsecasesApiResponse[number];
@@ -33,10 +34,27 @@ export type CampaignVideos = Array<{
 export const useVideos = (cid: string) => {
   const [sorted, setSorted] = useState<CampaignVideos>();
 
-  const { data, isFetching, isLoading, isError } =
+  const { data, isFetching, isLoading, isError, refetch } =
     useGetCampaignsByCidVideosQuery({
       cid,
     });
+
+  const processingVideosCount =
+    data?.items.reduce((count, video) => {
+      return video.processingStatus === 'processing' ? count + 1 : count;
+    }, 0) ?? 0;
+
+  useEffect(() => {
+    if (processingVideosCount <= 1) return;
+
+    const intervalId = window.setInterval(() => {
+      refetch();
+    }, PROCESSING_POLLING_INTERVAL_MS);
+
+    return () => {
+      window.clearInterval(intervalId);
+    };
+  }, [processingVideosCount, refetch]);
 
   const {
     data: observations,
@@ -86,12 +104,17 @@ export const useVideos = (cid: string) => {
         };
 
         videos.forEach((video) => {
-          const deviceType = video.tester.device.type as DeviceTypeEnum;
+          const rawDeviceType = video.tester?.device?.type;
+          const deviceType: DeviceTypeEnum =
+            rawDeviceType === DeviceTypeEnum.smartphone ||
+            rawDeviceType === DeviceTypeEnum.tablet ||
+            rawDeviceType === DeviceTypeEnum.desktop
+              ? (rawDeviceType as DeviceTypeEnum)
+              : DeviceTypeEnum.other;
           const videoWithObservations: VideoWithObservations = {
             ...video,
             observations: observationsByMediaId[video.id] || [],
           };
-          // eslint-disable-next-line
           ordered.videos[deviceType].push(videoWithObservations);
         });
 

@@ -8,7 +8,7 @@ import {
 import { ReactComponent as EditIcon } from '@zendeskgarden/svg-icons/src/16/pencil-fill.svg';
 import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as ClockIcon } from 'src/assets/icons/time-icon.svg';
 import { capitalizeFirstLetter } from 'src/common/capitalizeFirstLetter';
@@ -69,7 +69,9 @@ const HeaderEditButton = styled(IconButton)`
 `;
 
 const Actions = () => {
-  const { videoId } = useParams();
+  const { videoId, entityId } = useParams();
+  const { pathname } = useLocation();
+  const hubId = pathname.includes('/hubs/') ? entityId : undefined;
   const refScroll = useRef<HTMLDivElement>(null);
   const [isEditModalOpen, setEditModalOpen] = useState(false);
   const { t } = useTranslation();
@@ -171,6 +173,7 @@ const Actions = () => {
       <EditVideoModal
         isOpen={isEditModalOpen}
         video={video}
+        hubId={hubId}
         onClose={() => {
           setEditModalOpen(false);
         }}

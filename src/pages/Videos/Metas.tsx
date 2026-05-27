@@ -114,30 +114,21 @@ export const Metas = ({
 
   const {
     data: videos,
-    isFetching,
     isLoading,
     isError,
   } = useGetCampaignsByCidVideosQuery({ cid: campaign.id.toString() });
 
-  const {
-    data: observations,
-    isFetching: isFetchingObservations,
-    isLoading: isLoadingObservations,
-  } = useGetCampaignsByCidObservationsQuery(
-    {
-      cid: entityId,
-    },
-    {
-      skip: !entityId,
-    }
-  );
+  const { data: observations, isLoading: isLoadingObservations } =
+    useGetCampaignsByCidObservationsQuery(
+      {
+        cid: entityId,
+      },
+      {
+        skip: !entityId,
+      }
+    );
 
-  const {
-    data: projectsData,
-    isLoading: isLoadingProjects,
-    isFetching: isFetchingProjects,
-    isError: isErrorProjects,
-  } = useActiveWorkspaceProjects();
+  const { data: projectsData } = useActiveWorkspaceProjects();
 
   const projects = projectsData?.items;
   const filteredProjects = projects?.filter(
@@ -157,17 +148,15 @@ export const Metas = ({
 
   // Count other devices
   const otherDeviceCount =
-    videos?.items.filter((video) => video.tester.device.type === 'other')
-      .length || 0;
+    videos?.items.filter(
+      (video) =>
+        video.tester.device.type === 'other' ||
+        video.tester.device.type === 'unknown'
+    ).length || 0;
 
   const severities = observations ? getAllSeverityTags(observations) : [];
 
-  if (
-    isFetching ||
-    isLoading ||
-    isFetchingObservations ||
-    isLoadingObservations
-  )
+  if ((isLoading && !videos) || (isLoadingObservations && !observations))
     return <Skeleton width="200px" height="20px" />;
   if (isError) return null;
 
@@ -191,12 +180,13 @@ export const Metas = ({
           {(deviceTypes.has('desktop') ||
             deviceTypes.has('smartphone') ||
             deviceTypes.has('tablet') ||
+            deviceTypes.has('unknown') ||
             deviceTypes.has('other')) && (
             <>
               {deviceTypes.has('desktop') && <DesktopMeta />}
               {deviceTypes.has('smartphone') && <SmartphoneMeta />}
               {deviceTypes.has('tablet') && <TabletMeta />}
-              {deviceTypes.has('other') && (
+              {(deviceTypes.has('other') || deviceTypes.has('unknown')) && (
                 <Span style={{ color: appTheme.palette.grey[700] }}>
                   +{otherDeviceCount} unknown
                 </Span>

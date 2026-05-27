@@ -7,7 +7,6 @@ import {
   Tag,
 } from '@appquality/unguess-design-system';
 import { ReactComponent as PlayIcon } from '@zendeskgarden/svg-icons/src/16/play-circle-stroke.svg';
-import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useOutletContext } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
@@ -27,7 +26,6 @@ const AccordionFooter = styled.div`
 `;
 
 const VideosPageContent = () => {
-  const [totalVideos, setTotalVideos] = useState<number>(0);
   const { t } = useTranslation();
 
   const { isHub, entityId } = useOutletContext<CampaignHubContext>();
@@ -38,19 +36,14 @@ const VideosPageContent = () => {
     isLoading,
     isError,
   } = useVideos(entityId);
-  useEffect(() => {
-    if (videos) {
-      const groupedVideos = videos?.reduce(
-        (total, item) => total + item.videos.total,
-        0
-      );
-      setTotalVideos(groupedVideos);
-    }
-  }, [videos]);
+
+  const totalVideos =
+    videos?.reduce((total, item) => total + item.videos.total, 0) ?? 0;
 
   if (isError) return null;
 
-  if (isLoading) return <Skeleton height="300px" style={{ borderRadius: 0 }} />;
+  if (isLoading && !videos)
+    return <Skeleton height="300px" style={{ borderRadius: 0 }} />;
   if (!videos || totalVideos === 0) {
     return <Empty />;
   }

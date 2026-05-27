@@ -16,8 +16,10 @@ import {
 import { ReactComponent as DotsIcon } from '@zendeskgarden/svg-icons/src/16/overflow-vertical-stroke.svg';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useOutletContext } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
 import { EditVideoModal } from 'src/common/components/videos/EditVideoModal';
+import { CampaignHubContext } from 'src/features/templates/CampaignsHubsMiddleware';
 import { styled } from 'styled-components';
 import { VideoWithObservations } from '../useVideos';
 import { formatDuration } from '../utils/formatDuration';
@@ -70,6 +72,7 @@ export const VideoContainer = ({
   video: VideoWithObservations[];
 }) => {
   const { t } = useTranslation();
+  const { isHub, entityId } = useOutletContext<CampaignHubContext>();
   const [selectedVideo, setSelectedVideo] =
     useState<VideoWithObservations | null>(null);
 
@@ -154,6 +157,7 @@ export const VideoContainer = ({
         <EditVideoModal
           isOpen={selectedVideo !== null}
           video={selectedVideo}
+          hubId={isHub ? entityId : undefined}
           onClose={() => {
             setSelectedVideo(null);
           }}

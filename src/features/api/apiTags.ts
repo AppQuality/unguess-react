@@ -72,6 +72,9 @@ unguessApi.enhanceEndpoints({
     deleteHubsByHidAssetsAndMid: {
       invalidatesTags: ['Videos'],
     },
+    patchHubsByHidAssetsAndMid: {
+      invalidatesTags: ['Videos'],
+    },
     patchCampaignsByCidBugsAndBid: {
       invalidatesTags: ['Bugs', 'Bug'],
     },

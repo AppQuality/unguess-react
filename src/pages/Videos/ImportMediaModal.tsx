@@ -188,7 +188,7 @@ export const ImportMediaModal = ({
         errorMessage: undefined,
       })),
     ];
-    formik.setFieldValue('files', currentFiles, false);
+    formik.setFieldValue('files', currentFiles, true);
 
     const updateFile = (
       fileId: string,
@@ -197,7 +197,7 @@ export const ImportMediaModal = ({
       currentFiles = currentFiles.map((item) =>
         item.id === fileId ? updater(item) : item
       );
-      formik.setFieldValue('files', currentFiles, false);
+      formik.setFieldValue('files', currentFiles, true);
     };
 
     setIsUploading(true);
@@ -278,7 +278,7 @@ export const ImportMediaModal = ({
     }
 
     const nextFiles = formik.values.files.filter((_, i) => i !== index);
-    formik.setFieldValue('files', nextFiles, false);
+    formik.setFieldValue('files', nextFiles, true);
   };
 
   const cleanupUploadedMedia = async (items: UploadedItem[]) => {

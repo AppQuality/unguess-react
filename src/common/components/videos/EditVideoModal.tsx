@@ -13,15 +13,29 @@ import {
 } from '@appquality/unguess-design-system';
 import { Form, Formik, FormikHelpers, FormikProps } from 'formik';
 import { useTranslation } from 'react-i18next';
-import { Video as ApiVideo } from 'src/features/api';
+import {
+  PatchHubsByHidAssetsAndMidApiArg,
+  Video as ApiVideo,
+  usePatchHubsByHidAssetsAndMidMutation,
+} from 'src/features/api';
 import { styled } from 'styled-components';
 import * as Yup from 'yup';
+
+type ApiDeviceType = ApiVideo['tester']['device']['type'];
+
+const DEVICE_LABEL_BY_TYPE: Record<ApiDeviceType, string> = {
+  smartphone: 'smartphone',
+  tablet: 'tablet',
+  desktop: 'desktop',
+  other: 'other',
+  unknown: 'unknown',
+};
 
 export type EditVideoFormValues = {
   title: string;
   participantName: string;
   additionalInformation: string;
-  device: 'smartphone' | 'tablet' | 'desktop' | 'other' | '';
+  device: ApiDeviceType;
   testDate?: Date;
 };
 
@@ -50,24 +64,28 @@ const dateToInputValue = (value?: Date) => {
 type EditVideoModalProps = {
   isOpen: boolean;
   video: ApiVideo | null;
+  hubId?: string;
   onClose: () => void;
 };
 
 export const EditVideoModal = ({
   isOpen,
   video,
+  hubId,
   onClose,
 }: EditVideoModalProps) => {
   const { t } = useTranslation();
+  const [patchAsset] = usePatchHubsByHidAssetsAndMidMutation();
 
   if (!isOpen || !video) return null;
 
   const initialValues: EditVideoFormValues = {
     title: '',
-    participantName: `${video.tester.name} ${video.tester.surname}`.trim(),
+    participantName: `${video.tester.name}`.trim(),
     additionalInformation: '',
     device: video.tester.device.type,
-    testDate: undefined,
+    // TODO: replace with video.testDate once backend exposes it and API types are updated.
+    testDate: new Date(),
   };
 
   const validationSchema = Yup.object().shape({
@@ -83,20 +101,41 @@ export const EditVideoModal = ({
     device: Yup.string().required(
       t('__VIDEOS_EDIT_MODAL_DEVICE_REQUIRED', 'Device is required')
     ),
+    testDate: Yup.date().required(
+      t('__VIDEOS_EDIT_MODAL_TEST_DATE_REQUIRED', 'Test date is required')
+    ),
   });
 
   const handleSubmit = async (
     values: EditVideoFormValues,
     helpers: FormikHelpers<EditVideoFormValues>
   ) => {
-    // TODO: wire this submit to the PATCH endpoint as soon as backend exposes it.
-    // TODO: align payload keys with API contract (title, participantName,
-    // additionalInformation, device, testDate).
-    // TODO: once API is integrated, update local query cache to reflect edited values.
-    void values;
+    if (!hubId) {
+      helpers.setStatus(
+        t('__VIDEOS_EDIT_MODAL_SAVE_ERROR', 'Unable to save video details')
+      );
+      helpers.setSubmitting(false);
+      return;
+    }
 
-    helpers.setSubmitting(false);
-    onClose();
+    try {
+      const body: PatchHubsByHidAssetsAndMidApiArg['body'] = {
+        participantName: values.participantName,
+        device: values.device,
+        addictional: values.additionalInformation,
+        fileName: values.title,
+        uploadDate: dateToInputValue(values.testDate),
+      };
+
+      await patchAsset({ hid: hubId, mid: video.id, body }).unwrap();
+      onClose();
+    } catch {
+      helpers.setStatus(
+        t('__VIDEOS_EDIT_MODAL_SAVE_ERROR', 'Unable to save video details')
+      );
+    } finally {
+      helpers.setSubmitting(false);
+    }
   };
 
   return (
@@ -192,16 +231,24 @@ export const EditVideoModal = ({
                       listboxAppendToNode={document.body}
                       onSelect={(value) => {
                         formProps
-                          .setFieldValue('device', value)
+                          .setFieldValue(
+                            'device',
+                            value as EditVideoFormValues['device']
+                          )
                           .catch(() => undefined);
                       }}
                       selectionValue={formProps.values.device}
                       inputValue={formProps.values.device}
                     >
-                      <Select.Option value="smartphone" label="smartphone" />
-                      <Select.Option value="tablet" label="tablet" />
-                      <Select.Option value="desktop" label="desktop" />
-                      <Select.Option value="other" label="other" />
+                      {(
+                        Object.keys(DEVICE_LABEL_BY_TYPE) as ApiDeviceType[]
+                      ).map((deviceType) => (
+                        <Select.Option
+                          key={deviceType}
+                          value={deviceType}
+                          label={DEVICE_LABEL_BY_TYPE[deviceType]}
+                        />
+                      ))}
                     </Select>
                     {formProps.touched.device && formProps.errors.device && (
                       <Message validation="error">
@@ -210,25 +257,40 @@ export const EditVideoModal = ({
                     )}
                   </InputWrapper>
                 </FormField>
+                {typeof formProps.status === 'string' && (
+                  <Message validation="error">{formProps.status}</Message>
+                )}
 
                 <FormField>
                   <Label>
-                    {t('__VIDEOS_EDIT_MODAL_FIELD_TEST_DATE', 'Test date')}
+                    {t('__VIDEOS_EDIT_MODAL_FIELD_TEST_DATE', 'Test date')}{' '}
+                    <RequiredAsterisk>*</RequiredAsterisk>
                   </Label>
                   <InputWrapper>
                     <Datepicker
                       value={formProps.values.testDate}
                       onChange={(date) => {
-                        formProps
-                          .setFieldValue('testDate', date)
-                          .catch(() => undefined);
+                        formProps.setFieldValue('testDate', date);
+                        formProps.setFieldTouched('testDate', true, true);
                       }}
                       formatDate={(date) => dateToInputValue(date)}
                     >
                       <Input
                         value={dateToInputValue(formProps.values.testDate)}
+                        validation={
+                          formProps.touched.testDate &&
+                          formProps.errors.testDate
+                            ? 'error'
+                            : undefined
+                        }
                       />
                     </Datepicker>
+                    {formProps.touched.testDate &&
+                      formProps.errors.testDate && (
+                        <Message validation="error">
+                          {formProps.errors.testDate}
+                        </Message>
+                      )}
                   </InputWrapper>
                 </FormField>
               </FormBody>
