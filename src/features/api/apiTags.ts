@@ -63,6 +63,15 @@ unguessApi.enhanceEndpoints({
     getCampaignsByCidWidgets: {
       providesTags: ['Bugs'],
     },
+    getCampaignsByCidVideos: {
+      providesTags: ['Videos'],
+    },
+    postHubsByHidAssets: {
+      invalidatesTags: ['Videos'],
+    },
+    deleteHubsByHidAssetsAndMid: {
+      invalidatesTags: ['Videos'],
+    },
     patchCampaignsByCidBugsAndBid: {
       invalidatesTags: ['Bugs', 'Bug'],
     },
