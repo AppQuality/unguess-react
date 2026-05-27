@@ -5,6 +5,7 @@ import {
   Spinner,
   Tag,
 } from '@appquality/unguess-design-system';
+import { ReactComponent as AlertWarningIcon } from '@zendeskgarden/svg-icons/src/16/alert-warning-stroke.svg';
 import { useTranslation } from 'react-i18next';
 import { useOutletContext } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
@@ -75,6 +76,7 @@ const TagsContainer = styled.div`
 
 const Poster = ({ video }: { video: VideoWithObservations }) => {
   const isProcessing = video.processingStatus === 'processing';
+  const isError = video.processingStatus === 'error';
   const isAudio = video.url?.endsWith('.mp3');
 
   if (isProcessing) {
@@ -94,6 +96,17 @@ const Poster = ({ video }: { video: VideoWithObservations }) => {
       </ThumbnailContainer>
     );
   }
+
+  if (isError) {
+    return (
+      <ThumbnailContainer
+        style={{ backgroundColor: appTheme.palette.red[100] }}
+      >
+        <AlertWarningIcon color={appTheme.palette.red[700]} />
+      </ThumbnailContainer>
+    );
+  }
+
   return (
     <ThumbnailContainer>
       {video.poster ? (
@@ -113,6 +126,7 @@ const Video = ({ video }: { video: VideoWithObservations }) => {
   const prefix = isHub ? 'hubs' : 'campaigns';
   const videoUrl = useLocalizeRoute(`${prefix}/${entityId}/videos/${video.id}`);
   const isOptimizationPending = video.processingStatus === 'processing';
+  const isOptimizationFailed = video.processingStatus === 'error';
 
   const severityTotals = video.observations
     ? getSeverityTagsByVideoCount(video.observations)
@@ -143,6 +157,17 @@ const Video = ({ video }: { video: VideoWithObservations }) => {
                   {t(
                     '__VIDEOS_LIST_VIDEO_OPTIMIZATION_PENDING',
                     'Optimizing media... This may take a few minutes.'
+                  )}
+                </Tag>
+              )}
+              {isOptimizationFailed && (
+                <Tag
+                  hue={appTheme.palette.red[100]}
+                  color={appTheme.palette.red[700]}
+                >
+                  {t(
+                    '__VIDEOS_LIST_VIDEO_OPTIMIZATION_FAILED',
+                    'Optimization failed. Delete the media and try again.'
                   )}
                 </Tag>
               )}

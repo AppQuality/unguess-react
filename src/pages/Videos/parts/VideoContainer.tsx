@@ -1,4 +1,5 @@
 import {
+  Button,
   ButtonMenu,
   ContainerCard,
   HeaderCell,
@@ -12,13 +13,17 @@ import {
   TableHead,
   TableRow,
   Title,
+  Notification,
+  useToast,
 } from '@appquality/unguess-design-system';
 import { ReactComponent as DotsIcon } from '@zendeskgarden/svg-icons/src/16/overflow-vertical-stroke.svg';
+import { ReactComponent as TrashIcon } from '@zendeskgarden/svg-icons/src/16/trash-stroke.svg';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useOutletContext } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
 import { EditVideoModal } from 'src/common/components/videos/EditVideoModal';
+import { useDeleteHubsByHidAssetsAndMidMutation } from 'src/features/api';
 import { CampaignHubContext } from 'src/features/templates/CampaignsHubsMiddleware';
 import { styled } from 'styled-components';
 import { VideoWithObservations } from '../useVideos';
@@ -73,8 +78,28 @@ export const VideoContainer = ({
 }) => {
   const { t } = useTranslation();
   const { isHub, entityId } = useOutletContext<CampaignHubContext>();
+  const { addToast } = useToast();
+  const [deleteAsset] = useDeleteHubsByHidAssetsAndMidMutation();
   const [selectedVideo, setSelectedVideo] =
     useState<VideoWithObservations | null>(null);
+  const [isDeletingVideoId, setIsDeletingVideoId] = useState<number | null>(
+    null
+  );
+
+  const showErrorToast = (message: string) => {
+    addToast(
+      ({ close }) => (
+        <Notification
+          onClose={close}
+          type="error"
+          message={message}
+          closeText={t('__TOAST_CLOSE_TEXT')}
+          isPrimary
+        />
+      ),
+      { placement: 'top' }
+    );
+  };
 
   const handleActionClick = (
     action: string | undefined,
@@ -82,6 +107,20 @@ export const VideoContainer = ({
   ) => {
     if (action === 'edit') {
       setSelectedVideo(targetVideo);
+    }
+  };
+
+  const handleDeleteErrorVideo = async (videoId: number) => {
+    if (!isHub) return;
+
+    setIsDeletingVideoId(videoId);
+
+    try {
+      await deleteAsset({ hid: entityId, mid: videoId }).unwrap();
+    } catch {
+      showErrorToast(t('__VIDEOS_IMPORT_MEDIA_MODAL_DELETE_ERROR_GENERIC'));
+    } finally {
+      setIsDeletingVideoId(null);
     }
   };
 
@@ -135,20 +174,37 @@ export const VideoContainer = ({
                 </TableCell>
                 <TableCell style={{ width: '10%' }}>{''}</TableCell>
                 <ActionCell>
-                  <ButtonMenu
-                    onSelect={(action) => {
-                      handleActionClick(action, v);
-                    }}
-                    label={(props) => (
-                      <IconButton {...props} isBasic size="small">
-                        <DotsIcon />
-                      </IconButton>
-                    )}
-                  >
-                    <ButtonMenu.Item value="edit">
-                      {t('__VIDEOS_LIST_TABLE_ACTION_EDIT', 'Edit')}
-                    </ButtonMenu.Item>
-                  </ButtonMenu>
+                  {isHub && v.processingStatus === 'error' ? (
+                    <IconButton
+                      isDanger
+                      size="small"
+                      disabled={isDeletingVideoId === v.id}
+                      aria-label={t(
+                        '__VIDEOS_IMPORT_MEDIA_MODAL_REMOVE_FILE',
+                        'Delete media'
+                      )}
+                      onClick={() => {
+                        // handleDeleteErrorVideo(v.id).catch(() => undefined);
+                      }}
+                    >
+                      <TrashIcon />
+                    </IconButton>
+                  ) : (
+                    <ButtonMenu
+                      onSelect={(action) => {
+                        handleActionClick(action, v);
+                      }}
+                      label={(props) => (
+                        <IconButton {...props} isBasic size="small">
+                          <DotsIcon />
+                        </IconButton>
+                      )}
+                    >
+                      <ButtonMenu.Item value="edit">
+                        {t('__VIDEOS_LIST_TABLE_ACTION_EDIT', 'Edit')}
+                      </ButtonMenu.Item>
+                    </ButtonMenu>
+                  )}
                 </ActionCell>
               </TableRow>
             ))}
