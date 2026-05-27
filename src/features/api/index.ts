@@ -428,6 +428,16 @@ const injectedRtkApi = api.injectEndpoints({
         method: 'DELETE',
       }),
     }),
+    patchHubsByHidAssetsAndMid: build.mutation<
+      PatchHubsByHidAssetsAndMidApiResponse,
+      PatchHubsByHidAssetsAndMidApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/hubs/${queryArg.hid}/assets/${queryArg.mid}`,
+        method: 'PATCH',
+        body: queryArg.body,
+      }),
+    }),
     deleteInsightsByIid: build.mutation<
       DeleteInsightsByIidApiResponse,
       DeleteInsightsByIidApiArg
@@ -1717,7 +1727,7 @@ export type PatchCampaignsByCidVideoTagsAndTagIdApiArg = {
 export type GetCampaignsByCidVideosApiResponse = /** status 200 OK */ {
   items: (Video & {
     usecaseId: number;
-    processingStatus: 'processing' | 'ready';
+    processingStatus: 'processing' | 'ready' | 'error';
   })[];
 } & PaginationData;
 export type GetCampaignsByCidVideosApiArg = {
@@ -1822,6 +1832,19 @@ export type DeleteHubsByHidAssetsAndMidApiArg = {
   /** Hub id */
   hid: string;
   mid: number;
+};
+export type PatchHubsByHidAssetsAndMidApiResponse = /** status 200 OK */ object;
+export type PatchHubsByHidAssetsAndMidApiArg = {
+  /** Hub id */
+  hid: string;
+  mid: number;
+  body: {
+    participantName: string;
+    device: string;
+    addictional: string;
+    fileName: string;
+    uploadDate: string;
+  };
 };
 export type DeleteInsightsByIidApiResponse = /** status 200 OK */ void;
 export type DeleteInsightsByIidApiArg = {
@@ -2000,6 +2023,10 @@ export type GetProjectsByPidHubsApiResponse = /** status 200 OK */ {
   items: {
     id: number;
   }[];
+  limit?: number;
+  size?: number;
+  start?: number;
+  total?: number;
 };
 export type GetProjectsByPidHubsApiArg = {
   /** Project id */
@@ -3332,7 +3359,7 @@ export type Video = {
   streamUrl?: string;
   tester: {
     device: {
-      type: 'smartphone' | 'tablet' | 'desktop' | 'other';
+      type: 'smartphone' | 'tablet' | 'desktop' | 'other' | 'unknown';
     };
     id: number;
     name: string;
@@ -3647,6 +3674,7 @@ export const {
   useGetHubsByHidQuery,
   usePostHubsByHidAssetsMutation,
   useDeleteHubsByHidAssetsAndMidMutation,
+  usePatchHubsByHidAssetsAndMidMutation,
   useDeleteInsightsByIidMutation,
   useGetInsightsByIidQuery,
   usePatchInsightsByIidMutation,

@@ -356,6 +356,7 @@ export interface paths {
   "/hubs/{hid}/assets/{mid}": {
     /** Delete a video asset belonging to the authenticated user on the given hub */
     delete: operations["delete-hub-asset"];
+    patch: operations["patch-hubs-hid-assets-mid"];
     parameters: {
       path: {
         /** Hub id */
@@ -1833,7 +1834,7 @@ export interface components {
       tester: {
         device: {
           /** @enum {string} */
-          type: "smartphone" | "tablet" | "desktop" | "other";
+          type: "smartphone" | "tablet" | "desktop" | "other" | "unknown";
         };
         id: number;
         name: string;
@@ -3505,7 +3506,7 @@ export interface operations {
             items: (components["schemas"]["Video"] & {
               usecaseId: number;
               /** @enum {string} */
-              processingStatus: "processing" | "ready";
+              processingStatus: "processing" | "ready" | "error";
             })[];
           } & components["schemas"]["PaginationData"];
         };
@@ -3676,6 +3677,38 @@ export interface operations {
       403: unknown;
       /** Not Found */
       404: unknown;
+    };
+  };
+  "patch-hubs-hid-assets-mid": {
+    parameters: {
+      path: {
+        /** Hub id */
+        hid: components["parameters"]["hid"];
+        mid: number;
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          "application/json": { [key: string]: unknown };
+        };
+      };
+      /** Forbidden */
+      403: unknown;
+      /** Not Found */
+      404: unknown;
+    };
+    requestBody: {
+      content: {
+        "application/json": {
+          participantName: string;
+          device: string;
+          addictional: string;
+          fileName: string;
+          uploadDate: string;
+        };
+      };
     };
   };
   "get-insights-iid": {
@@ -4098,6 +4131,10 @@ export interface operations {
             items: {
               id: number;
             }[];
+            limit?: number;
+            size?: number;
+            start?: number;
+            total?: number;
           };
         };
       };
