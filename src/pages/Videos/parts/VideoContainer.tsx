@@ -1,8 +1,9 @@
 import {
+  ButtonMenu,
   ContainerCard,
-  DotsMenu,
   HeaderCell,
   HeaderRow,
+  IconButton,
   SM,
   Span,
   Table,
@@ -12,14 +13,15 @@ import {
   TableRow,
   Title,
 } from '@appquality/unguess-design-system';
-import { styled } from 'styled-components';
-import { appTheme } from 'src/app/theme';
-import { useTranslation } from 'react-i18next';
+import { ReactComponent as DotsIcon } from '@zendeskgarden/svg-icons/src/16/overflow-vertical-stroke.svg';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { appTheme } from 'src/app/theme';
 import { EditVideoModal } from 'src/common/components/videos/EditVideoModal';
-import { Video } from './VideoItem';
+import { styled } from 'styled-components';
 import { VideoWithObservations } from '../useVideos';
 import { formatDuration } from '../utils/formatDuration';
+import { Video } from './VideoItem';
 
 const Container = styled.div`
   margin-top: ${({ theme }) => theme.space.sm};
@@ -40,19 +42,22 @@ const StyledTitle = styled(Title)`
 `;
 
 const FirstColumnHeader = styled(HeaderCell)`
-  width: 64%;
+  width: 70%;
 `;
 
 const SmallColumnHeader = styled(HeaderCell)`
-  width: 12%;
+  width: 10%;
+  white-space: nowrap;
+`;
+
+const ActionsColumnHeader = styled(HeaderCell)`
+  width: 10%;
   white-space: nowrap;
 `;
 
 const ActionCell = styled(TableCell)`
-  text-align: right;
-  button {
-    transform: rotate(90deg);
-  }
+  width: 10%;
+  text-align: center;
 `;
 
 export const VideoContainer = ({
@@ -109,33 +114,38 @@ export const VideoContainer = ({
               <SmallColumnHeader>
                 {t('__VIDEOS_LIST_TABLE_TEST_DATE', 'Test date')}
               </SmallColumnHeader>
-              <SmallColumnHeader>
+              <ActionsColumnHeader>
                 {t('__VIDEOS_LIST_TABLE_ACTIONS', 'Actions')}
-              </SmallColumnHeader>
+              </ActionsColumnHeader>
             </HeaderRow>
           </TableHead>
           <TableBody role="rowgroup" title="videos-table-body">
             {video.map((v) => (
               <TableRow key={v.id} role="row" title={`video-${v.id}`}>
-                <TableCell style={{ width: '64%' }}>
+                <TableCell style={{ width: '70%' }}>
                   <Video video={v} />
                 </TableCell>
-                <TableCell style={{ width: '12%' }}>
+                <TableCell style={{ width: '10%' }}>
                   {typeof v.duration === 'number'
                     ? formatDuration(v.duration)
                     : ''}
                 </TableCell>
-                <TableCell style={{ width: '12%' }}>{''}</TableCell>
-                <ActionCell style={{ width: '12%' }}>
-                  <DotsMenu
+                <TableCell style={{ width: '10%' }}>{''}</TableCell>
+                <ActionCell>
+                  <ButtonMenu
                     onSelect={(action) => {
                       handleActionClick(action, v);
                     }}
+                    label={(props) => (
+                      <IconButton {...props} isBasic size="small">
+                        <DotsIcon />
+                      </IconButton>
+                    )}
                   >
-                    <DotsMenu.Item value="edit">
+                    <ButtonMenu.Item value="edit">
                       {t('__VIDEOS_LIST_TABLE_ACTION_EDIT', 'Edit')}
-                    </DotsMenu.Item>
-                  </DotsMenu>
+                    </ButtonMenu.Item>
+                  </ButtonMenu>
                 </ActionCell>
               </TableRow>
             ))}

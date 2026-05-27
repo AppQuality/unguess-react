@@ -5,7 +5,6 @@ import {
   Skeleton,
   Span,
   Tooltip,
-  useToast,
 } from '@appquality/unguess-design-system';
 import { ReactComponent as EyeIcon } from '@zendeskgarden/svg-icons/src/16/eye-stroke.svg';
 import { ReactComponent as InsightsIcon } from '@zendeskgarden/svg-icons/src/16/lightbulb-stroke.svg';
@@ -108,7 +107,6 @@ export const Metas = ({
   const campaignRoute = useLocalizeRoute(`${prefix}/${entityId}`);
   const insightsRoute = useLocalizeRoute(`${prefix}/${entityId}/insights`);
   const { t } = useTranslation();
-  const { addToast } = useToast();
   const { hasFeatureFlag } = useFeatureFlag();
   const hasWorkspaceAccess = useCanAccessToActiveWorkspace();
 
@@ -163,8 +161,6 @@ export const Metas = ({
       .length || 0;
 
   const severities = observations ? getAllSeverityTags(observations) : [];
-
-  const observationsCount = observations ? observations.results.length : 0;
 
   if (
     isFetching ||
