@@ -1,4 +1,10 @@
-import { Anchor, MD, SM, Tag } from '@appquality/unguess-design-system';
+import {
+  Anchor,
+  MD,
+  SM,
+  Spinner,
+  Tag,
+} from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { useOutletContext } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
@@ -10,7 +16,6 @@ import type { CampaignHubContext } from 'src/features/templates/CampaignsHubsMid
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { styled } from 'styled-components';
 import { VideoWithObservations } from '../useVideos';
-import { formatDuration } from '../utils/formatDuration';
 import { getSeverityTagsByVideoCount } from '../utils/getSeverityTagsWithCount';
 
 const ContentContainer = styled.div`
@@ -30,8 +35,20 @@ const ThumbnailContainer = styled.div`
   border: 2px solid ${({ theme }) => theme.palette.grey[300]};
   border-radius: ${({ theme }) => theme.borderRadii.md};
 
-  > img,
-  svg {
+  > img {
+    height: 100%;
+    width: auto;
+  }
+`;
+
+const PlaceholderWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: auto;
+
+  > svg {
     height: 100%;
     width: auto;
   }
@@ -57,7 +74,18 @@ const TagsContainer = styled.div`
 `;
 
 const Poster = ({ video }: { video: VideoWithObservations }) => {
+  const isProcessing = video.processingStatus === 'processing';
   const isAudio = video.url?.endsWith('.mp3');
+
+  if (isProcessing) {
+    return (
+      <ThumbnailContainer
+        style={{ backgroundColor: appTheme.palette.azure[100] }}
+      >
+        <Spinner size={appTheme.space.lg} color={appTheme.palette.blue[600]} />
+      </ThumbnailContainer>
+    );
+  }
 
   if (isAudio) {
     return (
@@ -71,7 +99,9 @@ const Poster = ({ video }: { video: VideoWithObservations }) => {
       {video.poster ? (
         <img src={video.poster} alt={`Video ${video.id}`} />
       ) : (
-        <PlaceholderVideo />
+        <PlaceholderWrapper>
+          <PlaceholderVideo />
+        </PlaceholderWrapper>
       )}
     </ThumbnailContainer>
   );
