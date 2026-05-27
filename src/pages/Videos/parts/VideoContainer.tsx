@@ -1,5 +1,4 @@
 import {
-  Button,
   ButtonMenu,
   ContainerCard,
   HeaderCell,
@@ -101,12 +100,17 @@ export const VideoContainer = ({
     );
   };
 
-  const handleActionClick = (
+  const handleActionClick = async (
     action: string | undefined,
     targetVideo: VideoWithObservations
   ) => {
     if (action === 'edit') {
       setSelectedVideo(targetVideo);
+      return;
+    }
+
+    if (action === 'delete') {
+      //await handleDeleteErrorVideo(targetVideo.id);
     }
   };
 
@@ -203,6 +207,20 @@ export const VideoContainer = ({
                       <ButtonMenu.Item value="edit">
                         {t('__VIDEOS_LIST_TABLE_ACTION_EDIT', 'Edit')}
                       </ButtonMenu.Item>
+                      {isHub && (
+                        <ButtonMenu.Item
+                          value="delete"
+                          isDisabled={
+                            v.processingStatus === 'processing' ||
+                            isDeletingVideoId === v.id
+                          }
+                        >
+                          {t(
+                            '__VIDEOS_IMPORT_MEDIA_MODAL_REMOVE_FILE',
+                            'Delete media'
+                          )}
+                        </ButtonMenu.Item>
+                      )}
                     </ButtonMenu>
                   )}
                 </ActionCell>
