@@ -4,6 +4,7 @@ import {
   HeaderCell,
   HeaderRow,
   IconButton,
+  Notification,
   SM,
   Span,
   Table,
@@ -12,7 +13,6 @@ import {
   TableHead,
   TableRow,
   Title,
-  Notification,
   useToast,
 } from '@appquality/unguess-design-system';
 import { ReactComponent as DotsIcon } from '@zendeskgarden/svg-icons/src/16/overflow-vertical-stroke.svg';
@@ -115,10 +115,7 @@ export const VideoContainer = ({
   };
 
   const handleDeleteErrorVideo = async (videoId: number) => {
-    if (!isHub) return;
-
     setIsDeletingVideoId(videoId);
-
     try {
       await deleteAsset({ hid: entityId, mid: videoId }).unwrap();
     } catch {
@@ -178,7 +175,7 @@ export const VideoContainer = ({
                 </TableCell>
                 <TableCell style={{ width: '10%' }}>{''}</TableCell>
                 <ActionCell>
-                  {isHub && v.processingStatus === 'error' ? (
+                  {v.processingStatus === 'error' ? (
                     <IconButton
                       isDanger
                       size="small"
@@ -207,20 +204,18 @@ export const VideoContainer = ({
                       <ButtonMenu.Item value="edit">
                         {t('__VIDEOS_LIST_TABLE_ACTION_EDIT', 'Edit')}
                       </ButtonMenu.Item>
-                      {isHub && (
-                        <ButtonMenu.Item
-                          value="delete"
-                          isDisabled={
-                            v.processingStatus === 'processing' ||
-                            isDeletingVideoId === v.id
-                          }
-                        >
-                          {t(
-                            '__VIDEOS_IMPORT_MEDIA_MODAL_REMOVE_FILE',
-                            'Delete media'
-                          )}
-                        </ButtonMenu.Item>
-                      )}
+                      <ButtonMenu.Item
+                        value="delete"
+                        isDisabled={
+                          v.processingStatus === 'processing' ||
+                          isDeletingVideoId === v.id
+                        }
+                      >
+                        {t(
+                          '__VIDEOS_IMPORT_MEDIA_MODAL_REMOVE_FILE',
+                          'Delete media'
+                        )}
+                      </ButtonMenu.Item>
                     </ButtonMenu>
                   )}
                 </ActionCell>
