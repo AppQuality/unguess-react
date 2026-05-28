@@ -22,6 +22,10 @@ import { Field, FieldProps, Form, Formik, FormikHelpers } from 'formik';
 import { useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
+import {
+  AuthOrDivider,
+  GoogleSignInButton,
+} from 'src/common/components/GoogleSignInButton';
 import { PasswordRequirements } from 'src/common/components/PasswordRequirements';
 import { isDisposableEmail } from 'src/common/disposableEmail';
 import { useAuth } from 'src/features/auth/context';
@@ -143,6 +147,8 @@ export const SignupForm = ({ onSignupSuccess }: SignupFormProps) => {
         {({ isSubmitting, isValid, values }) => (
           <Form>
             <FieldContainer>
+              <GoogleSignInButton />
+              <AuthOrDivider />
               <Field name="email" validate={validateEmail}>
                 {({ field, meta }: FieldProps) => {
                   const hasError = meta.touched && Boolean(meta.error);

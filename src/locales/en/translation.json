@@ -1,4 +1,6 @@
 {
+  "__AUTH_OR_DIVIDER": "or",
+  "__CONTINUE_WITH_GOOGLE": "Continue with Google",
   "___PLAN_STATUS_ACCEPTED": "Accepted",
   "___PLAN_STATUS_AWAITING_APPROVAL": "Waiting for you",
   "___PLAN_STATUS_AWAITING_PAYMENT": "Waiting for you",

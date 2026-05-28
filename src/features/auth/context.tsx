@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useMemo } from 'react';
 import {
   signIn,
+  signInWithRedirect,
   signUp,
   confirmSignUp,
   confirmSignIn,
@@ -35,6 +36,7 @@ interface ForgotPasswordResult {
 
 interface AuthContextType {
   login: (email: string, password: string) => Promise<LoginResult>;
+  loginWithGoogle: () => Promise<void>;
   signup: (email: string, password: string, name: string) => Promise<void>;
   confirmSignup: (email: string, code: string) => Promise<void>;
   resendSignupCode: (email: string) => Promise<void>;
@@ -108,6 +110,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       console.error('Login error:', error);
       throw new Error(error.message || 'Login failed');
     }
+  };
+
+  const loginWithGoogle = async (): Promise<void> => {
+    await signInWithRedirect({ provider: 'Google' });
   };
 
   const confirmMfaSignIn = async (code: string): Promise<void> => {
@@ -261,6 +267,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   const AuthProviderValue = useMemo(
     () => ({
       login,
+      loginWithGoogle,
       signup,
       confirmSignup,
       resendSignupCode,

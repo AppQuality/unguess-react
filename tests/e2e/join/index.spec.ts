@@ -32,9 +32,7 @@ test.describe('The Join page signup step - case new user', () => {
       i18n.t('SIGNUP_FORM_PASSWORD_REQUIRED')
     );
 
-    await expect(
-      page.getByTestId('password-requirements')
-    ).toBeVisible();
+    await expect(page.getByTestId('password-requirements')).toBeVisible();
 
     await signupPage.fillPassword('weak');
     await expect(
@@ -101,6 +99,22 @@ test.describe('The Join page signup step - case new user', () => {
     await expect(
       signupPage.confirmEmailFormElements().codeInput()
     ).toBeVisible();
+  });
+
+  test('displays an enabled Continue with Google button', async () => {
+    await expect(signupPage.signupFormElements().googleButton()).toBeVisible();
+    await expect(signupPage.signupFormElements().googleButton()).toBeEnabled();
+  });
+
+  test('clicking Continue with Google initiates the Cognito OAuth redirect', async ({
+    page,
+  }) => {
+    await signupPage.mockCognitoOAuthAuthorize();
+    const authorizeRequest = page.waitForRequest('**/oauth2/authorize*');
+    await signupPage.signupFormElements().googleButton().click();
+    const req = await authorizeRequest;
+    expect(req.url()).toContain('/oauth2/authorize');
+    expect(req.url()).toContain('Google');
   });
 });
 

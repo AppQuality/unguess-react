@@ -18,6 +18,10 @@ import {
 import { ReactComponent as EyeIcon } from '@zendeskgarden/svg-icons/src/16/eye-fill.svg';
 import { ReactComponent as EyeOffIcon } from '@zendeskgarden/svg-icons/src/16/eye-hide-fill.svg';
 import { appTheme } from 'src/app/theme';
+import {
+  AuthOrDivider,
+  GoogleSignInButton,
+} from 'src/common/components/GoogleSignInButton';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { LoginFormFields } from './type';
 
@@ -114,6 +118,17 @@ const LoginForm = ({ onSubmit, buttonText }: LoginFormProps) => {
             isSubmitting,
           }) => (
             <StyledForm onSubmit={handleSubmit}>
+              <div
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: appTheme.space.md,
+                  marginBottom: appTheme.space.md,
+                }}
+              >
+                <GoogleSignInButton />
+                <AuthOrDivider />
+              </div>
               <FormField>
                 <Label>
                   {t('__LOGIN_FORM_EMAIL_LABEL')}

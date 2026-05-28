@@ -29,13 +29,23 @@ export class SignupPage {
         }),
       passwordRequirements: () =>
         this.page.getByTestId('password-requirements'),
+      googleButton: () => this.page.getByTestId('continue-with-google'),
     };
+  }
+
+  async mockCognitoOAuthAuthorize() {
+    await this.page.route('**/oauth2/authorize*', async (route) => {
+      await route.fulfill({
+        status: 200,
+        contentType: 'text/html',
+        body: '<html><body>hosted-ui</body></html>',
+      });
+    });
   }
 
   confirmEmailFormElements() {
     return {
-      codeInput: () =>
-        this.page.getByRole('textbox', { name: /Digit 1/i }),
+      codeInput: () => this.page.getByRole('textbox', { name: /Digit 1/i }),
       codeLabel: () =>
         this.page.getByText(this.i18n.t('CONFIRM_EMAIL_CODE_LABEL')),
       codeError: () => this.page.getByTestId('confirm-code-error'),
