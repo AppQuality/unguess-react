@@ -4,14 +4,12 @@ import {
   HeaderRow,
   IconButton,
   Notification,
-  SM,
   Span,
   Table,
   TableBody,
   TableCell,
   TableHead,
   TableRow,
-  Title,
   useToast,
 } from '@appquality/unguess-design-system';
 import { ReactComponent as DotsIcon } from '@zendeskgarden/svg-icons/src/16/overflow-vertical-stroke.svg';
@@ -25,6 +23,7 @@ import { CampaignHubContext } from 'src/features/templates/CampaignsHubsMiddlewa
 import { styled } from 'styled-components';
 import { VideoWithObservations } from '../useVideos';
 import { formatDuration } from '../utils/formatDuration';
+import { DeleteVideoConfirmModal } from './DeleteVideoConfirmModal';
 import { Video } from './VideoItem';
 
 const Container = styled.div`
@@ -65,6 +64,8 @@ export const VideoContainer = ({
   const [deleteAsset] = useDeleteHubsByHidAssetsAndMidMutation();
   const [selectedVideo, setSelectedVideo] =
     useState<VideoWithObservations | null>(null);
+  const [videoToDelete, setVideoToDelete] =
+    useState<VideoWithObservations | null>(null);
   const [isDeletingVideoId, setIsDeletingVideoId] = useState<number | null>(
     null
   );
@@ -94,7 +95,7 @@ export const VideoContainer = ({
     }
 
     if (action === 'delete') {
-      // await handleDeleteErrorVideo(targetVideo.id);
+      setVideoToDelete(targetVideo);
     }
   };
 
@@ -107,6 +108,13 @@ export const VideoContainer = ({
     } finally {
       setIsDeletingVideoId(null);
     }
+  };
+
+  const handleConfirmDeleteVideo = async () => {
+    if (!videoToDelete) return;
+
+    await handleDeleteErrorVideo(videoToDelete.id);
+    setVideoToDelete(null);
   };
 
   return (
@@ -158,7 +166,7 @@ export const VideoContainer = ({
                     disabled={isDeletingVideoId === v.id}
                     aria-label={t('__VIDEOS_IMPORT_MEDIA_MODAL_REMOVE_FILE')}
                     onClick={() => {
-                      // handleDeleteErrorVideo(v.id).catch(() => undefined);
+                      setVideoToDelete(v);
                     }}
                   >
                     <TrashIcon />
@@ -199,6 +207,16 @@ export const VideoContainer = ({
         hubId={isHub ? entityId : undefined}
         onClose={() => {
           setSelectedVideo(null);
+        }}
+      />
+      <DeleteVideoConfirmModal
+        isOpen={videoToDelete !== null}
+        isDeleting={
+          videoToDelete !== null && isDeletingVideoId === videoToDelete.id
+        }
+        onClose={() => setVideoToDelete(null)}
+        onConfirm={() => {
+          handleConfirmDeleteVideo().catch(() => undefined);
         }}
       />
     </Container>
