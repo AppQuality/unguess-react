@@ -6,7 +6,6 @@ import {
   Span,
   Tooltip,
 } from '@appquality/unguess-design-system';
-import { ReactComponent as EyeIcon } from '@zendeskgarden/svg-icons/src/16/eye-stroke.svg';
 import { ReactComponent as InsightsIcon } from '@zendeskgarden/svg-icons/src/16/lightbulb-stroke.svg';
 import { ReactComponent as DotsIcon } from '@zendeskgarden/svg-icons/src/16/overflow-vertical-stroke.svg';
 import { format } from 'date-fns';
@@ -39,6 +38,7 @@ import { useMoveCampaignModalContext } from 'src/pages/Campaign/MoveCampaignModa
 import { DesktopMeta } from 'src/pages/Campaign/pageHeader/Meta/DesktopMeta';
 import { SmartphoneMeta } from 'src/pages/Campaign/pageHeader/Meta/SmartphoneMeta';
 import { TabletMeta } from 'src/pages/Campaign/pageHeader/Meta/TabletMeta';
+import { WatcherList } from 'src/pages/Campaign/pageHeader/Meta/WatcherList';
 import { CampaignStatus } from 'src/types';
 import styled from 'styled-components';
 import { ImportMediaModal } from './ImportMediaModal';
@@ -99,6 +99,8 @@ export const Metas = ({
 }) => {
   const { status } = campaign;
   const { isHub, entityId } = useOutletContext<CampaignHubContext>();
+  const isEntityArchived = !isHub && Boolean(campaign.isArchived);
+  const watcherEntityId = isHub ? entityId : campaign.id.toString();
   const [totalVideos, setTotalVideos] = useState<number>(0);
   const [isImportMediaModalOpen, setIsImportMediaModalOpen] = useState(false);
   const [isArchiveModalOpen, setIsArchiveModalOpen] = useState(false);
@@ -214,7 +216,8 @@ export const Metas = ({
           {!isHub && <StatusMeta status={status.name as CampaignStatus} />}
         </PageMeta>
         <ButtonWrapper>
-          {!campaign.isArchived && hasWorkspaceAccess && <CampaignSettings />}
+          {!isEntityArchived && hasWorkspaceAccess && <CampaignSettings />}
+          {!isEntityArchived && <WatcherList campaignId={watcherEntityId} />}
           {isHub && totalVideos > 0 && (
             <Button
               isPrimary
@@ -255,9 +258,7 @@ export const Metas = ({
           <StyledPipe />
           <ButtonMenu
             onSelect={(value) => {
-              if (value === 'watcher') {
-                // TODO: wire watcher modal entry from dots menu
-              } else if (value === 'archive') {
+              if (value === 'archive') {
                 setIsArchiveModalOpen(true);
               } else if (value === 'move') {
                 setIsMoveModalOpen(true);
@@ -269,9 +270,6 @@ export const Metas = ({
               </IconButton>
             )}
           >
-            <ButtonMenu.Item value="watcher" icon={<EyeIcon />}>
-              {t('__PLAN_PAGE_WATCHER_LIST_TOOLTIP')}
-            </ButtonMenu.Item>
             <ButtonMenu.Item
               isDisabled={!isHub && status.name !== 'closed'}
               value="archive"
