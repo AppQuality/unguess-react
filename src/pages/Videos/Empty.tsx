@@ -1,4 +1,4 @@
-import { Button, MD } from '@appquality/unguess-design-system';
+import { Button, MD, XL } from '@appquality/unguess-design-system';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useOutletContext } from 'react-router-dom';
@@ -6,6 +6,7 @@ import { appTheme } from 'src/app/theme';
 import { CampaignHubContext } from 'src/features/templates/CampaignsHubsMiddleware';
 import styled from 'styled-components';
 import { ReactComponent as EmptyStateImg } from '../../assets/empty-state-videos.svg';
+import { ReactComponent as HubEmptyStateImg } from '../../assets/hub-empty-state.svg';
 import { ImportMediaModal } from './ImportMediaModal';
 
 const StyledEmptyState = styled.div`
@@ -25,11 +26,30 @@ export const Empty = () => {
 
   return (
     <StyledEmptyState>
-      <EmptyStateImg
-        title="Table is empty"
-        style={{ marginBottom: appTheme.space.lg }}
-      />
-      <MD>{t('__PAGE_VIDEOS_EMPTY_STATE')}</MD>
+      {isHub ? (
+        <HubEmptyStateImg
+          title="Table is empty"
+          style={{
+            marginBottom: appTheme.space.lg,
+            marginTop: appTheme.space.xxl,
+          }}
+        />
+      ) : (
+        <EmptyStateImg
+          title="Table is empty"
+          style={{ marginBottom: appTheme.space.lg }}
+        />
+      )}
+      {isHub ? (
+        <>
+          <XL isBold style={{ marginBottom: appTheme.space.sm }}>
+            {t('__HUB_EMPTY_STATE_TITLE')}
+          </XL>
+          <MD>{t('__HUB_EMPTY_STATE_SUBTITLE')}</MD>
+        </>
+      ) : (
+        <MD>{t('__PAGE_VIDEOS_EMPTY_STATE')}</MD>
+      )}
       {isHub && (
         <Button
           isPrimary
@@ -37,7 +57,7 @@ export const Empty = () => {
           style={{ marginTop: appTheme.space.md }}
           onClick={() => setIsImportMediaModalOpen(true)}
         >
-          {t('Import media')}
+          {t('__HUB_EMPTY_STATE_UPLOAD_MEDIA_CTA')}
         </Button>
       )}
       {isHub && (
