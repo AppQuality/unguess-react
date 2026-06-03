@@ -4,7 +4,7 @@ import {
   Notification,
   useToast,
 } from '@appquality/unguess-design-system';
-import { Formik, useFormikContext } from 'formik';
+import { Formik } from 'formik';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
@@ -13,36 +13,8 @@ import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import * as Yup from 'yup';
 import { ChooseStep } from './steps/ChooseStep';
 import { FormStep, FormValues } from './steps/FormStep';
-import { UploadStep } from './steps/UploadStep';
 
-type Step = 1 | 2 | 3;
-
-type PendingUpload = {
-  name: string;
-  size: number;
-  type: string;
-};
-
-// Connects UploadStep (props-based) to Formik context + external files state
-const UploadStepConnected = ({
-  files,
-  onFilesChange,
-}: {
-  files: File[];
-  onFilesChange: (newFiles: File[]) => void;
-}) => {
-  const { values, setFieldValue } = useFormikContext<FormValues>();
-  return (
-    <UploadStep
-      language={values.language}
-      onLanguageChange={(lang) => {
-        setFieldValue('language', lang).catch(() => undefined);
-      }}
-      files={files}
-      onFilesChange={onFilesChange}
-    />
-  );
-};
+type Step = 1 | 2;
 
 export const NewActivityModal = ({
   onClose,
@@ -59,8 +31,6 @@ export const NewActivityModal = ({
   const [createHub, { isLoading }] = usePostProjectsByPidHubsMutation();
 
   const [step, setStep] = useState<Step>(1);
-  const [createdHubId, setCreatedHubId] = useState<number | undefined>();
-  const [uploadFiles, setUploadFiles] = useState<File[]>([]);
 
   const validationSchema = Yup.object({
     projectId: Yup.number()
@@ -85,8 +55,8 @@ export const NewActivityModal = ({
           ...(values.description && { description: values.description }),
         },
       }).unwrap();
-      setCreatedHubId(result.hubId);
-      setStep(3);
+      onClose();
+      navigate(`${hubsBaseRoute}${result.hubId}`);
     } catch {
       addToast(
         ({ close }) => (
@@ -101,19 +71,6 @@ export const NewActivityModal = ({
         { placement: 'top' }
       );
     }
-  };
-
-  const handleGoToHub = () => {
-    const pendingUploads: PendingUpload[] = uploadFiles.map((f) => ({
-      name: f.name,
-      size: f.size,
-      type: f.type,
-    }));
-    onClose();
-    if (createdHubId)
-      navigate(`${hubsBaseRoute}${createdHubId}/videos`, {
-        state: { pendingUploads },
-      });
   };
 
   const handleLaunchTest = () => {
@@ -144,22 +101,10 @@ export const NewActivityModal = ({
             />
           )}
           {step === 2 && <FormStep />}
-          {step === 3 && (
-            <UploadStepConnected
-              files={uploadFiles}
-              onFilesChange={setUploadFiles}
-            />
-          )}
         </Modal.Body>
         <Modal.Footer>
           {step === 2 && (
             <FormStep.Footer onBack={() => setStep(1)} isLoading={isLoading} />
-          )}
-          {step === 3 && (
-            <UploadStep.Footer
-              onBack={() => setStep(2)}
-              onUpload={handleGoToHub}
-            />
           )}
         </Modal.Footer>
         <ModalClose />
