@@ -255,36 +255,42 @@ export const Metas = ({
               </Tooltip>
             </Link>
           )}
-          <StyledPipe />
-          <ButtonMenu
-            onSelect={(value) => {
-              if (value === 'archive') {
-                setIsArchiveModalOpen(true);
-              } else if (value === 'move') {
-                setIsMoveModalOpen(true);
-              }
-            }}
-            label={(props) => (
-              <IconButton {...props}>
-                <DotsIcon />
-              </IconButton>
-            )}
-          >
-            <ButtonMenu.Item
-              isDisabled={!isHub && status.name !== 'closed'}
-              value="archive"
-              icon={<InboxFill />}
-            >
-              {t('__CAMPAIGN_PAGE_DOTS_MENU_ARCHIVE_CAMPAIGN_BUTTON')}
-            </ButtonMenu.Item>
-            <ButtonMenu.Item
-              isDisabled={!filteredProjects || filteredProjects.length === 0}
-              value="move"
-              icon={<EditRedoStroke />}
-            >
-              {t('__CAMPAIGN_PAGE_DOTS_MENU_MOVE_CAMPAIGN_BUTTON')}
-            </ButtonMenu.Item>
-          </ButtonMenu>
+          {!isHub && (
+            <>
+              <StyledPipe />
+              <ButtonMenu
+                onSelect={(value) => {
+                  if (value === 'archive') {
+                    setIsArchiveModalOpen(true);
+                  } else if (value === 'move') {
+                    setIsMoveModalOpen(true);
+                  }
+                }}
+                label={(props) => (
+                  <IconButton {...props}>
+                    <DotsIcon />
+                  </IconButton>
+                )}
+              >
+                <ButtonMenu.Item
+                  isDisabled={!isHub && status.name !== 'closed'}
+                  value="archive"
+                  icon={<InboxFill />}
+                >
+                  {t('__CAMPAIGN_PAGE_DOTS_MENU_ARCHIVE_CAMPAIGN_BUTTON')}
+                </ButtonMenu.Item>
+                <ButtonMenu.Item
+                  isDisabled={
+                    !filteredProjects || filteredProjects.length === 0
+                  }
+                  value="move"
+                  icon={<EditRedoStroke />}
+                >
+                  {t('__CAMPAIGN_PAGE_DOTS_MENU_MOVE_CAMPAIGN_BUTTON')}
+                </ButtonMenu.Item>
+              </ButtonMenu>
+            </>
+          )}
         </ButtonWrapper>
       </FooterContainer>
       {isHub && (
