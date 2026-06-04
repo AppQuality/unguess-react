@@ -506,6 +506,7 @@ export const ImportMediaModal = ({
           <Modal.Footer>
             <Button
               isBasic
+              style={{ marginRight: appTheme.space.sm }}
               disabled={isUploading || isClosing}
               onClick={() => {
                 handleClose(formik).catch(() => undefined);

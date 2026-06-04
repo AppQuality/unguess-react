@@ -13,6 +13,7 @@ import {
   useToast,
 } from '@appquality/unguess-design-system';
 import { ReactComponent as DotsIcon } from '@zendeskgarden/svg-icons/src/16/overflow-vertical-stroke.svg';
+import { ReactComponent as EditIcon } from '@zendeskgarden/svg-icons/src/12/pencil-stroke.svg';
 import { ReactComponent as TrashIcon } from '@zendeskgarden/svg-icons/src/16/trash-stroke.svg';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -85,6 +86,20 @@ export const VideoContainer = ({
     );
   };
 
+  const showSuccessToast = (message: string) => {
+    addToast(
+      ({ close }) => (
+        <Notification
+          onClose={close}
+          type="success"
+          message={message}
+          isPrimary
+        />
+      ),
+      { placement: 'top' }
+    );
+  };
+
   const handleActionClick = async (
     action: string | undefined,
     targetVideo: VideoWithObservations
@@ -103,8 +118,9 @@ export const VideoContainer = ({
     setIsDeletingVideoId(videoId);
     try {
       await deleteAsset({ hid: entityId, mid: videoId }).unwrap();
+      showSuccessToast(t('__VIDEOS_LIST_DELETE_SUCCESS_TOAST'));
     } catch {
-      showErrorToast(t('__VIDEOS_IMPORT_MEDIA_MODAL_DELETE_ERROR_GENERIC'));
+      showErrorToast(t('__TOAST_GENERIC_ERROR_MESSAGE'));
     } finally {
       setIsDeletingVideoId(null);
     }
@@ -182,10 +198,12 @@ export const VideoContainer = ({
                       </IconButton>
                     )}
                   >
-                    <ButtonMenu.Item value="edit">
+                    <ButtonMenu.Item value="edit" icon={<EditIcon />}>
                       {t('__VIDEOS_LIST_TABLE_ACTION_EDIT')}
                     </ButtonMenu.Item>
                     <ButtonMenu.Item
+                      icon={<TrashIcon />}
+                      type="danger"
                       value="delete"
                       isDisabled={
                         v.processingStatus === 'processing' ||
