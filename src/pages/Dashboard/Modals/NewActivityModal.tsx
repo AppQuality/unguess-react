@@ -102,11 +102,11 @@ export const NewActivityModal = ({
           )}
           {step === 2 && <FormStep />}
         </Modal.Body>
-        <Modal.Footer>
-          {step === 2 && (
+        {step === 2 && (
+          <Modal.Footer>
             <FormStep.Footer onBack={() => setStep(1)} isLoading={isLoading} />
-          )}
-        </Modal.Footer>
+          </Modal.Footer>
+        )}
         <ModalClose />
       </Modal>
     </Formik>
