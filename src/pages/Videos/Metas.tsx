@@ -9,7 +9,7 @@ import {
 import { ReactComponent as InsightsIcon } from '@zendeskgarden/svg-icons/src/16/lightbulb-stroke.svg';
 import { ReactComponent as DotsIcon } from '@zendeskgarden/svg-icons/src/16/overflow-vertical-stroke.svg';
 import { format } from 'date-fns';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useOutletContext } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
@@ -101,7 +101,6 @@ export const Metas = ({
   const { isHub, entityId } = useOutletContext<CampaignHubContext>();
   const isEntityArchived = !isHub && Boolean(campaign.isArchived);
   const watcherEntityId = isHub ? entityId : campaign.id.toString();
-  const [totalVideos, setTotalVideos] = useState<number>(0);
   const [isImportMediaModalOpen, setIsImportMediaModalOpen] = useState(false);
   const [isArchiveModalOpen, setIsArchiveModalOpen] = useState(false);
   const { setIsOpen: setIsMoveModalOpen } = useMoveCampaignModalContext();
@@ -137,11 +136,7 @@ export const Metas = ({
     (item) => item.id !== campaign.project.id
   );
 
-  useEffect(() => {
-    if (videos && videos.items.length > 0) {
-      setTotalVideos(videos.items.length);
-    }
-  }, [videos]);
+  const totalVideos = videos?.items.length ?? 0;
 
   // Calculate unique device types from videos (including other)
   const deviceTypes = new Set(
