@@ -110,9 +110,6 @@ export const ChooseStep = ({
             <CardTitle>
               {t('__NEW_ACTIVITY_MODAL_START_ACTIVITY_TITLE')}
             </CardTitle>
-            <CardText>
-              {t('__NEW_ACTIVITY_MODAL_START_ACTIVITY_HEADER_TEXT')}
-            </CardText>
           </CardHeader>
           <CardBody>
             <CardDescription>
@@ -149,9 +146,6 @@ export const ChooseStep = ({
           </CardThumb>
           <CardHeader>
             <CardTitle>{t('__NEW_ACTIVITY_MODAL_UPLOAD_HUB_TITLE')}</CardTitle>
-            <CardText>
-              {t('__NEW_ACTIVITY_MODAL_UPLOAD_HUB_HEADER_TEXT')}
-            </CardText>
           </CardHeader>
           <CardBody>
             <CardDescription>
