@@ -106,7 +106,7 @@ export const useVideos = (cid: string) => {
         };
 
         videos.forEach((video) => {
-          const rawDeviceType = video.tester?.device?.type;
+          const rawDeviceType = video.device?.formFactor;
           const deviceType: DeviceTypeEnum =
             rawDeviceType === DeviceTypeEnum.smartphone ||
             rawDeviceType === DeviceTypeEnum.tablet ||

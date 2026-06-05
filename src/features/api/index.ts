@@ -1841,7 +1841,7 @@ export type PatchHubsByHidAssetsAndMidApiArg = {
   body: {
     participantName: string;
     device: string;
-    addictional: string;
+    additional: string;
     fileName: string;
     uploadDate: string;
   };
@@ -3357,16 +3357,20 @@ export type Video = {
   poster?: string;
   sentiment?: MediaSentiment;
   streamUrl?: string;
-  tester: {
-    device: {
-      type: 'smartphone' | 'tablet' | 'desktop' | 'other' | 'unknown';
-    };
-    id: number;
-    name: string;
-    surname: string;
-  };
   transcript?: Transcript;
   url: string;
+  tester?: {
+    id?: string;
+    name?: string;
+  };
+  device?: {
+    name?: string;
+    os?: string;
+    formFactor?: 'smartphone' | 'tablet' | 'desktop' | 'other' | 'unknown';
+  };
+  filename: string;
+  uploadDate: string;
+  additionalInfo?: string;
 };
 export type PaginationData = {
   limit?: number;

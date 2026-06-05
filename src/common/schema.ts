@@ -1831,17 +1831,21 @@ export interface components {
       poster?: string;
       sentiment?: components["schemas"]["MediaSentiment"];
       streamUrl?: string;
-      tester: {
-        device: {
-          /** @enum {string} */
-          type: "smartphone" | "tablet" | "desktop" | "other" | "unknown";
-        };
-        id: number;
-        name: string;
-        surname: string;
-      };
       transcript?: components["schemas"]["Transcript"];
       url: string;
+      tester?: {
+        id?: string;
+        name?: string;
+      };
+      device?: {
+        name?: string;
+        os?: string;
+        /** @enum {undefined} */
+        formFactor?: "smartphone" | "tablet" | "desktop" | "other" | "unknown";
+      };
+      filename: string;
+      uploadDate: string;
+      additionalInfo?: string;
     };
     /** VideoTag */
     VideoTag: {
@@ -3704,7 +3708,7 @@ export interface operations {
         "application/json": {
           participantName: string;
           device: string;
-          addictional: string;
+          additional: string;
           fileName: string;
           uploadDate: string;
         };

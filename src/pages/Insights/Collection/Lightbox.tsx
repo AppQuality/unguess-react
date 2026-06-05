@@ -119,6 +119,8 @@ export const LightboxContainer = ({
   const severity = observation.tags.find(
     (tag) => tag.group.name === 'severity'
   );
+  const testerId = video?.tester?.id;
+  const deviceType = video?.device?.formFactor;
 
   const tags = observation.tags.filter(
     (tag) => tag.group.name !== 'severity' && tag.group.name !== 'title'
@@ -181,18 +183,18 @@ export const LightboxContainer = ({
                 </>
               )}
               <SM isBold style={{ color: appTheme.palette.blue[600] }}>
-                T{video?.tester.id}
+                {testerId ? `T${testerId}` : '--'}
               </SM>
               <StyledPipe />
               <SM style={{ display: 'flex', alignItems: 'center' }}>
-                {getDeviceIcon(video?.tester.device.type || '')}{' '}
+                {getDeviceIcon(deviceType || '')}{' '}
                 <Span
                   style={{
                     textTransform: 'capitalize',
                     marginLeft: appTheme.space.xs,
                   }}
                 >
-                  {video?.tester.device.type}
+                  {deviceType || '--'}
                 </Span>
               </SM>
               <StyledPipe />

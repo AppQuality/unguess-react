@@ -33,8 +33,8 @@ const useUsecaseWithVideos = (entityId: string) => {
     })
     .map((usecase) => {
       const sortedVideos = usecase.videos.sort((a, b) => {
-        const aDeviceType = a.tester.device.type;
-        const bDeviceType = b.tester.device.type;
+        const aDeviceType = a.device?.formFactor || 'other';
+        const bDeviceType = b.device?.formFactor || 'other';
         const order = ['desktop', 'tablet', 'smartphone', 'other'];
         const indexA = order.indexOf(aDeviceType);
         const indexB = order.indexOf(bDeviceType);

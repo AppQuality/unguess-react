@@ -5,7 +5,12 @@ import {
   XL,
 } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
-import { Link, useLocation, useOutletContext, useParams } from 'react-router-dom';
+import {
+  Link,
+  useLocation,
+  useOutletContext,
+  useParams,
+} from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
 import { capitalizeFirstLetter } from 'src/common/capitalizeFirstLetter';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
@@ -59,6 +64,10 @@ const VideoPageHeader = () => {
   if (isFetchingVideo || isLoadingVideo) return <Skeleton />;
   if (!isHub && (isFetchingCampaign || isLoadingCampaign)) return <Skeleton />;
 
+  const testerName = video.tester?.name
+    ? capitalizeFirstLetter(video.tester.name)
+    : '--';
+
   return (
     <LayoutWrapper
       isNotBoxed
@@ -98,7 +107,7 @@ const VideoPageHeader = () => {
                   color: appTheme.palette.blue[600],
                 }}
               >
-                {capitalizeFirstLetter(video.tester.name)}
+                {testerName}
               </XL>
               <div
                 style={{
@@ -107,17 +116,10 @@ const VideoPageHeader = () => {
                   gap: appTheme.space.md,
                 }}
               >
-                {usecaseId && (
-                  <UsecaseSelect
-                    currentUsecaseId={usecaseId}
-                  />
-                )}
+                {usecaseId && <UsecaseSelect currentUsecaseId={usecaseId} />}
 
                 {video && (
-                  <VideoPagination
-                    currentUsecaseId={usecaseId}
-                    video={video}
-                  />
+                  <VideoPagination currentUsecaseId={usecaseId} video={video} />
                 )}
 
                 <div>

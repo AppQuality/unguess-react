@@ -103,10 +103,14 @@ const Actions = () => {
   if (isFetchingVideo || isLoadingVideo) return <Skeleton />;
   if (isFetchingObservations || isLoadingObservations) return <Skeleton />;
 
+  const testerName = video.tester?.name || '--';
+  const testerId = video.tester?.id;
+  const deviceType = video.device?.formFactor;
+
   return (
     <Container ref={refScroll}>
       <Header>
-        <XL isBold>{video.tester.name}</XL>
+        <XL isBold>{testerName}</XL>
         <HeaderEditButton
           isBasic
           size="small"
@@ -119,12 +123,12 @@ const Actions = () => {
         </HeaderEditButton>
       </Header>
       <MetaContainer>
-        <Meta size="medium">Tester ID: {video.tester.id}</Meta>
+        <Meta size="medium">Tester ID: {testerId ?? '--'}</Meta>
         <Pipe />
-        {video.tester.device && (
+        {deviceType && (
           <Tag hue="white" style={{ textTransform: 'capitalize' }}>
-            <Tag.Avatar>{getDeviceIcon(video.tester.device.type)}</Tag.Avatar>
-            {video.tester.device.type}
+            <Tag.Avatar>{getDeviceIcon(deviceType)}</Tag.Avatar>
+            {deviceType}
           </Tag>
         )}
         {video.duration && (

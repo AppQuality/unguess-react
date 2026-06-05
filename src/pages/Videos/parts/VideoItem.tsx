@@ -125,6 +125,8 @@ const Video = ({ video }: { video: VideoWithObservations }) => {
   const { isHub, entityId } = useOutletContext<CampaignHubContext>();
   const prefix = isHub ? 'hubs' : 'campaigns';
   const videoUrl = useLocalizeRoute(`${prefix}/${entityId}/videos/${video.id}`);
+  const testerName = video.tester?.name || '--';
+  const testerId = video.tester?.id;
   const isOptimizationPending = video.processingStatus === 'processing';
   const isOptimizationFailed = video.processingStatus === 'error';
 
@@ -138,14 +140,14 @@ const Video = ({ video }: { video: VideoWithObservations }) => {
         <Poster video={video} />
         <div style={{ display: 'flex', flexDirection: 'column' }}>
           <MD isBold style={{ color: appTheme.palette.blue[600] }}>
-            {video.tester.name}
+            {testerName}
           </MD>
           <SM
             color={appTheme.palette.grey[600]}
             isBold
             style={{ marginTop: appTheme.space.xxs }}
           >
-            Tester ID: T{video.tester.id}
+            Tester ID: {testerId ? `T${testerId}` : '--'}
           </SM>
           <ObservationsTotalContainer>
             <TagsContainer>

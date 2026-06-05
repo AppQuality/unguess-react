@@ -140,15 +140,15 @@ export const Metas = ({
 
   // Calculate unique device types from videos (including other)
   const deviceTypes = new Set(
-    videos?.items.map((video) => video.tester.device.type) || []
+    videos?.items.map((video) => video.device?.formFactor || 'other') || []
   );
 
   // Count other devices
   const otherDeviceCount =
     videos?.items.filter(
       (video) =>
-        video.tester.device.type === 'other' ||
-        video.tester.device.type === 'unknown'
+        video.device?.formFactor === 'other' ||
+        video.device?.formFactor === 'unknown'
     ).length || 0;
 
   const severities = observations ? getAllSeverityTags(observations) : [];

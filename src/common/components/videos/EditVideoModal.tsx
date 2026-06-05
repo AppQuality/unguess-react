@@ -21,7 +21,7 @@ import {
 import { styled } from 'styled-components';
 import * as Yup from 'yup';
 
-type ApiDeviceType = ApiVideo['tester']['device']['type'];
+type ApiDeviceType = NonNullable<NonNullable<ApiVideo['device']>['formFactor']>;
 
 const DEVICE_LABEL_BY_TYPE: Record<ApiDeviceType, string> = {
   smartphone: 'smartphone',
@@ -81,9 +81,9 @@ export const EditVideoModal = ({
 
   const initialValues: EditVideoFormValues = {
     title: '',
-    participantName: `${video.tester.name}`.trim(),
+    participantName: `${video.tester?.name ?? ''}`.trim(),
     additionalInformation: '',
-    device: video.tester.device.type,
+    device: video.device?.formFactor ?? 'other',
     // TODO: replace with video.testDate once backend exposes it and API types are updated.
     testDate: new Date(),
   };
@@ -122,7 +122,7 @@ export const EditVideoModal = ({
       const body: PatchHubsByHidAssetsAndMidApiArg['body'] = {
         participantName: values.participantName,
         device: values.device,
-        addictional: values.additionalInformation,
+        additional: values.additionalInformation,
         fileName: values.title,
         uploadDate: dateToInputValue(values.testDate),
       };
