@@ -15,16 +15,22 @@ test.describe('The Join page signup step - case new user', () => {
     await join.openSignup();
   });
 
-  test('display a form with user email and password input and terms checkbox', async () => {
+  test('shows only the email input initially and reveals password after continue', async () => {
     await expect(signupPage.signupFormElements().emailInput()).toBeVisible();
+    await expect(
+      signupPage.signupFormElements().passwordInput()
+    ).not.toBeVisible();
+    await signupPage.fillEmail('valid@example.com');
+    await signupPage.continueToPassword();
     await expect(signupPage.signupFormElements().passwordInput()).toBeVisible();
-    await expect(signupPage.signupFormElements().termsCheckbox()).toBeVisible();
   });
 
   test('the password input check if the password is strong enough', async ({
     page,
     i18n,
   }) => {
+    await signupPage.fillEmail('valid@example.com');
+    await signupPage.continueToPassword();
     // Touch the password field and blur to trigger validation
     await signupPage.signupFormElements().passwordInput().click();
     await signupPage.signupFormElements().passwordInput().blur();
@@ -173,6 +179,13 @@ test.describe('The Join page second step', () => {
     await onboarding.submitPersonalInfo();
     await expect(onboarding.elements().nameInput()).not.toBeVisible();
     await expect(onboarding.workspaceElements().workspaceInput()).toBeVisible();
+  });
+
+  test('displays terms and privacy consent before the next button', async ({
+    page,
+  }) => {
+    await expect(page.getByTestId('terms-and-conditions')).toBeVisible();
+    await expect(page.getByTestId('privacy-policy')).toBeVisible();
   });
 });
 

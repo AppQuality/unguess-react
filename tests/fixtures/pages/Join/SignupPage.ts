@@ -19,10 +19,8 @@ export class SignupPage {
       passwordInput: () =>
         this.page.getByRole('textbox', { name: /password/i }),
       passwordError: () => this.page.getByTestId('signup-password-error'),
-      termsCheckbox: () =>
-        this.page.getByTestId('terms-and-conditions').getByRole('checkbox'),
-      privacyCheckbox: () =>
-        this.page.getByTestId('privacy-policy').getByRole('checkbox'),
+      continueButton: () =>
+        this.page.getByTestId('signup-continue-with-password'),
       submitButton: () =>
         this.page.getByRole('button', {
           name: this.i18n.t('SIGNUP_FORM_SUBMIT'),
@@ -68,15 +66,14 @@ export class SignupPage {
     await passwordInput.blur();
   }
 
-  async acceptTerms() {
-    await this.signupFormElements().termsCheckbox().click({ force: true });
-    await this.signupFormElements().privacyCheckbox().click({ force: true });
+  async continueToPassword() {
+    await this.signupFormElements().continueButton().click();
   }
 
   async fillValidSignupForm() {
     await this.fillEmail('new.user@example.com');
+    await this.continueToPassword();
     await this.fillPassword('ValidPassword123');
-    await this.acceptTerms();
   }
 
   async submitSignupForm() {

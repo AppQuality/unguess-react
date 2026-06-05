@@ -20,8 +20,7 @@ import { ImagesColumn } from '../ImagesColumn';
 const PageWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  height: 100vh;
-  overflow: hidden;
+  min-height: 100vh;
 
   @media (min-width: ${({ theme }) => theme.breakpoints.xl}) {
     background-image: url(${joinBg});
@@ -53,7 +52,6 @@ const LeftColumn = styled.div`
   flex-direction: column;
   justify-content: center;
   padding: ${({ theme }) => `0 ${theme.space.xl}`};
-  overflow-y: auto;
 
   @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
     flex: 1;

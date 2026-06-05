@@ -41,11 +41,20 @@ export class OnboardingPage {
         this.elements().companySizeSelect().getByRole('option'),
       companySizeSelectError: () =>
         this.page.getByTestId('onboarding-company-size-error'),
+      termsCheckbox: () =>
+        this.page.getByTestId('terms-and-conditions').locator('input'),
+      privacyCheckbox: () =>
+        this.page.getByTestId('privacy-policy').locator('input'),
       nextButton: () =>
         this.page.getByRole('button', {
           name: this.i18n.t('SIGNUP_FORM_NEXT_STEP'),
         }),
     };
+  }
+
+  async acceptTerms() {
+    await this.elements().termsCheckbox().check({ force: true });
+    await this.elements().privacyCheckbox().check({ force: true });
   }
 
   // WorkspaceStep elements
@@ -74,6 +83,7 @@ export class OnboardingPage {
     await this.elements().companySizeSelectOptions().first().click();
     // Click name input to close any open dropdowns and move focus away
     await this.elements().nameInput().click();
+    await this.acceptTerms();
   }
 
   async submitPersonalInfo() {

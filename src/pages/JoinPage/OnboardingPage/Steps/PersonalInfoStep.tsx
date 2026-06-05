@@ -1,10 +1,13 @@
 import {
+  Anchor,
   Button,
+  Checkbox,
   FormField,
   Input,
   Label,
   Message,
   Paragraph,
+  SM,
   Select,
   Span,
   XL,
@@ -18,7 +21,7 @@ import {
   useFormikContext,
 } from 'formik';
 import { useCallback, useEffect, useMemo, useRef } from 'react';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import { useSearchParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
 import {
@@ -51,6 +54,8 @@ interface PersonalInfoFormValues {
   surname: string;
   roleId: string;
   companySizeId: string;
+  termsAccepted: boolean;
+  privacyAccepted: boolean;
 }
 
 const TEXT_FIELDS: (keyof PersonalInfoFormValues)[] = ['name', 'surname'];
@@ -247,6 +252,8 @@ export const PersonalInfoStep = () => {
     surname: data.surname,
     roleId: data.roleId,
     companySizeId: data.companySizeId,
+    termsAccepted: data.termsAccepted,
+    privacyAccepted: data.privacyAccepted,
   };
 
   return (
@@ -263,13 +270,7 @@ export const PersonalInfoStep = () => {
         validationSchema={getPersonalInfoValidationSchema(t)}
         onSubmit={handleSubmit}
       >
-        {({
-          isSubmitting,
-          values,
-          setFieldValue,
-          validateForm,
-          setTouched,
-        }) => (
+        {({ isSubmitting, setFieldValue }) => (
           <Form>
             <AutofillSync />
             <FieldContainer>
@@ -435,6 +436,93 @@ export const PersonalInfoStep = () => {
                 }}
               </Field>
 
+              <Field name="termsAccepted">
+                {({ field, form, meta }: FieldProps) => {
+                  const hasError = meta.touched && Boolean(meta.error);
+                  return (
+                    <FormField data-qa="terms-and-conditions">
+                      <Checkbox
+                        checked={field.value}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                          form.setFieldValue('termsAccepted', e.target.checked)
+                        }
+                        onBlur={field.onBlur}
+                        name={field.name}
+                      >
+                        <Label>
+                          <SM style={{ fontStyle: 'italic' }}>
+                            <Trans
+                              i18nKey="SIGNUP_FORM_TERMS_CHECKBOX"
+                              components={{
+                                'terms-link': (
+                                  <Anchor
+                                    isExternal
+                                    href="https://unguess.io/terms-and-conditions/"
+                                    target="_blank"
+                                    title="Terms and Conditions of Service"
+                                    style={{ fontWeight: 600 }}
+                                  />
+                                ),
+                              }}
+                            />
+                          </SM>
+                        </Label>
+                      </Checkbox>
+                      {hasError && (
+                        <Message validation="error">
+                          {t(meta.error as string)}
+                        </Message>
+                      )}
+                    </FormField>
+                  );
+                }}
+              </Field>
+
+              <Field name="privacyAccepted">
+                {({ field, form, meta }: FieldProps) => {
+                  const hasError = meta.touched && Boolean(meta.error);
+                  return (
+                    <FormField data-qa="privacy-policy">
+                      <Checkbox
+                        checked={field.value}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                          form.setFieldValue(
+                            'privacyAccepted',
+                            e.target.checked
+                          )
+                        }
+                        onBlur={field.onBlur}
+                        name={field.name}
+                      >
+                        <Label>
+                          <SM style={{ fontStyle: 'italic' }}>
+                            <Trans
+                              i18nKey="SIGNUP_FORM_PRIVACY_CHECKBOX"
+                              components={{
+                                'privacy-link': (
+                                  <Anchor
+                                    isExternal
+                                    href="https://unguess.io/privacy-policy/"
+                                    target="_blank"
+                                    title="Privacy Policy"
+                                    style={{ fontWeight: 600 }}
+                                  />
+                                ),
+                              }}
+                            />
+                          </SM>
+                        </Label>
+                      </Checkbox>
+                      {hasError && (
+                        <Message validation="error">
+                          {t(meta.error as string)}
+                        </Message>
+                      )}
+                    </FormField>
+                  );
+                }}
+              </Field>
+
               <ButtonRow>
                 <Button
                   type="submit"
@@ -442,27 +530,7 @@ export const PersonalInfoStep = () => {
                   isAccent
                   isStretched
                   size="medium"
-                  disabled={
-                    isSubmitting ||
-                    !values.name ||
-                    !values.surname ||
-                    !values.roleId ||
-                    !values.companySizeId
-                  }
-                  onClick={async (e) => {
-                    e.preventDefault();
-                    await setTouched({
-                      name: true,
-                      surname: true,
-                      roleId: true,
-                      companySizeId: true,
-                    });
-                    const formErrors = await validateForm();
-                    if (Object.keys(formErrors).length === 0) {
-                      const form = (e.target as HTMLElement).closest('form');
-                      form?.requestSubmit();
-                    }
-                  }}
+                  disabled={isSubmitting}
                 >
                   {isSubmitting ? t('LOADING') : t('SIGNUP_FORM_NEXT_STEP')}
                 </Button>

@@ -27,8 +27,7 @@ import { WorkspaceStep } from './Steps/WorkspaceStep';
 const PageWrapper = styled.div<{ step: number }>`
   display: flex;
   flex-direction: column;
-  height: 100vh;
-  overflow: hidden;
+  min-height: 100vh;
 
   @media (min-width: ${({ theme }) => theme.breakpoints.xl}) {
     ${({ step }) =>
@@ -64,7 +63,6 @@ const LeftColumn = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  overflow-y: auto;
 
   @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
     flex: 1;
