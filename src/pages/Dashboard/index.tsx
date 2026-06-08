@@ -13,6 +13,7 @@ import { LaunchCampaignCards } from './LaunchCampaignCards';
 import { CreateProjectModal } from './Modals/CreateProjectModal';
 import { PromoContextProvider } from './PromoContext';
 import { SuggestedCampaigns } from './SuggestedCampaigns';
+import { SuggestedHubs } from './SuggestedHubs';
 
 const Dashboard = () => {
   const { t } = useTranslation();
@@ -47,6 +48,7 @@ const Dashboard = () => {
       >
         <LayoutWrapper>
           <Grid>
+            <SuggestedHubs />
             <SuggestedCampaigns />
             <LaunchCampaignCards />
             <CampaignsList />
