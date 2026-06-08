@@ -17,6 +17,7 @@ import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
 import type { CampaignHubContext } from 'src/features/templates/CampaignsHubsMiddleware';
 import {
   useGetCampaignsByCidQuery,
+  useGetHubsByHidQuery,
   useGetVideosByVidQuery,
 } from 'src/features/api';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
@@ -59,10 +60,26 @@ const VideoPageHeader = () => {
     }
   );
 
+  const {
+    data: hub,
+    isFetching: isFetchingHub,
+    isLoading: isLoadingHub,
+    isError: isErrorHub,
+  } = useGetHubsByHidQuery(
+    {
+      hid: entityId,
+    },
+    {
+      skip: !isHub,
+    }
+  );
+
   if (!video || isErrorVideo) return null;
   if (!isHub && (!campaign || isErrorCampaign)) return null;
+  if (isHub && (!hub || isErrorHub)) return null;
   if (isFetchingVideo || isLoadingVideo) return <Skeleton />;
   if (!isHub && (isFetchingCampaign || isLoadingCampaign)) return <Skeleton />;
+  if (isHub && (isFetchingHub || isLoadingHub)) return <Skeleton />;
 
   const testerName = video.tester?.name
     ? capitalizeFirstLetter(video.tester.name)
@@ -90,7 +107,7 @@ const VideoPageHeader = () => {
           <PageHeader.Breadcrumbs>
             <Link to={entityRoute}>
               <Anchor id="breadcrumb-parent">
-                {isHub ? t('__HUB_PAGE_TITLE') : campaign?.customer_title}
+                {isHub ? hub?.title : campaign?.customer_title}
               </Anchor>
             </Link>
             <Link to={videosRoute}>
