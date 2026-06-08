@@ -1,5 +1,4 @@
 import { Button, MD, XL } from '@appquality/unguess-design-system';
-import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useOutletContext } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
@@ -7,7 +6,6 @@ import { CampaignHubContext } from 'src/features/templates/CampaignsHubsMiddlewa
 import styled from 'styled-components';
 import { ReactComponent as EmptyStateImg } from '../../assets/empty-state-videos.svg';
 import { ReactComponent as HubEmptyStateImg } from '../../assets/hub-empty-state.svg';
-import { ImportMediaModal } from './ImportMediaModal';
 
 const StyledEmptyState = styled.div`
   display: flex;
@@ -19,10 +17,13 @@ const StyledEmptyState = styled.div`
   padding-top: ${appTheme.space.md};
 `;
 
-export const Empty = () => {
+type EmptyProps = {
+  onOpenImportMediaModal: () => void;
+};
+
+export const Empty = ({ onOpenImportMediaModal }: EmptyProps) => {
   const { t } = useTranslation();
-  const { isHub, entityId } = useOutletContext<CampaignHubContext>();
-  const [isImportMediaModalOpen, setIsImportMediaModalOpen] = useState(false);
+  const { isHub } = useOutletContext<CampaignHubContext>();
 
   return (
     <StyledEmptyState>
@@ -55,17 +56,10 @@ export const Empty = () => {
           isPrimary
           isAccent
           style={{ marginTop: appTheme.space.md }}
-          onClick={() => setIsImportMediaModalOpen(true)}
+          onClick={onOpenImportMediaModal}
         >
           {t('__HUB_EMPTY_STATE_UPLOAD_MEDIA_CTA')}
         </Button>
-      )}
-      {isHub && (
-        <ImportMediaModal
-          isOpen={isImportMediaModalOpen}
-          onClose={() => setIsImportMediaModalOpen(false)}
-          hubId={entityId}
-        />
       )}
     </StyledEmptyState>
   );

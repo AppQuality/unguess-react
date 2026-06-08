@@ -32,6 +32,7 @@ import {
   useDeleteHubsByHidAssetsAndMidMutation,
   usePostHubsByHidAssetsMutation,
 } from 'src/features/api';
+import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { getFileType } from 'src/pages/Videos/utils/getFileType';
 import styled from 'styled-components';
 import * as Yup from 'yup';
@@ -126,6 +127,7 @@ export const ImportMediaModal = ({
   const { t } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
+  const localizedVideosRoute = useLocalizeRoute(`hubs/${hubId}/videos`);
   const { addToast } = useToast();
   const [isDragging, setIsDragging] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
@@ -328,20 +330,12 @@ export const ImportMediaModal = ({
           .min(1, t('__VIDEOS_IMPORT_MEDIA_MODAL_FILES_REQUIRED')),
       })}
       onSubmit={(_, actions) => {
-        const targetPath = `/hubs/${hubId}/videos/`;
-
         actions.resetForm();
         onClose();
 
-        if (
-          location.pathname === targetPath ||
-          location.pathname === targetPath.slice(0, -1)
-        ) {
-          window.location.reload();
-          return;
+        if (location.pathname !== localizedVideosRoute) {
+          navigate(localizedVideosRoute);
         }
-
-        navigate(targetPath);
       }}
     >
       {(formik) => (

@@ -12,32 +12,22 @@ export const useCampaign = (campaignId: number) => {
 
   const {
     isLoading: isCampaignLoading,
-    isFetching: isCampaignFetching,
     isError: isCampaignError,
     data: campaign,
   } = useGetCampaignsByCidQuery({
     cid: campaignId?.toString() ?? '0',
   });
 
-  const {
-    isLoading: isProjectLoading,
-    isFetching: isProjectFetching,
-    currentData: project,
-  } = useGetProjectsByPidQuery({
-    pid: campaign?.project.id.toString() ?? '0',
-  });
+  const { isLoading: isProjectLoading, currentData: project } =
+    useGetProjectsByPidQuery({
+      pid: campaign?.project.id.toString() ?? '0',
+    });
 
   const projectRoute = useLocalizeRoute(
     `projects/${campaign?.project.id ?? 0}`
   );
 
-  if (
-    isCampaignLoading ||
-    isProjectLoading ||
-    isCampaignFetching ||
-    isProjectFetching ||
-    !campaign
-  ) {
+  if (isCampaignLoading || isProjectLoading || !campaign) {
     return {
       isLoading: true as const,
     };
@@ -77,7 +67,6 @@ export const useCampaignOrHub = (entityId: string, isHub: boolean) => {
   // Query for campaign
   const {
     isLoading: isCampaignLoading,
-    isFetching: isCampaignFetching,
     isError: isCampaignError,
     data: campaign,
   } = useGetCampaignsByCidQuery(
@@ -92,7 +81,6 @@ export const useCampaignOrHub = (entityId: string, isHub: boolean) => {
   // Query for hub
   const {
     isLoading: isHubLoading,
-    isFetching: isHubFetching,
     isError: isHubError,
     data: hub,
   } = useGetHubsByHidQuery(
@@ -107,34 +95,22 @@ export const useCampaignOrHub = (entityId: string, isHub: boolean) => {
   // Use campaign or hub data based on isHub flag
   const entity = isHub ? hub : campaign;
   const entityLoading = isHub ? isHubLoading : isCampaignLoading;
-  const entityFetching = isHub ? isHubFetching : isCampaignFetching;
   const entityError = isHub ? isHubError : isCampaignError;
 
   // Query for project (both campaigns and hubs have project)
-  const {
-    isLoading: isProjectLoading,
-    isFetching: isProjectFetching,
-    currentData: project,
-  } = useGetProjectsByPidQuery(
-    {
-      pid: entity?.project.id.toString() ?? '0',
-    },
-    {
-      skip: !entity,
-    }
-  );
+  const { isLoading: isProjectLoading, currentData: project } =
+    useGetProjectsByPidQuery(
+      {
+        pid: entity?.project.id.toString() ?? '0',
+      },
+      {
+        skip: !entity,
+      }
+    );
 
-  const projectRoute = useLocalizeRoute(
-    `projects/${entity?.project.id ?? 0}`
-  );
+  const projectRoute = useLocalizeRoute(`projects/${entity?.project.id ?? 0}`);
 
-  if (
-    entityLoading ||
-    isProjectLoading ||
-    entityFetching ||
-    isProjectFetching ||
-    !entity
-  ) {
+  if (entityLoading || isProjectLoading || !entity) {
     return {
       isLoading: true as const,
     };
