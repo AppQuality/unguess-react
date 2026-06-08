@@ -124,9 +124,11 @@ const VideosPageContent = () => {
                                 />
                               )}
                               <AccordionFooter>
-                                <CompletionTooltip
-                                  percentage={uc.usecase.completion}
-                                />
+                                {!isHub && (
+                                  <CompletionTooltip
+                                    percentage={uc.usecase.completion}
+                                  />
+                                )}
                               </AccordionFooter>
                             </AccordionNew.Panel>
                           </AccordionNew.Section>

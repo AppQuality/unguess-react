@@ -9,15 +9,15 @@ import styled from 'styled-components';
 import { ReactComponent as InfoStrokeIcon } from '@zendeskgarden/svg-icons/src/16/info-stroke.svg';
 import { StyledSM } from './StyledSM';
 
+const CompletionText = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
 export const CompletionTooltip = ({ percentage }: { percentage: number }) => {
   const { t } = useTranslation();
 
   const completionBreakpoints = [25, 50, 75];
-
-  const CompletionText = styled.div`
-    display: flex;
-    align-items: center;
-  `;
 
   const getCompletionText = () => {
     if (percentage < completionBreakpoints[0]) {
