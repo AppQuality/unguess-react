@@ -3370,7 +3370,7 @@ export type Video = {
   };
   filename: string;
   uploadDate: string;
-  additionalInfo?: string;
+  additional?: string;
 };
 export type PaginationData = {
   limit?: number;

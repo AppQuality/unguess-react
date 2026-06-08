@@ -1845,7 +1845,7 @@ export interface components {
       };
       filename: string;
       uploadDate: string;
-      additionalInfo?: string;
+      additional?: string;
     };
     /** VideoTag */
     VideoTag: {

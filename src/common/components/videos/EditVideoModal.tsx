@@ -96,7 +96,7 @@ export const EditVideoModal = ({
   const initialValues: EditVideoFormValues = {
     title: detailedVideo?.filename ?? '',
     participantName: `${detailedVideo?.tester?.name ?? ''}`.trim(),
-    additionalInformation: detailedVideo?.additionalInfo ?? '',
+    additionalInformation: detailedVideo?.additional ?? '',
     device: detailedVideo?.device?.formFactor ?? 'other',
     testDate: parseApiDate(detailedVideo?.uploadDate),
   };
