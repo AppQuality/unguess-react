@@ -8,14 +8,17 @@ import {
   Modal,
   ModalClose,
   Select,
+  Skeleton,
   Span,
   Textarea,
 } from '@appquality/unguess-design-system';
 import { Form, Formik, FormikHelpers, FormikProps } from 'formik';
 import { useTranslation } from 'react-i18next';
+import { formatDateForApiInput, parseApiDate } from 'src/common/date/apiDate';
 import {
   PatchHubsByHidAssetsAndMidApiArg,
   Video as ApiVideo,
+  useGetVideosByVidQuery,
   usePatchHubsByHidAssetsAndMidMutation,
 } from 'src/features/api';
 import { styled } from 'styled-components';
@@ -53,12 +56,15 @@ const InputWrapper = styled.div`
   margin-top: ${({ theme }) => theme.space.xs};
 `;
 
+const LoadingBody = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: ${({ theme }) => theme.space.md};
+`;
+
 const dateToInputValue = (value?: Date) => {
   if (!value) return '';
-  const year = value.getFullYear();
-  const month = `${value.getMonth() + 1}`.padStart(2, '0');
-  const day = `${value.getDate()}`.padStart(2, '0');
-  return `${year}-${month}-${day}`;
+  return formatDateForApiInput(value);
 };
 
 type EditVideoModalProps = {
@@ -76,16 +82,53 @@ export const EditVideoModal = ({
 }: EditVideoModalProps) => {
   const { t } = useTranslation();
   const [patchAsset] = usePatchHubsByHidAssetsAndMidMutation();
+  const {
+    data: detailedVideo,
+    isLoading: isLoadingDetailedVideo,
+    isFetching: isFetchingDetailedVideo,
+  } = useGetVideosByVidQuery(
+    {
+      vid: String(video?.id ?? ''),
+    },
+    {
+      skip: !isOpen || !video,
+    }
+  );
 
   if (!isOpen || !video) return null;
 
+  if (isLoadingDetailedVideo || isFetchingDetailedVideo || !detailedVideo) {
+    return (
+      <Modal onClose={onClose}>
+        <Modal.Header>{t('__VIDEOS_EDIT_MODAL_TITLE')}</Modal.Header>
+        <Modal.Body>
+          <LoadingBody>
+            <Skeleton height="40px" width="100%" />
+            <Skeleton height="40px" width="100%" />
+            <Skeleton height="100px" width="100%" />
+            <Skeleton height="40px" width="100%" />
+            <Skeleton height="40px" width="100%" />
+          </LoadingBody>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button isBasic onClick={onClose}>
+            {t('__VIDEOS_EDIT_MODAL_CANCEL')}
+          </Button>
+          <Button isPrimary isAccent disabled>
+            {t('__VIDEOS_EDIT_MODAL_SAVE')}
+          </Button>
+        </Modal.Footer>
+        <ModalClose />
+      </Modal>
+    );
+  }
+
   const initialValues: EditVideoFormValues = {
-    title: '',
-    participantName: `${video.tester?.name ?? ''}`.trim(),
-    additionalInformation: '',
-    device: video.device?.formFactor ?? 'other',
-    // TODO: replace with video.testDate once backend exposes it and API types are updated.
-    testDate: new Date(),
+    title: detailedVideo.filename,
+    participantName: `${detailedVideo.tester?.name ?? ''}`.trim(),
+    additionalInformation: detailedVideo.additionalInfo ?? '',
+    device: detailedVideo.device?.formFactor ?? 'other',
+    testDate: parseApiDate(detailedVideo.uploadDate) ?? new Date(),
   };
 
   const validationSchema = Yup.object().shape({
@@ -124,7 +167,7 @@ export const EditVideoModal = ({
         device: values.device,
         additional: values.additionalInformation,
         fileName: values.title,
-        uploadDate: dateToInputValue(values.testDate),
+        uploadDate: formatDateForApiInput(values.testDate),
       };
 
       await patchAsset({ hid: hubId, mid: video.id, body }).unwrap();
@@ -263,7 +306,7 @@ export const EditVideoModal = ({
 
                 <FormField>
                   <Label>
-                    {t('__VIDEOS_EDIT_MODAL_FIELD_TEST_DATE', 'Test date')}{' '}
+                    {t('__VIDEOS_EDIT_MODAL_FIELD_TEST_DATE')}{' '}
                     <RequiredAsterisk>*</RequiredAsterisk>
                   </Label>
                   <InputWrapper>

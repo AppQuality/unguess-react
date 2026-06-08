@@ -18,6 +18,7 @@ import { ReactComponent as TrashIcon } from '@zendeskgarden/svg-icons/src/16/tra
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useOutletContext } from 'react-router-dom';
+import { formatApiDateDDMMYYYY } from 'src/common/date/apiDate';
 import { EditVideoModal } from 'src/common/components/videos/EditVideoModal';
 import { useDeleteHubsByHidAssetsAndMidMutation } from 'src/features/api';
 import { CampaignHubContext } from 'src/features/templates/CampaignsHubsMiddleware';
@@ -173,7 +174,9 @@ export const VideoContainer = ({
                   ? formatDuration(v.duration)
                   : ''}
               </TableCell>
-              <TableCell style={{ width: '10%' }} />
+              <TableCell style={{ width: '10%' }}>
+                {formatApiDateDDMMYYYY(v.uploadDate)}
+              </TableCell>
               <ActionCell>
                 {v.processingStatus === 'error' ? (
                   <IconButton

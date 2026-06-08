@@ -8,7 +8,6 @@ import {
 } from '@appquality/unguess-design-system';
 import { ReactComponent as InsightsIcon } from '@zendeskgarden/svg-icons/src/16/lightbulb-stroke.svg';
 import { ReactComponent as DotsIcon } from '@zendeskgarden/svg-icons/src/16/overflow-vertical-stroke.svg';
-import { format } from 'date-fns';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useOutletContext } from 'react-router-dom';
@@ -17,6 +16,7 @@ import { ReactComponent as DashboardIcon } from 'src/assets/icons/dashboard-icon
 import { ReactComponent as EditRedoStroke } from 'src/assets/icons/move-icon.svg';
 import { ReactComponent as InboxFill } from 'src/assets/icons/project-archive.svg';
 import { capitalizeFirstLetter } from 'src/common/capitalizeFirstLetter';
+import { formatApiDateDDMMYYYY } from 'src/common/date/apiDate';
 import { CampaignSettings } from 'src/common/components/inviteUsers/campaignSettings';
 import { Meta } from 'src/common/components/Meta';
 import { StatusMeta } from 'src/common/components/meta/StatusMeta';
@@ -169,7 +169,7 @@ export const Metas = ({
           {campaign.start_date && (
             <>
               <Span style={{ color: appTheme.palette.grey[700] }}>
-                {format(new Date(campaign.start_date), 'dd/MM/yyyy')}
+                {formatApiDateDDMMYYYY(campaign.start_date)}
               </Span>
               <StyledPipe />
             </>

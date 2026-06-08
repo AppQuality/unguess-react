@@ -66,6 +66,12 @@ unguessApi.enhanceEndpoints({
     getCampaignsByCidVideos: {
       providesTags: ['Videos'],
     },
+    getVideosByVid: {
+      providesTags: ['Videos'],
+    },
+    getHubsByHid: {
+      providesTags: ['Videos'],
+    },
     postHubsByHidAssets: {
       invalidatesTags: ['Videos'],
     },
