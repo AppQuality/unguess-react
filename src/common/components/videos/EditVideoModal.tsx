@@ -8,7 +8,6 @@ import {
   Modal,
   ModalClose,
   Select,
-  Skeleton,
   Span,
   Textarea,
 } from '@appquality/unguess-design-system';
@@ -56,12 +55,6 @@ const InputWrapper = styled.div`
   margin-top: ${({ theme }) => theme.space.xs};
 `;
 
-const LoadingBody = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: ${({ theme }) => theme.space.md};
-`;
-
 const dateToInputValue = (value?: Date) => {
   if (!value) return '';
   return formatDateForApiInput(value);
@@ -97,38 +90,15 @@ export const EditVideoModal = ({
 
   if (!isOpen || !video) return null;
 
-  if (isLoadingDetailedVideo || isFetchingDetailedVideo || !detailedVideo) {
-    return (
-      <Modal onClose={onClose}>
-        <Modal.Header>{t('__VIDEOS_EDIT_MODAL_TITLE')}</Modal.Header>
-        <Modal.Body>
-          <LoadingBody>
-            <Skeleton height="40px" width="100%" />
-            <Skeleton height="40px" width="100%" />
-            <Skeleton height="100px" width="100%" />
-            <Skeleton height="40px" width="100%" />
-            <Skeleton height="40px" width="100%" />
-          </LoadingBody>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button isBasic onClick={onClose}>
-            {t('__VIDEOS_EDIT_MODAL_CANCEL')}
-          </Button>
-          <Button isPrimary isAccent disabled>
-            {t('__VIDEOS_EDIT_MODAL_SAVE')}
-          </Button>
-        </Modal.Footer>
-        <ModalClose />
-      </Modal>
-    );
-  }
+  const isDetailsLoading =
+    isLoadingDetailedVideo || isFetchingDetailedVideo || !detailedVideo;
 
   const initialValues: EditVideoFormValues = {
-    title: detailedVideo.filename,
-    participantName: `${detailedVideo.tester?.name ?? ''}`.trim(),
-    additionalInformation: detailedVideo.additionalInfo ?? '',
-    device: detailedVideo.device?.formFactor ?? 'other',
-    testDate: parseApiDate(detailedVideo.uploadDate) ?? new Date(),
+    title: detailedVideo?.filename ?? '',
+    participantName: `${detailedVideo?.tester?.name ?? ''}`.trim(),
+    additionalInformation: detailedVideo?.additionalInfo ?? '',
+    device: detailedVideo?.device?.formFactor ?? 'other',
+    testDate: parseApiDate(detailedVideo?.uploadDate),
   };
 
   const validationSchema = Yup.object().shape({
@@ -206,6 +176,7 @@ export const EditVideoModal = ({
                   <InputWrapper>
                     <Input
                       {...formProps.getFieldProps('title')}
+                      disabled={isDetailsLoading}
                       validation={
                         formProps.touched.title && formProps.errors.title
                           ? 'error'
@@ -231,6 +202,7 @@ export const EditVideoModal = ({
                   <InputWrapper>
                     <Input
                       {...formProps.getFieldProps('participantName')}
+                      disabled={isDetailsLoading}
                       validation={
                         formProps.touched.participantName &&
                         formProps.errors.participantName
@@ -258,6 +230,7 @@ export const EditVideoModal = ({
                     <Textarea
                       rows={4}
                       isResizable
+                      disabled={isDetailsLoading}
                       {...formProps.getFieldProps('additionalInformation')}
                     />
                   </InputWrapper>
@@ -270,6 +243,7 @@ export const EditVideoModal = ({
                   </Label>
                   <InputWrapper>
                     <Select
+                      isDisabled={isDetailsLoading}
                       fullWidthOption
                       listboxAppendToNode={document.body}
                       onSelect={(value) => {
@@ -313,12 +287,14 @@ export const EditVideoModal = ({
                     <Datepicker
                       value={formProps.values.testDate}
                       onChange={(date) => {
+                        if (isDetailsLoading) return;
                         formProps.setFieldValue('testDate', date);
                         formProps.setFieldTouched('testDate', true, true);
                       }}
                       formatDate={(date) => dateToInputValue(date)}
                     >
                       <Input
+                        disabled={isDetailsLoading}
                         value={dateToInputValue(formProps.values.testDate)}
                         validation={
                           formProps.touched.testDate &&
@@ -340,7 +316,7 @@ export const EditVideoModal = ({
             </Form>
           </Modal.Body>
           <Modal.Footer>
-            <Button isBasic onClick={onClose}>
+            <Button isBasic disabled={isDetailsLoading} onClick={onClose}>
               {t('__VIDEOS_EDIT_MODAL_CANCEL', 'Cancel')}
             </Button>
             <Button
@@ -348,7 +324,9 @@ export const EditVideoModal = ({
               isAccent
               type="submit"
               form="edit-video-form"
-              disabled={formProps.isSubmitting || !formProps.isValid}
+              disabled={
+                isDetailsLoading || formProps.isSubmitting || !formProps.isValid
+              }
             >
               {t('__VIDEOS_EDIT_MODAL_SAVE', 'Save')}
             </Button>
