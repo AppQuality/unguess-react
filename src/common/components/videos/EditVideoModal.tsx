@@ -105,12 +105,7 @@ export const EditVideoModal = ({
     title: Yup.string().required(
       t('__VIDEOS_EDIT_MODAL_TITLE_REQUIRED', 'Title is required')
     ),
-    participantName: Yup.string().required(
-      t(
-        '__VIDEOS_EDIT_MODAL_PARTICIPANT_NAME_REQUIRED',
-        'Participant name is required'
-      )
-    ),
+    participantName: Yup.string(),
     device: Yup.string().required(
       t('__VIDEOS_EDIT_MODAL_DEVICE_REQUIRED', 'Device is required')
     ),
@@ -196,8 +191,7 @@ export const EditVideoModal = ({
                     {t(
                       '__VIDEOS_EDIT_MODAL_FIELD_PARTICIPANT_NAME',
                       'Participant name'
-                    )}{' '}
-                    <RequiredAsterisk>*</RequiredAsterisk>
+                    )}
                   </Label>
                   <InputWrapper>
                     <Input
