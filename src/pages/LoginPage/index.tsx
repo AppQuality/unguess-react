@@ -9,6 +9,7 @@ import { useEffect, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import { AuthCardWrapper } from 'src/common/components/AuthCardWrapper';
+import { normalizeEmail } from 'src/common/normalizeEmail';
 import { Track } from 'src/common/Track';
 import { useGetUsersMeQuery } from 'src/features/api';
 import { useAuth } from 'src/features/auth/context';
@@ -106,14 +107,14 @@ const LoginPage = () => {
     values: LoginFormFields,
     { setSubmitting, setStatus }: FormikHelpers<LoginFormFields>
   ) => {
-    // STEP 1: Tenta login con Cognito
+    const normalizedEmail = normalizeEmail(values.email);
     try {
-      const result = await cognitoLogin(values.email, values.password);
+      const result = await cognitoLogin(normalizedEmail, values.password);
 
       if (result.mfaChallenge) {
         navigate(verifyCodeRoute, {
           state: {
-            email: values.email,
+            email: normalizedEmail,
             challengeType: result.mfaChallenge,
             from,
           },
@@ -124,7 +125,7 @@ const LoginPage = () => {
       if (result.requiresSignUpConfirmation) {
         navigate(signupRoute, {
           state: {
-            email: values.email,
+            email: normalizedEmail,
             password: values.password,
             needsConfirmation: true,
           },

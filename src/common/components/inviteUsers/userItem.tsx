@@ -14,6 +14,7 @@ import {
   GetWorkspacesByWidUsersApiResponse,
   useGetUsersMeQuery,
 } from 'src/features/api';
+import { normalizeEmail } from 'src/common/normalizeEmail';
 import styled from 'styled-components';
 import { getInitials } from '../navigation/header/utils';
 import RemoveConfirmModal from './modals/RemoveConfirmModal';
@@ -52,7 +53,10 @@ export const UserItem = ({
     setShowRemoveConfirmModal(true);
   };
 
-  const isMe = userData?.email === user.email;
+  const isMe =
+    !!userData?.email &&
+    !!user.email &&
+    normalizeEmail(userData.email) === normalizeEmail(user.email);
 
   if (isLoading || !isSuccess || !userData) return null;
 
