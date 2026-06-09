@@ -48,9 +48,9 @@ const Dashboard = () => {
       >
         <LayoutWrapper>
           <Grid>
-            <SuggestedHubs limit={4} showAllCta />
             <SuggestedCampaigns />
             <LaunchCampaignCards />
+            <SuggestedHubs limit={4} showAllCta />
             <CampaignsList />
             {openCreateProjectModal ? (
               <CreateProjectModal setOpen={setOpenCreateProjectModal} />

@@ -59,8 +59,8 @@ const Items = ({
     return (
       <LayoutWrapper style={{ paddingBottom: appTheme.space.xxl }}>
         <Grid style={{ padding: 0, marginBottom: appTheme.space.xxl }}>
-          <SuggestedHubs projectId={project.id} />
           <Plans projectId={project.id} />
+          <SuggestedHubs projectId={project.id} />
           {project.campaigns_count > 0 && (
             <ProjectItems
               isArchive={isArchiveProject}
