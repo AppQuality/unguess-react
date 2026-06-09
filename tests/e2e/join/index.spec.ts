@@ -32,9 +32,7 @@ test.describe('The Join page signup step - case new user', () => {
       i18n.t('SIGNUP_FORM_PASSWORD_REQUIRED')
     );
 
-    await expect(
-      page.getByTestId('password-requirements')
-    ).toBeVisible();
+    await expect(page.getByTestId('password-requirements')).toBeVisible();
 
     await signupPage.fillPassword('weak');
     await expect(
@@ -101,6 +99,32 @@ test.describe('The Join page signup step - case new user', () => {
     await expect(
       signupPage.confirmEmailFormElements().codeInput()
     ).toBeVisible();
+  });
+
+  test('sends a lowercased email to Cognito when the user types mixed case', async ({
+    page,
+  }) => {
+    const requestPromise = page.waitForRequest(
+      (req) =>
+        /cognito-idp\..*\.amazonaws\.com\/?$/.test(req.url()) &&
+        req.headers()['x-amz-target']?.includes('SignUp') === true
+    );
+
+    await signupPage.fillEmail('MixedCase.USER@Example.COM');
+    await signupPage.fillPassword('ValidPassword123');
+    await signupPage.acceptTerms();
+    await signupPage.submitSignupForm();
+
+    const req = await requestPromise;
+    const body = req.postDataJSON();
+    expect(body.Username).toBe('mixedcase.user@example.com');
+    const emailAttr = (
+      body.UserAttributes as Array<{
+        Name: string;
+        Value: string;
+      }>
+    ).find((a) => a.Name === 'email');
+    expect(emailAttr?.Value).toBe('mixedcase.user@example.com');
   });
 });
 

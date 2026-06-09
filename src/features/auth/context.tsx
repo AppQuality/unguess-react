@@ -15,6 +15,7 @@ import {
   type ConfirmSignUpInput,
 } from 'aws-amplify/auth';
 import { isDev } from 'src/common/isDevEnvironment';
+import { normalizeEmail } from 'src/common/normalizeEmail';
 import { syncWordpress } from './syncWordpress';
 
 type MfaChallengeStep =
@@ -63,7 +64,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   ): Promise<LoginResult> => {
     try {
       const signInInput: SignInInput = {
-        username: email,
+        username: normalizeEmail(email),
         password,
       };
 
@@ -156,12 +157,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const signup = async (email: string, password: string, name: string) => {
     try {
+      const normalizedEmail = normalizeEmail(email);
       const signUpInput: SignUpInput = {
-        username: email,
+        username: normalizedEmail,
         password,
         options: {
           userAttributes: {
-            email,
+            email: normalizedEmail,
             name,
           },
         },
@@ -186,7 +188,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const resendSignupCode = async (email: string) => {
     try {
-      await resendSignUpCode({ username: email });
+      await resendSignUpCode({ username: normalizeEmail(email) });
     } catch (error: any) {
       throw new Error(error.message || 'Resend code failed');
     }
@@ -195,7 +197,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   const confirmSignup = async (email: string, code: string) => {
     try {
       const confirmInput: ConfirmSignUpInput = {
-        username: email,
+        username: normalizeEmail(email),
         confirmationCode: code,
       };
 
@@ -214,7 +216,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     email: string
   ): Promise<ForgotPasswordResult> => {
     try {
-      const { nextStep } = await resetPassword({ username: email });
+      const { nextStep } = await resetPassword({
+        username: normalizeEmail(email),
+      });
       const details = nextStep?.codeDeliveryDetails;
       return {
         deliveryMedium: details?.deliveryMedium,
@@ -232,7 +236,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   ): Promise<void> => {
     try {
       await confirmResetPassword({
-        username: email,
+        username: normalizeEmail(email),
         confirmationCode: code,
         newPassword,
       });
