@@ -7,7 +7,8 @@ import type {
 import { apiSlice } from '../api';
 
 type GetWorkspaceHubsApiArg = {
-  wid: string;
+  wid?: string;
+  pid?: string;
 };
 
 type GetWorkspaceHubsApiResponse = {
@@ -21,24 +22,35 @@ const extendedApi = apiSlice.injectEndpoints({
       GetWorkspaceHubsApiArg
     >({
       async queryFn(_arg, _queryApi, _extraOptions, fetchWithBQ) {
-        const projectsResult = await fetchWithBQ(
-          `/workspaces/${_arg.wid}/projects`
-        );
-        if (projectsResult.error) {
-          return { error: projectsResult.error as FetchBaseQueryError };
+        const hubsByProjectResults = _arg.pid
+          ? [await fetchWithBQ(`/projects/${_arg.pid}/hubs`)]
+          : await (async () => {
+              const projectsResult = await fetchWithBQ(
+                `/workspaces/${_arg.wid}/projects`
+              );
+
+              if (projectsResult.error) {
+                return projectsResult.error as FetchBaseQueryError;
+              }
+
+              const projects =
+                (projectsResult.data as GetWorkspacesByWidProjectsApiResponse)
+                  .items ?? [];
+
+              if (!projects.length) {
+                return [];
+              }
+
+              return Promise.all(
+                projects.map((project) =>
+                  fetchWithBQ(`/projects/${project.id}/hubs`)
+                )
+              );
+            })();
+
+        if (!Array.isArray(hubsByProjectResults)) {
+          return { error: hubsByProjectResults };
         }
-
-        const projects =
-          (projectsResult.data as GetWorkspacesByWidProjectsApiResponse)
-            .items ?? [];
-
-        if (!projects.length) {
-          return { data: { items: [] } };
-        }
-
-        const hubsByProjectResults = await Promise.all(
-          projects.map((project) => fetchWithBQ(`/projects/${project.id}/hubs`))
-        );
 
         const hubIdSet = new Set<number>();
 

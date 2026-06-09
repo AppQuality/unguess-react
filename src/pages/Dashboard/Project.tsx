@@ -26,6 +26,7 @@ import { ProjectItems } from './project-items';
 import { Plans } from './project-items/Plans';
 import { ProjectPageHeader } from './projectPageHeader';
 import { PromoContextProvider } from './PromoContext';
+import { SuggestedHubs } from './SuggestedHubs';
 
 const Items = ({
   project,
@@ -50,15 +51,22 @@ const Items = ({
 
   const isArchiveProject = project.is_archive === 1;
 
-  if (project.campaigns_count > 0 || items.length > 0) {
+  if (
+    project.hubs_count > 0 ||
+    project.campaigns_count > 0 ||
+    items.length > 0
+  ) {
     return (
       <LayoutWrapper style={{ paddingBottom: appTheme.space.xxl }}>
         <Grid style={{ padding: 0, marginBottom: appTheme.space.xxl }}>
+          <SuggestedHubs projectId={project.id} />
           <Plans projectId={project.id} />
-          <ProjectItems
-            isArchive={isArchiveProject}
-            projectId={Number(project.id) || 0}
-          />
+          {project.campaigns_count > 0 && (
+            <ProjectItems
+              isArchive={isArchiveProject}
+              projectId={Number(project.id) || 0}
+            />
+          )}
         </Grid>
         {!isArchiveProject && <LaunchCampaignCards />}
       </LayoutWrapper>
@@ -131,7 +139,8 @@ const Project = () => {
   }
 
   const isEmpty =
-    plans.length === 0 && (!project || project?.campaigns_count === 0);
+    plans.length === 0 &&
+    (!project || (project.campaigns_count === 0 && project.hubs_count === 0));
 
   return (
     <Page

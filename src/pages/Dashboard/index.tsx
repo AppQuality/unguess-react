@@ -48,7 +48,7 @@ const Dashboard = () => {
       >
         <LayoutWrapper>
           <Grid>
-            <SuggestedHubs />
+            <SuggestedHubs limit={4} showAllCta />
             <SuggestedCampaigns />
             <LaunchCampaignCards />
             <CampaignsList />

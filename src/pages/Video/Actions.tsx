@@ -8,7 +8,7 @@ import {
 import { ReactComponent as EditIcon } from '@zendeskgarden/svg-icons/src/16/pencil-fill.svg';
 import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useLocation, useParams } from 'react-router-dom';
+import { useOutletContext, useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as ClockIcon } from 'src/assets/icons/time-icon.svg';
 import { capitalizeFirstLetter } from 'src/common/capitalizeFirstLetter';
@@ -17,6 +17,7 @@ import { Divider } from 'src/common/components/divider';
 import { Meta } from 'src/common/components/Meta';
 import { Pipe } from 'src/common/components/Pipe';
 import { EditVideoModal } from 'src/common/components/videos/EditVideoModal';
+import type { CampaignHubContext } from 'src/features/templates/CampaignsHubsMiddleware';
 import {
   useGetVideosByVidObservationsQuery,
   useGetVideosByVidQuery,
@@ -70,8 +71,8 @@ const HeaderEditButton = styled(IconButton)`
 
 const Actions = () => {
   const { videoId, entityId } = useParams();
-  const { pathname } = useLocation();
-  const hubId = pathname.includes('/hubs/') ? entityId : undefined;
+  const { isHub } = useOutletContext<CampaignHubContext>();
+  const hubId = isHub ? entityId : undefined;
   const refScroll = useRef<HTMLDivElement>(null);
   const [isEditModalOpen, setEditModalOpen] = useState(false);
   const { t } = useTranslation();
@@ -104,13 +105,14 @@ const Actions = () => {
   if (isFetchingObservations || isLoadingObservations) return <Skeleton />;
 
   const testerName = video.tester?.name || '--';
+  const displayHeaderName = isHub ? video.filename || '--' : testerName;
   const testerId = video.tester?.id;
   const deviceType = video.device?.formFactor;
 
   return (
     <Container ref={refScroll}>
       <Header>
-        <XL isBold>{testerName}</XL>
+        <XL isBold>{displayHeaderName}</XL>
         <HeaderEditButton
           isBasic
           size="small"
@@ -123,8 +125,12 @@ const Actions = () => {
         </HeaderEditButton>
       </Header>
       <MetaContainer>
-        <Meta size="medium">Tester ID: {testerId ?? '--'}</Meta>
-        <Pipe />
+        {!isHub && (
+          <>
+            <Meta size="medium">Tester ID: {testerId ?? '--'}</Meta>
+            <Pipe />
+          </>
+        )}
         {deviceType && (
           <Tag hue="white" style={{ textTransform: 'capitalize' }}>
             <Tag.Avatar>{getDeviceIcon(deviceType)}</Tag.Avatar>
