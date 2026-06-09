@@ -39,10 +39,6 @@ export const NewActivityModal = ({
     name: Yup.string()
       .required(t('__NEW_ACTIVITY_MODAL_NAME_REQUIRED'))
       .max(64, t('__NEW_ACTIVITY_MODAL_NAME_MAX')),
-    description: Yup.string().max(
-      234,
-      t('__NEW_ACTIVITY_MODAL_DESCRIPTION_MAX')
-    ),
   });
 
   const handleSubmit = async (values: FormValues) => {
@@ -52,7 +48,6 @@ export const NewActivityModal = ({
         pid: values.projectId.toString(),
         body: {
           name: values.name,
-          ...(values.description && { description: values.description }),
         },
       }).unwrap();
       onClose();
@@ -85,7 +80,7 @@ export const NewActivityModal = ({
 
   return (
     <Formik<FormValues>
-      initialValues={{ projectId, name: '', description: '', language: '' }}
+      initialValues={{ projectId, name: '', language: '' }}
       validationSchema={validationSchema}
       validateOnChange
       validateOnBlur

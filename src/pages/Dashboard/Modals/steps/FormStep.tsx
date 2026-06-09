@@ -5,13 +5,11 @@ import {
   DropdownFieldNew as DropField,
   FooterItem,
   FormField,
-  Hint,
   Input,
   Label,
   Message,
   Skeleton,
   Span,
-  Textarea,
 } from '@appquality/unguess-design-system';
 import { Field, FieldProps, useFormikContext } from 'formik';
 import { useTranslation } from 'react-i18next';
@@ -22,7 +20,6 @@ import styled from 'styled-components';
 export interface FormValues {
   projectId: number | undefined;
   name: string;
-  description: string;
   language: string;
 }
 
@@ -116,26 +113,6 @@ const FormStepBody = () => {
                 {...field}
                 validation={hasError ? 'error' : undefined}
                 placeholder={t('__NEW_ACTIVITY_MODAL_NAME_PLACEHOLDER')}
-              />
-              {hasError && <Message validation="error">{meta.error}</Message>}
-            </FormField>
-          );
-        }}
-      </Field>
-
-      <Field name="description">
-        {({ field, meta }: FieldProps) => {
-          const hasError = Boolean(meta.touched && meta.error);
-          return (
-            <FormField>
-              <Label>{t('__NEW_ACTIVITY_MODAL_DESCRIPTION_LABEL')}</Label>
-              <Hint>{t('__NEW_ACTIVITY_MODAL_DESCRIPTION_HINT')}</Hint>
-              <Textarea
-                {...field}
-                isResizable
-                rows={4}
-                validation={hasError ? 'error' : undefined}
-                placeholder={t('__NEW_ACTIVITY_MODAL_DESCRIPTION_PLACEHOLDER')}
               />
               {hasError && <Message validation="error">{meta.error}</Message>}
             </FormField>
