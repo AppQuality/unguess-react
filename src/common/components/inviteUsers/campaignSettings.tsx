@@ -90,6 +90,8 @@ export const CampaignSettings = ({ dataQa }: { dataQa?: string }) => {
 
   // Get the entity (campaign or hub) and its project
   const entity = isHub ? hub : campaign;
+  const entityId =
+    (isHub ? hubId : campaignId)?.toString() || entity?.id.toString() || '0';
   const projectId = entity?.project.id;
 
   const {
@@ -97,11 +99,9 @@ export const CampaignSettings = ({ dataQa }: { dataQa?: string }) => {
     isFetching: isFetchingCampaignUsers,
     data: campaignUsers,
     refetch: refetchCampaignUsers,
-  } = useGetCampaignsByCidUsersQuery(
-    {
-      cid: entity?.id.toString() || '0',
-    }
-  );
+  } = useGetCampaignsByCidUsersQuery({
+    cid: entityId,
+  });
 
   const {
     isLoading: isLoadingProjectUsers,
@@ -148,7 +148,7 @@ export const CampaignSettings = ({ dataQa }: { dataQa?: string }) => {
     actions: FormikHelpers<{ email: string; message?: string }>
   ) => {
     addNewMember({
-      cid: campaignId?.toString() || '0',
+      cid: entityId,
       body: {
         email: values.email,
         redirect_url: campaignRoute,
@@ -216,7 +216,7 @@ export const CampaignSettings = ({ dataQa }: { dataQa?: string }) => {
 
   const onResendInvite = (email: string) => {
     addNewMember({
-      cid: campaignId?.toString() || '0',
+      cid: entityId,
       body: {
         email,
       },
@@ -256,7 +256,7 @@ export const CampaignSettings = ({ dataQa }: { dataQa?: string }) => {
 
   const onRemoveUser = (id: number) => {
     removeUser({
-      cid: campaignId?.toString() || '0',
+      cid: entityId,
       body: {
         user_id: id,
       },
