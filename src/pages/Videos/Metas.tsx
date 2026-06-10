@@ -16,7 +16,7 @@ import { ReactComponent as DashboardIcon } from 'src/assets/icons/dashboard-icon
 import { ReactComponent as EditRedoStroke } from 'src/assets/icons/move-icon.svg';
 import { ReactComponent as InboxFill } from 'src/assets/icons/project-archive.svg';
 import { capitalizeFirstLetter } from 'src/common/capitalizeFirstLetter';
-import { formatApiDateDDMMYYYY } from 'src/common/date/apiDate';
+import { formatApiDateShortMonthYear } from 'src/common/date/apiDate';
 import { CampaignSettings } from 'src/common/components/inviteUsers/campaignSettings';
 import { getDeviceIcon } from 'src/common/components/BugDetail/Meta';
 import { Meta } from 'src/common/components/Meta';
@@ -215,7 +215,7 @@ export const Metas = ({
           {campaign.start_date && (
             <>
               <Span style={{ color: appTheme.palette.grey[700] }}>
-                {formatApiDateDDMMYYYY(campaign.start_date)}
+                {formatApiDateShortMonthYear(campaign.start_date)}
               </Span>
               <StyledPipe />
             </>

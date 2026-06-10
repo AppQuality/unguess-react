@@ -1,7 +1,7 @@
 import { CampaignCard } from '@appquality/unguess-design-system';
 import { HTMLAttributes } from 'react';
 import { useTranslation } from 'react-i18next';
-import { formatApiDateDDMMYYYY } from 'src/common/date/apiDate';
+import { formatApiDateShortMonthYear } from 'src/common/date/apiDate';
 import { CampaignWithOutput } from 'src/features/api';
 import { getLocalizeoFirstLevelDashboardRoute } from 'src/hooks/useLocalizeDashboardUrl';
 import { CAMPAING_STATUSES } from './types';
@@ -23,7 +23,7 @@ export const CampaignItem = ({
     <CampaignCard
       className="suggested-campaign-card"
       // isNew={campaign?.isNew} TODO: need an API update
-      date={formatApiDateDDMMYYYY(campaign.start_date)}
+      date={formatApiDateShortMonthYear(campaign.start_date)}
       projectTitle={`${project.name}`}
       campaignTitle={title ?? t('__CAMPAIGN_CARD_EMPTY_TITLE_LABEL')}
       title={title ?? t('__CAMPAIGN_CARD_EMPTY_TITLE_LABEL')}

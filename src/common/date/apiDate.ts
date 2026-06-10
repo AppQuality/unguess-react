@@ -19,11 +19,11 @@ export const parseApiDate = (value: ApiDateLike): Date | undefined => {
   return Number.isNaN(parsed.getTime()) ? undefined : parsed;
 };
 
-export const formatApiDateDDMMYYYY = (value: ApiDateLike): string => {
+export const formatApiDateShortMonthYear = (value: ApiDateLike): string => {
   const parsed = parseApiDate(value);
   if (!parsed) return '';
 
-  return format(parsed, 'dd/MM/yyyy');
+  return format(parsed, 'MMM dd, yy');
 };
 
 export const formatDateForApiInput = (value?: Date): string => {
