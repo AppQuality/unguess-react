@@ -18,6 +18,7 @@ import { ReactComponent as InboxFill } from 'src/assets/icons/project-archive.sv
 import { capitalizeFirstLetter } from 'src/common/capitalizeFirstLetter';
 import { formatApiDateDDMMYYYY } from 'src/common/date/apiDate';
 import { CampaignSettings } from 'src/common/components/inviteUsers/campaignSettings';
+import { getDeviceIcon } from 'src/common/components/BugDetail/Meta';
 import { Meta } from 'src/common/components/Meta';
 import { StatusMeta } from 'src/common/components/meta/StatusMeta';
 import { PageMeta } from 'src/common/components/PageMeta';
@@ -35,9 +36,6 @@ import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { ArchiveCampaignModal } from 'src/pages/Campaign/ArchiveCampaignModal';
 import { useMoveCampaignModalContext } from 'src/pages/Campaign/MoveCampaignModal';
-import { DesktopMeta } from 'src/pages/Campaign/pageHeader/Meta/DesktopMeta';
-import { SmartphoneMeta } from 'src/pages/Campaign/pageHeader/Meta/SmartphoneMeta';
-import { TabletMeta } from 'src/pages/Campaign/pageHeader/Meta/TabletMeta';
 import { WatcherList } from 'src/pages/Campaign/pageHeader/Meta/WatcherList';
 import { CampaignStatus } from 'src/types';
 import styled from 'styled-components';
@@ -66,6 +64,25 @@ const StyledPipe = styled(Pipe)`
 const SeveritiesMetaContainer = styled.div`
   display: flex;
   align-items: center;
+`;
+
+const DeviceMetaItem = styled(Span)`
+  display: inline-flex;
+  align-items: center;
+  gap: ${({ theme }) => theme.space.xxs};
+  margin-right: ${({ theme }) => theme.space.sm};
+  color: ${({ theme }) => theme.palette.blue[600]};
+  font-size: ${({ theme }) => theme.fontSizes.md};
+  font-weight: ${({ theme }) => theme.fontWeights.medium};
+
+  > svg {
+    width: 16px;
+    height: 16px;
+  }
+`;
+
+const DeviceMetaCount = styled(Span)`
+  color: ${({ theme }) => theme.palette.grey[700]};
 `;
 
 const FooterContainer = styled.div`
@@ -138,18 +155,47 @@ export const Metas = ({
 
   const totalVideos = videos?.items.length ?? 0;
 
-  // Calculate unique device types from videos (including other)
-  const deviceTypes = new Set(
-    videos?.items.map((video) => video.device?.formFactor || 'other') || []
+  const deviceCounts = (videos?.items || []).reduce(
+    (acc, video) => {
+      const formFactor = video.device?.formFactor;
+
+      if (formFactor === 'desktop') {
+        acc.desktop += 1;
+      } else if (formFactor === 'smartphone') {
+        acc.smartphone += 1;
+      } else if (formFactor === 'tablet') {
+        acc.tablet += 1;
+      } else {
+        acc.unknown += 1;
+      }
+
+      return acc;
+    },
+    { desktop: 0, smartphone: 0, tablet: 0, unknown: 0 }
   );
 
-  // Count other devices
-  const otherDeviceCount =
-    videos?.items.filter(
-      (video) =>
-        video.device?.formFactor === 'other' ||
-        video.device?.formFactor === 'unknown'
-    ).length || 0;
+  const deviceMetas = [
+    {
+      key: 'desktop',
+      label: t('__VIDEOS_LIST_DESKTOP_TITLE'),
+      count: deviceCounts.desktop,
+    },
+    {
+      key: 'smartphone',
+      label: t('__VIDEOS_LIST_SMARTPHONE_TITLE'),
+      count: deviceCounts.smartphone,
+    },
+    {
+      key: 'tablet',
+      label: t('__VIDEOS_LIST_TABLET_TITLE'),
+      count: deviceCounts.tablet,
+    },
+    {
+      key: 'unknown',
+      label: t('__VIDEOS_LIST_UNKNOWN_DEVICE_TITLE'),
+      count: deviceCounts.unknown,
+    },
+  ].filter((item) => item.count > 0);
 
   const severities = observations ? getAllSeverityTags(observations) : [];
 
@@ -174,20 +220,15 @@ export const Metas = ({
               <StyledPipe />
             </>
           )}
-          {(deviceTypes.has('desktop') ||
-            deviceTypes.has('smartphone') ||
-            deviceTypes.has('tablet') ||
-            deviceTypes.has('unknown') ||
-            deviceTypes.has('other')) && (
+          {deviceMetas.length > 0 && (
             <>
-              {deviceTypes.has('desktop') && <DesktopMeta />}
-              {deviceTypes.has('smartphone') && <SmartphoneMeta />}
-              {deviceTypes.has('tablet') && <TabletMeta />}
-              {(deviceTypes.has('other') || deviceTypes.has('unknown')) && (
-                <Span style={{ color: appTheme.palette.grey[700] }}>
-                  +{otherDeviceCount} unknown
-                </Span>
-              )}
+              {deviceMetas.map((deviceMeta) => (
+                <DeviceMetaItem key={deviceMeta.key}>
+                  {getDeviceIcon(deviceMeta.key)}
+                  {deviceMeta.label}{' '}
+                  <DeviceMetaCount>{deviceMeta.count}</DeviceMetaCount>
+                </DeviceMetaItem>
+              ))}
               <StyledPipe />
             </>
           )}

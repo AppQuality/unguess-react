@@ -113,6 +113,12 @@ const Actions = () => {
   const displayHeaderName = video.tester?.name;
   const testerId = video.tester?.id;
   const deviceType = video.device?.formFactor;
+  const deviceLabel =
+    deviceType === 'unknown'
+      ? t('__VIDEOS_LIST_UNKNOWN_DEVICE_TITLE')
+      : deviceType === 'other'
+      ? t('__VIDEOS_LIST_OTHER_TITLE')
+      : deviceType;
 
   return (
     <Container ref={refScroll}>
@@ -131,7 +137,7 @@ const Actions = () => {
             {deviceType && (
               <Tag hue="white" style={{ textTransform: 'capitalize' }}>
                 <Tag.Avatar>{getDeviceIcon(deviceType)}</Tag.Avatar>
-                {deviceType}
+                {deviceLabel}
               </Tag>
             )}
             {video.duration && (

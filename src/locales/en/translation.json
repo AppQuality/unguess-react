@@ -1647,6 +1647,7 @@
   "__VIDEOS_LIST_TABLE_DURATION": "Duration",
   "__VIDEOS_LIST_TABLE_TEST_DATE": "Test date",
   "__VIDEOS_LIST_TABLET_TITLE": "Tablet",
+  "__VIDEOS_LIST_UNKNOWN_DEVICE_TITLE": "Unknown device",
   "__VIDEOS_LIST_VIDEO_OPTIMIZATION_FAILED": "Optimization failed. Delete the media and try again.",
   "__VIDEOS_LIST_VIDEO_OPTIMIZATION_PENDING": "Optimizing media... This may take a few minutes.",
   "__VIDEOS_PAGE_TITLE": "Playlist",
