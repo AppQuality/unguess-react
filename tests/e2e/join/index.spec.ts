@@ -3,6 +3,36 @@ import { Join } from '../../fixtures/pages/Join';
 import { OnboardingPage } from '../../fixtures/pages/Join/OnboardingPage';
 import { SignupPage } from '../../fixtures/pages/Join/SignupPage';
 
+test.describe('The Join page account-type chooser', () => {
+  let join: Join;
+  let signupPage: SignupPage;
+
+  test.beforeEach(async ({ page }) => {
+    join = new Join(page);
+    signupPage = new SignupPage(page);
+    await join.notLoggedIn();
+    await join.openSignup();
+  });
+
+  test('shows both account-type cards before the signup form', async () => {
+    await expect(signupPage.chooserElements().goToUnguess()).toBeVisible();
+    await expect(signupPage.chooserElements().goToTryber()).toBeVisible();
+    await expect(
+      signupPage.signupFormElements().emailInput()
+    ).not.toBeVisible();
+  });
+
+  test('choosing UNGUESS reveals the signup form and preserves query params', async ({
+    page,
+  }) => {
+    await page.goto('/join/signup?template=12');
+    await signupPage.chooseBusinessAccount();
+    await expect(signupPage.signupFormElements().emailInput()).toBeVisible();
+    expect(page.url()).toContain('type=business');
+    expect(page.url()).toContain('template=12');
+  });
+});
+
 test.describe('The Join page signup step - case new user', () => {
   let join: Join;
   let signupPage: SignupPage;
@@ -13,6 +43,7 @@ test.describe('The Join page signup step - case new user', () => {
     await join.notLoggedIn();
     await signupPage.mockCognitoSignup();
     await join.openSignup();
+    await signupPage.chooseBusinessAccount();
   });
 
   test('shows only the email input initially and reveals password after continue', async () => {

@@ -12,6 +12,17 @@ export class SignupPage {
     this.i18n = getI18nInstance() as unknown as i18n;
   }
 
+  chooserElements() {
+    return {
+      goToUnguess: () => this.page.getByTestId('go-to-unguess'),
+      goToTryber: () => this.page.getByTestId('go-to-tryber'),
+    };
+  }
+
+  async chooseBusinessAccount() {
+    await this.chooserElements().goToUnguess().click();
+  }
+
   signupFormElements() {
     return {
       emailInput: () => this.page.getByRole('textbox', { name: /email/i }),

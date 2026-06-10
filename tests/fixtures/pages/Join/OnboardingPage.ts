@@ -42,9 +42,9 @@ export class OnboardingPage {
       companySizeSelectError: () =>
         this.page.getByTestId('onboarding-company-size-error'),
       termsCheckbox: () =>
-        this.page.getByTestId('terms-and-conditions').locator('input'),
+        this.page.getByTestId('terms-and-conditions').getByRole('checkbox'),
       privacyCheckbox: () =>
-        this.page.getByTestId('privacy-policy').locator('input'),
+        this.page.getByTestId('privacy-policy').getByRole('checkbox'),
       nextButton: () =>
         this.page.getByRole('button', {
           name: this.i18n.t('SIGNUP_FORM_NEXT_STEP'),
@@ -53,8 +53,12 @@ export class OnboardingPage {
   }
 
   async acceptTerms() {
-    await this.elements().termsCheckbox().check({ force: true });
-    await this.elements().privacyCheckbox().check({ force: true });
+    await this.elements()
+      .termsCheckbox()
+      .evaluate((el) => (el as HTMLInputElement).click());
+    await this.elements()
+      .privacyCheckbox()
+      .evaluate((el) => (el as HTMLInputElement).click());
   }
 
   // WorkspaceStep elements
