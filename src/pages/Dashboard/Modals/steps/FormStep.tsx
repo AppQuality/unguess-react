@@ -14,7 +14,10 @@ import {
 import { Field, FieldProps, useFormikContext } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
+import { usePostProjectsMutation } from 'src/features/api';
+import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
 import { useActiveWorkspaceProjects } from 'src/hooks/useActiveWorkspaceProjects';
+import { useCanAccessToActiveWorkspace } from 'src/hooks/useCanAccessToActiveWorkspace';
 import styled from 'styled-components';
 
 export interface FormValues {
@@ -31,6 +34,9 @@ const FormWrapper = styled.div`
 
 const FormStepBody = () => {
   const { t } = useTranslation();
+  const { activeWorkspace } = useActiveWorkspace();
+  const canAccessWorkspace = useCanAccessToActiveWorkspace();
+  const [createProject] = usePostProjectsMutation();
   const { data: projectsData, isLoading: isLoadingProjects } =
     useActiveWorkspaceProjects();
   const projects = projectsData?.items ?? [];
@@ -83,6 +89,26 @@ const FormStepBody = () => {
                       '__NEW_ACTIVITY_MODAL_SELECT_PROJECT_PLACEHOLDER'
                     )}
                     selectionValue={values.projectId?.toString() ?? ''}
+                    isCreatable={canAccessWorkspace}
+                    onCreateNewOption={async (value) => {
+                      setFieldTouched('projectId', true);
+                      const res = await createProject({
+                        body: {
+                          name: value,
+                          customer_id: activeWorkspace?.id ?? -1,
+                        },
+                      }).unwrap();
+
+                      if (res.id) {
+                        setFieldValue('projectId', res.id);
+                      }
+
+                      return {
+                        id: res.id.toString(),
+                        value: res.id.toString(),
+                        label: res.name,
+                      };
+                    }}
                     {...(hasError && { validation: 'error' })}
                   />
                   {hasError && (
