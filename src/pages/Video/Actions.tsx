@@ -3,6 +3,7 @@ import {
   LG,
   Skeleton,
   Tag,
+  Tooltip,
   XL,
 } from '@appquality/unguess-design-system';
 import { ReactComponent as EditIcon } from '@zendeskgarden/svg-icons/src/16/pencil-fill.svg';
@@ -42,12 +43,18 @@ const Container = styled.div`
   border-left: 1px solid ${({ theme }) => theme.palette.grey[200]};
   scroll-behavior: smooth;
   overscroll-behavior: contain;
+  margin-top: 130px;
 `;
 const MetaContainer = styled.div`
   display: flex;
   align-items: center;
-  margin-top: ${({ theme }) => theme.space.sm};
+  flex-wrap: wrap;
+  column-gap: ${({ theme }) => theme.space.xs};
   margin-bottom: ${({ theme }) => theme.space.xs};
+`;
+
+const HeaderName = styled(XL)`
+  flex-basis: 100%;
 `;
 
 const ObservationsCountWrapper = styled.div`
@@ -60,9 +67,8 @@ const ObservationsCountWrapper = styled.div`
 
 const Header = styled.div`
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: ${({ theme }) => theme.space.xs};
-  margin-top: 130px;
 `;
 
 const HeaderEditButton = styled(IconButton)`
@@ -104,48 +110,59 @@ const Actions = () => {
   if (isFetchingVideo || isLoadingVideo) return <Skeleton />;
   if (isFetchingObservations || isLoadingObservations) return <Skeleton />;
 
-  const testerName = video.tester?.name || '--';
-  const displayHeaderName = isHub ? video.filename || '--' : testerName;
+  const displayHeaderName = video.tester?.name;
   const testerId = video.tester?.id;
   const deviceType = video.device?.formFactor;
 
   return (
     <Container ref={refScroll}>
       <Header>
-        <XL isBold>{displayHeaderName}</XL>
-        <HeaderEditButton
-          isBasic
-          size="small"
-          aria-label={t('__VIDEOS_DETAIL_EDIT_VIDEO_ARIA_LABEL', 'Edit video')}
-          onClick={() => {
-            setEditModalOpen(true);
-          }}
+        <MetaContainer>
+          {displayHeaderName && (
+            <HeaderName isBold>{displayHeaderName}</HeaderName>
+          )}
+          <div style={{ marginTop: appTheme.space.xs }}>
+            {!isHub && (
+              <>
+                <Meta size="medium">Tester ID: {testerId ?? '-'}</Meta>
+                <Pipe />
+              </>
+            )}
+            {deviceType && (
+              <Tag hue="white" style={{ textTransform: 'capitalize' }}>
+                <Tag.Avatar>{getDeviceIcon(deviceType)}</Tag.Avatar>
+                {deviceType}
+              </Tag>
+            )}
+            {video.duration && (
+              <Tag hue="white" style={{ fontSize: appTheme.fontSizes.sm }}>
+                <Tag.Avatar>
+                  <ClockIcon />
+                </Tag.Avatar>
+                {formatDuration(video.duration)}
+              </Tag>
+            )}
+          </div>
+        </MetaContainer>
+        <Tooltip
+          content={t('__VIDEOS_DETAIL_EDIT_VIDEO_LABEL')}
+          size="large"
+          type="light"
+          placement="bottom-start"
+          hasArrow={false}
         >
-          <EditIcon />
-        </HeaderEditButton>
+          <HeaderEditButton
+            isBasic
+            size="small"
+            aria-label={t('__VIDEOS_DETAIL_EDIT_VIDEO_LABEL')}
+            onClick={() => {
+              setEditModalOpen(true);
+            }}
+          >
+            <EditIcon />
+          </HeaderEditButton>
+        </Tooltip>
       </Header>
-      <MetaContainer>
-        {!isHub && (
-          <>
-            <Meta size="medium">Tester ID: {testerId ?? '--'}</Meta>
-            <Pipe />
-          </>
-        )}
-        {deviceType && (
-          <Tag hue="white" style={{ textTransform: 'capitalize' }}>
-            <Tag.Avatar>{getDeviceIcon(deviceType)}</Tag.Avatar>
-            {deviceType}
-          </Tag>
-        )}
-        {video.duration && (
-          <Tag hue="white" style={{ fontSize: appTheme.fontSizes.sm }}>
-            <Tag.Avatar>
-              <ClockIcon />
-            </Tag.Avatar>
-            {formatDuration(video.duration)}
-          </Tag>
-        )}
-      </MetaContainer>
       <Divider />
       <SentimentOverview />
       <div style={{ padding: `${appTheme.space.md} 0` }}>

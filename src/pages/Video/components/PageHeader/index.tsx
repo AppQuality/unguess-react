@@ -84,6 +84,8 @@ const VideoPageHeader = () => {
   const testerName = video.tester?.name
     ? capitalizeFirstLetter(video.tester.name)
     : '--';
+  const filename = video.filename || '--';
+  const displayHeaderName = isHub ? filename : testerName;
 
   return (
     <LayoutWrapper
@@ -124,7 +126,7 @@ const VideoPageHeader = () => {
                   color: appTheme.palette.blue[600],
                 }}
               >
-                {testerName}
+                {displayHeaderName}
               </XL>
               <div
                 style={{
