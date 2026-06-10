@@ -27,6 +27,7 @@ import {
 } from 'src/common/components/GoogleSignInButton';
 import { PasswordRequirements } from 'src/common/components/PasswordRequirements';
 import { isDisposableEmail } from 'src/common/disposableEmail';
+import { normalizeEmail } from 'src/common/normalizeEmail';
 import { useAuth } from 'src/features/auth/context';
 import { useSendGTMevent } from 'src/hooks/useGTMevent';
 import styled from 'styled-components';
@@ -62,10 +63,11 @@ export const SignupForm = ({ onSignupSuccess }: SignupFormProps) => {
     if (!value) {
       return t('SIGNUP_FORM_EMAIL_REQUIRED');
     }
-    if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(value)) {
+    const normalized = normalizeEmail(value);
+    if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(normalized)) {
       return t('SIGNUP_FORM_EMAIL_INVALID');
     }
-    if (isDisposableEmail(value)) {
+    if (isDisposableEmail(normalized)) {
       return t('SIGNUP_FORM_EMAIL_DISPOSABLE_NOT_ALLOWED');
     }
     return undefined;
@@ -82,8 +84,9 @@ export const SignupForm = ({ onSignupSuccess }: SignupFormProps) => {
         action: 'start',
       });
 
-      // Signup con Cognito
-      await signup(values.email, values.password, '');
+      const normalizedEmail = normalizeEmail(values.email);
+
+      await signup(normalizedEmail, values.password, '');
 
       sendGTMevent({
         event: 'sign-up-flow',
@@ -91,7 +94,7 @@ export const SignupForm = ({ onSignupSuccess }: SignupFormProps) => {
         action: 'signup success',
       });
 
-      onSignupSuccess(values.email, values.password);
+      onSignupSuccess(normalizedEmail, values.password);
     } catch (error: any) {
       // eslint-disable-next-line no-console
       console.error('Signup error:', error);

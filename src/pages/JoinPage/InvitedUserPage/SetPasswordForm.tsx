@@ -17,6 +17,7 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
 import { PasswordRequirements } from 'src/common/components/PasswordRequirements';
+import { normalizeEmail } from 'src/common/normalizeEmail';
 import { useAuth } from 'src/features/auth/context';
 import { useSendGTMevent } from 'src/hooks/useGTMevent';
 import styled from 'styled-components';
@@ -80,10 +81,10 @@ export const SetPasswordForm = ({
         action: 'set-password-start',
       });
 
-      const email = inviteData?.email;
-      if (!email) {
+      if (!inviteData?.email) {
         throw new Error('Email not found in invite data');
       }
+      const email = normalizeEmail(inviteData.email);
 
       // Uso la password permanente per autenticare l'utente
       if (inviteData?.code) {
