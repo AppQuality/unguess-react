@@ -1,4 +1,4 @@
-import { Button, Card, LG, Span, XL } from '@appquality/unguess-design-system';
+import { Button, SpecialCard, XL } from '@appquality/unguess-design-system';
 import { Trans, useTranslation } from 'react-i18next';
 import { useSearchParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
@@ -36,57 +36,14 @@ const CardsRow = styled.div`
   }
 `;
 
-const ChoiceCard = styled(Card)`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+const CardSlot = styled.div`
   width: 346px;
   max-width: 100%;
   text-align: center;
-  cursor: default;
-
-  &:hover {
-    box-shadow: none;
-  }
 
   @media (min-width: ${({ theme }) => theme.breakpoints.xxl}) {
     width: 390px;
   }
-`;
-
-const CardImageArea = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  aspect-ratio: 314 / 126;
-`;
-
-const CardImage = styled.img`
-  max-width: 100%;
-  max-height: 100%;
-`;
-
-const CardTextBlock = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: ${({ theme }) => theme.space.xs};
-  width: 100%;
-  padding: ${({ theme }) => `${theme.space.lg} 0 ${theme.space.xxs}`};
-  flex: 1;
-`;
-
-const CardDescription = styled.div`
-  color: ${({ theme }) => theme.palette.grey[700]};
-  font-size: ${({ theme }) => theme.fontSizes.md};
-  line-height: ${({ theme }) => theme.lineHeights.md};
-`;
-
-const CardButtonRow = styled.div`
-  display: flex;
-  justify-content: center;
-  width: 100%;
-  padding-top: ${({ theme }) => theme.space.lg};
 `;
 
 export const AccountTypeChooser = () => {
@@ -125,66 +82,80 @@ export const AccountTypeChooser = () => {
         </XL>
       </TitleBlock>
       <CardsRow>
-        <ChoiceCard>
-          <CardImageArea>
-            <CardImage
-              src={unguessCardImage}
-              alt={t('SIGNUP_CHOOSER_BUSINESS_CARD_TITLE')}
-            />
-          </CardImageArea>
-          <CardTextBlock>
-            <LG isBold style={{ color: appTheme.palette.blue[600] }}>
-              {t('SIGNUP_CHOOSER_BUSINESS_CARD_TITLE')}
-            </LG>
-            <CardDescription>
+        <CardSlot>
+          <SpecialCard>
+            <SpecialCard.Thumb isStretched>
+              <img
+                src={unguessCardImage}
+                alt={t('SIGNUP_CHOOSER_BUSINESS_CARD_TITLE')}
+                style={{ maxWidth: '100%', maxHeight: '100%' }}
+              />
+            </SpecialCard.Thumb>
+            <SpecialCard.Header align="center">
+              <SpecialCard.Header.Title>
+                {t('SIGNUP_CHOOSER_BUSINESS_CARD_TITLE')}
+              </SpecialCard.Header.Title>
+            </SpecialCard.Header>
+            <SpecialCard.Body>
               <Trans
                 i18nKey="SIGNUP_CHOOSER_BUSINESS_CARD_DESCRIPTION"
-                components={{ bold: <Span isBold /> }}
+                components={{ bold: <strong /> }}
               />
-            </CardDescription>
-          </CardTextBlock>
-          <CardButtonRow>
-            <Button
-              isPrimary
-              isAccent
-              isPill
-              style={{ width: 184 }}
-              data-qa="go-to-unguess"
-              onClick={proceedToUnguessSignup}
+            </SpecialCard.Body>
+            <SpecialCard.Footer
+              direction="column"
+              justifyContent="center"
+              noDivider
             >
-              {t('SIGNUP_CHOOSER_BUSINESS_CARD_CTA')}
-            </Button>
-          </CardButtonRow>
-        </ChoiceCard>
-        <ChoiceCard>
-          <CardImageArea>
-            <CardImage
-              src={tryberCardImage}
-              alt={t('SIGNUP_CHOOSER_TESTER_CARD_TITLE')}
-            />
-          </CardImageArea>
-          <CardTextBlock>
-            <LG isBold style={{ color: appTheme.palette.blue[600] }}>
-              {t('SIGNUP_CHOOSER_TESTER_CARD_TITLE')}
-            </LG>
-            <CardDescription>
+              <Button
+                isPrimary
+                isAccent
+                isPill
+                style={{ width: 184 }}
+                data-qa="go-to-unguess"
+                onClick={proceedToUnguessSignup}
+              >
+                {t('SIGNUP_CHOOSER_BUSINESS_CARD_CTA')}
+              </Button>
+            </SpecialCard.Footer>
+          </SpecialCard>
+        </CardSlot>
+        <CardSlot>
+          <SpecialCard>
+            <SpecialCard.Thumb isStretched>
+              <img
+                src={tryberCardImage}
+                alt={t('SIGNUP_CHOOSER_TESTER_CARD_TITLE')}
+                style={{ maxWidth: '100%', maxHeight: '100%' }}
+              />
+            </SpecialCard.Thumb>
+            <SpecialCard.Header align="center">
+              <SpecialCard.Header.Title>
+                {t('SIGNUP_CHOOSER_TESTER_CARD_TITLE')}
+              </SpecialCard.Header.Title>
+            </SpecialCard.Header>
+            <SpecialCard.Body>
               <Trans
                 i18nKey="SIGNUP_CHOOSER_TESTER_CARD_DESCRIPTION"
-                components={{ bold: <Span isBold /> }}
+                components={{ bold: <strong /> }}
               />
-            </CardDescription>
-          </CardTextBlock>
-          <CardButtonRow>
-            <Button
-              isPill
-              style={{ width: 184 }}
-              data-qa="go-to-tryber"
-              onClick={handOffToTryber}
+            </SpecialCard.Body>
+            <SpecialCard.Footer
+              direction="column"
+              justifyContent="center"
+              noDivider
             >
-              {t('SIGNUP_CHOOSER_TESTER_CARD_CTA')}
-            </Button>
-          </CardButtonRow>
-        </ChoiceCard>
+              <Button
+                isPill
+                style={{ width: 184 }}
+                data-qa="go-to-tryber"
+                onClick={handOffToTryber}
+              >
+                {t('SIGNUP_CHOOSER_TESTER_CARD_CTA')}
+              </Button>
+            </SpecialCard.Footer>
+          </SpecialCard>
+        </CardSlot>
       </CardsRow>
     </ChooserWrapper>
   );
