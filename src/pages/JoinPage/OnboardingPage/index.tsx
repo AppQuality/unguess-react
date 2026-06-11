@@ -56,6 +56,7 @@ const BoxedContentRow = styled(LayoutWrapper)`
   display: flex;
   flex: 1;
   min-height: 0;
+  gap: ${({ theme }) => theme.space.xxl};
 `;
 
 const LeftColumn = styled.div`
