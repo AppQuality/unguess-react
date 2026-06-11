@@ -38,6 +38,7 @@ const CenteredXYContainer = styled.div`
   text-align: center;
   flex-direction: column;
   flex: 1;
+  padding: 0 ${({ theme }) => theme.space.md};
 `;
 
 interface NavigationState {

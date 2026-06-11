@@ -248,12 +248,14 @@ export const SetPasswordForm = ({
                           passwordInputType === 'password' ? (
                             <EyeHide
                               style={{ cursor: 'pointer' }}
+                              onMouseDown={(e) => e.preventDefault()}
                               onClick={handleChangePasswordInputType}
                               title={t('HIDE_PASSWORD')}
                             />
                           ) : (
                             <Eye
                               style={{ cursor: 'pointer' }}
+                              onMouseDown={(e) => e.preventDefault()}
                               onClick={handleChangePasswordInputType}
                               title={t('SHOW_PASSWORD')}
                             />
@@ -263,7 +265,10 @@ export const SetPasswordForm = ({
                         placeholder={t('SET_PASSWORD_PLACEHOLDER')}
                         {...(hasError && { validation: 'error' })}
                       />
-                      <PasswordRequirements password={values.password} />
+                      <PasswordRequirements
+                        password={values.password}
+                        showStatus={meta.touched || values.password.length > 0}
+                      />
                       {hasError && (
                         <Message
                           data-qa="set-password-error"
@@ -296,12 +301,14 @@ export const SetPasswordForm = ({
                           confirmPasswordInputType === 'password' ? (
                             <EyeHide
                               style={{ cursor: 'pointer' }}
+                              onMouseDown={(e) => e.preventDefault()}
                               onClick={handleChangeConfirmPasswordInputType}
                               title={t('HIDE_PASSWORD')}
                             />
                           ) : (
                             <Eye
                               style={{ cursor: 'pointer' }}
+                              onMouseDown={(e) => e.preventDefault()}
                               onClick={handleChangeConfirmPasswordInputType}
                               title={t('SHOW_PASSWORD')}
                             />

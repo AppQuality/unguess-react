@@ -212,11 +212,17 @@ test.describe('The Join page second step', () => {
     await expect(onboarding.workspaceElements().workspaceInput()).toBeVisible();
   });
 
-  test('displays terms and privacy consent before the next button', async ({
+  test('displays privacy consent above terms consent before the next button', async ({
     page,
   }) => {
     await expect(page.getByTestId('terms-and-conditions')).toBeVisible();
     await expect(page.getByTestId('privacy-policy')).toBeVisible();
+
+    const privacyBox = await page.getByTestId('privacy-policy').boundingBox();
+    const termsBox = await page
+      .getByTestId('terms-and-conditions')
+      .boundingBox();
+    expect(privacyBox!.y).toBeLessThan(termsBox!.y);
   });
 });
 
@@ -238,6 +244,16 @@ test.describe('The Join page third step', () => {
     await onboarding.fillPersonalInfo();
     await onboarding.submitPersonalInfo();
   });
+  test('the submit button is enabled with an empty workspace and clicking it shows the validation error', async ({
+    i18n,
+  }) => {
+    await expect(onboarding.workspaceElements().submitButton()).toBeEnabled();
+    await onboarding.workspaceElements().submitButton().click({ force: true });
+    await expect(onboarding.workspaceElements().workspaceError()).toHaveText(
+      i18n.t('SIGNUP_FORM_WORKSPACE_REQUIRED')
+    );
+  });
+
   test('display a required text input for the workspace name and a back button to return to step 2', async () => {
     await expect(onboarding.workspaceElements().workspaceInput()).toBeVisible();
     await expect(onboarding.workspaceElements().backButton()).toBeVisible();

@@ -12,6 +12,7 @@ import {
   MD,
   MediaInput,
   Message,
+  SM,
   Title,
   XL,
 } from '@appquality/unguess-design-system';
@@ -165,6 +166,7 @@ const LoginForm = ({ onSubmit, buttonText }: LoginFormProps) => {
                   end={
                     <ToggleButton
                       type="button"
+                      onMouseDown={(e) => e.preventDefault()}
                       onClick={() => setShowPassword((v) => !v)}
                       aria-label={
                         showPassword ? 'Hide password' : 'Show password'
@@ -224,7 +226,7 @@ const LoginForm = ({ onSubmit, buttonText }: LoginFormProps) => {
               >
                 {buttonText}
               </Button>
-              <MD>
+              <SM>
                 {t('__LOGIN_FORM_NO_ACCOUNT_LABEL')}
                 <Anchor
                   href="/join/signup"
@@ -235,7 +237,7 @@ const LoginForm = ({ onSubmit, buttonText }: LoginFormProps) => {
                 >
                   {t('__LOGIN_FORM_SIGNUP_CTA')}
                 </Anchor>
-              </MD>
+              </SM>
             </StyledForm>
           )}
         </Formik>

@@ -52,7 +52,7 @@ const CenteredContent = styled.div`
 `;
 
 const LeftColumn = styled.div`
-  flex: 0 0 41%;
+  flex: 0 0 415px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -60,6 +60,7 @@ const LeftColumn = styled.div`
 
   @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
     flex: 1;
+    padding: ${({ theme }) => `${theme.space.xl} 0`};
   }
 `;
 

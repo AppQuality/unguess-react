@@ -198,12 +198,14 @@ export const SignupForm = ({ onSignupSuccess }: SignupFormProps) => {
                             inputType === 'password' ? (
                               <EyeHide
                                 style={{ cursor: 'pointer' }}
+                                onMouseDown={(e) => e.preventDefault()}
                                 onClick={handleChangeInputType}
                                 title={t('HIDE_PASSWORD')}
                               />
                             ) : (
                               <Eye
                                 style={{ cursor: 'pointer' }}
+                                onMouseDown={(e) => e.preventDefault()}
                                 onClick={handleChangeInputType}
                                 title={t('SHOW_PASSWORD')}
                               />
@@ -213,7 +215,12 @@ export const SignupForm = ({ onSignupSuccess }: SignupFormProps) => {
                           placeholder={t('SIGNUP_FORM_PASSWORD_PLACEHOLDER')}
                           {...(hasError && { validation: 'error' })}
                         />
-                        <PasswordRequirements password={values.password} />
+                        <PasswordRequirements
+                          password={values.password}
+                          showStatus={
+                            meta.touched || values.password.length > 0
+                          }
+                        />
                         {hasError && (
                           <Message
                             data-qa="signup-password-error"

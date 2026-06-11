@@ -72,7 +72,7 @@ const CardTextBlock = styled.div`
   flex-direction: column;
   gap: ${({ theme }) => theme.space.xs};
   width: 100%;
-  padding: ${({ theme }) => `${theme.space.md} 0 ${theme.space.xxs}`};
+  padding: ${({ theme }) => `${theme.space.lg} 0 ${theme.space.xxs}`};
   flex: 1;
 `;
 
@@ -86,7 +86,7 @@ const CardButtonRow = styled.div`
   display: flex;
   justify-content: center;
   width: 100%;
-  padding-top: ${({ theme }) => theme.space.sm};
+  padding-top: ${({ theme }) => theme.space.lg};
 `;
 
 export const AccountTypeChooser = () => {

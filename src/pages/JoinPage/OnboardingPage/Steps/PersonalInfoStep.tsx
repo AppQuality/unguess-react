@@ -436,48 +436,6 @@ export const PersonalInfoStep = () => {
                 }}
               </Field>
 
-              <Field name="termsAccepted">
-                {({ field, form, meta }: FieldProps) => {
-                  const hasError = meta.touched && Boolean(meta.error);
-                  return (
-                    <FormField data-qa="terms-and-conditions">
-                      <Checkbox
-                        checked={field.value}
-                        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                          form.setFieldValue('termsAccepted', e.target.checked)
-                        }
-                        onBlur={field.onBlur}
-                        name={field.name}
-                      >
-                        <Label>
-                          <SM style={{ fontStyle: 'italic' }}>
-                            <Trans
-                              i18nKey="SIGNUP_FORM_TERMS_CHECKBOX"
-                              components={{
-                                'terms-link': (
-                                  <Anchor
-                                    isExternal
-                                    href="https://unguess.io/terms-and-conditions/"
-                                    target="_blank"
-                                    title="Terms and Conditions of Service"
-                                    style={{ fontWeight: 600 }}
-                                  />
-                                ),
-                              }}
-                            />
-                          </SM>
-                        </Label>
-                      </Checkbox>
-                      {hasError && (
-                        <Message validation="error">
-                          {t(meta.error as string)}
-                        </Message>
-                      )}
-                    </FormField>
-                  );
-                }}
-              </Field>
-
               <Field name="privacyAccepted">
                 {({ field, form, meta }: FieldProps) => {
                   const hasError = meta.touched && Boolean(meta.error);
@@ -505,6 +463,48 @@ export const PersonalInfoStep = () => {
                                     href="https://unguess.io/privacy-policy/"
                                     target="_blank"
                                     title="Privacy Policy"
+                                    style={{ fontWeight: 600 }}
+                                  />
+                                ),
+                              }}
+                            />
+                          </SM>
+                        </Label>
+                      </Checkbox>
+                      {hasError && (
+                        <Message validation="error">
+                          {t(meta.error as string)}
+                        </Message>
+                      )}
+                    </FormField>
+                  );
+                }}
+              </Field>
+
+              <Field name="termsAccepted">
+                {({ field, form, meta }: FieldProps) => {
+                  const hasError = meta.touched && Boolean(meta.error);
+                  return (
+                    <FormField data-qa="terms-and-conditions">
+                      <Checkbox
+                        checked={field.value}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                          form.setFieldValue('termsAccepted', e.target.checked)
+                        }
+                        onBlur={field.onBlur}
+                        name={field.name}
+                      >
+                        <Label>
+                          <SM style={{ fontStyle: 'italic' }}>
+                            <Trans
+                              i18nKey="SIGNUP_FORM_TERMS_CHECKBOX"
+                              components={{
+                                'terms-link': (
+                                  <Anchor
+                                    isExternal
+                                    href="https://unguess.io/terms-and-conditions/"
+                                    target="_blank"
+                                    title="Terms and Conditions of Service"
                                     style={{ fontWeight: 600 }}
                                   />
                                 ),

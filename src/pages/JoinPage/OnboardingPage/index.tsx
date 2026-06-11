@@ -59,13 +59,14 @@ const BoxedContentRow = styled(LayoutWrapper)`
 `;
 
 const LeftColumn = styled.div`
-  flex: 0 0 41%;
+  flex: 0 0 415px;
   display: flex;
   flex-direction: column;
   justify-content: center;
 
   @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
     flex: 1;
+    padding: ${({ theme }) => `${theme.space.xl} 0`};
   }
 `;
 
