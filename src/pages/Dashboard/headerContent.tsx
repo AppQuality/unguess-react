@@ -5,6 +5,7 @@ import {
   PageHeader,
   SM,
 } from '@appquality/unguess-design-system';
+import { ReactComponent as PlusIcon } from '@zendeskgarden/svg-icons/src/16/plus-stroke.svg';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
@@ -71,6 +72,9 @@ export const DashboardHeaderContent = ({
                   isPrimary
                   onClick={() => setIsNewActivityModalOpen(true)}
                 >
+                  <Button.StartIcon>
+                    <PlusIcon />
+                  </Button.StartIcon>
                   {t('__DASHBOARD_CTA_NEW_ACTIVITY')}
                 </Button>
                 {canShowChat && (

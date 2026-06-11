@@ -21,7 +21,7 @@ import {
   FileList as UploadFileList,
   useToast,
 } from '@appquality/unguess-design-system';
-import { ReactComponent as TrahsIcon } from '@zendeskgarden/svg-icons/src/16/trash-stroke.svg';
+import { ReactComponent as XIcon } from 'src/assets/icons/x-stroke.svg';
 import { Formik, FormikProps } from 'formik';
 import { useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -87,6 +87,10 @@ const FileName = styled.span`
 
 const HiddenInput = styled(Input)`
   display: none;
+`;
+
+const RequiredAsterisk = styled.span`
+  color: ${({ theme }) => theme.palette.red[600]};
 `;
 
 interface ImportMediaModalProps {
@@ -338,194 +342,211 @@ export const ImportMediaModal = ({
         }
       }}
     >
-      {(formik) => (
-        <Modal
-          onClose={() => {
-            handleClose(formik).catch(() => undefined);
-          }}
-        >
-          <Modal.Header>{t('__VIDEOS_IMPORT_MEDIA_MODAL_TITLE')}</Modal.Header>
-          <Modal.Body>
-            <BodyContainer>
-              <MD>{t('__VIDEOS_IMPORT_MEDIA_MODAL_DESCRIPTION')}</MD>
+      {(formik) => {
+        const isLanguageSelectDisabled =
+          isUploading || formik.values.files.length > 1;
 
-              <FormField>
-                <LabelRow>
-                  <Label style={{ marginBottom: 0 }}>
-                    {t('__VIDEOS_IMPORT_MEDIA_MODAL_SPOKEN_LANGUAGE_LABEL')}
-                  </Label>
-                  <Tooltip
-                    content={t(
-                      '__VIDEOS_IMPORT_MEDIA_MODAL_SPOKEN_LANGUAGE_TOOLTIP'
-                    )}
-                    placement="top"
-                    type="light"
-                    size="medium"
-                  >
-                    <IconButton isBasic size="small">
-                      <InfoIcon />
-                    </IconButton>
-                  </Tooltip>
-                </LabelRow>
+        return (
+          <Modal
+            onClose={() => {
+              handleClose(formik).catch(() => undefined);
+            }}
+          >
+            <Modal.Header>
+              {t('__VIDEOS_IMPORT_MEDIA_MODAL_TITLE')}
+            </Modal.Header>
+            <Modal.Body>
+              <BodyContainer>
+                <MD>{t('__VIDEOS_IMPORT_MEDIA_MODAL_DESCRIPTION')}</MD>
 
-                <Select
-                  fullWidthOption
-                  listboxAppendToNode={document.body}
-                  placeholder={t(
-                    '__VIDEOS_IMPORT_MEDIA_MODAL_SPOKEN_LANGUAGE_PLACEHOLDER'
-                  )}
-                  onSelect={(value) => {
-                    formik.setFieldValue('spokenLanguage', value);
-                    formik.setFieldTouched('spokenLanguage', true, false);
-                  }}
-                  selectionValue={formik.values.spokenLanguage}
-                  inputValue={
-                    getLanguageNameByFullTag(formik.values.spokenLanguage) ?? ''
-                  }
-                >
-                  {allowedLanguages.map((lang) => (
-                    <Select.Option
-                      key={`spoken-language-${lang}`}
-                      value={lang}
-                      label={getLanguageNameByFullTag(lang) ?? lang}
-                    />
-                  ))}
-                </Select>
-                {formik.touched.spokenLanguage &&
-                  formik.errors.spokenLanguage && (
-                    <Message
-                      style={{ marginTop: appTheme.space.xs }}
-                      validation="error"
+                <FormField>
+                  <LabelRow>
+                    <Label style={{ marginBottom: 0 }}>
+                      {t('__VIDEOS_IMPORT_MEDIA_MODAL_SPOKEN_LANGUAGE_LABEL')}
+                      <RequiredAsterisk>*</RequiredAsterisk>
+                    </Label>
+                    <Tooltip
+                      content={t(
+                        '__VIDEOS_IMPORT_MEDIA_MODAL_SPOKEN_LANGUAGE_TOOLTIP'
+                      )}
+                      placement="top"
+                      type="light"
+                      size="medium"
                     >
-                      {formik.errors.spokenLanguage}
-                    </Message>
-                  )}
-              </FormField>
+                      <IconButton isBasic size="small">
+                        <InfoIcon />
+                      </IconButton>
+                    </Tooltip>
+                  </LabelRow>
 
-              <FormField>
-                <Label>{t('__VIDEOS_IMPORT_MEDIA_MODAL_UPLOAD_LABEL')}</Label>
+                  <Select
+                    isDisabled={isLanguageSelectDisabled}
+                    fullWidthOption
+                    listboxAppendToNode={document.body}
+                    placeholder={t(
+                      '__VIDEOS_IMPORT_MEDIA_MODAL_SPOKEN_LANGUAGE_PLACEHOLDER'
+                    )}
+                    onSelect={(value) => {
+                      formik.setFieldValue('spokenLanguage', value);
+                      formik.setFieldTouched('spokenLanguage', true, false);
+                    }}
+                    selectionValue={formik.values.spokenLanguage}
+                    inputValue={
+                      getLanguageNameByFullTag(formik.values.spokenLanguage) ??
+                      ''
+                    }
+                  >
+                    {allowedLanguages.map((lang) => (
+                      <Select.Option
+                        key={`spoken-language-${lang}`}
+                        value={lang}
+                        label={getLanguageNameByFullTag(lang) ?? lang}
+                      />
+                    ))}
+                  </Select>
+                  {formik.touched.spokenLanguage &&
+                    formik.errors.spokenLanguage && (
+                      <Message
+                        style={{ marginTop: appTheme.space.xs }}
+                        validation="error"
+                      >
+                        {formik.errors.spokenLanguage}
+                      </Message>
+                    )}
+                </FormField>
 
-                <FileUpload
-                  isDragging={isDragging}
-                  onClick={() => inputRef.current?.click()}
-                  onDragOver={(event) => {
-                    event.preventDefault();
-                    setIsDragging(true);
-                  }}
-                  onDragLeave={() => setIsDragging(false)}
-                  onDrop={(event) => {
-                    event.preventDefault();
-                    setIsDragging(false);
-                    addFiles(formik, event.dataTransfer.files).catch(
-                      () => undefined
-                    );
-                  }}
-                >
-                  <HiddenInput
-                    ref={inputRef}
-                    type="file"
-                    multiple
-                    accept="video/*,audio/*"
-                    disabled={isUploading}
-                    onChange={(event) => {
-                      addFiles(formik, event.target.files).catch(
+                <FormField>
+                  <Label>
+                    {t('__VIDEOS_IMPORT_MEDIA_MODAL_UPLOAD_LABEL')}
+                    <RequiredAsterisk>*</RequiredAsterisk>
+                  </Label>
+
+                  <FileUpload
+                    isDragging={isDragging}
+                    onClick={() => inputRef.current?.click()}
+                    onDragOver={(event) => {
+                      event.preventDefault();
+                      setIsDragging(true);
+                    }}
+                    onDragLeave={() => setIsDragging(false)}
+                    onDrop={(event) => {
+                      event.preventDefault();
+                      setIsDragging(false);
+                      addFiles(formik, event.dataTransfer.files).catch(
                         () => undefined
                       );
-                      event.currentTarget.value = '';
                     }}
-                  />
-                  <UploadContent>
-                    <MD>
-                      {t('__VIDEOS_IMPORT_MEDIA_MODAL_UPLOAD_DROPZONE_TEXT')}
-                    </MD>
-                    <MD>{t('__VIDEOS_IMPORT_MEDIA_MODAL_UPLOAD_MAX_SIZE')}</MD>
-                  </UploadContent>
-                </FileUpload>
-                {formik.touched.files &&
-                  typeof formik.errors.files === 'string' && (
-                    <Message validation="error">{formik.errors.files}</Message>
-                  )}
-              </FormField>
+                  >
+                    <HiddenInput
+                      ref={inputRef}
+                      type="file"
+                      multiple
+                      accept="video/*,audio/*"
+                      disabled={isUploading}
+                      onChange={(event) => {
+                        addFiles(formik, event.target.files).catch(
+                          () => undefined
+                        );
+                        event.currentTarget.value = '';
+                      }}
+                    />
+                    <UploadContent>
+                      <MD>
+                        {t('__VIDEOS_IMPORT_MEDIA_MODAL_UPLOAD_DROPZONE_TEXT')}
+                      </MD>
+                      <MD>
+                        {t('__VIDEOS_IMPORT_MEDIA_MODAL_UPLOAD_MAX_SIZE')}
+                      </MD>
+                    </UploadContent>
+                  </FileUpload>
+                  {formik.touched.files &&
+                    typeof formik.errors.files === 'string' && (
+                      <Message validation="error">
+                        {formik.errors.files}
+                      </Message>
+                    )}
+                </FormField>
 
-              {formik.values.files.length > 0 && (
-                <UploadFileList>
-                  {formik.values.files.map((item, index) => (
-                    <FileRow key={item.id}>
-                      <UploadFileItem
-                        type={getFileType(item.file)}
-                        validation={getUploadValidation(item.status)}
-                        style={{ height: 'auto', minHeight: '40px' }}
-                      >
-                        <FileItemInner>
-                          <FileItemHeader>
-                            <FileName>{item.file.name}</FileName>
-                            {item.status === 'pending' ? (
-                              <Spinner
-                                size={appTheme.space.md}
-                                color={appTheme.palette.blue[700]}
-                              />
-                            ) : (
-                              <Button
-                                isBasic
-                                size="small"
-                                aria-label={t(
-                                  '__VIDEOS_IMPORT_MEDIA_MODAL_REMOVE_FILE'
-                                )}
-                                onClick={() => {
-                                  removeFile(formik, index).catch(
-                                    () => undefined
-                                  );
-                                }}
+                {formik.values.files.length > 0 && (
+                  <UploadFileList>
+                    {formik.values.files.map((item, index) => (
+                      <FileRow key={item.id}>
+                        <UploadFileItem
+                          type={getFileType(item.file)}
+                          validation={getUploadValidation(item.status)}
+                          style={{ height: 'auto', minHeight: '40px' }}
+                        >
+                          <FileItemInner>
+                            <FileItemHeader>
+                              <FileName>{item.file.name}</FileName>
+                              {item.status === 'pending' ? (
+                                <Spinner
+                                  size={appTheme.space.md}
+                                  color={appTheme.palette.blue[700]}
+                                />
+                              ) : (
+                                <Button
+                                  isBasic
+                                  size="small"
+                                  aria-label={t(
+                                    '__VIDEOS_IMPORT_MEDIA_MODAL_REMOVE_FILE'
+                                  )}
+                                  onClick={() => {
+                                    removeFile(formik, index).catch(
+                                      () => undefined
+                                    );
+                                  }}
+                                >
+                                  <XIcon />
+                                </Button>
+                              )}
+                            </FileItemHeader>
+                            {item.errorMessage && (
+                              <Message
+                                style={{ paddingBottom: appTheme.space.sm }}
+                                validation="error"
                               >
-                                <TrahsIcon />
-                              </Button>
+                                {item.errorMessage}
+                              </Message>
                             )}
-                          </FileItemHeader>
-                          {item.errorMessage && (
-                            <Message
-                              style={{ paddingBottom: appTheme.space.sm }}
-                              validation="error"
-                            >
-                              {item.errorMessage}
-                            </Message>
-                          )}
-                        </FileItemInner>
-                      </UploadFileItem>
-                    </FileRow>
-                  ))}
-                </UploadFileList>
-              )}
-            </BodyContainer>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button
-              isBasic
-              style={{ marginRight: appTheme.space.sm }}
-              disabled={isUploading || isClosing}
-              onClick={() => {
-                handleClose(formik).catch(() => undefined);
-              }}
-            >
-              {t('__VIDEOS_IMPORT_MEDIA_MODAL_CANCEL')}
-            </Button>
-            <Button
-              isPrimary
-              isAccent
-              onClick={() => {
-                formik.submitForm().catch(() => undefined);
-              }}
-              disabled={
-                isClosing ||
-                isUploading ||
-                formik.values.files.some((item) => item.status === 'pending')
-              }
-            >
-              {t('__VIDEOS_IMPORT_MEDIA_MODAL_SAVE')}
-            </Button>
-          </Modal.Footer>
-          <ModalClose />
-        </Modal>
-      )}
+                          </FileItemInner>
+                        </UploadFileItem>
+                      </FileRow>
+                    ))}
+                  </UploadFileList>
+                )}
+              </BodyContainer>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button
+                isBasic
+                style={{ marginRight: appTheme.space.sm }}
+                disabled={isUploading || isClosing}
+                onClick={() => {
+                  handleClose(formik).catch(() => undefined);
+                }}
+              >
+                {t('__VIDEOS_IMPORT_MEDIA_MODAL_CANCEL')}
+              </Button>
+              <Button
+                isPrimary
+                isAccent
+                onClick={() => {
+                  formik.submitForm().catch(() => undefined);
+                }}
+                disabled={
+                  isClosing ||
+                  isUploading ||
+                  formik.values.files.some((item) => item.status === 'pending')
+                }
+              >
+                {t('__VIDEOS_IMPORT_MEDIA_MODAL_SAVE')}
+              </Button>
+            </Modal.Footer>
+            <ModalClose />
+          </Modal>
+        );
+      }}
     </Formik>
   );
 };

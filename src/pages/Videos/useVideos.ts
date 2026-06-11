@@ -47,7 +47,7 @@ export const useVideos = (cid: string) => {
     ) ?? 0;
 
   useEffect(() => {
-    if (processingVideosCount <= 1) return undefined;
+    if (processingVideosCount < 1) return undefined;
 
     const intervalId = window.setInterval(() => {
       refetch();
@@ -70,7 +70,16 @@ export const useVideos = (cid: string) => {
     isLoading: isLoadingUsecases,
     isFetching: isFetchingUsecases,
     isError: isErrorUsecases,
+    refetch: refetchUsecases,
   } = useGetCampaignsByCidUsecasesQuery({ cid, filterBy: 'videos' });
+
+  const totalVideos = data?.items.length ?? 0;
+
+  useEffect(() => {
+    if (totalVideos > 0 && usecases && usecases.length === 0) {
+      refetchUsecases();
+    }
+  }, [totalVideos, usecases, refetchUsecases]);
 
   useEffect(() => {
     if (data && data.items && observations && usecases) {
@@ -132,5 +141,6 @@ export const useVideos = (cid: string) => {
     isLoading: isLoading || isLoadingObservations || isLoadingUsecases,
     isError: isError || isErrorObservations || isErrorUsecases,
     sorted,
+    totalVideos,
   };
 };

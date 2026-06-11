@@ -35,13 +35,11 @@ const VideosPageContent = () => {
 
   const {
     sorted: videos,
+    totalVideos,
     isFetching,
     isLoading,
     isError,
   } = useVideos(entityId);
-
-  const totalVideos =
-    videos?.reduce((total, item) => total + item.videos.total, 0) ?? 0;
 
   if (isError) return null;
 
@@ -87,7 +85,7 @@ const VideosPageContent = () => {
                                       color={appTheme.palette.grey[600]}
                                     />
                                   </Tag.Avatar>
-                                  {t('__VIDEOS_LIST_META_LABEL', 'Videos')}:
+                                  {t('__VIDEOS_LIST_META_LABEL')}:
                                   <Tag.SecondaryText>
                                     {uc.videos.total}
                                   </Tag.SecondaryText>

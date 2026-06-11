@@ -260,7 +260,7 @@ export const Metas = ({
               isAccent
               onClick={() => setIsImportMediaModalOpen(true)}
             >
-              {t('Import media')}
+              {t('__UX_CAMPAIGN_PAGE_NAVIGATION_VIDEO_LIST_CTA_UPLOAD_MEDIA')}
             </Button>
           )}
           {!isHub && (

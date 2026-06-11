@@ -25,12 +25,12 @@ import * as Yup from 'yup';
 
 type ApiDeviceType = NonNullable<NonNullable<ApiVideo['device']>['formFactor']>;
 
-const DEVICE_LABEL_BY_TYPE: Record<ApiDeviceType, string> = {
-  smartphone: 'smartphone',
-  tablet: 'tablet',
-  desktop: 'desktop',
-  other: 'other',
-  unknown: 'unknown',
+const DEVICE_LABEL_KEY_BY_TYPE: Record<ApiDeviceType, string> = {
+  smartphone: '__VIDEOS_LIST_SMARTPHONE_TITLE',
+  tablet: '__VIDEOS_LIST_TABLET_TITLE',
+  desktop: '__VIDEOS_LIST_DESKTOP_TITLE',
+  other: '__VIDEOS_LIST_OTHER_TITLE',
+  unknown: '__VIDEOS_LIST_UNKNOWN_DEVICE_TITLE',
 };
 
 export type EditVideoFormValues = {
@@ -157,15 +157,13 @@ export const EditVideoModal = ({
     >
       {(formProps: FormikProps<EditVideoFormValues>) => (
         <Modal onClose={onClose}>
-          <Modal.Header>
-            {t('__VIDEOS_EDIT_MODAL_TITLE', 'Edit video details')}
-          </Modal.Header>
+          <Modal.Header>{t('__VIDEOS_EDIT_MODAL_TITLE')}</Modal.Header>
           <Modal.Body>
             <Form id="edit-video-form">
               <FormBody>
                 <FormField>
                   <Label>
-                    {t('__VIDEOS_EDIT_MODAL_FIELD_TITLE', 'Title')}{' '}
+                    {t('__VIDEOS_EDIT_MODAL_FIELD_TITLE')}{' '}
                     <RequiredAsterisk>*</RequiredAsterisk>
                   </Label>
                   <InputWrapper>
@@ -177,6 +175,9 @@ export const EditVideoModal = ({
                           ? 'error'
                           : undefined
                       }
+                      placeholder={t(
+                        '__VIDEOS_EDIT_MODAL_FIELD_TITLE_PLACEHOLDER'
+                      )}
                     />
                     {formProps.touched.title && formProps.errors.title && (
                       <Message validation="error">
@@ -203,6 +204,9 @@ export const EditVideoModal = ({
                           ? 'error'
                           : undefined
                       }
+                      placeholder={t(
+                        '__VIDEOS_EDIT_MODAL_FIELD_PARTICIPANT_NAME_PLACEHOLDER'
+                      )}
                     />
                     {formProps.touched.participantName &&
                       formProps.errors.participantName && (
@@ -226,6 +230,9 @@ export const EditVideoModal = ({
                       isResizable
                       disabled={isDetailsLoading}
                       {...formProps.getFieldProps('additionalInformation')}
+                      placeholder={t(
+                        '__VIDEOS_EDIT_MODAL_FIELD_ADDITIONAL_INFORMATION_PLACEHOLDER'
+                      )}
                     />
                   </InputWrapper>
                 </FormField>
@@ -249,15 +256,17 @@ export const EditVideoModal = ({
                           .catch(() => undefined);
                       }}
                       selectionValue={formProps.values.device}
-                      inputValue={formProps.values.device}
+                      inputValue={t(
+                        DEVICE_LABEL_KEY_BY_TYPE[formProps.values.device]
+                      )}
                     >
                       {(
-                        Object.keys(DEVICE_LABEL_BY_TYPE) as ApiDeviceType[]
+                        Object.keys(DEVICE_LABEL_KEY_BY_TYPE) as ApiDeviceType[]
                       ).map((deviceType) => (
                         <Select.Option
                           key={deviceType}
                           value={deviceType}
-                          label={DEVICE_LABEL_BY_TYPE[deviceType]}
+                          label={t(DEVICE_LABEL_KEY_BY_TYPE[deviceType])}
                         />
                       ))}
                     </Select>

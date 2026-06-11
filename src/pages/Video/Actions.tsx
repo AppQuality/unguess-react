@@ -1,6 +1,7 @@
 import {
   IconButton,
   LG,
+  SM,
   Skeleton,
   Tag,
   Tooltip,
@@ -18,6 +19,7 @@ import { Divider } from 'src/common/components/divider';
 import { Meta } from 'src/common/components/Meta';
 import { Pipe } from 'src/common/components/Pipe';
 import { EditVideoModal } from 'src/common/components/videos/EditVideoModal';
+import { formatApiDateShortMonthYear } from 'src/common/date/apiDate';
 import type { CampaignHubContext } from 'src/features/templates/CampaignsHubsMiddleware';
 import {
   useGetVideosByVidObservationsQuery,
@@ -55,6 +57,11 @@ const MetaContainer = styled.div`
 
 const HeaderName = styled(XL)`
   flex-basis: 100%;
+`;
+
+const Description = styled(SM)`
+  color: ${({ theme }) => theme.palette.grey[600]};
+  margin-top: ${({ theme }) => theme.space.xs};
 `;
 
 const ObservationsCountWrapper = styled.div`
@@ -119,6 +126,8 @@ const Actions = () => {
       : deviceType === 'other'
       ? t('__VIDEOS_LIST_OTHER_TITLE')
       : deviceType;
+  const formattedUploadDate = formatApiDateShortMonthYear(video.uploadDate);
+  const description = video.additional?.trim();
 
   return (
     <Container ref={refScroll}>
@@ -148,7 +157,13 @@ const Actions = () => {
                 {formatDuration(video.duration)}
               </Tag>
             )}
+            {formattedUploadDate && (
+              <Tag hue="white" style={{ fontSize: appTheme.fontSizes.sm }}>
+                {formattedUploadDate}
+              </Tag>
+            )}
           </div>
+          {description && <Description>{description}</Description>}
         </MetaContainer>
         <Tooltip
           content={t('__VIDEOS_DETAIL_EDIT_VIDEO_LABEL')}

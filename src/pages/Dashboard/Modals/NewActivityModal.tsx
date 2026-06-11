@@ -86,7 +86,7 @@ export const NewActivityModal = ({
       validateOnBlur
       onSubmit={handleSubmit}
     >
-      <Modal onClose={onClose} role="dialog">
+      <Modal onClose={onClose} role="dialog" isLarge={step === 1}>
         <Modal.Header>{modalTitle}</Modal.Header>
         <Modal.Body>
           {step === 1 && (

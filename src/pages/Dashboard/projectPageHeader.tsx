@@ -7,6 +7,7 @@ import {
   XXXL,
 } from '@appquality/unguess-design-system';
 import { ReactComponent as DeleteIcon } from '@zendeskgarden/svg-icons/src/16/trash-stroke.svg';
+import { ReactComponent as PlusIcon } from '@zendeskgarden/svg-icons/src/16/plus-stroke.svg';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -134,6 +135,9 @@ export const ProjectPageHeader = ({ projectId }: { projectId: number }) => {
                     isPrimary
                     onClick={() => setNewActivityModalOpen(true)}
                   >
+                    <Button.StartIcon>
+                      <PlusIcon />
+                    </Button.StartIcon>
                     {t('__DASHBOARD_CTA_NEW_ACTIVITY')}
                   </Button>
                 )}
