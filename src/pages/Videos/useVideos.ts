@@ -126,7 +126,7 @@ export const useVideos = (cid: string) => {
             ...video,
             observations: observationsByMediaId[video.id] || [],
           };
-          ordered.videos[deviceType].push(videoWithObservations);
+          ordered.videos[`${deviceType}`].push(videoWithObservations);
         });
 
         return ordered;

@@ -120,12 +120,13 @@ const Actions = () => {
   const displayHeaderName = video.tester?.name;
   const testerId = video.tester?.id;
   const deviceType = video.device?.formFactor;
-  const deviceLabel =
-    deviceType === 'unknown'
-      ? t('__VIDEOS_LIST_UNKNOWN_DEVICE_TITLE')
-      : deviceType === 'other'
-      ? t('__VIDEOS_LIST_OTHER_TITLE')
-      : deviceType;
+  let deviceLabel: string | undefined = deviceType;
+
+  if (deviceType === 'unknown') {
+    deviceLabel = t('__VIDEOS_LIST_UNKNOWN_DEVICE_TITLE');
+  } else if (deviceType === 'other') {
+    deviceLabel = t('__VIDEOS_LIST_OTHER_TITLE');
+  }
   const formattedUploadDate = formatApiDateShortMonthYear(video.uploadDate);
   const description = video.additional?.trim();
 
