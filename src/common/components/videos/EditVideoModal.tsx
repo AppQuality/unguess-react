@@ -257,7 +257,7 @@ export const EditVideoModal = ({
                       }}
                       selectionValue={formProps.values.device}
                       inputValue={t(
-                        DEVICE_LABEL_KEY_BY_TYPE[formProps.values.device]
+                        DEVICE_LABEL_KEY_BY_TYPE[`${formProps.values.device}`]
                       )}
                     >
                       {(
@@ -266,7 +266,7 @@ export const EditVideoModal = ({
                         <Select.Option
                           key={deviceType}
                           value={deviceType}
-                          label={t(DEVICE_LABEL_KEY_BY_TYPE[deviceType])}
+                          label={t(DEVICE_LABEL_KEY_BY_TYPE[`${deviceType}`])}
                         />
                       ))}
                     </Select>

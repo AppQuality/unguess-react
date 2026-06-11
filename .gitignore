@@ -35,6 +35,3 @@ generate-local-token.json
 /playwright-report/
 /blob-report/
 /playwright/.cache/
-
-# copilot instructions
-.github/copilot-instructions.md

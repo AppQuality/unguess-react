@@ -58,16 +58,8 @@ const CardHeader = styled(SpecialCard.Header)`
   text-align: left;
 `;
 
-const CardLabel = styled(SpecialCard.Header.Label)`
-  color: ${({ theme }) => theme.palette.grey[600]};
-`;
-
 const CardTitle = styled(SpecialCard.Header.Title)`
   color: ${({ theme }) => theme.palette.grey[800]};
-`;
-
-const CardText = styled(SpecialCard.Header.Text)`
-  color: ${({ theme }) => theme.palette.grey[700]};
 `;
 
 const CardBody = styled(SpecialCard.Body)`
