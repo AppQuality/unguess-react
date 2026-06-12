@@ -246,7 +246,6 @@ export const Metas = ({
                   </Meta>
                 ))}
               </SeveritiesMetaContainer>
-              <StyledPipe />
             </>
           )}
           {!isHub && <StatusMeta status={status.name as CampaignStatus} />}
