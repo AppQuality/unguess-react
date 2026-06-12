@@ -34,36 +34,34 @@ export type CampaignVideos = Array<{
 export const useVideos = (cid: string) => {
   const [sorted, setSorted] = useState<CampaignVideos>();
 
-  const { data, isFetching, isLoading, isError, refetch } =
-    useGetCampaignsByCidVideosQuery({
-      cid,
-    });
-
-  const processingVideosCount =
-    data?.items.reduce(
-      (count, video) =>
-        video.processingStatus === 'processing' ? count + 1 : count,
-      0
-    ) ?? 0;
-
-  useEffect(() => {
-    if (processingVideosCount < 1) return undefined;
-
-    const intervalId = window.setInterval(() => {
-      refetch();
-    }, PROCESSING_POLLING_INTERVAL_MS);
-
-    return () => {
-      window.clearInterval(intervalId);
-    };
-  }, [processingVideosCount, refetch]);
+  const {
+    data,
+    isFetching,
+    isLoading,
+    isError,
+    refetch: refetchVideos,
+  } = useGetCampaignsByCidVideosQuery({
+    cid,
+  });
 
   const {
     data: observations,
     isLoading: isLoadingObservations,
     isFetching: isFetchingObservations,
     isError: isErrorObservations,
+    refetch: refetchObservations,
   } = useGetCampaignsByCidObservationsQuery({ cid });
+
+  useEffect(() => {
+    const intervalId = window.setInterval(() => {
+      refetchVideos();
+      refetchObservations();
+    }, PROCESSING_POLLING_INTERVAL_MS);
+
+    return () => {
+      window.clearInterval(intervalId);
+    };
+  }, [refetchVideos, refetchObservations]);
 
   const {
     data: usecases,

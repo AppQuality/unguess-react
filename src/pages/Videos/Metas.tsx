@@ -42,6 +42,10 @@ import styled from 'styled-components';
 import { ImportMediaModal } from './ImportMediaModal';
 import { getAllSeverityTags } from './utils/getSeverityTagsWithCount';
 
+const StyledSkeleton = styled(Skeleton)`
+  margin-right: ${({ theme }) => theme.space.sm};
+`;
+
 const ButtonWrapper = styled.div`
   display: flex;
   align-items: center;
@@ -58,7 +62,6 @@ const ButtonWrapper = styled.div`
 
 const StyledPipe = styled(Pipe)`
   display: inline;
-  margin-left: ${({ theme }) => theme.space.sm};
 `;
 
 const SeveritiesMetaContainer = styled.div`
@@ -133,18 +136,22 @@ export const Metas = ({
   const {
     data: videos,
     isLoading,
+    isFetching: isFetchingVideos,
     isError,
   } = useGetCampaignsByCidVideosQuery({ cid: campaign.id.toString() });
 
-  const { data: observations, isLoading: isLoadingObservations } =
-    useGetCampaignsByCidObservationsQuery(
-      {
-        cid: entityId,
-      },
-      {
-        skip: !entityId,
-      }
-    );
+  const {
+    data: observations,
+    isLoading: isLoadingObservations,
+    isFetching: isFetchingObservations,
+  } = useGetCampaignsByCidObservationsQuery(
+    {
+      cid: entityId,
+    },
+    {
+      skip: !entityId,
+    }
+  );
 
   const { data: projectsData } = useActiveWorkspaceProjects();
 
@@ -211,16 +218,18 @@ export const Metas = ({
             {totalVideos}{' '}
             {t('__VIDEOS_LIST_META_VIDEO_COUNT', { count: totalVideos })}
           </Span>
-          <StyledPipe />
+          <StyledPipe style={{ marginLeft: appTheme.space.sm }} />
           {campaign.start_date && (
             <>
               <Span style={{ color: appTheme.palette.grey[700] }}>
                 {formatApiDateShortMonthYear(campaign.start_date)}
               </Span>
-              <StyledPipe />
+              <StyledPipe style={{ marginLeft: appTheme.space.sm }} />
             </>
           )}
-          {deviceMetas.length > 0 && (
+          {isFetchingVideos ? (
+            <StyledSkeleton width="400px" height="20px" />
+          ) : (
             <>
               {deviceMetas.map((deviceMeta) => (
                 <DeviceMetaItem key={deviceMeta.key}>
@@ -229,10 +238,12 @@ export const Metas = ({
                   <DeviceMetaCount>{deviceMeta.count}</DeviceMetaCount>
                 </DeviceMetaItem>
               ))}
-              <StyledPipe />
             </>
           )}
-          {severities && severities.length > 0 && (
+          {deviceMetas.length > 0 && <StyledPipe />}
+          {isFetchingObservations ? (
+            <StyledSkeleton width="400px" height="20px" />
+          ) : (
             <SeveritiesMetaContainer>
               {severities.map((severity) => (
                 <Meta
