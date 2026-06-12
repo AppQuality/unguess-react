@@ -137,7 +137,7 @@ const Actions = () => {
           {displayHeaderName && (
             <HeaderName isBold>{displayHeaderName}</HeaderName>
           )}
-          <div style={{ marginTop: appTheme.space.xs }}>
+          <div style={{ marginTop: appTheme.space.xs, flexBasis: '100%' }}>
             {!isHub && (
               <>
                 <Meta size="medium">Tester ID: {testerId ?? '-'}</Meta>
