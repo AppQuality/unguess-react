@@ -187,7 +187,6 @@ const Video = ({ video }: { video: VideoWithObservations }) => {
                   )}
                 </Tag>
               )}
-              {severityTotals.length > 0 && <Pipe />}
               {severityTotals.map((tag) => (
                 <Tag
                   hue={getColorWithAlpha(
