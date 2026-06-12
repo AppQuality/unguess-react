@@ -142,6 +142,11 @@ export const CampaignSettings = ({ dataQa }: { dataQa?: string }) => {
     campaign ? campaign.id : 0,
     i18n.language
   );
+  const hubRoute = getLocalizedCampaignUrl(
+    hub ? hub.id : 0,
+    i18n.language
+  ).replace('/campaigns/', '/hubs/');
+  const entityRoute = isHub ? hubRoute : campaignRoute;
 
   const onSubmitNewMember = (
     values: { email: string; message?: string },
@@ -151,7 +156,7 @@ export const CampaignSettings = ({ dataQa }: { dataQa?: string }) => {
       cid: entityId,
       body: {
         email: values.email,
-        redirect_url: campaignRoute,
+        redirect_url: entityRoute,
         ...(values.message && { message: values.message }),
       },
     })
