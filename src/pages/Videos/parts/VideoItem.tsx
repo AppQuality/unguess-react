@@ -129,6 +129,7 @@ const Video = ({ video }: { video: VideoWithObservations }) => {
   const fileName = video.filename || '--';
   const displayName = isHub ? fileName : testerName;
   const testerId = video.tester?.id;
+  const participantName = video.tester?.name?.trim();
   const isOptimizationPending = video.processingStatus === 'processing';
   const isOptimizationFailed = video.processingStatus === 'error';
 
@@ -144,6 +145,15 @@ const Video = ({ video }: { video: VideoWithObservations }) => {
           <MD isBold style={{ color: appTheme.palette.blue[600] }}>
             {displayName}
           </MD>
+          {isHub && participantName && (
+            <SM
+              color={appTheme.palette.grey[600]}
+              isBold
+              style={{ marginTop: appTheme.space.xxs }}
+            >
+              {t('__VIDEOS_LIST_PARTICIPANT_LABEL')}: {participantName}
+            </SM>
+          )}
           {!isHub && (
             <SM
               color={appTheme.palette.grey[600]}
