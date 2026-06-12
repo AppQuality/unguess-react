@@ -233,20 +233,18 @@ export const Metas = ({
             </>
           )}
           {severities && severities.length > 0 && (
-            <>
-              <SeveritiesMetaContainer>
-                {severities.map((severity) => (
-                  <Meta
-                    key={severity.name}
-                    size="large"
-                    color={severity.style}
-                    secondaryText={severity.count}
-                  >
-                    {capitalizeFirstLetter(severity.name)}
-                  </Meta>
-                ))}
-              </SeveritiesMetaContainer>
-            </>
+            <SeveritiesMetaContainer>
+              {severities.map((severity) => (
+                <Meta
+                  key={severity.name}
+                  size="large"
+                  color={severity.style}
+                  secondaryText={severity.count}
+                >
+                  {capitalizeFirstLetter(severity.name)}
+                </Meta>
+              ))}
+            </SeveritiesMetaContainer>
           )}
           {!isHub && <StatusMeta status={status.name as CampaignStatus} />}
         </PageMeta>
