@@ -138,6 +138,25 @@ test.describe('The Join page signup step - case new user', () => {
     ).toBeVisible();
   });
 
+  test('the email confirmation step is 415px wide on desktop and padded on mobile', async ({
+    page,
+  }) => {
+    await signupPage.mockCognitoConfirmSignup();
+    await signupPage.fillValidSignupForm();
+    await signupPage.submitSignupForm();
+    await expect(
+      signupPage.confirmEmailFormElements().codeInput()
+    ).toBeVisible();
+
+    const step = page.getByTestId('confirm-email-step');
+    const desktopBox = await step.boundingBox();
+    expect(Math.round(desktopBox!.width)).toBe(415);
+
+    await page.setViewportSize({ width: 375, height: 812 });
+    const padding = await step.evaluate((el) => getComputedStyle(el).padding);
+    expect(padding).toBe('40px 20px');
+  });
+
   test('displays an enabled Continue with Google button', async () => {
     await expect(signupPage.signupFormElements().googleButton()).toBeVisible();
     await expect(signupPage.signupFormElements().googleButton()).toBeEnabled();
@@ -168,6 +187,23 @@ test.describe('The Join page second step', () => {
 
     await join.openOnboarding();
   });
+  test('keeps the 40px top/bottom padding on the form column on desktop', async ({
+    page,
+  }) => {
+    const padding = await page
+      .locator('input[name="name"]')
+      .evaluate((input) => {
+        let el = input.parentElement;
+        while (el) {
+          const cs = getComputedStyle(el);
+          if (cs.flexBasis === '415px') return cs.padding;
+          el = el.parentElement;
+        }
+        return 'not found';
+      });
+    expect(padding).toBe('40px 0px');
+  });
+
   test('display required inputs for name, surname, job role and company size dropdowns populated from api userRole and companySize', async ({
     page,
     i18n,

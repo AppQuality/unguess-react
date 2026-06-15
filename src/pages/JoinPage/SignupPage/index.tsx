@@ -52,15 +52,25 @@ const CenteredContent = styled.div`
   justify-content: center;
 `;
 
+const ConfirmStepWrapper = styled.div`
+  width: 415px;
+  max-width: 100%;
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
+    width: 100%;
+    padding: ${({ theme }) => `${theme.space.xl} ${theme.space.md}`};
+  }
+`;
+
 const LeftColumn = styled.div`
   flex: 0 0 415px;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  padding: ${({ theme }) => `${theme.space.xl} 0`};
 
   @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
     flex: 1;
-    padding: ${({ theme }) => `${theme.space.xl} 0`};
   }
 `;
 
@@ -103,7 +113,9 @@ const SignupPage = () => {
     if (needsConfirmation) {
       return (
         <CenteredContent>
-          <ConfirmEmailForm email={userEmail} password={userPassword} />
+          <ConfirmStepWrapper data-qa="confirm-email-step">
+            <ConfirmEmailForm email={userEmail} password={userPassword} />
+          </ConfirmStepWrapper>
         </CenteredContent>
       );
     }

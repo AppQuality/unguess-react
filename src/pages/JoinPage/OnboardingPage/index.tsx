@@ -64,10 +64,10 @@ const LeftColumn = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
+  padding: ${({ theme }) => `${theme.space.xl} 0`};
 
   @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
     flex: 1;
-    padding: ${({ theme }) => `${theme.space.xl} 0`};
   }
 `;
 
