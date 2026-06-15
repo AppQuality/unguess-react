@@ -240,7 +240,7 @@ export const Metas = ({
               ))}
             </>
           )}
-          {deviceMetas.length > 0 && <StyledPipe />}
+          {totalVideos > 0 && severities.length > 0 && <StyledPipe />}
           {isFetchingObservations ? (
             <StyledSkeleton width="400px" height="20px" />
           ) : (
