@@ -85,7 +85,6 @@ export const Metas = ({
 }: {
   campaign: CampaignWithOutput & { isArchived?: boolean };
 }) => {
-  const { isHub } = useOutletContext<CampaignHubContext>();
   const { start_date, end_date, type, status, outputs, family, isArchived } =
     campaign;
   const { t } = useTranslation();
@@ -168,8 +167,7 @@ export const Metas = ({
           ) : null}
         </PageMeta>
         <ButtonWrapper>
-          {/* TODO: Re-enable user invites when isHub = true -> fix API */}
-          {!isHub && !isArchived && hasWorkspaceAccess && (
+          {!isArchived && hasWorkspaceAccess && (
             <CampaignSettings dataQa="campaign_pageHeader_shareButton" />
           )}
           {!isArchived && <WatcherList campaignId={campaign.id.toString()} />}
