@@ -157,6 +157,7 @@ const InsightsPageHeader = () => {
           <Wrapper>
             <PageHeader.Title>{t('__INSIGHTS_PAGE_TITLE')}</PageHeader.Title>
             <ButtonWrapper>
+              {/* TODO: Re-enable user invites when isHub = true -> fix API */}
               {!isHub && !campaign?.isArchived && hasWorkspaceAccess && (
                 <CampaignSettings />
               )}

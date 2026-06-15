@@ -260,7 +260,10 @@ export const Metas = ({
           {!isHub && <StatusMeta status={status.name as CampaignStatus} />}
         </PageMeta>
         <ButtonWrapper>
-          {!isEntityArchived && hasWorkspaceAccess && <CampaignSettings />}
+          {/* TODO: Re-enable user invites when isHub = true -> fix API */}
+          {!isHub && !isEntityArchived && hasWorkspaceAccess && (
+            <CampaignSettings />
+          )}
           {!isEntityArchived && <WatcherList campaignId={watcherEntityId} />}
           {isHub && totalVideos > 0 && (
             <Button
