@@ -44,6 +44,7 @@ const SmallColumnHeader = styled(HeaderCell)`
 const ActionsColumnHeader = styled(HeaderCell)`
   width: 10%;
   white-space: nowrap;
+  text-align: center;
 `;
 
 const ActionCell = styled(TableCell)`
