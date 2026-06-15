@@ -11,7 +11,7 @@ import { ReactComponent as DotsIcon } from '@zendeskgarden/svg-icons/src/16/over
 import { ReactComponent as VideoListIcon } from '@zendeskgarden/svg-icons/src/16/play-circle-stroke.svg';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link, useNavigate, useOutletContext } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { ReactComponent as EditRedoStroke } from 'src/assets/icons/move-icon.svg';
 import { ReactComponent as InboxFill } from 'src/assets/icons/project-archive.svg';
 import { Divider } from 'src/common/components/divider';
@@ -32,7 +32,6 @@ import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { useVideos } from 'src/pages/Videos/useVideos';
 import { CampaignStatus } from 'src/types';
 import styled from 'styled-components';
-import { CampaignHubContext } from 'src/features/templates/CampaignsHubsMiddleware';
 import { ArchiveCampaignModal } from '../../ArchiveCampaignModal';
 import { useMoveCampaignModalContext } from '../../MoveCampaignModal';
 import { CampaignDurationMeta } from './CampaignDurationMeta';

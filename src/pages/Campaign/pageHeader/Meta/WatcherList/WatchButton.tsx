@@ -11,13 +11,19 @@ import { useIsLastOne } from './hooks/useIsLastOne';
 import { useIsWatching } from './hooks/useIsWatching';
 import { useRemoveWatcher } from './hooks/useRemoveWatcher';
 
-const WatchButton = ({ campaignId }: { campaignId: string }) => {
+const WatchButton = ({
+  campaignId,
+  isHub = false,
+}: {
+  campaignId: string;
+  isHub?: boolean;
+}) => {
   const isWatching = useIsWatching({ campaignId });
   const isLastOne = useIsLastOne({ campaignId });
   const { addToast } = useToast();
   const { removeWatcher } = useRemoveWatcher();
   const [addUser] = usePostCampaignsByCidWatchersMutation();
-  const { data: availableUsers } = useAvailableUsers({ campaignId });
+  const { data: availableUsers } = useAvailableUsers({ campaignId, isHub });
   const { data: currentUser } = useGetUsersMeQuery();
   const hasAccess =
     availableUsers.length > 0 &&

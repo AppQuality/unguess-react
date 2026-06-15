@@ -8,7 +8,13 @@ import { MemberAddAutocomplete } from './MemberAddAutoComplete';
 import { UserList } from './UserList';
 import { WatchButton } from './WatchButton';
 
-const WatcherList = ({ campaignId }: { campaignId: string }) => {
+const WatcherList = ({
+  campaignId,
+  isHub = false,
+}: {
+  campaignId: string;
+  isHub?: boolean;
+}) => {
   const { t } = useTranslation();
   const isWatching = useIsWatching({ campaignId });
   const { data: watchers, isLoading } = useGetCampaignsByCidWatchersQuery({
@@ -53,13 +59,13 @@ const WatcherList = ({ campaignId }: { campaignId: string }) => {
       }}
     >
       <WatcherListComponent.UserListWrapper>
-        <UserList campaignId={campaignId} />
+        <UserList campaignId={campaignId} isHub={isHub} />
       </WatcherListComponent.UserListWrapper>
       <WatcherListComponent.WatchButtonWrapper>
-        <WatchButton campaignId={campaignId} />
+        <WatchButton campaignId={campaignId} isHub={isHub} />
       </WatcherListComponent.WatchButtonWrapper>
       <WatcherListComponent.AutoCompleteWrapper>
-        <MemberAddAutocomplete campaignId={campaignId} />
+        <MemberAddAutocomplete campaignId={campaignId} isHub={isHub} />
       </WatcherListComponent.AutoCompleteWrapper>
     </WatcherListComponent>
   );

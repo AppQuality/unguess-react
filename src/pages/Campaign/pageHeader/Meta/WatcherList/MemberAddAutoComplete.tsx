@@ -9,9 +9,14 @@ import {
 } from 'src/features/api';
 import { useAvailableUsers } from './hooks/useAvailableUsers';
 
-const MemberAddAutocomplete = ({ campaignId }: { campaignId: string }) => {
-  const { data, isLoading } = useAvailableUsers({ campaignId });
-
+const MemberAddAutocomplete = ({
+  campaignId,
+  isHub = false,
+}: {
+  campaignId: string;
+  isHub?: boolean;
+}) => {
+  const { data, isLoading } = useAvailableUsers({ campaignId, isHub });
   const [addUser] = usePostCampaignsByCidWatchersMutation();
   const { addToast } = useToast();
   const { t } = useTranslation();

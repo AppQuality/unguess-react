@@ -1,4 +1,3 @@
-import { useOutletContext } from 'react-router-dom';
 import {
   useGetCampaignsByCidQuery,
   useGetCampaignsByCidUsersQuery,
@@ -6,11 +5,14 @@ import {
   useGetProjectsByPidUsersQuery,
   useGetWorkspacesByWidUsersQuery,
 } from 'src/features/api';
-import { CampaignHubContext } from 'src/features/templates/CampaignsHubsMiddleware';
 
-export const useAvailableUsers = ({ campaignId }: { campaignId: string }) => {
-  const { isHub } = useOutletContext<CampaignHubContext>();
-
+export const useAvailableUsers = ({
+  campaignId,
+  isHub = false,
+}: {
+  campaignId: string;
+  isHub?: boolean;
+}) => {
   const { data: campaignData, isLoading: isLoadingCampaign } =
     useGetCampaignsByCidQuery({ cid: campaignId }, { skip: isHub });
   const { data: hubData, isLoading: isLoadingHub } = useGetHubsByHidQuery(

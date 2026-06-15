@@ -53,7 +53,13 @@ const EmptyState = ({ watchers }: { watchers?: number }) => {
   );
 };
 
-const UserList = ({ campaignId }: { campaignId: string }) => {
+const UserList = ({
+  campaignId,
+  isHub = false,
+}: {
+  campaignId: string;
+  isHub?: boolean;
+}) => {
   const { t } = useTranslation();
   const { data: currentUser } = useGetUsersMeQuery();
   const { data, isLoading } = useGetCampaignsByCidWatchersQuery({
