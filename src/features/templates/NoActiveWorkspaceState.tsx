@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { ReactComponent as BackgroundImage } from 'src/assets/icons/lost-in-the-space.svg';
 import { Button, MD, XL } from '@appquality/unguess-design-system';
-import WPAPI from 'src/common/wpapi';
+import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 
@@ -34,6 +34,7 @@ const ButtonWrapper = styled.div`
 
 export const NoActiveWorkSpaceState = () => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
   return (
     <Wrapper>
       <StyledRow>
@@ -61,8 +62,8 @@ export const NoActiveWorkSpaceState = () => {
               isPrimary
               style={{ flex: 1 }}
               color={appTheme.palette.kale[600]}
-              onClick={async () => {
-                await WPAPI.logout();
+              onClick={() => {
+                navigate('/logout');
               }}
             >
               {t('__PAGE_NOT_ACCESIBLE_BUTTON_LOGOUT')}
