@@ -39,6 +39,7 @@ import { useMoveCampaignModalContext } from 'src/pages/Campaign/MoveCampaignModa
 import { WatcherList } from 'src/pages/Campaign/pageHeader/Meta/WatcherList';
 import { CampaignStatus } from 'src/types';
 import styled from 'styled-components';
+import { useAnalytics } from 'use-analytics';
 import { ImportMediaModal } from './ImportMediaModal';
 import { getAllSeverityTags } from './utils/getSeverityTagsWithCount';
 
@@ -128,6 +129,7 @@ export const Metas = ({
   const campaignRoute = useLocalizeRoute(`${prefix}/${entityId}`);
   const insightsRoute = useLocalizeRoute(`${prefix}/${entityId}/insights`);
   const { t } = useTranslation();
+  const { track } = useAnalytics();
   const { hasFeatureFlag } = useFeatureFlag();
   const hasWorkspaceAccess = useCanAccessToActiveWorkspace();
 
@@ -271,7 +273,12 @@ export const Metas = ({
             <Button
               isPrimary
               isAccent
-              onClick={() => setIsImportMediaModalOpen(true)}
+              onClick={() => {
+                track('mediaUploadModalOpened', {
+                  source: 'media_list',
+                });
+                setIsImportMediaModalOpen(true);
+              }}
             >
               {t('__UX_CAMPAIGN_PAGE_NAVIGATION_VIDEO_LIST_CTA_UPLOAD_MEDIA')}
             </Button>
