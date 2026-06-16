@@ -20,6 +20,7 @@ import { Meta } from 'src/common/components/Meta';
 import { Pipe } from 'src/common/components/Pipe';
 import { EditVideoModal } from 'src/common/components/videos/EditVideoModal';
 import { formatApiDateShortMonthYear } from 'src/common/date/apiDate';
+import { getVideoDeviceLabel } from 'src/common/video/getVideoDeviceLabel';
 import type { CampaignHubContext } from 'src/features/templates/CampaignsHubsMiddleware';
 import {
   useGetVideosByVidObservationsQuery,
@@ -120,13 +121,7 @@ const Actions = () => {
   const displayHeaderName = video.tester?.name;
   const testerId = video.tester?.id;
   const deviceType = video.device?.formFactor;
-  let deviceLabel: string | undefined = deviceType;
-
-  if (deviceType === 'unknown') {
-    deviceLabel = t('__VIDEOS_LIST_UNKNOWN_DEVICE_TITLE');
-  } else if (deviceType === 'other') {
-    deviceLabel = t('__VIDEOS_LIST_OTHER_TITLE');
-  }
+  const deviceLabel = getVideoDeviceLabel(t, deviceType);
   const formattedUploadDate = formatApiDateShortMonthYear(video.uploadDate);
   const description = video.additional?.trim();
 

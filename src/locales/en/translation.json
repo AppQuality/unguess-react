@@ -1614,7 +1614,7 @@
   "__VIDEOS_EDIT_MODAL_SAVE": "Save",
   "__VIDEOS_EDIT_MODAL_SAVE_ERROR": "Unable to save video details",
   "__VIDEOS_EDIT_MODAL_TEST_DATE_REQUIRED": "Test date is required",
-  "__VIDEOS_EDIT_MODAL_TITLE": "Edit video details",
+  "__VIDEOS_EDIT_MODAL_TITLE": "Edit details",
   "__VIDEOS_EDIT_MODAL_TITLE_REQUIRED": "Title is required",
   "__VIDEOS_IMPORT_MEDIA_MODAL_CANCEL": "Cancel",
   "__VIDEOS_IMPORT_MEDIA_MODAL_DELETE_ERROR_GENERIC": "Could not remove file. Please try again.",

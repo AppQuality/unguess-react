@@ -7,14 +7,11 @@ import {
   useGetCampaignsByCidUsecasesQuery,
   useGetCampaignsByCidVideosQuery,
 } from 'src/features/api';
+import {
+  isVideoFormFactor,
+  type VideoFormFactor,
+} from 'src/common/video/getVideoDeviceLabel';
 
-// eslint-disable-next-line
-enum DeviceTypeEnum {
-  smartphone = 'smartphone',
-  tablet = 'tablet',
-  desktop = 'desktop',
-  other = 'other',
-}
 export type VideoWithObservations = Video & {
   observations: Observation[] | [];
 } & {
@@ -22,7 +19,7 @@ export type VideoWithObservations = Video & {
   processingStatus?: 'processing' | 'ready' | 'error';
 };
 type ObservationWithMediaId = Observation & { mediaId: number };
-type OrderedVideo = Record<DeviceTypeEnum, VideoWithObservations[]>;
+type OrderedVideo = Record<VideoFormFactor, VideoWithObservations[]>;
 type VideosWithTotal = OrderedVideo & { total: number };
 const PROCESSING_POLLING_INTERVAL_MS = 120000;
 
@@ -108,18 +105,16 @@ export const useVideos = (cid: string) => {
             tablet: [],
             desktop: [],
             other: [],
+            unknown: [],
             total: videos.length,
           },
         };
 
         videos.forEach((video) => {
           const rawDeviceType = video.device?.formFactor;
-          const deviceType: DeviceTypeEnum =
-            rawDeviceType === DeviceTypeEnum.smartphone ||
-            rawDeviceType === DeviceTypeEnum.tablet ||
-            rawDeviceType === DeviceTypeEnum.desktop
-              ? (rawDeviceType as DeviceTypeEnum)
-              : DeviceTypeEnum.other;
+          const deviceType: VideoFormFactor = isVideoFormFactor(rawDeviceType)
+            ? rawDeviceType
+            : 'unknown';
           const videoWithObservations: VideoWithObservations = {
             ...video,
             observations: observationsByMediaId[video.id] || [],

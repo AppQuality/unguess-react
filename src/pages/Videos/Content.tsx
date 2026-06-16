@@ -12,6 +12,10 @@ import { useTranslation } from 'react-i18next';
 import { useOutletContext } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
+import {
+  getVideoDeviceLabel,
+  VIDEO_DEVICE_SECTION_ORDER,
+} from 'src/common/video/getVideoDeviceLabel';
 import { CampaignHubContext } from 'src/features/templates/CampaignsHubsMiddleware';
 import { styled } from 'styled-components';
 import { CompletionTooltip } from '../Bugs/Content/BugsTable/components/CompletionTooltip';
@@ -93,34 +97,24 @@ const VideosPageContent = () => {
                               </AccordionNew.Meta>
                             </AccordionNew.Header>
                             <AccordionNew.Panel>
-                              {!!uc.videos.desktop.length && (
-                                <VideoContainer
-                                  title={t('__VIDEOS_LIST_DESKTOP_TITLE')}
-                                  videosCount={uc.videos.desktop.length}
-                                  video={uc.videos.desktop}
-                                />
-                              )}
-                              {!!uc.videos.tablet.length && (
-                                <VideoContainer
-                                  title={t('__VIDEOS_LIST_TABLET_TITLE')}
-                                  videosCount={uc.videos.tablet.length}
-                                  video={uc.videos.tablet}
-                                />
-                              )}
-                              {!!uc.videos.smartphone.length && (
-                                <VideoContainer
-                                  title={t('__VIDEOS_LIST_SMARTPHONE_TITLE')}
-                                  videosCount={uc.videos.smartphone.length}
-                                  video={uc.videos.smartphone}
-                                />
-                              )}
-                              {!!uc.videos.other.length && (
-                                <VideoContainer
-                                  title={t('__VIDEOS_LIST_OTHER_TITLE')}
-                                  videosCount={uc.videos.other.length}
-                                  video={uc.videos.other}
-                                />
-                              )}
+                              {VIDEO_DEVICE_SECTION_ORDER.map((deviceType) => {
+                                const sectionVideos =
+                                  uc.videos[`${deviceType}`];
+
+                                if (!sectionVideos.length) return null;
+
+                                return (
+                                  <VideoContainer
+                                    key={deviceType}
+                                    title={
+                                      getVideoDeviceLabel(t, deviceType) ||
+                                      deviceType
+                                    }
+                                    videosCount={sectionVideos.length}
+                                    video={sectionVideos}
+                                  />
+                                );
+                              })}
                               <AccordionFooter>
                                 {!isHub && (
                                   <CompletionTooltip

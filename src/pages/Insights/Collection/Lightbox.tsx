@@ -18,6 +18,7 @@ import { useCallback, useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { Pipe } from 'src/common/components/Pipe';
+import { getVideoDeviceLabel } from 'src/common/video/getVideoDeviceLabel';
 import { getColorWithAlpha } from 'src/common/utils';
 import { Grape, useGetVideosByVidQuery } from 'src/features/api';
 import useWindowSize from 'src/hooks/useWindowSize';
@@ -121,6 +122,7 @@ export const LightboxContainer = ({
   );
   const testerId = video?.tester?.id;
   const deviceType = video?.device?.formFactor;
+  const deviceLabel = getVideoDeviceLabel(t, deviceType);
 
   const tags = observation.tags.filter(
     (tag) => tag.group.name !== 'severity' && tag.group.name !== 'title'
@@ -194,7 +196,7 @@ export const LightboxContainer = ({
                     marginLeft: appTheme.space.xs,
                   }}
                 >
-                  {deviceType || '--'}
+                  {deviceLabel || '--'}
                 </Span>
               </SM>
               <StyledPipe />
