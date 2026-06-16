@@ -55,6 +55,7 @@ const InvitedUserPage = () => {
     {
       profile: profile || '',
       token: token || '',
+      code: true,
     },
     {
       skip: !(profile && token),
