@@ -3,6 +3,7 @@ import { ReactComponent as OSIcon } from 'src/assets/icons/environment-icon.svg'
 import { ReactComponent as SmartphoneIcon } from 'src/assets/icons/pill-icon-smartphone.svg';
 import { ReactComponent as TabletIcon } from 'src/assets/icons/pill-icon-tablet.svg';
 import { ReactComponent as DesktopIcon } from 'src/assets/icons/pill-icon-desktop.svg';
+import { ReactComponent as UnknownIcon } from 'src/assets/icons/pill-icon-unknown.svg';
 import { SeverityTag } from 'src/common/components/tag/SeverityTag';
 import styled from 'styled-components';
 import { appTheme } from 'src/app/theme';
@@ -37,6 +38,8 @@ export function getDeviceIcon(device: string) {
       return <TabletIcon />;
     case 'desktop':
       return <DesktopIcon />;
+    case 'unknown':
+      return <UnknownIcon />;
     default:
       return <TabletIcon />;
   }

@@ -15,6 +15,7 @@ import {
   ModalClose,
   Notification,
   Select,
+  SM,
   Spinner,
   Tooltip,
   File as UploadFileItem,
@@ -470,48 +471,54 @@ export const ImportMediaModal = ({
                 {formik.values.files.length > 0 && (
                   <UploadFileList>
                     {formik.values.files.map((item, index) => (
-                      <FileRow key={item.id}>
-                        <UploadFileItem
-                          type={getFileType(item.file)}
-                          validation={getUploadValidation(item.status)}
-                          style={{ height: 'auto', minHeight: '40px' }}
-                        >
-                          <FileItemInner>
-                            <FileItemHeader>
-                              <FileName>{item.file.name}</FileName>
-                              {item.status === 'pending' ? (
-                                <Spinner
-                                  size={appTheme.space.md}
-                                  color={appTheme.palette.blue[700]}
-                                />
-                              ) : (
-                                <Button
-                                  isBasic
-                                  size="small"
-                                  aria-label={t(
-                                    '__VIDEOS_IMPORT_MEDIA_MODAL_REMOVE_FILE'
-                                  )}
-                                  onClick={() => {
-                                    removeFile(formik, index).catch(
-                                      () => undefined
-                                    );
-                                  }}
-                                >
-                                  <XIcon />
-                                </Button>
-                              )}
-                            </FileItemHeader>
-                            {item.errorMessage && (
-                              <Message
-                                style={{ paddingBottom: appTheme.space.sm }}
-                                validation="error"
-                              >
-                                {item.errorMessage}
-                              </Message>
-                            )}
-                          </FileItemInner>
-                        </UploadFileItem>
-                      </FileRow>
+                      <>
+                        <FileRow key={item.id}>
+                          <UploadFileItem
+                            type={getFileType(item.file)}
+                            validation={getUploadValidation(item.status)}
+                            style={{ height: 'auto', minHeight: '40px' }}
+                          >
+                            <FileItemInner>
+                              <FileItemHeader>
+                                <FileName>{item.file.name}</FileName>
+                                {item.status === 'pending' ? (
+                                  <Spinner
+                                    size={appTheme.space.md}
+                                    color={appTheme.palette.blue[700]}
+                                  />
+                                ) : (
+                                  <Button
+                                    isBasic
+                                    size="small"
+                                    isDanger={item.status === 'error'}
+                                    aria-label={t(
+                                      '__VIDEOS_IMPORT_MEDIA_MODAL_REMOVE_FILE'
+                                    )}
+                                    onClick={() => {
+                                      removeFile(formik, index).catch(
+                                        () => undefined
+                                      );
+                                    }}
+                                  >
+                                    <XIcon />
+                                  </Button>
+                                )}
+                              </FileItemHeader>
+                            </FileItemInner>
+                          </UploadFileItem>
+                        </FileRow>
+                        {item.errorMessage && (
+                          <Message
+                            validation={getUploadValidation(item.status)}
+                            style={{
+                              paddingBottom: appTheme.space.md,
+                              marginLeft: '14px',
+                            }}
+                          >
+                            {item.errorMessage}
+                          </Message>
+                        )}
+                      </>
                     ))}
                   </UploadFileList>
                 )}

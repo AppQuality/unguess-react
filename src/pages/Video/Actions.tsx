@@ -3,6 +3,7 @@ import {
   LG,
   SM,
   Skeleton,
+  Span,
   Tag,
   Tooltip,
   XL,
@@ -12,7 +13,6 @@ import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useOutletContext, useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
-import { ReactComponent as ClockIcon } from 'src/assets/icons/time-icon.svg';
 import { capitalizeFirstLetter } from 'src/common/capitalizeFirstLetter';
 import { getDeviceIcon } from 'src/common/components/BugDetail/Meta';
 import { Divider } from 'src/common/components/divider';
@@ -41,7 +41,7 @@ const Container = styled.div`
   width: 100%;
   background-color: white;
   height: 100vh;
-  padding: ${({ theme }) => theme.space.md} ${({ theme }) => theme.space.md};
+  padding: ${({ theme }) => theme.space.lg} ${({ theme }) => theme.space.lg};
   overflow-y: auto;
   border-left: 1px solid ${({ theme }) => theme.palette.grey[200]};
   scroll-behavior: smooth;
@@ -62,7 +62,7 @@ const HeaderName = styled(XL)`
 
 const Description = styled(SM)`
   color: ${({ theme }) => theme.palette.grey[600]};
-  margin-top: ${({ theme }) => theme.space.xs};
+  margin-top: ${({ theme }) => theme.space.sm};
 `;
 
 const ObservationsCountWrapper = styled.div`
@@ -77,6 +77,7 @@ const Header = styled.div`
   display: flex;
   align-items: flex-start;
   gap: ${({ theme }) => theme.space.xs};
+  margin-bottom: ${({ theme }) => theme.space.lg};
 `;
 
 const HeaderEditButton = styled(IconButton)`
@@ -129,16 +130,22 @@ const Actions = () => {
     <Container ref={refScroll}>
       <Header>
         <MetaContainer>
+          {!isHub && (
+            <div
+              style={{
+                marginTop: appTheme.space.xxs,
+                marginBottom: appTheme.space.sm,
+              }}
+            >
+              <SM>
+                Tester ID: <Span isBold>{testerId ?? '-'}</Span>
+              </SM>
+            </div>
+          )}
           {displayHeaderName && (
             <HeaderName isBold>{displayHeaderName}</HeaderName>
           )}
-          <div style={{ marginTop: appTheme.space.xs, flexBasis: '100%' }}>
-            {!isHub && (
-              <>
-                <Meta size="medium">Tester ID: {testerId ?? '-'}</Meta>
-                <Pipe />
-              </>
-            )}
+          <div style={{ marginTop: appTheme.space.sm, flexBasis: '100%' }}>
             {deviceType && (
               <Tag hue="white" style={{ textTransform: 'capitalize' }}>
                 <Tag.Avatar>{getDeviceIcon(deviceType)}</Tag.Avatar>
@@ -146,17 +153,20 @@ const Actions = () => {
               </Tag>
             )}
             {video.duration && (
-              <Tag hue="white" style={{ fontSize: appTheme.fontSizes.sm }}>
-                <Tag.Avatar>
-                  <ClockIcon />
-                </Tag.Avatar>
-                {formatDuration(video.duration)}
-              </Tag>
+              <>
+                <Pipe size="small" />
+                <Tag hue="white" style={{ fontSize: appTheme.fontSizes.sm }}>
+                  {formatDuration(video.duration)}
+                </Tag>
+              </>
             )}
             {formattedUploadDate && (
-              <Tag hue="white" style={{ fontSize: appTheme.fontSizes.sm }}>
-                {formattedUploadDate}
-              </Tag>
+              <>
+                <Pipe size="small" />
+                <Tag hue="white" style={{ fontSize: appTheme.fontSizes.sm }}>
+                  {formattedUploadDate}
+                </Tag>
+              </>
             )}
           </div>
           {description && <Description>{description}</Description>}
