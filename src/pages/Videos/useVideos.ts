@@ -31,34 +31,27 @@ export type CampaignVideos = Array<{
 export const useVideos = (cid: string) => {
   const [sorted, setSorted] = useState<CampaignVideos>();
 
-  const {
-    data,
-    isFetching,
-    isLoading,
-    isError,
-    refetch: refetchVideos,
-  } = useGetCampaignsByCidVideosQuery({
-    cid,
-  });
+  const { data, isFetching, isLoading, isError } =
+    useGetCampaignsByCidVideosQuery(
+      {
+        cid,
+      },
+      {
+        pollingInterval: PROCESSING_POLLING_INTERVAL_MS,
+      }
+    );
 
   const {
     data: observations,
     isLoading: isLoadingObservations,
     isFetching: isFetchingObservations,
     isError: isErrorObservations,
-    refetch: refetchObservations,
-  } = useGetCampaignsByCidObservationsQuery({ cid });
-
-  useEffect(() => {
-    const intervalId = window.setInterval(() => {
-      refetchVideos();
-      refetchObservations();
-    }, PROCESSING_POLLING_INTERVAL_MS);
-
-    return () => {
-      window.clearInterval(intervalId);
-    };
-  }, [refetchVideos, refetchObservations]);
+  } = useGetCampaignsByCidObservationsQuery(
+    { cid },
+    {
+      pollingInterval: PROCESSING_POLLING_INTERVAL_MS,
+    }
+  );
 
   const {
     data: usecases,
