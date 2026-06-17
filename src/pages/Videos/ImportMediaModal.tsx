@@ -15,7 +15,6 @@ import {
   ModalClose,
   Notification,
   Select,
-  SM,
   Spinner,
   Tooltip,
   File as UploadFileItem,
@@ -30,12 +29,14 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as InfoIcon } from 'src/assets/icons/info-icon.svg';
 import {
+  PostHubsByHidAssetsApiResponse,
   useDeleteHubsByHidAssetsAndMidMutation,
   usePostHubsByHidAssetsMutation,
 } from 'src/features/api';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { getFileType } from 'src/pages/Videos/utils/getFileType';
 import styled from 'styled-components';
+import { useAnalytics } from 'use-analytics';
 import * as Yup from 'yup';
 
 const BodyContainer = styled.div`
@@ -118,6 +119,10 @@ interface ImportMediaFormValues {
   files: UploadedItem[];
 }
 
+type MediaUploadErrorType = NonNullable<
+  PostHubsByHidAssetsApiResponse['failed']
+>[number]['errorCode'];
+
 const getUploadValidation = (status: UploadedItem['status']) => {
   if (status === 'success') return 'success';
   if (status === 'error') return 'error';
@@ -134,6 +139,7 @@ export const ImportMediaModal = ({
   const location = useLocation();
   const localizedVideosRoute = useLocalizeRoute(`hubs/${hubId}/videos`);
   const { addToast } = useToast();
+  const { track } = useAnalytics();
   const [isDragging, setIsDragging] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
@@ -172,12 +178,18 @@ export const ImportMediaModal = ({
   ) => {
     if (!incoming) return;
 
+    const nextFiles = Array.from(incoming);
+    if (!nextFiles.length) return;
+
+    track('mediaFileSelected', {
+      fileCount: nextFiles.length,
+    });
+
     if (!formik.values.spokenLanguage) {
       formik.setFieldTouched('spokenLanguage', true, true);
       return;
     }
 
-    const nextFiles = Array.from(incoming);
     const selectedLanguage = formik.values.spokenLanguage;
     let currentFiles = [...formik.values.files];
 
@@ -211,6 +223,12 @@ export const ImportMediaModal = ({
     try {
       await Promise.allSettled(
         pendingUploads.map(async ({ file, fileId }) => {
+          const trackUploadError = (errorType: MediaUploadErrorType) => {
+            track('mediaUploadErrorOccurred', {
+              errorType,
+            });
+          };
+
           const formData: UploadFormData = new FormData() as UploadFormData;
           const normalizedFilename = file.name
             .normalize('NFD')
@@ -229,6 +247,10 @@ export const ImportMediaModal = ({
 
             const failedItems = response.failed;
             if (failedItems?.length) {
+              const errorType: MediaUploadErrorType =
+                failedItems[0]?.errorCode ?? 'GENERIC_ERROR';
+              trackUploadError(errorType);
+
               const failedFilename = failedItems[0]?.name ?? file.name;
               updateFile(fileId, (item) => ({
                 ...item,
@@ -251,6 +273,7 @@ export const ImportMediaModal = ({
               errorMessage: undefined,
             }));
           } catch {
+            trackUploadError('GENERIC_ERROR');
             updateFile(fileId, (item) => ({
               ...item,
               status: 'error',
@@ -270,7 +293,7 @@ export const ImportMediaModal = ({
     formik: FormikProps<ImportMediaFormValues>,
     index: number
   ) => {
-    const item = formik.values.files[index];
+    const item = formik.values.files[`${index}`];
     if (!item) return;
 
     const { mediaId, status } = item;
@@ -539,6 +562,9 @@ export const ImportMediaModal = ({
                 isPrimary
                 isAccent
                 onClick={() => {
+                  track('mediaAnalysisRequested', {
+                    fileCount: formik.values.files.length,
+                  });
                   formik.submitForm().catch(() => undefined);
                 }}
                 disabled={

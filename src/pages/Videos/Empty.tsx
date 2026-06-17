@@ -4,6 +4,7 @@ import { useOutletContext } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
 import { CampaignHubContext } from 'src/features/templates/CampaignsHubsMiddleware';
 import styled from 'styled-components';
+import { useAnalytics } from 'use-analytics';
 import { ReactComponent as EmptyStateImg } from '../../assets/empty-state-videos.svg';
 import { ReactComponent as HubEmptyStateImg } from '../../assets/hub-empty-state.svg';
 
@@ -23,6 +24,7 @@ type EmptyProps = {
 
 export const Empty = ({ onOpenImportMediaModal }: EmptyProps) => {
   const { t } = useTranslation();
+  const { track } = useAnalytics();
   const { isHub } = useOutletContext<CampaignHubContext>();
 
   return (
@@ -56,7 +58,12 @@ export const Empty = ({ onOpenImportMediaModal }: EmptyProps) => {
           isPrimary
           isAccent
           style={{ marginTop: appTheme.space.md }}
-          onClick={onOpenImportMediaModal}
+          onClick={() => {
+            track('mediaUploadModalOpened', {
+              source: 'empty_state',
+            });
+            onOpenImportMediaModal();
+          }}
         >
           {t('__HUB_EMPTY_STATE_UPLOAD_MEDIA_CTA')}
         </Button>

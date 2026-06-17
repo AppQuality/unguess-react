@@ -11,11 +11,11 @@ import { useOutletContext } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
 import AudioPoster from 'src/assets/audio_poster.png';
 import { ReactComponent as PlaceholderVideo } from 'src/assets/icons/placeholder-video.svg';
-import { Pipe } from 'src/common/components/Pipe';
 import { getColorWithAlpha } from 'src/common/utils';
 import type { CampaignHubContext } from 'src/features/templates/CampaignsHubsMiddleware';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { styled } from 'styled-components';
+import { useAnalytics } from 'use-analytics';
 import { VideoWithObservations } from '../useVideos';
 import { getSeverityTagsByVideoCount } from '../utils/getSeverityTagsWithCount';
 
@@ -122,6 +122,7 @@ const Poster = ({ video }: { video: VideoWithObservations }) => {
 
 const Video = ({ video }: { video: VideoWithObservations }) => {
   const { t } = useTranslation();
+  const { track } = useAnalytics();
   const { isHub, entityId } = useOutletContext<CampaignHubContext>();
   const prefix = isHub ? 'hubs' : 'campaigns';
   const videoUrl = useLocalizeRoute(`${prefix}/${entityId}/videos/${video.id}`);
@@ -138,7 +139,14 @@ const Video = ({ video }: { video: VideoWithObservations }) => {
     : [];
 
   return (
-    <StyledAnchor href={videoUrl}>
+    <StyledAnchor
+      href={videoUrl}
+      onClick={() => {
+        track('mediaItemOpened', {
+          processingStatus: video.processingStatus,
+        });
+      }}
+    >
       <ContentContainer>
         <Poster video={video} />
         <div style={{ display: 'flex', flexDirection: 'column' }}>
