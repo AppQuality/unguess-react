@@ -112,6 +112,7 @@ export const VideoContainer = ({
     }
 
     if (action === 'delete') {
+      if (!isHub) return;
       setVideoToDelete(targetVideo);
     }
   };
@@ -179,7 +180,7 @@ export const VideoContainer = ({
                 {formatApiDateShortMonthYear(v.uploadDate)}
               </TableCell>
               <ActionCell>
-                {v.processingStatus === 'error' ? (
+                {v.processingStatus === 'error' && isHub ? (
                   <IconButton
                     isDanger
                     size="small"
@@ -205,17 +206,20 @@ export const VideoContainer = ({
                     <ButtonMenu.Item value="edit" icon={<EditIcon />}>
                       {t('__VIDEOS_LIST_TABLE_ACTION_EDIT')}
                     </ButtonMenu.Item>
-                    <ButtonMenu.Item
-                      icon={<TrashIcon />}
-                      type="danger"
-                      value="delete"
-                      isDisabled={
-                        v.processingStatus === 'processing' ||
-                        isDeletingVideoId === v.id
-                      }
-                    >
-                      {t('__VIDEOS_IMPORT_MEDIA_MODAL_REMOVE_FILE')}
-                    </ButtonMenu.Item>
+                    {isHub && (
+                      <ButtonMenu.Item
+                        icon={<TrashIcon />}
+                        type="danger"
+                        value="delete"
+                        isDisabled={
+                          !isHub ||
+                          v.processingStatus === 'processing' ||
+                          isDeletingVideoId === v.id
+                        }
+                      >
+                        {t('__VIDEOS_IMPORT_MEDIA_MODAL_REMOVE_FILE')}
+                      </ButtonMenu.Item>
+                    )}
                   </ButtonMenu>
                 )}
               </ActionCell>
