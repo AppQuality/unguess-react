@@ -55,8 +55,9 @@ const PlaceholderWrapper = styled.div`
   }
 `;
 
-const StyledAnchor = styled(Anchor)`
+const StyledAnchor = styled(Anchor)<{ $isDisabled: boolean }>`
   width: 100%;
+  cursor: ${({ $isDisabled }) => ($isDisabled ? 'default' : 'pointer')};
 
   &:hover {
     text-decoration: none;
@@ -133,6 +134,8 @@ const Video = ({ video }: { video: VideoWithObservations }) => {
   const participantName = video.tester?.name?.trim();
   const isOptimizationPending = video.processingStatus === 'processing';
   const isOptimizationFailed = video.processingStatus === 'error';
+  const isVideoOpenDisabled = isOptimizationPending || isOptimizationFailed;
+  const anchorHref = isVideoOpenDisabled ? undefined : videoUrl;
 
   const severityTotals = video.observations
     ? getSeverityTagsByVideoCount(video.observations)
@@ -140,8 +143,15 @@ const Video = ({ video }: { video: VideoWithObservations }) => {
 
   return (
     <StyledAnchor
-      href={videoUrl}
-      onClick={() => {
+      $isDisabled={isVideoOpenDisabled}
+      href={anchorHref}
+      aria-disabled={isVideoOpenDisabled}
+      onClick={(event) => {
+        if (isVideoOpenDisabled) {
+          event.preventDefault();
+          return;
+        }
+
         track('mediaItemOpened', {
           processingStatus: video.processingStatus,
         });
