@@ -220,19 +220,16 @@ export const Metas = ({
             {totalVideos}{' '}
             {t('__VIDEOS_LIST_META_VIDEO_COUNT', { count: totalVideos })}
           </Span>
-          <StyledPipe style={{ marginLeft: appTheme.space.sm }} />
           {campaign.start_date && (
-            <>
-              <Span style={{ color: appTheme.palette.grey[700] }}>
-                {formatApiDateShortMonthYear(campaign.start_date)}
-              </Span>
-              <StyledPipe style={{ marginLeft: appTheme.space.sm }} />
-            </>
+            <Span style={{ color: appTheme.palette.grey[700] }}>
+              {formatApiDateShortMonthYear(campaign.start_date)}
+            </Span>
           )}
           {isFetchingVideos ? (
             <StyledSkeleton width="400px" height="20px" />
           ) : (
             <>
+              {deviceMetas.length > 0 && <StyledPipe />}
               {deviceMetas.map((deviceMeta) => (
                 <DeviceMetaItem key={deviceMeta.key}>
                   {getDeviceIcon(deviceMeta.key)}
