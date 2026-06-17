@@ -30,9 +30,15 @@ const VideosPageHeader = () => {
           ) : (
             project.name
           )}
-          <Link to={entityRoute}>
-            <Anchor id="breadcrumb-campaign">{campaign?.customer_title}</Anchor>
-          </Link>
+          {!isHub ? (
+            <Link to={entityRoute}>
+              <Anchor id="breadcrumb-campaign">
+                {campaign?.customer_title}
+              </Anchor>
+            </Link>
+          ) : (
+            campaign?.customer_title
+          )}
         </PageHeader.Breadcrumbs>
         <PageHeader.Main mainTitle={t('__VIDEOS_PAGE_TITLE')}>
           <PageHeader.Title>{t('__VIDEOS_PAGE_TITLE')}</PageHeader.Title>
