@@ -1,31 +1,55 @@
 import {
-  ContainerCard,
-  SM,
+  ButtonMenu,
+  HeaderCell,
+  HeaderRow,
+  IconButton,
+  Notification,
   Span,
-  Title,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+  useToast,
 } from '@appquality/unguess-design-system';
-import { styled } from 'styled-components';
-import { appTheme } from 'src/app/theme';
+import { ReactComponent as DotsIcon } from '@zendeskgarden/svg-icons/src/16/overflow-vertical-stroke.svg';
+import { ReactComponent as EditIcon } from '@zendeskgarden/svg-icons/src/12/pencil-stroke.svg';
+import { ReactComponent as TrashIcon } from '@zendeskgarden/svg-icons/src/16/trash-stroke.svg';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Video } from './VideoItem';
+import { useOutletContext } from 'react-router-dom';
+import { formatApiDateShortMonthYear } from 'src/common/date/apiDate';
+import { EditVideoModal } from 'src/common/components/videos/EditVideoModal';
+import { useDeleteHubsByHidAssetsAndMidMutation } from 'src/features/api';
+import { CampaignHubContext } from 'src/features/templates/CampaignsHubsMiddleware';
+import { styled } from 'styled-components';
 import { VideoWithObservations } from '../useVideos';
+import { formatDuration } from '../utils/formatDuration';
+import { DeleteVideoConfirmModal } from './DeleteVideoConfirmModal';
+import { Video } from './VideoItem';
 
 const Container = styled.div`
   margin-top: ${({ theme }) => theme.space.sm};
 `;
 
-const StyledSM = styled(SM)`
-  padding: ${({ theme }) => theme.space.sm};
+const FirstColumnHeader = styled(HeaderCell)`
+  width: 70%;
 `;
 
-const StyledCard = styled(ContainerCard)`
-  padding: 0;
-  border-radius: ${({ theme }) => theme.borderRadii.lg};
-  border-color: ${({ theme }) => theme.palette.grey[200]};
+const SmallColumnHeader = styled(HeaderCell)`
+  width: 10%;
+  white-space: nowrap;
 `;
 
-const StyledTitle = styled(Title)`
-  border-bottom: 1px solid ${({ theme }) => theme.palette.grey[200]};
+const ActionsColumnHeader = styled(HeaderCell)`
+  width: 10%;
+  white-space: nowrap;
+  text-align: center;
+`;
+
+const ActionCell = styled(TableCell)`
+  width: 10%;
+  text-align: center;
 `;
 
 export const VideoContainer = ({
@@ -38,31 +62,189 @@ export const VideoContainer = ({
   video: VideoWithObservations[];
 }) => {
   const { t } = useTranslation();
+  const { isHub, entityId } = useOutletContext<CampaignHubContext>();
+  const { addToast } = useToast();
+  const [deleteAsset] = useDeleteHubsByHidAssetsAndMidMutation();
+  const [selectedVideo, setSelectedVideo] =
+    useState<VideoWithObservations | null>(null);
+  const [videoToDelete, setVideoToDelete] =
+    useState<VideoWithObservations | null>(null);
+  const [isDeletingVideoId, setIsDeletingVideoId] = useState<number | null>(
+    null
+  );
+
+  const showErrorToast = (message: string) => {
+    addToast(
+      ({ close }) => (
+        <Notification
+          onClose={close}
+          type="error"
+          message={message}
+          closeText={t('__TOAST_CLOSE_TEXT')}
+          isPrimary
+        />
+      ),
+      { placement: 'top' }
+    );
+  };
+
+  const showSuccessToast = (message: string) => {
+    addToast(
+      ({ close }) => (
+        <Notification
+          onClose={close}
+          type="success"
+          message={message}
+          isPrimary
+        />
+      ),
+      { placement: 'top' }
+    );
+  };
+
+  const handleActionClick = async (
+    action: string | undefined,
+    targetVideo: VideoWithObservations
+  ) => {
+    if (action === 'edit') {
+      setSelectedVideo(targetVideo);
+      return;
+    }
+
+    if (action === 'delete') {
+      if (!isHub) return;
+      setVideoToDelete(targetVideo);
+    }
+  };
+
+  const handleDeleteErrorVideo = async (videoId: number) => {
+    setIsDeletingVideoId(videoId);
+    try {
+      await deleteAsset({ hid: entityId, mid: videoId }).unwrap();
+      showSuccessToast(t('__VIDEOS_LIST_DELETE_SUCCESS_TOAST'));
+    } catch {
+      showErrorToast(t('__TOAST_GENERIC_ERROR_MESSAGE'));
+    } finally {
+      setIsDeletingVideoId(null);
+    }
+  };
+
+  const handleConfirmDeleteVideo = async () => {
+    if (!videoToDelete) return;
+
+    await handleDeleteErrorVideo(videoToDelete.id);
+    setVideoToDelete(null);
+  };
 
   return (
     <Container>
-      <StyledCard>
-        <StyledTitle>
-          <StyledSM>
-            <Span isBold>{title} </Span>
-            <Span style={{ color: appTheme.palette.grey[600] }}>
-              {`(${videosCount} ${t('__VIDEOS_LIST_USECASE_INFO', {
-                count: videosCount,
-              })})`}
-            </Span>
-          </StyledSM>
-        </StyledTitle>
-        <div
-          style={{
-            padding: appTheme.space.xxs,
-            marginBottom: appTheme.space.xs,
-          }}
-        >
+      <Table
+        isReadOnly
+        style={{
+          whiteSpace: 'normal',
+          wordBreak: 'break-word',
+          backgroundColor: 'white',
+        }}
+        role="table"
+        title="videos-table"
+      >
+        <TableHead>
+          <HeaderRow role="row">
+            <FirstColumnHeader>
+              <Span>{`${t('__VIDEOS_LIST_TABLE_DEVICE')}: `}</Span>
+              <Span>{`${title} (${videosCount})`}</Span>
+            </FirstColumnHeader>
+            <SmallColumnHeader>
+              {t('__VIDEOS_LIST_TABLE_DURATION')}
+            </SmallColumnHeader>
+            <SmallColumnHeader>
+              {t('__VIDEOS_LIST_TABLE_TEST_DATE')}
+            </SmallColumnHeader>
+            <ActionsColumnHeader>
+              {t('__VIDEOS_LIST_TABLE_ACTIONS')}
+            </ActionsColumnHeader>
+          </HeaderRow>
+        </TableHead>
+        <TableBody role="rowgroup" title="videos-table-body">
           {video.map((v) => (
-            <Video video={v} />
+            <TableRow key={v.id} role="row" title={`video-${v.id}`}>
+              <TableCell style={{ width: '70%' }}>
+                <Video video={v} />
+              </TableCell>
+              <TableCell style={{ width: '10%' }}>
+                {typeof v.duration === 'number'
+                  ? formatDuration(v.duration)
+                  : ''}
+              </TableCell>
+              <TableCell style={{ width: '10%' }}>
+                {formatApiDateShortMonthYear(v.uploadDate)}
+              </TableCell>
+              <ActionCell>
+                {v.processingStatus === 'error' && isHub ? (
+                  <IconButton
+                    isDanger
+                    size="small"
+                    disabled={isDeletingVideoId === v.id}
+                    aria-label={t('__VIDEOS_IMPORT_MEDIA_MODAL_REMOVE_FILE')}
+                    onClick={() => {
+                      setVideoToDelete(v);
+                    }}
+                  >
+                    <TrashIcon />
+                  </IconButton>
+                ) : (
+                  <ButtonMenu
+                    onSelect={(action) => {
+                      handleActionClick(action, v);
+                    }}
+                    label={(props) => (
+                      <IconButton {...props} isBasic size="small">
+                        <DotsIcon />
+                      </IconButton>
+                    )}
+                  >
+                    <ButtonMenu.Item value="edit" icon={<EditIcon />}>
+                      {t('__VIDEOS_LIST_TABLE_ACTION_EDIT')}
+                    </ButtonMenu.Item>
+                    {isHub && (
+                      <ButtonMenu.Item
+                        icon={<TrashIcon />}
+                        type="danger"
+                        value="delete"
+                        isDisabled={
+                          !isHub ||
+                          v.processingStatus === 'processing' ||
+                          isDeletingVideoId === v.id
+                        }
+                      >
+                        {t('__VIDEOS_IMPORT_MEDIA_MODAL_REMOVE_FILE')}
+                      </ButtonMenu.Item>
+                    )}
+                  </ButtonMenu>
+                )}
+              </ActionCell>
+            </TableRow>
           ))}
-        </div>
-      </StyledCard>
+        </TableBody>
+      </Table>
+      <EditVideoModal
+        isOpen={selectedVideo !== null}
+        video={selectedVideo}
+        hubId={isHub ? entityId : undefined}
+        onClose={() => {
+          setSelectedVideo(null);
+        }}
+      />
+      <DeleteVideoConfirmModal
+        isOpen={videoToDelete !== null}
+        isDeleting={
+          videoToDelete !== null && isDeletingVideoId === videoToDelete.id
+        }
+        onClose={() => setVideoToDelete(null)}
+        onConfirm={() => {
+          handleConfirmDeleteVideo().catch(() => undefined);
+        }}
+      />
     </Container>
   );
 };

@@ -1,27 +1,28 @@
 import { Pagination, Skeleton } from '@appquality/unguess-design-system';
 import { useMemo } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useOutletContext } from 'react-router-dom';
 import { GetVideosByVidApiResponse } from 'src/features/api';
+import type { CampaignHubContext } from 'src/features/templates/CampaignsHubsMiddleware';
 import { useSendGTMevent } from 'src/hooks/useGTMevent';
 import useUsecaseWithCounter from './useUsecaseWithVideos';
 
 const VideoPagination = ({
   currentUsecaseId,
-  campaignId,
   video,
 }: {
   currentUsecaseId: number;
-  campaignId: string | undefined;
   video: GetVideosByVidApiResponse;
 }) => {
+  const { isHub, entityId } = useOutletContext<CampaignHubContext>();
   const navigate = useNavigate();
   const sendGTMEvent = useSendGTMevent();
+  const prefix = isHub ? 'hubs' : 'campaigns';
 
   const {
     usecasesWithVideos: useCasesWithVideoCount,
     isLoading,
     isFetching,
-  } = useUsecaseWithCounter(campaignId || '');
+  } = useUsecaseWithCounter(entityId);
 
   const paginationData = useMemo(() => {
     const videosCurrentUsecase = useCasesWithVideoCount?.find(
@@ -68,7 +69,7 @@ const VideoPagination = ({
           });
         }
 
-        navigate(`/campaigns/${campaignId}/videos/${targetId}/`, {
+        navigate(`/${prefix}/${entityId}/videos/${targetId}/`, {
           replace: true,
         });
       }}

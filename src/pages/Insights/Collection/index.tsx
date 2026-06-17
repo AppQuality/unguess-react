@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next';
-import { useParams } from 'react-router-dom';
+import { useOutletContext } from 'react-router-dom';
+import type { CampaignHubContext } from 'src/features/templates/CampaignsHubsMiddleware';
 import { useGetCampaignsByCidObservationsQuery } from 'src/features/api';
 import { styled } from 'styled-components';
 import { UsecaseSection } from './components/UsecaseSection';
@@ -14,10 +15,10 @@ const Container = styled.div`
 
 const Collection = () => {
   const { t } = useTranslation();
-  const { campaignId } = useParams<{ campaignId: string }>();
+  const { entityId } = useOutletContext<CampaignHubContext>();
   const { groupObservationsBy } = useInsightContext();
   const { data, isLoading, isError } = useGetCampaignsByCidObservationsQuery({
-    cid: campaignId || '',
+    cid: entityId,
     groupBy: groupObservationsBy,
   });
   return (

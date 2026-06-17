@@ -12,8 +12,9 @@ import {
 } from '@appquality/unguess-design-system';
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useParams } from 'react-router-dom';
+import { useOutletContext } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
+import type { CampaignHubContext } from 'src/features/templates/CampaignsHubsMiddleware';
 import { ReactComponent as SaveIcon } from 'src/assets/icons/save.svg';
 import {
   GetCampaignsByCidVideoTagsApiResponse,
@@ -46,7 +47,7 @@ export const EditTagModal = ({
   const [patchVideoTag] = usePatchCampaignsByCidVideoTagsAndTagIdMutation({});
   const { addToast } = useToast();
   const { t } = useTranslation();
-  const { campaignId } = useParams();
+  const { entityId } = useOutletContext<CampaignHubContext>();
   const { track } = useAnalytics();
 
   useEffect(() => {
@@ -71,7 +72,7 @@ export const EditTagModal = ({
     // Update the title in the form
     try {
       await patchVideoTag({
-        cid: campaignId?.toString() || '0',
+        cid: entityId,
         tagId: tag.id.toString(),
         body: {
           newTagName: newName,

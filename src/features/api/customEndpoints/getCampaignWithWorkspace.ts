@@ -1,6 +1,5 @@
 import type { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import type {
-  GetProjectsByPidApiResponse,
   GetWorkspacesByWidApiResponse,
   GetCampaignsByCidApiResponse,
   GetCampaignsByCidApiArg,

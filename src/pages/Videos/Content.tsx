@@ -6,15 +6,21 @@ import {
   Skeleton,
   Tag,
 } from '@appquality/unguess-design-system';
-import { useEffect, useState } from 'react';
 import { ReactComponent as PlayIcon } from '@zendeskgarden/svg-icons/src/16/play-circle-stroke.svg';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useParams } from 'react-router-dom';
+import { useOutletContext } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
+import {
+  getVideoDeviceLabel,
+  VIDEO_DEVICE_SECTION_ORDER,
+} from 'src/common/video/getVideoDeviceLabel';
+import { CampaignHubContext } from 'src/features/templates/CampaignsHubsMiddleware';
 import { styled } from 'styled-components';
 import { CompletionTooltip } from '../Bugs/Content/BugsTable/components/CompletionTooltip';
 import { Empty } from './Empty';
+import { ImportMediaModal } from './ImportMediaModal';
 import { VideoContainer } from './parts/VideoContainer';
 import { Wrapper } from './parts/Wrapper';
 import { useVideos } from './useVideos';
@@ -26,116 +32,117 @@ const AccordionFooter = styled.div`
 `;
 
 const VideosPageContent = () => {
-  const { campaignId } = useParams();
-  const [totalVideos, setTotalVideos] = useState<number>(0);
   const { t } = useTranslation();
+
+  const { isHub, entityId } = useOutletContext<CampaignHubContext>();
+  const [isImportMediaModalOpen, setIsImportMediaModalOpen] = useState(false);
 
   const {
     sorted: videos,
+    totalVideos,
     isFetching,
     isLoading,
     isError,
-  } = useVideos(campaignId ?? '');
-  useEffect(() => {
-    if (videos) {
-      const groupedVideos = videos?.reduce(
-        (total, item) => total + item.videos.total,
-        0
-      );
-      setTotalVideos(groupedVideos);
-    }
-  }, [videos]);
+  } = useVideos(entityId);
 
   if (isError) return null;
 
-  if (isLoading) return <Skeleton height="300px" style={{ borderRadius: 0 }} />;
-  if (!videos || totalVideos === 0) {
-    return <Empty />;
-  }
-
-  const usecases = videos.filter((item) => item.videos.total > 0);
+  if (isLoading && !videos)
+    return <Skeleton height="300px" style={{ borderRadius: 0 }} />;
+  const usecases = videos?.filter((item) => item.videos.total > 0) ?? [];
+  const defaultExpandedSections = isHub
+    ? usecases.map((_, index) => index)
+    : [];
 
   return (
-    <LayoutWrapper isNotBoxed>
-      <div style={{ opacity: isFetching ? 0.5 : 1 }}>
-        <Grid>
-          {!!usecases?.length && (
-            <Row>
-              <Col>
-                <Wrapper isFetching={isFetching}>
-                  <AccordionNew
-                    level={3}
-                    isExpandable
-                    isBare
-                    defaultExpandedSections={[]}
-                  >
-                    {usecases.map((uc) => (
-                      <AccordionNew.Section>
-                        <AccordionNew.Header>
-                          <AccordionNew.Label
-                            label={`${uc.usecase.title.full} `}
-                          />
-                          <AccordionNew.Meta>
-                            <Tag
-                              isPill
-                              hue={appTheme.palette.blue[100]}
-                              size="large"
-                            >
-                              <Tag.Avatar>
-                                <PlayIcon color={appTheme.palette.grey[600]} />
-                              </Tag.Avatar>
-                              {t('__VIDEOS_LIST_META_LABEL', 'Videos')}:
-                              <Tag.SecondaryText>
-                                {uc.videos.total}
-                              </Tag.SecondaryText>
-                            </Tag>
-                          </AccordionNew.Meta>
-                        </AccordionNew.Header>
-                        <AccordionNew.Panel>
-                          {!!uc.videos.desktop.length && (
-                            <VideoContainer
-                              title={t('__VIDEOS_LIST_DESKTOP_TITLE')}
-                              videosCount={uc.videos.desktop.length}
-                              video={uc.videos.desktop}
-                            />
-                          )}
-                          {!!uc.videos.tablet.length && (
-                            <VideoContainer
-                              title={t('__VIDEOS_LIST_TABLET_TITLE')}
-                              videosCount={uc.videos.tablet.length}
-                              video={uc.videos.tablet}
-                            />
-                          )}
-                          {!!uc.videos.smartphone.length && (
-                            <VideoContainer
-                              title={t('__VIDEOS_LIST_SMARTPHONE_TITLE')}
-                              videosCount={uc.videos.smartphone.length}
-                              video={uc.videos.smartphone}
-                            />
-                          )}
-                          {!!uc.videos.other.length && (
-                            <VideoContainer
-                              title={t('__VIDEOS_LIST_OTHER_TITLE')}
-                              videosCount={uc.videos.other.length}
-                              video={uc.videos.other}
-                            />
-                          )}
-                          <AccordionFooter>
-                            <CompletionTooltip
-                              percentage={uc.usecase.completion}
-                            />
-                          </AccordionFooter>
-                        </AccordionNew.Panel>
-                      </AccordionNew.Section>
-                    ))}
-                  </AccordionNew>
-                </Wrapper>
-              </Col>
-            </Row>
-          )}
-        </Grid>
-      </div>
-    </LayoutWrapper>
+    <>
+      {!videos || totalVideos === 0 ? (
+        <Empty onOpenImportMediaModal={() => setIsImportMediaModalOpen(true)} />
+      ) : (
+        <LayoutWrapper isNotBoxed>
+          <div style={{ opacity: isFetching ? 0.5 : 1 }}>
+            <Grid>
+              {!!usecases?.length && (
+                <Row>
+                  <Col>
+                    <Wrapper isFetching={isFetching}>
+                      <AccordionNew
+                        level={3}
+                        isExpandable
+                        isBare
+                        defaultExpandedSections={defaultExpandedSections}
+                      >
+                        {usecases.map((uc) => (
+                          <AccordionNew.Section>
+                            <AccordionNew.Header>
+                              <AccordionNew.Label
+                                label={`${uc.usecase.title.full} `}
+                              />
+                              <AccordionNew.Meta>
+                                <Tag
+                                  isPill
+                                  hue={appTheme.palette.blue[100]}
+                                  size="large"
+                                >
+                                  <Tag.Avatar>
+                                    <PlayIcon
+                                      color={appTheme.palette.grey[600]}
+                                    />
+                                  </Tag.Avatar>
+                                  {t('__VIDEOS_LIST_META_LABEL')}:
+                                  <Tag.SecondaryText>
+                                    {uc.videos.total}
+                                  </Tag.SecondaryText>
+                                </Tag>
+                              </AccordionNew.Meta>
+                            </AccordionNew.Header>
+                            <AccordionNew.Panel>
+                              {VIDEO_DEVICE_SECTION_ORDER.map((deviceType) => {
+                                const sectionVideos =
+                                  uc.videos[`${deviceType}`];
+
+                                if (!sectionVideos.length) return null;
+
+                                return (
+                                  <VideoContainer
+                                    key={deviceType}
+                                    title={
+                                      getVideoDeviceLabel(t, deviceType) ||
+                                      deviceType
+                                    }
+                                    videosCount={sectionVideos.length}
+                                    video={sectionVideos}
+                                  />
+                                );
+                              })}
+                              <AccordionFooter>
+                                {!isHub && (
+                                  <CompletionTooltip
+                                    percentage={uc.usecase.completion}
+                                  />
+                                )}
+                              </AccordionFooter>
+                            </AccordionNew.Panel>
+                          </AccordionNew.Section>
+                        ))}
+                      </AccordionNew>
+                    </Wrapper>
+                  </Col>
+                </Row>
+              )}
+            </Grid>
+          </div>
+        </LayoutWrapper>
+      )}
+
+      {isHub && (
+        <ImportMediaModal
+          isOpen={isImportMediaModalOpen}
+          onClose={() => setIsImportMediaModalOpen(false)}
+          hubId={entityId}
+        />
+      )}
+    </>
   );
 };
 

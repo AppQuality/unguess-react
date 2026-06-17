@@ -1,6 +1,7 @@
 import { Form, Formik, FormikHelpers } from 'formik';
 import { useTranslation } from 'react-i18next';
-import { useParams } from 'react-router-dom';
+import { useOutletContext } from 'react-router-dom';
+import type { CampaignHubContext } from 'src/features/templates/CampaignsHubsMiddleware';
 import {
   GetCampaignsByCidInsightsApiResponse,
   Grape,
@@ -19,7 +20,7 @@ export type InsightFormValues = Omit<
 
 const FormProvider = ({ children }: { children: React.ReactNode }) => {
   const { t } = useTranslation();
-  const { campaignId } = useParams();
+  const { entityId } = useOutletContext<CampaignHubContext>();
   const [createInsight] = usePostCampaignsByCidInsightsMutation();
   const [patchInsight] = usePatchInsightsByIidMutation();
   const initialValues: InsightFormValues = {
@@ -59,7 +60,7 @@ const FormProvider = ({ children }: { children: React.ReactNode }) => {
         if (values.id === -1) {
           // create
           createInsight({
-            cid: campaignId || '',
+            cid: entityId,
             body: {
               title: values.title,
               description: values.description,

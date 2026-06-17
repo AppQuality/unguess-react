@@ -6,8 +6,9 @@ import { ReactComponent as EditIcon } from '@zendeskgarden/svg-icons/src/12/penc
 import { FormikProps } from 'formik';
 import { ComponentProps, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useParams } from 'react-router-dom';
+import { useOutletContext } from 'react-router-dom';
 import { ReactComponent as CopyIcon } from 'src/assets/icons/copy-icon.svg';
+import type { CampaignHubContext } from 'src/features/templates/CampaignsHubsMiddleware';
 import {
   GetCampaignsByCidVideoTagsApiResponse,
   usePostCampaignsByCidVideoTagsMutation,
@@ -31,7 +32,7 @@ export const TitleDropdown = ({
 }) => {
   const { t } = useTranslation();
   const { track } = useAnalytics();
-  const { campaignId } = useParams();
+  const { entityId } = useOutletContext<CampaignHubContext>();
   const [addVideoTags] = usePostCampaignsByCidVideoTagsMutation();
   const titleMaxLength = 70;
   const options: ComponentProps<typeof Autocomplete>['options'] = useMemo(
@@ -108,7 +109,7 @@ export const TitleDropdown = ({
           }
 
           const res = await addVideoTags({
-            cid: campaignId?.toString() || '0',
+            cid: entityId,
             body: {
               group: {
                 name: 'title',

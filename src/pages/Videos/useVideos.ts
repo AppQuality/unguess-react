@@ -7,22 +7,21 @@ import {
   useGetCampaignsByCidUsecasesQuery,
   useGetCampaignsByCidVideosQuery,
 } from 'src/features/api';
+import {
+  isVideoFormFactor,
+  type VideoFormFactor,
+} from 'src/common/video/getVideoDeviceLabel';
 
-// eslint-disable-next-line
-enum DeviceTypeEnum {
-  smartphone = 'smartphone',
-  tablet = 'tablet',
-  desktop = 'desktop',
-  other = 'other',
-}
 export type VideoWithObservations = Video & {
   observations: Observation[] | [];
 } & {
   usecaseId: number;
+  processingStatus?: 'processing' | 'ready' | 'error';
 };
 type ObservationWithMediaId = Observation & { mediaId: number };
-type OrderedVideo = Record<DeviceTypeEnum, VideoWithObservations[]>;
+type OrderedVideo = Record<VideoFormFactor, VideoWithObservations[]>;
 type VideosWithTotal = OrderedVideo & { total: number };
+const PROCESSING_POLLING_INTERVAL_MS = 120000;
 
 export type CampaignVideos = Array<{
   usecase: GetCampaignsByCidUsecasesApiResponse[number];
@@ -33,23 +32,42 @@ export const useVideos = (cid: string) => {
   const [sorted, setSorted] = useState<CampaignVideos>();
 
   const { data, isFetching, isLoading, isError } =
-    useGetCampaignsByCidVideosQuery({
-      cid,
-    });
+    useGetCampaignsByCidVideosQuery(
+      {
+        cid,
+      },
+      {
+        pollingInterval: PROCESSING_POLLING_INTERVAL_MS,
+      }
+    );
 
   const {
     data: observations,
     isLoading: isLoadingObservations,
     isFetching: isFetchingObservations,
     isError: isErrorObservations,
-  } = useGetCampaignsByCidObservationsQuery({ cid });
+  } = useGetCampaignsByCidObservationsQuery(
+    { cid },
+    {
+      pollingInterval: PROCESSING_POLLING_INTERVAL_MS,
+    }
+  );
 
   const {
     data: usecases,
     isLoading: isLoadingUsecases,
     isFetching: isFetchingUsecases,
     isError: isErrorUsecases,
+    refetch: refetchUsecases,
   } = useGetCampaignsByCidUsecasesQuery({ cid, filterBy: 'videos' });
+
+  const totalVideos = data?.items.length ?? 0;
+
+  useEffect(() => {
+    if (totalVideos > 0 && usecases && usecases.length === 0) {
+      refetchUsecases();
+    }
+  }, [totalVideos, usecases, refetchUsecases]);
 
   useEffect(() => {
     if (data && data.items && observations && usecases) {
@@ -80,18 +98,21 @@ export const useVideos = (cid: string) => {
             tablet: [],
             desktop: [],
             other: [],
+            unknown: [],
             total: videos.length,
           },
         };
 
         videos.forEach((video) => {
-          const deviceType = video.tester.device.type as DeviceTypeEnum;
+          const rawDeviceType = video.device?.formFactor;
+          const deviceType: VideoFormFactor = isVideoFormFactor(rawDeviceType)
+            ? rawDeviceType
+            : 'unknown';
           const videoWithObservations: VideoWithObservations = {
             ...video,
             observations: observationsByMediaId[video.id] || [],
           };
-          // eslint-disable-next-line
-          ordered.videos[deviceType].push(videoWithObservations);
+          ordered.videos[`${deviceType}`].push(videoWithObservations);
         });
 
         return ordered;
@@ -106,5 +127,6 @@ export const useVideos = (cid: string) => {
     isLoading: isLoading || isLoadingObservations || isLoadingUsecases,
     isError: isError || isErrorObservations || isErrorUsecases,
     sorted,
+    totalVideos,
   };
 };

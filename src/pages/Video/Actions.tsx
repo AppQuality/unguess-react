@@ -1,14 +1,27 @@
-import { LG, Skeleton, Tag, XL } from '@appquality/unguess-design-system';
-import { useRef } from 'react';
+import {
+  IconButton,
+  LG,
+  SM,
+  Skeleton,
+  Span,
+  Tag,
+  Tooltip,
+  XL,
+} from '@appquality/unguess-design-system';
+import { ReactComponent as EditIcon } from '@zendeskgarden/svg-icons/src/16/pencil-fill.svg';
+import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useParams } from 'react-router-dom';
+import { useOutletContext, useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
-import { ReactComponent as ClockIcon } from 'src/assets/icons/time-icon.svg';
 import { capitalizeFirstLetter } from 'src/common/capitalizeFirstLetter';
 import { getDeviceIcon } from 'src/common/components/BugDetail/Meta';
 import { Divider } from 'src/common/components/divider';
 import { Meta } from 'src/common/components/Meta';
 import { Pipe } from 'src/common/components/Pipe';
+import { EditVideoModal } from 'src/common/components/videos/EditVideoModal';
+import { formatApiDateShortMonthYear } from 'src/common/date/apiDate';
+import { getVideoDeviceLabel } from 'src/common/video/getVideoDeviceLabel';
+import type { CampaignHubContext } from 'src/features/templates/CampaignsHubsMiddleware';
 import {
   useGetVideosByVidObservationsQuery,
   useGetVideosByVidQuery,
@@ -28,17 +41,28 @@ const Container = styled.div`
   width: 100%;
   background-color: white;
   height: 100vh;
-  padding: ${({ theme }) => theme.space.md} ${({ theme }) => theme.space.md};
+  padding: ${({ theme }) => theme.space.lg} ${({ theme }) => theme.space.lg};
   overflow-y: auto;
   border-left: 1px solid ${({ theme }) => theme.palette.grey[200]};
   scroll-behavior: smooth;
   overscroll-behavior: contain;
+  margin-top: 130px;
 `;
 const MetaContainer = styled.div`
   display: flex;
   align-items: center;
-  margin-top: ${({ theme }) => theme.space.sm};
+  flex-wrap: wrap;
+  column-gap: ${({ theme }) => theme.space.xs};
   margin-bottom: ${({ theme }) => theme.space.xs};
+`;
+
+const HeaderName = styled(XL)`
+  flex-basis: 100%;
+`;
+
+const Description = styled(SM)`
+  color: ${({ theme }) => theme.palette.grey[600]};
+  margin-top: ${({ theme }) => theme.space.sm};
 `;
 
 const ObservationsCountWrapper = styled.div`
@@ -49,9 +73,23 @@ const ObservationsCountWrapper = styled.div`
   margin-top: ${({ theme }) => theme.space.sm};
 `;
 
+const Header = styled.div`
+  display: flex;
+  align-items: flex-start;
+  gap: ${({ theme }) => theme.space.xs};
+  margin-bottom: ${({ theme }) => theme.space.lg};
+`;
+
+const HeaderEditButton = styled(IconButton)`
+  margin-left: auto;
+`;
+
 const Actions = () => {
-  const { videoId } = useParams();
+  const { videoId, entityId } = useParams();
+  const { isHub } = useOutletContext<CampaignHubContext>();
+  const hubId = isHub ? entityId : undefined;
   const refScroll = useRef<HTMLDivElement>(null);
+  const [isEditModalOpen, setEditModalOpen] = useState(false);
   const { t } = useTranslation();
   const {
     data: video,
@@ -81,29 +119,77 @@ const Actions = () => {
   if (isFetchingVideo || isLoadingVideo) return <Skeleton />;
   if (isFetchingObservations || isLoadingObservations) return <Skeleton />;
 
+  const displayHeaderName = video.tester?.name;
+  const testerId = video.tester?.id;
+  const deviceType = video.device?.formFactor;
+  const deviceLabel = getVideoDeviceLabel(t, deviceType);
+  const formattedUploadDate = formatApiDateShortMonthYear(video.uploadDate);
+  const description = video.additional?.trim();
+
   return (
     <Container ref={refScroll}>
-      <XL isBold style={{ marginTop: 130 }}>
-        {video.tester.name}
-      </XL>
-      <MetaContainer>
-        <Meta size="medium">Tester ID: {video.tester.id}</Meta>
-        <Pipe />
-        {video.tester.device && (
-          <Tag hue="white" style={{ textTransform: 'capitalize' }}>
-            <Tag.Avatar>{getDeviceIcon(video.tester.device.type)}</Tag.Avatar>
-            {video.tester.device.type}
-          </Tag>
-        )}
-        {video.duration && (
-          <Tag hue="white" style={{ fontSize: appTheme.fontSizes.sm }}>
-            <Tag.Avatar>
-              <ClockIcon />
-            </Tag.Avatar>
-            {formatDuration(video.duration)}
-          </Tag>
-        )}
-      </MetaContainer>
+      <Header>
+        <MetaContainer>
+          {!isHub && (
+            <div
+              style={{
+                marginTop: appTheme.space.xxs,
+                marginBottom: appTheme.space.sm,
+              }}
+            >
+              <SM>
+                Tester ID: <Span isBold>{testerId ?? '-'}</Span>
+              </SM>
+            </div>
+          )}
+          {displayHeaderName && (
+            <HeaderName isBold>{displayHeaderName}</HeaderName>
+          )}
+          <div style={{ marginTop: appTheme.space.sm, flexBasis: '100%' }}>
+            {deviceType && (
+              <Tag hue="white" style={{ textTransform: 'capitalize' }}>
+                <Tag.Avatar>{getDeviceIcon(deviceType)}</Tag.Avatar>
+                {deviceLabel}
+              </Tag>
+            )}
+            {video.duration && (
+              <>
+                <Pipe size="small" />
+                <Tag hue="white" style={{ fontSize: appTheme.fontSizes.sm }}>
+                  {formatDuration(video.duration)}
+                </Tag>
+              </>
+            )}
+            {formattedUploadDate && (
+              <>
+                <Pipe size="small" />
+                <Tag hue="white" style={{ fontSize: appTheme.fontSizes.sm }}>
+                  {formattedUploadDate}
+                </Tag>
+              </>
+            )}
+          </div>
+          {description && <Description>{description}</Description>}
+        </MetaContainer>
+        <Tooltip
+          content={t('__VIDEOS_DETAIL_EDIT_VIDEO_LABEL')}
+          size="large"
+          type="light"
+          placement="bottom-start"
+          hasArrow={false}
+        >
+          <HeaderEditButton
+            isBasic
+            size="small"
+            aria-label={t('__VIDEOS_DETAIL_EDIT_VIDEO_LABEL')}
+            onClick={() => {
+              setEditModalOpen(true);
+            }}
+          >
+            <EditIcon />
+          </HeaderEditButton>
+        </Tooltip>
+      </Header>
       <Divider />
       <SentimentOverview />
       <div style={{ padding: `${appTheme.space.md} 0` }}>
@@ -138,6 +224,14 @@ const Actions = () => {
       ) : (
         <NoObservations />
       )}
+      <EditVideoModal
+        isOpen={isEditModalOpen}
+        video={video}
+        hubId={hubId}
+        onClose={() => {
+          setEditModalOpen(false);
+        }}
+      />
     </Container>
   );
 };
