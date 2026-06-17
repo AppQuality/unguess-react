@@ -229,7 +229,9 @@ export const Metas = ({
             <StyledSkeleton width="400px" height="20px" />
           ) : (
             <>
-              {deviceMetas.length > 0 && <StyledPipe />}
+              {deviceMetas.length > 0 && (
+                <StyledPipe style={{ paddingLeft: appTheme.space.sm }} />
+              )}
               {deviceMetas.map((deviceMeta) => (
                 <DeviceMetaItem key={deviceMeta.key}>
                   {getDeviceIcon(deviceMeta.key)}
