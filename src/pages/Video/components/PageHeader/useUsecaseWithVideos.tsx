@@ -3,13 +3,13 @@ import {
   useGetCampaignsByCidVideosQuery,
 } from 'src/features/api';
 
-const useUsecaseWithVideos = (campaignId: string) => {
+const useUsecaseWithVideos = (entityId: string) => {
   const {
     data: videosCampaigns,
     isLoading: isLoadingVideos,
     isFetching: isFetchingVideos,
   } = useGetCampaignsByCidVideosQuery({
-    cid: campaignId || '',
+    cid: entityId,
   });
 
   const {
@@ -17,7 +17,7 @@ const useUsecaseWithVideos = (campaignId: string) => {
     isFetching: isFetchingUsecases,
     isLoading: isLoadingUsecases,
   } = useGetCampaignsByCidUsecasesQuery({
-    cid: campaignId || '',
+    cid: entityId,
     filterBy: 'videos',
   });
 
@@ -33,8 +33,8 @@ const useUsecaseWithVideos = (campaignId: string) => {
     })
     .map((usecase) => {
       const sortedVideos = usecase.videos.sort((a, b) => {
-        const aDeviceType = a.tester.device.type;
-        const bDeviceType = b.tester.device.type;
+        const aDeviceType = a.device?.formFactor || 'other';
+        const bDeviceType = b.device?.formFactor || 'other';
         const order = ['desktop', 'tablet', 'smartphone', 'other'];
         const indexA = order.indexOf(aDeviceType);
         const indexB = order.indexOf(bDeviceType);

@@ -335,6 +335,36 @@ export interface paths {
   "/companies/sizes": {
     get: operations["get-companies-sizes"];
   };
+  "/hubs/{hid}": {
+    get: operations["get-hub"];
+    parameters: {
+      path: {
+        /** Hub id */
+        hid: components["parameters"]["hid"];
+      };
+    };
+  };
+  "/hubs/{hid}/assets": {
+    post: operations["post-hub-assets"];
+    parameters: {
+      path: {
+        /** Hub id */
+        hid: components["parameters"]["hid"];
+      };
+    };
+  };
+  "/hubs/{hid}/assets/{mid}": {
+    /** Delete a video asset belonging to the authenticated user on the given hub */
+    delete: operations["delete-hub-asset"];
+    patch: operations["patch-hubs-hid-assets-mid"];
+    parameters: {
+      path: {
+        /** Hub id */
+        hid: components["parameters"]["hid"];
+        mid: number;
+      };
+    };
+  };
   "/insights/{iid}": {
     get: operations["get-insights-iid"];
     delete: operations["delete-insights-iid"];
@@ -373,6 +403,7 @@ export interface paths {
     };
   };
   "/signedMedia/{id}": {
+    /** Returns a short-lived presigned S3 URL for a media item if the caller has access. Returns 403 otherwise. Public bugs (unexpired wp_appq_bug_link) bypass auth. */
     get: operations["get-signedMedia-id"];
     parameters: {
       path: {
@@ -439,6 +470,17 @@ export interface paths {
       path: {
         /** Project id */
         pid: components["parameters"]["pid"];
+      };
+    };
+  };
+  "/projects/{pid}/hubs": {
+    get: operations["get-projects-pid-hubs"];
+    /** An Hub is a Campaign with campaign-type hub */
+    post: operations["post-projects-pid-hubs"];
+    parameters: {
+      path: {
+        /** Project id */
+        pid: string;
       };
     };
   };
@@ -790,6 +832,37 @@ export interface paths {
   };
   "/ai/jobs": {
     post: operations["post-ai-jobs"];
+  };
+  "/oauth/authorize": {
+    /**
+     * Redirects to Cognito hosted UI for user authentication.
+     * Supports both PKCE (Proof Key for Code Exchange) and Classic OAuth 2.0 flows.
+     *
+     * **PKCE Flow (recommended for public clients like Zapier):**
+     * - Include `code_challenge` and `code_challenge_method` parameters
+     * - Do NOT use client_secret
+     * **Classic Flow (for confidential clients):**
+     * - Omit PKCE parameters
+     * - Use client_secret in token exchange
+     */
+    get: operations["get-oauth-authorize"];
+  };
+  "/oauth/token": {
+    /**
+     * Exchanges authorization code for tokens or refreshes access token.
+     * Supports three grant types:
+     * 1. **authorization_code** - Exchange code for tokens (PKCE or Classic)
+     * 2. **refresh_token** - Refresh expired access token
+     *
+     * **PKCE Flow:**
+     * - Provide `code_verifier` instead of `client_secret`
+     * - Must match the challenge sent in authorize request
+     *
+     * **Classic Flow:**
+     * - Provide `client_secret` for authentication
+     * - Must be kept secure on server-side only
+     */
+    post: operations["post-oauth-token"];
   };
 }
 
@@ -1579,6 +1652,7 @@ export interface components {
     Project: {
       campaigns_count: number;
       description?: string;
+      hubs_count: number;
       id: number;
       is_archive?: number;
       name: string;
@@ -1757,17 +1831,21 @@ export interface components {
       poster?: string;
       sentiment?: components["schemas"]["MediaSentiment"];
       streamUrl?: string;
-      tester: {
-        device: {
-          /** @enum {string} */
-          type: "smartphone" | "tablet" | "desktop" | "other";
-        };
-        id: number;
-        name: string;
-        surname: string;
-      };
       transcript?: components["schemas"]["Transcript"];
       url: string;
+      tester?: {
+        id?: string;
+        name?: string;
+      };
+      device?: {
+        name?: string;
+        os?: string;
+        /** @enum {undefined} */
+        formFactor?: "smartphone" | "tablet" | "desktop" | "other" | "unknown";
+      };
+      filename: string;
+      uploadDate: string;
+      additional?: string;
     };
     /** VideoTag */
     VideoTag: {
@@ -2023,6 +2101,29 @@ export interface components {
       type: "acn_saver_personas";
       variant: string;
     };
+    /**
+     * OauthRefreshToken
+     * @description OAuth 2.0 Token Request for Refresh Token grant
+     */
+    OauthRefreshToken: {
+      /** @enum {undefined} */
+      grant_type: "refresh_token";
+      refresh_token: string;
+      client_id: string;
+    };
+    /**
+     * OAuthAuthorizationCode
+     * @description OAuth 2.0 Token Request for Authorization Code grant
+     */
+    OAuthAuthorizationCode: {
+      /** @enum {undefined} */
+      grant_type: "authorization_code";
+      code: string;
+      client_id: string;
+      redirect_uri: string;
+      code_verifier?: string;
+      client_secret?: string;
+    };
   };
   responses: {
     /** Shared error response */
@@ -2041,6 +2142,8 @@ export interface components {
     csid: string;
     /** @description filterBy[<fieldName>]=<fieldValue> */
     filterBy: unknown;
+    /** @description Hub id */
+    hid: string;
     /** @description Insight id */
     iid: string;
     /** @description Limit pagination parameter */
@@ -3406,6 +3509,8 @@ export interface operations {
           "application/json": {
             items: (components["schemas"]["Video"] & {
               usecaseId: number;
+              /** @enum {string} */
+              processingStatus: "processing" | "ready" | "error";
             })[];
           } & components["schemas"]["PaginationData"];
         };
@@ -3480,6 +3585,132 @@ export interface operations {
             id: number;
             name: string;
           }[];
+        };
+      };
+    };
+  };
+  "get-hub": {
+    parameters: {
+      path: {
+        /** Hub id */
+        hid: components["parameters"]["hid"];
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          "application/json": {
+            id: number;
+            title: string;
+            customer_title: string;
+            description: string;
+            isArchived?: boolean;
+            project: {
+              id: number;
+              name: string;
+            };
+            start_date: string;
+            workspace: {
+              id: number;
+              name: string;
+            };
+          };
+        };
+      };
+      /** Forbidden */
+      403: unknown;
+    };
+  };
+  "post-hub-assets": {
+    parameters: {
+      path: {
+        /** Hub id */
+        hid: components["parameters"]["hid"];
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          "application/json": {
+            failed?: {
+              name: string;
+              /** @enum {string} */
+              errorCode:
+                | "FILE_TOO_BIG"
+                | "INVALID_FILE_EXTENSION"
+                | "GENERIC_ERROR";
+            }[];
+            uploaded_ids?: {
+              id: number;
+            }[];
+          };
+        };
+      };
+      /** Forbidden */
+      403: unknown;
+    };
+    requestBody: {
+      content: {
+        "multipart/form-data": {
+          media: string | string[];
+          /** @description Language code of the video (e.g. it, en, de) */
+          language: string;
+        };
+      };
+    };
+  };
+  /** Delete a video asset belonging to the authenticated user on the given hub */
+  "delete-hub-asset": {
+    parameters: {
+      path: {
+        /** Hub id */
+        hid: components["parameters"]["hid"];
+        mid: number;
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          "application/json": { [key: string]: unknown };
+        };
+      };
+      /** Forbidden */
+      403: unknown;
+      /** Not Found */
+      404: unknown;
+    };
+  };
+  "patch-hubs-hid-assets-mid": {
+    parameters: {
+      path: {
+        /** Hub id */
+        hid: components["parameters"]["hid"];
+        mid: number;
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          "application/json": { [key: string]: unknown };
+        };
+      };
+      /** Forbidden */
+      403: unknown;
+      /** Not Found */
+      404: unknown;
+    };
+    requestBody: {
+      content: {
+        "application/json": {
+          participantName: string;
+          device: string;
+          additional: string;
+          fileName: string;
+          uploadDate: string;
         };
       };
     };
@@ -3887,6 +4118,57 @@ export interface operations {
       403: components["responses"]["Error"];
       404: components["responses"]["Error"];
       500: components["responses"]["Error"];
+    };
+  };
+  "get-projects-pid-hubs": {
+    parameters: {
+      path: {
+        /** Project id */
+        pid: string;
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          "application/json": {
+            items: {
+              id: number;
+            }[];
+            limit?: number;
+            size?: number;
+            start?: number;
+            total?: number;
+          };
+        };
+      };
+    };
+  };
+  /** An Hub is a Campaign with campaign-type hub */
+  "post-projects-pid-hubs": {
+    parameters: {
+      path: {
+        /** Project id */
+        pid: string;
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          "application/json": {
+            hubId: number;
+          };
+        };
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": {
+          name: string;
+          description?: string;
+        };
+      };
     };
   };
   /** Return a list of users from a specific project */
@@ -5397,6 +5679,82 @@ export interface operations {
           target: string;
           input: string;
         };
+      };
+    };
+  };
+  /**
+   * Redirects to Cognito hosted UI for user authentication.
+   * Supports both PKCE (Proof Key for Code Exchange) and Classic OAuth 2.0 flows.
+   *
+   * **PKCE Flow (recommended for public clients like Zapier):**
+   * - Include `code_challenge` and `code_challenge_method` parameters
+   * - Do NOT use client_secret
+   * **Classic Flow (for confidential clients):**
+   * - Omit PKCE parameters
+   * - Use client_secret in token exchange
+   */
+  "get-oauth-authorize": {
+    parameters: {
+      query: {
+        /** cognito client_id */
+        client_id: string;
+        redirect_uri: string;
+        /** Must be "code" for Authorization Code flow */
+        response_type?: "code";
+        /** Space-separated list of scopes */
+        scope?: string;
+        /** Optional state parameter for CSRF protection */
+        state?: string;
+        /** PKCE code challenge */
+        code_challenge?: string;
+        code_challenge_method?: "S256" | "plain";
+      };
+    };
+    responses: {
+      /** Found */
+      302: never;
+      400: components["responses"]["Error"];
+      401: components["responses"]["Error"];
+    };
+  };
+  /**
+   * Exchanges authorization code for tokens or refreshes access token.
+   * Supports three grant types:
+   * 1. **authorization_code** - Exchange code for tokens (PKCE or Classic)
+   * 2. **refresh_token** - Refresh expired access token
+   *
+   * **PKCE Flow:**
+   * - Provide `code_verifier` instead of `client_secret`
+   * - Must match the challenge sent in authorize request
+   *
+   * **Classic Flow:**
+   * - Provide `client_secret` for authentication
+   * - Must be kept secure on server-side only
+   */
+  "post-oauth-token": {
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          "application/json": {
+            access_token: string;
+            id_token: string;
+            /** @enum {undefined} */
+            token_type: "Bearer";
+            expires_in: number;
+            refresh_token?: string;
+          };
+        };
+      };
+      400: components["responses"]["Error"];
+      401: components["responses"]["Error"];
+      500: components["responses"]["Error"];
+    };
+    requestBody: {
+      content: {
+        "application/json":
+          | components["schemas"]["OAuthAuthorizationCode"]
+          | components["schemas"]["OauthRefreshToken"];
       };
     };
   };

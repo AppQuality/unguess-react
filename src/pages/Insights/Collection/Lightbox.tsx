@@ -18,6 +18,7 @@ import { useCallback, useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { Pipe } from 'src/common/components/Pipe';
+import { getVideoDeviceLabel } from 'src/common/video/getVideoDeviceLabel';
 import { getColorWithAlpha } from 'src/common/utils';
 import { Grape, useGetVideosByVidQuery } from 'src/features/api';
 import useWindowSize from 'src/hooks/useWindowSize';
@@ -25,8 +26,9 @@ import styled from 'styled-components';
 import { ReactComponent as ExternalLinkIcon } from 'src/assets/icons/external-link-icon.svg';
 import { ReactComponent as LinkIcon } from 'src/assets/icons/link-stroke.svg';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useOutletContext } from 'react-router-dom';
 import { useFormikContext } from 'formik';
+import type { CampaignHubContext } from 'src/features/templates/CampaignsHubsMiddleware';
 import { getDeviceIcon } from 'src/common/components/BugDetail/Meta';
 import { InsightFormValues } from '../FormProvider';
 
@@ -66,7 +68,7 @@ export const LightboxContainer = ({
   observation: Grape['observations'][number];
   onClose?: () => void;
 }) => {
-  const { campaignId } = useParams();
+  const { isHub, entityId } = useOutletContext<CampaignHubContext>();
   const { t } = useTranslation();
   const { width } = useWindowSize();
   const breakpointSm = parseInt(appTheme.breakpoints.sm, 10);
@@ -74,8 +76,9 @@ export const LightboxContainer = ({
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const { addToast } = useToast();
   const { values, setFieldValue } = useFormikContext<InsightFormValues>();
+  const prefix = isHub ? 'hubs' : 'campaigns';
   const observationRoute = useLocalizeRoute(
-    `campaigns/${campaignId}/videos/${observation.mediaId}#observation-${observation.id}`
+    `${prefix}/${entityId}/videos/${observation.mediaId}#observation-${observation.id}`
   );
 
   const isChecked = useMemo(
@@ -117,6 +120,9 @@ export const LightboxContainer = ({
   const severity = observation.tags.find(
     (tag) => tag.group.name === 'severity'
   );
+  const testerId = video?.tester?.id;
+  const deviceType = video?.device?.formFactor;
+  const deviceLabel = getVideoDeviceLabel(t, deviceType);
 
   const tags = observation.tags.filter(
     (tag) => tag.group.name !== 'severity' && tag.group.name !== 'title'
@@ -179,18 +185,18 @@ export const LightboxContainer = ({
                 </>
               )}
               <SM isBold style={{ color: appTheme.palette.blue[600] }}>
-                T{video?.tester.id}
+                {testerId ? `T${testerId}` : '--'}
               </SM>
               <StyledPipe />
               <SM style={{ display: 'flex', alignItems: 'center' }}>
-                {getDeviceIcon(video?.tester.device.type || '')}{' '}
+                {getDeviceIcon(deviceType || '')}{' '}
                 <Span
                   style={{
                     textTransform: 'capitalize',
                     marginLeft: appTheme.space.xs,
                   }}
                 >
-                  {video?.tester.device.type}
+                  {deviceLabel || '--'}
                 </Span>
               </SM>
               <StyledPipe />

@@ -23,6 +23,7 @@ import {
   useDeleteCampaignsByCidUsersMutation,
   useGetCampaignsByCidQuery,
   useGetCampaignsByCidUsersQuery,
+  useGetHubsByHidQuery,
   useGetProjectsByPidUsersQuery,
   useGetWorkspacesByWidUsersQuery,
   usePostCampaignsByCidUsersMutation,
@@ -42,7 +43,7 @@ import {
 import { UserItem } from './userItem';
 
 export const CampaignSettings = ({ dataQa }: { dataQa?: string }) => {
-  const { permissionSettingsTitle, campaignId } = useAppSelector(
+  const { permissionSettingsTitle, campaignId, hubId, isHub } = useAppSelector(
     (state) => state.navigation
   );
   const { activeWorkspace } = useActiveWorkspace();
@@ -65,9 +66,33 @@ export const CampaignSettings = ({ dataQa }: { dataQa?: string }) => {
     isLoading: isLoadingCampaign,
     isFetching: isFetchingCampaign,
     data: campaign,
-  } = useGetCampaignsByCidQuery({
-    cid: campaignId?.toString() || '0',
-  });
+  } = useGetCampaignsByCidQuery(
+    {
+      cid: campaignId?.toString() || '0',
+    },
+    {
+      skip: !campaignId || isHub,
+    }
+  );
+
+  const {
+    isLoading: isLoadingHub,
+    isFetching: isFetchingHub,
+    data: hub,
+  } = useGetHubsByHidQuery(
+    {
+      hid: hubId?.toString() || '0',
+    },
+    {
+      skip: !hubId || !isHub,
+    }
+  );
+
+  // Get the entity (campaign or hub) and its project
+  const entity = isHub ? hub : campaign;
+  const entityId =
+    (isHub ? hubId : campaignId)?.toString() || entity?.id.toString() || '0';
+  const projectId = entity?.project.id;
 
   const {
     isLoading: isLoadingCampaignUsers,
@@ -75,7 +100,7 @@ export const CampaignSettings = ({ dataQa }: { dataQa?: string }) => {
     data: campaignUsers,
     refetch: refetchCampaignUsers,
   } = useGetCampaignsByCidUsersQuery({
-    cid: campaignId?.toString() || '0',
+    cid: entityId,
   });
 
   const {
@@ -86,10 +111,10 @@ export const CampaignSettings = ({ dataQa }: { dataQa?: string }) => {
     error: projectUsersError,
   } = useGetProjectsByPidUsersQuery(
     {
-      pid: campaign?.project.id.toString() || '0',
+      pid: projectId?.toString() || '0',
     },
     {
-      skip: !campaign?.project.id,
+      skip: !projectId,
     }
   );
 
@@ -117,16 +142,21 @@ export const CampaignSettings = ({ dataQa }: { dataQa?: string }) => {
     campaign ? campaign.id : 0,
     i18n.language
   );
+  const hubRoute = getLocalizedCampaignUrl(
+    hub ? hub.id : 0,
+    i18n.language
+  ).replace('/campaigns/', '/hubs/');
+  const entityRoute = isHub ? hubRoute : campaignRoute;
 
   const onSubmitNewMember = (
     values: { email: string; message?: string },
     actions: FormikHelpers<{ email: string; message?: string }>
   ) => {
     addNewMember({
-      cid: campaignId?.toString() || '0',
+      cid: entityId,
       body: {
         email: values.email,
-        redirect_url: campaignRoute,
+        redirect_url: entityRoute,
         ...(values.message && { message: values.message }),
       },
     })
@@ -191,7 +221,7 @@ export const CampaignSettings = ({ dataQa }: { dataQa?: string }) => {
 
   const onResendInvite = (email: string) => {
     addNewMember({
-      cid: campaignId?.toString() || '0',
+      cid: entityId,
       body: {
         email,
       },
@@ -231,7 +261,7 @@ export const CampaignSettings = ({ dataQa }: { dataQa?: string }) => {
 
   const onRemoveUser = (id: number) => {
     removeUser({
-      cid: campaignId?.toString() || '0',
+      cid: entityId,
       body: {
         user_id: id,
       },
@@ -320,10 +350,12 @@ export const CampaignSettings = ({ dataQa }: { dataQa?: string }) => {
             <FlexContainer
               isLoading={
                 isLoadingCampaign ||
+                isLoadingHub ||
                 isLoadingCampaignUsers ||
                 isLoadingProjectUsers ||
                 isLoadingWorkspaceUsers ||
                 isFetchingCampaign ||
+                isFetchingHub ||
                 isFetchingCampaignUsers ||
                 isFetchingProjectUsers ||
                 isFetchingWorkspaceUsers

@@ -1,12 +1,25 @@
+import { useLocation } from 'react-router-dom';
 import {
   useGetCampaignsByCidQuery,
   useGetCampaignsByCidUsersQuery,
+  useGetHubsByHidQuery,
   useGetProjectsByPidUsersQuery,
   useGetWorkspacesByWidUsersQuery,
 } from 'src/features/api';
 
 export const useAvailableUsers = ({ campaignId }: { campaignId: string }) => {
-  const { data, isLoading } = useGetCampaignsByCidQuery({ cid: campaignId });
+  const { pathname } = useLocation();
+  const isHub = pathname.includes('/hubs/');
+
+  const { data: campaignData, isLoading: isLoadingCampaign } =
+    useGetCampaignsByCidQuery({ cid: campaignId }, { skip: isHub });
+  const { data: hubData, isLoading: isLoadingHub } = useGetHubsByHidQuery(
+    { hid: campaignId },
+    { skip: !isHub }
+  );
+
+  const data = isHub ? hubData : campaignData;
+  const isLoading = isHub ? isLoadingHub : isLoadingCampaign;
 
   if (isLoading || !data) return { data: [], isLoading };
 

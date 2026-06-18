@@ -45,6 +45,7 @@ export const apiSlice = createApi({
     'BugComments',
     'Preferences',
     'VideoTags',
+    'Videos',
     'Observations',
     'Insights',
     'Clusters',

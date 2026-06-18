@@ -28,5 +28,8 @@ export const Pipe = styled.span<{ size?: 'small' | 'regular' | 'large' }>`
     `
       height: ${p.theme.space.lg};
       margin-right: ${p.theme.space.md};
+      @media (min-width: ${p.theme.breakpoints.lg}) {
+        display: inline;
+      }
   `}
 `;

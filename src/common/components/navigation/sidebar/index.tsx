@@ -205,29 +205,33 @@ export const AppSidebar = (props: PropsWithChildren<SidebarProps>) => {
               <NavAccordionItem.Panel
                 style={{ padding: 0, maxHeight: '180px' }}
               >
-                {projects.map((project) => (
-                  <StyledNavItemProject
-                    className="sidebar-project-item"
-                    key={project.id}
-                    isExpanded={isSidebarOpen}
-                    isCurrent={route === `projects/${project.id}`}
-                    {...(route === `projects/${project.id}` && {
-                      ref: prjRef,
-                    })}
-                    onClick={() =>
-                      navigateTo('projects', project.id.toString())
-                    }
-                    style={{ alignItems: 'flex-start' }}
-                  >
-                    <NavItemProject.Title title={project.name}>
-                      {project.name}
-                    </NavItemProject.Title>
+                {projects.map((project) => {
+                  const count = project.campaigns_count + project.hubs_count;
 
-                    <NavItemProject.SubTitle>
-                      {project.campaigns_count} {t('__SIDEBAR_CAMPAIGNS_LABEL')}
-                    </NavItemProject.SubTitle>
-                  </StyledNavItemProject>
-                ))}
+                  return (
+                    <StyledNavItemProject
+                      className="sidebar-project-item"
+                      key={project.id}
+                      isExpanded={isSidebarOpen}
+                      isCurrent={route === `projects/${project.id}`}
+                      {...(route === `projects/${project.id}` && {
+                        ref: prjRef,
+                      })}
+                      onClick={() =>
+                        navigateTo('projects', project.id.toString())
+                      }
+                      style={{ alignItems: 'flex-start' }}
+                    >
+                      <NavItemProject.Title title={project.name}>
+                        {project.name}
+                      </NavItemProject.Title>
+
+                      <NavItemProject.SubTitle>
+                        {count} {t('__SIDEBAR_CAMPAIGNS_LABEL')}
+                      </NavItemProject.SubTitle>
+                    </StyledNavItemProject>
+                  );
+                })}
               </NavAccordionItem.Panel>
             </NavAccordionItem.Section>
           </NavAccordionItem>

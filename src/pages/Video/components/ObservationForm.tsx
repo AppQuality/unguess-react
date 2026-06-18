@@ -16,8 +16,9 @@ import { ReactComponent as EditIcon } from '@zendeskgarden/svg-icons/src/12/penc
 import { Form, Formik, FormikHelpers, FormikProps } from 'formik';
 import { ComponentProps, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useParams } from 'react-router-dom';
+import { useOutletContext, useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
+import type { CampaignHubContext } from 'src/features/templates/CampaignsHubsMiddleware';
 import { getColorWithAlpha } from 'src/common/utils';
 import {
   GetCampaignsByCidVideoTagsApiResponse,
@@ -73,7 +74,8 @@ const ObservationForm = ({
 }) => {
   const { t } = useTranslation();
   const { track } = useAnalytics();
-  const { campaignId, videoId } = useParams();
+  const { entityId } = useOutletContext<CampaignHubContext>();
+  const { videoId } = useParams();
   const formRef = useRef<FormikProps<ObservationFormValues>>(null);
   const { addToast } = useToast();
   const [options, setOptions] = useState<
@@ -108,7 +110,7 @@ const ObservationForm = ({
     isLoading,
     isFetching,
   } = useGetCampaignsByCidVideoTagsQuery({
-    cid: campaignId || '',
+    cid: entityId,
   });
 
   const validationSchema = Yup.object().shape({
@@ -421,7 +423,7 @@ const ObservationForm = ({
                       );
                       if (newTag)
                         addVideoTags({
-                          cid: campaignId?.toString() || '0',
+                          cid: entityId,
                           body: {
                             group: {
                               name: 'tags',

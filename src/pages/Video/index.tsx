@@ -1,12 +1,15 @@
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useOutletContext } from 'react-router-dom';
 import { useAppDispatch } from 'src/app/hooks';
 import { FEATURE_FLAG_TAGGING_TOOL } from 'src/constants';
 import { useGetUsersMeQuery } from 'src/features/api';
 import { useGetCampaignWithWorkspaceQuery } from 'src/features/api/customEndpoints/getCampaignWithWorkspace';
+import { useGetHubWithWorkspaceQuery } from 'src/features/api/customEndpoints/getHubWithWorkspace';
 import {
   setCampaignId,
+  setHubId,
+  setIsHub,
   setPermissionSettingsTitle,
   setWorkspace,
 } from 'src/features/navigation/navigationSlice';
@@ -14,6 +17,7 @@ import { Page } from 'src/features/templates/Page';
 import { useCampaignAnalytics } from 'src/hooks/useCampaignAnalytics';
 import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
+import type { CampaignHubContext } from 'src/features/templates/CampaignsHubsMiddleware';
 import VideoPageHeader from './components/PageHeader';
 import VideoPageContent from './Content';
 
@@ -21,7 +25,7 @@ const VideoPage = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const notFoundRoute = useLocalizeRoute('oops');
-  const { campaignId } = useParams();
+  const { isHub, entityId } = useOutletContext<CampaignHubContext>();
   const dispatch = useAppDispatch();
   const location = useLocation();
   const {
@@ -33,23 +37,36 @@ const VideoPage = () => {
 
   const hasTaggingToolFeature = hasFeatureFlag(FEATURE_FLAG_TAGGING_TOOL);
 
-  if (!campaignId || Number.isNaN(Number(campaignId))) {
-    navigate(notFoundRoute, {
-      state: { from: location.pathname },
-    });
-  }
+  useEffect(() => {
+    if (!entityId || Number.isNaN(Number(entityId))) {
+      navigate(notFoundRoute, {
+        state: { from: location.pathname },
+      });
+    }
+  }, [entityId, navigate, notFoundRoute, location.pathname]);
 
-  useCampaignAnalytics(campaignId);
+  useCampaignAnalytics(isHub ? undefined : entityId);
 
-  const { isError: isErrorCampaign, data: { campaign, workspace } = {} } =
+  // For campaigns, get campaign + workspace data
+  const { isError: isErrorCampaign, data: { campaign, workspace: campaignWorkspace } = {} } =
     useGetCampaignWithWorkspaceQuery(
       {
-        cid: campaignId?.toString() ?? '0',
+        cid: entityId,
       },
       {
-        skip: !campaignId,
+        skip: isHub,
       }
     );
+
+  // For hubs, get hub + workspace data
+  const { isError: isErrorHub, data: { hub, workspace: hubWorkspace } = {} } = useGetHubWithWorkspaceQuery({
+    hid: entityId,
+  }, {
+    skip: !isHub,
+  });
+
+  const isError = isHub ? isErrorHub : isErrorCampaign;
+  const workspace = isHub ? hubWorkspace : campaignWorkspace;
 
   useEffect(() => {
     if (workspace) {
@@ -58,22 +75,31 @@ const VideoPage = () => {
   }, [workspace, dispatch]);
 
   useEffect(() => {
-    if (campaign) {
+    if (isHub && hub) {
+      dispatch(setPermissionSettingsTitle(hub.title));
+      dispatch(setHubId(hub.id));
+      dispatch(setIsHub(true));
+    } else if (campaign) {
       dispatch(setPermissionSettingsTitle(campaign.customer_title));
       dispatch(setCampaignId(campaign.id));
+      dispatch(setIsHub(false));
     }
 
     return () => {
       dispatch(setPermissionSettingsTitle(undefined));
       dispatch(setCampaignId(undefined));
+      dispatch(setHubId(undefined));
+      dispatch(setIsHub(undefined));
     };
-  }, [campaign]);
+  }, [campaign, hub, isHub, dispatch]);
 
-  if (isErrorCampaign) {
-    navigate(notFoundRoute, {
-      state: { from: location.pathname },
-    });
-  }
+  useEffect(() => {
+    if (isError) {
+      navigate(notFoundRoute, {
+        state: { from: location.pathname },
+      });
+    }
+  }, [isError, navigate, notFoundRoute, location.pathname]);
 
   useEffect(() => {
     if (isUserFetching || isUserLoading) return;
@@ -83,7 +109,7 @@ const VideoPage = () => {
         state: { from: location.pathname },
       });
     }
-  }, [isSuccess, isUserFetching, isUserLoading, hasTaggingToolFeature]);
+  }, [isSuccess, isUserFetching, isUserLoading, hasTaggingToolFeature, navigate, notFoundRoute, location.pathname]);
 
   return (
     <Page

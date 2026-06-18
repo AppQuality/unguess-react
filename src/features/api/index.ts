@@ -406,6 +406,38 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: () => ({ url: `/companies/sizes` }),
     }),
+    getHubsByHid: build.query<GetHubsByHidApiResponse, GetHubsByHidApiArg>({
+      query: (queryArg) => ({ url: `/hubs/${queryArg.hid}` }),
+    }),
+    postHubsByHidAssets: build.mutation<
+      PostHubsByHidAssetsApiResponse,
+      PostHubsByHidAssetsApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/hubs/${queryArg.hid}/assets`,
+        method: 'POST',
+        body: queryArg.body,
+      }),
+    }),
+    deleteHubsByHidAssetsAndMid: build.mutation<
+      DeleteHubsByHidAssetsAndMidApiResponse,
+      DeleteHubsByHidAssetsAndMidApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/hubs/${queryArg.hid}/assets/${queryArg.mid}`,
+        method: 'DELETE',
+      }),
+    }),
+    patchHubsByHidAssetsAndMid: build.mutation<
+      PatchHubsByHidAssetsAndMidApiResponse,
+      PatchHubsByHidAssetsAndMidApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/hubs/${queryArg.hid}/assets/${queryArg.mid}`,
+        method: 'PATCH',
+        body: queryArg.body,
+      }),
+    }),
     deleteInsightsByIid: build.mutation<
       DeleteInsightsByIidApiResponse,
       DeleteInsightsByIidApiArg
@@ -546,6 +578,22 @@ const injectedRtkApi = api.injectEndpoints({
           orderBy: queryArg.orderBy,
         },
       }),
+    }),
+    postProjectsByPidHubs: build.mutation<
+      PostProjectsByPidHubsApiResponse,
+      PostProjectsByPidHubsApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/projects/${queryArg.pid}/hubs`,
+        method: 'POST',
+        body: queryArg.body,
+      }),
+    }),
+    getProjectsByPidHubs: build.query<
+      GetProjectsByPidHubsApiResponse,
+      GetProjectsByPidHubsApiArg
+    >({
+      query: (queryArg) => ({ url: `/projects/${queryArg.pid}/hubs` }),
     }),
     deleteProjectsByPidUsers: build.mutation<
       DeleteProjectsByPidUsersApiResponse,
@@ -1034,6 +1082,33 @@ const injectedRtkApi = api.injectEndpoints({
     postAiJobs: build.mutation<PostAiJobsApiResponse, PostAiJobsApiArg>({
       query: (queryArg) => ({
         url: `/ai/jobs`,
+        method: 'POST',
+        body: queryArg.body,
+      }),
+    }),
+    getOauthAuthorize: build.query<
+      GetOauthAuthorizeApiResponse,
+      GetOauthAuthorizeApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/oauth/authorize`,
+        params: {
+          client_id: queryArg.clientId,
+          redirect_uri: queryArg.redirectUri,
+          response_type: queryArg.responseType,
+          scope: queryArg.scope,
+          state: queryArg.state,
+          code_challenge: queryArg.codeChallenge,
+          code_challenge_method: queryArg.codeChallengeMethod,
+        },
+      }),
+    }),
+    postOauthToken: build.mutation<
+      PostOauthTokenApiResponse,
+      PostOauthTokenApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/oauth/token`,
         method: 'POST',
         body: queryArg.body,
       }),
@@ -1652,6 +1727,7 @@ export type PatchCampaignsByCidVideoTagsAndTagIdApiArg = {
 export type GetCampaignsByCidVideosApiResponse = /** status 200 OK */ {
   items: (Video & {
     usecaseId: number;
+    processingStatus: 'processing' | 'ready' | 'error';
   })[];
 } & PaginationData;
 export type GetCampaignsByCidVideosApiArg = {
@@ -1712,6 +1788,64 @@ export type GetCompaniesSizesApiResponse = /** status 200 OK */ {
   name: string;
 }[];
 export type GetCompaniesSizesApiArg = void;
+export type GetHubsByHidApiResponse = /** status 200 OK */ {
+  id: number;
+  title: string;
+  customer_title: string;
+  description: string;
+  isArchived?: boolean;
+  project: {
+    id: number;
+    name: string;
+  };
+  start_date: string;
+  workspace: {
+    id: number;
+    name: string;
+  };
+};
+export type GetHubsByHidApiArg = {
+  /** Hub id */
+  hid: string;
+};
+export type PostHubsByHidAssetsApiResponse = /** status 200 OK */ {
+  failed?: {
+    name: string;
+    errorCode: 'FILE_TOO_BIG' | 'INVALID_FILE_EXTENSION' | 'GENERIC_ERROR';
+  }[];
+  uploaded_ids?: {
+    id: number;
+  }[];
+};
+export type PostHubsByHidAssetsApiArg = {
+  /** Hub id */
+  hid: string;
+  body: {
+    media: string | string[];
+    /** Language code of the video (e.g. it, en, de) */
+    language: string;
+  };
+};
+export type DeleteHubsByHidAssetsAndMidApiResponse =
+  /** status 200 OK */ object;
+export type DeleteHubsByHidAssetsAndMidApiArg = {
+  /** Hub id */
+  hid: string;
+  mid: number;
+};
+export type PatchHubsByHidAssetsAndMidApiResponse = /** status 200 OK */ object;
+export type PatchHubsByHidAssetsAndMidApiArg = {
+  /** Hub id */
+  hid: string;
+  mid: number;
+  body: {
+    participantName: string;
+    device: string;
+    additional: string;
+    fileName: string;
+    uploadDate: string;
+  };
+};
 export type DeleteInsightsByIidApiResponse = /** status 200 OK */ void;
 export type DeleteInsightsByIidApiArg = {
   /** Insight id */
@@ -1873,6 +2007,30 @@ export type GetProjectsByPidCampaignsApiArg = {
   order?: string;
   /** Order by accepted field */
   orderBy?: string;
+};
+export type PostProjectsByPidHubsApiResponse = /** status 200 OK */ {
+  hubId: number;
+};
+export type PostProjectsByPidHubsApiArg = {
+  /** Project id */
+  pid: string;
+  body: {
+    name: string;
+    description?: string;
+  };
+};
+export type GetProjectsByPidHubsApiResponse = /** status 200 OK */ {
+  items: {
+    id: number;
+  }[];
+  limit?: number;
+  size?: number;
+  start?: number;
+  total?: number;
+};
+export type GetProjectsByPidHubsApiArg = {
+  /** Project id */
+  pid: string;
 };
 export type DeleteProjectsByPidUsersApiResponse = /** status 200 OK */ {
   items: Tenant[];
@@ -2534,6 +2692,31 @@ export type PostAiJobsApiArg = {
     input: string;
   };
 };
+export type GetOauthAuthorizeApiResponse = unknown;
+export type GetOauthAuthorizeApiArg = {
+  /** cognito client_id */
+  clientId: string;
+  redirectUri: string;
+  /** Must be "code" for Authorization Code flow */
+  responseType?: 'code';
+  /** Space-separated list of scopes */
+  scope?: string;
+  /** Optional state parameter for CSRF protection */
+  state?: string;
+  /** PKCE code challenge */
+  codeChallenge?: string;
+  codeChallengeMethod?: 'S256' | 'plain';
+};
+export type PostOauthTokenApiResponse = /** status 200 OK */ {
+  access_token: string;
+  id_token: string;
+  token_type: 'Bearer';
+  expires_in: number;
+  refresh_token?: string;
+};
+export type PostOauthTokenApiArg = {
+  body: OAuthAuthorizationCode | OauthRefreshToken;
+};
 export type Error = {
   code: number;
   error: boolean;
@@ -3174,16 +3357,20 @@ export type Video = {
   poster?: string;
   sentiment?: MediaSentiment;
   streamUrl?: string;
-  tester: {
-    device: {
-      type: 'smartphone' | 'tablet' | 'desktop' | 'other';
-    };
-    id: number;
-    name: string;
-    surname: string;
-  };
   transcript?: Transcript;
   url: string;
+  tester?: {
+    id?: string;
+    name?: string;
+  };
+  device?: {
+    name?: string;
+    os?: string;
+    formFactor?: 'smartphone' | 'tablet' | 'desktop' | 'other' | 'unknown';
+  };
+  filename: string;
+  uploadDate: string;
+  additional?: string;
 };
 export type PaginationData = {
   limit?: number;
@@ -3290,6 +3477,7 @@ export type PurchasablePlanRules =
 export type Project = {
   campaigns_count: number;
   description?: string;
+  hubs_count: number;
   id: number;
   is_archive?: number;
   name: string;
@@ -3426,6 +3614,19 @@ export type CpReqTemplate = {
   strapi?: StrapiTemplate;
   workspace_id?: number;
 };
+export type OAuthAuthorizationCode = {
+  grant_type: 'authorization_code';
+  code: string;
+  client_id: string;
+  redirect_uri: string;
+  code_verifier?: string;
+  client_secret?: string;
+};
+export type OauthRefreshToken = {
+  grant_type: 'refresh_token';
+  refresh_token: string;
+  client_id: string;
+};
 export const {
   use$getQuery,
   usePostAiAgentsGenerateVideoTasksMutation,
@@ -3474,6 +3675,10 @@ export const {
   useGetCampaignsByCidWidgetsQuery,
   usePostCheckoutMutation,
   useGetCompaniesSizesQuery,
+  useGetHubsByHidQuery,
+  usePostHubsByHidAssetsMutation,
+  useDeleteHubsByHidAssetsAndMidMutation,
+  usePatchHubsByHidAssetsAndMidMutation,
   useDeleteInsightsByIidMutation,
   useGetInsightsByIidQuery,
   usePatchInsightsByIidMutation,
@@ -3492,6 +3697,8 @@ export const {
   useGetProjectsByPidQuery,
   usePatchProjectsByPidMutation,
   useGetProjectsByPidCampaignsQuery,
+  usePostProjectsByPidHubsMutation,
+  useGetProjectsByPidHubsQuery,
   useDeleteProjectsByPidUsersMutation,
   useGetProjectsByPidUsersQuery,
   usePostProjectsByPidUsersMutation,
@@ -3548,4 +3755,6 @@ export const {
   useDeletePlansByPidWatchersAndProfileIdMutation,
   useDeleteCampaignsByCidWatchersAndProfileIdMutation,
   usePostAiJobsMutation,
+  useGetOauthAuthorizeQuery,
+  usePostOauthTokenMutation,
 } = injectedRtkApi;
