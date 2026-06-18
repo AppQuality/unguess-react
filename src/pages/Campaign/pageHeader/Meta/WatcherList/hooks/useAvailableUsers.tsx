@@ -6,6 +6,7 @@ import {
   useGetProjectsByPidUsersQuery,
   useGetWorkspacesByWidUsersQuery,
 } from 'src/features/api';
+
 export const useAvailableUsers = ({ campaignId }: { campaignId: string }) => {
   const { pathname } = useLocation();
   const isHub = pathname.includes('/hubs/');
