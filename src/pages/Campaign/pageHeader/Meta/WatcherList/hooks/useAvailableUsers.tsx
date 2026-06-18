@@ -1,4 +1,4 @@
-import { useOutletContext } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import {
   useGetCampaignsByCidQuery,
   useGetCampaignsByCidUsersQuery,
@@ -6,10 +6,9 @@ import {
   useGetProjectsByPidUsersQuery,
   useGetWorkspacesByWidUsersQuery,
 } from 'src/features/api';
-import { CampaignHubContext } from 'src/features/templates/CampaignsHubsMiddleware';
-
 export const useAvailableUsers = ({ campaignId }: { campaignId: string }) => {
-  const { isHub } = useOutletContext<CampaignHubContext>();
+  const { pathname } = useLocation();
+  const isHub = pathname.includes('/hubs/');
 
   const { data: campaignData, isLoading: isLoadingCampaign } =
     useGetCampaignsByCidQuery({ cid: campaignId }, { skip: isHub });
