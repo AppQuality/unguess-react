@@ -171,24 +171,26 @@ const Actions = () => {
           </div>
           {description && <Description>{description}</Description>}
         </MetaContainer>
-        <Tooltip
-          content={t('__VIDEOS_DETAIL_EDIT_VIDEO_LABEL')}
-          size="large"
-          type="light"
-          placement="bottom-start"
-          hasArrow={false}
-        >
-          <HeaderEditButton
-            isBasic
-            size="small"
-            aria-label={t('__VIDEOS_DETAIL_EDIT_VIDEO_LABEL')}
-            onClick={() => {
-              setEditModalOpen(true);
-            }}
+        {isHub && (
+          <Tooltip
+            content={t('__VIDEOS_DETAIL_EDIT_VIDEO_LABEL')}
+            size="large"
+            type="light"
+            placement="bottom-start"
+            hasArrow={false}
           >
-            <EditIcon />
-          </HeaderEditButton>
-        </Tooltip>
+            <HeaderEditButton
+              isBasic
+              size="small"
+              aria-label={t('__VIDEOS_DETAIL_EDIT_VIDEO_LABEL')}
+              onClick={() => {
+                setEditModalOpen(true);
+              }}
+            >
+              <EditIcon />
+            </HeaderEditButton>
+          </Tooltip>
+        )}
       </Header>
       <Divider />
       <SentimentOverview />
@@ -224,14 +226,16 @@ const Actions = () => {
       ) : (
         <NoObservations />
       )}
-      <EditVideoModal
-        isOpen={isEditModalOpen}
-        video={video}
-        hubId={hubId}
-        onClose={() => {
-          setEditModalOpen(false);
-        }}
-      />
+      {isHub && (
+        <EditVideoModal
+          isOpen={isEditModalOpen}
+          video={video}
+          hubId={hubId}
+          onClose={() => {
+            setEditModalOpen(false);
+          }}
+        />
+      )}
     </Container>
   );
 };
