@@ -107,6 +107,7 @@ export const VideoContainer = ({
     targetVideo: VideoWithObservations
   ) => {
     if (action === 'edit') {
+      if (!isHub) return;
       setSelectedVideo(targetVideo);
       return;
     }
@@ -160,9 +161,11 @@ export const VideoContainer = ({
             <SmallColumnHeader>
               {t('__VIDEOS_LIST_TABLE_TEST_DATE')}
             </SmallColumnHeader>
-            <ActionsColumnHeader>
-              {t('__VIDEOS_LIST_TABLE_ACTIONS')}
-            </ActionsColumnHeader>
+            {isHub && (
+              <ActionsColumnHeader>
+                {t('__VIDEOS_LIST_TABLE_ACTIONS')}
+              </ActionsColumnHeader>
+            )}
           </HeaderRow>
         </TableHead>
         <TableBody role="rowgroup" title="videos-table-body">
@@ -179,62 +182,63 @@ export const VideoContainer = ({
               <TableCell style={{ width: '10%' }}>
                 {formatApiDateShortMonthYear(v.uploadDate)}
               </TableCell>
-              <ActionCell>
-                {v.processingStatus === 'error' && isHub ? (
-                  <IconButton
-                    isDanger
-                    size="small"
-                    disabled={isDeletingVideoId === v.id}
-                    aria-label={t('__VIDEOS_IMPORT_MEDIA_MODAL_REMOVE_FILE')}
-                    onClick={() => {
-                      setVideoToDelete(v);
-                    }}
-                  >
-                    <TrashIcon />
-                  </IconButton>
-                ) : (
-                  <ButtonMenu
-                    onSelect={(action) => {
-                      handleActionClick(action, v);
-                    }}
-                    label={(props) => (
-                      <IconButton {...props} isBasic size="small">
-                        <DotsIcon />
-                      </IconButton>
-                    )}
-                  >
-                    <ButtonMenu.Item value="edit" icon={<EditIcon />}>
-                      {t('__VIDEOS_LIST_TABLE_ACTION_EDIT')}
-                    </ButtonMenu.Item>
-                    {isHub && (
+              {isHub && (
+                <ActionCell>
+                  {v.processingStatus === 'error' ? (
+                    <IconButton
+                      isDanger
+                      size="small"
+                      disabled={isDeletingVideoId === v.id}
+                      aria-label={t('__VIDEOS_IMPORT_MEDIA_MODAL_REMOVE_FILE')}
+                      onClick={() => {
+                        setVideoToDelete(v);
+                      }}
+                    >
+                      <TrashIcon />
+                    </IconButton>
+                  ) : (
+                    <ButtonMenu
+                      onSelect={(action) => {
+                        handleActionClick(action, v);
+                      }}
+                      label={(props) => (
+                        <IconButton {...props} isBasic size="small">
+                          <DotsIcon />
+                        </IconButton>
+                      )}
+                    >
+                      <ButtonMenu.Item value="edit" icon={<EditIcon />}>
+                        {t('__VIDEOS_LIST_TABLE_ACTION_EDIT')}
+                      </ButtonMenu.Item>
                       <ButtonMenu.Item
                         icon={<TrashIcon />}
                         type="danger"
                         value="delete"
                         isDisabled={
-                          !isHub ||
                           v.processingStatus === 'processing' ||
                           isDeletingVideoId === v.id
                         }
                       >
                         {t('__VIDEOS_IMPORT_MEDIA_MODAL_REMOVE_FILE')}
                       </ButtonMenu.Item>
-                    )}
-                  </ButtonMenu>
-                )}
-              </ActionCell>
+                    </ButtonMenu>
+                  )}
+                </ActionCell>
+              )}
             </TableRow>
           ))}
         </TableBody>
       </Table>
-      <EditVideoModal
-        isOpen={selectedVideo !== null}
-        video={selectedVideo}
-        hubId={isHub ? entityId : undefined}
-        onClose={() => {
-          setSelectedVideo(null);
-        }}
-      />
+      {isHub && (
+        <EditVideoModal
+          isOpen={selectedVideo !== null}
+          video={selectedVideo}
+          hubId={entityId}
+          onClose={() => {
+            setSelectedVideo(null);
+          }}
+        />
+      )}
       <DeleteVideoConfirmModal
         isOpen={videoToDelete !== null}
         isDeleting={
