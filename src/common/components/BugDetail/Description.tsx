@@ -39,13 +39,19 @@ export default ({
         <StyledLabel>
           {t('__BUGS_PAGE_BUG_DETAIL_DESCRIPTION_LABEL')}
         </StyledLabel>
-        <Editor editable={false}>{bug.step_by_step}</Editor>
+        {/* TODO: Fix Editor component in design system. Currently, keep "key" and "contentType" to avoid issues with rendering */}
+        <Editor key={bug.step_by_step} contentType="markdown" editable={false}>
+          {bug.step_by_step}
+        </Editor>
       </TextBlock>
       <TextBlock>
         <StyledLabel>
           {t('__BUGS_PAGE_BUG_DETAIL_EXPECTED_RESULT_LABEL')}
         </StyledLabel>
-        <Editor editable={false}>{bug.expected_result}</Editor>
+        {/* TODO: Fix Editor component in design system. Currently, keep "key" and "contentType" to avoid issues with rendering */}
+        <Editor key={bug.step_by_step} contentType="markdown" editable={false}>
+          {bug.expected_result}
+        </Editor>
       </TextBlock>
       <TextBlock>
         <StyledLabel>
