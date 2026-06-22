@@ -9,10 +9,11 @@ export const CallbackPage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    let finished = false;
+    const guard = { finished: false };
 
     const finish = async (succeeded: boolean) => {
-      if (finished) return;
+      if (guard.finished) return;
+      guard.finished = true;
       if (!succeeded) {
         navigate('/login', { replace: true });
         return;
