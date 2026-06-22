@@ -13,9 +13,8 @@ export const CallbackPage = () => {
 
     const finish = async (succeeded: boolean) => {
       if (finished) return;
-      finished = true;
       if (!succeeded) {
-        navigate('/login?oauth_error=true', { replace: true });
+        navigate('/login', { replace: true });
         return;
       }
       await syncWordpress();
