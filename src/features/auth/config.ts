@@ -11,12 +11,12 @@ export const awsConfig = {
           domain: isDev()
             ? 'unguess-auth-staging.auth.eu-west-1.amazoncognito.com'
             : 'unguess-auth-production.auth.eu-west-1.amazoncognito.com',
-          scopes: ['email', 'openid', 'profile'] as Array<
-            'email' | 'openid' | 'profile'
-          >,
-          redirectSignIn: [`${window.location.origin}/callback`],
-          redirectSignOut: [`${window.location.origin}/logout`],
-          responseType: 'code' as const,
+          redirectSignIn: [
+            `${typeof window === 'undefined' ? '' : window.location.origin}/callback`
+          ],
+          redirectSignOut: [
+            `${typeof window === 'undefined' ? '' : window.location.origin}/logout`
+          ],
           providers: ['Google'] as Array<'Google'>,
         },
       },
