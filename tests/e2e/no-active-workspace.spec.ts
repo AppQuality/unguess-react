@@ -2,8 +2,8 @@ import { test, expect } from '../fixtures/app';
 
 const loggedInUser = {
   id: 1,
-  email: 'luca.cannarozzo@unguess.io',
-  name: 'Luca Cannarozzo',
+  email: 'test.user@example.com',
+  name: 'Test User',
   profile_id: 32,
   role: 'administrator',
 };
