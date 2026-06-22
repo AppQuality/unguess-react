@@ -77,10 +77,4 @@ export const getSignupValidationSchema = (t: TFunction) =>
         t('SIGNUP_FORM_PASSWORD_MUST_CONTAIN_AT_LEAST_AN_UPPERCASE_LETTER')
       )
       .required(t('SIGNUP_FORM_PASSWORD_REQUIRED')),
-    termsAccepted: Yup.boolean()
-      .oneOf([true], t('SIGNUP_FORM_TERMS_REQUIRED'))
-      .required(t('SIGNUP_FORM_TERMS_REQUIRED')),
-    privacyAccepted: Yup.boolean()
-      .oneOf([true], t('SIGNUP_FORM_PRIVACY_REQUIRED'))
-      .required(t('SIGNUP_FORM_PRIVACY_REQUIRED')),
   });

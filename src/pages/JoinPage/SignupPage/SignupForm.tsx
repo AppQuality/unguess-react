@@ -5,7 +5,6 @@
 import {
   Anchor,
   Button,
-  Checkbox,
   FormField,
   Input,
   Label,
@@ -22,6 +21,10 @@ import { Field, FieldProps, Form, Formik, FormikHelpers } from 'formik';
 import { useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
+import {
+  AuthOrDivider,
+  GoogleSignInButton,
+} from 'src/common/components/GoogleSignInButton';
 import { PasswordRequirements } from 'src/common/components/PasswordRequirements';
 import { isDisposableEmail } from 'src/common/disposableEmail';
 import { normalizeEmail } from 'src/common/normalizeEmail';
@@ -39,8 +42,6 @@ const FieldContainer = styled.div`
 interface SignupFormValues {
   email: string;
   password: string;
-  termsAccepted: boolean;
-  privacyAccepted: boolean;
 }
 
 interface SignupFormProps {
@@ -52,6 +53,7 @@ export const SignupForm = ({ onSignupSuccess }: SignupFormProps) => {
   const { signup } = useAuth();
   const sendGTMevent = useSendGTMevent({ loggedUser: false });
   const [inputType, setInputType] = useState('password');
+  const [showPasswordStep, setShowPasswordStep] = useState(false);
 
   const handleChangeInputType = () => {
     setInputType((prev) => (prev === 'password' ? 'text' : 'password'));
@@ -111,8 +113,6 @@ export const SignupForm = ({ onSignupSuccess }: SignupFormProps) => {
   const initialValues: SignupFormValues = {
     email: '',
     password: '',
-    termsAccepted: false,
-    privacyAccepted: false,
   };
 
   return (
@@ -143,9 +143,11 @@ export const SignupForm = ({ onSignupSuccess }: SignupFormProps) => {
         validationSchema={getSignupValidationSchema(t)}
         onSubmit={handleSubmit}
       >
-        {({ isSubmitting, isValid, values }) => (
+        {({ isSubmitting, values, setTouched, validateForm }) => (
           <Form>
             <FieldContainer>
+              <GoogleSignInButton />
+              <AuthOrDivider />
               <Field name="email" validate={validateEmail}>
                 {({ field, meta }: FieldProps) => {
                   const hasError = meta.touched && Boolean(meta.error);
@@ -176,151 +178,94 @@ export const SignupForm = ({ onSignupSuccess }: SignupFormProps) => {
                 }}
               </Field>
 
-              <Field name="password">
-                {({ field, meta }: FieldProps) => {
-                  const hasError = meta.touched && Boolean(meta.error);
-                  return (
-                    <FormField>
-                      <Label>
-                        {t('SIGNUP_FORM_PASSWORD_LABEL')}
-                        <Span style={{ color: appTheme.palette.red[600] }}>
-                          *
-                        </Span>
-                      </Label>
-                      <MediaInput
-                        type={inputType}
-                        role="textbox"
-                        title="Password"
-                        end={
-                          inputType === 'password' ? (
-                            <EyeHide
-                              style={{ cursor: 'pointer' }}
-                              onClick={handleChangeInputType}
-                              title={t('HIDE_PASSWORD')}
-                            />
-                          ) : (
-                            <Eye
-                              style={{ cursor: 'pointer' }}
-                              onClick={handleChangeInputType}
-                              title={t('SHOW_PASSWORD')}
-                            />
-                          )
-                        }
-                        {...field}
-                        placeholder={t('SIGNUP_FORM_PASSWORD_PLACEHOLDER')}
-                        {...(hasError && { validation: 'error' })}
-                      />
-                      <PasswordRequirements password={values.password} />
-                      {hasError && (
-                        <Message
-                          data-qa="signup-password-error"
-                          validation="error"
-                        >
-                          {meta.error}
-                        </Message>
-                      )}
-                    </FormField>
-                  );
-                }}
-              </Field>
-
-              <Field name="termsAccepted">
-                {({ field, form, meta }: FieldProps) => {
-                  const hasError = meta.touched && Boolean(meta.error);
-                  return (
-                    <FormField data-qa="terms-and-conditions">
-                      <Checkbox
-                        checked={field.value}
-                        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                          form.setFieldValue('termsAccepted', e.target.checked)
-                        }
-                        onBlur={field.onBlur}
-                        name={field.name}
-                      >
+              {showPasswordStep && (
+                <Field name="password">
+                  {({ field, meta }: FieldProps) => {
+                    const hasError = meta.touched && Boolean(meta.error);
+                    return (
+                      <FormField>
                         <Label>
-                          <SM style={{ fontStyle: 'italic' }}>
-                            <Trans
-                              i18nKey="SIGNUP_FORM_TERMS_CHECKBOX"
-                              components={{
-                                'terms-link': (
-                                  <Anchor
-                                    isExternal
-                                    href="https://unguess.io/terms-and-conditions/"
-                                    target="_blank"
-                                    title="Terms and Conditions of Service"
-                                    style={{ fontWeight: 600 }}
-                                  />
-                                ),
-                              }}
-                            />
-                          </SM>
+                          {t('SIGNUP_FORM_PASSWORD_LABEL')}
+                          <Span style={{ color: appTheme.palette.red[600] }}>
+                            *
+                          </Span>
                         </Label>
-                      </Checkbox>
-                      {hasError && (
-                        <Message validation="error">
-                          {t(meta.error as string)}
-                        </Message>
-                      )}
-                    </FormField>
-                  );
-                }}
-              </Field>
+                        <MediaInput
+                          type={inputType}
+                          role="textbox"
+                          title="Password"
+                          end={
+                            inputType === 'password' ? (
+                              <EyeHide
+                                style={{ cursor: 'pointer' }}
+                                onMouseDown={(e) => e.preventDefault()}
+                                onClick={handleChangeInputType}
+                                title={t('HIDE_PASSWORD')}
+                              />
+                            ) : (
+                              <Eye
+                                style={{ cursor: 'pointer' }}
+                                onMouseDown={(e) => e.preventDefault()}
+                                onClick={handleChangeInputType}
+                                title={t('SHOW_PASSWORD')}
+                              />
+                            )
+                          }
+                          {...field}
+                          placeholder={t('SIGNUP_FORM_PASSWORD_PLACEHOLDER')}
+                          {...(hasError && { validation: 'error' })}
+                        />
+                        <PasswordRequirements
+                          password={values.password}
+                          showStatus={
+                            meta.touched || values.password.length > 0
+                          }
+                        />
+                        {hasError && (
+                          <Message
+                            data-qa="signup-password-error"
+                            validation="error"
+                          >
+                            {meta.error}
+                          </Message>
+                        )}
+                      </FormField>
+                    );
+                  }}
+                </Field>
+              )}
 
-              <Field name="privacyAccepted">
-                {({ field, form, meta }: FieldProps) => {
-                  const hasError = meta.touched && Boolean(meta.error);
-                  return (
-                    <FormField data-qa="privacy-policy">
-                      <Checkbox
-                        checked={field.value}
-                        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                          form.setFieldValue(
-                            'privacyAccepted',
-                            e.target.checked
-                          )
-                        }
-                        onBlur={field.onBlur}
-                        name={field.name}
-                      >
-                        <Label>
-                          <SM style={{ fontStyle: 'italic' }}>
-                            <Trans
-                              i18nKey="SIGNUP_FORM_PRIVACY_CHECKBOX"
-                              components={{
-                                'privacy-link': (
-                                  <Anchor
-                                    isExternal
-                                    href="https://unguess.io/privacy-policy/"
-                                    target="_blank"
-                                    title="Privacy Policy"
-                                    style={{ fontWeight: 600 }}
-                                  />
-                                ),
-                              }}
-                            />
-                          </SM>
-                        </Label>
-                      </Checkbox>
-                      {hasError && (
-                        <Message validation="error">
-                          {t(meta.error as string)}
-                        </Message>
-                      )}
-                    </FormField>
-                  );
-                }}
-              </Field>
-
-              <Button
-                type="submit"
-                isPrimary
-                isAccent
-                isStretched
-                disabled={isSubmitting}
-                style={{ marginTop: appTheme.space.sm }}
-              >
-                {isSubmitting ? t('LOADING') : t('SIGNUP_FORM_SUBMIT')}
-              </Button>
+              {showPasswordStep ? (
+                <Button
+                  type="submit"
+                  isPrimary
+                  isAccent
+                  isStretched
+                  disabled={isSubmitting}
+                  style={{ marginTop: appTheme.space.sm }}
+                >
+                  {isSubmitting ? t('LOADING') : t('SIGNUP_FORM_SUBMIT')}
+                </Button>
+              ) : (
+                <Button
+                  type="button"
+                  isPrimary
+                  isAccent
+                  isStretched
+                  disabled={isSubmitting}
+                  data-qa="signup-continue-with-password"
+                  onClick={async () => {
+                    const formErrors = await validateForm();
+                    await setTouched({ email: true }, false);
+                    if (!formErrors.email) {
+                      setShowPasswordStep(true);
+                    }
+                  }}
+                  style={{ marginTop: appTheme.space.sm }}
+                >
+                  {t('__CONTINUE')}
+                </Button>
+              )}
 
               <div>
                 <SM>

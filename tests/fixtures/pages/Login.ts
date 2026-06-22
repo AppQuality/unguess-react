@@ -28,7 +28,18 @@ export class Login extends UnguessPage {
         }),
       errorToast: () =>
         this.page.locator('[data-garden-id="notifications.notification"]'),
+      googleButton: () => this.page.getByTestId('continue-with-google'),
     };
+  }
+
+  async mockCognitoOAuthAuthorize() {
+    await this.page.route('**/oauth2/authorize*', async (route) => {
+      await route.fulfill({
+        status: 200,
+        contentType: 'text/html',
+        body: '<html><body>hosted-ui</body></html>',
+      });
+    });
   }
 
   async fillValidInputs() {

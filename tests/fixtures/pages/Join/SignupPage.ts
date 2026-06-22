@@ -12,6 +12,17 @@ export class SignupPage {
     this.i18n = getI18nInstance() as unknown as i18n;
   }
 
+  chooserElements() {
+    return {
+      goToUnguess: () => this.page.getByTestId('go-to-unguess'),
+      goToTryber: () => this.page.getByTestId('go-to-tryber'),
+    };
+  }
+
+  async chooseBusinessAccount() {
+    await this.chooserElements().goToUnguess().click();
+  }
+
   signupFormElements() {
     return {
       emailInput: () => this.page.getByRole('textbox', { name: /email/i }),
@@ -19,23 +30,31 @@ export class SignupPage {
       passwordInput: () =>
         this.page.getByRole('textbox', { name: /password/i }),
       passwordError: () => this.page.getByTestId('signup-password-error'),
-      termsCheckbox: () =>
-        this.page.getByTestId('terms-and-conditions').getByRole('checkbox'),
-      privacyCheckbox: () =>
-        this.page.getByTestId('privacy-policy').getByRole('checkbox'),
+      continueButton: () =>
+        this.page.getByTestId('signup-continue-with-password'),
       submitButton: () =>
         this.page.getByRole('button', {
           name: this.i18n.t('SIGNUP_FORM_SUBMIT'),
         }),
       passwordRequirements: () =>
         this.page.getByTestId('password-requirements'),
+      googleButton: () => this.page.getByTestId('continue-with-google'),
     };
+  }
+
+  async mockCognitoOAuthAuthorize() {
+    await this.page.route('**/oauth2/authorize*', async (route) => {
+      await route.fulfill({
+        status: 200,
+        contentType: 'text/html',
+        body: '<html><body>hosted-ui</body></html>',
+      });
+    });
   }
 
   confirmEmailFormElements() {
     return {
-      codeInput: () =>
-        this.page.getByRole('textbox', { name: /Digit 1/i }),
+      codeInput: () => this.page.getByRole('textbox', { name: /Digit 1/i }),
       codeLabel: () =>
         this.page.getByText(this.i18n.t('CONFIRM_EMAIL_CODE_LABEL')),
       codeError: () => this.page.getByTestId('confirm-code-error'),
@@ -58,15 +77,14 @@ export class SignupPage {
     await passwordInput.blur();
   }
 
-  async acceptTerms() {
-    await this.signupFormElements().termsCheckbox().click({ force: true });
-    await this.signupFormElements().privacyCheckbox().click({ force: true });
+  async continueToPassword() {
+    await this.signupFormElements().continueButton().click();
   }
 
   async fillValidSignupForm() {
     await this.fillEmail('new.user@example.com');
+    await this.continueToPassword();
     await this.fillPassword('ValidPassword123');
-    await this.acceptTerms();
   }
 
   async submitSignupForm() {

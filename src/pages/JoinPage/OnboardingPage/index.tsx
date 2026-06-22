@@ -27,8 +27,7 @@ import { WorkspaceStep } from './Steps/WorkspaceStep';
 const PageWrapper = styled.div<{ step: number }>`
   display: flex;
   flex-direction: column;
-  height: 100vh;
-  overflow: hidden;
+  min-height: 100vh;
 
   @media (min-width: ${({ theme }) => theme.breakpoints.xl}) {
     ${({ step }) =>
@@ -57,14 +56,15 @@ const BoxedContentRow = styled(LayoutWrapper)`
   display: flex;
   flex: 1;
   min-height: 0;
+  gap: ${({ theme }) => theme.space.xxl};
 `;
 
 const LeftColumn = styled.div`
-  flex: 0 0 41%;
+  flex: 0 0 415px;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  overflow-y: auto;
+  padding: ${({ theme }) => `${theme.space.xl} 0`};
 
   @media (max-width: ${({ theme }) => theme.breakpoints.md}) {
     flex: 1;

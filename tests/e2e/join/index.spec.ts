@@ -3,6 +3,36 @@ import { Join } from '../../fixtures/pages/Join';
 import { OnboardingPage } from '../../fixtures/pages/Join/OnboardingPage';
 import { SignupPage } from '../../fixtures/pages/Join/SignupPage';
 
+test.describe('The Join page account-type chooser', () => {
+  let join: Join;
+  let signupPage: SignupPage;
+
+  test.beforeEach(async ({ page }) => {
+    join = new Join(page);
+    signupPage = new SignupPage(page);
+    await join.notLoggedIn();
+    await join.openSignup();
+  });
+
+  test('shows both account-type cards before the signup form', async () => {
+    await expect(signupPage.chooserElements().goToUnguess()).toBeVisible();
+    await expect(signupPage.chooserElements().goToTryber()).toBeVisible();
+    await expect(
+      signupPage.signupFormElements().emailInput()
+    ).not.toBeVisible();
+  });
+
+  test('choosing UNGUESS reveals the signup form and preserves query params', async ({
+    page,
+  }) => {
+    await page.goto('/join/signup?template=12');
+    await signupPage.chooseBusinessAccount();
+    await expect(signupPage.signupFormElements().emailInput()).toBeVisible();
+    expect(page.url()).toContain('type=business');
+    expect(page.url()).toContain('template=12');
+  });
+});
+
 test.describe('The Join page signup step - case new user', () => {
   let join: Join;
   let signupPage: SignupPage;
@@ -13,18 +43,25 @@ test.describe('The Join page signup step - case new user', () => {
     await join.notLoggedIn();
     await signupPage.mockCognitoSignup();
     await join.openSignup();
+    await signupPage.chooseBusinessAccount();
   });
 
-  test('display a form with user email and password input and terms checkbox', async () => {
+  test('shows only the email input initially and reveals password after continue', async () => {
     await expect(signupPage.signupFormElements().emailInput()).toBeVisible();
+    await expect(
+      signupPage.signupFormElements().passwordInput()
+    ).not.toBeVisible();
+    await signupPage.fillEmail('valid@example.com');
+    await signupPage.continueToPassword();
     await expect(signupPage.signupFormElements().passwordInput()).toBeVisible();
-    await expect(signupPage.signupFormElements().termsCheckbox()).toBeVisible();
   });
 
   test('the password input check if the password is strong enough', async ({
     page,
     i18n,
   }) => {
+    await signupPage.fillEmail('valid@example.com');
+    await signupPage.continueToPassword();
     // Touch the password field and blur to trigger validation
     await signupPage.signupFormElements().passwordInput().click();
     await signupPage.signupFormElements().passwordInput().blur();
@@ -101,30 +138,39 @@ test.describe('The Join page signup step - case new user', () => {
     ).toBeVisible();
   });
 
-  test('sends a lowercased email to Cognito when the user types mixed case', async ({
+  test('the email confirmation step is 415px wide on desktop and padded on mobile', async ({
     page,
   }) => {
-    const requestPromise = page.waitForRequest(
-      (req) =>
-        /cognito-idp\..*\.amazonaws\.com\/?$/.test(req.url()) &&
-        req.headers()['x-amz-target']?.includes('SignUp') === true
-    );
-
-    await signupPage.fillEmail('MixedCase.USER@Example.COM');
-    await signupPage.fillPassword('ValidPassword123');
-    await signupPage.acceptTerms();
+    await signupPage.mockCognitoConfirmSignup();
+    await signupPage.fillValidSignupForm();
     await signupPage.submitSignupForm();
+    await expect(
+      signupPage.confirmEmailFormElements().codeInput()
+    ).toBeVisible();
 
-    const req = await requestPromise;
-    const body = req.postDataJSON();
-    expect(body.Username).toBe('mixedcase.user@example.com');
-    const emailAttr = (
-      body.UserAttributes as Array<{
-        Name: string;
-        Value: string;
-      }>
-    ).find((a) => a.Name === 'email');
-    expect(emailAttr?.Value).toBe('mixedcase.user@example.com');
+    const step = page.getByTestId('confirm-email-step');
+    const desktopBox = await step.boundingBox();
+    expect(Math.round(desktopBox!.width)).toBe(415);
+
+    await page.setViewportSize({ width: 375, height: 812 });
+    const padding = await step.evaluate((el) => getComputedStyle(el).padding);
+    expect(padding).toBe('40px 20px');
+  });
+
+  test('displays an enabled Continue with Google button', async () => {
+    await expect(signupPage.signupFormElements().googleButton()).toBeVisible();
+    await expect(signupPage.signupFormElements().googleButton()).toBeEnabled();
+  });
+
+  test('clicking Continue with Google initiates the Cognito OAuth redirect', async ({
+    page,
+  }) => {
+    await signupPage.mockCognitoOAuthAuthorize();
+    const authorizeRequest = page.waitForRequest('**/oauth2/authorize*');
+    await signupPage.signupFormElements().googleButton().click();
+    const req = await authorizeRequest;
+    expect(req.url()).toContain('/oauth2/authorize');
+    expect(req.url()).toContain('Google');
   });
 });
 
@@ -141,6 +187,23 @@ test.describe('The Join page second step', () => {
 
     await join.openOnboarding();
   });
+  test('keeps the 40px top/bottom padding on the form column on desktop', async ({
+    page,
+  }) => {
+    const padding = await page
+      .locator('input[name="name"]')
+      .evaluate((input) => {
+        let el = input.parentElement;
+        while (el) {
+          const cs = getComputedStyle(el);
+          if (cs.flexBasis === '415px') return cs.padding;
+          el = el.parentElement;
+        }
+        return 'not found';
+      });
+    expect(padding).toBe('40px 0px');
+  });
+
   test('display required inputs for name, surname, job role and company size dropdowns populated from api userRole and companySize', async ({
     page,
     i18n,
@@ -184,6 +247,19 @@ test.describe('The Join page second step', () => {
     await expect(onboarding.elements().nameInput()).not.toBeVisible();
     await expect(onboarding.workspaceElements().workspaceInput()).toBeVisible();
   });
+
+  test('displays privacy consent above terms consent before the next button', async ({
+    page,
+  }) => {
+    await expect(page.getByTestId('terms-and-conditions')).toBeVisible();
+    await expect(page.getByTestId('privacy-policy')).toBeVisible();
+
+    const privacyBox = await page.getByTestId('privacy-policy').boundingBox();
+    const termsBox = await page
+      .getByTestId('terms-and-conditions')
+      .boundingBox();
+    expect(privacyBox!.y).toBeLessThan(termsBox!.y);
+  });
 });
 
 test.describe('The Join page third step', () => {
@@ -204,6 +280,16 @@ test.describe('The Join page third step', () => {
     await onboarding.fillPersonalInfo();
     await onboarding.submitPersonalInfo();
   });
+  test('the submit button is enabled with an empty workspace and clicking it shows the validation error', async ({
+    i18n,
+  }) => {
+    await expect(onboarding.workspaceElements().submitButton()).toBeEnabled();
+    await onboarding.workspaceElements().submitButton().click({ force: true });
+    await expect(onboarding.workspaceElements().workspaceError()).toHaveText(
+      i18n.t('SIGNUP_FORM_WORKSPACE_REQUIRED')
+    );
+  });
+
   test('display a required text input for the workspace name and a back button to return to step 2', async () => {
     await expect(onboarding.workspaceElements().workspaceInput()).toBeVisible();
     await expect(onboarding.workspaceElements().backButton()).toBeVisible();

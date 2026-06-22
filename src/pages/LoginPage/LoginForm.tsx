@@ -12,12 +12,17 @@ import {
   MD,
   MediaInput,
   Message,
+  SM,
   Title,
   XL,
 } from '@appquality/unguess-design-system';
 import { ReactComponent as EyeIcon } from '@zendeskgarden/svg-icons/src/16/eye-fill.svg';
 import { ReactComponent as EyeOffIcon } from '@zendeskgarden/svg-icons/src/16/eye-hide-fill.svg';
 import { appTheme } from 'src/app/theme';
+import {
+  AuthOrDivider,
+  GoogleSignInButton,
+} from 'src/common/components/GoogleSignInButton';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { LoginFormFields } from './type';
 
@@ -114,6 +119,17 @@ const LoginForm = ({ onSubmit, buttonText }: LoginFormProps) => {
             isSubmitting,
           }) => (
             <StyledForm onSubmit={handleSubmit}>
+              <div
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: appTheme.space.md,
+                  marginBottom: appTheme.space.md,
+                }}
+              >
+                <GoogleSignInButton />
+                <AuthOrDivider />
+              </div>
               <FormField>
                 <Label>
                   {t('__LOGIN_FORM_EMAIL_LABEL')}
@@ -150,6 +166,7 @@ const LoginForm = ({ onSubmit, buttonText }: LoginFormProps) => {
                   end={
                     <ToggleButton
                       type="button"
+                      onMouseDown={(e) => e.preventDefault()}
                       onClick={() => setShowPassword((v) => !v)}
                       aria-label={
                         showPassword ? 'Hide password' : 'Show password'
@@ -209,7 +226,7 @@ const LoginForm = ({ onSubmit, buttonText }: LoginFormProps) => {
               >
                 {buttonText}
               </Button>
-              <MD>
+              <SM>
                 {t('__LOGIN_FORM_NO_ACCOUNT_LABEL')}
                 <Anchor
                   href="/join/signup"
@@ -220,7 +237,7 @@ const LoginForm = ({ onSubmit, buttonText }: LoginFormProps) => {
                 >
                   {t('__LOGIN_FORM_SIGNUP_CTA')}
                 </Anchor>
-              </MD>
+              </SM>
             </StyledForm>
           )}
         </Formik>

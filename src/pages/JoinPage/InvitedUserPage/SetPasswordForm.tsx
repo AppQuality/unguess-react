@@ -1,14 +1,11 @@
 import {
-  Anchor,
   Button,
-  Checkbox,
   FormField,
   Input,
   Label,
   MediaInput,
   Message,
   Paragraph,
-  SM,
   Span,
   XL,
 } from '@appquality/unguess-design-system';
@@ -16,7 +13,7 @@ import { ReactComponent as Eye } from '@zendeskgarden/svg-icons/src/16/eye-fill.
 import { ReactComponent as EyeHide } from '@zendeskgarden/svg-icons/src/16/eye-hide-fill.svg';
 import { Field, FieldProps, Form, Formik, FormikHelpers } from 'formik';
 import { useState } from 'react';
-import { Trans, useTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
 import { PasswordRequirements } from 'src/common/components/PasswordRequirements';
@@ -40,8 +37,6 @@ const FieldContainer = styled.div`
 interface SetPasswordFormValues {
   password: string;
   confirmPassword: string;
-  termsAccepted: boolean;
-  privacyAccepted: boolean;
 }
 
 interface SetPasswordFormProps {
@@ -198,8 +193,6 @@ export const SetPasswordForm = ({
   const initialValues: SetPasswordFormValues = {
     password: '',
     confirmPassword: '',
-    termsAccepted: false,
-    privacyAccepted: false,
   };
 
   return (
@@ -255,12 +248,14 @@ export const SetPasswordForm = ({
                           passwordInputType === 'password' ? (
                             <EyeHide
                               style={{ cursor: 'pointer' }}
+                              onMouseDown={(e) => e.preventDefault()}
                               onClick={handleChangePasswordInputType}
                               title={t('HIDE_PASSWORD')}
                             />
                           ) : (
                             <Eye
                               style={{ cursor: 'pointer' }}
+                              onMouseDown={(e) => e.preventDefault()}
                               onClick={handleChangePasswordInputType}
                               title={t('SHOW_PASSWORD')}
                             />
@@ -270,7 +265,10 @@ export const SetPasswordForm = ({
                         placeholder={t('SET_PASSWORD_PLACEHOLDER')}
                         {...(hasError && { validation: 'error' })}
                       />
-                      <PasswordRequirements password={values.password} />
+                      <PasswordRequirements
+                        password={values.password}
+                        showStatus={meta.touched || values.password.length > 0}
+                      />
                       {hasError && (
                         <Message
                           data-qa="set-password-error"
@@ -303,12 +301,14 @@ export const SetPasswordForm = ({
                           confirmPasswordInputType === 'password' ? (
                             <EyeHide
                               style={{ cursor: 'pointer' }}
+                              onMouseDown={(e) => e.preventDefault()}
                               onClick={handleChangeConfirmPasswordInputType}
                               title={t('HIDE_PASSWORD')}
                             />
                           ) : (
                             <Eye
                               style={{ cursor: 'pointer' }}
+                              onMouseDown={(e) => e.preventDefault()}
                               onClick={handleChangeConfirmPasswordInputType}
                               title={t('SHOW_PASSWORD')}
                             />
@@ -331,103 +331,7 @@ export const SetPasswordForm = ({
                 }}
               </Field>
 
-              <Field name="termsAccepted">
-                {({ field, form, meta }: FieldProps) => {
-                  const hasError = meta.touched && Boolean(meta.error);
-                  return (
-                    <FormField data-qa="terms-and-conditions">
-                      <Checkbox
-                        checked={field.value}
-                        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                          form.setFieldValue('termsAccepted', e.target.checked)
-                        }
-                        onBlur={field.onBlur}
-                        name={field.name}
-                      >
-                        <Label>
-                          <SM style={{ fontStyle: 'italic' }}>
-                            <Trans
-                              i18nKey="SIGNUP_FORM_TERMS_CHECKBOX"
-                              components={{
-                                'terms-link': (
-                                  <Anchor
-                                    isExternal
-                                    href="https://unguess.io/terms-and-conditions/"
-                                    target="_blank"
-                                    title="Terms and Conditions of Service"
-                                    style={{ fontWeight: 600 }}
-                                  />
-                                ),
-                              }}
-                            />
-                          </SM>
-                        </Label>
-                      </Checkbox>
-                      {hasError && (
-                        <Message validation="error">
-                          {t(meta.error as string)}
-                        </Message>
-                      )}
-                    </FormField>
-                  );
-                }}
-              </Field>
-
-              <Field name="privacyAccepted">
-                {({ field, form, meta }: FieldProps) => {
-                  const hasError = meta.touched && Boolean(meta.error);
-                  return (
-                    <FormField data-qa="privacy-policy">
-                      <Checkbox
-                        checked={field.value}
-                        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                          form.setFieldValue(
-                            'privacyAccepted',
-                            e.target.checked
-                          )
-                        }
-                        onBlur={field.onBlur}
-                        name={field.name}
-                      >
-                        <Label>
-                          <SM style={{ fontStyle: 'italic' }}>
-                            <Trans
-                              i18nKey="SIGNUP_FORM_PRIVACY_CHECKBOX"
-                              components={{
-                                'privacy-link': (
-                                  <Anchor
-                                    isExternal
-                                    href="https://unguess.io/privacy-policy/"
-                                    target="_blank"
-                                    title="Privacy Policy"
-                                    style={{ fontWeight: 600 }}
-                                  />
-                                ),
-                              }}
-                            />
-                          </SM>
-                        </Label>
-                      </Checkbox>
-                      {hasError && (
-                        <Message validation="error">
-                          {t(meta.error as string)}
-                        </Message>
-                      )}
-                    </FormField>
-                  );
-                }}
-              </Field>
-
-              <Button
-                type="submit"
-                isPrimary
-                isAccent
-                disabled={
-                  isSubmitting ||
-                  !values.termsAccepted ||
-                  !values.privacyAccepted
-                }
-              >
+              <Button type="submit" isPrimary isAccent disabled={isSubmitting}>
                 {isSubmitting ? t('LOADING') : t('SET_PASSWORD_BUTTON')}
               </Button>
             </FieldContainer>

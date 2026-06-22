@@ -27,11 +27,7 @@ const FooterLinks = styled.div`
   }
 `;
 
-interface AuthFooterProps {
-  showTryberLink?: boolean;
-}
-
-export const AuthFooter = ({ showTryberLink }: AuthFooterProps) => {
+export const AuthFooter = () => {
   const { t } = useTranslation();
 
   return (
@@ -46,14 +42,6 @@ export const AuthFooter = ({ showTryberLink }: AuthFooterProps) => {
         <Anchor href={t('__AUTH_FOOTER_TOS_URL')}>
           <SM>{t('__AUTH_FOOTER_TOS_LABEL')}</SM>
         </Anchor>
-        {showTryberLink && (
-          <SM>
-            {t('SIGNUP_FORM_BECOME_TESTER_LABEL')}{' '}
-            <Anchor isExternal href="https://www.tryber.me" target="_blank">
-              {t('SIGNUP_FORM_VISIT_TRYBER_CTA')}
-            </Anchor>
-          </SM>
-        )}
       </FooterLinks>
       <SM>
         {t('__AUTH_FOOTER_NEED_HELP')}{' '}
