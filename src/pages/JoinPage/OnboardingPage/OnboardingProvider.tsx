@@ -18,6 +18,8 @@ export interface OnboardingData {
   roleId: string;
   companySizeId: string;
   workspace: string;
+  termsAccepted: boolean;
+  privacyAccepted: boolean;
 }
 
 export interface OnboardingUserData {
@@ -62,6 +64,8 @@ export const OnboardingProvider = ({
     roleId: '',
     companySizeId: '',
     workspace: '',
+    termsAccepted: false,
+    privacyAccepted: false,
   });
 
   // Carica i dati dell'invito se è un utente invitato

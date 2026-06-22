@@ -469,6 +469,7 @@ const injectedRtkApi = api.injectEndpoints({
     >({
       query: (queryArg) => ({
         url: `/invites/${queryArg.profile}/${queryArg.token}`,
+        params: { code: queryArg.code },
       }),
     }),
     deleteMediaCommentByMcid: build.mutation<
@@ -1874,11 +1875,13 @@ export type GetInvitesByProfileAndTokenApiResponse = /** status 200 OK */ {
   name: string;
   surname: string;
   workspace: string;
-  code: string;
+  code?: string;
 };
 export type GetInvitesByProfileAndTokenApiArg = {
   profile: string;
   token: string;
+  /** Wheter or not include a temporary code */
+  code?: boolean;
 };
 export type DeleteMediaCommentByMcidApiResponse = /** status 200 OK */ object;
 export type DeleteMediaCommentByMcidApiArg = {

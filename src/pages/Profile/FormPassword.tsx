@@ -2,8 +2,7 @@ import { Notification, useToast } from '@appquality/unguess-design-system';
 import { Formik } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import WPAPI from 'src/common/wpapi';
-import { useGetUsersMeQuery, usePatchUsersMeMutation } from 'src/features/api';
+import { useGetUsersMeQuery } from 'src/features/api';
 import { fetchAuthSession, updatePassword } from 'aws-amplify/auth';
 import * as Yup from 'yup';
 import { useAuth } from 'src/features/auth/context';
@@ -18,7 +17,6 @@ export const FormPassword = () => {
   const { addToast } = useToast();
   const { isLoading } = useProfileData();
   const { data: userData } = useGetUsersMeQuery();
-  const [updateProfile] = usePatchUsersMeMutation();
   const { login: cognitoLogin, logout: cognitoLogout } = useAuth();
   const navigate = useNavigate();
   const verifyCodeRoute = useLocalizeRoute('verify-code');

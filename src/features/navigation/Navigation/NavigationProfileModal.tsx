@@ -9,7 +9,6 @@ import { useAppDispatch, useAppSelector } from 'src/app/hooks';
 import { isDev } from 'src/common/isDevEnvironment';
 import { prepareGravatar } from 'src/common/utils';
 import { useGetUsersMeQuery } from 'src/features/api';
-import { useAuth } from 'src/features/auth/context';
 import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
 import { setProfileModalOpen } from '../navigationSlice';
 import { usePathWithoutLocale } from '../usePathWithoutLocale';

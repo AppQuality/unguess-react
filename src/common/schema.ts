@@ -3786,6 +3786,10 @@ export interface operations {
         profile: string;
         token: string;
       };
+      query: {
+        /** Wheter or not include a temporary code */
+        code?: boolean;
+      };
     };
     responses: {
       /** OK */
@@ -3796,7 +3800,7 @@ export interface operations {
             name: string;
             surname: string;
             workspace: string;
-            code: string;
+            code?: string;
           };
         };
       };

@@ -20,6 +20,11 @@ const ImagesWrapper = styled.div`
   width: 100%;
   height: 100%;
   overflow: hidden;
+
+  img {
+    max-width: 100%;
+    height: auto;
+  }
 `;
 
 const LogoPicture = styled.picture`

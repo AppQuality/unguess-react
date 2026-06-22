@@ -13,6 +13,12 @@ export const getPersonalInfoValidationSchema = (t: TFunction) =>
     companySizeId: Yup.string().required(
       t('SIGNUP_FORM_COMPANY_SIZE_REQUIRED')
     ),
+    termsAccepted: Yup.boolean()
+      .oneOf([true], t('SIGNUP_FORM_TERMS_REQUIRED'))
+      .required(t('SIGNUP_FORM_TERMS_REQUIRED')),
+    privacyAccepted: Yup.boolean()
+      .oneOf([true], t('SIGNUP_FORM_PRIVACY_REQUIRED'))
+      .required(t('SIGNUP_FORM_PRIVACY_REQUIRED')),
   });
 
 export const getWorkspaceValidationSchema = (t: TFunction) =>
