@@ -1,55 +1,48 @@
 const MASTRA_BASE =
   process.env.REACT_APP_MASTRA_API_URL || 'http://localhost:4111';
 
-const AGENT_ID = 'interview_agent';
-
 export interface InterviewTurn {
   id: number;
   role: 'assistant' | 'user';
   text: string;
 }
 
-export const generateReply = async (
-  interviewId: string,
+export interface RealtimeToken {
+  value: string;
+  expiresAt: number;
+  model: string;
+  interviewId: string;
+  language: string;
+}
+
+export const getRealtimeToken = async (
   language: string,
-  userText: string
-): Promise<string> => {
-  const res = await fetch(`${MASTRA_BASE}/api/agents/${AGENT_ID}/generate`, {
+  interviewId?: string
+): Promise<RealtimeToken> => {
+  const res = await fetch(`${MASTRA_BASE}/interview/realtime/token`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      messages: [{ role: 'user', content: userText }],
-      memory: { resource: `interview_${interviewId}`, thread: interviewId },
-      requestContext: {
-        interview_id: interviewId,
-        interview_language: language,
-      },
-    }),
+    body: JSON.stringify({ language, interviewId }),
   });
-  if (!res.ok) throw new Error(`generate failed: ${res.status}`);
-  const data = (await res.json()) as { text?: string };
-  return data.text ?? '';
+  if (!res.ok) throw new Error(`realtime token failed: ${res.status}`);
+  return res.json() as Promise<RealtimeToken>;
 };
 
-export const synthesize = async (text: string): Promise<Blob> => {
-  const res = await fetch(`${MASTRA_BASE}/interview/speak`, {
+export const callTool = async (
+  name: string,
+  args: Record<string, unknown>
+): Promise<unknown> => {
+  const path =
+    name === 'endInterview'
+      ? '/interview/tools/end-interview'
+      : '/interview/tools/get-next-question';
+  const res = await fetch(`${MASTRA_BASE}${path}`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ text }),
+    body: JSON.stringify(args),
   });
-  if (!res.ok) throw new Error(`speak failed: ${res.status}`);
-  return res.blob();
-};
-
-export const transcribe = async (audio: Blob): Promise<string> => {
-  const res = await fetch(`${MASTRA_BASE}/interview/listen`, {
-    method: 'POST',
-    headers: { 'Content-Type': audio.type || 'audio/webm' },
-    body: audio,
-  });
-  if (!res.ok) throw new Error(`listen failed: ${res.status}`);
-  const data = (await res.json()) as { text?: string };
-  return data.text ?? '';
+  if (!res.ok) throw new Error(`tool ${name} failed: ${res.status}`);
+  return res.json();
 };
 
 export const uploadRecordingChunk = async (

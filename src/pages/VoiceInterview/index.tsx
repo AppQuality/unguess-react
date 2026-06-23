@@ -2,7 +2,7 @@ import { Button, MD, SM, Span, XL } from '@appquality/unguess-design-system';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
-import { InterviewStatus, useInterview } from './useInterview';
+import { useRealtimeInterview } from './useRealtimeInterview';
 
 const LANGUAGES = [
   { code: 'it', label: 'Italiano' },
@@ -93,16 +93,14 @@ const Consent = styled.label`
   gap: ${({ theme }) => theme.space.xs};
 `;
 
-const STATUS_KEYS = new Map<InterviewStatus, string>([
-  ['idle', '__INTERVIEW_STATUS_IDLE'],
-  ['connecting', '__INTERVIEW_CONNECTING'],
-  ['active', '__INTERVIEW_STATUS_ACTIVE'],
-  ['listening', '__INTERVIEW_LISTENING'],
-  ['thinking', '__INTERVIEW_THINKING'],
-  ['speaking', '__INTERVIEW_SPEAKING'],
-  ['ended', '__INTERVIEW_ENDED'],
-  ['error', '__INTERVIEW_STATUS_ERROR'],
-]);
+const DownloadLink = styled.a`
+  align-self: center;
+  padding: ${({ theme }) => `${theme.space.xs} ${theme.space.md}`};
+  border-radius: ${({ theme }) => theme.borderRadii.md};
+  background: ${({ theme }) => theme.palette.kale[700]};
+  color: ${({ theme }) => theme.palette.grey[100]};
+  text-decoration: none;
+`;
 
 const VoiceInterview = () => {
   const { t } = useTranslation();
@@ -111,17 +109,13 @@ const VoiceInterview = () => {
   const {
     status,
     transcript,
+    speaking,
     error,
+    downloadUrl,
     videoRef,
     start,
-    startListening,
-    stopListening,
     end,
-  } = useInterview();
-
-  const live = status !== 'idle' && status !== 'ended';
-  const answerDisabled =
-    status === 'thinking' || status === 'speaking' || status === 'connecting';
+  } = useRealtimeInterview();
 
   if (status === 'idle') {
     return (
@@ -167,20 +161,26 @@ const VoiceInterview = () => {
     );
   }
 
+  let pillLabel = t('__INTERVIEW_STATUS_ERROR');
+  if (status === 'connecting') pillLabel = t('__INTERVIEW_CONNECTING');
+  else if (status === 'ended') pillLabel = t('__INTERVIEW_ENDED');
+  else if (status === 'live')
+    pillLabel = speaking
+      ? t('__INTERVIEW_SPEAKING')
+      : t('__INTERVIEW_LISTENING');
+
   return (
     <PageWrapper>
       <Card>
         <XL isBold>{t('__INTERVIEW_TITLE')}</XL>
-        {live && (
+        {status === 'live' && (
           <Preview ref={videoRef} autoPlay muted playsInline>
             <track kind="captions" />
           </Preview>
         )}
         <StatusRow aria-live="polite">
-          <Pill>
-            {t(STATUS_KEYS.get(status) ?? '__INTERVIEW_STATUS_ACTIVE')}
-          </Pill>
-          {live && (
+          <Pill>{pillLabel}</Pill>
+          {status === 'live' && (
             <SM>
               <RecDot>●</RecDot> {t('__INTERVIEW_RECORDING')}
             </SM>
@@ -190,6 +190,8 @@ const VoiceInterview = () => {
         {error && (
           <SM style={{ color: 'red' }}>{t('__INTERVIEW_ERROR_MEDIA')}</SM>
         )}
+
+        {status === 'live' && <SM>{t('__INTERVIEW_LIVE_HINT')}</SM>}
 
         <Transcript>
           {transcript.map((turn) => (
@@ -205,22 +207,16 @@ const VoiceInterview = () => {
         </Transcript>
 
         {status === 'ended' ? (
-          <MD>{t('__INTERVIEW_ENDED_MESSAGE')}</MD>
+          <>
+            <MD>{t('__INTERVIEW_ENDED_MESSAGE')}</MD>
+            {downloadUrl && (
+              <DownloadLink href={downloadUrl} download="interview.webm">
+                {t('__INTERVIEW_DOWNLOAD')}
+              </DownloadLink>
+            )}
+          </>
         ) : (
           <Controls>
-            <Button
-              isPrimary
-              disabled={answerDisabled}
-              onMouseDown={startListening}
-              onMouseUp={stopListening}
-              onMouseLeave={stopListening}
-              onTouchStart={startListening}
-              onTouchEnd={stopListening}
-            >
-              {status === 'listening'
-                ? t('__INTERVIEW_LISTENING')
-                : t('__INTERVIEW_HOLD_TO_ANSWER')}
-            </Button>
             <Button isDanger onClick={end}>
               {t('__INTERVIEW_END')}
             </Button>
