@@ -3,9 +3,12 @@ import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate, useOutletContext } from 'react-router-dom';
 import { useAppDispatch } from 'src/app/hooks';
 import { FEATURE_FLAG_TAGGING_TOOL } from 'src/constants';
-import { useGetUsersMeQuery } from 'src/features/api';
+import {
+  useGetHubsByHidQuery,
+  useGetUsersMeQuery,
+  useGetWorkspacesByWidQuery,
+} from 'src/features/api';
 import { useGetCampaignWithWorkspaceQuery } from 'src/features/api/customEndpoints/getCampaignWithWorkspace';
-import { useGetHubWithWorkspaceQuery } from 'src/features/api/customEndpoints/getHubWithWorkspace';
 import {
   setCampaignId,
   setHubId,
@@ -27,7 +30,7 @@ const VideosPage = () => {
   const navigate = useNavigate();
   const notFoundRoute = useLocalizeRoute('oops');
   const { isHub, entityId } = useOutletContext<CampaignHubContext>();
-  
+
   const dispatch = useAppDispatch();
   const location = useLocation();
   const {
@@ -39,7 +42,6 @@ const VideosPage = () => {
 
   const hasTaggingToolFeature = hasFeatureFlag(FEATURE_FLAG_TAGGING_TOOL);
 
-
   useEffect(() => {
     if (isUserFetching || isUserLoading) return;
 
@@ -48,24 +50,32 @@ const VideosPage = () => {
         state: { from: location.pathname },
       });
     }
-  }, [isUserFetching, isUserLoading, isSuccess, hasTaggingToolFeature, navigate, notFoundRoute, location.pathname]);
+  }, [
+    isUserFetching,
+    isUserLoading,
+    isSuccess,
+    hasTaggingToolFeature,
+    navigate,
+    notFoundRoute,
+    location.pathname,
+  ]);
 
   useCampaignAnalytics(entityId);
 
-  // For campaigns, get campaign + workspace data
-  const { isError: isErrorCampaign, data: { campaign, workspace: campaignWorkspace } = {} } =
-    useGetCampaignWithWorkspaceQuery({
-      cid: entityId,
-    }, {
-      skip: isHub,
-    });
+  const {
+    isError: isErrorCampaign,
+    data: { campaign, workspace: campaignWorkspace } = {},
+  } = useGetCampaignWithWorkspaceQuery({ cid: entityId }, { skip: isHub });
 
-  // For hubs, get hub + workspace data
-  const { isError: isErrorHub, data: { hub, workspace: hubWorkspace } = {} } = useGetHubWithWorkspaceQuery({
-    hid: entityId,
-  }, {
-    skip: !isHub,
-  });
+  const { isError: isErrorHub, data: hub } = useGetHubsByHidQuery(
+    { hid: entityId },
+    { skip: !isHub }
+  );
+
+  const { data: hubWorkspace } = useGetWorkspacesByWidQuery(
+    { wid: hub?.workspace.id.toString() ?? '' },
+    { skip: !isHub || !hub }
+  );
 
   const isError = isHub ? isErrorHub : isErrorCampaign;
   const workspace = isHub ? hubWorkspace : campaignWorkspace;
@@ -78,12 +88,10 @@ const VideosPage = () => {
 
   useEffect(() => {
     if (isHub && hub) {
-      // For hubs, use hub title as permission settings title
       dispatch(setPermissionSettingsTitle(hub.title));
       dispatch(setHubId(hub.id));
       dispatch(setIsHub(true));
     } else if (campaign) {
-      // For campaigns, use campaign customer_title
       dispatch(setPermissionSettingsTitle(campaign.customer_title));
       dispatch(setCampaignId(campaign.id));
       dispatch(setIsHub(false));
