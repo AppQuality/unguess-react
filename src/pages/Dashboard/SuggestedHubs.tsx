@@ -11,12 +11,11 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
 import { SectionTitle } from 'src/common/components/SectionTitle';
-import { useGetWorkspaceHubsQuery } from 'src/features/api/customEndpoints/getWorkspaceHubs';
-import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
 import i18n from 'src/i18n';
 import styled from 'styled-components';
 import { CardRowLoading } from './CardRowLoading';
 import { HubItem } from './HubItem';
+import { useHubsGroupedByProjects } from './hooks/useHubsGroupedByProjects';
 
 const FloatRight = styled.div`
   float: right;
@@ -33,49 +32,13 @@ export const SuggestedHubs = ({
 }) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const { activeWorkspace } = useActiveWorkspace();
 
-  const queryArgs = projectId
-    ? { pid: projectId.toString() }
-    : { wid: activeWorkspace?.id.toString() ?? '' };
-
-  const { data, isLoading, isFetching, isError } = useGetWorkspaceHubsQuery(
-    queryArgs,
-    {
-      skip: !projectId && !activeWorkspace,
-    }
-  );
+  const { groups, isLoading, isFetching, isError } = useHubsGroupedByProjects({
+    projectId,
+  });
 
   if (isLoading || isFetching) return <CardRowLoading />;
-  if (isError || !data?.items?.length) return null;
-
-  const hubs = data.items;
-
-  if (!hubs.length) return null;
-
-  const groupedByProject = hubs.reduce<
-    Array<{
-      projectId: number;
-      projectName: string;
-      hubs: typeof hubs;
-    }>
-  >((acc, hub) => {
-    const group = acc.find((item) => item.projectId === hub.project.id);
-
-    if (group) {
-      group.hubs.push(hub);
-      return acc;
-    }
-
-    return [
-      ...acc,
-      {
-        projectId: hub.project.id,
-        projectName: hub.project.name,
-        hubs: [hub],
-      },
-    ];
-  }, []);
+  if (isError || !groups.length) return null;
 
   const navigateToProject = (pid: number) => {
     const localizedRoute =
@@ -104,7 +67,7 @@ export const SuggestedHubs = ({
       </Row>
       <Separator style={{ margin: `${appTheme.space.md} 0` }} />
 
-      {groupedByProject.map((group) => {
+      {groups.map((group) => {
         const visibleHubs =
           typeof limit === 'number' ? group.hubs.slice(0, limit) : group.hubs;
 
