@@ -1,6 +1,7 @@
 import { Button, MD, SM, Span, XL } from '@appquality/unguess-design-system';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { useRealtimeInterview } from './useRealtimeInterview';
 
@@ -106,6 +107,7 @@ const VoiceInterview = () => {
   const { t } = useTranslation();
   const [language, setLanguage] = useState('it');
   const [consented, setConsented] = useState(false);
+  const { interviewId, token } = useParams();
   const {
     status,
     transcript,
@@ -115,7 +117,7 @@ const VoiceInterview = () => {
     videoRef,
     start,
     end,
-  } = useRealtimeInterview();
+  } = useRealtimeInterview({ interviewId, token });
 
   if (status === 'idle') {
     return (

@@ -1,11 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import {
-  callTool,
-  completeRecording,
-  getRealtimeToken,
-  InterviewTurn,
-  uploadRecordingChunk,
-} from './api';
+import { createInterviewClient, InterviewClient, InterviewTurn } from './api';
 
 export type RealtimeStatus = 'idle' | 'connecting' | 'live' | 'ended' | 'error';
 
@@ -28,7 +22,10 @@ interface RealtimeEvent {
   [key: string]: unknown;
 }
 
-export const useRealtimeInterview = () => {
+export const useRealtimeInterview = (opts?: {
+  interviewId?: string;
+  token?: string;
+}) => {
   const [status, setStatus] = useState<RealtimeStatus>('idle');
   const [transcript, setTranscript] = useState<InterviewTurn[]>([]);
   const [speaking, setSpeaking] = useState(false);
@@ -43,6 +40,7 @@ export const useRealtimeInterview = () => {
   const audioCtxRef = useRef<AudioContext | null>(null);
   const recorderRef = useRef<MediaRecorder | null>(null);
   const chunksRef = useRef<Blob[]>([]);
+  const clientRef = useRef<InterviewClient | null>(null);
   const interviewIdRef = useRef('');
   const languageRef = useRef('it');
   const turnIdRef = useRef(0);
@@ -77,7 +75,7 @@ export const useRealtimeInterview = () => {
         >;
         if (!args.interviewId) args.interviewId = interviewIdRef.current;
         if (!args.language) args.language = languageRef.current;
-        output = await callTool(name, args);
+        output = (await clientRef.current?.callTool(name, args)) ?? {};
       } catch (e) {
         output = { error: e instanceof Error ? e.message : 'tool_error' };
       }
@@ -144,19 +142,16 @@ export const useRealtimeInterview = () => {
         combined,
         mimeType ? { mimeType } : undefined
       );
-      const id = interviewIdRef.current;
       chunksRef.current = [];
       recorder.ondataavailable = (e) => {
-        if (e.data.size > 0) {
-          chunksRef.current.push(e.data);
-          uploadRecordingChunk(id, e.data).catch(() => undefined);
-        }
+        if (e.data.size > 0) chunksRef.current.push(e.data);
       };
       recorder.onstop = () => {
         const blob = new Blob(chunksRef.current, {
           type: recorder.mimeType || 'video/webm',
         });
         setDownloadUrl(URL.createObjectURL(blob));
+        clientRef.current?.uploadRecording(blob).catch(() => undefined);
       };
       recorder.start(2000);
       recorderRef.current = recorder;
@@ -175,7 +170,12 @@ export const useRealtimeInterview = () => {
       });
       languageRef.current = language;
       try {
-        const token = await getRealtimeToken(language);
+        const client = createInterviewClient({
+          interviewId: opts?.interviewId,
+          token: opts?.token,
+        });
+        clientRef.current = client;
+        const token = await client.mintToken(language);
         interviewIdRef.current = token.interviewId;
         languageRef.current = token.language;
 
@@ -236,7 +236,7 @@ export const useRealtimeInterview = () => {
         setStatus('error');
       }
     },
-    [handleEvent, send, startCombinedRecording]
+    [handleEvent, send, startCombinedRecording, opts?.interviewId, opts?.token]
   );
 
   const end = useCallback(async () => {
@@ -245,9 +245,6 @@ export const useRealtimeInterview = () => {
     pcRef.current?.close();
     audioCtxRef.current?.close().catch(() => undefined);
     streamRef.current?.getTracks().forEach((track) => track.stop());
-    if (interviewIdRef.current) {
-      await completeRecording(interviewIdRef.current).catch(() => undefined);
-    }
     setSpeaking(false);
     setStatus('ended');
   }, []);

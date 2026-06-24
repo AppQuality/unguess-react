@@ -198,6 +198,10 @@ const Pages = () => {
             />
 
             <Route path="/interview" element={<VoiceInterview />} />
+            <Route
+              path="/interview/:interviewId/:token"
+              element={<VoiceInterview />}
+            />
 
             <Route path="*" element={<Navigate replace to="/oops" />} />
           </>
