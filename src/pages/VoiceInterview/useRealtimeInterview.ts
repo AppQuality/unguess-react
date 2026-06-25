@@ -31,6 +31,8 @@ export const useRealtimeInterview = (opts?: {
   const [speaking, setSpeaking] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [downloadUrl, setDownloadUrl] = useState<string | null>(null);
+  const [micLevel, setMicLevel] = useState(0);
+  const [mics, setMics] = useState<{ deviceId: string; label: string }[]>([]);
 
   const videoRef = useRef<HTMLVideoElement>(null);
   const pcRef = useRef<RTCPeerConnection | null>(null);
@@ -41,6 +43,8 @@ export const useRealtimeInterview = (opts?: {
   const recorderRef = useRef<MediaRecorder | null>(null);
   const chunksRef = useRef<Blob[]>([]);
   const clientRef = useRef<InterviewClient | null>(null);
+  const meterCtxRef = useRef<AudioContext | null>(null);
+  const meterTimerRef = useRef<number | null>(null);
   const interviewIdRef = useRef('');
   const languageRef = useRef('it');
   const turnIdRef = useRef(0);
@@ -115,6 +119,14 @@ export const useRealtimeInterview = (opts?: {
         case 'response.done':
           setSpeaking(false);
           break;
+        case 'input_audio_buffer.speech_started':
+          // Fires only when your mic audio actually reaches OpenAI. If you talk and never
+          // see this, the mic is acquired but silent (device busy/contended).
+          console.debug('[realtime] mic speech detected');
+          break;
+        case 'error':
+          console.error('[realtime] error', evt);
+          break;
         default:
           break;
       }
@@ -159,8 +171,60 @@ export const useRealtimeInterview = (opts?: {
     []
   );
 
+  // Enumerate audio inputs. A short getUserMedia "probe" is needed so the OS exposes device
+  // labels (and switches AirPods into mic/HFP mode so they show up at all).
+  const refreshMics = useCallback(async () => {
+    if (!navigator.mediaDevices?.enumerateDevices) return;
+    try {
+      const probe = await navigator.mediaDevices.getUserMedia({ audio: true });
+      probe.getTracks().forEach((track) => track.stop());
+    } catch {
+      /* permission denied or device busy — labels may stay empty */
+    }
+    const devices = await navigator.mediaDevices.enumerateDevices();
+    setMics(
+      devices
+        .filter((d) => d.kind === 'audioinput')
+        .map((d) => ({ deviceId: d.deviceId, label: d.label || 'Microphone' }))
+    );
+  }, []);
+
+  // Live mic level (0..1) so the user can SEE the mic is producing audio (and thus being
+  // recorded). Stays flat while you talk => mic acquired but silent (device busy/contended).
+  const startMicMeter = useCallback((micStream: MediaStream) => {
+    const [track] = micStream.getAudioTracks();
+    if (!track) return;
+    console.debug(
+      '[mic] device:',
+      track.label,
+      '| muted:',
+      track.muted,
+      '| enabled:',
+      track.enabled,
+      '| state:',
+      track.readyState
+    );
+    const ctx = new AudioContext();
+    meterCtxRef.current = ctx;
+    ctx.resume().catch(() => undefined); // created after awaits → may start suspended
+    const source = ctx.createMediaStreamSource(new MediaStream([track]));
+    const analyser = ctx.createAnalyser();
+    analyser.fftSize = 512;
+    source.connect(analyser);
+    const data = new Uint8Array(analyser.fftSize);
+    meterTimerRef.current = window.setInterval(() => {
+      analyser.getByteTimeDomainData(data);
+      const sumSquares = data.reduce((acc, v) => {
+        const x = (v - 128) / 128;
+        return acc + x * x;
+      }, 0);
+      const rms = Math.sqrt(sumSquares / data.length);
+      setMicLevel(Math.min(1, rms * 4));
+    }, 100);
+  }, []);
+
   const start = useCallback(
-    async (language: string) => {
+    async (language: string, micDeviceId?: string) => {
       setError(null);
       setStatus('connecting');
       setTranscript([]);
@@ -179,21 +243,38 @@ export const useRealtimeInterview = (opts?: {
         interviewIdRef.current = token.interviewId;
         languageRef.current = token.language;
 
+        if (!navigator.mediaDevices?.getUserMedia) {
+          throw new Error(
+            'mediaDevices unavailable — open the page on http://localhost (not an IP) or https'
+          );
+        }
+        // Mic is mandatory; camera is best-effort so a busy/blocked camera can't kill the mic.
         const stream = await navigator.mediaDevices.getUserMedia({
-          audio: true,
-          video: true,
+          audio: micDeviceId ? { deviceId: { exact: micDeviceId } } : true,
         });
+        try {
+          const cam = await navigator.mediaDevices.getUserMedia({
+            video: true,
+          });
+          cam.getVideoTracks().forEach((track) => stream.addTrack(track));
+        } catch {
+          // no camera available — continue audio-only
+        }
         streamRef.current = stream;
         if (videoRef.current) videoRef.current.srcObject = stream;
+        startMicMeter(stream);
 
         const pc = new RTCPeerConnection();
         pcRef.current = pc;
         const audioEl = new Audio();
         audioEl.autoplay = true;
+        audioEl.style.display = 'none';
+        document.body.appendChild(audioEl);
         audioElRef.current = audioEl;
         pc.ontrack = (e) => {
           const [agentStream] = e.streams;
-          audioEl.srcObject = agentStream; // user hears Katie
+          audioEl.srcObject = agentStream; // user hears Katia
+          audioEl.play().catch(() => undefined); // autoplay can be blocked otherwise
           startCombinedRecording(stream, agentStream); // record both sides
         };
         const [audioTrack] = stream.getAudioTracks();
@@ -232,11 +313,23 @@ export const useRealtimeInterview = (opts?: {
         });
         // Recording starts from pc.ontrack once the agent's audio track arrives.
       } catch (e) {
-        setError(e instanceof Error ? e.message : 'media_error');
+        const err = e as { name?: string; message?: string };
+        setError(
+          err?.name
+            ? `${err.name}: ${err.message ?? ''}`
+            : err?.message || 'media_error'
+        );
         setStatus('error');
       }
     },
-    [handleEvent, send, startCombinedRecording, opts?.interviewId, opts?.token]
+    [
+      handleEvent,
+      send,
+      startCombinedRecording,
+      startMicMeter,
+      opts?.interviewId,
+      opts?.token,
+    ]
   );
 
   const end = useCallback(async () => {
@@ -244,8 +337,12 @@ export const useRealtimeInterview = (opts?: {
     dcRef.current?.close();
     pcRef.current?.close();
     audioCtxRef.current?.close().catch(() => undefined);
+    audioElRef.current?.remove();
+    if (meterTimerRef.current) window.clearInterval(meterTimerRef.current);
+    meterCtxRef.current?.close().catch(() => undefined);
     streamRef.current?.getTracks().forEach((track) => track.stop());
     setSpeaking(false);
+    setMicLevel(0);
     setStatus('ended');
   }, []);
 
@@ -255,6 +352,9 @@ export const useRealtimeInterview = (opts?: {
     speaking,
     error,
     downloadUrl,
+    micLevel,
+    mics,
+    refreshMics,
     videoRef,
     start,
     end,

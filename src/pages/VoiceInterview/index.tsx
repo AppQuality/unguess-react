@@ -1,5 +1,5 @@
 import { Button, MD, SM, Span, XL } from '@appquality/unguess-design-system';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
@@ -103,10 +103,33 @@ const DownloadLink = styled.a`
   text-decoration: none;
 `;
 
+const MeterRow = styled.div`
+  display: flex;
+  align-items: center;
+  gap: ${({ theme }) => theme.space.xs};
+`;
+
+const MeterTrack = styled.div`
+  flex: 1;
+  height: 8px;
+  background: ${({ theme }) => theme.palette.grey[200]};
+  border-radius: ${({ theme }) => theme.borderRadii.sm};
+  overflow: hidden;
+`;
+
+const MeterFill = styled.div<{ $level: number; $active: boolean }>`
+  height: 100%;
+  width: ${({ $level }) => Math.round($level * 100)}%;
+  background: ${({ theme, $active }) =>
+    $active ? theme.palette.kale[600] : theme.palette.grey[400]};
+  transition: width 80ms linear;
+`;
+
 const VoiceInterview = () => {
   const { t } = useTranslation();
   const [language, setLanguage] = useState('it');
   const [consented, setConsented] = useState(false);
+  const [micId, setMicId] = useState('');
   const { interviewId, token } = useParams();
   const {
     status,
@@ -114,10 +137,17 @@ const VoiceInterview = () => {
     speaking,
     error,
     downloadUrl,
+    micLevel,
+    mics,
+    refreshMics,
     videoRef,
     start,
     end,
   } = useRealtimeInterview({ interviewId, token });
+
+  useEffect(() => {
+    refreshMics();
+  }, [refreshMics]);
 
   if (status === 'idle') {
     return (
@@ -141,6 +171,26 @@ const VoiceInterview = () => {
               ))}
             </select>
           </Field>
+          <Field>
+            <label htmlFor="interview-mic">
+              <SM isBold>{t('__INTERVIEW_MIC_LABEL')}</SM>
+            </label>
+            <select
+              id="interview-mic"
+              value={micId}
+              onChange={(e) => setMicId(e.target.value)}
+            >
+              <option value="">{t('__INTERVIEW_MIC_DEFAULT')}</option>
+              {mics.map((m) => (
+                <option key={m.deviceId} value={m.deviceId}>
+                  {m.label}
+                </option>
+              ))}
+            </select>
+            <Button isBasic onClick={refreshMics}>
+              {t('__INTERVIEW_MIC_REFRESH')}
+            </Button>
+          </Field>
           <Consent htmlFor="interview-consent">
             <input
               id="interview-consent"
@@ -154,7 +204,7 @@ const VoiceInterview = () => {
             isPrimary
             isAccent
             disabled={!consented}
-            onClick={() => start(language)}
+            onClick={() => start(language, micId || undefined)}
           >
             {t('__INTERVIEW_START')}
           </Button>
@@ -189,8 +239,24 @@ const VoiceInterview = () => {
           )}
         </StatusRow>
 
+        {(status === 'connecting' || status === 'live') && (
+          <MeterRow>
+            <SM>🎤</SM>
+            <MeterTrack>
+              <MeterFill $level={micLevel} $active={micLevel > 0.05} />
+            </MeterTrack>
+            <SM>
+              {micLevel > 0.05
+                ? t('__INTERVIEW_MIC_ACTIVE')
+                : t('__INTERVIEW_MIC_NO_SIGNAL')}
+            </SM>
+          </MeterRow>
+        )}
+
         {error && (
-          <SM style={{ color: 'red' }}>{t('__INTERVIEW_ERROR_MEDIA')}</SM>
+          <SM style={{ color: 'red' }}>
+            {t('__INTERVIEW_ERROR_MEDIA')} ({error})
+          </SM>
         )}
 
         {status === 'live' && <SM>{t('__INTERVIEW_LIVE_HINT')}</SM>}
