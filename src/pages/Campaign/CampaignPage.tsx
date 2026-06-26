@@ -1,12 +1,13 @@
 import { Col, Grid, Row } from '@appquality/unguess-design-system';
 import { useEffect } from 'react';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useAppDispatch } from 'src/app/hooks';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
 import { useGetCampaignWithWorkspaceQuery } from 'src/features/api/customEndpoints/getCampaignWithWorkspace';
 
 import { Page } from 'src/features/templates/Page';
 import { useCampaignAnalytics } from 'src/hooks/useCampaignAnalytics';
+import { useEntityId } from 'src/hooks/useEntityId';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import {
   setCampaignId,
@@ -23,7 +24,7 @@ import { HeaderLoader } from './pageHeaderLoading';
 const CampaignPage = ({ children }: { children: React.ReactNode }) => {
   const navigate = useNavigate();
   const notFoundRoute = useLocalizeRoute('oops');
-  const { campaignId } = useParams();
+  const campaignId = useEntityId();
   const dispatch = useAppDispatch();
   const location = useLocation();
 

@@ -31,7 +31,7 @@ unguessApi.enhanceEndpoints({
       invalidatesTags: ['Projects'],
     },
     patchCampaignsByCid: {
-      invalidatesTags: ['Campaigns', 'Projects', 'Archive', 'Users'],
+      invalidatesTags: ['Campaigns', 'Projects', 'Archive', 'Users', 'Hubs'],
     },
     postCampaignsByCidUsers: {
       invalidatesTags: ['Users'],
@@ -70,7 +70,7 @@ unguessApi.enhanceEndpoints({
       providesTags: ['Videos'],
     },
     getHubsByHid: {
-      providesTags: ['Videos'],
+      providesTags: ['Videos', 'Hubs'],
     },
     postHubsByHidAssets: {
       invalidatesTags: ['Videos'],
