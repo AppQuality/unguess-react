@@ -1,15 +1,45 @@
-// UN-2893 (Subtask 1) ships only the routing + header shell. The per-tab
-// content is NOT migrated here: it stays in the following subtasks, each
-// reusing the existing content-only components (so no legacy header is
-// rendered and no `renderHeader` suppression prop is needed):
-//   overview   -> UN-2894 (CampaignWidgets)
-//   bug-list   -> UN-2895 (BugsPageContent)
-//   media-list -> UN-2896 campaign / UN-2897 hub (VideosPageContent)
-//   insights   -> UN-2896 campaign / UN-2897 hub (InsightsPageContent)
-//
-// Until then this is an intentional placeholder. The wrapper falls back to the
-// legacy content when `?tab=` is absent, so this path is not reachable through
-// normal navigation yet.
-const EntityPageContent = () => null;
+import { Col, Grid, Row } from '@appquality/unguess-design-system';
+import { useOutletContext } from 'react-router-dom';
+import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
+import { CampaignMetaRow } from 'src/pages/Campaign/CampaignMetaRow';
+import { CampaignWidgets } from 'src/pages/Campaign/CampaignWidgets';
+import styled from 'styled-components';
+import type { CampaignHubContext } from './CampaignsHubsMiddleware';
+import type { EntityPageTabId } from './EntityPageHeader';
+
+const StyledMetaRow = styled(CampaignMetaRow)`
+  margin-bottom: ${({ theme }) => theme.space.md};
+`;
+
+// Per-tab content rendered under the shared `EntityPageWrapper`. Each tab reuses
+// an existing content-only component, so no legacy page header is rendered here.
+//   overview   -> UN-2894 (this file: CampaignMetaRow + CampaignWidgets)
+//   bug-list   -> UN-2895
+//   media-list -> UN-2896 campaign / UN-2897 hub
+//   insights   -> UN-2896 campaign / UN-2897 hub
+type EntityOutletContext = CampaignHubContext & { activeTab: EntityPageTabId };
+
+const EntityPageContent = () => {
+  const { isHub, entityId, activeTab } =
+    useOutletContext<EntityOutletContext>();
+
+  if (!isHub && activeTab === 'overview') {
+    return (
+      <LayoutWrapper>
+        <Grid>
+          <Row>
+            <Col>
+              <StyledMetaRow campaignId={entityId} />
+              <CampaignWidgets />
+            </Col>
+          </Row>
+        </Grid>
+      </LayoutWrapper>
+    );
+  }
+
+  // Other tabs are migrated in the following subtasks.
+  return null;
+};
 
 export default EntityPageContent;
