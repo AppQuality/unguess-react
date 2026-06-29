@@ -1,4 +1,6 @@
 import { Button } from '@appquality/unguess-design-system';
+import { ReactComponent as DownloadIcon } from '@zendeskgarden/svg-icons/src/16/download-stroke.svg';
+import { ReactComponent as ExternalLinkIcon } from '@zendeskgarden/svg-icons/src/16/new-window-stroke.svg';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
@@ -9,6 +11,9 @@ import {
   useSearchParams,
 } from 'react-router-dom';
 import { useAppDispatch } from 'src/app/hooks';
+import { ReactComponent as GearIcon } from 'src/assets/icons/gear.svg';
+import { ReactComponent as EditRedoStroke } from 'src/assets/icons/move-icon.svg';
+import { ReactComponent as InboxFill } from 'src/assets/icons/project-archive.svg';
 import { CampaignSettings } from 'src/common/components/inviteUsers/campaignSettings';
 import { PageLoader } from 'src/common/components/PageLoader';
 import WPAPI from 'src/common/wpapi';
@@ -46,7 +51,11 @@ import { WatcherList } from 'src/pages/Campaign/pageHeader/Meta/WatcherList';
 import { ImportMediaModal } from 'src/pages/Videos/ImportMediaModal';
 import Videos from 'src/pages/Videos';
 import type { CampaignHubContext } from './CampaignsHubsMiddleware';
-import { EntityPageHeader, type EntityPageTabId } from './EntityPageHeader';
+import {
+  EntityPageHeader,
+  type EntityMenuItem,
+  type EntityPageTabId,
+} from './EntityPageHeader';
 import { Page } from './Page';
 
 const CAMPAIGN_DEFAULT_TAB: EntityPageTabId = 'overview';
@@ -358,6 +367,72 @@ const EntityPageWrapperInner = () => {
     return null;
   };
 
+  const menuSections: EntityMenuItem[][] = [];
+  if (!isHub && campaign) {
+    menuSections.push([
+      {
+        id: 'move_campaign',
+        label: t('__CAMPAIGN_PAGE_DOTS_MENU_MOVE_CAMPAIGN_BUTTON'),
+        icon: <EditRedoStroke />,
+        isDisabled: isMoveCampaignDisabled,
+        onSelect: () => setIsMoveModalOpen(true),
+      },
+      {
+        id: 'archive_campaign',
+        label: t('__CAMPAIGN_PAGE_DOTS_MENU_ARCHIVE_CAMPAIGN_BUTTON'),
+        icon: <InboxFill />,
+        isDisabled: campaign.status.id !== 2,
+        onSelect: () => setIsArchiveModalOpen(true),
+      },
+    ]);
+
+    const downloadSection: EntityMenuItem[] = [];
+    if (showDownloadAnalysis) {
+      downloadSection.push({
+        id: 'download_analysis',
+        label: t('__VIDEO_PAGE_ACTIONS_EXPORT_BUTTON_LABEL'),
+        icon: <DownloadIcon />,
+        onSelect: () => handleUseCaseExport(entityId),
+      });
+    }
+    if (showBugActions) {
+      downloadSection.push(
+        {
+          id: 'download_bug_report',
+          label: t('__PAGE_HEADER_BUGS_DOTS_MENU_ITEM_REPORT'),
+          icon: <DownloadIcon />,
+          onSelect: () =>
+            WPAPI.getReport({
+              campaignId: Number(entityId),
+              title: currentEntityTitle,
+            }),
+        },
+        {
+          id: 'integration_center',
+          label: t('__PAGE_HEADER_BUGS_DOTS_MENU_ITEM_INT_CENTER'),
+          icon: <GearIcon />,
+          onSelect: () => {
+            window.location.href = integrationCenterUrl;
+          },
+        }
+      );
+    }
+    if (downloadSection.length > 0) {
+      menuSections.push(downloadSection);
+    }
+
+    if (campaign.plan) {
+      menuSections.push([
+        {
+          id: 'go_to_plan',
+          label: t('__CAMPAIGN_PAGE_DOTS_MENU_GO_TO_PLAN_BUTTON'),
+          icon: <ExternalLinkIcon />,
+          onSelect: () => navigate(`/plans/${campaign.plan}`),
+        },
+      ]);
+    }
+  }
+
   const entityContext: CampaignHubContext & { activeTab: EntityPageTabId } = {
     isHub,
     entityId,
@@ -371,10 +446,8 @@ const EntityPageWrapperInner = () => {
       excludeMarginTop
       pageHeader={
         <EntityPageHeader
-          isHub={isHub}
           entityId={entityId}
           entityTitle={currentEntityTitle}
-          campaign={campaign}
           project={{
             name: currentProject.name,
             route: projectRoute,
@@ -391,27 +464,7 @@ const EntityPageWrapperInner = () => {
             ) : null
           }
           ctaSlot={renderCtaSlot()}
-          showCampaignActions={!isHub}
-          isMoveCampaignDisabled={isMoveCampaignDisabled}
-          onMoveCampaign={() => setIsMoveModalOpen(true)}
-          onArchiveCampaign={() => setIsArchiveModalOpen(true)}
-          onGoToPlan={() => {
-            if (campaign?.plan) {
-              navigate(`/plans/${campaign.plan}`);
-            }
-          }}
-          showDownloadAnalysis={showDownloadAnalysis}
-          onDownloadAnalysis={() => handleUseCaseExport(entityId)}
-          showBugActions={showBugActions}
-          onDownloadBugReport={() =>
-            WPAPI.getReport({
-              campaignId: Number(entityId),
-              title: currentEntityTitle,
-            })
-          }
-          onIntegrationCenter={() => {
-            window.location.href = integrationCenterUrl;
-          }}
+          menuSections={menuSections}
         />
       }
     >

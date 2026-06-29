@@ -2,26 +2,17 @@ import {
   Anchor,
   ButtonMenu,
   IconButton,
-  InputToggle,
   PageHeader,
 } from '@appquality/unguess-design-system';
-import { ReactComponent as DownloadIcon } from '@zendeskgarden/svg-icons/src/16/download-stroke.svg';
-import { ReactComponent as ExternalLinkIcon } from '@zendeskgarden/svg-icons/src/16/new-window-stroke.svg';
 import { ReactComponent as DotsIcon } from '@zendeskgarden/svg-icons/src/16/overflow-vertical-stroke.svg';
-import React, { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import React, { Fragment } from 'react';
 import { Link, useLocation, useSearchParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
-import { ReactComponent as GearIcon } from 'src/assets/icons/gear.svg';
-import { ReactComponent as EditRedoStroke } from 'src/assets/icons/move-icon.svg';
-import { ReactComponent as InboxFill } from 'src/assets/icons/project-archive.svg';
 import { Divider } from 'src/common/components/divider';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
 import { TabNavigation } from 'src/common/components/TabNavigation';
-import type { GetCampaignsByCidApiResponse } from 'src/features/api';
-import { usePatchCampaignsByCidMutation } from 'src/features/api';
-import { EditableTitle } from 'src/pages/Campaign/pageHeader/EditableTitle';
 import { styled } from 'styled-components';
+import { EditableEntityTitle } from './EditableEntityTitle';
 
 export type EntityPageTabId =
   | 'overview'
@@ -34,8 +25,20 @@ type EntityPageTab = {
   label: string;
 };
 
+/**
+ * A single action-menu entry. The header renders these generically; all gating
+ * and behaviour is decided by the caller. Group items into sections (see
+ * `menuSections`) to control where dividers appear.
+ */
+export type EntityMenuItem = {
+  id: string;
+  label: React.ReactNode;
+  icon?: React.ReactElement;
+  isDisabled?: boolean;
+  onSelect: () => void;
+};
+
 type EntityPageHeaderProps = {
-  isHub: boolean;
   entityId: string;
   entityTitle: string;
   project: {
@@ -43,21 +46,12 @@ type EntityPageHeaderProps = {
     route: string;
     hasAccess: boolean;
   };
-  campaign?: GetCampaignsByCidApiResponse;
   tabs: EntityPageTab[];
   activeTab: EntityPageTabId;
   shareAndViewersSlot?: React.ReactNode;
   ctaSlot?: React.ReactNode;
-  showCampaignActions?: boolean;
-  isMoveCampaignDisabled?: boolean;
-  onMoveCampaign?: () => void;
-  onArchiveCampaign?: () => void;
-  onGoToPlan?: () => void;
-  showDownloadAnalysis?: boolean;
-  onDownloadAnalysis?: () => void;
-  showBugActions?: boolean;
-  onDownloadBugReport?: () => void;
-  onIntegrationCenter?: () => void;
+  /** Action-menu items grouped into sections; a divider separates each non-empty section. */
+  menuSections?: EntityMenuItem[][];
 };
 
 const TitleRow = styled.div`
@@ -89,64 +83,16 @@ const TabsRow = styled.div`
   margin-top: ${({ theme }) => theme.space.md};
 `;
 
-const HubTitle = ({ entityId, title }: { entityId: string; title: string }) => {
-  const { t } = useTranslation();
-  const [hubTitle, setHubTitle] = useState(title);
-  const [patchCampaign] = usePatchCampaignsByCidMutation();
-
-  useEffect(() => {
-    setHubTitle(title);
-  }, [title]);
-
-  return (
-    <InputToggle className="editable-title">
-      <InputToggle.Item
-        preventEmpty
-        textSize="xxxl"
-        maxLength={64}
-        value={hubTitle}
-        onChange={(e) => setHubTitle(e.target.value)}
-        onBlur={async (e) => {
-          try {
-            if (e.currentTarget.value && e.currentTarget.value !== title) {
-              await patchCampaign({
-                cid: entityId,
-                body: { customer_title: e.currentTarget.value },
-              }).unwrap();
-            }
-          } catch {
-            // eslint-disable-next-line
-            alert(t('__CAMPAIGN_PAGE_UPDATE_CAMPAIGN_NAME_ERROR'));
-          }
-        }}
-        style={{ paddingLeft: 0 }}
-      />
-    </InputToggle>
-  );
-};
-
 export const EntityPageHeader = ({
-  isHub,
   entityId,
   entityTitle,
   project,
-  campaign,
   tabs,
   activeTab,
   shareAndViewersSlot,
   ctaSlot,
-  showCampaignActions = false,
-  isMoveCampaignDisabled = false,
-  onMoveCampaign,
-  onArchiveCampaign,
-  onGoToPlan,
-  showDownloadAnalysis = false,
-  onDownloadAnalysis,
-  showBugActions = false,
-  onDownloadBugReport,
-  onIntegrationCenter,
+  menuSections,
 }: EntityPageHeaderProps) => {
-  const { t } = useTranslation();
   const [searchParams] = useSearchParams();
   const location = useLocation();
 
@@ -155,6 +101,11 @@ export const EntityPageHeader = ({
     params.set('tab', tabId);
     return `${location.pathname}?${params.toString()}${location.hash}`;
   };
+
+  const visibleSections = (menuSections ?? []).filter(
+    (section) => section.length > 0
+  );
+  const menuItems = visibleSections.flat();
 
   return (
     <LayoutWrapper isNotBoxed>
@@ -172,32 +123,16 @@ export const EntityPageHeader = ({
         </PageHeader.Breadcrumbs>
         <TitleRow>
           <TitleColumn>
-            {isHub ? (
-              <HubTitle entityId={entityId} title={entityTitle} />
-            ) : (
-              <EditableTitle campaignId={Number(entityId)} />
-            )}
+            <EditableEntityTitle entityId={entityId} title={entityTitle} />
           </TitleColumn>
           <ActionsContainer>
-            {!isHub && shareAndViewersSlot}
+            {shareAndViewersSlot}
             {ctaSlot}
-            {!isHub && showCampaignActions && campaign && (
+            {menuItems.length > 0 && (
               <ButtonMenu
-                onSelect={(value) => {
-                  if (value === 'move_campaign') {
-                    onMoveCampaign?.();
-                  } else if (value === 'archive_campaign') {
-                    onArchiveCampaign?.();
-                  } else if (value === 'go_to_plan') {
-                    onGoToPlan?.();
-                  } else if (value === 'download_analysis') {
-                    onDownloadAnalysis?.();
-                  } else if (value === 'download_bug_report') {
-                    onDownloadBugReport?.();
-                  } else if (value === 'integration_center') {
-                    onIntegrationCenter?.();
-                  }
-                }}
+                onSelect={(value) =>
+                  menuItems.find((item) => item.id === value)?.onSelect()
+                }
                 label={(props) => (
                   <IconButton
                     data-qa="campaign_pageHeader_kebabMenu"
@@ -207,56 +142,21 @@ export const EntityPageHeader = ({
                   </IconButton>
                 )}
               >
-                <ButtonMenu.Item
-                  isDisabled={isMoveCampaignDisabled}
-                  value="move_campaign"
-                  icon={<EditRedoStroke />}
-                >
-                  {t('__CAMPAIGN_PAGE_DOTS_MENU_MOVE_CAMPAIGN_BUTTON')}
-                </ButtonMenu.Item>
-                <ButtonMenu.Item
-                  isDisabled={campaign.status.id !== 2}
-                  value="archive_campaign"
-                  icon={<InboxFill />}
-                >
-                  {t('__CAMPAIGN_PAGE_DOTS_MENU_ARCHIVE_CAMPAIGN_BUTTON')}
-                </ButtonMenu.Item>
-                {(showDownloadAnalysis || showBugActions) && <Divider />}
-                {showDownloadAnalysis && (
-                  <ButtonMenu.Item
-                    value="download_analysis"
-                    icon={<DownloadIcon />}
-                  >
-                    {t('__VIDEO_PAGE_ACTIONS_EXPORT_BUTTON_LABEL')}
-                  </ButtonMenu.Item>
-                )}
-                {showBugActions && (
-                  <ButtonMenu.Item
-                    value="download_bug_report"
-                    icon={<DownloadIcon />}
-                  >
-                    {t('__PAGE_HEADER_BUGS_DOTS_MENU_ITEM_REPORT')}
-                  </ButtonMenu.Item>
-                )}
-                {showBugActions && (
-                  <ButtonMenu.Item
-                    value="integration_center"
-                    icon={<GearIcon />}
-                  >
-                    {t('__PAGE_HEADER_BUGS_DOTS_MENU_ITEM_INT_CENTER')}
-                  </ButtonMenu.Item>
-                )}
-                {!!campaign.plan && (
-                  <>
-                    <Divider />
-                    <ButtonMenu.Item
-                      value="go_to_plan"
-                      icon={<ExternalLinkIcon />}
-                    >
-                      {t('__CAMPAIGN_PAGE_DOTS_MENU_GO_TO_PLAN_BUTTON')}
-                    </ButtonMenu.Item>
-                  </>
-                )}
+                {visibleSections.map((section, sectionIndex) => (
+                  <Fragment key={section.map((item) => item.id).join('|')}>
+                    {sectionIndex > 0 && <Divider />}
+                    {section.map((item) => (
+                      <ButtonMenu.Item
+                        key={item.id}
+                        value={item.id}
+                        icon={item.icon}
+                        isDisabled={item.isDisabled}
+                      >
+                        {item.label}
+                      </ButtonMenu.Item>
+                    ))}
+                  </Fragment>
+                ))}
               </ButtonMenu>
             )}
           </ActionsContainer>
