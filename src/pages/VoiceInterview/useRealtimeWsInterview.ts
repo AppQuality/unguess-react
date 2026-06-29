@@ -82,10 +82,13 @@ export const useRealtimeWsInterview = (opts?: {
         // With a token in the URL use it; otherwise bootstrap one (dev-only) so plain
         // /interview just works for local testing.
         let token = opts?.token;
+        let interviewId = opts?.interviewId;
         if (!token) {
           const boot = await createDevInterview(language);
           token = boot.token;
+          interviewId = boot.interviewId;
         }
+        console.debug('[interview] interviewId:', interviewId);
         if (!navigator.mediaDevices?.getUserMedia) {
           throw new Error(
             'mediaDevices unavailable — use http://localhost or https'
