@@ -10,10 +10,12 @@ import { ReactComponent as DotsIcon } from '@zendeskgarden/svg-icons/src/16/over
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useLocation, useSearchParams } from 'react-router-dom';
+import { appTheme } from 'src/app/theme';
 import { ReactComponent as EditRedoStroke } from 'src/assets/icons/move-icon.svg';
 import { ReactComponent as InboxFill } from 'src/assets/icons/project-archive.svg';
 import { Divider } from 'src/common/components/divider';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
+import { TabNavigation } from 'src/common/components/TabNavigation';
 import type { GetCampaignsByCidApiResponse } from 'src/features/api';
 import { usePatchCampaignsByCidMutation } from 'src/features/api';
 import { EditableTitle } from 'src/pages/Campaign/pageHeader/EditableTitle';
@@ -51,48 +53,33 @@ type EntityPageHeaderProps = {
   onGoToPlan?: () => void;
 };
 
-const ActionsContainer = styled.div`
+const TitleRow = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: ${({ theme }) => theme.space.md};
   width: 100%;
+`;
+
+const TitleColumn = styled.div`
+  display: flex;
+  align-items: center;
+  flex: 1 1 auto;
+  min-width: 0;
+`;
+
+const ActionsContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-end;
   flex-wrap: wrap;
+  flex: 0 0 auto;
   gap: ${({ theme }) => theme.space.sm};
-
-  @media (max-width: ${({ theme }) => theme.breakpoints.xl}) {
-    justify-content: flex-start;
-  }
 `;
 
-const StyledTabList = styled.ul`
-  list-style: none;
-  display: flex;
-  gap: ${({ theme }) => theme.space.xs};
-  margin: ${({ theme }) => `${theme.space.md} 0 0`};
-  padding: 0;
-  border-bottom: 1px solid ${({ theme }) => theme.palette.grey[300]};
-  overflow-x: auto;
-`;
-
-const StyledNavButton = styled(Link)<{ $active: boolean }>`
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: ${({ theme }) => `${theme.space.sm} ${theme.space.md}`};
-  border-bottom: 2px solid
-    ${({ theme, $active }) =>
-      $active ? theme.palette.blue[600] : 'transparent'};
-  color: ${({ theme, $active }) =>
-    $active ? theme.palette.blue[700] : theme.palette.grey[700]};
-  font-size: ${({ theme }) => theme.fontSizes.md};
-  font-weight: ${({ theme }) => theme.fontWeights.medium};
-  text-decoration: none;
-  white-space: nowrap;
-  margin-bottom: -1px;
-
-  &:hover {
-    color: ${({ theme }) => theme.palette.blue[700]};
-  }
+const TabsRow = styled.div`
+  margin-top: ${({ theme }) => theme.space.md};
 `;
 
 const HubTitle = ({ entityId, title }: { entityId: string; title: string }) => {
@@ -159,7 +146,9 @@ export const EntityPageHeader = ({
 
   return (
     <LayoutWrapper isNotBoxed>
-      <PageHeader>
+      <PageHeader
+        style={{ borderBottom: 'none', paddingBottom: appTheme.space.xs }}
+      >
         <PageHeader.Breadcrumbs>
           {project.hasAccess ? (
             <Link to={project.route}>
@@ -168,85 +157,80 @@ export const EntityPageHeader = ({
           ) : (
             project.name
           )}
-          {entityTitle}
         </PageHeader.Breadcrumbs>
-        <PageHeader.Main mainTitle={entityTitle}>
-          <PageHeader.Title>
+        <TitleRow>
+          <TitleColumn>
             {isHub ? (
               <HubTitle entityId={entityId} title={entityTitle} />
             ) : (
               <EditableTitle campaignId={Number(entityId)} />
             )}
-          </PageHeader.Title>
-          <PageHeader.Meta>
-            <ActionsContainer>
-              {!isHub && shareAndViewersSlot}
-              {ctaSlot}
-              {!isHub && showCampaignActions && campaign && (
-                <ButtonMenu
-                  onSelect={(value) => {
-                    if (value === 'move_campaign') {
-                      onMoveCampaign?.();
-                    } else if (value === 'archive_campaign') {
-                      onArchiveCampaign?.();
-                    } else if (value === 'go_to_plan') {
-                      onGoToPlan?.();
-                    }
-                  }}
-                  label={(props) => (
-                    <IconButton
-                      data-qa="campaign_pageHeader_kebabMenu"
-                      {...props}
-                    >
-                      <DotsIcon />
-                    </IconButton>
-                  )}
+          </TitleColumn>
+          <ActionsContainer>
+            {!isHub && shareAndViewersSlot}
+            {ctaSlot}
+            {!isHub && showCampaignActions && campaign && (
+              <ButtonMenu
+                onSelect={(value) => {
+                  if (value === 'move_campaign') {
+                    onMoveCampaign?.();
+                  } else if (value === 'archive_campaign') {
+                    onArchiveCampaign?.();
+                  } else if (value === 'go_to_plan') {
+                    onGoToPlan?.();
+                  }
+                }}
+                label={(props) => (
+                  <IconButton
+                    data-qa="campaign_pageHeader_kebabMenu"
+                    {...props}
+                  >
+                    <DotsIcon />
+                  </IconButton>
+                )}
+              >
+                <ButtonMenu.Item
+                  isDisabled={isMoveCampaignDisabled}
+                  value="move_campaign"
+                  icon={<EditRedoStroke />}
                 >
-                  <ButtonMenu.Item
-                    isDisabled={isMoveCampaignDisabled}
-                    value="move_campaign"
-                    icon={<EditRedoStroke />}
-                  >
-                    {t('__CAMPAIGN_PAGE_DOTS_MENU_MOVE_CAMPAIGN_BUTTON')}
-                  </ButtonMenu.Item>
-                  <ButtonMenu.Item
-                    isDisabled={campaign.status.id !== 2}
-                    value="archive_campaign"
-                    icon={<InboxFill />}
-                  >
-                    {t('__CAMPAIGN_PAGE_DOTS_MENU_ARCHIVE_CAMPAIGN_BUTTON')}
-                  </ButtonMenu.Item>
-                  {!!campaign.plan && (
-                    <>
-                      <Divider />
-                      <ButtonMenu.Item
-                        value="go_to_plan"
-                        icon={<ExternalLinkIcon />}
-                      >
-                        {t('__CAMPAIGN_PAGE_DOTS_MENU_GO_TO_PLAN_BUTTON')}
-                      </ButtonMenu.Item>
-                    </>
-                  )}
-                </ButtonMenu>
-              )}
-            </ActionsContainer>
-          </PageHeader.Meta>
-        </PageHeader.Main>
+                  {t('__CAMPAIGN_PAGE_DOTS_MENU_MOVE_CAMPAIGN_BUTTON')}
+                </ButtonMenu.Item>
+                <ButtonMenu.Item
+                  isDisabled={campaign.status.id !== 2}
+                  value="archive_campaign"
+                  icon={<InboxFill />}
+                >
+                  {t('__CAMPAIGN_PAGE_DOTS_MENU_ARCHIVE_CAMPAIGN_BUTTON')}
+                </ButtonMenu.Item>
+                {!!campaign.plan && (
+                  <>
+                    <Divider />
+                    <ButtonMenu.Item
+                      value="go_to_plan"
+                      icon={<ExternalLinkIcon />}
+                    >
+                      {t('__CAMPAIGN_PAGE_DOTS_MENU_GO_TO_PLAN_BUTTON')}
+                    </ButtonMenu.Item>
+                  </>
+                )}
+              </ButtonMenu>
+            )}
+          </ActionsContainer>
+        </TitleRow>
       </PageHeader>
 
-      <StyledTabList>
-        {tabs.map((tab) => (
-          <li key={tab.id}>
-            <StyledNavButton
-              to={getTabLink(tab.id)}
-              $active={activeTab === tab.id}
-              aria-current={activeTab === tab.id ? 'page' : undefined}
-            >
-              {tab.label}
-            </StyledNavButton>
-          </li>
-        ))}
-      </StyledTabList>
+      <TabsRow>
+        <TabNavigation
+          aria-label={entityTitle}
+          activeId={activeTab}
+          items={tabs.map((tab) => ({
+            id: tab.id,
+            label: tab.label,
+            to: getTabLink(tab.id),
+          }))}
+        />
+      </TabsRow>
     </LayoutWrapper>
   );
 };
