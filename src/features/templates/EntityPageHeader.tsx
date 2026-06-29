@@ -5,6 +5,7 @@ import {
   InputToggle,
   PageHeader,
 } from '@appquality/unguess-design-system';
+import { ReactComponent as DownloadIcon } from '@zendeskgarden/svg-icons/src/16/download-stroke.svg';
 import { ReactComponent as ExternalLinkIcon } from '@zendeskgarden/svg-icons/src/16/new-window-stroke.svg';
 import { ReactComponent as DotsIcon } from '@zendeskgarden/svg-icons/src/16/overflow-vertical-stroke.svg';
 import React, { useEffect, useState } from 'react';
@@ -51,6 +52,8 @@ type EntityPageHeaderProps = {
   onMoveCampaign?: () => void;
   onArchiveCampaign?: () => void;
   onGoToPlan?: () => void;
+  showDownloadAnalysis?: boolean;
+  onDownloadAnalysis?: () => void;
 };
 
 const TitleRow = styled.div`
@@ -133,6 +136,8 @@ export const EntityPageHeader = ({
   onMoveCampaign,
   onArchiveCampaign,
   onGoToPlan,
+  showDownloadAnalysis = false,
+  onDownloadAnalysis,
 }: EntityPageHeaderProps) => {
   const { t } = useTranslation();
   const [searchParams] = useSearchParams();
@@ -178,6 +183,8 @@ export const EntityPageHeader = ({
                     onArchiveCampaign?.();
                   } else if (value === 'go_to_plan') {
                     onGoToPlan?.();
+                  } else if (value === 'download_analysis') {
+                    onDownloadAnalysis?.();
                   }
                 }}
                 label={(props) => (
@@ -203,6 +210,17 @@ export const EntityPageHeader = ({
                 >
                   {t('__CAMPAIGN_PAGE_DOTS_MENU_ARCHIVE_CAMPAIGN_BUTTON')}
                 </ButtonMenu.Item>
+                {showDownloadAnalysis && (
+                  <>
+                    <Divider />
+                    <ButtonMenu.Item
+                      value="download_analysis"
+                      icon={<DownloadIcon />}
+                    >
+                      {t('__VIDEO_PAGE_ACTIONS_EXPORT_BUTTON_LABEL')}
+                    </ButtonMenu.Item>
+                  </>
+                )}
                 {!!campaign.plan && (
                   <>
                     <Divider />

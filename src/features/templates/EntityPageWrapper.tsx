@@ -331,12 +331,12 @@ const EntityPageWrapperInner = () => {
 
   const showDownloadReportCta = !isHub && activeTab === 'bug-list';
   const showUploadMediaCta = isHub;
-  const showInsightsDownloadCta =
+  const showDownloadAnalysis =
     !isHub &&
-    activeTab === 'insights' &&
+    (activeTab === 'overview' || activeTab === 'insights') &&
     !isVideosLoading &&
     !isVideosFetching &&
-    (videos?.items.length ?? 0) > 0;
+    hasVideos;
 
   const integrationCenterUrl = getLocalizeIntegrationCenterRoute(
     Number(entityId)
@@ -389,18 +389,6 @@ const EntityPageWrapperInner = () => {
       );
     }
 
-    if (showInsightsDownloadCta) {
-      return (
-        <Button
-          isPrimary
-          isAccent
-          onClick={() => handleUseCaseExport(entityId)}
-        >
-          {t('__VIDEO_PAGE_ACTIONS_EXPORT_BUTTON_LABEL')}
-        </Button>
-      );
-    }
-
     return null;
   };
 
@@ -446,6 +434,8 @@ const EntityPageWrapperInner = () => {
               navigate(`/plans/${campaign.plan}`);
             }
           }}
+          showDownloadAnalysis={showDownloadAnalysis}
+          onDownloadAnalysis={() => handleUseCaseExport(entityId)}
         />
       }
     >
