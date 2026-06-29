@@ -1,6 +1,4 @@
 import { Button } from '@appquality/unguess-design-system';
-import { ReactComponent as DownloadIcon } from '@zendeskgarden/svg-icons/src/16/download-stroke.svg';
-import { ReactComponent as GearIcon } from 'src/assets/icons/gear.svg';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
@@ -329,7 +327,9 @@ const EntityPageWrapperInner = () => {
   const isMoveCampaignDisabled =
     !campaignIds || campaignIds.length === 0 || !hasWorkspaceAccess;
 
-  const showDownloadReportCta = !isHub && activeTab === 'bug-list';
+  const hasBugs = campaign?.outputs?.includes('bugs') ?? false;
+  const showBugActions =
+    !isHub && (activeTab === 'overview' || activeTab === 'bug-list') && hasBugs;
   const showUploadMediaCta = isHub;
   const showDownloadAnalysis =
     !isHub &&
@@ -343,40 +343,6 @@ const EntityPageWrapperInner = () => {
   );
 
   const renderCtaSlot = (): React.ReactNode => {
-    if (showDownloadReportCta) {
-      return (
-        <>
-          <Button
-            isBasic
-            className="header-dowlnoad-report"
-            onClick={() =>
-              WPAPI.getReport({
-                campaignId: Number(entityId),
-                title: currentEntityTitle,
-              })
-            }
-          >
-            <Button.StartIcon>
-              <DownloadIcon />
-            </Button.StartIcon>
-            {t('__PAGE_HEADER_BUGS_DOTS_MENU_ITEM_REPORT')}
-          </Button>
-          <Button
-            isBasic
-            className="header-integration-center"
-            onClick={() => {
-              window.location.href = integrationCenterUrl;
-            }}
-          >
-            <Button.StartIcon>
-              <GearIcon />
-            </Button.StartIcon>
-            {t('__PAGE_HEADER_BUGS_DOTS_MENU_ITEM_INT_CENTER')}
-          </Button>
-        </>
-      );
-    }
-
     if (showUploadMediaCta) {
       return (
         <Button
@@ -436,6 +402,16 @@ const EntityPageWrapperInner = () => {
           }}
           showDownloadAnalysis={showDownloadAnalysis}
           onDownloadAnalysis={() => handleUseCaseExport(entityId)}
+          showBugActions={showBugActions}
+          onDownloadBugReport={() =>
+            WPAPI.getReport({
+              campaignId: Number(entityId),
+              title: currentEntityTitle,
+            })
+          }
+          onIntegrationCenter={() => {
+            window.location.href = integrationCenterUrl;
+          }}
         />
       }
     >

@@ -12,6 +12,7 @@ import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useLocation, useSearchParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
+import { ReactComponent as GearIcon } from 'src/assets/icons/gear.svg';
 import { ReactComponent as EditRedoStroke } from 'src/assets/icons/move-icon.svg';
 import { ReactComponent as InboxFill } from 'src/assets/icons/project-archive.svg';
 import { Divider } from 'src/common/components/divider';
@@ -54,6 +55,9 @@ type EntityPageHeaderProps = {
   onGoToPlan?: () => void;
   showDownloadAnalysis?: boolean;
   onDownloadAnalysis?: () => void;
+  showBugActions?: boolean;
+  onDownloadBugReport?: () => void;
+  onIntegrationCenter?: () => void;
 };
 
 const TitleRow = styled.div`
@@ -138,6 +142,9 @@ export const EntityPageHeader = ({
   onGoToPlan,
   showDownloadAnalysis = false,
   onDownloadAnalysis,
+  showBugActions = false,
+  onDownloadBugReport,
+  onIntegrationCenter,
 }: EntityPageHeaderProps) => {
   const { t } = useTranslation();
   const [searchParams] = useSearchParams();
@@ -185,6 +192,10 @@ export const EntityPageHeader = ({
                     onGoToPlan?.();
                   } else if (value === 'download_analysis') {
                     onDownloadAnalysis?.();
+                  } else if (value === 'download_bug_report') {
+                    onDownloadBugReport?.();
+                  } else if (value === 'integration_center') {
+                    onIntegrationCenter?.();
                   }
                 }}
                 label={(props) => (
@@ -210,16 +221,30 @@ export const EntityPageHeader = ({
                 >
                   {t('__CAMPAIGN_PAGE_DOTS_MENU_ARCHIVE_CAMPAIGN_BUTTON')}
                 </ButtonMenu.Item>
+                {(showDownloadAnalysis || showBugActions) && <Divider />}
                 {showDownloadAnalysis && (
-                  <>
-                    <Divider />
-                    <ButtonMenu.Item
-                      value="download_analysis"
-                      icon={<DownloadIcon />}
-                    >
-                      {t('__VIDEO_PAGE_ACTIONS_EXPORT_BUTTON_LABEL')}
-                    </ButtonMenu.Item>
-                  </>
+                  <ButtonMenu.Item
+                    value="download_analysis"
+                    icon={<DownloadIcon />}
+                  >
+                    {t('__VIDEO_PAGE_ACTIONS_EXPORT_BUTTON_LABEL')}
+                  </ButtonMenu.Item>
+                )}
+                {showBugActions && (
+                  <ButtonMenu.Item
+                    value="download_bug_report"
+                    icon={<DownloadIcon />}
+                  >
+                    {t('__PAGE_HEADER_BUGS_DOTS_MENU_ITEM_REPORT')}
+                  </ButtonMenu.Item>
+                )}
+                {showBugActions && (
+                  <ButtonMenu.Item
+                    value="integration_center"
+                    icon={<GearIcon />}
+                  >
+                    {t('__PAGE_HEADER_BUGS_DOTS_MENU_ITEM_INT_CENTER')}
+                  </ButtonMenu.Item>
                 )}
                 {!!campaign.plan && (
                   <>
