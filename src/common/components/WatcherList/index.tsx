@@ -37,6 +37,10 @@ const DropdownContainer = styled.div`
   }
 `;
 
+const PositionedTooltipModal = styled(TooltipModal)`
+  margin-top: 220px;
+`;
+
 const UserListWrapper = ({ children }: { children: ReactNode }) => (
   // eslint-disable-next-line react/jsx-no-useless-fragment
   <>{children}</>
@@ -149,10 +153,11 @@ const WatcherList = ({
           )}
         </Button>
       </Tooltip>
-      <TooltipModal
+      <PositionedTooltipModal
         referenceElement={referenceElement}
         placement={placement || 'auto'}
         hasArrow={false}
+        appendToNode={document.body}
         onClose={() => setReferenceElement(null)}
         role="dialog"
       >
@@ -190,7 +195,7 @@ const WatcherList = ({
             </DropdownContainer>
           )}
         </TooltipModal.Body>
-      </TooltipModal>
+      </PositionedTooltipModal>
     </>
   );
 };
