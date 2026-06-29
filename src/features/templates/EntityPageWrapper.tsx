@@ -14,6 +14,7 @@ import { useAppDispatch } from 'src/app/hooks';
 import { CampaignSettings } from 'src/common/components/inviteUsers/campaignSettings';
 import { PageLoader } from 'src/common/components/PageLoader';
 import WPAPI from 'src/common/wpapi';
+import { FEATURE_FLAG_TAGGING_TOOL } from 'src/constants';
 import {
   type GetCampaignsByCidApiResponse,
   useGetCampaignsByCidVideosQuery,
@@ -32,6 +33,7 @@ import { useActiveWorkspaceProjects } from 'src/hooks/useActiveWorkspaceProjects
 import { useCampaignAnalytics } from 'src/hooks/useCampaignAnalytics';
 import { useCanAccessToActiveWorkspace } from 'src/hooks/useCanAccessToActiveWorkspace';
 import { useEntityId } from 'src/hooks/useEntityId';
+import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { useUseCaseExport } from 'src/hooks/useUseCaseExport';
 import { getLocalizeIntegrationCenterRoute } from 'src/hooks/useLocalizeIntegrationCenterUrl';
@@ -55,7 +57,8 @@ const HUB_DEFAULT_TAB: EntityPageTabId = 'media-list';
 const parseIsHubRoute = (pathname: string) => pathname.includes('/hubs/');
 
 const getCampaignTabs = (
-  campaign?: GetCampaignsByCidApiResponse
+  campaign?: GetCampaignsByCidApiResponse,
+  { insightsEnabled = false }: { insightsEnabled?: boolean } = {}
 ): EntityPageTabId[] => {
   const outputs = campaign?.outputs ?? [];
   const tabs: EntityPageTabId[] = ['overview'];
@@ -64,7 +67,10 @@ const getCampaignTabs = (
     tabs.push('media-list');
   }
 
-  if (outputs.includes('insights')) {
+  // Insights tab parity with the legacy header: shown when the tagging-tool
+  // feature is on and the campaign has videos (insights are derived from video
+  // observations). `outputs.insights` is not a reliable signal here.
+  if (insightsEnabled) {
     tabs.push('insights');
   }
 
@@ -114,6 +120,8 @@ const EntityPageWrapperInner = () => {
   const [isHubImportModalOpen, setIsHubImportModalOpen] = useState(false);
   const { setIsOpen: setIsMoveModalOpen } = useMoveCampaignModalContext();
   const hasWorkspaceAccess = useCanAccessToActiveWorkspace();
+  const { hasFeatureFlag } = useFeatureFlag();
+  const hasTaggingToolFeature = hasFeatureFlag(FEATURE_FLAG_TAGGING_TOOL);
   const projectRouteFallback = useLocalizeRoute('projects/0');
   const tabParam = searchParams.get('tab');
   const shouldUseLegacyPath = !tabParam;
@@ -165,20 +173,6 @@ const EntityPageWrapperInner = () => {
   const hub = hubData?.hub;
   const workspace = isHub ? hubData?.workspace : campaignData?.workspace;
 
-  const enabledTabs = useMemo(() => {
-    if (isHub) {
-      return getHubTabs();
-    }
-
-    return getCampaignTabs(campaign);
-  }, [isHub, campaign]);
-
-  const activeTab = getValidatedTab({
-    tab: tabParam,
-    enabledTabs,
-    isHub,
-  });
-
   const {
     data: videos,
     isLoading: isVideosLoading,
@@ -188,10 +182,27 @@ const EntityPageWrapperInner = () => {
       cid: entityId ?? '0',
     },
     {
-      skip:
-        shouldUseLegacyPath || !entityId || isHub || activeTab !== 'insights',
+      skip: shouldUseLegacyPath || !entityId || isHub,
     }
   );
+
+  const hasVideos = (videos?.items.length ?? 0) > 0;
+
+  const enabledTabs = useMemo(() => {
+    if (isHub) {
+      return getHubTabs();
+    }
+
+    return getCampaignTabs(campaign, {
+      insightsEnabled: hasTaggingToolFeature && hasVideos,
+    });
+  }, [isHub, campaign, hasTaggingToolFeature, hasVideos]);
+
+  const activeTab = getValidatedTab({
+    tab: tabParam,
+    enabledTabs,
+    isHub,
+  });
 
   const { data: workspaceProjectsData } = useActiveWorkspaceProjects();
 
