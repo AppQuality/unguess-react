@@ -11,7 +11,6 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
 import { SectionTitle } from 'src/common/components/SectionTitle';
-import { useActiveWorkspace } from 'src/hooks/useActiveWorkspace';
 import i18n from 'src/i18n';
 import styled from 'styled-components';
 import { CardRowLoading } from './CardRowLoading';
@@ -33,11 +32,6 @@ export const SuggestedHubs = ({
 }) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const { activeWorkspace } = useActiveWorkspace();
-
-  const queryArgs = projectId
-    ? { pid: projectId.toString() }
-    : { wid: activeWorkspace?.id.toString() ?? '' };
 
   const { groups, isLoading, isFetching, isError } = useHubsGroupedByProjects({
     projectId,
