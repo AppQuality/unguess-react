@@ -36,6 +36,7 @@ import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { useUseCaseExport } from 'src/hooks/useUseCaseExport';
 import { getLocalizeIntegrationCenterRoute } from 'src/hooks/useLocalizeIntegrationCenterUrl';
 import { ArchiveCampaignModal } from 'src/pages/Campaign/ArchiveCampaignModal';
+import Campaign from 'src/pages/Campaign';
 import {
   MoveCampaignModal,
   MoveCampaignModalContextProvider,
@@ -115,10 +116,7 @@ const EntityPageWrapperInner = () => {
   const hasWorkspaceAccess = useCanAccessToActiveWorkspace();
   const projectRouteFallback = useLocalizeRoute('projects/0');
   const tabParam = searchParams.get('tab');
-  // UN-2894: campaign root now enters the wrapper (defaults to the overview
-  // tab, the effect below sets `?tab=overview`). Hub root stays legacy until
-  // UN-2897.
-  const shouldUseLegacyPath = !tabParam && isHub;
+  const shouldUseLegacyPath = !tabParam;
 
   const {
     data: userData,
@@ -255,9 +253,9 @@ const EntityPageWrapperInner = () => {
   // Mark campaign as read once at wrapper level.
   useCampaignAnalytics(!isHub && !shouldUseLegacyPath ? entityId : undefined);
 
-  // Hub root keeps the legacy content until UN-2897.
+  // UN-2893 scope: keep root legacy content untouched when tab is absent.
   if (shouldUseLegacyPath) {
-    return <Videos />;
+    return isHub ? <Videos /> : <Campaign />;
   }
 
   if (isUserLoading || isUserFetching) {
