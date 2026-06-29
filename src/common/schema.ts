@@ -663,6 +663,15 @@ export interface paths {
       };
     };
   };
+  "/workspaces/{wid}/hubs": {
+    get: operations["get-workspace-hubs"];
+    parameters: {
+      path: {
+        /** Workspace (company, customer) id */
+        wid: string;
+      };
+    };
+  };
   "/workspaces/{wid}/coins": {
     get: operations["get-workspaces-coins"];
     parameters: {
@@ -732,7 +741,7 @@ export interface paths {
     };
   };
   "/campaigns/{cid}/watchers": {
-    /** Returns all the watcher added to a campaign. It always returns at least one item. */
+    /** Returns all the watchers to a campaign. It always returns at least one item. */
     get: operations["get-campaigns-cid-watchers"];
     post: operations["post-campaigns-cid-watchers"];
     parameters: {
@@ -1148,6 +1157,23 @@ export interface components {
       severity: string;
       title: string;
       usersNumber: number;
+    };
+    /** Hub */
+    Hub: {
+      id: number;
+      title: string;
+      customer_title: string;
+      description: string;
+      isArchived?: boolean;
+      project: {
+        id: number;
+        name: string;
+      };
+      start_date: string;
+      workspace: {
+        id: number;
+        name: string;
+      };
     };
     /** Insight */
     Insight: {
@@ -3600,22 +3626,7 @@ export interface operations {
       /** OK */
       200: {
         content: {
-          "application/json": {
-            id: number;
-            title: string;
-            customer_title: string;
-            description: string;
-            isArchived?: boolean;
-            project: {
-              id: number;
-              name: string;
-            };
-            start_date: string;
-            workspace: {
-              id: number;
-              name: string;
-            };
-          };
+          "application/json": components["schemas"]["Hub"];
         };
       };
       /** Forbidden */
@@ -4960,6 +4971,44 @@ export interface operations {
       500: components["responses"]["Error"];
     };
   };
+  "get-workspace-hubs": {
+    parameters: {
+      path: {
+        /** Workspace (company, customer) id */
+        wid: string;
+      };
+      query: {
+        /** Limit pagination parameter */
+        limit?: components["parameters"]["limit"];
+        /** Start pagination parameter */
+        start?: components["parameters"]["start"];
+        /** Order value (ASC, DESC) */
+        order?: components["parameters"]["order"];
+        /** Order by accepted field */
+        orderBy?: components["parameters"]["orderBy"];
+        /** filterBy[<fieldName>]=<fieldValue> */
+        filterBy?: components["parameters"]["filterBy"];
+      };
+    };
+    responses: {
+      /** OK */
+      200: {
+        content: {
+          "application/json": {
+            items?: components["schemas"]["Hub"][];
+            limit?: number;
+            size?: number;
+            start?: number;
+            total?: number;
+          };
+        };
+      };
+      400: components["responses"]["Error"];
+      403: components["responses"]["Error"];
+      404: components["responses"]["Error"];
+      500: components["responses"]["Error"];
+    };
+  };
   "get-workspaces-coins": {
     parameters: {
       path: {
@@ -5236,7 +5285,7 @@ export interface operations {
       };
     };
   };
-  /** Returns all the watcher added to a campaign. It always returns at least one item. */
+  /** Returns all the watchers to a campaign. It always returns at least one item. */
   "get-campaigns-cid-watchers": {
     parameters: {
       path: {
