@@ -5,15 +5,15 @@ import {
   StickyNavItemLabel,
   StyledDivider,
 } from 'src/common/components/navigation/asideNav';
-import { useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
+import { useEntityId } from 'src/hooks/useEntityId';
 import { EmptyState } from './EmptyState';
 import { useWidgets } from './useWidgets';
 
 export const CampaignWidgets = () => {
-  const { campaignId } = useParams();
+  const resolvedCampaignId = useEntityId();
   const { widgets, isLoading } = useWidgets({
-    campaignId: campaignId ? Number(campaignId) : 0,
+    campaignId: resolvedCampaignId ? Number(resolvedCampaignId) : 0,
   });
   const { all, footers, items, itemsWithTitles } = widgets;
 

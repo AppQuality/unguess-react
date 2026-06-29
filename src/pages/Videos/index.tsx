@@ -16,6 +16,7 @@ import {
 import type { CampaignHubContext } from 'src/features/templates/CampaignsHubsMiddleware';
 import { Page } from 'src/features/templates/Page';
 import { useCampaignAnalytics } from 'src/hooks/useCampaignAnalytics';
+import { useEntityId } from 'src/hooks/useEntityId';
 import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import VideosPageContent from './Content';
@@ -25,11 +26,18 @@ const VideosPage = () => {
   const { t } = useTranslation();
 
   const navigate = useNavigate();
-  const notFoundRoute = useLocalizeRoute('oops');
-  const { isHub, entityId } = useOutletContext<CampaignHubContext>();
-  
-  const dispatch = useAppDispatch();
   const location = useLocation();
+  const notFoundRoute = useLocalizeRoute('oops');
+  const entityIdParam = useEntityId();
+  const outletContext = useOutletContext<
+    CampaignHubContext & { activeTab?: string }
+  >();
+  const {
+    isHub = location.pathname.includes('/hubs/'),
+    entityId = entityIdParam ?? '',
+  } = outletContext || {};
+
+  const dispatch = useAppDispatch();
   const {
     isLoading: isUserLoading,
     isFetching: isUserFetching,
@@ -39,7 +47,6 @@ const VideosPage = () => {
 
   const hasTaggingToolFeature = hasFeatureFlag(FEATURE_FLAG_TAGGING_TOOL);
 
-
   useEffect(() => {
     if (isUserFetching || isUserLoading) return;
 
@@ -48,24 +55,41 @@ const VideosPage = () => {
         state: { from: location.pathname },
       });
     }
-  }, [isUserFetching, isUserLoading, isSuccess, hasTaggingToolFeature, navigate, notFoundRoute, location.pathname]);
+  }, [
+    isUserFetching,
+    isUserLoading,
+    isSuccess,
+    hasTaggingToolFeature,
+    navigate,
+    notFoundRoute,
+    location.pathname,
+  ]);
 
   useCampaignAnalytics(entityId);
 
   // For campaigns, get campaign + workspace data
-  const { isError: isErrorCampaign, data: { campaign, workspace: campaignWorkspace } = {} } =
-    useGetCampaignWithWorkspaceQuery({
+  const {
+    isError: isErrorCampaign,
+    data: { campaign, workspace: campaignWorkspace } = {},
+  } = useGetCampaignWithWorkspaceQuery(
+    {
       cid: entityId,
-    }, {
+    },
+    {
       skip: isHub,
-    });
+    }
+  );
 
   // For hubs, get hub + workspace data
-  const { isError: isErrorHub, data: { hub, workspace: hubWorkspace } = {} } = useGetHubWithWorkspaceQuery({
-    hid: entityId,
-  }, {
-    skip: !isHub,
-  });
+  const { isError: isErrorHub, data: { hub, workspace: hubWorkspace } = {} } =
+    useGetHubWithWorkspaceQuery(
+      {
+        hid: entityId,
+      },
+      {
+        skip: !isHub,
+      }
+    );
 
   const isError = isHub ? isErrorHub : isErrorCampaign;
   const workspace = isHub ? hubWorkspace : campaignWorkspace;
