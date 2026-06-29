@@ -118,6 +118,24 @@ const createUnguessApiClient = (
   };
 };
 
+// Local-testing helper: create an interview + invite token without auth (non-prod endpoint),
+// so opening /interview with no token can bootstrap itself.
+export const createDevInterview = async (
+  language: string
+): Promise<{ interviewId: string; token: string; language: string }> => {
+  const res = await fetch(`${API_BASE}/interviews/dev-bootstrap`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ language }),
+  });
+  if (!res.ok) throw new Error(`dev-bootstrap failed: ${res.status}`);
+  return res.json() as Promise<{
+    interviewId: string;
+    token: string;
+    language: string;
+  }>;
+};
+
 export const createInterviewClient = (opts?: {
   interviewId?: string;
   token?: string;

@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { InterviewTurn } from './api';
+import { createDevInterview, InterviewTurn } from './api';
 
 export type RealtimeStatus = 'idle' | 'connecting' | 'live' | 'ended' | 'error';
 
@@ -79,8 +79,12 @@ export const useRealtimeWsInterview = (opts?: {
       setStatus('connecting');
       setTranscript([]);
       try {
-        if (!opts?.token || !opts?.interviewId) {
-          throw new Error('missing interview token');
+        // With a token in the URL use it; otherwise bootstrap one (dev-only) so plain
+        // /interview just works for local testing.
+        let token = opts?.token;
+        if (!token) {
+          const boot = await createDevInterview(language);
+          token = boot.token;
         }
         if (!navigator.mediaDevices?.getUserMedia) {
           throw new Error(
@@ -114,7 +118,7 @@ export const useRealtimeWsInterview = (opts?: {
         playbackRef.current = playback;
 
         const ws = new WebSocket(
-          `${WS_BASE}/realtime?token=${encodeURIComponent(opts.token)}`
+          `${WS_BASE}/realtime?token=${encodeURIComponent(token)}`
         );
         ws.binaryType = 'arraybuffer';
         wsRef.current = ws;
