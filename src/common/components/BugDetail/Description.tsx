@@ -49,7 +49,7 @@ export default ({
           {t('__BUGS_PAGE_BUG_DETAIL_EXPECTED_RESULT_LABEL')}
         </StyledLabel>
         {/* TODO: Fix Editor component in design system. Currently, keep "key" and "contentType" to avoid issues with rendering */}
-        <Editor key={bug.step_by_step} contentType="markdown" editable={false}>
+        <Editor key={bug.expected_result} contentType="markdown" editable={false}>
           {bug.expected_result}
         </Editor>
       </TextBlock>
@@ -57,7 +57,9 @@ export default ({
         <StyledLabel>
           {t('__BUGS_PAGE_BUG_DETAIL_CURRENT_RESULT_LABEL')}
         </StyledLabel>
-        <Editor editable={false}>{bug.current_result}</Editor>
+        <Editor key={bug.current_result} contentType="markdown" editable={false}>
+          {bug.current_result}
+        </Editor>
       </TextBlock>
 
       <TextBlock>
