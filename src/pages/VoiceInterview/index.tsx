@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import { useRealtimeInterview } from './useRealtimeInterview';
+import { useRealtimeWsInterview } from './useRealtimeWsInterview';
 
 const LANGUAGES = [
   { code: 'it', label: 'Italiano' },
@@ -143,7 +143,7 @@ const VoiceInterview = () => {
     videoRef,
     start,
     end,
-  } = useRealtimeInterview({ interviewId, token });
+  } = useRealtimeWsInterview({ interviewId, token });
 
   useEffect(() => {
     refreshMics();
