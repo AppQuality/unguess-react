@@ -12,6 +12,9 @@ unguessApi.enhanceEndpoints({
     getWorkspacesByWidCampaigns: {
       providesTags: ['Campaigns', 'Projects'],
     },
+    getWorkspacesByWidHubs: {
+      providesTags: ['Hubs'],
+    },
     getWorkspacesByWidProjects: {
       providesTags: ['Projects'],
     },
@@ -47,6 +50,9 @@ unguessApi.enhanceEndpoints({
     },
     postProjects: {
       invalidatesTags: ['Projects'],
+    },
+    postProjectsByPidHubs: {
+      invalidatesTags: ['Hubs'],
     },
     getWorkspacesByWidCoins: {
       providesTags: ['Workspaces'],
