@@ -1,6 +1,4 @@
 import { Button } from '@appquality/unguess-design-system';
-import { ReactComponent as DownloadIcon } from '@zendeskgarden/svg-icons/src/16/download-stroke.svg';
-import { ReactComponent as ExternalLinkIcon } from '@zendeskgarden/svg-icons/src/16/new-window-stroke.svg';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
@@ -10,10 +8,6 @@ import {
   useNavigate,
   useSearchParams,
 } from 'react-router-dom';
-import { useAppDispatch } from 'src/app/hooks';
-import { ReactComponent as GearIcon } from 'src/assets/icons/gear.svg';
-import { ReactComponent as EditRedoStroke } from 'src/assets/icons/move-icon.svg';
-import { ReactComponent as InboxFill } from 'src/assets/icons/project-archive.svg';
 import { CampaignSettings } from 'src/common/components/inviteUsers/campaignSettings';
 import { PageLoader } from 'src/common/components/PageLoader';
 import WPAPI from 'src/common/wpapi';
@@ -25,15 +19,7 @@ import {
 } from 'src/features/api';
 import { useGetCampaignWithWorkspaceQuery } from 'src/features/api/customEndpoints/getCampaignWithWorkspace';
 import { useGetHubWithWorkspaceQuery } from 'src/features/api/customEndpoints/getHubWithWorkspace';
-import {
-  setCampaignId,
-  setHubId,
-  setIsHub,
-  setPermissionSettingsTitle,
-  setWorkspace,
-} from 'src/features/navigation/navigationSlice';
 import { useActiveWorkspaceProjects } from 'src/hooks/useActiveWorkspaceProjects';
-import { useCampaignAnalytics } from 'src/hooks/useCampaignAnalytics';
 import { useCanAccessToActiveWorkspace } from 'src/hooks/useCanAccessToActiveWorkspace';
 import { useEntityId } from 'src/hooks/useEntityId';
 import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
@@ -50,13 +36,11 @@ import {
 import { WatcherList } from 'src/pages/Campaign/pageHeader/Meta/WatcherList';
 import { ImportMediaModal } from 'src/pages/Videos/ImportMediaModal';
 import Videos from 'src/pages/Videos';
+import { buildCampaignMenuSections } from './buildCampaignMenuSections';
 import type { CampaignHubContext } from './CampaignsHubsMiddleware';
-import {
-  EntityPageHeader,
-  type EntityMenuItem,
-  type EntityPageTabId,
-} from './EntityPageHeader';
+import { EntityPageHeader, type EntityPageTabId } from './EntityPageHeader';
 import { Page } from './Page';
+import { useSyncEntityNavigation } from './useSyncEntityNavigation';
 
 const CAMPAIGN_DEFAULT_TAB: EntityPageTabId = 'overview';
 const HUB_DEFAULT_TAB: EntityPageTabId = 'media-list';
@@ -90,6 +74,13 @@ const getCampaignTabs = (
 
 const getHubTabs = (): EntityPageTabId[] => ['media-list', 'insights'];
 
+const TAB_LABEL_KEYS: Record<EntityPageTabId, string> = {
+  overview: '__ENTITY_PAGE_TAB_OVERVIEW',
+  'media-list': '__ENTITY_PAGE_TAB_MEDIA_LIST',
+  insights: '__ENTITY_PAGE_TAB_INSIGHTS',
+  'bug-list': '__ENTITY_PAGE_TAB_BUG_LIST',
+};
+
 const getValidatedTab = ({
   tab,
   enabledTabs,
@@ -114,7 +105,6 @@ const getValidatedTab = ({
 
 const EntityPageWrapperInner = () => {
   const { t } = useTranslation();
-  const dispatch = useAppDispatch();
   const location = useLocation();
   const navigate = useNavigate();
   const { handleUseCaseExport } = useUseCaseExport();
@@ -235,41 +225,13 @@ const EntityPageWrapperInner = () => {
     setSearchParams,
   ]);
 
-  useEffect(() => {
-    if (workspace) {
-      dispatch(setWorkspace(workspace));
-    }
-  }, [workspace, dispatch]);
-
-  useEffect(() => {
-    if (isHub && hub) {
-      dispatch(setPermissionSettingsTitle(hub.customer_title ?? hub.title));
-      dispatch(setHubId(hub.id));
-      dispatch(setIsHub(true));
-      return () => {
-        dispatch(setPermissionSettingsTitle(undefined));
-        dispatch(setCampaignId(undefined));
-        dispatch(setHubId(undefined));
-        dispatch(setIsHub(undefined));
-      };
-    }
-
-    if (campaign) {
-      dispatch(setPermissionSettingsTitle(campaign.customer_title));
-      dispatch(setCampaignId(campaign.id));
-      dispatch(setIsHub(false));
-    }
-
-    return () => {
-      dispatch(setPermissionSettingsTitle(undefined));
-      dispatch(setCampaignId(undefined));
-      dispatch(setHubId(undefined));
-      dispatch(setIsHub(undefined));
-    };
-  }, [campaign, hub, isHub, dispatch]);
-
-  // Mark campaign as read once at wrapper level.
-  useCampaignAnalytics(!isHub && !shouldUseLegacyPath ? entityId : undefined);
+  useSyncEntityNavigation({
+    isHub,
+    campaign,
+    hub,
+    workspace,
+    analyticsCampaignId: !isHub && !shouldUseLegacyPath ? entityId : undefined,
+  });
 
   // UN-2893 scope: keep root legacy content untouched when tab is absent.
   if (shouldUseLegacyPath) {
@@ -314,20 +276,11 @@ const EntityPageWrapperInner = () => {
       )
     : projectRouteFallback;
 
-  const tabs = enabledTabs.map((id) => {
-    switch (id) {
-      case 'overview':
-        return { id, label: t('__ENTITY_PAGE_TAB_OVERVIEW') };
-      case 'media-list':
-        return { id, label: t('__ENTITY_PAGE_TAB_MEDIA_LIST') };
-      case 'insights':
-        return { id, label: t('__ENTITY_PAGE_TAB_INSIGHTS') };
-      case 'bug-list':
-        return { id, label: t('__ENTITY_PAGE_TAB_BUG_LIST') };
-      default:
-        return { id, label: id };
-    }
-  });
+  const tabs = enabledTabs.map((id) => ({
+    id,
+    // eslint-disable-next-line security/detect-object-injection
+    label: t(TAB_LABEL_KEYS[id]),
+  }));
 
   const campaignIds = workspaceProjectsData?.items
     ?.filter((item) => item.id !== campaign?.project.id)
@@ -367,71 +320,28 @@ const EntityPageWrapperInner = () => {
     return null;
   };
 
-  const menuSections: EntityMenuItem[][] = [];
-  if (!isHub && campaign) {
-    menuSections.push([
-      {
-        id: 'move_campaign',
-        label: t('__CAMPAIGN_PAGE_DOTS_MENU_MOVE_CAMPAIGN_BUTTON'),
-        icon: <EditRedoStroke />,
-        isDisabled: isMoveCampaignDisabled,
-        onSelect: () => setIsMoveModalOpen(true),
-      },
-      {
-        id: 'archive_campaign',
-        label: t('__CAMPAIGN_PAGE_DOTS_MENU_ARCHIVE_CAMPAIGN_BUTTON'),
-        icon: <InboxFill />,
-        isDisabled: campaign.status.id !== 2,
-        onSelect: () => setIsArchiveModalOpen(true),
-      },
-    ]);
-
-    const downloadSection: EntityMenuItem[] = [];
-    if (showDownloadAnalysis) {
-      downloadSection.push({
-        id: 'download_analysis',
-        label: t('__VIDEO_PAGE_ACTIONS_EXPORT_BUTTON_LABEL'),
-        icon: <DownloadIcon />,
-        onSelect: () => handleUseCaseExport(entityId),
-      });
-    }
-    if (showBugActions) {
-      downloadSection.push(
-        {
-          id: 'download_bug_report',
-          label: t('__PAGE_HEADER_BUGS_DOTS_MENU_ITEM_REPORT'),
-          icon: <DownloadIcon />,
-          onSelect: () =>
+  const menuSections =
+    !isHub && campaign
+      ? buildCampaignMenuSections({
+          campaign,
+          t,
+          isMoveDisabled: isMoveCampaignDisabled,
+          showDownloadAnalysis,
+          showBugActions,
+          onMove: () => setIsMoveModalOpen(true),
+          onArchive: () => setIsArchiveModalOpen(true),
+          onDownloadAnalysis: () => handleUseCaseExport(entityId),
+          onDownloadBugReport: () =>
             WPAPI.getReport({
               campaignId: Number(entityId),
               title: currentEntityTitle,
             }),
-        },
-        {
-          id: 'integration_center',
-          label: t('__PAGE_HEADER_BUGS_DOTS_MENU_ITEM_INT_CENTER'),
-          icon: <GearIcon />,
-          onSelect: () => {
+          onIntegrationCenter: () => {
             window.location.href = integrationCenterUrl;
           },
-        }
-      );
-    }
-    if (downloadSection.length > 0) {
-      menuSections.push(downloadSection);
-    }
-
-    if (campaign.plan) {
-      menuSections.push([
-        {
-          id: 'go_to_plan',
-          label: t('__CAMPAIGN_PAGE_DOTS_MENU_GO_TO_PLAN_BUTTON'),
-          icon: <ExternalLinkIcon />,
-          onSelect: () => navigate(`/plans/${campaign.plan}`),
-        },
-      ]);
-    }
-  }
+          onGoToPlan: () => navigate(`/plans/${campaign.plan}`),
+        })
+      : [];
 
   const entityContext: CampaignHubContext & { activeTab: EntityPageTabId } = {
     isHub,
