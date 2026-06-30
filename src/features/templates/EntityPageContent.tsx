@@ -1,15 +1,21 @@
-// UN-2893 (Subtask 1) ships only the routing + header shell. The per-tab
-// content is NOT migrated here: it stays in the following subtasks, each
-// reusing the existing content-only components (so no legacy header is
-// rendered and no `renderHeader` suppression prop is needed):
-//   overview   -> UN-2894 (CampaignWidgets)
-//   bug-list   -> UN-2895 (BugsPageContent)
-//   media-list -> UN-2896 campaign / UN-2897 hub (VideosPageContent)
-//   insights   -> UN-2896 campaign / UN-2897 hub (InsightsPageContent)
+import { useOutletContext } from 'react-router-dom';
+import { ENTITY_TABS, type EntityTabContext } from './entityTabs';
+
+// Generic per-tab dispatcher. The actual tab bodies live in the `ENTITY_TABS`
+// registry (see `entityTabs.ts`); each tab migration registers its own content
+// module there, so this file does not change as tabs are added.
 //
-// Until then this is an intentional placeholder. The wrapper falls back to the
-// legacy content when `?tab=` is absent, so this path is not reachable through
-// normal navigation yet.
-const EntityPageContent = () => null;
+// Until a tab is registered this renders nothing — an intentional placeholder.
+// The wrapper falls back to legacy content when `?tab=` is absent, so the
+// unregistered path is not reachable through normal navigation yet.
+const EntityPageContent = () => {
+  const ctx = useOutletContext<EntityTabContext>();
+  const def = ENTITY_TABS.find((tab) => tab.match(ctx));
+
+  if (!def) return null;
+
+  const { Content } = def;
+  return <Content />;
+};
 
 export default EntityPageContent;
