@@ -54,21 +54,42 @@ test.describe('The employment module defines the screen participants employments
   });
 
   test('It should have a number > 0 as an output', async ({ i18n, page }) => {
-    await employmentModule
+    const optionLabel = i18n.t(
+      '__PLAN_PAGE_MODULE_EMPLOYMENT_OPTION_UNEMPLOYED'
+    );
+
+    // Open the dropdown by clicking the trigger
+    await employmentModule.elements().moduleInput().click();
+
+    // The actual input element (hidden initially, visible after dropdown opens)
+    const comboboxInput = employmentModule
       .elements()
       .module()
-      .getByLabel('Employment status')
-      .locator('svg')
-      .nth(2)
-      .click();
-    await page
-      .getByRole('option', {
-        name: i18n.t('__PLAN_PAGE_MODULE_EMPLOYMENT_OPTION_UNEMPLOYED'),
-      })
-      .click();
+      .locator('input[role="combobox"]');
+    await comboboxInput.waitFor({ state: 'visible' });
+
+    // Fill the input directly to ensure focus lands on the right element and
+    // triggers input:change, so matchingOptions filters down to only UNEMPLOYED
+    await comboboxInput.fill(optionLabel);
+
+    // Wait for Garden v9 to finish filtering: hidden options receive aria-hidden=true
+    // which removes them from getByRole results. Only UNEMPLOYED should remain.
+    // This ensures ne.values (Downshift's navigation pool) is updated before ArrowDown.
+    await expect(page.getByRole('option')).toHaveCount(1);
+
+    // Select via keyboard on the input element - avoids mousedown/blur race
+    // condition that occurs when clicking a portal-rendered option
+    await comboboxInput.press('ArrowDown');
+    await comboboxInput.press('Enter');
+
+    await expect(
+      employmentModule
+        .elements()
+        .module()
+        .getByLabel(`${optionLabel}, press delete or`)
+    ).toBeVisible();
     const response = await planPage.saveConfiguration();
     const data = response.request().postDataJSON();
-    // Find the locality module and check its output
     const localityModuleData = data.config.modules.find(
       (m: any) => m.type === 'employment'
     );
