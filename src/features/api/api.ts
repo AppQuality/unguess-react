@@ -56,6 +56,7 @@ export const apiSlice = createApi({
     'EvaluationRules',
     'CampaignWatchers',
     'CheckoutItem',
+    'Hubs',
   ],
   endpoints: () => ({}),
 });

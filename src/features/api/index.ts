@@ -841,6 +841,21 @@ const injectedRtkApi = api.injectEndpoints({
         },
       }),
     }),
+    getWorkspacesByWidHubs: build.query<
+      GetWorkspacesByWidHubsApiResponse,
+      GetWorkspacesByWidHubsApiArg
+    >({
+      query: (queryArg) => ({
+        url: `/workspaces/${queryArg.wid}/hubs`,
+        params: {
+          limit: queryArg.limit,
+          start: queryArg.start,
+          order: queryArg.order,
+          orderBy: queryArg.orderBy,
+          filterBy: queryArg.filterBy,
+        },
+      }),
+    }),
     getWorkspacesByWidCoins: build.query<
       GetWorkspacesByWidCoinsApiResponse,
       GetWorkspacesByWidCoinsApiArg
@@ -1789,22 +1804,7 @@ export type GetCompaniesSizesApiResponse = /** status 200 OK */ {
   name: string;
 }[];
 export type GetCompaniesSizesApiArg = void;
-export type GetHubsByHidApiResponse = /** status 200 OK */ {
-  id: number;
-  title: string;
-  customer_title: string;
-  description: string;
-  isArchived?: boolean;
-  project: {
-    id: number;
-    name: string;
-  };
-  start_date: string;
-  workspace: {
-    id: number;
-    name: string;
-  };
-};
+export type GetHubsByHidApiResponse = /** status 200 OK */ Hub;
 export type GetHubsByHidApiArg = {
   /** Hub id */
   hid: string;
@@ -2352,6 +2352,27 @@ export type GetWorkspacesByWidCampaignsApiResponse = /** status 200 OK */ {
   total?: number;
 };
 export type GetWorkspacesByWidCampaignsApiArg = {
+  /** Workspace (company, customer) id */
+  wid: string;
+  /** Limit pagination parameter */
+  limit?: number;
+  /** Start pagination parameter */
+  start?: number;
+  /** Order value (ASC, DESC) */
+  order?: string;
+  /** Order by accepted field */
+  orderBy?: string;
+  /** filterBy[<fieldName>]=<fieldValue> */
+  filterBy?: any;
+};
+export type GetWorkspacesByWidHubsApiResponse = /** status 200 OK */ {
+  items?: Hub[];
+  limit?: number;
+  size?: number;
+  start?: number;
+  total?: number;
+};
+export type GetWorkspacesByWidHubsApiArg = {
   /** Workspace (company, customer) id */
   wid: string;
   /** Limit pagination parameter */
@@ -3469,6 +3490,22 @@ export type WidgetCampaignUxMostUsedTitles = {
   };
   kind: 'uxMostUsedTitles';
 };
+export type Hub = {
+  id: number;
+  title: string;
+  customer_title: string;
+  description: string;
+  isArchived?: boolean;
+  project: {
+    id: number;
+    name: string;
+  };
+  start_date: string;
+  workspace: {
+    id: number;
+    name: string;
+  };
+};
 export type PlanStatus = 'pending_review' | 'draft' | 'approved' | 'paying';
 export type PurchasablePlanRules =
   | 'number_of_modules'
@@ -3732,6 +3769,7 @@ export const {
   useGetWorkspacesByWidQuery,
   useGetWorkspacesByWidArchiveQuery,
   useGetWorkspacesByWidCampaignsQuery,
+  useGetWorkspacesByWidHubsQuery,
   useGetWorkspacesByWidCoinsQuery,
   useGetWorkspacesByWidPlansQuery,
   usePostWorkspacesByWidPlansMutation,

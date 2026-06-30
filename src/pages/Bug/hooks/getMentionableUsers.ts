@@ -17,6 +17,7 @@ export type SuggestedUser = {
 export const useGetMentionableUsers = () => {
   const { activeWorkspace } = useAppSelector((state) => state.navigation);
   const { campaignId } = useParams();
+  // TODO: If hubs will support bugs in the future, we need to also fetch hub users here. For now, we only have bugs for campaigns.
   const { data: { campaign } = {} } = useGetCampaignWithWorkspaceQuery({
     cid: campaignId || '0',
   });
