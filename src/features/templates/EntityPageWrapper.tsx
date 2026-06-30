@@ -17,8 +17,6 @@ import {
   useGetCampaignsByCidVideosQuery,
   useGetUsersMeQuery,
 } from 'src/features/api';
-import { useGetCampaignWithWorkspaceQuery } from 'src/features/api/customEndpoints/getCampaignWithWorkspace';
-import { useGetHubWithWorkspaceQuery } from 'src/features/api/customEndpoints/getHubWithWorkspace';
 import { useActiveWorkspaceProjects } from 'src/hooks/useActiveWorkspaceProjects';
 import { useCanAccessToActiveWorkspace } from 'src/hooks/useCanAccessToActiveWorkspace';
 import { useEntityId } from 'src/hooks/useEntityId';
@@ -40,6 +38,7 @@ import { buildCampaignMenuSections } from './buildCampaignMenuSections';
 import type { CampaignHubContext } from './CampaignsHubsMiddleware';
 import { EntityPageHeader, type EntityPageTabId } from './EntityPageHeader';
 import { Page } from './Page';
+import { useEntityData } from './useEntityData';
 import { useSyncEntityNavigation } from './useSyncEntityNavigation';
 
 const CAMPAIGN_DEFAULT_TAB: EntityPageTabId = 'overview';
@@ -139,36 +138,12 @@ const EntityPageWrapperInner = () => {
     !!userError;
 
   const {
-    data: campaignData,
-    isLoading: isCampaignLoading,
-    isFetching: isCampaignFetching,
-    isError: isCampaignError,
-  } = useGetCampaignWithWorkspaceQuery(
-    {
-      cid: entityId ?? '0',
-    },
-    {
-      skip: shouldSkipEntityQuery || isHub,
-    }
-  );
-
-  const {
-    data: hubData,
-    isLoading: isHubLoading,
-    isFetching: isHubFetching,
-    isError: isHubError,
-  } = useGetHubWithWorkspaceQuery(
-    {
-      hid: entityId ?? '0',
-    },
-    {
-      skip: shouldSkipEntityQuery || !isHub,
-    }
-  );
-
-  const campaign = campaignData?.campaign;
-  const hub = hubData?.hub;
-  const workspace = isHub ? hubData?.workspace : campaignData?.workspace;
+    campaign,
+    hub,
+    workspace,
+    isLoading: isEntityLoading,
+    isError: isEntityError,
+  } = useEntityData({ entityId, isHub, skip: shouldSkipEntityQuery });
 
   const {
     data: videos,
@@ -202,11 +177,6 @@ const EntityPageWrapperInner = () => {
   });
 
   const { data: workspaceProjectsData } = useActiveWorkspaceProjects();
-
-  const isEntityLoading = isHub
-    ? isHubLoading || isHubFetching
-    : isCampaignLoading || isCampaignFetching;
-  const isEntityError = isHub ? isHubError : isCampaignError;
 
   useEffect(() => {
     if (shouldUseLegacyPath || !entityId) return;
