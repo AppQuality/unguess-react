@@ -27,7 +27,6 @@ import { useSyncEntityNavigation } from 'src/hooks/useSyncEntityNavigation';
 import { useUseCaseExport } from 'src/hooks/useUseCaseExport';
 import { getLocalizeIntegrationCenterRoute } from 'src/hooks/useLocalizeIntegrationCenterUrl';
 import { ArchiveCampaignModal } from 'src/pages/Campaign/ArchiveCampaignModal';
-import Campaign from 'src/pages/Campaign';
 import {
   MoveCampaignModal,
   MoveCampaignModalContextProvider,
@@ -120,7 +119,10 @@ const EntityPageWrapperInner = () => {
   const hasTaggingToolFeature = hasFeatureFlag(FEATURE_FLAG_TAGGING_TOOL);
   const projectRouteFallback = useLocalizeRoute('projects/0');
   const tabParam = searchParams.get('tab');
-  const shouldUseLegacyPath = !tabParam;
+  // UN-2894: campaign root now enters the wrapper (defaults to the overview
+  // tab, the effect below sets `?tab=overview`). Hub root stays legacy until
+  // UN-2897.
+  const shouldUseLegacyPath = !tabParam && isHub;
 
   const {
     data: userData,
@@ -203,9 +205,9 @@ const EntityPageWrapperInner = () => {
     analyticsCampaignId: !isHub && !shouldUseLegacyPath ? entityId : undefined,
   });
 
-  // UN-2893 scope: keep root legacy content untouched when tab is absent.
+  // Hub root keeps the legacy content until UN-2897.
   if (shouldUseLegacyPath) {
-    return isHub ? <Videos /> : <Campaign />;
+    return <Videos />;
   }
 
   if (isUserLoading || isUserFetching) {

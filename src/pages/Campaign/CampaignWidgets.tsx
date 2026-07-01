@@ -1,4 +1,5 @@
 import { Col, Grid, Row } from '@appquality/unguess-design-system';
+import { type ReactNode } from 'react';
 import {
   AsideNav,
   StickyNavItem,
@@ -10,7 +11,14 @@ import { useEntityId } from 'src/hooks/useEntityId';
 import { EmptyState } from './EmptyState';
 import { useWidgets } from './useWidgets';
 
-export const CampaignWidgets = () => {
+export const CampaignWidgets = ({
+  contentHeader,
+}: {
+  // Optional content rendered at the top of the main content column (aligned
+  // with the widgets, not full-width). Used by the entity overview tab to place
+  // the meta row; the legacy page passes nothing.
+  contentHeader?: ReactNode;
+}) => {
   const resolvedCampaignId = useEntityId();
   const { widgets, isLoading } = useWidgets({
     campaignId: resolvedCampaignId ? Number(resolvedCampaignId) : 0,
@@ -18,7 +26,10 @@ export const CampaignWidgets = () => {
   const { all, footers, items, itemsWithTitles } = widgets;
 
   return all.length === 0 ? (
-    <EmptyState />
+    <>
+      {contentHeader}
+      <EmptyState />
+    </>
   ) : (
     <Grid gutters="xl">
       <Row>
@@ -63,6 +74,7 @@ export const CampaignWidgets = () => {
           </AsideNav>
         </Col>
         <Col xs={12} lg={10}>
+          {contentHeader}
           {items.map((widget) => widget.content)}
         </Col>
       </Row>

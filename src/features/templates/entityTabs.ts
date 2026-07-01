@@ -1,6 +1,7 @@
 import type { ComponentType } from 'react';
 import type { CampaignHubContext } from './CampaignsHubsMiddleware';
 import type { EntityPageTabId } from './EntityPageHeader';
+import { OverviewTab } from './tabs/OverviewTab';
 
 /**
  * Context exposed to per-tab content via the wrapper `<Outlet>`. Mirrors the
@@ -37,4 +38,10 @@ export interface EntityTabDef {
  * wins. While empty, the wrapper renders no tab body (the shell still falls
  * back to legacy content when `?tab=` is absent).
  */
-export const ENTITY_TABS: EntityTabDef[] = [];
+export const ENTITY_TABS: EntityTabDef[] = [
+  {
+    id: 'overview',
+    match: (ctx) => !ctx.isHub && ctx.activeTab === 'overview',
+    Content: OverviewTab,
+  },
+];

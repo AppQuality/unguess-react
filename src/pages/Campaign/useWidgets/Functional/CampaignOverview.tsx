@@ -1,4 +1,3 @@
-import { useTranslation } from 'react-i18next';
 import { Campaign } from 'src/features/api';
 import { useHasOnlyUniqueBugs } from '../../useHasOnlyUniqueBugs';
 import { WidgetSectionNew } from '../../WidgetSection';
@@ -15,14 +14,10 @@ export const CampaignOverview = ({
   id: string;
   campaign: Campaign;
 }) => {
-  const { t } = useTranslation();
   const hasOnlyUniqueBugs = useHasOnlyUniqueBugs(campaign.id);
 
   return (
-    <WidgetSectionNew
-      id={id}
-      title={t('__CAMPAIGN_PAGE_NAVIGATION_BUG_ITEM_OVERVIEW_LABEL')}
-    >
+    <WidgetSectionNew id={id}>
       <Progress campaign={campaign} />
       {hasOnlyUniqueBugs ? (
         <OnlyUniqueBugs campaignId={campaign ? campaign.id : 0} />
