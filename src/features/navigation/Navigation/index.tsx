@@ -53,6 +53,7 @@ export const Navigation = ({
     switch (route) {
       case 'service':
       case 'campaigns':
+      case 'hubs':
       case 'bugs':
       case 'bug':
       case 'video':
