@@ -1,4 +1,4 @@
-import { Button } from '@appquality/unguess-design-system';
+import { Button, GlobalAlert, MD } from '@appquality/unguess-design-system';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
@@ -259,6 +259,8 @@ const EntityPageWrapperInner = () => {
   const isMoveCampaignDisabled =
     !campaignIds || campaignIds.length === 0 || !hasWorkspaceAccess;
 
+  const isArchived = (isHub ? hub?.isArchived : campaign?.isArchived) ?? false;
+
   const hasBugs = campaign?.outputs?.includes('bugs') ?? false;
   const showBugActions =
     !isHub && (activeTab === 'overview' || activeTab === 'bug-list') && hasBugs;
@@ -295,6 +297,7 @@ const EntityPageWrapperInner = () => {
       ? buildCampaignMenuSections({
           campaign,
           t,
+          isArchived,
           isMoveDisabled: isMoveCampaignDisabled,
           showDownloadAnalysis,
           showBugActions,
@@ -319,6 +322,36 @@ const EntityPageWrapperInner = () => {
     activeTab,
   };
 
+  const archivedBanner = isArchived ? (
+    <GlobalAlert
+      type="warning"
+      message={
+        <span
+          style={{
+            display: 'flex',
+            gap: '4px',
+            alignItems: 'center',
+            justifyContent: 'flex-start',
+          }}
+        >
+          <MD isBold>{t('__CAMPAIGN_ARCHIVE_HEADER_ALERT_1')}</MD>
+          <MD>{t('__CAMPAIGN_ARCHIVE_HEADER_ALERT_2')}</MD>
+        </span>
+      }
+      // Unarchive re-homes the entity via the move modal, which today only
+      // exists for campaigns. Hubs show the banner without the CTA until their
+      // archive/move flow is enabled.
+      cta={
+        !isHub
+          ? {
+              label: t('__CAMPAIGN_ARCHIVE_UNARCHIVE_BUTTON'),
+              onClick: () => setIsMoveModalOpen(true),
+            }
+          : undefined
+      }
+    />
+  ) : null;
+
   return (
     <Page
       title={currentEntityTitle || 'Entity'}
@@ -335,6 +368,7 @@ const EntityPageWrapperInner = () => {
           }}
           tabs={tabs}
           activeTab={activeTab}
+          bannerSlot={archivedBanner}
           shareAndViewersSlot={
             !isHub && campaign && !campaign.isArchived ? (
               <>

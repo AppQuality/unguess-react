@@ -40,6 +40,10 @@ const extendedApi = apiSlice.injectEndpoints({
             }
           : { error: workspaceResult.error as FetchBaseQueryError };
       },
+      // Provide the same tags the underlying resources use so mutations that
+      // invalidate them (e.g. patchCampaignsByCid on move/archive) refetch this
+      // composite query instead of serving stale campaign/workspace data.
+      providesTags: ['Campaigns', 'Workspaces'],
     }),
   }),
   overrideExisting: false,

@@ -15,6 +15,7 @@ import type { EntityMenuItem } from './EntityPageHeader';
 export const buildCampaignMenuSections = ({
   campaign,
   t,
+  isArchived,
   isMoveDisabled,
   showDownloadAnalysis,
   showBugActions,
@@ -27,6 +28,7 @@ export const buildCampaignMenuSections = ({
 }: {
   campaign: GetCampaignsByCidApiResponse;
   t: TFunction;
+  isArchived: boolean;
   isMoveDisabled: boolean;
   showDownloadAnalysis: boolean;
   showBugActions: boolean;
@@ -37,8 +39,12 @@ export const buildCampaignMenuSections = ({
   onIntegrationCenter: () => void;
   onGoToPlan: () => void;
 }): EntityMenuItem[][] => {
-  const sections: EntityMenuItem[][] = [
-    [
+  const sections: EntityMenuItem[][] = [];
+
+  // Move/Archive are hidden for an archived entity: unarchiving is driven from
+  // the archived banner CTA, and re-archiving is not applicable.
+  if (!isArchived) {
+    sections.push([
       {
         id: 'move_campaign',
         label: t('__CAMPAIGN_PAGE_DOTS_MENU_MOVE_CAMPAIGN_BUTTON'),
@@ -53,8 +59,8 @@ export const buildCampaignMenuSections = ({
         isDisabled: campaign.status.id !== 2,
         onSelect: onArchive,
       },
-    ],
-  ];
+    ]);
+  }
 
   const downloadSection: EntityMenuItem[] = [];
   if (showDownloadAnalysis) {

@@ -27,6 +27,7 @@ const StyledTabList = styled.ul`
   padding: 0;
   border-bottom: 1px solid ${({ theme }) => theme.palette.grey[300]};
   overflow-x: auto;
+  overflow-y: hidden;
 `;
 
 const StyledNavButton = styled(Link)<{ $active: boolean }>`

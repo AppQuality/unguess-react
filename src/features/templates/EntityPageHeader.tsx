@@ -48,6 +48,8 @@ type EntityPageHeaderProps = {
   };
   tabs: EntityPageTab[];
   activeTab: EntityPageTabId;
+  /** Full-width alert rendered above the header (e.g. archived-entity banner). */
+  bannerSlot?: React.ReactNode;
   shareAndViewersSlot?: React.ReactNode;
   ctaSlot?: React.ReactNode;
   /** Action-menu items grouped into sections; a divider separates each non-empty section. */
@@ -89,6 +91,7 @@ export const EntityPageHeader = ({
   project,
   tabs,
   activeTab,
+  bannerSlot,
   shareAndViewersSlot,
   ctaSlot,
   menuSections,
@@ -108,72 +111,75 @@ export const EntityPageHeader = ({
   const menuItems = visibleSections.flat();
 
   return (
-    <LayoutWrapper isNotBoxed>
-      <PageHeader
-        style={{ borderBottom: 'none', paddingBottom: appTheme.space.xs }}
-      >
-        <PageHeader.Breadcrumbs>
-          {project.hasAccess ? (
-            <Link to={project.route}>
-              <Anchor id="breadcrumb-project">{project.name}</Anchor>
-            </Link>
-          ) : (
-            project.name
-          )}
-        </PageHeader.Breadcrumbs>
-        <TitleRow>
-          <TitleColumn>
-            <EditableEntityTitle entityId={entityId} title={entityTitle} />
-          </TitleColumn>
-          <ActionsContainer>
-            {shareAndViewersSlot}
-            {ctaSlot}
-            {menuItems.length > 0 && (
-              <ButtonMenu
-                onSelect={(value) =>
-                  menuItems.find((item) => item.id === value)?.onSelect()
-                }
-                label={(props) => (
-                  <IconButton
-                    data-qa="campaign_pageHeader_kebabMenu"
-                    {...props}
-                  >
-                    <DotsIcon />
-                  </IconButton>
-                )}
-              >
-                {visibleSections.map((section, sectionIndex) => (
-                  <Fragment key={section.map((item) => item.id).join('|')}>
-                    {sectionIndex > 0 && <Divider />}
-                    {section.map((item) => (
-                      <ButtonMenu.Item
-                        key={item.id}
-                        value={item.id}
-                        icon={item.icon}
-                        isDisabled={item.isDisabled}
-                      >
-                        {item.label}
-                      </ButtonMenu.Item>
-                    ))}
-                  </Fragment>
-                ))}
-              </ButtonMenu>
+    <>
+      {bannerSlot}
+      <LayoutWrapper isNotBoxed>
+        <PageHeader
+          style={{ borderBottom: 'none', paddingBottom: appTheme.space.xs }}
+        >
+          <PageHeader.Breadcrumbs>
+            {project.hasAccess ? (
+              <Link to={project.route}>
+                <Anchor id="breadcrumb-project">{project.name}</Anchor>
+              </Link>
+            ) : (
+              project.name
             )}
-          </ActionsContainer>
-        </TitleRow>
-      </PageHeader>
+          </PageHeader.Breadcrumbs>
+          <TitleRow>
+            <TitleColumn>
+              <EditableEntityTitle entityId={entityId} title={entityTitle} />
+            </TitleColumn>
+            <ActionsContainer>
+              {shareAndViewersSlot}
+              {ctaSlot}
+              {menuItems.length > 0 && (
+                <ButtonMenu
+                  onSelect={(value) =>
+                    menuItems.find((item) => item.id === value)?.onSelect()
+                  }
+                  label={(props) => (
+                    <IconButton
+                      data-qa="campaign_pageHeader_kebabMenu"
+                      {...props}
+                    >
+                      <DotsIcon />
+                    </IconButton>
+                  )}
+                >
+                  {visibleSections.map((section, sectionIndex) => (
+                    <Fragment key={section.map((item) => item.id).join('|')}>
+                      {sectionIndex > 0 && <Divider />}
+                      {section.map((item) => (
+                        <ButtonMenu.Item
+                          key={item.id}
+                          value={item.id}
+                          icon={item.icon}
+                          isDisabled={item.isDisabled}
+                        >
+                          {item.label}
+                        </ButtonMenu.Item>
+                      ))}
+                    </Fragment>
+                  ))}
+                </ButtonMenu>
+              )}
+            </ActionsContainer>
+          </TitleRow>
+        </PageHeader>
 
-      <TabsRow>
-        <TabNavigation
-          aria-label={entityTitle}
-          activeId={activeTab}
-          items={tabs.map((tab) => ({
-            id: tab.id,
-            label: tab.label,
-            to: getTabLink(tab.id),
-          }))}
-        />
-      </TabsRow>
-    </LayoutWrapper>
+        <TabsRow>
+          <TabNavigation
+            aria-label={entityTitle}
+            activeId={activeTab}
+            items={tabs.map((tab) => ({
+              id: tab.id,
+              label: tab.label,
+              to: getTabLink(tab.id),
+            }))}
+          />
+        </TabsRow>
+      </LayoutWrapper>
+    </>
   );
 };
