@@ -23,7 +23,7 @@ const WidgetGrid = styled.div`
 
 interface WidgetSectionProps {
   id?: string;
-  title: string;
+  title?: string;
   subtitle?: string;
   children?: React.ReactNode;
 }
@@ -35,9 +35,11 @@ const WidgetSectionNew = ({
   children,
 }: WidgetSectionProps) => (
   <section id={id}>
-    <header style={{ marginBottom: appTheme.space.xl }}>
-      <SectionTitle subtitle={subtitle} title={title} />
-    </header>
+    {title && (
+      <header style={{ marginBottom: appTheme.space.xl }}>
+        <SectionTitle subtitle={subtitle} title={title} />
+      </header>
+    )}
     <WidgetGrid>{children}</WidgetGrid>
   </section>
 );
