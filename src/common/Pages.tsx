@@ -34,6 +34,7 @@ import { LogoutPage } from 'src/pages/Auth/logout';
 import CampaignsHubsMiddleware from 'src/features/templates/CampaignsHubsMiddleware';
 import EntityPageWrapper from 'src/features/templates/EntityPageWrapper';
 import EntityPageContent from 'src/features/templates/EntityPageContent';
+import { LegacyEntityTabRedirect } from 'src/features/templates/LegacyEntityTabRedirect';
 import { Redirect } from './Redirect';
 
 const Pages = () => {
@@ -102,11 +103,11 @@ const Pages = () => {
                   </Route>
                   <Route
                     path={`/${langPrefix}/campaigns/:entityId/videos`}
-                    element={<Videos />}
+                    element={<LegacyEntityTabRedirect tab="media-list" />}
                   />
                   <Route
                     path={`/${langPrefix}/campaigns/:entityId/insights`}
-                    element={<InsightsPage />}
+                    element={<LegacyEntityTabRedirect tab="insights" />}
                   />
                   <Route
                     path={`/${langPrefix}/campaigns/:entityId/videos/:videoId`}
