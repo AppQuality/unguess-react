@@ -1,6 +1,7 @@
 import type { ComponentType } from 'react';
 import type { CampaignHubContext } from './CampaignsHubsMiddleware';
 import type { EntityPageTabId } from './EntityPageHeader';
+import { BugListTab } from './tabs/BugListTab';
 import { OverviewTab } from './tabs/OverviewTab';
 
 /**
@@ -43,5 +44,10 @@ export const ENTITY_TABS: EntityTabDef[] = [
     id: 'overview',
     match: (ctx) => !ctx.isHub && ctx.activeTab === 'overview',
     Content: OverviewTab,
+  },
+  {
+    id: 'bug-list',
+    match: (ctx) => !ctx.isHub && ctx.activeTab === 'bug-list',
+    Content: BugListTab,
   },
 ];
