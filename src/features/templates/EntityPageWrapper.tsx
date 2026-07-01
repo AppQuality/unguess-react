@@ -180,8 +180,23 @@ const EntityPageWrapperInner = () => {
 
   const { data: workspaceProjectsData } = useActiveWorkspaceProjects();
 
+  // `enabledTabs` is only final once the entity has actually loaded (before
+  // that, `campaign`/`hub` are undefined and `getCampaignTabs`/`getHubTabs`
+  // report a narrower set, e.g. campaign defaults to `['overview']` only).
+  // Gate the URL-correction effect on this so a deep link to a non-default
+  // tab (e.g. `?tab=media-list`) isn't clobbered back to the fallback tab
+  // while data is still in flight.
+  const isEntityDataReady =
+    !isUserLoading &&
+    !isUserFetching &&
+    !!userData &&
+    !!entityId &&
+    !isEntityLoading &&
+    !isEntityError &&
+    (isHub ? !!hub : !!campaign);
+
   useEffect(() => {
-    if (shouldUseLegacyPath || !entityId) return;
+    if (shouldUseLegacyPath || !entityId || !isEntityDataReady) return;
 
     if (tabParam !== activeTab) {
       const nextSearchParams = new URLSearchParams(searchParams);
@@ -191,6 +206,7 @@ const EntityPageWrapperInner = () => {
   }, [
     shouldUseLegacyPath,
     entityId,
+    isEntityDataReady,
     tabParam,
     activeTab,
     searchParams,

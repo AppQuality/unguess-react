@@ -7,7 +7,7 @@ import {
   Tag,
 } from '@appquality/unguess-design-system';
 import { ReactComponent as PlayIcon } from '@zendeskgarden/svg-icons/src/16/play-circle-stroke.svg';
-import { useState } from 'react';
+import { type ReactNode, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useOutletContext } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
@@ -31,7 +31,14 @@ const AccordionFooter = styled.div`
   align-items: center;
 `;
 
-const VideosPageContent = () => {
+const VideosPageContent = ({
+  contentHeader,
+}: {
+  // Optional content rendered at the top of the content column (aligned with
+  // the video grid/empty state, not full-width). Used by the entity media-list
+  // tab to place the tab title + meta row; the legacy page passes nothing.
+  contentHeader?: ReactNode;
+}) => {
   const { t } = useTranslation();
 
   const { isHub, entityId } = useOutletContext<CampaignHubContext>();
@@ -57,9 +64,15 @@ const VideosPageContent = () => {
   return (
     <>
       {!videos || totalVideos === 0 ? (
-        <Empty onOpenImportMediaModal={() => setIsImportMediaModalOpen(true)} />
+        <>
+          {contentHeader}
+          <Empty
+            onOpenImportMediaModal={() => setIsImportMediaModalOpen(true)}
+          />
+        </>
       ) : (
         <LayoutWrapper isNotBoxed>
+          {contentHeader}
           <div style={{ opacity: isFetching ? 0.5 : 1 }}>
             <Grid>
               {!!usecases?.length && (
