@@ -19,9 +19,11 @@ import {
 } from 'src/features/api';
 import { useActiveWorkspaceProjects } from 'src/hooks/useActiveWorkspaceProjects';
 import { useCanAccessToActiveWorkspace } from 'src/hooks/useCanAccessToActiveWorkspace';
+import { useEntityData } from 'src/hooks/useEntityData';
 import { useEntityId } from 'src/hooks/useEntityId';
 import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
+import { useSyncEntityNavigation } from 'src/hooks/useSyncEntityNavigation';
 import { useUseCaseExport } from 'src/hooks/useUseCaseExport';
 import { getLocalizeIntegrationCenterRoute } from 'src/hooks/useLocalizeIntegrationCenterUrl';
 import { ArchiveCampaignModal } from 'src/pages/Campaign/ArchiveCampaignModal';
@@ -38,8 +40,6 @@ import { buildCampaignMenuSections } from './buildCampaignMenuSections';
 import type { CampaignHubContext } from './CampaignsHubsMiddleware';
 import { EntityPageHeader, type EntityPageTabId } from './EntityPageHeader';
 import { Page } from './Page';
-import { useEntityData } from './useEntityData';
-import { useSyncEntityNavigation } from './useSyncEntityNavigation';
 
 const CAMPAIGN_DEFAULT_TAB: EntityPageTabId = 'overview';
 const HUB_DEFAULT_TAB: EntityPageTabId = 'media-list';
