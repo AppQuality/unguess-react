@@ -2,6 +2,8 @@ import type { ComponentType } from 'react';
 import type { CampaignHubContext } from './CampaignsHubsMiddleware';
 import type { EntityPageTabId } from './EntityPageHeader';
 import { BugListTab } from './tabs/BugListTab';
+import { HubInsightsTab } from './tabs/HubInsightsTab';
+import { HubMediaListTab } from './tabs/HubMediaListTab';
 import { InsightsTab } from './tabs/InsightsTab';
 import { MediaListTab } from './tabs/MediaListTab';
 import { OverviewTab } from './tabs/OverviewTab';
@@ -12,6 +14,9 @@ import { OverviewTab } from './tabs/OverviewTab';
  */
 export type EntityTabContext = CampaignHubContext & {
   activeTab: EntityPageTabId;
+  // Opens the wrapper's single shared import-media modal. Only meaningful for
+  // hubs (undefined for campaigns).
+  onOpenImportMediaModal?: () => void;
 };
 
 /**
@@ -38,8 +43,7 @@ export interface EntityTabDef {
  *   insights   -> UN-2896 campaign / UN-2897 hub
  *
  * `match` predicates are expected to be mutually exclusive; the first match
- * wins. While empty, the wrapper renders no tab body (the shell still falls
- * back to legacy content when `?tab=` is absent).
+ * wins.
  */
 export const ENTITY_TABS: EntityTabDef[] = [
   {
@@ -61,5 +65,15 @@ export const ENTITY_TABS: EntityTabDef[] = [
     id: 'insights',
     match: (ctx) => !ctx.isHub && ctx.activeTab === 'insights',
     Content: InsightsTab,
+  },
+  {
+    id: 'media-list',
+    match: (ctx) => ctx.isHub && ctx.activeTab === 'media-list',
+    Content: HubMediaListTab,
+  },
+  {
+    id: 'insights',
+    match: (ctx) => ctx.isHub && ctx.activeTab === 'insights',
+    Content: HubInsightsTab,
   },
 ];

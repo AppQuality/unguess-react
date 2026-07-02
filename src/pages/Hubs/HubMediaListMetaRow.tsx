@@ -4,12 +4,8 @@ import { appTheme } from 'src/app/theme';
 import { capitalizeFirstLetter } from 'src/common/capitalizeFirstLetter';
 import { getDeviceIcon } from 'src/common/components/BugDetail/Meta';
 import { Meta } from 'src/common/components/Meta';
-import { StatusMeta } from 'src/common/components/meta/StatusMeta';
 import { PageMeta } from 'src/common/components/PageMeta';
 import { Pipe } from 'src/common/components/Pipe';
-import { formatApiDateShortMonthYear } from 'src/common/date/apiDate';
-import { useGetCampaignsByCidQuery } from 'src/features/api';
-import { CampaignStatus } from 'src/types';
 import styled from 'styled-components';
 import { useMediaDeviceAndSeverityMetas } from '../Videos/useMediaDeviceAndSeverityMetas';
 
@@ -46,52 +42,38 @@ const DeviceMetaCount = styled(Span)`
 `;
 
 /**
- * Content-only informational meta row (video count, date, devices, severities,
- * status) for the campaign media-list tab. The action buttons that used to
- * live next to this row in the legacy `Metas` component now belong to the
- * shared `EntityPageHeader`, so they are intentionally not rendered here.
+ * Content-only informational meta row (video count, devices, severities) for
+ * the hub media-list tab. Mirrors `MediaListMetaRow` (campaign) minus
+ * date/status, which the legacy `Metas` component also never showed for hubs.
  */
-export const MediaListMetaRow = ({
-  campaignId,
+export const HubMediaListMetaRow = ({
+  hubId,
   className,
 }: {
-  campaignId: string;
+  hubId: string;
   className?: string;
 }) => {
   const { t } = useTranslation();
 
   const {
-    data: campaign,
-    isLoading: isCampaignLoading,
-    isFetching: isCampaignFetching,
-  } = useGetCampaignsByCidQuery({ cid: campaignId });
-
-  const {
-    isLoading: isMetasLoading,
+    isLoading,
     totalVideos,
     isFetchingVideos,
     deviceMetas,
     isFetchingObservations,
     severities,
-  } = useMediaDeviceAndSeverityMetas(campaignId);
+  } = useMediaDeviceAndSeverityMetas(hubId);
 
-  if (isCampaignLoading || isCampaignFetching || isMetasLoading || !campaign) {
+  if (isLoading) {
     return <Skeleton width="500px" height="20px" />;
   }
 
-  const { status, start_date } = campaign;
-
   return (
-    <PageMeta className={className} data-qa="media_list_tab_meta">
+    <PageMeta className={className} data-qa="hub_media_list_tab_meta">
       <Span isBold style={{ color: appTheme.palette.blue[600] }}>
         {totalVideos}{' '}
         {t('__VIDEOS_LIST_META_VIDEO_COUNT', { count: totalVideos })}
       </Span>
-      {start_date && (
-        <Span style={{ color: appTheme.palette.grey[700] }}>
-          {formatApiDateShortMonthYear(start_date)}
-        </Span>
-      )}
       {isFetchingVideos ? (
         <StyledSkeleton width="400px" height="20px" />
       ) : (
@@ -125,7 +107,6 @@ export const MediaListMetaRow = ({
           ))}
         </SeveritiesMetaContainer>
       )}
-      <StatusMeta status={status.name as CampaignStatus} />
     </PageMeta>
   );
 };

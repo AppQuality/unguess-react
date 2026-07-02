@@ -14,7 +14,6 @@ import Bugs from 'src/pages/Bugs';
 import CampaignPreview from 'src/pages/Campaign/preview';
 import Dashboard from 'src/pages/Dashboard';
 import Project from 'src/pages/Dashboard/Project';
-import InsightsPage from 'src/pages/Insights';
 import LoginPage from 'src/pages/LoginPage';
 import Manual from 'src/pages/Manual';
 import MediaPage from 'src/pages/Media';
@@ -28,7 +27,6 @@ import Video from 'src/pages/Video';
 import JoinPage from 'src/pages/JoinPage';
 import ForgotPasswordPage from 'src/pages/ForgotPasswordPage';
 import VerifyCodePage from 'src/pages/VerifyCodePage';
-import Videos from 'src/pages/Videos';
 import { CallbackPage } from 'src/pages/Auth/callback';
 import { LogoutPage } from 'src/pages/Auth/logout';
 import CampaignsHubsMiddleware from 'src/features/templates/CampaignsHubsMiddleware';
@@ -121,11 +119,11 @@ const Pages = () => {
                   </Route>
                   <Route
                     path={`/${langPrefix}/hubs/:entityId/videos`}
-                    element={<Videos />}
+                    element={<LegacyEntityTabRedirect tab="media-list" />}
                   />
                   <Route
                     path={`/${langPrefix}/hubs/:entityId/insights`}
-                    element={<InsightsPage />}
+                    element={<LegacyEntityTabRedirect tab="insights" />}
                   />
                   <Route
                     path={`/${langPrefix}/hubs/:entityId/videos/:videoId`}
