@@ -1,5 +1,6 @@
 import { Button, Tag } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
+import { useParams } from 'react-router-dom';
 import { useAppDispatch } from 'src/app/hooks';
 import { appTheme } from 'src/app/theme';
 import {
@@ -8,7 +9,6 @@ import {
   updateFilters,
 } from 'src/features/uxFilters';
 import { styled } from 'styled-components';
-import { useEntityId } from 'src/hooks/useEntityId';
 import { getSeverityTag } from '../utils';
 import { useFilterData } from './useFilterData';
 import { useUxData } from '../../../useUxData';
@@ -59,7 +59,7 @@ const ScrollingContainer = styled.div`
 `;
 
 export const FiltersTags = () => {
-  const campaignId = useEntityId();
+  const { entityId: campaignId } = useParams<{ entityId?: string }>();
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const data = getCurrentUxData();

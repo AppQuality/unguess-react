@@ -11,7 +11,6 @@ import { appTheme } from 'src/app/theme';
 import { ReactComponent as AddIcon } from 'src/assets/icons/plus-icon.svg';
 import { Divider } from 'src/common/components/divider';
 import { useGetCampaignsByCidCustomStatusesQuery } from 'src/features/api';
-import { useEntityId } from 'src/hooks/useEntityId';
 import styled from 'styled-components';
 import { Circle } from './Circle';
 import { DotsMenu } from './DotsMenu';
@@ -33,10 +32,11 @@ const StyledCircle = styled(Circle)`
 
 export const CustomStatusForm = ({
   formikProps,
+  campaignId,
 }: {
   formikProps: FormikProps<CustomStatusFormProps>;
+  campaignId: number | string;
 }) => {
-  const campaignId = useEntityId();
   const { t } = useTranslation();
   const {
     data: customStatuses,
@@ -44,7 +44,7 @@ export const CustomStatusForm = ({
     isFetching,
     isError,
   } = useGetCampaignsByCidCustomStatusesQuery({
-    cid: campaignId?.toString() || '',
+    cid: campaignId.toString(),
   });
 
   /**

@@ -1,9 +1,8 @@
 import { Button, MD, XL } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as EmptyInsightsImg } from 'src/assets/empty-insights.svg';
-import { useEntityId } from 'src/hooks/useEntityId';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import styled from 'styled-components';
 
@@ -27,7 +26,7 @@ export const HubInsightsEmptyState = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
-  const entityId = useEntityId();
+  const { entityId } = useParams<{ entityId?: string }>();
   const mediaListRoute = useLocalizeRoute(
     `hubs/${entityId ?? '0'}/videos`
   ).replace(/\/$/, '');

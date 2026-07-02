@@ -65,7 +65,9 @@ const BugsPageContent = ({ campaignId }: { campaignId: number }) => {
           </Row>
         </Grid>
       </LayoutWrapperBugs>
-      {isCustomStatusDrawerOpen && !hideDrawer && <CustomStatusDrawer />}
+      {isCustomStatusDrawerOpen && !hideDrawer && (
+        <CustomStatusDrawer campaignId={campaignId} />
+      )}
     </>
   );
 };

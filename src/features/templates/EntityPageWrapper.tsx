@@ -1,7 +1,13 @@
 import { Button, GlobalAlert, MD } from '@appquality/unguess-design-system';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Navigate, Outlet, useLocation, useNavigate } from 'react-router-dom';
+import {
+  Navigate,
+  Outlet,
+  useLocation,
+  useNavigate,
+  useParams,
+} from 'react-router-dom';
 import { useAnalytics } from 'use-analytics';
 import { CampaignSettings } from 'src/common/components/inviteUsers/campaignSettings';
 import { PageLoader } from 'src/common/components/PageLoader';
@@ -15,7 +21,6 @@ import {
 import { useActiveWorkspaceProjects } from 'src/hooks/useActiveWorkspaceProjects';
 import { useCanAccessToActiveWorkspace } from 'src/hooks/useCanAccessToActiveWorkspace';
 import { useEntityData } from 'src/hooks/useEntityData';
-import { useEntityId } from 'src/hooks/useEntityId';
 import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { useSyncEntityNavigation } from 'src/hooks/useSyncEntityNavigation';
@@ -124,7 +129,7 @@ const EntityPageWrapperInner = () => {
   const navigate = useNavigate();
   const { track } = useAnalytics();
   const { handleUseCaseExport } = useUseCaseExport();
-  const entityId = useEntityId();
+  const { entityId } = useParams<{ entityId?: string }>();
   const notFoundRoute = useLocalizeRoute('oops');
   const loginRoute = useLocalizeRoute('login');
   const isHub = parseIsHubRoute(location.pathname);

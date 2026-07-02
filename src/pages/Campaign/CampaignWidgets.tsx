@@ -1,5 +1,6 @@
 import { Col, Grid, Row } from '@appquality/unguess-design-system';
 import { type ReactNode } from 'react';
+import { useParams } from 'react-router-dom';
 import {
   AsideNav,
   StickyNavItem,
@@ -7,7 +8,6 @@ import {
   StyledDivider,
 } from 'src/common/components/navigation/asideNav';
 import { appTheme } from 'src/app/theme';
-import { useEntityId } from 'src/hooks/useEntityId';
 import { EmptyState } from './EmptyState';
 import { useWidgets } from './useWidgets';
 
@@ -19,7 +19,7 @@ export const CampaignWidgets = ({
   // the meta row; the legacy page passes nothing.
   contentHeader?: ReactNode;
 }) => {
-  const resolvedCampaignId = useEntityId();
+  const { entityId: resolvedCampaignId } = useParams<{ entityId?: string }>();
   const { widgets, isLoading } = useWidgets({
     campaignId: resolvedCampaignId ? Number(resolvedCampaignId) : 0,
   });
