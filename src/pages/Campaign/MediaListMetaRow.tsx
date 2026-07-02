@@ -8,14 +8,10 @@ import { StatusMeta } from 'src/common/components/meta/StatusMeta';
 import { PageMeta } from 'src/common/components/PageMeta';
 import { Pipe } from 'src/common/components/Pipe';
 import { formatApiDateShortMonthYear } from 'src/common/date/apiDate';
-import {
-  useGetCampaignsByCidObservationsQuery,
-  useGetCampaignsByCidQuery,
-  useGetCampaignsByCidVideosQuery,
-} from 'src/features/api';
+import { useGetCampaignsByCidQuery } from 'src/features/api';
 import { CampaignStatus } from 'src/types';
 import styled from 'styled-components';
-import { getAllSeverityTags } from '../Videos/utils/getSeverityTagsWithCount';
+import { useMediaDeviceAndSeverityMetas } from '../Videos/useMediaDeviceAndSeverityMetas';
 
 const StyledSkeleton = styled(Skeleton)`
   margin-right: ${({ theme }) => theme.space.sm};
@@ -71,73 +67,19 @@ export const MediaListMetaRow = ({
   } = useGetCampaignsByCidQuery({ cid: campaignId });
 
   const {
-    data: videos,
-    isLoading: isVideosLoading,
-    isFetching: isFetchingVideos,
-  } = useGetCampaignsByCidVideosQuery({ cid: campaignId });
+    isLoading: isMetasLoading,
+    totalVideos,
+    isFetchingVideos,
+    deviceMetas,
+    isFetchingObservations,
+    severities,
+  } = useMediaDeviceAndSeverityMetas(campaignId);
 
-  const {
-    data: observations,
-    isLoading: isLoadingObservations,
-    isFetching: isFetchingObservations,
-  } = useGetCampaignsByCidObservationsQuery({ cid: campaignId });
-
-  if (
-    isCampaignLoading ||
-    isCampaignFetching ||
-    (isVideosLoading && !videos) ||
-    (isLoadingObservations && !observations) ||
-    !campaign
-  ) {
+  if (isCampaignLoading || isCampaignFetching || isMetasLoading || !campaign) {
     return <Skeleton width="500px" height="20px" />;
   }
 
   const { status, start_date } = campaign;
-  const totalVideos = videos?.items.length ?? 0;
-
-  const deviceCounts = (videos?.items || []).reduce(
-    (acc, video) => {
-      const formFactor = video.device?.formFactor;
-
-      if (formFactor === 'desktop') {
-        acc.desktop += 1;
-      } else if (formFactor === 'smartphone') {
-        acc.smartphone += 1;
-      } else if (formFactor === 'tablet') {
-        acc.tablet += 1;
-      } else {
-        acc.unknown += 1;
-      }
-
-      return acc;
-    },
-    { desktop: 0, smartphone: 0, tablet: 0, unknown: 0 }
-  );
-
-  const deviceMetas = [
-    {
-      key: 'desktop',
-      label: t('__VIDEOS_LIST_DESKTOP_TITLE'),
-      count: deviceCounts.desktop,
-    },
-    {
-      key: 'smartphone',
-      label: t('__VIDEOS_LIST_SMARTPHONE_TITLE'),
-      count: deviceCounts.smartphone,
-    },
-    {
-      key: 'tablet',
-      label: t('__VIDEOS_LIST_TABLET_TITLE'),
-      count: deviceCounts.tablet,
-    },
-    {
-      key: 'unknown',
-      label: t('__VIDEOS_LIST_UNKNOWN_DEVICE_TITLE'),
-      count: deviceCounts.unknown,
-    },
-  ].filter((item) => item.count > 0);
-
-  const severities = observations ? getAllSeverityTags(observations) : [];
 
   return (
     <PageMeta className={className} data-qa="media_list_tab_meta">
