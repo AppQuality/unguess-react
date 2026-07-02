@@ -34,7 +34,6 @@ import {
 } from 'src/pages/Campaign/MoveCampaignModal';
 import { WatcherList } from 'src/pages/Campaign/pageHeader/Meta/WatcherList';
 import { ImportMediaModal } from 'src/pages/Videos/ImportMediaModal';
-import Videos from 'src/pages/Videos';
 import { buildCampaignMenuSections } from './buildCampaignMenuSections';
 import type { CampaignHubContext } from './CampaignsHubsMiddleware';
 import { EntityPageHeader, type EntityPageTabId } from './EntityPageHeader';
@@ -119,10 +118,6 @@ const EntityPageWrapperInner = () => {
   const hasTaggingToolFeature = hasFeatureFlag(FEATURE_FLAG_TAGGING_TOOL);
   const projectRouteFallback = useLocalizeRoute('projects/0');
   const tabParam = searchParams.get('tab');
-  // UN-2894: campaign root now enters the wrapper (defaults to the overview
-  // tab, the effect below sets `?tab=overview`). Hub root stays legacy until
-  // UN-2897.
-  const shouldUseLegacyPath = !tabParam && isHub;
 
   const {
     data: userData,
@@ -132,12 +127,7 @@ const EntityPageWrapperInner = () => {
   } = useGetUsersMeQuery();
 
   const shouldSkipEntityQuery =
-    shouldUseLegacyPath ||
-    !entityId ||
-    isUserLoading ||
-    isUserFetching ||
-    !userData ||
-    !!userError;
+    !entityId || isUserLoading || isUserFetching || !userData || !!userError;
 
   const {
     campaign,
@@ -156,7 +146,7 @@ const EntityPageWrapperInner = () => {
       cid: entityId ?? '0',
     },
     {
-      skip: shouldUseLegacyPath || !entityId || isHub,
+      skip: !entityId || isHub,
     }
   );
 
@@ -196,7 +186,7 @@ const EntityPageWrapperInner = () => {
     (isHub ? !!hub : !!campaign);
 
   useEffect(() => {
-    if (shouldUseLegacyPath || !entityId || !isEntityDataReady) return;
+    if (!entityId || !isEntityDataReady) return;
 
     if (tabParam !== activeTab) {
       const nextSearchParams = new URLSearchParams(searchParams);
@@ -204,7 +194,6 @@ const EntityPageWrapperInner = () => {
       setSearchParams(nextSearchParams, { replace: true });
     }
   }, [
-    shouldUseLegacyPath,
     entityId,
     isEntityDataReady,
     tabParam,
@@ -218,13 +207,8 @@ const EntityPageWrapperInner = () => {
     campaign,
     hub,
     workspace,
-    analyticsCampaignId: !isHub && !shouldUseLegacyPath ? entityId : undefined,
+    analyticsCampaignId: !isHub ? entityId : undefined,
   });
-
-  // Hub root keeps the legacy content until UN-2897.
-  if (shouldUseLegacyPath) {
-    return <Videos />;
-  }
 
   if (isUserLoading || isUserFetching) {
     return <PageLoader />;
@@ -334,10 +318,16 @@ const EntityPageWrapperInner = () => {
         })
       : [];
 
-  const entityContext: CampaignHubContext & { activeTab: EntityPageTabId } = {
+  const entityContext: CampaignHubContext & {
+    activeTab: EntityPageTabId;
+    onOpenImportMediaModal?: () => void;
+  } = {
     isHub,
     entityId,
     activeTab,
+    onOpenImportMediaModal: isHub
+      ? () => setIsHubImportModalOpen(true)
+      : undefined,
   };
 
   const archivedBanner = isArchived ? (
