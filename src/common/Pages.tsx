@@ -30,6 +30,7 @@ import JoinPage from 'src/pages/JoinPage';
 import ForgotPasswordPage from 'src/pages/ForgotPasswordPage';
 import VerifyCodePage from 'src/pages/VerifyCodePage';
 import Videos from 'src/pages/Videos';
+import VoiceInterview from 'src/pages/VoiceInterview';
 import { CallbackPage } from 'src/pages/Auth/callback';
 import { LogoutPage } from 'src/pages/Auth/logout';
 import CampaignsHubsMiddleware from 'src/features/templates/CampaignsHubsMiddleware';
@@ -200,6 +201,12 @@ const Pages = () => {
             <Route
               path="/defect/:defectId/:token"
               element={<PublicBugPage />}
+            />
+
+            <Route path="/interview" element={<VoiceInterview />} />
+            <Route
+              path="/interview/:interviewId/:token"
+              element={<VoiceInterview />}
             />
 
             <Route path="*" element={<Navigate replace to="/oops" />} />
