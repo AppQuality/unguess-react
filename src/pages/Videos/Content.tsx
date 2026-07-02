@@ -48,6 +48,13 @@ const VideosPageContent = ({
   const { t } = useTranslation();
 
   const { isHub, entityId } = useOutletContext<CampaignHubContext>();
+  // `isImportMediaModalOpen`/the local `ImportMediaModal` below are now dead
+  // for hubs in practice: the entity hub media-list tab always supplies
+  // `onOpenImportMediaModal`, and the only other route that renders this
+  // component without it (the legacy standalone `/hubs/:id/videos` page) is
+  // itself unrouted since UN-2897 activated the redirect (see UN-2898 cleanup
+  // for removing the now-unreachable legacy page). Left in place so this
+  // component still works standalone if that page is ever restored.
   const [isImportMediaModalOpen, setIsImportMediaModalOpen] = useState(false);
   const openImportMediaModal =
     onOpenImportMediaModal ?? (() => setIsImportMediaModalOpen(true));
