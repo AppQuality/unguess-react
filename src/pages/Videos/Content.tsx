@@ -33,16 +33,24 @@ const AccordionFooter = styled.div`
 
 const VideosPageContent = ({
   contentHeader,
+  onOpenImportMediaModal,
 }: {
   // Optional content rendered at the top of the content column (aligned with
   // the video grid/empty state, not full-width). Used by the entity media-list
   // tab to place the tab title + meta row; the legacy page passes nothing.
   contentHeader?: ReactNode;
+  // Optional external control of the import modal. Used by the entity hub
+  // media-list tab so the empty-state CTA opens the single modal instance
+  // already owned by `EntityPageWrapper`, instead of a second local one. The
+  // legacy standalone page passes nothing and keeps its own local modal.
+  onOpenImportMediaModal?: () => void;
 }) => {
   const { t } = useTranslation();
 
   const { isHub, entityId } = useOutletContext<CampaignHubContext>();
   const [isImportMediaModalOpen, setIsImportMediaModalOpen] = useState(false);
+  const openImportMediaModal =
+    onOpenImportMediaModal ?? (() => setIsImportMediaModalOpen(true));
 
   const {
     sorted: videos,
@@ -66,9 +74,7 @@ const VideosPageContent = ({
       {!videos || totalVideos === 0 ? (
         <>
           {contentHeader}
-          <Empty
-            onOpenImportMediaModal={() => setIsImportMediaModalOpen(true)}
-          />
+          <Empty onOpenImportMediaModal={openImportMediaModal} />
         </>
       ) : (
         <LayoutWrapper isNotBoxed>
@@ -148,7 +154,7 @@ const VideosPageContent = ({
         </LayoutWrapper>
       )}
 
-      {isHub && (
+      {isHub && !onOpenImportMediaModal && (
         <ImportMediaModal
           isOpen={isImportMediaModalOpen}
           onClose={() => setIsImportMediaModalOpen(false)}
