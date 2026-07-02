@@ -1,6 +1,6 @@
 import { Button, MD, XL } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
-import { Link, useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as EmptyInsightsImg } from 'src/assets/empty-insights.svg';
 import styled from 'styled-components';
@@ -23,6 +23,7 @@ const StyledEmptyState = styled.div`
  */
 export const HubInsightsEmptyState = () => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const [searchParams] = useSearchParams();
 
   const mediaListSearchParams = new URLSearchParams(searchParams);
@@ -31,7 +32,7 @@ export const HubInsightsEmptyState = () => {
   return (
     <StyledEmptyState>
       <EmptyInsightsImg
-        title="No insights yet"
+        title={t('__HUB_INSIGHTS_EMPTY_STATE_TITLE')}
         style={{
           marginBottom: appTheme.space.lg,
           marginTop: appTheme.space.xxl,
@@ -41,11 +42,14 @@ export const HubInsightsEmptyState = () => {
         {t('__HUB_INSIGHTS_EMPTY_STATE_TITLE')}
       </XL>
       <MD>{t('__HUB_INSIGHTS_EMPTY_STATE_SUBTITLE')}</MD>
-      <Link to={{ search: mediaListSearchParams.toString() }}>
-        <Button isPrimary isAccent style={{ marginTop: appTheme.space.md }}>
-          {t('__HUB_INSIGHTS_EMPTY_STATE_CTA')}
-        </Button>
-      </Link>
+      <Button
+        isPrimary
+        isAccent
+        style={{ marginTop: appTheme.space.md }}
+        onClick={() => navigate({ search: mediaListSearchParams.toString() })}
+      >
+        {t('__HUB_INSIGHTS_EMPTY_STATE_CTA')}
+      </Button>
     </StyledEmptyState>
   );
 };
