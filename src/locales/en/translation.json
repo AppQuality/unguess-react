@@ -649,6 +649,7 @@
   "__HUB_INSIGHTS_EMPTY_STATE_CTA": "Go to media list",
   "__HUB_INSIGHTS_EMPTY_STATE_SUBTITLE": "Insights are generated from analyzed media. Upload and analyze media from the Media list tab to see insights here.",
   "__HUB_INSIGHTS_EMPTY_STATE_TITLE": "No insights yet",
+  "__HUB_INSIGHTS_LOAD_ERROR": "We couldn't load insights for this hub. Please try again.",
   "__HUB_TAG_LABEL": "Hub",
   "__INCOME_ERROR_REQUIRED": "Please select at least one income bracket to continue",
   "__INSIGHT_CLUSTER_GENERAL": "General",

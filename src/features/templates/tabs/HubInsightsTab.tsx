@@ -1,4 +1,11 @@
-import { getColor, LG, Skeleton } from '@appquality/unguess-design-system';
+import {
+  getColor,
+  LG,
+  Notification,
+  Skeleton,
+  useToast,
+} from '@appquality/unguess-design-system';
+import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useOutletContext } from 'react-router-dom';
 import { useGetCampaignsByCidObservationsQuery } from 'src/features/api';
@@ -32,11 +39,32 @@ const TabTitle = styled(LG)`
  */
 export const HubInsightsTab = () => {
   const { t } = useTranslation();
+  const { addToast } = useToast();
   const { entityId } = useOutletContext<EntityTabContext>();
-  const { data: observations, isLoading } =
-    useGetCampaignsByCidObservationsQuery({ cid: entityId });
+  const {
+    data: observations,
+    isLoading,
+    isError,
+  } = useGetCampaignsByCidObservationsQuery({ cid: entityId });
 
   const hasObservations = (observations?.results.length ?? 0) > 0;
+
+  useEffect(() => {
+    if (!isError) return;
+
+    addToast(
+      ({ close }) => (
+        <Notification
+          onClose={close}
+          type="error"
+          message={t('__HUB_INSIGHTS_LOAD_ERROR')}
+          closeText={t('__TOAST_CLOSE_TEXT')}
+          isPrimary
+        />
+      ),
+      { placement: 'top' }
+    );
+  }, [isError, addToast, t]);
 
   const renderBody = () => {
     if (isLoading) {
