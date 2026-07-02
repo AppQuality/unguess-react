@@ -33,9 +33,11 @@ const TabTitle = styled(LG)`
  * Hub insights tab body. Hubs always show the insights tab (product
  * decision), so when there are no observations yet it renders a dedicated
  * empty state (soft navigation hint back to media-list) instead of the
- * normal widgets/collection workspace. `useGetCampaignsByCidObservationsQuery`
- * dedupes against the identical query `Collection` makes internally, so this
- * adds no extra network call.
+ * normal widgets/collection workspace. The ungrouped `useGetCampaignsByCidObservationsQuery`
+ * call here dedupes against the identical (ungrouped) query the Widgets'
+ * `useSeveritiesDistributionData` makes internally — not against `Collection`,
+ * which queries with `groupBy: 'usecase-grapes'` and is therefore a separate
+ * cache entry/request.
  */
 export const HubInsightsTab = () => {
   const { t } = useTranslation();
