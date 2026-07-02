@@ -4,8 +4,8 @@ import { StatusMeta } from 'src/common/components/meta/StatusMeta';
 import { PageMeta } from 'src/common/components/PageMeta';
 import { Pipe } from 'src/common/components/Pipe';
 import { CampaignStatus } from 'src/types';
-import { UniqueBugsCounter } from './PageHeader/Tools/UniqueBugsCounter';
-import { useCampaignBugs } from './PageHeader/Tools/useCampaignBugs';
+import { UniqueBugsCounter } from './UniqueBugsCounter';
+import { useCampaignBugs } from './useCampaignBugs';
 
 /**
  * Content-only bug metadata row (unique-bugs count, per-severity counters,

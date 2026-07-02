@@ -5,9 +5,9 @@ import { ENTITY_TABS, type EntityTabContext } from './entityTabs';
 // registry (see `entityTabs.ts`); each tab migration registers its own content
 // module there, so this file does not change as tabs are added.
 //
-// Until a tab is registered this renders nothing — an intentional placeholder.
-// The wrapper falls back to legacy content when `?tab=` is absent, so the
-// unregistered path is not reachable through normal navigation yet.
+// The wrapper resolves `activeTab` from the canonical path and only exposes
+// enabled tabs, so a matching registry entry always exists in practice; the
+// `null` guard is a defensive fallback for an unregistered tab id.
 const EntityPageContent = () => {
   const ctx = useOutletContext<EntityTabContext>();
   const def = ENTITY_TABS.find((tab) => tab.match(ctx));

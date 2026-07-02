@@ -1,23 +1,10 @@
-import { getColor, LG } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { useOutletContext } from 'react-router-dom';
 import { MediaListMetaRow } from 'src/pages/Campaign/MediaListMetaRow';
 import VideosPageContent from 'src/pages/Videos/Content';
 import styled from 'styled-components';
 import type { EntityTabContext } from '../entityTabs';
-
-// Top padding of the tab section (matches the 32px spacer in the design).
-const Section = styled.div`
-  padding-top: ${({ theme }) => theme.space.lg};
-`;
-
-// Active-tab title shown at the top of the content column, above the meta row.
-const TabTitle = styled(LG)`
-  color: ${({ theme }) => getColor(theme.palette.blue, 600)};
-  margin-bottom: ${({ theme }) => theme.space.xs};
-  padding-bottom: ${({ theme }) => theme.space.xs};
-  border-bottom: 1px solid ${({ theme }) => theme.palette.grey[300]};
-`;
+import { TabSection, TabTitle } from './TabLayout';
 
 const StyledMetaRow = styled(MediaListMetaRow)`
   margin-bottom: ${({ theme }) => theme.space.lg};
@@ -35,7 +22,7 @@ export const MediaListTab = () => {
   const { entityId } = useOutletContext<EntityTabContext>();
 
   return (
-    <Section>
+    <TabSection>
       <VideosPageContent
         contentHeader={
           <>
@@ -44,6 +31,6 @@ export const MediaListTab = () => {
           </>
         }
       />
-    </Section>
+    </TabSection>
   );
 };

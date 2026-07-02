@@ -10,7 +10,6 @@ import ErrorBoundaryPage from 'src/common/components/ErrorBoundary/ErrorBoundary
 import Bug from 'src/pages/Bug';
 import PublicBugPage from 'src/pages/BugPublic/PublicBugPage';
 import BugForm from 'src/pages/Bugform';
-import Bugs from 'src/pages/Bugs';
 import CampaignPreview from 'src/pages/Campaign/preview';
 import Dashboard from 'src/pages/Dashboard';
 import Project from 'src/pages/Dashboard/Project';
@@ -32,7 +31,6 @@ import { LogoutPage } from 'src/pages/Auth/logout';
 import CampaignsHubsMiddleware from 'src/features/templates/CampaignsHubsMiddleware';
 import EntityPageWrapper from 'src/features/templates/EntityPageWrapper';
 import EntityPageContent from 'src/features/templates/EntityPageContent';
-import { LegacyEntityTabRedirect } from 'src/features/templates/LegacyEntityTabRedirect';
 import { Redirect } from './Redirect';
 
 const Pages = () => {
@@ -73,10 +71,6 @@ const Pages = () => {
                   element={<LogoutPage />}
                 />
                 <Route
-                  path={`/${langPrefix}/campaigns/:campaignId/bugs`}
-                  element={<Bugs />}
-                />
-                <Route
                   path={`/${langPrefix}/campaigns/:campaignId/bugs/:bugId`}
                   element={<Bug />}
                 />
@@ -98,15 +92,10 @@ const Pages = () => {
                     element={<EntityPageWrapper />}
                   >
                     <Route index element={<EntityPageContent />} />
+                    <Route path="videos" element={<EntityPageContent />} />
+                    <Route path="insights" element={<EntityPageContent />} />
+                    <Route path="bugs" element={<EntityPageContent />} />
                   </Route>
-                  <Route
-                    path={`/${langPrefix}/campaigns/:entityId/videos`}
-                    element={<LegacyEntityTabRedirect tab="media-list" />}
-                  />
-                  <Route
-                    path={`/${langPrefix}/campaigns/:entityId/insights`}
-                    element={<LegacyEntityTabRedirect tab="insights" />}
-                  />
                   <Route
                     path={`/${langPrefix}/campaigns/:entityId/videos/:videoId`}
                     element={<Video />}
@@ -116,15 +105,9 @@ const Pages = () => {
                     element={<EntityPageWrapper />}
                   >
                     <Route index element={<EntityPageContent />} />
+                    <Route path="videos" element={<EntityPageContent />} />
+                    <Route path="insights" element={<EntityPageContent />} />
                   </Route>
-                  <Route
-                    path={`/${langPrefix}/hubs/:entityId/videos`}
-                    element={<LegacyEntityTabRedirect tab="media-list" />}
-                  />
-                  <Route
-                    path={`/${langPrefix}/hubs/:entityId/insights`}
-                    element={<LegacyEntityTabRedirect tab="insights" />}
-                  />
                   <Route
                     path={`/${langPrefix}/hubs/:entityId/videos/:videoId`}
                     element={<Video />}

@@ -6,7 +6,7 @@ import {
 } from '@appquality/unguess-design-system';
 import { ReactComponent as DotsIcon } from '@zendeskgarden/svg-icons/src/16/overflow-vertical-stroke.svg';
 import React, { Fragment } from 'react';
-import { Link, useLocation, useSearchParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
 import { Divider } from 'src/common/components/divider';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
@@ -23,6 +23,8 @@ export type EntityPageTabId =
 type EntityPageTab = {
   id: EntityPageTabId;
   label: string;
+  /** Canonical path-based link for the tab (built by the wrapper). */
+  to: string;
 };
 
 /**
@@ -96,15 +98,6 @@ export const EntityPageHeader = ({
   ctaSlot,
   menuSections,
 }: EntityPageHeaderProps) => {
-  const [searchParams] = useSearchParams();
-  const location = useLocation();
-
-  const getTabLink = (tabId: EntityPageTabId) => {
-    const params = new URLSearchParams(searchParams);
-    params.set('tab', tabId);
-    return `${location.pathname}?${params.toString()}${location.hash}`;
-  };
-
   const visibleSections = (menuSections ?? []).filter(
     (section) => section.length > 0
   );
@@ -175,7 +168,7 @@ export const EntityPageHeader = ({
             items={tabs.map((tab) => ({
               id: tab.id,
               label: tab.label,
-              to: getTabLink(tab.id),
+              to: tab.to,
             }))}
           />
         </TabsRow>
