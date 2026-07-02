@@ -27,10 +27,9 @@ export const OverviewTab = () => {
       <TabSection>
         <CampaignWidgets
           contentHeader={
-            <>
-              <TabTitle isBold>{t('__ENTITY_PAGE_TAB_OVERVIEW')}</TabTitle>
-              <StyledMetaRow campaignId={entityId} />
-            </>
+            <TabTitle meta={<StyledMetaRow campaignId={entityId} />}>
+              {t('__ENTITY_PAGE_TAB_OVERVIEW')}
+            </TabTitle>
           }
         />
       </TabSection>

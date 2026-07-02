@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useOutletContext } from 'react-router-dom';
 import { useAppDispatch } from 'src/app/hooks';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
@@ -8,6 +9,7 @@ import { BugsPageContent, BugsPageContentLoader } from 'src/pages/Bugs/Content';
 import { useCampaign } from 'src/pages/Bugs/useCampaign';
 import styled from 'styled-components';
 import type { EntityTabContext } from '../entityTabs';
+import { TabTitle } from './TabLayout';
 
 const MetaRowWrapper = styled(LayoutWrapper)`
   padding-top: ${({ theme }) => theme.space.lg};
@@ -25,6 +27,7 @@ const MetaRowWrapper = styled(LayoutWrapper)`
  * (navigation slice + analytics are handled by `useSyncEntityNavigation`).
  */
 export const BugListTab = () => {
+  const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const { entityId } = useOutletContext<EntityTabContext>();
   const campaignId = Number(entityId);
@@ -49,7 +52,9 @@ export const BugListTab = () => {
   return (
     <>
       <MetaRowWrapper isNotBoxed>
-        <BugsMetaRow campaignId={campaignId} />
+        <TabTitle meta={<BugsMetaRow campaignId={campaignId} />}>
+          {t('__ENTITY_PAGE_TAB_BUG_LIST')}
+        </TabTitle>
       </MetaRowWrapper>
       <BugsPageContent campaignId={campaignId} />
     </>

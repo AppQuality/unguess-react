@@ -26,10 +26,9 @@ export const HubMediaListTab = () => {
     <TabSection>
       <VideosPageContent
         contentHeader={
-          <>
-            <TabTitle isBold>{t('__ENTITY_PAGE_TAB_MEDIA_LIST')}</TabTitle>
-            <StyledMetaRow hubId={entityId} />
-          </>
+          <TabTitle meta={<StyledMetaRow hubId={entityId} />}>
+            {t('__ENTITY_PAGE_TAB_MEDIA_LIST')}
+          </TabTitle>
         }
         onOpenImportMediaModal={onOpenImportMediaModal}
       />

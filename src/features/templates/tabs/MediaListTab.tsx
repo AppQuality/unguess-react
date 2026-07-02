@@ -25,10 +25,9 @@ export const MediaListTab = () => {
     <TabSection>
       <VideosPageContent
         contentHeader={
-          <>
-            <TabTitle isBold>{t('__ENTITY_PAGE_TAB_MEDIA_LIST')}</TabTitle>
-            <StyledMetaRow campaignId={entityId} />
-          </>
+          <TabTitle meta={<StyledMetaRow campaignId={entityId} />}>
+            {t('__ENTITY_PAGE_TAB_MEDIA_LIST')}
+          </TabTitle>
         }
       />
     </TabSection>

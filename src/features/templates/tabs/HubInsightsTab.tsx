@@ -60,18 +60,20 @@ export const HubInsightsTab = () => {
     if (hasObservations) {
       return (
         <InsightContextProvider>
-          <InsightsPageContent />
+          <InsightsPageContent
+            contentHeader={
+              <TabTitle>{t('__ENTITY_PAGE_TAB_INSIGHTS')}</TabTitle>
+            }
+          />
         </InsightContextProvider>
       );
     }
 
+    // Empty state (no observations): no tab title — the hub empty state is
+    // shown clean (product decision), which also avoids the misaligned bare
+    // title that rendering it outside the content column would produce.
     return <HubInsightsEmptyState />;
   };
 
-  return (
-    <TabSection>
-      <TabTitle isBold>{t('__ENTITY_PAGE_TAB_INSIGHTS')}</TabTitle>
-      {renderBody()}
-    </TabSection>
-  );
+  return <TabSection>{renderBody()}</TabSection>;
 };

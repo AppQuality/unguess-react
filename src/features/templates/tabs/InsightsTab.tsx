@@ -20,9 +20,7 @@ export const InsightsTab = () => {
     <TabSection>
       <InsightContextProvider>
         <InsightsPageContent
-          contentHeader={
-            <TabTitle isBold>{t('__ENTITY_PAGE_TAB_INSIGHTS')}</TabTitle>
-          }
+          contentHeader={<TabTitle>{t('__ENTITY_PAGE_TAB_INSIGHTS')}</TabTitle>}
         />
       </InsightContextProvider>
     </TabSection>
