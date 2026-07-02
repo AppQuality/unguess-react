@@ -7,11 +7,11 @@ import {
 } from '@appquality/unguess-design-system';
 import { FieldArray, Form, FormikProps } from 'formik';
 import { useTranslation } from 'react-i18next';
-import { useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as AddIcon } from 'src/assets/icons/plus-icon.svg';
 import { Divider } from 'src/common/components/divider';
 import { useGetCampaignsByCidCustomStatusesQuery } from 'src/features/api';
+import { useEntityId } from 'src/hooks/useEntityId';
 import styled from 'styled-components';
 import { Circle } from './Circle';
 import { DotsMenu } from './DotsMenu';
@@ -36,7 +36,7 @@ export const CustomStatusForm = ({
 }: {
   formikProps: FormikProps<CustomStatusFormProps>;
 }) => {
-  const { campaignId } = useParams();
+  const campaignId = useEntityId();
   const { t } = useTranslation();
   const {
     data: customStatuses,

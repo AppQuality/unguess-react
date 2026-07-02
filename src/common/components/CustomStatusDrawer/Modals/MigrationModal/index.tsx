@@ -14,7 +14,6 @@ import {
 } from '@appquality/unguess-design-system';
 import { useEffect, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
-import { useParams } from 'react-router-dom';
 import { useAppDispatch } from 'src/app/hooks';
 import { ReactComponent as ArrowRight } from 'src/assets/icons/arrow-right.svg';
 import {
@@ -25,6 +24,7 @@ import {
   usePatchCampaignsByCidCustomStatusesMutation,
 } from 'src/features/api';
 import { setCustomStatusDrawerOpen } from 'src/features/bugsPage/bugsPageSlice';
+import { useEntityId } from 'src/hooks/useEntityId';
 import styled from 'styled-components';
 import { Circle } from '../../Circle';
 import { MigrateStatusDropdown } from './MigrateStatusDropdown';
@@ -59,7 +59,7 @@ export const MigrationModal = ({
 }) => {
   const { t } = useTranslation();
   const { addToast } = useToast();
-  const { campaignId } = useParams();
+  const campaignId = useEntityId();
   const dispatch = useAppDispatch();
   const [patchCustomStatuses] = usePatchCampaignsByCidCustomStatusesMutation();
   const [deleteCustomStatuses] =

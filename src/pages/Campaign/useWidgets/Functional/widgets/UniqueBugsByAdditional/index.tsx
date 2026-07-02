@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { useEntityId } from 'src/hooks/useEntityId';
 import FlipCard from 'src/pages/Campaign/widgetCards/FlipCard';
 import { Chart } from './Chart';
 import { List } from './List';
@@ -12,7 +12,7 @@ const UniqueBugsByAdditional = ({
   slug: string;
   height: string;
 }) => {
-  const { campaignId } = useParams();
+  const campaignId = useEntityId();
   if (!campaignId) {
     return null;
   }

@@ -8,7 +8,6 @@ import {
 import { Formik, FormikHelpers, FormikProps } from 'formik';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
 import { appTheme } from 'src/app/theme';
 import {
@@ -17,13 +16,14 @@ import {
   usePatchCampaignsByCidCustomStatusesMutation,
 } from 'src/features/api';
 import { setCustomStatusDrawerOpen } from 'src/features/bugsPage/bugsPageSlice';
+import { useEntityId } from 'src/hooks/useEntityId';
 import { CloseDrawerModal } from './Modals/ClosingDrawerConfirmationModal';
 import { MigrationModal } from './Modals/MigrationModal';
 import { CustomStatusForm } from './CustomStatusForm';
 import { CustomStatusFormProps, validationSchema } from './formModel';
 
 export const CustomStatusDrawer = () => {
-  const { campaignId } = useParams();
+  const campaignId = useEntityId();
   const { addToast } = useToast();
   const { t } = useTranslation();
   const dispatch = useAppDispatch();

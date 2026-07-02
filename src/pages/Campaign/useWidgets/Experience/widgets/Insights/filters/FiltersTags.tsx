@@ -8,7 +8,7 @@ import {
   updateFilters,
 } from 'src/features/uxFilters';
 import { styled } from 'styled-components';
-import { useParams } from 'react-router-dom';
+import { useEntityId } from 'src/hooks/useEntityId';
 import { getSeverityTag } from '../utils';
 import { useFilterData } from './useFilterData';
 import { useUxData } from '../../../useUxData';
@@ -59,7 +59,7 @@ const ScrollingContainer = styled.div`
 `;
 
 export const FiltersTags = () => {
-  const { campaignId } = useParams();
+  const campaignId = useEntityId();
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const data = getCurrentUxData();
