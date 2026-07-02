@@ -25,7 +25,7 @@ import { ReactComponent as XIcon } from 'src/assets/icons/x-stroke.svg';
 import { Formik, FormikProps } from 'formik';
 import { useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as InfoIcon } from 'src/assets/icons/info-icon.svg';
 import {
@@ -136,8 +136,8 @@ export const ImportMediaModal = ({
 }: ImportMediaModalProps) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const location = useLocation();
-  const localizedVideosRoute = useLocalizeRoute(`hubs/${hubId}/videos`);
+  const [searchParams] = useSearchParams();
+  const localizedHubRoute = useLocalizeRoute(`hubs/${hubId}`);
   const { addToast } = useToast();
   const { track } = useAnalytics();
   const [isDragging, setIsDragging] = useState(false);
@@ -361,8 +361,15 @@ export const ImportMediaModal = ({
         actions.resetForm();
         onClose();
 
-        if (location.pathname !== localizedVideosRoute) {
-          navigate(localizedVideosRoute);
+        // Land on the canonical media-list tab so the user sees what they
+        // just uploaded, merging the current query params instead of
+        // clobbering them. Only navigate when not already there — covers
+        // both the entity wrapper (path stays the same, only `tab` changes)
+        // and the legacy standalone page (different path entirely).
+        if (searchParams.get('tab') !== 'media-list') {
+          const nextSearchParams = new URLSearchParams(searchParams);
+          nextSearchParams.set('tab', 'media-list');
+          navigate(`${localizedHubRoute}?${nextSearchParams.toString()}`);
         }
       }}
     >
