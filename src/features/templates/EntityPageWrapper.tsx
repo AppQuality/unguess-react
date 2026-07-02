@@ -8,6 +8,7 @@ import {
   useNavigate,
   useSearchParams,
 } from 'react-router-dom';
+import { useAnalytics } from 'use-analytics';
 import { CampaignSettings } from 'src/common/components/inviteUsers/campaignSettings';
 import { PageLoader } from 'src/common/components/PageLoader';
 import WPAPI from 'src/common/wpapi';
@@ -104,6 +105,7 @@ const EntityPageWrapperInner = () => {
   const { t } = useTranslation();
   const location = useLocation();
   const navigate = useNavigate();
+  const { track } = useAnalytics();
   const { handleUseCaseExport } = useUseCaseExport();
   const [searchParams, setSearchParams] = useSearchParams();
   const entityId = useEntityId();
@@ -284,7 +286,12 @@ const EntityPageWrapperInner = () => {
         <Button
           isPrimary
           isAccent
-          onClick={() => setIsHubImportModalOpen(true)}
+          onClick={() => {
+            track('mediaUploadModalOpened', {
+              source: 'media_list',
+            });
+            setIsHubImportModalOpen(true);
+          }}
         >
           {t('__UX_CAMPAIGN_PAGE_NAVIGATION_VIDEO_LIST_CTA_UPLOAD_MEDIA')}
         </Button>
