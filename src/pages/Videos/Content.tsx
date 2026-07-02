@@ -71,14 +71,12 @@ const VideosPageContent = ({
     : [];
 
   return !videos || totalVideos === 0 ? (
-    <>
+    <LayoutWrapper isNotBoxed>
       {/* Hub tabs hide the title/meta in the empty state (product decision);
           campaigns keep it, aligned to the content column. */}
-      {!isHub && contentHeader && (
-        <LayoutWrapper isNotBoxed>{contentHeader}</LayoutWrapper>
-      )}
+      {!isHub && contentHeader}
       <Empty onOpenImportMediaModal={openImportMediaModal} />
-    </>
+    </LayoutWrapper>
   ) : (
     <LayoutWrapper isNotBoxed>
       {contentHeader}

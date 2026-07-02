@@ -6,6 +6,7 @@ import {
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useOutletContext } from 'react-router-dom';
+import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
 import { useGetCampaignsByCidObservationsQuery } from 'src/features/api';
 import { HubInsightsEmptyState } from 'src/pages/Insights/HubInsightsEmptyState';
 import { InsightContextProvider } from 'src/pages/Insights/InsightContext';
@@ -54,7 +55,12 @@ export const HubInsightsTab = () => {
 
   const renderBody = () => {
     if (isLoading) {
-      return <Skeleton height="200px" style={{ borderRadius: 0 }} />;
+      return (
+        <LayoutWrapper isNotBoxed>
+          <TabTitle>{t('__ENTITY_PAGE_TAB_INSIGHTS')}</TabTitle>
+          <Skeleton height="200px" style={{ borderRadius: 0 }} />
+        </LayoutWrapper>
+      );
     }
 
     if (hasObservations) {
@@ -72,7 +78,11 @@ export const HubInsightsTab = () => {
     // Empty state (no observations): no tab title — the hub empty state is
     // shown clean (product decision), which also avoids the misaligned bare
     // title that rendering it outside the content column would produce.
-    return <HubInsightsEmptyState />;
+    return (
+      <LayoutWrapper isNotBoxed>
+        <HubInsightsEmptyState />
+      </LayoutWrapper>
+    );
   };
 
   return <TabSection>{renderBody()}</TabSection>;
