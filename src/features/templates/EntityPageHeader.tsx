@@ -83,8 +83,14 @@ const ActionsContainer = styled.div`
   gap: ${({ theme }) => theme.space.sm};
 `;
 
-const TabsRow = styled.div`
-  margin-top: ${({ theme }) => theme.space.md};
+const TabsRow = styled.div``;
+
+// Vertical divider separating the follower/share controls from the action menu.
+const VerticalDivider = styled.div`
+  align-self: stretch;
+  width: 1px;
+  min-height: ${({ theme }) => theme.space.lg};
+  background-color: ${({ theme }) => theme.palette.grey[300]};
 `;
 
 export const EntityPageHeader = ({
@@ -126,6 +132,9 @@ export const EntityPageHeader = ({
             <ActionsContainer>
               {shareAndViewersSlot}
               {ctaSlot}
+              {shareAndViewersSlot && menuItems.length > 0 && (
+                <VerticalDivider />
+              )}
               {menuItems.length > 0 && (
                 <ButtonMenu
                   onSelect={(value) =>

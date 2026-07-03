@@ -98,7 +98,11 @@ const VideosPageContent = ({
                       <AccordionNew.Section>
                         <AccordionNew.Header>
                           <AccordionNew.Label
-                            label={`${uc.usecase.title.full} `}
+                            label={
+                              isHub
+                                ? t('__HUB_MEDIA_LIST_ALL_MEDIA_LABEL')
+                                : `${uc.usecase.title.full} `
+                            }
                           />
                           <AccordionNew.Meta>
                             <Tag

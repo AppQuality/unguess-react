@@ -12,6 +12,7 @@ import { InsightContextProvider } from 'src/pages/Insights/InsightContext';
 import InsightsPageContent from 'src/pages/Insights/Content';
 import type { EntityTabContext } from '../entityTabs';
 import { TabSection, TabTitle } from './TabLayout';
+import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
 
 /**
  * Hub insights tab body. Hubs always show the insights tab (product
@@ -75,5 +76,9 @@ export const HubInsightsTab = () => {
     return <HubInsightsEmptyState />;
   };
 
-  return <TabSection>{renderBody()}</TabSection>;
+  return (
+    <LayoutWrapper isNotBoxed={true}>
+      <TabSection>{renderBody()}</TabSection>
+    </LayoutWrapper>
+  );
 };

@@ -23,7 +23,7 @@ const LayoutWrapperBugs = styled(LayoutWrapper)<{
 `;
 
 const LayoutWrapperFilters = styled(LayoutWrapper)`
-  background: white;
+  background: ${(p) => p.theme.palette.grey[100]};
   @media (min-width: ${(p) => p.theme.breakpoints.xl}) {
     position: sticky;
     top: 0;

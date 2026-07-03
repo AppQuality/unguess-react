@@ -305,6 +305,7 @@ export const CampaignSettings = ({ dataQa }: { dataQa?: string }) => {
   return (
     <>
       <Button
+        size="small"
         onClick={() => setIsModalOpen(true)}
         isBasic
         data-qa={dataQa || 'pageHeader_shareButton'}

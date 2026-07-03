@@ -12,7 +12,7 @@ import type { EntityTabContext } from '../entityTabs';
 import { TabTitle } from './TabLayout';
 
 const MetaRowWrapper = styled(LayoutWrapper)`
-  padding-top: ${({ theme }) => theme.space.lg};
+  padding-top: ${({ theme }) => theme.space.xl};
   padding-bottom: ${({ theme }) => theme.space.md};
 `;
 

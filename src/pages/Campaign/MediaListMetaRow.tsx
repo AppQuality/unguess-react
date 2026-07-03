@@ -7,7 +7,6 @@ import { Meta } from 'src/common/components/Meta';
 import { StatusMeta } from 'src/common/components/meta/StatusMeta';
 import { PageMeta } from 'src/common/components/PageMeta';
 import { Pipe } from 'src/common/components/Pipe';
-import { formatApiDateShortMonthYear } from 'src/common/date/apiDate';
 import { useGetCampaignsByCidQuery } from 'src/features/api';
 import { CampaignStatus } from 'src/types';
 import styled from 'styled-components';
@@ -19,6 +18,7 @@ const StyledSkeleton = styled(Skeleton)`
 
 const StyledPipe = styled(Pipe)`
   display: inline;
+  padding: 0 ${({ theme }) => theme.space.xs};
 `;
 
 const SeveritiesMetaContainer = styled.div`
@@ -31,13 +31,13 @@ const DeviceMetaItem = styled(Span)`
   align-items: center;
   gap: ${({ theme }) => theme.space.xxs};
   margin-right: ${({ theme }) => theme.space.sm};
-  color: ${({ theme }) => theme.palette.blue[600]};
+  color: ${({ theme }) => theme.palette.grey[700]};
   font-size: ${({ theme }) => theme.fontSizes.md};
   font-weight: ${({ theme }) => theme.fontWeights.medium};
 
   > svg {
-    width: 16px;
-    height: 16px;
+    width: 24px;
+    height: 24px;
   }
 `;
 
@@ -79,7 +79,7 @@ export const MediaListMetaRow = ({
     return <Skeleton width="500px" height="20px" />;
   }
 
-  const { status, start_date } = campaign;
+  const { status } = campaign;
 
   return (
     <PageMeta className={className} data-qa="media_list_tab_meta">
@@ -87,18 +87,11 @@ export const MediaListMetaRow = ({
         {totalVideos}{' '}
         {t('__VIDEOS_LIST_META_VIDEO_COUNT', { count: totalVideos })}
       </Span>
-      {start_date && (
-        <Span style={{ color: appTheme.palette.grey[700] }}>
-          {formatApiDateShortMonthYear(start_date)}
-        </Span>
-      )}
       {isFetchingVideos ? (
         <StyledSkeleton width="400px" height="20px" />
       ) : (
         <>
-          {deviceMetas.length > 0 && (
-            <StyledPipe style={{ paddingLeft: appTheme.space.sm }} />
-          )}
+          {deviceMetas.length > 0 && <StyledPipe />}
           {deviceMetas.map((deviceMeta) => (
             <DeviceMetaItem key={deviceMeta.key}>
               {getDeviceIcon(deviceMeta.key)}
@@ -125,6 +118,7 @@ export const MediaListMetaRow = ({
           ))}
         </SeveritiesMetaContainer>
       )}
+      <StyledPipe />
       <StatusMeta status={status.name as CampaignStatus} />
     </PageMeta>
   );
