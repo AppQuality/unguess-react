@@ -18,6 +18,7 @@ export const TabTitle = ({
 }: {
   // Retained for call-site compatibility (the active-tab label); no longer
   // rendered now that the tab title and its border are removed.
+  // eslint-disable-next-line react/no-unused-prop-types
   children?: ReactNode;
   meta?: ReactNode;
 }) => <div>{meta}</div>;

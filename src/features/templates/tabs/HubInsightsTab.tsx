@@ -6,13 +6,13 @@ import {
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useOutletContext } from 'react-router-dom';
+import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
 import { useGetCampaignsByCidObservationsQuery } from 'src/features/api';
 import { HubInsightsEmptyState } from 'src/pages/Insights/HubInsightsEmptyState';
 import { InsightContextProvider } from 'src/pages/Insights/InsightContext';
 import InsightsPageContent from 'src/pages/Insights/Content';
 import type { EntityTabContext } from '../entityTabs';
 import { TabSection, TabTitle } from './TabLayout';
-import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
 
 /**
  * Hub insights tab body. Hubs always show the insights tab (product
@@ -77,7 +77,7 @@ export const HubInsightsTab = () => {
   };
 
   return (
-    <LayoutWrapper isNotBoxed={true}>
+    <LayoutWrapper isNotBoxed>
       <TabSection>{renderBody()}</TabSection>
     </LayoutWrapper>
   );
