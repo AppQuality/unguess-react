@@ -7,7 +7,7 @@ import type { EntityTabContext } from '../entityTabs';
 import { TabSection, TabTitle } from './TabLayout';
 
 const StyledMetaRow = styled(HubMediaListMetaRow)`
-  margin-bottom: ${({ theme }) => theme.space.lg};
+  margin-bottom: ${({ theme }) => theme.space.xl};
 `;
 
 /**

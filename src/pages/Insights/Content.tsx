@@ -25,6 +25,9 @@ const DrawerWrapper = styled.aside`
   display: grid;
   grid-template-columns: ${({ theme }) => theme.space.xxl} 1fr;
   align-items: start;
+  /* The insights aside is exempt from the tab section's shared 40px top
+     padding */
+  margin-top: -${({ theme }) => theme.space.xl};
 `;
 
 const InsightsPageContent = ({

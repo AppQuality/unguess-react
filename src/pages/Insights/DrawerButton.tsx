@@ -17,7 +17,7 @@ const ButtonWrapper = styled.div`
   position: sticky;
   top: ${({ theme }) => theme.components.chrome.header.height};
   right: 0;
-  margin-top: ${({ theme }) => theme.space.md};
+  margin-top: ${({ theme }) => theme.space.xl};
   z-index: ${({ theme }) => theme.levels.front};
   border: 1px solid ${getColor(appTheme.colors.neutralHue, 200)};
   border-radius: 0;

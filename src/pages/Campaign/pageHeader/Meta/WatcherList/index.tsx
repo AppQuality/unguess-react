@@ -3,6 +3,7 @@ import { Anchor } from '@appquality/unguess-design-system';
 import { Trans, useTranslation } from 'react-i18next';
 import { WatcherList as WatcherListComponent } from 'src/common/components/WatcherList';
 import { useGetCampaignsByCidWatchersQuery } from 'src/features/api';
+import { useAvailableUsers } from './hooks/useAvailableUsers';
 import { useIsWatching } from './hooks/useIsWatching';
 import { MemberAddAutocomplete } from './MemberAddAutoComplete';
 import { UserList } from './UserList';
@@ -15,13 +16,15 @@ const WatcherList = ({ campaignId }: { campaignId: string }) => {
     cid: campaignId,
   });
   const watchersCount = watchers ? watchers.items.length : 0;
+  const availableUsers = useAvailableUsers({ campaignId });
 
   return (
     <WatcherListComponent
       size="small"
       isWatching={isWatching}
       count={watchersCount}
-      isLoading={isLoading}
+      isLoading={isLoading || availableUsers.isLoading}
+      topOffset={220}
       i18n={{
         tooltip: {
           title: t('__PLAN_PAGE_WATCHER_LIST_TOOLTIP'),
@@ -59,7 +62,7 @@ const WatcherList = ({ campaignId }: { campaignId: string }) => {
         <WatchButton campaignId={campaignId} />
       </WatcherListComponent.WatchButtonWrapper>
       <WatcherListComponent.AutoCompleteWrapper>
-        <MemberAddAutocomplete campaignId={campaignId} />
+        <MemberAddAutocomplete campaignId={campaignId} {...availableUsers} />
       </WatcherListComponent.AutoCompleteWrapper>
     </WatcherListComponent>
   );

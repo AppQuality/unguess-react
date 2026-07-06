@@ -28,7 +28,7 @@ const Widgets = () => {
 
   return (
     <div style={{ containerType: 'inline-size' }}>
-      <Grid style={{ paddingTop: appTheme.space.xxl }}>
+      <Grid>
         <UserAnalysisWidget campaignId={entityId} />
         <ObservedThemesWidget campaignId={entityId} />
         <ProgressMonitoringWidget campaignId={entityId} />

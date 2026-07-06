@@ -23,7 +23,7 @@ export const OverviewTab = () => {
   const { entityId } = useOutletContext<EntityTabContext>();
 
   return (
-    <LayoutWrapper>
+    <LayoutWrapper isNotBoxed>
       <TabSection>
         <CampaignWidgets
           contentHeader={

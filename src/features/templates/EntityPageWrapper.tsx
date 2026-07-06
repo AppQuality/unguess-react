@@ -35,6 +35,7 @@ import {
 import { WatcherList } from 'src/pages/Campaign/pageHeader/Meta/WatcherList';
 import { ImportMediaModal } from 'src/pages/Videos/ImportMediaModal';
 import { buildCampaignMenuSections } from './buildCampaignMenuSections';
+import { buildHubMenuSections } from './buildHubMenuSections';
 import type { CampaignHubContext } from './CampaignsHubsMiddleware';
 import { EntityPageHeader, type EntityPageTabId } from './EntityPageHeader';
 import { Page } from './Page';
@@ -291,12 +292,12 @@ const EntityPageWrapperInner = () => {
     to: `${entityBaseRoute}${TAB_PATH_SUFFIX[id]}${location.search}`,
   }));
 
-  const campaignIds = workspaceProjectsData?.items
-    ?.filter((item) => item.id !== campaign?.project.id)
+  const otherProjectIds = workspaceProjectsData?.items
+    ?.filter((item) => item.id !== currentProject.id)
     ?.map((item) => item.id);
 
-  const isMoveCampaignDisabled =
-    !campaignIds || campaignIds.length === 0 || !hasWorkspaceAccess;
+  const isMoveDisabled =
+    !otherProjectIds || otherProjectIds.length === 0 || !hasWorkspaceAccess;
 
   const isArchived = (isHub ? hub?.isArchived : campaign?.isArchived) ?? false;
 
@@ -336,29 +337,36 @@ const EntityPageWrapperInner = () => {
     return null;
   };
 
-  const menuSections =
-    !isHub && campaign
-      ? buildCampaignMenuSections({
-          campaign,
-          t,
-          isArchived,
-          isMoveDisabled: isMoveCampaignDisabled,
-          showDownloadAnalysis,
-          showBugActions,
-          onMove: () => setIsMoveModalOpen(true),
-          onArchive: () => setIsArchiveModalOpen(true),
-          onDownloadAnalysis: () => handleUseCaseExport(entityId),
-          onDownloadBugReport: () =>
-            WPAPI.getReport({
-              campaignId: Number(entityId),
-              title: currentEntityTitle,
-            }),
-          onIntegrationCenter: () => {
-            window.location.href = integrationCenterUrl;
-          },
-          onGoToPlan: () => navigate(`/plans/${campaign.plan}`),
-        })
-      : [];
+  let menuSections: ReturnType<typeof buildCampaignMenuSections> = [];
+  if (isHub) {
+    menuSections = buildHubMenuSections({
+      t,
+      isMoveDisabled,
+      onMove: () => setIsMoveModalOpen(true),
+      onDownloadReport: () => handleUseCaseExport(entityId),
+    });
+  } else if (campaign) {
+    menuSections = buildCampaignMenuSections({
+      campaign,
+      t,
+      isArchived,
+      isMoveDisabled,
+      showDownloadAnalysis,
+      showBugActions,
+      onMove: () => setIsMoveModalOpen(true),
+      onArchive: () => setIsArchiveModalOpen(true),
+      onDownloadAnalysis: () => handleUseCaseExport(entityId),
+      onDownloadBugReport: () =>
+        WPAPI.getReport({
+          campaignId: Number(entityId),
+          title: currentEntityTitle,
+        }),
+      onIntegrationCenter: () => {
+        window.location.href = integrationCenterUrl;
+      },
+      onGoToPlan: () => navigate(`/plans/${campaign.plan}`),
+    });
+  }
 
   const entityContext: CampaignHubContext & {
     activeTab: EntityPageTabId;
@@ -444,6 +452,7 @@ const EntityPageWrapperInner = () => {
             )}
           </>
         )}
+        {isHub && <MoveCampaignModal campaignId={entityId} isHub />}
         {isHub && (
           <ImportMediaModal
             isOpen={isHubImportModalOpen}

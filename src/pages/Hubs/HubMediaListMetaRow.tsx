@@ -15,7 +15,8 @@ const StyledSkeleton = styled(Skeleton)`
 
 const StyledPipe = styled(Pipe)`
   display: inline;
-  padding: 0 ${({ theme }) => theme.space.xs};
+  margin-left: ${({ theme }) => theme.space.xs};
+  margin-right: ${({ theme }) => theme.space.xs};
 `;
 
 const SeveritiesMetaContainer = styled.div`

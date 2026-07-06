@@ -6,7 +6,6 @@ import {
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useOutletContext } from 'react-router-dom';
-import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
 import { useGetCampaignsByCidObservationsQuery } from 'src/features/api';
 import { HubInsightsEmptyState } from 'src/pages/Insights/HubInsightsEmptyState';
 import { InsightContextProvider } from 'src/pages/Insights/InsightContext';
@@ -76,9 +75,5 @@ export const HubInsightsTab = () => {
     return <HubInsightsEmptyState />;
   };
 
-  return (
-    <LayoutWrapper isNotBoxed>
-      <TabSection>{renderBody()}</TabSection>
-    </LayoutWrapper>
-  );
+  return <TabSection>{renderBody()}</TabSection>;
 };

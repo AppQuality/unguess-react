@@ -14,9 +14,9 @@ import { useWidgets } from './useWidgets';
 export const CampaignWidgets = ({
   contentHeader,
 }: {
-  // Optional content rendered at the top of the main content column (aligned
-  // with the widgets, not full-width). Used by the entity overview tab to place
-  // the meta row; the legacy page passes nothing.
+  // Optional content rendered as a full-width row above the whole layout (both
+  // the side navigation and the content column). Used by the entity overview
+  // tab to place the meta row across the top; the legacy page passes nothing.
   contentHeader?: ReactNode;
 }) => {
   const { entityId: resolvedCampaignId } = useParams<{ entityId?: string }>();
@@ -32,6 +32,15 @@ export const CampaignWidgets = ({
     </>
   ) : (
     <Grid gutters="xl">
+      {contentHeader && (
+        <Row>
+          {/* Col carries a default 32px bottom margin; drop it so the only gap
+              below the meta row is its own (40px), avoiding a doubled margin. */}
+          <Col xs={12} style={{ marginBottom: 0 }}>
+            {contentHeader}
+          </Col>
+        </Row>
+      )}
       <Row>
         <Col xs={12} lg={2} style={{ margin: 0 }}>
           <AsideNav isLoading={isLoading} containerId="main">
@@ -74,7 +83,6 @@ export const CampaignWidgets = ({
           </AsideNav>
         </Col>
         <Col xs={12} lg={10}>
-          {contentHeader}
           {items.map((widget) => widget.content)}
         </Col>
       </Row>

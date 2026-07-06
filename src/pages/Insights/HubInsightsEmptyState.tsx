@@ -1,4 +1,4 @@
-import { MD, XL } from '@appquality/unguess-design-system';
+import { MD, Span, XL } from '@appquality/unguess-design-system';
 import { Trans, useTranslation } from 'react-i18next';
 import { Link, useLocation, useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
@@ -23,27 +23,18 @@ const Subtitle = styled(MD)`
   color: ${({ theme }) => theme.palette.grey[700]};
 `;
 
-// "Media list" is highlighted (bold) per the design and links back to the
-// canonical hub media-list path; styled to read as inline bold text (no
-// underline / accent colour) so it matches the mock.
-const MediaListLink = styled(Link)`
-  font-weight: ${({ theme }) => theme.fontWeights.bold};
-  color: inherit;
-  text-decoration: none;
+const MediaListLink = ({
+  to,
+  children,
+}: {
+  to: string;
+  children?: React.ReactNode;
+}) => (
+  <Link to={to}>
+    <Span isBold>{children}</Span>
+  </Link>
+);
 
-  &:hover {
-    color: inherit;
-    text-decoration: none;
-  }
-`;
-
-/**
- * Empty state for the hub insights tab when there are no observations yet:
- * an illustration, a title and a subtitle that points users back to the
- * media-list (`/hubs/:id/videos`, preserving query params) to analyze media
- * and create their first insights. Mirrors the Figma mock (no CTA button; the
- * navigation hint lives in the bolded "Media list" link inside the copy).
- */
 export const HubInsightsEmptyState = () => {
   const { t } = useTranslation();
   const location = useLocation();
