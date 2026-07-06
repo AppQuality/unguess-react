@@ -15,6 +15,7 @@ import WPAPI from 'src/common/wpapi';
 import { FEATURE_FLAG_TAGGING_TOOL } from 'src/constants';
 import {
   type GetCampaignsByCidApiResponse,
+  useGetCampaignsByCidObservationsQuery,
   useGetCampaignsByCidVideosQuery,
   useGetUsersMeQuery,
 } from 'src/features/api';
@@ -181,6 +182,15 @@ const EntityPageWrapperInner = () => {
 
   const hasVideos = (videos?.items.length ?? 0) > 0;
 
+  // Observations gate the "Download observations" action (campaign + hub): with
+  // none, there is nothing to export, so the menu item is disabled. Shared with
+  // the insights tab's identical (ungrouped) query, so no extra request.
+  const { data: observations } = useGetCampaignsByCidObservationsQuery(
+    { cid: entityId ?? '0' },
+    { skip: !entityId }
+  );
+  const hasObservations = (observations?.results?.length ?? 0) > 0;
+
   const enabledTabs = useMemo(() => {
     if (isHub) {
       return getHubTabs();
@@ -342,6 +352,7 @@ const EntityPageWrapperInner = () => {
     menuSections = buildHubMenuSections({
       t,
       isMoveDisabled,
+      isDownloadDisabled: !hasObservations,
       onMove: () => setIsMoveModalOpen(true),
       onDownloadReport: () => handleUseCaseExport(entityId),
     });
@@ -352,6 +363,7 @@ const EntityPageWrapperInner = () => {
       isArchived,
       isMoveDisabled,
       showDownloadAnalysis,
+      isDownloadAnalysisDisabled: !hasObservations,
       showBugActions,
       onMove: () => setIsMoveModalOpen(true),
       onArchive: () => setIsArchiveModalOpen(true),

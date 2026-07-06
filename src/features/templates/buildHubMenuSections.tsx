@@ -13,11 +13,14 @@ import type { EntityMenuItem } from './EntityPageHeader';
 export const buildHubMenuSections = ({
   t,
   isMoveDisabled,
+  isDownloadDisabled,
   onMove,
   onDownloadReport,
 }: {
   t: TFunction;
   isMoveDisabled: boolean;
+  // Disabled when the hub has no observations yet (nothing to export).
+  isDownloadDisabled: boolean;
   onMove: () => void;
   onDownloadReport: () => void;
 }): EntityMenuItem[][] => [
@@ -35,6 +38,7 @@ export const buildHubMenuSections = ({
       id: 'download_report',
       label: t('__VIDEO_PAGE_ACTIONS_EXPORT_BUTTON_LABEL'),
       icon: <DownloadIcon />,
+      isDisabled: isDownloadDisabled,
       onSelect: onDownloadReport,
     },
   ],

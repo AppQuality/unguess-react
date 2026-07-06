@@ -1551,7 +1551,7 @@
   "__VERIFY_CODE_TITLE": "Verify your identity",
   "__VERIFY_CODE_TOTP_INSTRUCTIONS": "Enter the 6-digit code from your authenticator app",
   "__VERIFY_CODE_VERIFYING": "Verifying...",
-  "__VIDEO_PAGE_ACTIONS_EXPORT_BUTTON_LABEL": "Download report",
+  "__VIDEO_PAGE_ACTIONS_EXPORT_BUTTON_LABEL": "Download observations",
   "__VIDEO_PAGE_ACTIONS_EXPORT_TOAST_ERROR_MESSAGE": "Something went wrong, try again",
   "__VIDEO_PAGE_ACTIONS_EXPORT_TOAST_SUCCESS_MESSAGE": "Downloading report",
   "__VIDEO_PAGE_ACTIONS_OBSERVATION_FORM_DELETE_BUTTON": "Delete",

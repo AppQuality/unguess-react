@@ -18,6 +18,7 @@ export const buildCampaignMenuSections = ({
   isArchived,
   isMoveDisabled,
   showDownloadAnalysis,
+  isDownloadAnalysisDisabled,
   showBugActions,
   onMove,
   onArchive,
@@ -31,6 +32,8 @@ export const buildCampaignMenuSections = ({
   isArchived: boolean;
   isMoveDisabled: boolean;
   showDownloadAnalysis: boolean;
+  // Disabled when the campaign has no observations yet (nothing to export).
+  isDownloadAnalysisDisabled: boolean;
   showBugActions: boolean;
   onMove: () => void;
   onArchive: () => void;
@@ -68,6 +71,7 @@ export const buildCampaignMenuSections = ({
       id: 'download_analysis',
       label: t('__VIDEO_PAGE_ACTIONS_EXPORT_BUTTON_LABEL'),
       icon: <DownloadIcon />,
+      isDisabled: isDownloadAnalysisDisabled,
       onSelect: onDownloadAnalysis,
     });
   }
