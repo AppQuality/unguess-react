@@ -9,8 +9,8 @@ import { appTheme } from 'src/app/theme';
 import { Trans, useTranslation } from 'react-i18next';
 import { TFunction } from 'i18next';
 import { getLocalizedFunctionalDashboardUrl } from 'src/hooks/useLocalizeDashboardUrl';
-import { BasicWidget } from 'src/pages/Campaign/widgetCards/BasicWidget';
-import { CapitalizeFirstLetter } from 'src/pages/Campaign/widgetCards/common/CapitalizeFirstLetter';
+import { BasicWidget } from 'src/common/components/widgetCards/BasicWidget';
+import { CapitalizeFirstLetter } from 'src/common/components/widgetCards/common/CapitalizeFirstLetter';
 import { useBugs } from './useBugs';
 import { WidgetLoader } from '../widgetLoader';
 

@@ -17,7 +17,7 @@ import { usePatchPlansByPidStatusMutation } from 'src/features/api';
 import { useModule } from 'src/features/modules/useModule';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { usePlanStatusLabel } from 'src/hooks/usePlanStatusLabel';
-import { WidgetSpecialCard } from 'src/pages/Campaign/widgetCards/common/StyledSpecialCard';
+import { WidgetSpecialCard } from 'src/common/components/widgetCards/common/StyledSpecialCard';
 import styled from 'styled-components';
 import { useAnalytics } from 'use-analytics';
 import { usePlan, usePlanIsPurchasable } from '../../../../hooks/usePlan';

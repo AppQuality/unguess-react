@@ -28,7 +28,7 @@ import { ReactComponent as LinkIcon } from 'src/assets/icons/link-stroke.svg';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { Link, useOutletContext } from 'react-router-dom';
 import { useFormikContext } from 'formik';
-import type { CampaignHubContext } from 'src/features/templates/CampaignsHubsMiddleware';
+import type { CampaignHubContext } from 'src/pages/Campaign/CampaignsHubsMiddleware';
 import { getDeviceIcon } from 'src/common/components/BugDetail/Meta';
 import { InsightFormValues } from '../FormProvider';
 

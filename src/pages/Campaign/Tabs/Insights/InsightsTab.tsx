@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { InsightContextProvider } from 'src/pages/Insights/InsightContext';
 import InsightsPageContent from 'src/pages/Insights/Content';
-import { TabSection, TabTitle } from './TabLayout';
+import { TabSection, TabTitle } from '../TabLayout';
 
 /**
  * Campaign insights tab body. Reuses the content-only `InsightsPageContent`

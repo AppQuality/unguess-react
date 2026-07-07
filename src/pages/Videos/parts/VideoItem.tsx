@@ -12,7 +12,7 @@ import { appTheme } from 'src/app/theme';
 import AudioPoster from 'src/assets/audio_poster.png';
 import { ReactComponent as PlaceholderVideo } from 'src/assets/icons/placeholder-video.svg';
 import { getColorWithAlpha } from 'src/common/utils';
-import type { CampaignHubContext } from 'src/features/templates/CampaignsHubsMiddleware';
+import type { CampaignHubContext } from 'src/pages/Campaign/CampaignsHubsMiddleware';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { styled } from 'styled-components';
 import { useAnalytics } from 'use-analytics';

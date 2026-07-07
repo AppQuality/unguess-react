@@ -1,5 +1,5 @@
 import { useParams } from 'react-router-dom';
-import FlipCard from 'src/pages/Campaign/widgetCards/FlipCard';
+import FlipCard from 'src/common/components/widgetCards/FlipCard';
 import { Chart } from './Chart';
 import { List } from './List';
 

@@ -16,7 +16,7 @@ import {
   getVideoDeviceLabel,
   VIDEO_DEVICE_SECTION_ORDER,
 } from 'src/common/video/getVideoDeviceLabel';
-import { CampaignHubContext } from 'src/features/templates/CampaignsHubsMiddleware';
+import { CampaignHubContext } from 'src/pages/Campaign/CampaignsHubsMiddleware';
 import { styled } from 'styled-components';
 import { CompletionTooltip } from '../Bugs/Content/BugsTable/components/CompletionTooltip';
 import { Empty } from './Empty';

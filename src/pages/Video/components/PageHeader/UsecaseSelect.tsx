@@ -9,15 +9,11 @@ import { useCallback, useState } from 'react';
 import { Trans } from 'react-i18next';
 import { useNavigate, useOutletContext } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
-import type { CampaignHubContext } from 'src/features/templates/CampaignsHubsMiddleware';
+import type { CampaignHubContext } from 'src/pages/Campaign/CampaignsHubsMiddleware';
 import { useSendGTMevent } from 'src/hooks/useGTMevent';
 import useUsecaseWithVideos from './useUsecaseWithVideos';
 
-const UsecaseSelect = ({
-  currentUsecaseId,
-}: {
-  currentUsecaseId: number;
-}) => {
+const UsecaseSelect = ({ currentUsecaseId }: { currentUsecaseId: number }) => {
   const { isHub, entityId } = useOutletContext<CampaignHubContext>();
   const sendGTMEvent = useSendGTMevent();
   const navigate = useNavigate();

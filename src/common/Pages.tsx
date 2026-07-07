@@ -28,9 +28,9 @@ import ForgotPasswordPage from 'src/pages/ForgotPasswordPage';
 import VerifyCodePage from 'src/pages/VerifyCodePage';
 import { CallbackPage } from 'src/pages/Auth/callback';
 import { LogoutPage } from 'src/pages/Auth/logout';
-import CampaignsHubsMiddleware from 'src/features/templates/CampaignsHubsMiddleware';
-import EntityPageWrapper from 'src/features/templates/EntityPageWrapper';
-import EntityPageContent from 'src/features/templates/EntityPageContent';
+import CampaignsHubsMiddleware from 'src/pages/Campaign/CampaignsHubsMiddleware';
+import EntityPageWrapper from 'src/pages/Campaign/EntityPageWrapper';
+import EntityPageContent from 'src/pages/Campaign/EntityPageContent';
 import { Redirect } from './Redirect';
 
 const Pages = () => {

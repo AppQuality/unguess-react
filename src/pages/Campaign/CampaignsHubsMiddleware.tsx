@@ -5,7 +5,7 @@ import {
   useGetCampaignsByCidQuery,
   useGetHubsByHidQuery,
   useGetUsersMeQuery,
-} from '../api';
+} from 'src/features/api';
 
 export type CampaignHubContext = {
   isHub: boolean;

@@ -53,7 +53,7 @@ export const widgets = ({ campaignId }: { campaignId: number }) => {
     {
       id: 'campaign-overview',
       content: <CampaignOverview id="campaign-overview" campaign={campaign} />,
-      title: t('__CAMPAIGN_PAGE_NAVIGATION_BUG_ITEM_OVERVIEW_LABEL'),
+      title: t('__CAMPAIGN_PAGE_METHODOLOGY_SECTION_TITLE'),
       type: 'item' as const,
     },
     {

@@ -8,8 +8,8 @@ import { BugsMetaRow } from 'src/pages/Bugs/BugsMetaRow';
 import { BugsPageContent, BugsPageContentLoader } from 'src/pages/Bugs/Content';
 import { useCampaign } from 'src/pages/Bugs/useCampaign';
 import styled from 'styled-components';
-import type { EntityTabContext } from '../entityTabs';
-import { TabTitle } from './TabLayout';
+import type { EntityTabContext } from '../../entityTabs';
+import { TabTitle } from '../TabLayout';
 
 const MetaRowWrapper = styled(LayoutWrapper)`
   padding-top: ${({ theme }) => theme.space.xl};

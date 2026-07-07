@@ -10,8 +10,8 @@ import { useGetCampaignsByCidObservationsQuery } from 'src/features/api';
 import { HubInsightsEmptyState } from 'src/pages/Insights/HubInsightsEmptyState';
 import { InsightContextProvider } from 'src/pages/Insights/InsightContext';
 import InsightsPageContent from 'src/pages/Insights/Content';
-import type { EntityTabContext } from '../entityTabs';
-import { TabSection, TabTitle } from './TabLayout';
+import type { EntityTabContext } from '../../entityTabs';
+import { TabSection, TabTitle } from '../TabLayout';
 
 /**
  * Hub insights tab body. Hubs always show the insights tab (product

@@ -1,7 +1,7 @@
 import { XL } from '@appquality/unguess-design-system';
 import { Trans, useTranslation } from 'react-i18next';
 import { useGetCampaignsByCidBugsQuery } from 'src/features/api';
-import { BasicWidget } from 'src/pages/Campaign/widgetCards/BasicWidget';
+import { BasicWidget } from 'src/common/components/widgetCards/BasicWidget';
 import { TrendPill } from '../Trend';
 import { WidgetLoader } from '../widgetLoader';
 import { ReactComponent as WidgetImage } from './image.svg';
