@@ -17,7 +17,7 @@ import {
   useGetCampaignsByCidUxQuery,
 } from 'src/features/api';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
-import { WidgetSpecialCard } from 'src/pages/Campaign/widgetCards/common/StyledSpecialCard';
+import { WidgetSpecialCard } from 'src/common/components/widgetCards/common/StyledSpecialCard';
 import styled from 'styled-components';
 import { MethodologyNote } from './Note';
 import { ReactComponent as CampaignInfo } from './assets/campaignInfo.svg';

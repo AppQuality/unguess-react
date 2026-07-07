@@ -4,8 +4,8 @@ import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
 import { CampaignMetaRow } from 'src/pages/Campaign/CampaignMetaRow';
 import { CampaignWidgets } from 'src/pages/Campaign/CampaignWidgets';
 import styled from 'styled-components';
-import type { EntityTabContext } from '../entityTabs';
-import { TabSection, TabTitle } from './TabLayout';
+import type { EntityTabContext } from '../../entityTabs';
+import { TabSection, TabTitle } from '../TabLayout';
 
 const StyledMetaRow = styled(CampaignMetaRow)`
   margin-bottom: ${({ theme }) => theme.space.xl};

@@ -11,7 +11,7 @@ import { ReactComponent as ImgCyber } from 'src/assets/banner_suggestions/cyber.
 import { ReactComponent as ImgExperience } from 'src/assets/banner_suggestions/experience.svg';
 import { useGetCampaignsByCidSuggestionsQuery } from 'src/features/api';
 import { useSendGTMevent } from 'src/hooks/useGTMevent';
-import { BasicWidget } from 'src/pages/Campaign/widgetCards/BasicWidget';
+import { BasicWidget } from 'src/common/components/widgetCards/BasicWidget';
 import styled from 'styled-components';
 
 const StyledTagNew = styled(Tag)`

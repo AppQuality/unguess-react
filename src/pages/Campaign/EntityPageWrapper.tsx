@@ -33,13 +33,13 @@ import {
   MoveCampaignModalContextProvider,
   useMoveCampaignModalContext,
 } from 'src/pages/Campaign/MoveCampaignModal';
-import { WatcherList } from 'src/pages/Campaign/pageHeader/Meta/WatcherList';
+import { WatcherList } from 'src/pages/Campaign/WatcherList';
 import { ImportMediaModal } from 'src/pages/Videos/ImportMediaModal';
+import { Page } from 'src/features/templates/Page';
 import { buildCampaignMenuSections } from './buildCampaignMenuSections';
 import { buildHubMenuSections } from './buildHubMenuSections';
 import type { CampaignHubContext } from './CampaignsHubsMiddleware';
 import { EntityPageHeader, type EntityPageTabId } from './EntityPageHeader';
-import { Page } from './Page';
 
 const CAMPAIGN_DEFAULT_TAB: EntityPageTabId = 'overview';
 const HUB_DEFAULT_TAB: EntityPageTabId = 'media-list';

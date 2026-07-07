@@ -18,7 +18,7 @@ import { ComponentProps, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useOutletContext, useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
-import type { CampaignHubContext } from 'src/features/templates/CampaignsHubsMiddleware';
+import type { CampaignHubContext } from 'src/pages/Campaign/CampaignsHubsMiddleware';
 import { getColorWithAlpha } from 'src/common/utils';
 import {
   GetCampaignsByCidVideoTagsApiResponse,

@@ -9,7 +9,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useOutletContext, useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
-import type { CampaignHubContext } from 'src/features/templates/CampaignsHubsMiddleware';
+import type { CampaignHubContext } from 'src/pages/Campaign/CampaignsHubsMiddleware';
 import { ReactComponent as LinkIcon } from 'src/assets/icons/link-stroke.svg';
 import { ReactComponent as TagIcon } from 'src/assets/icons/tag-icon.svg';
 import { ReactComponent as TagIconAi } from 'src/assets/icons/tag-icon-ai.svg';
@@ -52,9 +52,7 @@ const Observation = ({
   const { isHub, entityId } = useOutletContext<CampaignHubContext>();
   const { videoId } = useParams();
   const prefix = isHub ? 'hubs' : 'campaigns';
-  const pageUrl = useLocalizeRoute(
-    `${prefix}/${entityId}/videos/${videoId}/`
-  );
+  const pageUrl = useLocalizeRoute(`${prefix}/${entityId}/videos/${videoId}/`);
   const { addToast } = useToast();
   const { t } = useTranslation();
 

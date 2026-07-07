@@ -3,8 +3,8 @@ import { useOutletContext } from 'react-router-dom';
 import { MediaListMetaRow } from 'src/pages/Campaign/MediaListMetaRow';
 import VideosPageContent from 'src/pages/Videos/Content';
 import styled from 'styled-components';
-import type { EntityTabContext } from '../entityTabs';
-import { TabSection, TabTitle } from './TabLayout';
+import type { EntityTabContext } from '../../entityTabs';
+import { TabSection, TabTitle } from '../TabLayout';
 
 const StyledMetaRow = styled(MediaListMetaRow)`
   margin-bottom: ${({ theme }) => theme.space.xl};

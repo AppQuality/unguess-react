@@ -2,7 +2,7 @@ import { Button, MD, XL } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { useOutletContext } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
-import { CampaignHubContext } from 'src/features/templates/CampaignsHubsMiddleware';
+import { CampaignHubContext } from 'src/pages/Campaign/CampaignsHubsMiddleware';
 import styled from 'styled-components';
 import { useAnalytics } from 'use-analytics';
 import { ReactComponent as EmptyStateImg } from '../../assets/empty-state-videos.svg';

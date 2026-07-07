@@ -1,12 +1,12 @@
 import type { ComponentType } from 'react';
 import type { CampaignHubContext } from './CampaignsHubsMiddleware';
 import type { EntityPageTabId } from './EntityPageHeader';
-import { BugListTab } from './tabs/BugListTab';
-import { HubInsightsTab } from './tabs/HubInsightsTab';
-import { HubMediaListTab } from './tabs/HubMediaListTab';
-import { InsightsTab } from './tabs/InsightsTab';
-import { MediaListTab } from './tabs/MediaListTab';
-import { OverviewTab } from './tabs/OverviewTab';
+import { BugListTab } from './Tabs/Bugs/BugListTab';
+import { HubInsightsTab } from './Tabs/Insights/HubInsightsTab';
+import { HubMediaListTab } from './Tabs/Videos/HubMediaListTab';
+import { InsightsTab } from './Tabs/Insights/InsightsTab';
+import { MediaListTab } from './Tabs/Videos/MediaListTab';
+import { OverviewTab } from './Tabs/Overview/OverviewTab';
 
 /**
  * Context exposed to per-tab content via the wrapper `<Outlet>`. Mirrors the

@@ -11,7 +11,7 @@ import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { Divider } from 'src/common/components/divider';
 import { useGetCampaignsByCidUxQuery } from 'src/features/api';
-import { WidgetSpecialCard } from 'src/pages/Campaign/widgetCards/common/StyledSpecialCard';
+import { WidgetSpecialCard } from 'src/common/components/widgetCards/common/StyledSpecialCard';
 import styled from 'styled-components';
 import { CircleList } from './List';
 import { ReactComponent as TargetIcon } from './assets/target.svg';

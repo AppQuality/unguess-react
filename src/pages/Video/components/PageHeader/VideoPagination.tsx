@@ -2,7 +2,7 @@ import { Pagination, Skeleton } from '@appquality/unguess-design-system';
 import { useMemo } from 'react';
 import { useNavigate, useOutletContext } from 'react-router-dom';
 import { GetVideosByVidApiResponse } from 'src/features/api';
-import type { CampaignHubContext } from 'src/features/templates/CampaignsHubsMiddleware';
+import type { CampaignHubContext } from 'src/pages/Campaign/CampaignsHubsMiddleware';
 import { useSendGTMevent } from 'src/hooks/useGTMevent';
 import useUsecaseWithCounter from './useUsecaseWithVideos';
 
