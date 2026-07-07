@@ -12,7 +12,7 @@ const UniqueBugsByAdditional = ({
   slug: string;
   height: string;
 }) => {
-  const { campaignId } = useParams();
+  const { entityId: campaignId } = useParams<{ entityId?: string }>();
   if (!campaignId) {
     return null;
   }

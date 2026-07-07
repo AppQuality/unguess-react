@@ -1,22 +1,7 @@
-import { getColor, LG } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { InsightContextProvider } from 'src/pages/Insights/InsightContext';
 import InsightsPageContent from 'src/pages/Insights/Content';
-import styled from 'styled-components';
-
-// Top padding of the tab section (matches the 32px spacer used by the other
-// migrated tabs — applies to the whole two-column grid, content + drawer).
-const Section = styled.div`
-  padding-top: ${({ theme }) => theme.space.lg};
-`;
-
-// Active-tab title shown at the top of the content column.
-const TabTitle = styled(LG)`
-  color: ${({ theme }) => getColor(theme.palette.blue, 600)};
-  margin-bottom: ${({ theme }) => theme.space.xs};
-  padding-bottom: ${({ theme }) => theme.space.xs};
-  border-bottom: 1px solid ${({ theme }) => theme.palette.grey[300]};
-`;
+import { TabSection, TabTitle } from './TabLayout';
 
 /**
  * Campaign insights tab body. Reuses the content-only `InsightsPageContent`
@@ -32,14 +17,12 @@ export const InsightsTab = () => {
   const { t } = useTranslation();
 
   return (
-    <Section>
+    <TabSection>
       <InsightContextProvider>
         <InsightsPageContent
-          contentHeader={
-            <TabTitle isBold>{t('__ENTITY_PAGE_TAB_INSIGHTS')}</TabTitle>
-          }
+          contentHeader={<TabTitle>{t('__ENTITY_PAGE_TAB_INSIGHTS')}</TabTitle>}
         />
       </InsightContextProvider>
-    </Section>
+    </TabSection>
   );
 };

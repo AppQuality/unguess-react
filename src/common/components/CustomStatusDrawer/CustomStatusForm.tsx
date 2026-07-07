@@ -7,7 +7,6 @@ import {
 } from '@appquality/unguess-design-system';
 import { FieldArray, Form, FormikProps } from 'formik';
 import { useTranslation } from 'react-i18next';
-import { useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
 import { ReactComponent as AddIcon } from 'src/assets/icons/plus-icon.svg';
 import { Divider } from 'src/common/components/divider';
@@ -33,10 +32,11 @@ const StyledCircle = styled(Circle)`
 
 export const CustomStatusForm = ({
   formikProps,
+  campaignId,
 }: {
   formikProps: FormikProps<CustomStatusFormProps>;
+  campaignId: number | string;
 }) => {
-  const { campaignId } = useParams();
   const { t } = useTranslation();
   const {
     data: customStatuses,
@@ -44,7 +44,7 @@ export const CustomStatusForm = ({
     isFetching,
     isError,
   } = useGetCampaignsByCidCustomStatusesQuery({
-    cid: campaignId?.toString() || '',
+    cid: campaignId.toString(),
   });
 
   /**

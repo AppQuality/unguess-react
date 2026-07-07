@@ -1,8 +1,9 @@
-import { Button, MD, XL } from '@appquality/unguess-design-system';
-import { useTranslation } from 'react-i18next';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { MD, Span, XL } from '@appquality/unguess-design-system';
+import { Trans, useTranslation } from 'react-i18next';
+import { Link, useLocation, useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
-import { ReactComponent as EmptyInsightsImg } from 'src/assets/empty-insights.svg';
+import { ReactComponent as EmptyInsightsImg } from 'src/assets/empty-insights-hub.svg';
+import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import styled from 'styled-components';
 
 const StyledEmptyState = styled.div`
@@ -10,24 +11,37 @@ const StyledEmptyState = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  text-align: center;
   height: 100%;
   width: 100%;
-  padding-top: ${appTheme.space.md};
+  padding-top: ${({ theme }) => theme.space.md};
 `;
 
-/**
- * Empty state for the hub insights tab when there are no observations yet
- * ("soft navigation hint", per the team's plan): explains that insights are
- * derived from analyzed media and links back to the media-list tab, merging
- * the `tab` query param instead of replacing the whole search string.
- */
+const Subtitle = styled(MD)`
+  max-width: 420px;
+  text-align: center;
+  color: ${({ theme }) => theme.palette.grey[700]};
+`;
+
+const MediaListLink = ({
+  to,
+  children,
+}: {
+  to: string;
+  children?: React.ReactNode;
+}) => (
+  <Link to={to}>
+    <Span isBold>{children}</Span>
+  </Link>
+);
+
 export const HubInsightsEmptyState = () => {
   const { t } = useTranslation();
-  const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
-
-  const mediaListSearchParams = new URLSearchParams(searchParams);
-  mediaListSearchParams.set('tab', 'media-list');
+  const location = useLocation();
+  const { entityId } = useParams<{ entityId?: string }>();
+  const mediaListRoute = useLocalizeRoute(
+    `hubs/${entityId ?? '0'}/videos`
+  ).replace(/\/$/, '');
 
   return (
     <StyledEmptyState>
@@ -41,15 +55,16 @@ export const HubInsightsEmptyState = () => {
       <XL isBold style={{ marginBottom: appTheme.space.sm }}>
         {t('__HUB_INSIGHTS_EMPTY_STATE_TITLE')}
       </XL>
-      <MD>{t('__HUB_INSIGHTS_EMPTY_STATE_SUBTITLE')}</MD>
-      <Button
-        isPrimary
-        isAccent
-        style={{ marginTop: appTheme.space.md }}
-        onClick={() => navigate({ search: mediaListSearchParams.toString() })}
-      >
-        {t('__HUB_INSIGHTS_EMPTY_STATE_CTA')}
-      </Button>
+      <Subtitle>
+        <Trans
+          i18nKey="__HUB_INSIGHTS_EMPTY_STATE_SUBTITLE"
+          components={{
+            medialist: (
+              <MediaListLink to={`${mediaListRoute}${location.search}`} />
+            ),
+          }}
+        />
+      </Subtitle>
     </StyledEmptyState>
   );
 };

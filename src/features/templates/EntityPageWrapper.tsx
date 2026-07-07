@@ -6,7 +6,7 @@ import {
   Outlet,
   useLocation,
   useNavigate,
-  useSearchParams,
+  useParams,
 } from 'react-router-dom';
 import { useAnalytics } from 'use-analytics';
 import { CampaignSettings } from 'src/common/components/inviteUsers/campaignSettings';
@@ -15,13 +15,13 @@ import WPAPI from 'src/common/wpapi';
 import { FEATURE_FLAG_TAGGING_TOOL } from 'src/constants';
 import {
   type GetCampaignsByCidApiResponse,
+  useGetCampaignsByCidObservationsQuery,
   useGetCampaignsByCidVideosQuery,
   useGetUsersMeQuery,
 } from 'src/features/api';
 import { useActiveWorkspaceProjects } from 'src/hooks/useActiveWorkspaceProjects';
 import { useCanAccessToActiveWorkspace } from 'src/hooks/useCanAccessToActiveWorkspace';
 import { useEntityData } from 'src/hooks/useEntityData';
-import { useEntityId } from 'src/hooks/useEntityId';
 import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import { useSyncEntityNavigation } from 'src/hooks/useSyncEntityNavigation';
@@ -36,6 +36,7 @@ import {
 import { WatcherList } from 'src/pages/Campaign/pageHeader/Meta/WatcherList';
 import { ImportMediaModal } from 'src/pages/Videos/ImportMediaModal';
 import { buildCampaignMenuSections } from './buildCampaignMenuSections';
+import { buildHubMenuSections } from './buildHubMenuSections';
 import type { CampaignHubContext } from './CampaignsHubsMiddleware';
 import { EntityPageHeader, type EntityPageTabId } from './EntityPageHeader';
 import { Page } from './Page';
@@ -43,7 +44,30 @@ import { Page } from './Page';
 const CAMPAIGN_DEFAULT_TAB: EntityPageTabId = 'overview';
 const HUB_DEFAULT_TAB: EntityPageTabId = 'media-list';
 
+// Canonical path suffix for each tab, appended to the entity base route
+// (`/campaigns/:id` or `/hubs/:id`). Overview is the bare entity root.
+const TAB_PATH_SUFFIX: Record<EntityPageTabId, string> = {
+  overview: '',
+  'media-list': '/videos',
+  insights: '/insights',
+  'bug-list': '/bugs',
+};
+
 const parseIsHubRoute = (pathname: string) => pathname.includes('/hubs/');
+
+// Derives the active tab from the canonical path segment. The wrapper never
+// renders on the video/bug *detail* routes, so a trailing `/videos|/insights|
+// /bugs` always identifies the tab; the bare entity root is the default tab.
+const parseTabFromPath = (
+  pathname: string,
+  isHub: boolean
+): EntityPageTabId => {
+  const path = pathname.replace(/\/$/, '');
+  if (path.endsWith('/videos')) return 'media-list';
+  if (path.endsWith('/insights')) return 'insights';
+  if (path.endsWith('/bugs')) return 'bug-list';
+  return isHub ? HUB_DEFAULT_TAB : CAMPAIGN_DEFAULT_TAB;
+};
 
 const getCampaignTabs = (
   campaign?: GetCampaignsByCidApiResponse,
@@ -107,8 +131,7 @@ const EntityPageWrapperInner = () => {
   const navigate = useNavigate();
   const { track } = useAnalytics();
   const { handleUseCaseExport } = useUseCaseExport();
-  const [searchParams, setSearchParams] = useSearchParams();
-  const entityId = useEntityId();
+  const { entityId } = useParams<{ entityId?: string }>();
   const notFoundRoute = useLocalizeRoute('oops');
   const loginRoute = useLocalizeRoute('login');
   const isHub = parseIsHubRoute(location.pathname);
@@ -119,7 +142,12 @@ const EntityPageWrapperInner = () => {
   const { hasFeatureFlag } = useFeatureFlag();
   const hasTaggingToolFeature = hasFeatureFlag(FEATURE_FLAG_TAGGING_TOOL);
   const projectRouteFallback = useLocalizeRoute('projects/0');
-  const tabParam = searchParams.get('tab');
+  // Localized entity base route without trailing slash, e.g. `/campaigns/123`;
+  // tab paths are built by appending `TAB_PATH_SUFFIX`.
+  const entityBaseRoute = useLocalizeRoute(
+    `${isHub ? 'hubs' : 'campaigns'}/${entityId ?? '0'}`
+  ).replace(/\/$/, '');
+  const pathTab = parseTabFromPath(location.pathname, isHub);
 
   const {
     data: userData,
@@ -154,6 +182,15 @@ const EntityPageWrapperInner = () => {
 
   const hasVideos = (videos?.items.length ?? 0) > 0;
 
+  // Observations gate the "Download observations" action (campaign + hub): with
+  // none, there is nothing to export, so the menu item is disabled. Shared with
+  // the insights tab's identical (ungrouped) query, so no extra request.
+  const { data: observations } = useGetCampaignsByCidObservationsQuery(
+    { cid: entityId ?? '0' },
+    { skip: !entityId }
+  );
+  const hasObservations = (observations?.results?.length ?? 0) > 0;
+
   const enabledTabs = useMemo(() => {
     if (isHub) {
       return getHubTabs();
@@ -165,7 +202,7 @@ const EntityPageWrapperInner = () => {
   }, [isHub, campaign, hasTaggingToolFeature, hasVideos]);
 
   const activeTab = getValidatedTab({
-    tab: tabParam,
+    tab: pathTab,
     enabledTabs,
     isHub,
   });
@@ -175,8 +212,8 @@ const EntityPageWrapperInner = () => {
   // `enabledTabs` is only final once the entity has actually loaded (before
   // that, `campaign`/`hub` are undefined and `getCampaignTabs`/`getHubTabs`
   // report a narrower set, e.g. campaign defaults to `['overview']` only).
-  // Gate the URL-correction effect on this so a deep link to a non-default
-  // tab (e.g. `?tab=media-list`) isn't clobbered back to the fallback tab
+  // Gate the redirect effect on this so a deep link to a non-default tab
+  // (e.g. `/campaigns/:id/videos`) isn't bounced back to the fallback tab
   // while data is still in flight.
   const isEntityDataReady =
     !isUserLoading &&
@@ -190,18 +227,24 @@ const EntityPageWrapperInner = () => {
   useEffect(() => {
     if (!entityId || !isEntityDataReady) return;
 
-    if (tabParam !== activeTab) {
-      const nextSearchParams = new URLSearchParams(searchParams);
-      nextSearchParams.set('tab', activeTab);
-      setSearchParams(nextSearchParams, { replace: true });
+    // If the URL points to a tab that isn't enabled for this entity (e.g.
+    // `/campaigns/:id/videos` on a campaign with no media), redirect to the
+    // canonical path of the resolved default tab, preserving query params.
+    if (pathTab !== activeTab) {
+      navigate(
+        // eslint-disable-next-line security/detect-object-injection
+        `${entityBaseRoute}${TAB_PATH_SUFFIX[activeTab]}${location.search}`,
+        { replace: true }
+      );
     }
   }, [
     entityId,
     isEntityDataReady,
-    tabParam,
+    pathTab,
     activeTab,
-    searchParams,
-    setSearchParams,
+    entityBaseRoute,
+    location.search,
+    navigate,
   ]);
 
   useSyncEntityNavigation({
@@ -254,14 +297,17 @@ const EntityPageWrapperInner = () => {
     id,
     // eslint-disable-next-line security/detect-object-injection
     label: t(TAB_LABEL_KEYS[id]),
+    // Canonical path-based link, preserving current query params (filters).
+    // eslint-disable-next-line security/detect-object-injection
+    to: `${entityBaseRoute}${TAB_PATH_SUFFIX[id]}${location.search}`,
   }));
 
-  const campaignIds = workspaceProjectsData?.items
-    ?.filter((item) => item.id !== campaign?.project.id)
+  const otherProjectIds = workspaceProjectsData?.items
+    ?.filter((item) => item.id !== currentProject.id)
     ?.map((item) => item.id);
 
-  const isMoveCampaignDisabled =
-    !campaignIds || campaignIds.length === 0 || !hasWorkspaceAccess;
+  const isMoveDisabled =
+    !otherProjectIds || otherProjectIds.length === 0 || !hasWorkspaceAccess;
 
   const isArchived = (isHub ? hub?.isArchived : campaign?.isArchived) ?? false;
 
@@ -301,29 +347,38 @@ const EntityPageWrapperInner = () => {
     return null;
   };
 
-  const menuSections =
-    !isHub && campaign
-      ? buildCampaignMenuSections({
-          campaign,
-          t,
-          isArchived,
-          isMoveDisabled: isMoveCampaignDisabled,
-          showDownloadAnalysis,
-          showBugActions,
-          onMove: () => setIsMoveModalOpen(true),
-          onArchive: () => setIsArchiveModalOpen(true),
-          onDownloadAnalysis: () => handleUseCaseExport(entityId),
-          onDownloadBugReport: () =>
-            WPAPI.getReport({
-              campaignId: Number(entityId),
-              title: currentEntityTitle,
-            }),
-          onIntegrationCenter: () => {
-            window.location.href = integrationCenterUrl;
-          },
-          onGoToPlan: () => navigate(`/plans/${campaign.plan}`),
-        })
-      : [];
+  let menuSections: ReturnType<typeof buildCampaignMenuSections> = [];
+  if (isHub) {
+    menuSections = buildHubMenuSections({
+      t,
+      isMoveDisabled,
+      isDownloadDisabled: !hasObservations,
+      onMove: () => setIsMoveModalOpen(true),
+      onDownloadReport: () => handleUseCaseExport(entityId),
+    });
+  } else if (campaign) {
+    menuSections = buildCampaignMenuSections({
+      campaign,
+      t,
+      isArchived,
+      isMoveDisabled,
+      showDownloadAnalysis,
+      isDownloadAnalysisDisabled: !hasObservations,
+      showBugActions,
+      onMove: () => setIsMoveModalOpen(true),
+      onArchive: () => setIsArchiveModalOpen(true),
+      onDownloadAnalysis: () => handleUseCaseExport(entityId),
+      onDownloadBugReport: () =>
+        WPAPI.getReport({
+          campaignId: Number(entityId),
+          title: currentEntityTitle,
+        }),
+      onIntegrationCenter: () => {
+        window.location.href = integrationCenterUrl;
+      },
+      onGoToPlan: () => navigate(`/plans/${campaign.plan}`),
+    });
+  }
 
   const entityContext: CampaignHubContext & {
     activeTab: EntityPageTabId;
@@ -409,6 +464,7 @@ const EntityPageWrapperInner = () => {
             )}
           </>
         )}
+        {isHub && <MoveCampaignModal campaignId={entityId} isHub />}
         {isHub && (
           <ImportMediaModal
             isOpen={isHubImportModalOpen}

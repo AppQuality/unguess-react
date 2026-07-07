@@ -1,6 +1,4 @@
 import {
-  getColor,
-  LG,
   Notification,
   Skeleton,
   useToast,
@@ -12,22 +10,8 @@ import { useGetCampaignsByCidObservationsQuery } from 'src/features/api';
 import { HubInsightsEmptyState } from 'src/pages/Insights/HubInsightsEmptyState';
 import { InsightContextProvider } from 'src/pages/Insights/InsightContext';
 import InsightsPageContent from 'src/pages/Insights/Content';
-import styled from 'styled-components';
 import type { EntityTabContext } from '../entityTabs';
-
-// Top padding of the tab section (matches the 32px spacer used by the other
-// migrated tabs — applies to the whole two-column grid, content + drawer).
-const Section = styled.div`
-  padding-top: ${({ theme }) => theme.space.lg};
-`;
-
-// Active-tab title shown at the top of the content column.
-const TabTitle = styled(LG)`
-  color: ${({ theme }) => getColor(theme.palette.blue, 600)};
-  margin-bottom: ${({ theme }) => theme.space.xs};
-  padding-bottom: ${({ theme }) => theme.space.xs};
-  border-bottom: 1px solid ${({ theme }) => theme.palette.grey[300]};
-`;
+import { TabSection, TabTitle } from './TabLayout';
 
 /**
  * Hub insights tab body. Hubs always show the insights tab (product
@@ -76,18 +60,20 @@ export const HubInsightsTab = () => {
     if (hasObservations) {
       return (
         <InsightContextProvider>
-          <InsightsPageContent />
+          <InsightsPageContent
+            contentHeader={
+              <TabTitle>{t('__ENTITY_PAGE_TAB_INSIGHTS')}</TabTitle>
+            }
+          />
         </InsightContextProvider>
       );
     }
 
+    // Empty state (no observations): no tab title — the hub empty state is
+    // shown clean (product decision), which also avoids the misaligned bare
+    // title that rendering it outside the content column would produce.
     return <HubInsightsEmptyState />;
   };
 
-  return (
-    <Section>
-      <TabTitle isBold>{t('__ENTITY_PAGE_TAB_INSIGHTS')}</TabTitle>
-      {renderBody()}
-    </Section>
-  );
+  return <TabSection>{renderBody()}</TabSection>;
 };

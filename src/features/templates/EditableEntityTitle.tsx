@@ -1,6 +1,7 @@
 import { InputToggle } from '@appquality/unguess-design-system';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { appTheme } from 'src/app/theme';
 import { usePatchCampaignsByCidMutation } from 'src/features/api';
 
 /**
@@ -44,7 +45,7 @@ export const EditableEntityTitle = ({
             alert(t('__CAMPAIGN_PAGE_UPDATE_CAMPAIGN_NAME_ERROR'));
           }
         }}
-        style={{ paddingLeft: 0 }}
+        style={{ paddingLeft: 0, color: appTheme.palette.blue[600] }}
       />
     </InputToggle>
   );

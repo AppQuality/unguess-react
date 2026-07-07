@@ -14,7 +14,6 @@ import {
 } from '@appquality/unguess-design-system';
 import { useEffect, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
-import { useParams } from 'react-router-dom';
 import { useAppDispatch } from 'src/app/hooks';
 import { ReactComponent as ArrowRight } from 'src/assets/icons/arrow-right.svg';
 import {
@@ -47,10 +46,12 @@ type MigrationItem = {
 };
 
 export const MigrationModal = ({
+  campaignId,
   customStatusesToPatch = [],
   customStatusesToDelete = [],
   setIsMigrationModalOpen,
 }: {
+  campaignId: number | string;
   customStatusesToPatch: (BugCustomStatus & {
     is_new?: boolean;
   })[];
@@ -59,16 +60,15 @@ export const MigrationModal = ({
 }) => {
   const { t } = useTranslation();
   const { addToast } = useToast();
-  const { campaignId } = useParams();
   const dispatch = useAppDispatch();
   const [patchCustomStatuses] = usePatchCampaignsByCidCustomStatusesMutation();
   const [deleteCustomStatuses] =
     useDeleteCampaignsByCidCustomStatusesMutation();
   const { data: bugs } = useGetCampaignsByCidBugsQuery({
-    cid: campaignId?.toString() || '',
+    cid: campaignId.toString(),
   });
   const { data: cpCustomStatuses } = useGetCampaignsByCidCustomStatusesQuery({
-    cid: campaignId?.toString() || '',
+    cid: campaignId.toString(),
   });
 
   // Check if deleteCustomStatus is used in bugs and create an array of them
@@ -119,7 +119,7 @@ export const MigrationModal = ({
   const onConfirm = async () => {
     if (customStatusesToPatch.length > 0) {
       await patchCustomStatuses({
-        cid: campaignId?.toString() || '',
+        cid: campaignId.toString(),
         body: customStatusesToPatch.map((cs) => ({
           ...(!cs.is_new && { custom_status_id: cs.id }),
           name: cs.name,
@@ -130,7 +130,7 @@ export const MigrationModal = ({
 
     if (customStatusesToDelete.length > 0) {
       await deleteCustomStatuses({
-        cid: campaignId?.toString() || '',
+        cid: campaignId.toString(),
         body: [
           ...deleteCustomStatusUnused.map((cs) => ({
             custom_status_id: cs.id,
@@ -246,7 +246,7 @@ export const MigrationModal = ({
                     <StyledCol>
                       <MigrateStatusDropdown
                         statusToMigrate={cs.id}
-                        campaignId={campaignId || ''}
+                        campaignId={String(campaignId)}
                         onChange={(toCustomStatusId) => {
                           setSelectedItems([
                             ...selectedItems.filter(

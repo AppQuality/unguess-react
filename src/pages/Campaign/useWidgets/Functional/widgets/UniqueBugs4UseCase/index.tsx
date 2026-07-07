@@ -6,7 +6,7 @@ import { ListUniqueBugs4UseCase } from './List';
 
 const UniqueBugs4UseCase = ({ height }: { height: string }) => {
   const { t } = useTranslation();
-  const { campaignId } = useParams();
+  const { entityId: campaignId } = useParams<{ entityId?: string }>();
   if (!campaignId) {
     return null;
   }

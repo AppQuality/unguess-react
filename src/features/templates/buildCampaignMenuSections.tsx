@@ -2,8 +2,8 @@ import { ReactComponent as DownloadIcon } from '@zendeskgarden/svg-icons/src/16/
 import { ReactComponent as ExternalLinkIcon } from '@zendeskgarden/svg-icons/src/16/new-window-stroke.svg';
 import type { TFunction } from 'i18next';
 import { ReactComponent as GearIcon } from 'src/assets/icons/gear.svg';
+import { ReactComponent as InboxStroke } from '@zendeskgarden/svg-icons/src/16/inbox-stroke.svg';
 import { ReactComponent as EditRedoStroke } from 'src/assets/icons/move-icon.svg';
-import { ReactComponent as InboxFill } from 'src/assets/icons/project-archive.svg';
 import type { GetCampaignsByCidApiResponse } from 'src/features/api';
 import type { EntityMenuItem } from './EntityPageHeader';
 
@@ -18,6 +18,7 @@ export const buildCampaignMenuSections = ({
   isArchived,
   isMoveDisabled,
   showDownloadAnalysis,
+  isDownloadAnalysisDisabled,
   showBugActions,
   onMove,
   onArchive,
@@ -31,6 +32,8 @@ export const buildCampaignMenuSections = ({
   isArchived: boolean;
   isMoveDisabled: boolean;
   showDownloadAnalysis: boolean;
+  // Disabled when the campaign has no observations yet (nothing to export).
+  isDownloadAnalysisDisabled: boolean;
   showBugActions: boolean;
   onMove: () => void;
   onArchive: () => void;
@@ -55,7 +58,7 @@ export const buildCampaignMenuSections = ({
       {
         id: 'archive_campaign',
         label: t('__CAMPAIGN_PAGE_DOTS_MENU_ARCHIVE_CAMPAIGN_BUTTON'),
-        icon: <InboxFill />,
+        icon: <InboxStroke />,
         isDisabled: campaign.status.id !== 2,
         onSelect: onArchive,
       },
@@ -68,6 +71,7 @@ export const buildCampaignMenuSections = ({
       id: 'download_analysis',
       label: t('__VIDEO_PAGE_ACTIONS_EXPORT_BUTTON_LABEL'),
       icon: <DownloadIcon />,
+      isDisabled: isDownloadAnalysisDisabled,
       onSelect: onDownloadAnalysis,
     });
   }

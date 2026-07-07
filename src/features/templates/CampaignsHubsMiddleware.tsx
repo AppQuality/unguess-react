@@ -1,6 +1,5 @@
-import { Navigate, Outlet, useLocation } from 'react-router-dom';
+import { Navigate, Outlet, useLocation, useParams } from 'react-router-dom';
 import { PageLoader } from 'src/common/components/PageLoader';
-import { useEntityId } from 'src/hooks/useEntityId';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
 import {
   useGetCampaignsByCidQuery,
@@ -15,7 +14,7 @@ export type CampaignHubContext = {
 
 const CampaignsHubsMiddleware = () => {
   const location = useLocation();
-  const entityId = useEntityId();
+  const { entityId } = useParams<{ entityId?: string }>();
   const loginRoute = useLocalizeRoute('login');
   const notFoundRoute = useLocalizeRoute('oops');
   const {

@@ -15,6 +15,8 @@ const StyledSkeleton = styled(Skeleton)`
 
 const StyledPipe = styled(Pipe)`
   display: inline;
+  margin-left: ${({ theme }) => theme.space.xs};
+  margin-right: ${({ theme }) => theme.space.xs};
 `;
 
 const SeveritiesMetaContainer = styled.div`
@@ -27,13 +29,13 @@ const DeviceMetaItem = styled(Span)`
   align-items: center;
   gap: ${({ theme }) => theme.space.xxs};
   margin-right: ${({ theme }) => theme.space.sm};
-  color: ${({ theme }) => theme.palette.blue[600]};
+  color: ${({ theme }) => theme.palette.grey[700]};
   font-size: ${({ theme }) => theme.fontSizes.md};
   font-weight: ${({ theme }) => theme.fontWeights.medium};
 
   > svg {
-    width: 16px;
-    height: 16px;
+    width: 24px;
+    height: 24px;
   }
 `;
 
@@ -78,9 +80,7 @@ export const HubMediaListMetaRow = ({
         <StyledSkeleton width="400px" height="20px" />
       ) : (
         <>
-          {deviceMetas.length > 0 && (
-            <StyledPipe style={{ paddingLeft: appTheme.space.sm }} />
-          )}
+          {deviceMetas.length > 0 && <StyledPipe />}
           {deviceMetas.map((deviceMeta) => (
             <DeviceMetaItem key={deviceMeta.key}>
               {getDeviceIcon(deviceMeta.key)}

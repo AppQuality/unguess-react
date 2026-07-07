@@ -7,7 +7,7 @@ import {
   Tag,
 } from '@appquality/unguess-design-system';
 import { ReactComponent as PlayIcon } from '@zendeskgarden/svg-icons/src/16/play-circle-stroke.svg';
-import { type ReactNode, useState } from 'react';
+import { type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useOutletContext } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
@@ -20,7 +20,6 @@ import { CampaignHubContext } from 'src/features/templates/CampaignsHubsMiddlewa
 import { styled } from 'styled-components';
 import { CompletionTooltip } from '../Bugs/Content/BugsTable/components/CompletionTooltip';
 import { Empty } from './Empty';
-import { ImportMediaModal } from './ImportMediaModal';
 import { VideoContainer } from './parts/VideoContainer';
 import { Wrapper } from './parts/Wrapper';
 import { useVideos } from './useVideos';
@@ -48,16 +47,11 @@ const VideosPageContent = ({
   const { t } = useTranslation();
 
   const { isHub, entityId } = useOutletContext<CampaignHubContext>();
-  // `isImportMediaModalOpen`/the local `ImportMediaModal` below are now dead
-  // for hubs in practice: the entity hub media-list tab always supplies
-  // `onOpenImportMediaModal`, and the only other route that renders this
-  // component without it (the legacy standalone `/hubs/:id/videos` page) is
-  // itself unrouted since UN-2897 activated the redirect (see UN-2898 cleanup
-  // for removing the now-unreachable legacy page). Left in place so this
-  // component still works standalone if that page is ever restored.
-  const [isImportMediaModalOpen, setIsImportMediaModalOpen] = useState(false);
-  const openImportMediaModal =
-    onOpenImportMediaModal ?? (() => setIsImportMediaModalOpen(true));
+  // The upload CTA is only shown for hubs (see `Empty`), and the hub media-list
+  // tab always supplies `onOpenImportMediaModal` (the single modal instance
+  // owned by `EntityPageWrapper`). Campaigns never open it, so a noop fallback
+  // keeps `Empty`'s contract without a second local modal instance.
+  const openImportMediaModal = onOpenImportMediaModal ?? (() => {});
 
   const {
     sorted: videos,
@@ -76,99 +70,92 @@ const VideosPageContent = ({
     ? usecases.map((_, index) => index)
     : [];
 
-  return (
+  return !videos || totalVideos === 0 ? (
     <>
-      {!videos || totalVideos === 0 ? (
-        <>
-          {contentHeader}
-          <Empty onOpenImportMediaModal={openImportMediaModal} />
-        </>
-      ) : (
-        <LayoutWrapper isNotBoxed>
-          {contentHeader}
-          <div style={{ opacity: isFetching ? 0.5 : 1 }}>
-            <Grid>
-              {!!usecases?.length && (
-                <Row>
-                  <Col>
-                    <Wrapper isFetching={isFetching}>
-                      <AccordionNew
-                        level={3}
-                        isExpandable
-                        isBare
-                        defaultExpandedSections={defaultExpandedSections}
-                      >
-                        {usecases.map((uc) => (
-                          <AccordionNew.Section>
-                            <AccordionNew.Header>
-                              <AccordionNew.Label
-                                label={`${uc.usecase.title.full} `}
-                              />
-                              <AccordionNew.Meta>
-                                <Tag
-                                  isPill
-                                  hue={appTheme.palette.blue[100]}
-                                  size="large"
-                                >
-                                  <Tag.Avatar>
-                                    <PlayIcon
-                                      color={appTheme.palette.grey[600]}
-                                    />
-                                  </Tag.Avatar>
-                                  {t('__VIDEOS_LIST_META_LABEL')}:
-                                  <Tag.SecondaryText>
-                                    {uc.videos.total}
-                                  </Tag.SecondaryText>
-                                </Tag>
-                              </AccordionNew.Meta>
-                            </AccordionNew.Header>
-                            <AccordionNew.Panel>
-                              {VIDEO_DEVICE_SECTION_ORDER.map((deviceType) => {
-                                const sectionVideos =
-                                  uc.videos[`${deviceType}`];
-
-                                if (!sectionVideos.length) return null;
-
-                                return (
-                                  <VideoContainer
-                                    key={deviceType}
-                                    title={
-                                      getVideoDeviceLabel(t, deviceType) ||
-                                      deviceType
-                                    }
-                                    videosCount={sectionVideos.length}
-                                    video={sectionVideos}
-                                  />
-                                );
-                              })}
-                              <AccordionFooter>
-                                {!isHub && (
-                                  <CompletionTooltip
-                                    percentage={uc.usecase.completion}
-                                  />
-                                )}
-                              </AccordionFooter>
-                            </AccordionNew.Panel>
-                          </AccordionNew.Section>
-                        ))}
-                      </AccordionNew>
-                    </Wrapper>
-                  </Col>
-                </Row>
-              )}
-            </Grid>
-          </div>
-        </LayoutWrapper>
+      {/* Hub tabs hide the title/meta in the empty state (product decision);
+          campaigns keep it, aligned to the content column. */}
+      {!isHub && contentHeader && (
+        <LayoutWrapper isNotBoxed>{contentHeader}</LayoutWrapper>
       )}
-
-      {isHub && !onOpenImportMediaModal && (
-        <ImportMediaModal
-          isOpen={isImportMediaModalOpen}
-          onClose={() => setIsImportMediaModalOpen(false)}
-          hubId={entityId}
-        />
-      )}
+      <Empty onOpenImportMediaModal={openImportMediaModal} />
     </>
+  ) : (
+    <LayoutWrapper isNotBoxed>
+      {contentHeader}
+      <div style={{ opacity: isFetching ? 0.5 : 1 }}>
+        <Grid>
+          {!!usecases?.length && (
+            <Row>
+              <Col>
+                <Wrapper isFetching={isFetching}>
+                  <AccordionNew
+                    level={3}
+                    isExpandable
+                    isBare
+                    defaultExpandedSections={defaultExpandedSections}
+                  >
+                    {usecases.map((uc) => (
+                      <AccordionNew.Section>
+                        <AccordionNew.Header>
+                          <AccordionNew.Label
+                            label={
+                              isHub
+                                ? t('__HUB_MEDIA_LIST_ALL_MEDIA_LABEL')
+                                : `${uc.usecase.title.full} `
+                            }
+                          />
+                          <AccordionNew.Meta>
+                            <Tag
+                              isPill
+                              hue={appTheme.palette.blue[100]}
+                              size="large"
+                            >
+                              <Tag.Avatar>
+                                <PlayIcon color={appTheme.palette.grey[600]} />
+                              </Tag.Avatar>
+                              {t('__VIDEOS_LIST_META_LABEL')}:
+                              <Tag.SecondaryText>
+                                {uc.videos.total}
+                              </Tag.SecondaryText>
+                            </Tag>
+                          </AccordionNew.Meta>
+                        </AccordionNew.Header>
+                        <AccordionNew.Panel>
+                          {VIDEO_DEVICE_SECTION_ORDER.map((deviceType) => {
+                            const sectionVideos = uc.videos[`${deviceType}`];
+
+                            if (!sectionVideos.length) return null;
+
+                            return (
+                              <VideoContainer
+                                key={deviceType}
+                                title={
+                                  getVideoDeviceLabel(t, deviceType) ||
+                                  deviceType
+                                }
+                                videosCount={sectionVideos.length}
+                                video={sectionVideos}
+                              />
+                            );
+                          })}
+                          <AccordionFooter>
+                            {!isHub && (
+                              <CompletionTooltip
+                                percentage={uc.usecase.completion}
+                              />
+                            )}
+                          </AccordionFooter>
+                        </AccordionNew.Panel>
+                      </AccordionNew.Section>
+                    ))}
+                  </AccordionNew>
+                </Wrapper>
+              </Col>
+            </Row>
+          )}
+        </Grid>
+      </div>
+    </LayoutWrapper>
   );
 };
 

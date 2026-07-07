@@ -1,26 +1,13 @@
-import { getColor, LG } from '@appquality/unguess-design-system';
 import { useTranslation } from 'react-i18next';
 import { useOutletContext } from 'react-router-dom';
 import { HubMediaListMetaRow } from 'src/pages/Hubs/HubMediaListMetaRow';
 import VideosPageContent from 'src/pages/Videos/Content';
 import styled from 'styled-components';
 import type { EntityTabContext } from '../entityTabs';
-
-// Top padding of the tab section (matches the 32px spacer in the design).
-const Section = styled.div`
-  padding-top: ${({ theme }) => theme.space.lg};
-`;
-
-// Active-tab title shown at the top of the content column, above the meta row.
-const TabTitle = styled(LG)`
-  color: ${({ theme }) => getColor(theme.palette.blue, 600)};
-  margin-bottom: ${({ theme }) => theme.space.xs};
-  padding-bottom: ${({ theme }) => theme.space.xs};
-  border-bottom: 1px solid ${({ theme }) => theme.palette.grey[300]};
-`;
+import { TabSection, TabTitle } from './TabLayout';
 
 const StyledMetaRow = styled(HubMediaListMetaRow)`
-  margin-bottom: ${({ theme }) => theme.space.lg};
+  margin-bottom: ${({ theme }) => theme.space.xl};
 `;
 
 /**
@@ -36,16 +23,15 @@ export const HubMediaListTab = () => {
     useOutletContext<EntityTabContext>();
 
   return (
-    <Section>
+    <TabSection>
       <VideosPageContent
         contentHeader={
-          <>
-            <TabTitle isBold>{t('__ENTITY_PAGE_TAB_MEDIA_LIST')}</TabTitle>
-            <StyledMetaRow hubId={entityId} />
-          </>
+          <TabTitle meta={<StyledMetaRow hubId={entityId} />}>
+            {t('__ENTITY_PAGE_TAB_MEDIA_LIST')}
+          </TabTitle>
         }
         onOpenImportMediaModal={onOpenImportMediaModal}
       />
-    </Section>
+    </TabSection>
   );
 };
