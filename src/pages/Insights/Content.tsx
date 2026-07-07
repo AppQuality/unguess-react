@@ -1,3 +1,4 @@
+import { type ReactNode } from 'react';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
 import { styled } from 'styled-components';
 import { ActionBar } from './ActionBar';
@@ -24,15 +25,26 @@ const DrawerWrapper = styled.aside`
   display: grid;
   grid-template-columns: ${({ theme }) => theme.space.xxl} 1fr;
   align-items: start;
+  /* The insights aside is exempt from the tab section's shared 40px top
+     padding */
+  margin-top: -${({ theme }) => theme.space.xl};
 `;
 
-const InsightsPageContent = () => {
+const InsightsPageContent = ({
+  contentHeader,
+}: {
+  // Optional content rendered at the top of the content column (aligned with
+  // the action bar/widgets/collection, not full-width). Used by the entity
+  // insights tab to place the tab title; the legacy page passes nothing.
+  contentHeader?: ReactNode;
+}) => {
   const { isDrawerOpen } = useInsightContext();
 
   return (
     <FormProvider>
       <Grid isDrawerOpen={isDrawerOpen}>
         <LayoutWrapper isNotBoxed>
+          {contentHeader}
           <ActionBar />
           <Widgets />
           <Collection />

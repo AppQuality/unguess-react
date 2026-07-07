@@ -14,7 +14,7 @@ import {
 import { appTheme } from 'src/app/theme';
 import { capitalizeFirstLetter } from 'src/common/capitalizeFirstLetter';
 import { LayoutWrapper } from 'src/common/components/LayoutWrapper';
-import type { CampaignHubContext } from 'src/features/templates/CampaignsHubsMiddleware';
+import type { CampaignHubContext } from 'src/pages/Campaign/CampaignsHubsMiddleware';
 import {
   useGetCampaignsByCidQuery,
   useGetHubsByHidQuery,

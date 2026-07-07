@@ -14,7 +14,7 @@ import { useGetCampaignsByCidInsightsQuery } from 'src/features/api';
 import { ReactComponent as InsightIcon } from '@zendeskgarden/svg-icons/src/16/lightbulb-stroke.svg';
 import { ReactComponent as EmptyInsights } from 'src/assets/empty-insights.svg';
 import { useOutletContext } from 'react-router-dom';
-import type { CampaignHubContext } from 'src/features/templates/CampaignsHubsMiddleware';
+import type { CampaignHubContext } from 'src/pages/Campaign/CampaignsHubsMiddleware';
 import { Divider } from 'src/common/components/divider';
 import { useEffect, useMemo, useRef } from 'react';
 import { Insight } from './InsightAccordion';

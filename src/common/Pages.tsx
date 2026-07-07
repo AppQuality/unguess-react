@@ -10,12 +10,9 @@ import ErrorBoundaryPage from 'src/common/components/ErrorBoundary/ErrorBoundary
 import Bug from 'src/pages/Bug';
 import PublicBugPage from 'src/pages/BugPublic/PublicBugPage';
 import BugForm from 'src/pages/Bugform';
-import Bugs from 'src/pages/Bugs';
-import Campaign from 'src/pages/Campaign';
 import CampaignPreview from 'src/pages/Campaign/preview';
 import Dashboard from 'src/pages/Dashboard';
 import Project from 'src/pages/Dashboard/Project';
-import InsightsPage from 'src/pages/Insights';
 import LoginPage from 'src/pages/LoginPage';
 import Manual from 'src/pages/Manual';
 import MediaPage from 'src/pages/Media';
@@ -29,10 +26,11 @@ import Video from 'src/pages/Video';
 import JoinPage from 'src/pages/JoinPage';
 import ForgotPasswordPage from 'src/pages/ForgotPasswordPage';
 import VerifyCodePage from 'src/pages/VerifyCodePage';
-import Videos from 'src/pages/Videos';
 import { CallbackPage } from 'src/pages/Auth/callback';
 import { LogoutPage } from 'src/pages/Auth/logout';
-import CampaignsHubsMiddleware from 'src/features/templates/CampaignsHubsMiddleware';
+import CampaignsHubsMiddleware from 'src/pages/Campaign/CampaignsHubsMiddleware';
+import EntityPageWrapper from 'src/pages/Campaign/EntityPageWrapper';
+import EntityPageContent from 'src/pages/Campaign/EntityPageContent';
 import { Redirect } from './Redirect';
 
 const Pages = () => {
@@ -72,57 +70,44 @@ const Pages = () => {
                   path={`/${langPrefix}/logout`}
                   element={<LogoutPage />}
                 />
-
-                  <Route
-                    path={`/${langPrefix}/campaigns/:campaignId`}
-                    element={<Campaign />}
-                  />
-                  <Route
-                    path={`/${langPrefix}/campaigns/:campaignId/bugs`}
-                    element={<Bugs />}
-                  />
-                  <Route
-                    path={`/${langPrefix}/campaigns/:campaignId/bugs/:bugId`}
-                    element={<Bug />}
-                  />
-                  <Route
-                    path={`/${langPrefix}/campaigns/:campaignId/preview`}
-                    element={<CampaignPreview />}
-                  />
-                  <Route
-                    path={`/${langPrefix}/campaigns/:campaignId/bugform`}
-                    element={<BugForm />}
-                  />
-                  <Route
-                    path={`/${langPrefix}/campaigns/:campaignId/manual`}
-                    element={<Manual />}
-                  />
+                <Route
+                  path={`/${langPrefix}/campaigns/:campaignId/bugs/:bugId`}
+                  element={<Bug />}
+                />
+                <Route
+                  path={`/${langPrefix}/campaigns/:campaignId/preview`}
+                  element={<CampaignPreview />}
+                />
+                <Route
+                  path={`/${langPrefix}/campaigns/:campaignId/bugform`}
+                  element={<BugForm />}
+                />
+                <Route
+                  path={`/${langPrefix}/campaigns/:campaignId/manual`}
+                  element={<Manual />}
+                />
                 <Route element={<CampaignsHubsMiddleware />}>
                   <Route
-                    path={`/${langPrefix}/campaigns/:entityId/videos`}
-                    element={<Videos />}
-                  />
-                  <Route
-                    path={`/${langPrefix}/campaigns/:entityId/insights`}
-                    element={<InsightsPage />}
-                  />
+                    path={`/${langPrefix}/campaigns/:entityId`}
+                    element={<EntityPageWrapper />}
+                  >
+                    <Route index element={<EntityPageContent />} />
+                    <Route path="videos" element={<EntityPageContent />} />
+                    <Route path="insights" element={<EntityPageContent />} />
+                    <Route path="bugs" element={<EntityPageContent />} />
+                  </Route>
                   <Route
                     path={`/${langPrefix}/campaigns/:entityId/videos/:videoId`}
                     element={<Video />}
                   />
-
                   <Route
                     path={`/${langPrefix}/hubs/:entityId`}
-                    element={<Videos />}
-                  />
-                  <Route
-                    path={`/${langPrefix}/hubs/:entityId/videos`}
-                    element={<Videos />}
-                  />
-                  <Route
-                    path={`/${langPrefix}/hubs/:entityId/insights`}
-                    element={<InsightsPage />}
-                  />
+                    element={<EntityPageWrapper />}
+                  >
+                    <Route index element={<EntityPageContent />} />
+                    <Route path="videos" element={<EntityPageContent />} />
+                    <Route path="insights" element={<EntityPageContent />} />
+                  </Route>
                   <Route
                     path={`/${langPrefix}/hubs/:entityId/videos/:videoId`}
                     element={<Video />}

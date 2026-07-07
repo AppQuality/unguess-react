@@ -1,7 +1,7 @@
 import { Form, Formik, FormikHelpers } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { useOutletContext } from 'react-router-dom';
-import type { CampaignHubContext } from 'src/features/templates/CampaignsHubsMiddleware';
+import type { CampaignHubContext } from 'src/pages/Campaign/CampaignsHubsMiddleware';
 import {
   GetCampaignsByCidInsightsApiResponse,
   Grape,

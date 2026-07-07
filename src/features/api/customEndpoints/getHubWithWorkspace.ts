@@ -40,6 +40,10 @@ const extendedApi = apiSlice.injectEndpoints({
             }
           : { error: workspaceResult.error as FetchBaseQueryError };
       },
+      // Provide the same tags the underlying resources use so mutations that
+      // invalidate them refetch this composite query instead of serving stale
+      // hub/workspace data (e.g. once hub move/archive is enabled).
+      providesTags: ['Hubs', 'Workspaces'],
     }),
   }),
   overrideExisting: false,

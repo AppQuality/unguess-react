@@ -17,7 +17,7 @@ import { Page } from 'src/features/templates/Page';
 import { useCampaignAnalytics } from 'src/hooks/useCampaignAnalytics';
 import { useFeatureFlag } from 'src/hooks/useFeatureFlag';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
-import type { CampaignHubContext } from 'src/features/templates/CampaignsHubsMiddleware';
+import type { CampaignHubContext } from 'src/pages/Campaign/CampaignsHubsMiddleware';
 import VideoPageHeader from './components/PageHeader';
 import VideoPageContent from './Content';
 
@@ -48,22 +48,28 @@ const VideoPage = () => {
   useCampaignAnalytics(isHub ? undefined : entityId);
 
   // For campaigns, get campaign + workspace data
-  const { isError: isErrorCampaign, data: { campaign, workspace: campaignWorkspace } = {} } =
-    useGetCampaignWithWorkspaceQuery(
-      {
-        cid: entityId,
-      },
-      {
-        skip: isHub,
-      }
-    );
+  const {
+    isError: isErrorCampaign,
+    data: { campaign, workspace: campaignWorkspace } = {},
+  } = useGetCampaignWithWorkspaceQuery(
+    {
+      cid: entityId,
+    },
+    {
+      skip: isHub,
+    }
+  );
 
   // For hubs, get hub + workspace data
-  const { isError: isErrorHub, data: { hub, workspace: hubWorkspace } = {} } = useGetHubWithWorkspaceQuery({
-    hid: entityId,
-  }, {
-    skip: !isHub,
-  });
+  const { isError: isErrorHub, data: { hub, workspace: hubWorkspace } = {} } =
+    useGetHubWithWorkspaceQuery(
+      {
+        hid: entityId,
+      },
+      {
+        skip: !isHub,
+      }
+    );
 
   const isError = isHub ? isErrorHub : isErrorCampaign;
   const workspace = isHub ? hubWorkspace : campaignWorkspace;
@@ -109,7 +115,15 @@ const VideoPage = () => {
         state: { from: location.pathname },
       });
     }
-  }, [isSuccess, isUserFetching, isUserLoading, hasTaggingToolFeature, navigate, notFoundRoute, location.pathname]);
+  }, [
+    isSuccess,
+    isUserFetching,
+    isUserLoading,
+    hasTaggingToolFeature,
+    navigate,
+    notFoundRoute,
+    location.pathname,
+  ]);
 
   return (
     <Page

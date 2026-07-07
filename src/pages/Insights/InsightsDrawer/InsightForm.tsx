@@ -20,7 +20,7 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useOutletContext } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
-import type { CampaignHubContext } from 'src/features/templates/CampaignsHubsMiddleware';
+import type { CampaignHubContext } from 'src/pages/Campaign/CampaignsHubsMiddleware';
 import { Divider } from 'src/common/components/divider';
 import { getColorWithAlpha } from 'src/common/utils';
 import { useGetCampaignsByCidVideoTagsQuery } from 'src/features/api';

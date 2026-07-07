@@ -123,7 +123,9 @@ const Bug = () => {
           </Grid>
         </BugContainer>
       </LayoutWrapper>
-      {isCustomStatusDrawerOpen && !hideDrawer && <CustomStatusDrawer />}
+      {isCustomStatusDrawerOpen && !hideDrawer && (
+        <CustomStatusDrawer campaignId={campaignId} />
+      )}
     </Page>
   );
 };

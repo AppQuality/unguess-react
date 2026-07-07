@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
 import { getLocalizedFunctionalDashboardUrl } from 'src/hooks/useLocalizeDashboardUrl';
 import i18n from 'src/i18n';
-import { BasicWidget } from 'src/pages/Campaign/widgetCards/BasicWidget';
+import { BasicWidget } from 'src/common/components/widgetCards/BasicWidget';
 import { DuplicateBugs } from './DuplicateBugs';
 import { useBugsByDuplicates } from './DuplicateBugs/useBugsByDuplicates';
 import { UnreadBugs } from './UnreadBugs';

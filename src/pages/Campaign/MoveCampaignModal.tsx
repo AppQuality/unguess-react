@@ -19,6 +19,7 @@ import { appTheme } from 'src/app/theme';
 import { ReactComponent as RightArrow } from 'src/assets/icons/arrow-right.svg';
 import {
   useGetCampaignsByCidQuery,
+  useGetHubsByHidQuery,
   usePatchCampaignsByCidMutation,
 } from 'src/features/api';
 import { useActiveWorkspaceProjects } from 'src/hooks/useActiveWorkspaceProjects';
@@ -60,10 +61,25 @@ export const useMoveCampaignModalContext = () => {
   return context;
 };
 
-const MoveCampaignModal = ({ campaignId }: { campaignId: string }) => {
-  const { data: campaign } = useGetCampaignsByCidQuery({
-    cid: campaignId,
-  });
+const MoveCampaignModal = ({
+  campaignId,
+  isHub = false,
+}: {
+  campaignId: string;
+  isHub?: boolean;
+}) => {
+  // Campaigns and hubs are moved the same way (patch `project_id`, which the
+  // campaign endpoint also serves for hubs). We just read the current
+  // title/project from the matching entity query.
+  const { data: campaign } = useGetCampaignsByCidQuery(
+    { cid: campaignId },
+    { skip: isHub }
+  );
+  const { data: hub } = useGetHubsByHidQuery(
+    { hid: campaignId },
+    { skip: !isHub }
+  );
+  const entity = isHub ? hub : campaign;
 
   const { isOpen, setIsOpen } = useMoveCampaignModalContext();
 
@@ -77,13 +93,13 @@ const MoveCampaignModal = ({ campaignId }: { campaignId: string }) => {
   const sendGTMEvent = useSendGTMevent();
 
   if (!isOpen) return null;
-  if (!campaign) return null;
+  if (!entity) return null;
 
   const {
     id: cpId,
     customer_title: cpTitle,
     project: { id: prjId, name: prjName },
-  } = campaign;
+  } = entity;
   const projects = data?.items;
 
   // Filter out the current project
@@ -185,7 +201,7 @@ const MoveCampaignModal = ({ campaignId }: { campaignId: string }) => {
                 sendGTMEvent({
                   event: 'workspaces-action',
                   action: 'move',
-                  content: 'campaign',
+                  content: isHub ? 'hub' : 'campaign',
                 });
                 addToast(
                   ({ close }) => (
