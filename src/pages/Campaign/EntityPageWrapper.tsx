@@ -144,6 +144,14 @@ const EntityPageWrapperInner = () => {
   const projectRouteFallback = useLocalizeRoute('projects/0');
   // Localized entity base route without trailing slash, e.g. `/campaigns/123`;
   // tab paths are built by appending `TAB_PATH_SUFFIX`.
+  //
+  // NOTE: the prefix here comes from `i18n.language` (React state), not from
+  // the `/it`/`/en` segment actually present in `location.pathname` (used
+  // instead by `parseIsHubRoute`/`parseTabFromPath` below, which are
+  // locale-agnostic). The two stay in sync only because multi-language is
+  // currently disabled in practice; if it's re-enabled, the auto-redirect a
+  // few lines down could silently bounce the user to a different language
+  // prefix than the one they're actually on. See UN-2923.
   const entityBaseRoute = useLocalizeRoute(
     `${isHub ? 'hubs' : 'campaigns'}/${entityId ?? '0'}`
   ).replace(/\/$/, '');
