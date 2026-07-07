@@ -1,6 +1,6 @@
 import { useOutletContext } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';
-import type { CampaignHubContext } from 'src/features/templates/CampaignsHubsMiddleware';
+import type { CampaignHubContext } from 'src/pages/Campaign/CampaignsHubsMiddleware';
 import styled from 'styled-components';
 import { ObservedThemesWidget } from './Widgets/ObservedThemesWidget';
 import { ProgressMonitoringWidget } from './Widgets/ProgressMonitoringWidget';
@@ -28,7 +28,7 @@ const Widgets = () => {
 
   return (
     <div style={{ containerType: 'inline-size' }}>
-      <Grid style={{ paddingTop: appTheme.space.xxl }}>
+      <Grid>
         <UserAnalysisWidget campaignId={entityId} />
         <ObservedThemesWidget campaignId={entityId} />
         <ProgressMonitoringWidget campaignId={entityId} />

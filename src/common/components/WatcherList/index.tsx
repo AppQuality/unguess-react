@@ -37,6 +37,10 @@ const DropdownContainer = styled.div`
   }
 `;
 
+const PositionedTooltipModal = styled(TooltipModal)<{ $topOffset?: number }>`
+  ${({ $topOffset }) => $topOffset && `margin-top: ${$topOffset}px;`}
+`;
+
 const UserListWrapper = ({ children }: { children: ReactNode }) => (
   // eslint-disable-next-line react/jsx-no-useless-fragment
   <>{children}</>
@@ -59,6 +63,7 @@ const WatcherList = ({
   hideWatchButton,
   i18n,
   placement,
+  topOffset,
 }: {
   children?: ReactNode;
   isWatching: boolean;
@@ -67,6 +72,14 @@ const WatcherList = ({
   hideWatchButton?: boolean;
   size?: 'small' | 'medium';
   placement?: ComponentProps<typeof TooltipModal>['placement'];
+  /**
+   * Temporary workaround: shifts the modal down by a fixed amount to
+   * compensate for content that resolves after the modal has already opened
+   * and positioned itself. Only pass this where the mispositioning is
+   * actually visible - each usage may need a different value since the
+   * modal's final size varies by context.
+   */
+  topOffset?: number;
   i18n: {
     tooltip: {
       title: ReactNode;
@@ -124,6 +137,7 @@ const WatcherList = ({
           isBasic
           ref={ref}
           size={size || 'small'}
+          disabled={isLoading}
           onClick={() => setReferenceElement(ref.current)}
         >
           {isLoading ? (
@@ -149,10 +163,12 @@ const WatcherList = ({
           )}
         </Button>
       </Tooltip>
-      <TooltipModal
+      <PositionedTooltipModal
+        $topOffset={topOffset}
         referenceElement={referenceElement}
         placement={placement || 'auto'}
         hasArrow={false}
+        appendToNode={document.body}
         onClose={() => setReferenceElement(null)}
         role="dialog"
       >
@@ -190,7 +206,7 @@ const WatcherList = ({
             </DropdownContainer>
           )}
         </TooltipModal.Body>
-      </TooltipModal>
+      </PositionedTooltipModal>
     </>
   );
 };

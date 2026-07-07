@@ -21,7 +21,8 @@ export const CampaignOverview = ({
   return (
     <WidgetSectionNew
       id={id}
-      title={t('__CAMPAIGN_PAGE_NAVIGATION_BUG_ITEM_OVERVIEW_LABEL')}
+      title={t('__CAMPAIGN_PAGE_METHODOLOGY_SECTION_TITLE')}
+      subtitle={t('__CAMPAIGN_PAGE_FUNCTIONAL_OVERVIEW_SECTION_SUBTITLE')}
     >
       <Progress campaign={campaign} />
       {hasOnlyUniqueBugs ? (

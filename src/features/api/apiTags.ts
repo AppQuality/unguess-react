@@ -12,6 +12,9 @@ unguessApi.enhanceEndpoints({
     getWorkspacesByWidCampaigns: {
       providesTags: ['Campaigns', 'Projects'],
     },
+    getWorkspacesByWidHubs: {
+      providesTags: ['Hubs'],
+    },
     getWorkspacesByWidProjects: {
       providesTags: ['Projects'],
     },
@@ -31,7 +34,7 @@ unguessApi.enhanceEndpoints({
       invalidatesTags: ['Projects'],
     },
     patchCampaignsByCid: {
-      invalidatesTags: ['Campaigns', 'Projects', 'Archive', 'Users'],
+      invalidatesTags: ['Campaigns', 'Projects', 'Archive', 'Users', 'Hubs'],
     },
     postCampaignsByCidUsers: {
       invalidatesTags: ['Users'],
@@ -47,6 +50,9 @@ unguessApi.enhanceEndpoints({
     },
     postProjects: {
       invalidatesTags: ['Projects'],
+    },
+    postProjectsByPidHubs: {
+      invalidatesTags: ['Hubs'],
     },
     getWorkspacesByWidCoins: {
       providesTags: ['Workspaces'],
@@ -70,7 +76,7 @@ unguessApi.enhanceEndpoints({
       providesTags: ['Videos'],
     },
     getHubsByHid: {
-      providesTags: ['Videos'],
+      providesTags: ['Videos', 'Hubs'],
     },
     postHubsByHidAssets: {
       invalidatesTags: ['Videos'],

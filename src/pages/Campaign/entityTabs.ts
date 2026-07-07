@@ -1,0 +1,79 @@
+import type { ComponentType } from 'react';
+import type { CampaignHubContext } from './CampaignsHubsMiddleware';
+import type { EntityPageTabId } from './EntityPageHeader';
+import { BugListTab } from './Tabs/Bugs/BugListTab';
+import { HubInsightsTab } from './Tabs/Insights/HubInsightsTab';
+import { HubMediaListTab } from './Tabs/Videos/HubMediaListTab';
+import { InsightsTab } from './Tabs/Insights/InsightsTab';
+import { MediaListTab } from './Tabs/Videos/MediaListTab';
+import { OverviewTab } from './Tabs/Overview/OverviewTab';
+
+/**
+ * Context exposed to per-tab content via the wrapper `<Outlet>`. Mirrors the
+ * object `EntityPageWrapper` passes as the outlet context.
+ */
+export type EntityTabContext = CampaignHubContext & {
+  activeTab: EntityPageTabId;
+  // Opens the wrapper's single shared import-media modal. Only meaningful for
+  // hubs (undefined for campaigns).
+  onOpenImportMediaModal?: () => void;
+};
+
+/**
+ * One registered tab body. `match` decides when the definition applies to the
+ * current entity/tab, so campaign and hub variants of the same tab id can
+ * register independently (e.g. campaign vs hub `media-list`).
+ */
+export interface EntityTabDef {
+  id: EntityPageTabId;
+  match: (ctx: EntityTabContext) => boolean;
+  Content: ComponentType;
+}
+
+/**
+ * Registry of per-tab content rendered under the shared `EntityPageWrapper`.
+ *
+ * This is the seam that lets the remaining tab migrations be developed in
+ * parallel: each subtask adds its own content module and appends a single
+ * entry here, without touching `EntityPageContent` or the wrapper.
+ *
+ *   overview   -> UN-2894 (CampaignWidgets)
+ *   bug-list   -> UN-2895
+ *   media-list -> UN-2896 campaign / UN-2897 hub
+ *   insights   -> UN-2896 campaign / UN-2897 hub
+ *
+ * `match` predicates are expected to be mutually exclusive; the first match
+ * wins.
+ */
+export const ENTITY_TABS: EntityTabDef[] = [
+  {
+    id: 'overview',
+    match: (ctx) => !ctx.isHub && ctx.activeTab === 'overview',
+    Content: OverviewTab,
+  },
+  {
+    id: 'bug-list',
+    match: (ctx) => !ctx.isHub && ctx.activeTab === 'bug-list',
+    Content: BugListTab,
+  },
+  {
+    id: 'media-list',
+    match: (ctx) => !ctx.isHub && ctx.activeTab === 'media-list',
+    Content: MediaListTab,
+  },
+  {
+    id: 'insights',
+    match: (ctx) => !ctx.isHub && ctx.activeTab === 'insights',
+    Content: InsightsTab,
+  },
+  {
+    id: 'media-list',
+    match: (ctx) => ctx.isHub && ctx.activeTab === 'media-list',
+    Content: HubMediaListTab,
+  },
+  {
+    id: 'insights',
+    match: (ctx) => ctx.isHub && ctx.activeTab === 'insights',
+    Content: HubInsightsTab,
+  },
+];

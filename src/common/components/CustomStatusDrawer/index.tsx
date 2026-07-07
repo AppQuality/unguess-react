@@ -8,7 +8,6 @@ import {
 import { Formik, FormikHelpers, FormikProps } from 'formik';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'src/app/hooks';
 import { appTheme } from 'src/app/theme';
 import {
@@ -22,8 +21,11 @@ import { MigrationModal } from './Modals/MigrationModal';
 import { CustomStatusForm } from './CustomStatusForm';
 import { CustomStatusFormProps, validationSchema } from './formModel';
 
-export const CustomStatusDrawer = () => {
-  const { campaignId } = useParams();
+export const CustomStatusDrawer = ({
+  campaignId,
+}: {
+  campaignId: number | string;
+}) => {
   const { addToast } = useToast();
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
@@ -31,7 +33,7 @@ export const CustomStatusDrawer = () => {
     (state) => state.bugsPage
   );
   const { data: dbCustomStatus } = useGetCampaignsByCidCustomStatusesQuery({
-    cid: campaignId?.toString() || '',
+    cid: campaignId.toString(),
   });
   const [patchCustomStatuses] = usePatchCampaignsByCidCustomStatusesMutation();
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
@@ -73,7 +75,7 @@ export const CustomStatusDrawer = () => {
     } else {
       if (values.custom_statuses.length > 0) {
         await patchCustomStatuses({
-          cid: campaignId?.toString() || '',
+          cid: campaignId.toString(),
           body: values.custom_statuses.map((cs) => ({
             ...(cs.id && { custom_status_id: cs.id }),
             name: cs.name,
@@ -128,7 +130,10 @@ export const CustomStatusDrawer = () => {
               <MD style={{ marginBottom: appTheme.space.lg }}>
                 {t('__BUGS_PAGE_CUSTOM_STATUS_DRAWER_BODY_DESCRIPTION')}
               </MD>
-              <CustomStatusForm formikProps={formProps} />
+              <CustomStatusForm
+                formikProps={formProps}
+                campaignId={campaignId}
+              />
             </Drawer.Body>
             <Drawer.Footer>
               <Drawer.FooterItem>
@@ -184,6 +189,7 @@ export const CustomStatusDrawer = () => {
       )}
       {isMigrationModalOpen && (
         <MigrationModal
+          campaignId={campaignId}
           customStatusesToPatch={patchCustomStatusState}
           customStatusesToDelete={deleteCustomStatusState}
           setIsMigrationModalOpen={setIsMigrationModalOpen}

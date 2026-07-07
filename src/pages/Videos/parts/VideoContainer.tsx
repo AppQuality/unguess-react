@@ -21,7 +21,7 @@ import { useOutletContext } from 'react-router-dom';
 import { formatApiDateShortMonthYear } from 'src/common/date/apiDate';
 import { EditVideoModal } from 'src/common/components/videos/EditVideoModal';
 import { useDeleteHubsByHidAssetsAndMidMutation } from 'src/features/api';
-import { CampaignHubContext } from 'src/features/templates/CampaignsHubsMiddleware';
+import { CampaignHubContext } from 'src/pages/Campaign/CampaignsHubsMiddleware';
 import { styled } from 'styled-components';
 import { VideoWithObservations } from '../useVideos';
 import { formatDuration } from '../utils/formatDuration';

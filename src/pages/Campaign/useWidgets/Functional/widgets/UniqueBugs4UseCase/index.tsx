@@ -1,12 +1,12 @@
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
-import FlipCard from 'src/pages/Campaign/widgetCards/FlipCard';
+import FlipCard from 'src/common/components/widgetCards/FlipCard';
 import { ChartUniqueBugs4UseCase } from './Chart';
 import { ListUniqueBugs4UseCase } from './List';
 
 const UniqueBugs4UseCase = ({ height }: { height: string }) => {
   const { t } = useTranslation();
-  const { campaignId } = useParams();
+  const { entityId: campaignId } = useParams<{ entityId?: string }>();
   if (!campaignId) {
     return null;
   }

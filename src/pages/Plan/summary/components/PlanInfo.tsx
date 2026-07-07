@@ -6,7 +6,7 @@ import {
   Anchor,
   SM,
 } from '@appquality/unguess-design-system';
-import { WidgetSpecialCard } from 'src/pages/Campaign/widgetCards/common/StyledSpecialCard';
+import { WidgetSpecialCard } from 'src/common/components/widgetCards/common/StyledSpecialCard';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { appTheme } from 'src/app/theme';

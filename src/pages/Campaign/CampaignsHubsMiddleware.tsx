@@ -5,7 +5,7 @@ import {
   useGetCampaignsByCidQuery,
   useGetHubsByHidQuery,
   useGetUsersMeQuery,
-} from '../api';
+} from 'src/features/api';
 
 export type CampaignHubContext = {
   isHub: boolean;
@@ -14,7 +14,7 @@ export type CampaignHubContext = {
 
 const CampaignsHubsMiddleware = () => {
   const location = useLocation();
-  const { entityId } = useParams<{ entityId: string }>();
+  const { entityId } = useParams<{ entityId?: string }>();
   const loginRoute = useLocalizeRoute('login');
   const notFoundRoute = useLocalizeRoute('oops');
   const {

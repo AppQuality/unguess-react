@@ -137,7 +137,8 @@ export const ImportMediaModal = ({
   const { t } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
-  const localizedVideosRoute = useLocalizeRoute(`hubs/${hubId}/videos`);
+  const hubRootRoute = useLocalizeRoute(`hubs/${hubId}`).replace(/\/$/, '');
+  const mediaListRoute = `${hubRootRoute}/videos`;
   const { addToast } = useToast();
   const { track } = useAnalytics();
   const [isDragging, setIsDragging] = useState(false);
@@ -361,8 +362,13 @@ export const ImportMediaModal = ({
         actions.resetForm();
         onClose();
 
-        if (location.pathname !== localizedVideosRoute) {
-          navigate(localizedVideosRoute);
+        // Land on the canonical media-list path (`/hubs/:id/videos`) so the
+        // user sees what they just uploaded, preserving the current query
+        // params. Skip when already viewing media-list — either the explicit
+        // `/videos` path or the hub root, which defaults to media-list.
+        const currentPath = location.pathname.replace(/\/$/, '');
+        if (currentPath !== mediaListRoute && currentPath !== hubRootRoute) {
+          navigate(`${mediaListRoute}${location.search}`);
         }
       }}
     >

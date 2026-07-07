@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { useOutletContext } from 'react-router-dom';
-import type { CampaignHubContext } from 'src/features/templates/CampaignsHubsMiddleware';
+import type { CampaignHubContext } from 'src/pages/Campaign/CampaignsHubsMiddleware';
 import { useGetCampaignsByCidObservationsQuery } from 'src/features/api';
 import { styled } from 'styled-components';
 import { UsecaseSection } from './components/UsecaseSection';

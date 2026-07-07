@@ -21,7 +21,7 @@ import { Pipe } from 'src/common/components/Pipe';
 import { EditVideoModal } from 'src/common/components/videos/EditVideoModal';
 import { formatApiDateShortMonthYear } from 'src/common/date/apiDate';
 import { getVideoDeviceLabel } from 'src/common/video/getVideoDeviceLabel';
-import type { CampaignHubContext } from 'src/features/templates/CampaignsHubsMiddleware';
+import type { CampaignHubContext } from 'src/pages/Campaign/CampaignsHubsMiddleware';
 import {
   useGetVideosByVidObservationsQuery,
   useGetVideosByVidQuery,

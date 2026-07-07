@@ -1,9 +1,9 @@
 import { Span, XL } from '@appquality/unguess-design-system';
 import { Trans, useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
-import { BasicWidget } from 'src/pages/Campaign/widgetCards/BasicWidget';
+import { BasicWidget } from 'src/common/components/widgetCards/BasicWidget';
 
-import { CapitalizeFirstLetter } from 'src/pages/Campaign/widgetCards/common/CapitalizeFirstLetter';
+import { CapitalizeFirstLetter } from 'src/common/components/widgetCards/common/CapitalizeFirstLetter';
 import { useUxTaggingVideoCompletionData } from '../hooks/useUxTaggingVideoCompletionData';
 
 export const UserAnalysisWidget = ({ campaignId }: { campaignId: string }) => {

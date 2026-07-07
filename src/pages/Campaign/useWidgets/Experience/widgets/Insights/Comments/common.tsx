@@ -1,5 +1,5 @@
 import { MD } from '@appquality/unguess-design-system';
-import { WidgetSpecialCard } from 'src/pages/Campaign/widgetCards/common/StyledSpecialCard';
+import { WidgetSpecialCard } from 'src/common/components/widgetCards/common/StyledSpecialCard';
 import styled from 'styled-components';
 
 export const COMPACT_CHARACTERS_MAX_SIZE = 90;

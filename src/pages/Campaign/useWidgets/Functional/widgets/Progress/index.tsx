@@ -10,7 +10,7 @@ import styled from 'styled-components';
 import { FC } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { Campaign } from 'src/features/api';
-import { BasicWidget } from 'src/pages/Campaign/widgetCards/BasicWidget';
+import { BasicWidget } from 'src/common/components/widgetCards/BasicWidget';
 import { useWidgetData } from './useWidgetData';
 import { WidgetLoader } from '../widgetLoader';
 
