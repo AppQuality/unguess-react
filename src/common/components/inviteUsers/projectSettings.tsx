@@ -15,6 +15,7 @@ import { useCallback, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { useAppSelector } from 'src/app/hooks';
 import { appTheme } from 'src/app/theme';
+import { normalizeEmail } from 'src/common/normalizeEmail';
 import { ReactComponent as ProjectsIcon } from 'src/assets/icons/project-icon.svg';
 import { ReactComponent as UsersIcon } from 'src/assets/icons/users-share.svg';
 import { ReactComponent as WorkspacesIcon } from 'src/assets/icons/workspace-icon.svg';
@@ -100,7 +101,7 @@ export const ProjectSettings = () => {
     addNewMember({
       pid: projectId?.toString() || '0',
       body: {
-        email: values.email,
+        email: normalizeEmail(values.email),
         redirect_url: projectRoute,
         ...(values.message && { message: values.message }),
       },

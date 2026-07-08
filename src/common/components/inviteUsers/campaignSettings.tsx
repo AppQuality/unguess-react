@@ -15,6 +15,7 @@ import { useCallback, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { useAppSelector } from 'src/app/hooks';
 import { appTheme } from 'src/app/theme';
+import { normalizeEmail } from 'src/common/normalizeEmail';
 import { ReactComponent as CampaignsIcon } from 'src/assets/icons/campaign-icon.svg';
 import { ReactComponent as ProjectsIcon } from 'src/assets/icons/project-icon.svg';
 import { ReactComponent as UsersIcon } from 'src/assets/icons/users-share.svg';
@@ -155,7 +156,7 @@ export const CampaignSettings = ({ dataQa }: { dataQa?: string }) => {
     addNewMember({
       cid: entityId,
       body: {
-        email: values.email,
+        email: normalizeEmail(values.email),
         redirect_url: entityRoute,
         ...(values.message && { message: values.message }),
       },
