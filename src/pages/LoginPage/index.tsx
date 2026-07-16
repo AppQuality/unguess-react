@@ -45,6 +45,13 @@ interface NavigationState {
   from: string;
 }
 
+const isPasswordExpiredError = (error: any): boolean => {
+  const errorText = [error?.code, error?.name, error?.message, String(error)]
+    .filter(Boolean)
+    .join(' ');
+  return /PASSWORD_EXPIRED/i.test(errorText);
+};
+
 const LoginPage = () => {
   const { t } = useTranslation();
   const [cta, setCta] = useState<string>(t('__LOGIN_FORM_CTA'));
@@ -138,10 +145,12 @@ const LoginPage = () => {
       setCta(`${t('__LOGIN_FORM_CTA_REDIRECT_STATE')}`);
       document.location.href = from || '/';
     } catch (cognitoError: any) {
+      const isPasswordExpired = isPasswordExpiredError(cognitoError);
+
       showInvalidCredentialsToast();
       setStatus({
         message: t('__LOGIN_FORM_FAILED_INVALID'),
-        type: 'invalid',
+        type: isPasswordExpired ? 'expired' : 'invalid',
       });
       setSubmitting(false);
       // eslint-disable-next-line no-console

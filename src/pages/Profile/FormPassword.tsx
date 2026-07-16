@@ -3,7 +3,7 @@ import { Formik } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { useGetUsersMeQuery } from 'src/features/api';
-import { fetchAuthSession, updatePassword } from 'aws-amplify/auth';
+import { fetchAuthSession } from 'aws-amplify/auth';
 import * as Yup from 'yup';
 import { useAuth } from 'src/features/auth/context';
 import { useLocalizeRoute } from 'src/hooks/useLocalizedRoute';
@@ -17,7 +17,11 @@ export const FormPassword = () => {
   const { addToast } = useToast();
   const { isLoading } = useProfileData();
   const { data: userData } = useGetUsersMeQuery();
-  const { login: cognitoLogin, logout: cognitoLogout } = useAuth();
+  const {
+    login: cognitoLogin,
+    logout: cognitoLogout,
+    changePassword,
+  } = useAuth();
   const navigate = useNavigate();
   const verifyCodeRoute = useLocalizeRoute('verify-code');
 
@@ -68,10 +72,7 @@ export const FormPassword = () => {
           }
 
           await fetchAuthSession({ forceRefresh: true });
-          await updatePassword({
-            oldPassword: values.currentPassword,
-            newPassword: values.newPassword,
-          });
+          await changePassword(values.currentPassword, values.newPassword);
 
           // Cambio password riuscito, ora effettua il logout e login con le nuove credenziali
           try {
