@@ -9,8 +9,8 @@ import {
   fetchAuthSession,
   resendSignUpCode,
   resetPassword,
-  confirmResetPassword,
   updatePassword,
+  updateUserAttributes,
   type SignInInput,
   type SignUpInput,
   type ConfirmSignUpInput,
@@ -45,11 +45,6 @@ interface AuthContextType {
   setNewPassword: (newPassword: string) => Promise<void>;
   changePassword: (oldPassword: string, newPassword: string) => Promise<void>;
   forgotPassword: (email: string) => Promise<ForgotPasswordResult>;
-  confirmForgotPassword: (
-    email: string,
-    code: string,
-    newPassword: string
-  ) => Promise<void>;
   logout: () => Promise<void>;
   getAccessToken: () => Promise<string | undefined>;
   isLoggedIn?: boolean;
@@ -60,6 +55,18 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
+  const getCurrentIsoUtcDate = () =>
+    new Date().toISOString().replace(/\.\d{3}Z$/, 'Z');
+
+  const updatePasswordChangedAtAttribute = async () => {
+    await fetchAuthSession({ forceRefresh: true });
+    await updateUserAttributes({
+      userAttributes: {
+        'custom:psw_changed_at': getCurrentIsoUtcDate(),
+      },
+    });
+  };
+
   const login = async (
     email: string,
     password: string
@@ -139,6 +146,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       if (!isSignedIn) {
         throw new Error('Password update failed');
       }
+      await updatePasswordChangedAtAttribute();
       await syncWordpress();
     } catch (error: any) {
       // eslint-disable-next-line no-console
@@ -153,6 +161,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   ): Promise<void> => {
     try {
       await updatePassword({ oldPassword, newPassword });
+      await updatePasswordChangedAtAttribute();
       await syncWordpress();
     } catch (error: any) {
       // eslint-disable-next-line no-console
@@ -171,6 +180,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
           userAttributes: {
             email: normalizedEmail,
             name,
+            'custom:psw_changed_at': new Date().toISOString(),
           },
         },
       };
@@ -235,22 +245,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     }
   };
 
-  const confirmForgotPasswordFn = async (
-    email: string,
-    code: string,
-    newPassword: string
-  ): Promise<void> => {
-    try {
-      await confirmResetPassword({
-        username: normalizeEmail(email),
-        confirmationCode: code,
-        newPassword,
-      });
-    } catch (error: any) {
-      throw new Error(error.message || 'Failed to reset password');
-    }
-  };
-
   const logout = async () => {
     try {
       await signOut();
@@ -279,7 +273,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       setNewPassword,
       changePassword,
       forgotPassword,
-      confirmForgotPassword: confirmForgotPasswordFn,
       logout,
       getAccessToken,
     }),
@@ -293,10 +286,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   );
 };
 
-export const useAuth = () => {
+export function useAuth(): AuthContextType {
   const context = useContext(AuthContext);
   if (context === undefined) {
     throw new Error('useAuth must be used within an AuthProvider');
   }
   return context;
-};
+}

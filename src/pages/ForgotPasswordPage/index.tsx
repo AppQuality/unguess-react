@@ -5,6 +5,8 @@ import styled from 'styled-components';
 import { AuthCardWrapper } from 'src/common/components/AuthCardWrapper';
 import { NotLogged } from 'src/features/templates/NotLogged';
 import { useAuth } from 'src/features/auth/context';
+import { usePostUsersForgotPasswordMutation } from 'src/features/api';
+import { normalizeEmail } from 'src/common/normalizeEmail';
 import { AuthHeader } from '../LoginPage/parts/AuthHeader';
 import { AuthFooter } from '../LoginPage/parts/AuthFooter';
 import { ForgotPasswordForm } from './ForgotPasswordForm';
@@ -39,7 +41,8 @@ type Step = 'request' | 'verify' | 'changePassword';
 
 const ForgotPasswordPage = () => {
   const { t } = useTranslation();
-  const { forgotPassword, confirmForgotPassword } = useAuth();
+  const { forgotPassword } = useAuth();
+  const [postUsersForgotPassword] = usePostUsersForgotPasswordMutation();
 
   const [step, setStep] = useState<Step>('request');
   const [email, setEmail] = useState('');
@@ -63,7 +66,13 @@ const ForgotPasswordPage = () => {
   };
 
   const handleResetPassword = async (newPassword: string) => {
-    await confirmForgotPassword(email, code, newPassword);
+    await postUsersForgotPassword({
+      body: {
+        email: normalizeEmail(email),
+        code,
+        newPassword,
+      },
+    }).unwrap();
   };
 
   return (

@@ -216,6 +216,27 @@ const LoginForm = ({ onSubmit, buttonText }: LoginFormProps) => {
                   />
                 </Alert>
               )}
+              {status?.type === 'expired' && (
+                <Alert
+                  type="warning"
+                  style={{ marginBottom: appTheme.space.lg }}
+                >
+                  <Alert.Title>
+                    {t('__LOGIN_FORM_EXPIRED_PASSWORD_ALERT_TITLE')}
+                  </Alert.Title>
+                  <Trans
+                    i18nKey="__LOGIN_FORM_EXPIRED_PASSWORD_ALERT_MESSAGE"
+                    components={{
+                      forgotLink: (
+                        <Anchor
+                          href={forgotPasswordRoute}
+                          style={{ color: appTheme.palette.blue[600] }}
+                        />
+                      ),
+                    }}
+                  />
+                </Alert>
+              )}
               <Button
                 type="submit"
                 isStretched
