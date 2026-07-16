@@ -721,7 +721,7 @@
   "__LOGIN_FORM_EMAIL_FIELD_INVALID_MESSAGE": "Inserisci un indirizzo email valido",
   "__LOGIN_FORM_EMAIL_LABEL": "Email di lavoro",
   "__LOGIN_FORM_EMAIL_PLACEHOLDER": "Inserisci email",
-  "__LOGIN_FORM_EXPIRED_PASSWORD_ALERT_MESSAGE": "La tua password e' scaduta e deve essere aggiornata per continuare. Clicca su <forgotLink>Password dimenticata?</forgotLink> per impostarne una nuova, poi accedi di nuovo.",
+  "__LOGIN_FORM_EXPIRED_PASSWORD_ALERT_MESSAGE": "La tua password è scaduta e deve essere aggiornata per continuare. Clicca su <forgotLink>Password dimenticata?</forgotLink> per impostarne una nuova, poi accedi di nuovo.",
   "__LOGIN_FORM_EXPIRED_PASSWORD_ALERT_TITLE": "Password scaduta",
   "__LOGIN_FORM_FAILED_INVALID": "L'indirizzo email o la password non sono corretti.",
   "__LOGIN_FORM_INVALID_CREDENTIALS_ALERT_MESSAGE": "To enter, you might need to reset your password. If you haven't updated it yet, click <forgotLink>Forgot password?</forgotLink>. Otherwise, please try again.",
