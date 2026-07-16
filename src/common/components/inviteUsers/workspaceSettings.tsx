@@ -13,6 +13,7 @@ import { FormikHelpers } from 'formik';
 import { useCallback, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { appTheme } from 'src/app/theme';
+import { normalizeEmail } from 'src/common/normalizeEmail';
 import { ReactComponent as UsersIcon } from 'src/assets/icons/users-share.svg';
 import { ReactComponent as WorkspacesIcon } from 'src/assets/icons/workspace-icon.svg';
 import {
@@ -73,7 +74,7 @@ export const WorkspaceSettings = () => {
     addNewMember({
       wid: activeWorkspace?.id.toString() || '',
       body: {
-        email: values.email,
+        email: normalizeEmail(values.email),
         ...(values.message && { message: values.message }),
       },
     })
