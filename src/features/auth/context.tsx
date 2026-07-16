@@ -203,6 +203,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
           userAttributes: {
             email: normalizedEmail,
             name,
+            'custom:psw_changed_at': new Date().toISOString(),
           },
         },
       };
