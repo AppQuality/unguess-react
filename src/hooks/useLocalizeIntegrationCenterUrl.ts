@@ -1,8 +1,10 @@
 import i18n from 'src/i18n';
+import { syncWordpress } from 'src/features/auth/syncWordpress';
 
 export const getLocalizeIntegrationCenterRoute = (
   campaignId: number
 ): string => {
+  syncWordpress();
   const currentLang = i18n.language || 'en';
   const localizedRoute =
     currentLang === 'en'
