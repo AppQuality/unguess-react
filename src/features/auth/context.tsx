@@ -79,7 +79,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const syncPendingPasswordChangedAtAttribute = async () => {
     if (!passwordChangedAtPending.isPending()) return;
-    await updatePasswordChangedAtAttribute();
+    try {
+      await updatePasswordChangedAtAttribute();
+    } catch (error: any) {
+      // eslint-disable-next-line no-console
+      console.error('Password changed_at attribute sync error:', error);
+      // Keep pending flag; we'll retry on next login.
+    }
   };
 
   const login = async (
