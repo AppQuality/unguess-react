@@ -9,7 +9,6 @@ import {
   fetchAuthSession,
   resendSignUpCode,
   resetPassword,
-  confirmResetPassword,
   updatePassword,
   updateUserAttributes,
   type SignInInput,
@@ -18,7 +17,6 @@ import {
 } from 'aws-amplify/auth';
 import { isDev } from 'src/common/isDevEnvironment';
 import { normalizeEmail } from 'src/common/normalizeEmail';
-import { createPasswordChangedAtPendingState } from './passwordChangedAtPending';
 import { syncWordpress } from './syncWordpress';
 
 type MfaChallengeStep =
@@ -47,11 +45,6 @@ interface AuthContextType {
   setNewPassword: (newPassword: string) => Promise<void>;
   changePassword: (oldPassword: string, newPassword: string) => Promise<void>;
   forgotPassword: (email: string) => Promise<ForgotPasswordResult>;
-  confirmForgotPassword: (
-    email: string,
-    code: string,
-    newPassword: string
-  ) => Promise<void>;
   logout: () => Promise<void>;
   getAccessToken: () => Promise<string | undefined>;
   isLoggedIn?: boolean;
@@ -62,8 +55,6 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const passwordChangedAtPending = createPasswordChangedAtPendingState();
-
   const getCurrentIsoUtcDate = () =>
     new Date().toISOString().replace(/\.\d{3}Z$/, 'Z');
 
@@ -74,18 +65,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         'custom:psw_changed_at': getCurrentIsoUtcDate(),
       },
     });
-    passwordChangedAtPending.clearPending();
-  };
-
-  const syncPendingPasswordChangedAtAttribute = async () => {
-    if (!passwordChangedAtPending.isPending()) return;
-    try {
-      await updatePasswordChangedAtAttribute();
-    } catch (error: any) {
-      // eslint-disable-next-line no-console
-      console.error('Password changed_at attribute sync error:', error);
-      // Keep pending flag; we'll retry on next login.
-    }
   };
 
   const login = async (
@@ -132,7 +111,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       }
 
       await syncWordpress();
-      await syncPendingPasswordChangedAtAttribute();
 
       return { isSignedIn: true };
     } catch (error: any) {
@@ -153,7 +131,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         throw new Error('MFA verification failed');
       }
       await syncWordpress();
-      await syncPendingPasswordChangedAtAttribute();
     } catch (error: any) {
       // eslint-disable-next-line no-console
       console.error('MFA verification error:', error);
@@ -268,24 +245,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     }
   };
 
-  const confirmForgotPasswordFn = async (
-    email: string,
-    code: string,
-    newPassword: string
-  ): Promise<void> => {
-    try {
-      const normalizedEmail = normalizeEmail(email);
-      await confirmResetPassword({
-        username: normalizedEmail,
-        confirmationCode: code,
-        newPassword,
-      });
-      passwordChangedAtPending.setPending();
-    } catch (error: any) {
-      throw new Error(error.message || 'Failed to reset password');
-    }
-  };
-
   const logout = async () => {
     try {
       await signOut();
@@ -314,7 +273,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       setNewPassword,
       changePassword,
       forgotPassword,
-      confirmForgotPassword: confirmForgotPasswordFn,
       logout,
       getAccessToken,
     }),
